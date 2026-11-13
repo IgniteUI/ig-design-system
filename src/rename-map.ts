@@ -1,11 +1,11 @@
 // old token name (no leading --) -> new name. Many-to-one entries are deliberate merges (identical engine step).
 export const COLOR = {
-  "ig-blue": "color-accent-blue",
-  "ig-blue-hover": "color-accent-blue-hover",
-  "ig-blue-press": "color-accent-blue-active",
-  "ig-violet": "color-accent-violet",
-  "ig-sky": "color-accent-sky",
-  "ig-teal": "color-accent-teal",
+  "ig-blue": "color-accent-primary",
+  "ig-blue-hover": "color-accent-primary-hover",
+  "ig-blue-press": "color-accent-primary-active",
+  "ig-violet": "color-accent-secondary",
+  "ig-sky": "color-accent-inverse",
+  "ig-teal": "color-accent-inverse-alt",
   action: "color-action-default",
   "action-hover": "color-action-hover",
   "action-hover-fill": "color-action-fill-hover",

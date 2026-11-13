@@ -6,27 +6,27 @@
 export type AliasEntry = [engineToken: string, usage: string];
 export const ALIAS: Record<string, AliasEntry> = {
   // brand + action
-  "color-accent-blue": [
+  "color-accent-primary": [
     "ig-info-seed",
-    "Brand accent blue: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white.",
+    "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white.",
   ],
-  "color-accent-blue-hover": [
+  "color-accent-primary-hover": [
     "ig-info-400",
-    "Hover step of `color-accent-blue`.",
+    "Hover step of `color-accent-primary`.",
   ],
-  "color-accent-blue-active": [
+  "color-accent-primary-active": [
     "ig-info-500",
-    "Press state step of `color-accent-blue`.",
+    "Press state step of `color-accent-primary`.",
   ],
-  "color-accent-violet": [
+  "color-accent-secondary": [
     "ig-secondary-seed",
-    "Gradient partner to `color-accent-blue` and the AI marker. Never a fill on its own.",
+    "Gradient partner to `color-accent-primary` and the AI marker. Never a fill on its own.",
   ],
-  "color-accent-sky": [
+  "color-accent-inverse": [
     "ig-sky-200",
     "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white.",
   ],
-  "color-accent-teal": [
+  "color-accent-inverse-alt": [
     "ig-teal-200",
     "On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white.",
   ],
@@ -264,35 +264,35 @@ export const ALIAS: Record<string, AliasEntry> = {
   "fw-wpf-background": ["ig-primary-100", "WPF framework pill fill."],
   "fw-wpf-border": ["ig-primary-200", "WPF framework pill border."],
   // icon tiles
-  "tile-blue": [
+  "tile-1": [
     "ig-info-seed",
     "Icon tile fill — CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph.",
   ],
-  "tile-violet": [
+  "tile-2": [
     "ig-secondary-seed",
     "Icon tile fill — Agent Skills on the AI toolchain row.",
   ],
-  "tile-pink": [
+  "tile-3": [
     "ig-pink-400",
     "Icon tile fill — Theming MCP on the AI toolchain row.",
   ],
-  "tile-teal": [
+  "tile-4": [
     "ig-success-400",
     "Icon tile fill — AI Scaffolding on the AI toolchain row.",
   ],
-  "tile-cyan": [
+  "tile-5": [
     "ig-cyan-200",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
-  "tile-amber": [
+  "tile-6": [
     "ig-warn-200",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
-  "tile-royal": [
+  "tile-7": [
     "ig-primary-seed",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
-  "tile-ink": [
+  "tile-8": [
     "ig-dark-surface-500",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
@@ -312,17 +312,17 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "Border of the `color-action-subtle` capsule.",
   ],
   "color-emphasis-border": [
-    "color-accent-blue",
+    "color-accent-primary",
     "opacity-heavy",
     "Border of emphasised cards and the release strip at rest.",
   ],
   "color-emphasis-ring": [
-    "color-accent-blue",
+    "color-accent-primary",
     "opacity-soft",
     "Inner ring of the release strip at rest.",
   ],
   "color-emphasis-ring-hover": [
-    "color-accent-blue",
+    "color-accent-primary",
     "opacity-strong",
     "Inner ring of the release strip on hover.",
   ],
@@ -635,7 +635,7 @@ export const TYPE: TypeRow[] = [
     800,
     "0",
     "none",
-    "Stat badge values: `color-accent-sky` or `color-accent-teal` on `color-surface-inverse`, `color-text-muted` on light; newsletter title.",
+    "Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title.",
     "100K+ Rows",
   ],
   [

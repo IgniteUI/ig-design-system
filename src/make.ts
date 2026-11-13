@@ -168,7 +168,7 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
   "callout-release-shadow": [
     "var(--ig-elevation-tint-13)",
     `inset 0 0 0 1px ${(() => {
-      const [r, g, b] = rgbOf(hexOf("color-accent-blue"));
+      const [r, g, b] = rgbOf(hexOf("color-accent-primary"));
       return `rgba(${r},${g},${b},${S.OPACITY["opacity-soft"][0]})`;
     })()}, ${resolveShadow(tintVars[13])}`,
     "Release strip at rest. Engine elevation 13 tinted with `color-action-default`.",
@@ -176,7 +176,7 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
   "callout-release-shadow-hover": [
     "var(--ig-elevation-tint-16)",
     `inset 0 0 0 1px ${(() => {
-      const [r, g, b] = rgbOf(hexOf("color-accent-blue"));
+      const [r, g, b] = rgbOf(hexOf("color-accent-primary"));
       return `rgba(${r},${g},${b},${S.OPACITY["opacity-strong"][0]})`;
     })()}, ${resolveShadow(tintVars[16])}`,
     "Release strip on hover. Engine elevation 16 tinted with `color-action-default`.",
@@ -313,8 +313,8 @@ const CHECKS: [fg: string, bg: string, min?: number][] = [
   ["color-action-active", "color-surface-page"],
   ["color-text-inverse", "color-surface-inverse"],
   ["color-text-inverse-muted", "color-surface-inverse"],
-  ["color-accent-sky", "color-surface-inverse"],
-  ["color-accent-teal", "color-surface-inverse"],
+  ["color-accent-inverse", "color-surface-inverse"],
+  ["color-accent-inverse-alt", "color-surface-inverse"],
   ["color-link-inverse", "color-surface-inverse"],
   ["color-focus-inverse", "color-surface-inverse"],
   ["footer-link", "ig-dark-surface-200"],
@@ -416,8 +416,8 @@ const GRAD: Named<[snapshot: string, live: string, usage: string]> = {
     "The site footer’s own 155° gradient — one of the two dark surfaces in the system.",
   ],
   "gradient-brand": [
-    `linear-gradient(92deg, ${hexOf("color-accent-blue")}, ${hexOf("color-accent-violet")})`,
-    "linear-gradient(92deg, var(--color-accent-blue), var(--color-accent-violet))",
+    `linear-gradient(92deg, ${hexOf("color-accent-primary")}, ${hexOf("color-accent-secondary")})`,
+    "linear-gradient(92deg, var(--color-accent-primary), var(--color-accent-secondary))",
     "The 92° blue→violet, clipped to one headline fragment per section. Never a background fill, button or tile.",
   ],
   "gradient-hero": [
@@ -436,32 +436,32 @@ const glow = (base: string, op: S.OpacityName, stop: number) => {
 const GLOWS: Named<
   [base: string, opacity: S.OpacityName, stop: number, usage: string]
 > = {
-  "glow-blue": [
-    "color-accent-blue",
+  "glow-primary": [
+    "color-accent-primary",
     "opacity-muted",
     62,
     "Ambient radial glow behind hero and section content, bleeding off the edges, `pointer-events:none`.",
   ],
-  "glow-violet": [
-    "color-accent-violet",
+  "glow-secondary": [
+    "color-accent-secondary",
     "opacity-muted",
     62,
-    "Ambient radial glow partnered with `glow-blue` on light sections.",
+    "Ambient radial glow partnered with `glow-primary` on light sections.",
   ],
-  "glow-violet-strong": [
-    "color-accent-violet",
+  "glow-secondary-strong": [
+    "color-accent-secondary",
     "opacity-heavy",
     62,
     "Footer glow only (top-right of the dark footer).",
   ],
-  "glow-pink": [
-    "tile-pink",
+  "glow-inverse": [
+    "tile-3",
     "opacity-muted",
     62,
     "Ambient glow for the dark AI and enterprise bands only.",
   ],
-  "glow-teal": [
-    "color-accent-teal",
+  "glow-inverse-alt": [
+    "color-accent-inverse-alt",
     "opacity-soft",
     68,
     "Ambient glow for the dark AI and enterprise bands and the footer.",
@@ -696,9 +696,9 @@ for (const [n, [base, op, stop]] of Object.entries(GLOWS))
 for (const [n, [base, op]] of Object.entries(S.ALPHA))
   b += `  --${n}: hsl(from var(--${base}) h s l / var(--${op}));\n`;
 b +=
-  "  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-violet)) border-box;\n";
+  "  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary)) border-box;\n";
 b +=
-  "  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-blue) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-sky) h s l / var(--opacity-faint)));\n";
+  "  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-primary) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-inverse) h s l / var(--opacity-faint)));\n";
 b +=
   "  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);\n";
 b +=
@@ -727,8 +727,8 @@ b += `
   50%      { transform: translateY(calc(-1 * var(--space-xs))); }
 }
 @keyframes igd-app-shimmer {
-  0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-blue) h s l / var(--opacity-heavy))); opacity: 1; }
-  50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-sky) h s l / var(--opacity-heavy))); opacity: 1; }
+  0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-primary) h s l / var(--opacity-heavy))); opacity: 1; }
+  50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-inverse) h s l / var(--opacity-heavy))); opacity: 1; }
 }
 
 * { box-sizing: border-box; }
@@ -808,8 +808,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     ["color-surface-tint-strong", "color-action-default"],
     ["color-border-accent", "color-action-default"],
     ["table-header-sub-highlight-color", "color-action-default"],
-    ["color-accent-blue-hover", "color-accent-blue"],
-    ["color-accent-blue-active", "color-accent-blue"],
+    ["color-accent-primary-hover", "color-accent-primary"],
+    ["color-accent-primary-active", "color-accent-primary"],
     ["color-link-inverse-hover", "color-link-inverse"],
     ["color-focus-inverse", "color-link-inverse"],
     ["footer-focus", "color-link-inverse"],
@@ -821,8 +821,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     ["fw-angular-border", "fw-angular-color"],
     ["fw-react-background", "fw-react-color"],
     ["fw-react-border", "fw-react-color"],
-    ["fw-blazor-background", "color-accent-violet"],
-    ["fw-blazor-border", "color-accent-violet"],
+    ["fw-blazor-background", "color-accent-secondary"],
+    ["fw-blazor-border", "color-accent-secondary"],
     ["fw-webcomponents-background", "color-action-default"],
     ["fw-webcomponents-border", "color-action-default"],
     ["fw-winforms-background", "color-action-default"],
@@ -838,10 +838,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   const ALIAS = [
     ["color-link-utility-hover", "color-action-text"],
     ["color-focus-default", "color-action-text"],
-    ["tile-blue", "color-accent-blue"],
-    ["tile-violet", "color-accent-violet"],
-    ["tile-royal", "color-action-default"],
-    ["color-link-inverse", "color-accent-sky"],
+    ["tile-1", "color-accent-primary"],
+    ["tile-2", "color-accent-secondary"],
+    ["tile-7", "color-action-default"],
+    ["color-link-inverse", "color-accent-inverse"],
     ["footer-icon", "footer-text"],
   ];
   // semantic tokens that point straight at a ramp step are declared again here, so a scope with its own ramp re-resolves them
@@ -935,7 +935,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   );
   s += `  /* label on the action fill: the engine's adaptive-contrast(), black or white by luminance at the WCAG AA threshold */\n  --color-action-on: hsla(from color(from var(--color-action-default) var(--y-contrast)) h 0 l / 1);\n}\n`;
   // the glyph on an icon tile: black or white, picked from the tile's own fill
-  s += `[data-ig="icon-tile"] { --tile-fill: var(--tile-blue); --tile-on: hsla(from color(from var(--tile-fill) var(--y-contrast)) h 0 l / 1); }\n`;
+  s += `[data-ig="icon-tile"] { --tile-fill: var(--tile-1); --tile-on: hsla(from color(from var(--tile-fill) var(--y-contrast)) h 0 l / 1); }\n`;
   b += s;
   // one shadow colour behind every neutral elevation
   b = b.replace(

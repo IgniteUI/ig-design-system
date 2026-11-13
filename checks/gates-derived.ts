@@ -13,8 +13,8 @@ const REP = path.join(ROOT, "reports/");
 const BASES = [
   "color-action-default",
   "color-action-text",
-  "color-accent-blue",
-  "color-accent-sky",
+  "color-accent-primary",
+  "color-accent-inverse",
   "color-link-inverse",
   "footer-link",
   "color-feedback-error-default",

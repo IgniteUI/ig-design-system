@@ -83,7 +83,7 @@ function Newsletter({ variant, onSubscribe }) {
         <h2 id="igf-nl-h" className={card ? 'igd-type-h4' : 'igd-type-overline'} style={card ? { margin: 0, color: 'var(--igd-color-text-inverse)' } : label}>Newsletter</h2>
         <p className="igd-type-body-2" style={{ margin: 0, color: 'var(--igd-footer-text)', textWrap: 'pretty' }}>Product releases, webinars and developer resources from Infragistics.</p>
       </div>
-      {done ? <p role="status" className="igd-type-body-2" style={{ margin: 0, color: 'var(--igd-color-accent-teal)' }}>Thanks. You're subscribed.</p> : (
+      {done ? <p role="status" className="igd-type-body-2" style={{ margin: 0, color: 'var(--igd-color-accent-inverse-alt)' }}>Thanks. You're subscribed.</p> : (
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-sm)', minWidth: 0 }}>
           <div data-nl-field="" data-card={card || undefined}>
             <TextField tone="dark" size={card ? 'md' : 'lg'} bare={card} hideLabel label="Email address" type="email" required autoComplete="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} style={{ flex: '1 1 var(--igd-field-min-width)', minWidth: 0 }} />
@@ -111,8 +111,8 @@ export function SiteFooter({
   const sep = { borderLeft: 'var(--igd-border-width-default) solid var(--igd-footer-rule-strong)', lineHeight: 1, whiteSpace: 'nowrap' };
   return (
     <footer data-igf="" data-on-dark="" className="igd-type-body-2" style={{ position: 'relative', overflow: 'hidden', background: 'var(--igd-footer-background-gradient)', color: 'var(--igd-footer-text)', fontFamily: 'var(--igd-font-body)', ...style }} {...rest}>
-      <span aria-hidden="true" style={{ position: 'absolute', top: 'calc(var(--igd-glow-size-lg) * -0.5)', right: 'calc(var(--igd-glow-size-lg) * -0.29)', width: 'var(--igd-glow-size-lg)', height: 'var(--igd-glow-size-lg)', background: 'var(--igd-glow-violet-strong)', pointerEvents: 'none' }}></span>
-      <span aria-hidden="true" style={{ position: 'absolute', bottom: 'calc(var(--igd-glow-size-md) * -0.4)', left: 'calc(var(--igd-glow-size-md) * -0.31)', width: 'var(--igd-glow-size-md)', height: 'var(--igd-glow-size-md)', background: 'var(--igd-glow-teal)', pointerEvents: 'none' }}></span>
+      <span aria-hidden="true" style={{ position: 'absolute', top: 'calc(var(--igd-glow-size-lg) * -0.5)', right: 'calc(var(--igd-glow-size-lg) * -0.29)', width: 'var(--igd-glow-size-lg)', height: 'var(--igd-glow-size-lg)', background: 'var(--igd-glow-secondary-strong)', pointerEvents: 'none' }}></span>
+      <span aria-hidden="true" style={{ position: 'absolute', bottom: 'calc(var(--igd-glow-size-md) * -0.4)', left: 'calc(var(--igd-glow-size-md) * -0.31)', width: 'var(--igd-glow-size-md)', height: 'var(--igd-glow-size-md)', background: 'var(--igd-glow-inverse-alt)', pointerEvents: 'none' }}></span>
       <div style={{ position: 'relative', maxWidth: 'var(--igd-container-max-width)', margin: '0 auto', padding: 'var(--igd-space-inset-3xl) var(--igd-container-gutter) 0' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--igd-space-gap-lg) var(--igd-space-gap-2xl)', paddingBottom: 'var(--igd-space-inset-2xl)', marginBottom: 'var(--igd-space-stack-4xl)', borderBottom: rule }}>
           <a href={IG + '/'} aria-label="Infragistics home" style={{ display: 'inline-flex' }}><img src={assetBase + 'ig-logo-dark.svg'} alt="Infragistics" style={{ height: 'var(--igd-logo-height)', display: 'block' }} /></a>

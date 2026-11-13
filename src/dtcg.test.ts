@@ -182,13 +182,16 @@ describe("toDtcg", () => {
       tokens({
         gradient: {
           tokens: [
-            t("glow-blue", "radial-gradient(circle, #000000, transparent 62%)"),
+            t(
+              "glow-primary",
+              "radial-gradient(circle, #000000, transparent 62%)",
+            ),
           ],
         },
       }),
       "",
     );
-    expect(cssOnly["glow-blue"].reason).toBe("a radial glow");
+    expect(cssOnly["glow-primary"].reason).toBe("a radial glow");
   });
 
   it("writes line height as a multiple of the font size and letter spacing in the font unit", () => {
