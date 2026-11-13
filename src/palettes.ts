@@ -114,7 +114,7 @@ for (const k of Object.keys(flat))
   );
 console.log(
   Object.entries(flat.light)
-    .filter(([n]) => /^surface|contrast/.test(n))
+    .filter(([n]) => /^surface/.test(n) || n.includes("contrast"))
     .slice(0, 24)
     .map(([n, v]) => `${n}=${v}`)
     .join("\n"),

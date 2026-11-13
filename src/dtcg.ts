@@ -121,7 +121,7 @@ const layer = (s: string) => {
     );
   if (!m) return null;
   const px = (x: string) => ({ value: Number.parseFloat(x), unit: "px" });
-  const c = color(m[5].replace(/\s/g, "").replace(/,/g, ","));
+  const c = color(m[5].replace(/\s/g, ""));
   return (
     c && {
       color: c,

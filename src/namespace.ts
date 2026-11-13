@@ -23,8 +23,13 @@ const targets = [
 ];
 let n = 0;
 for (const f of targets) {
-  if (!fs.existsSync(f)) continue;
-  const t = fs.readFileSync(f, "utf8");
+  let t: string;
+  try {
+    t = fs.readFileSync(f, "utf8");
+  } catch {
+    // A target that was not generated is skipped.
+    continue;
+  }
   if (new RegExp(`--${PUBLISHED}-`).test(t) && !css.test(t)) continue;
   css.lastIndex = 0;
   const u = ns(t);
