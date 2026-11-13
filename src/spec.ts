@@ -52,13 +52,13 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "color-action-on": [
     "ig-surface-base",
-    "Label and icon colour on `color-action-default` fills. Live value: the engine contrast colour of `ig-primary-600`.",
+    "Label and icon colour on `color-action-default` fills: black or white, whichever reads on the fill (the engine\u2019s adaptive contrast).",
   ],
   "color-link-utility": [
     "ig-info-500",
     "Links in the utility row above the nav, on `color-surface-page`.",
   ],
-  "color-link-utility-hover": ["ig-primary-seed", "Utility-row link hover."],
+  "color-link-utility-hover": ["color-action-text", "Utility-row link hover."],
   "color-link-inverse": [
     "ig-sky-200",
     "Inline links on dark surfaces (`color-surface-inverse`).",
@@ -73,7 +73,7 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "footer-link-hover": ["ig-dark-gray-900", "Footer link hover."],
   "color-focus-default": [
-    "ig-primary-seed",
+    "color-action-text",
     "Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only.",
   ],
   "color-focus-inverse": [
@@ -217,7 +217,7 @@ export const ALIAS: Record<string, AliasEntry> = {
     "Sub-label under a comparison column name, on `color-surface-inverse`.",
   ],
   "table-header-sub-highlight-color": [
-    "ig-primary-50",
+    "color-action-on",
     "Sub-label on the highlighted column header (`color-action-default` fill).",
   ],
   "table-header-detail-color": [

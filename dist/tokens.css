@@ -177,14 +177,14 @@
   --igd-color-action-fill-hover: var(--ig-primary-700);
   --igd-color-action-active: var(--ig-primary-800);
   --igd-color-action-text: var(--ig-primary-seed);
-  --igd-color-action-on: var(--ig-surface-base);
+  --igd-color-action-on: #ffffff;
   --igd-color-link-utility: var(--ig-info-500);
-  --igd-color-link-utility-hover: var(--ig-primary-seed);
+  --igd-color-link-utility-hover: var(--igd-color-action-text);
   --igd-color-link-inverse: var(--ig-sky-200);
   --igd-color-link-inverse-hover: var(--ig-dark-gray-900);
   --igd-footer-link: var(--ig-dark-gray-600);
   --igd-footer-link-hover: var(--ig-dark-gray-900);
-  --igd-color-focus-default: var(--ig-primary-seed);
+  --igd-color-focus-default: var(--igd-color-action-text);
   --igd-color-focus-inverse: var(--ig-sky-100);
   --igd-color-text-heading: var(--ig-gray-900);
   --igd-color-text-primary: var(--ig-gray-800);
@@ -224,7 +224,7 @@
   --igd-table-mark-no-background: var(--ig-gray-100);
   --igd-table-mark-no-color: var(--ig-gray-600);
   --igd-table-header-sub-color: var(--ig-dark-gray-400);
-  --igd-table-header-sub-highlight-color: var(--ig-primary-50);
+  --igd-table-header-sub-highlight-color: var(--igd-color-action-on);
   --igd-table-header-detail-color: var(--ig-dark-gray-600);
   --igd-window-dot-red: var(--ig-error-300);
   --igd-window-dot-amber: var(--ig-warn-200);
