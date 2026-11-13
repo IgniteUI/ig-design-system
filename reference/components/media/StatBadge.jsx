@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ACCENTS = { sky: 'var(--igd-color-accent-sky)', teal: 'var(--igd-color-accent-teal)', blue: 'var(--igd-color-accent-blue)', violet: 'var(--igd-color-accent-violet)' };
+const ACCENTS = { inverse: 'var(--igd-color-accent-inverse)', 'inverse-alt': 'var(--igd-color-accent-inverse-alt)', primary: 'var(--igd-color-accent-primary)', secondary: 'var(--igd-color-accent-secondary)' };
 const OFF = 'calc(-1 * var(--igd-stat-badge-offset))';
 const POS = {
   'top-left': { top: OFF, left: OFF }, 'top-right': { top: OFF, right: OFF },
@@ -9,7 +9,7 @@ const POS = {
 };
 
 // duration (seconds) overrides --igd-duration-float for this badge only.
-export function StatBadge({ value, label, accent = 'sky', position = 'top-left', duration, style, ...rest }) {
+export function StatBadge({ value, label, accent = 'inverse', position = 'top-left', duration, style, ...rest }) {
   return (
     <div style={{
       position: 'absolute', ...POS[position], zIndex: 'var(--igd-z-index-media)',

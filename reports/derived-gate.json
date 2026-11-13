@@ -5,18 +5,18 @@
  "rows": [
   [
    "callout-release-shadow-hover",
-   "derived from color-action-default, color-accent-blue",
+   "derived from color-action-default, color-accent-primary",
    1
   ],
   [
-   "color-accent-blue",
-   "base",
-   1
-  ],
-  [
-   "color-accent-sky",
+   "color-accent-inverse",
    "base",
    2
+  ],
+  [
+   "color-accent-primary",
+   "base",
+   1
   ],
   [
    "color-action-default",
@@ -90,7 +90,7 @@
   ],
   [
    "footer-focus",
-   "derived from color-accent-sky, color-link-inverse",
+   "derived from color-accent-inverse, color-link-inverse",
    1
   ],
   [
@@ -100,12 +100,12 @@
   ],
   [
    "footer-social-hover-background",
-   "derived from color-accent-sky, color-link-inverse",
+   "derived from color-accent-inverse, color-link-inverse",
    1
   ],
   [
    "footer-social-hover-border",
-   "derived from color-accent-sky, color-link-inverse",
+   "derived from color-accent-inverse, color-link-inverse",
    1
   ],
   [
@@ -131,10 +131,10 @@
  ],
  "pairs": [
   [
-   "color-accent-blue",
+   "color-accent-primary",
    3,
    [
-    "color-accent-blue"
+    "color-accent-primary"
    ]
   ],
   [

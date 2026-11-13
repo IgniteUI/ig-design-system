@@ -65,12 +65,12 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 
 | Before | Now |
 |---|---|
-| `--ig-blue` | `--igd-color-accent-blue` |
-| `--ig-blue-hover` | `--igd-color-accent-blue-hover` |
-| `--ig-blue-press` | `--igd-color-accent-blue-active` |
-| `--ig-violet` | `--igd-color-accent-violet` |
-| `--ig-sky` | `--igd-color-accent-sky` |
-| `--ig-teal` | `--igd-color-accent-teal` |
+| `--ig-blue` | `--igd-color-accent-primary` |
+| `--ig-blue-hover` | `--igd-color-accent-primary-hover` |
+| `--ig-blue-press` | `--igd-color-accent-primary-active` |
+| `--ig-violet` | `--igd-color-accent-secondary` |
+| `--ig-sky` | `--igd-color-accent-inverse` |
+| `--ig-teal` | `--igd-color-accent-inverse-alt` |
 | `--action` | `--igd-color-action-default` |
 | `--action-hover` | `--igd-color-action-hover` |
 | `--action-hover-fill` | `--igd-color-action-fill-hover` |

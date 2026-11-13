@@ -332,18 +332,18 @@
   --igd-elevation-tint-21: var(--ig-elevation-tint-21);
   --igd-elevation-tint-22: var(--ig-elevation-tint-22);
   --igd-footer-background-gradient: linear-gradient(155deg, var(--ig-dark-surface-200) 0%, var(--ig-dark-surface-400) 42%, var(--igd-footer-background) 100%);
-  --igd-gradient-brand: linear-gradient(92deg, var(--igd-color-accent-blue), var(--igd-color-accent-violet));
+  --igd-gradient-brand: linear-gradient(92deg, var(--igd-color-accent-primary), var(--igd-color-accent-secondary));
   --igd-gradient-hero: linear-gradient(180deg, var(--igd-color-surface-hero), var(--igd-color-surface-page));
-  --igd-glow-blue: radial-gradient(circle, hsl(from var(--igd-color-accent-blue) h s l / var(--igd-opacity-muted)), transparent 62%);
-  --igd-glow-violet: radial-gradient(circle, hsl(from var(--igd-color-accent-violet) h s l / var(--igd-opacity-muted)), transparent 62%);
-  --igd-glow-violet-strong: radial-gradient(circle, hsl(from var(--igd-color-accent-violet) h s l / var(--igd-opacity-heavy)), transparent 62%);
-  --igd-glow-pink: radial-gradient(circle, hsl(from var(--igd-tile-pink) h s l / var(--igd-opacity-muted)), transparent 62%);
-  --igd-glow-teal: radial-gradient(circle, hsl(from var(--igd-color-accent-teal) h s l / var(--igd-opacity-soft)), transparent 68%);
+  --igd-glow-primary: radial-gradient(circle, hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-muted)), transparent 62%);
+  --igd-glow-secondary: radial-gradient(circle, hsl(from var(--igd-color-accent-secondary) h s l / var(--igd-opacity-muted)), transparent 62%);
+  --igd-glow-secondary-strong: radial-gradient(circle, hsl(from var(--igd-color-accent-secondary) h s l / var(--igd-opacity-heavy)), transparent 62%);
+  --igd-glow-inverse: radial-gradient(circle, hsl(from var(--igd-tile-3) h s l / var(--igd-opacity-muted)), transparent 62%);
+  --igd-glow-inverse-alt: radial-gradient(circle, hsl(from var(--igd-color-accent-inverse-alt) h s l / var(--igd-opacity-soft)), transparent 68%);
   --igd-color-action-subtle: hsl(from var(--igd-color-action-default) h s l / var(--igd-opacity-subtle));
   --igd-color-action-subtle-border: hsl(from var(--igd-color-action-default) h s l / var(--igd-opacity-strong));
-  --igd-color-emphasis-border: hsl(from var(--igd-color-accent-blue) h s l / var(--igd-opacity-heavy));
-  --igd-color-emphasis-ring: hsl(from var(--igd-color-accent-blue) h s l / var(--igd-opacity-soft));
-  --igd-color-emphasis-ring-hover: hsl(from var(--igd-color-accent-blue) h s l / var(--igd-opacity-strong));
+  --igd-color-emphasis-border: hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-heavy));
+  --igd-color-emphasis-ring: hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-soft));
+  --igd-color-emphasis-ring-hover: hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-strong));
   --igd-badge-oss-background: hsl(from var(--igd-badge-oss-color) h s l / var(--igd-opacity-soft));
   --igd-nav-background: hsl(from var(--igd-color-surface-page) h s l / var(--igd-opacity-nav));
   --igd-color-overlay-scrim: hsl(from var(--igd-color-surface-inverse) h s l / var(--igd-opacity-strong));
@@ -356,8 +356,8 @@
   --igd-footer-check-border: hsl(from var(--igd-color-text-inverse) h s l / var(--igd-opacity-heavy));
   --igd-footer-social-hover-background: hsl(from var(--igd-color-link-inverse) h s l / var(--igd-opacity-muted));
   --igd-footer-social-hover-border: hsl(from var(--igd-color-focus-inverse) h s l / var(--igd-opacity-heavy));
-  --igd-gradient-border-bundle: linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) padding-box, linear-gradient(135deg, var(--igd-color-accent-blue), var(--igd-color-accent-violet)) border-box;
-  --igd-gradient-emphasis: linear-gradient(180deg, hsl(from var(--igd-color-accent-blue) h s l / var(--igd-opacity-subtle)), hsl(from var(--igd-color-accent-sky) h s l / var(--igd-opacity-faint)));
+  --igd-gradient-border-bundle: linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) padding-box, linear-gradient(135deg, var(--igd-color-accent-primary), var(--igd-color-accent-secondary)) border-box;
+  --igd-gradient-emphasis: linear-gradient(180deg, hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-subtle)), hsl(from var(--igd-color-accent-inverse) h s l / var(--igd-opacity-faint)));
   --igd-footer-card-background: linear-gradient(180deg, hsl(from var(--igd-color-text-inverse) h s l / var(--igd-opacity-faint)), transparent);
   --igd-container-gutter: clamp(var(--igd-space-md), 4vw, var(--igd-space-4xl)); /* @kind spacing */
   --igd-layout-split: 0.95fr 1.05fr; /* @kind other */
@@ -499,8 +499,8 @@
   50%      { transform: translateY(calc(-1 * var(--igd-space-xs))); }
 }
 @keyframes igd-app-shimmer {
-  0%, 100% { filter: drop-shadow(0 var(--igd-space-xs) var(--igd-space-md) hsl(from var(--igd-color-accent-blue) h s l / var(--igd-opacity-heavy))); opacity: 1; }
-  50%      { filter: drop-shadow(0 var(--igd-space-xs) var(--igd-space-xl) hsl(from var(--igd-color-accent-sky) h s l / var(--igd-opacity-heavy))); opacity: 1; }
+  0%, 100% { filter: drop-shadow(0 var(--igd-space-xs) var(--igd-space-md) hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-heavy))); opacity: 1; }
+  50%      { filter: drop-shadow(0 var(--igd-space-xs) var(--igd-space-xl) hsl(from var(--igd-color-accent-inverse) h s l / var(--igd-opacity-heavy))); opacity: 1; }
 }
 
 * { box-sizing: border-box; }
@@ -540,10 +540,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 /* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours */
 :root, [data-ig-scope], [data-theme] {
   /* semantic tokens that alias a ramp step */
-  --igd-color-accent-blue: var(--ig-info-seed);
-  --igd-color-accent-violet: var(--ig-secondary-seed);
-  --igd-color-accent-sky: var(--ig-sky-200);
-  --igd-color-accent-teal: var(--ig-teal-200);
+  --igd-color-accent-primary: var(--ig-info-seed);
+  --igd-color-accent-secondary: var(--ig-secondary-seed);
+  --igd-color-accent-inverse: var(--ig-sky-200);
+  --igd-color-accent-inverse-alt: var(--ig-teal-200);
   --igd-color-action-default: var(--ig-primary-seed);
   --igd-color-feedback-error-default: oklch(from var(--ig-error-600) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.4767 - 0.6 * max(0, l - 0.4767))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.4767 - 0.6 * max(0, l - 0.4767))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
   --igd-badge-bundle-color: oklch(from var(--ig-secondary-700) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.488 - 0.6 * max(0, l - 0.488))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.488 - 0.6 * max(0, l - 0.488))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
@@ -554,10 +554,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-window-dot-green: var(--ig-success-300);
   --igd-fw-angular-color: oklch(from var(--ig-pink-500) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5516 - 0.6 * max(0, l - 0.5516))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5516 - 0.6 * max(0, l - 0.5516))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
   --igd-fw-react-color: oklch(from var(--ig-cyan-500) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5178 - 0.6 * max(0, l - 0.5178))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5178 - 0.6 * max(0, l - 0.5178))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
-  --igd-tile-pink: var(--ig-pink-400);
-  --igd-tile-teal: var(--ig-success-400);
-  --igd-tile-cyan: var(--ig-cyan-200);
-  --igd-tile-amber: var(--ig-warn-200);
+  --igd-tile-3: var(--ig-pink-400);
+  --igd-tile-4: var(--ig-success-400);
+  --igd-tile-5: var(--ig-cyan-200);
+  --igd-tile-6: var(--ig-warn-200);
   /* state tokens: derived from their base. Override a base and its states follow. */
   --igd-color-action-text: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5466 - 0.6 * max(0, l - 0.5466))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5466 - 0.6 * max(0, l - 0.5466))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
   --igd-color-action-fill-hover: oklch(from var(--igd-color-action-default) calc(l + -0.0719) calc(c * 0.8229) calc(h + 0.07));
@@ -568,8 +568,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-color-surface-tint-strong: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9395 + var(--igd-theme-dark) * 0.2786) calc(c * 0.1176 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 12.29));
   --igd-color-border-accent: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
   --igd-table-header-sub-highlight-color: oklch(from var(--igd-color-action-default) calc((1 - 0) * 0.9717 + 0 * 0.2368) calc(c * 0.0436 * (1 + 1.5 * 0)) calc(h + 17.61));
-  --igd-color-accent-blue-hover: oklch(from var(--igd-color-accent-blue) calc(l + -0.0722) calc(c * 0.8392) calc(h + 0.16));
-  --igd-color-accent-blue-active: oklch(from var(--igd-color-accent-blue) calc(l + -0.1450) calc(c * 0.7697) calc(h + 0.25));
+  --igd-color-accent-primary-hover: oklch(from var(--igd-color-accent-primary) calc(l + -0.0722) calc(c * 0.8392) calc(h + 0.16));
+  --igd-color-accent-primary-active: oklch(from var(--igd-color-accent-primary) calc(l + -0.1450) calc(c * 0.7697) calc(h + 0.25));
   --igd-color-link-inverse-hover: oklch(from var(--igd-color-link-inverse) calc(l + 0.2371) calc(c * 0.0000) calc(h + 0));
   --igd-color-focus-inverse: oklch(from var(--igd-color-link-inverse) calc(l + 0.0909) calc(c * 0.6634) calc(h + -0.39));
   --igd-footer-focus: oklch(from var(--igd-color-link-inverse) calc(l + 0.0909) calc(c * 0.6634) calc(h + -0.39));
@@ -580,8 +580,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-fw-angular-border: oklch(from var(--igd-fw-angular-color) calc((1 - var(--igd-theme-dark)) * 0.8563 + var(--igd-theme-dark) * 0.3869) calc(c * 0.4165 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 4.89));
   --igd-fw-react-background: oklch(from var(--igd-fw-react-color) calc((1 - var(--igd-theme-dark)) * 0.9392 + var(--igd-theme-dark) * 0.2790) calc(c * 0.3684 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 2.63));
   --igd-fw-react-border: oklch(from var(--igd-fw-react-color) calc((1 - var(--igd-theme-dark)) * 0.8371 + var(--igd-theme-dark) * 0.4117) calc(c * 1.0737 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 0.47));
-  --igd-fw-blazor-background: oklch(from var(--igd-color-accent-violet) calc((1 - var(--igd-theme-dark)) * 0.9755 + var(--igd-theme-dark) * 0.2319) calc(c * 0.0395 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.03));
-  --igd-fw-blazor-border: oklch(from var(--igd-color-accent-violet) calc((1 - var(--igd-theme-dark)) * 0.9040 + var(--igd-theme-dark) * 0.3248) calc(c * 0.2125 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.41));
+  --igd-fw-blazor-background: oklch(from var(--igd-color-accent-secondary) calc((1 - var(--igd-theme-dark)) * 0.9755 + var(--igd-theme-dark) * 0.2319) calc(c * 0.0395 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.03));
+  --igd-fw-blazor-border: oklch(from var(--igd-color-accent-secondary) calc((1 - var(--igd-theme-dark)) * 0.9040 + var(--igd-theme-dark) * 0.3248) calc(c * 0.2125 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.41));
   --igd-fw-webcomponents-background: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
   --igd-fw-webcomponents-border: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
   --igd-fw-winforms-background: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
@@ -595,15 +595,15 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-color-text-inverse-muted: oklch(from var(--igd-color-text-inverse) calc(l + -0.2694) 0.0171 253.94);
   --igd-color-link-utility-hover: var(--igd-color-action-text);
   --igd-color-focus-default: var(--igd-color-action-text);
-  --igd-tile-blue: var(--igd-color-accent-blue);
-  --igd-tile-violet: var(--igd-color-accent-violet);
-  --igd-tile-royal: var(--igd-color-action-default);
-  --igd-color-link-inverse: var(--igd-color-accent-sky);
+  --igd-tile-1: var(--igd-color-accent-primary);
+  --igd-tile-2: var(--igd-color-accent-secondary);
+  --igd-tile-7: var(--igd-color-action-default);
+  --igd-color-link-inverse: var(--igd-color-accent-inverse);
   --igd-footer-icon: var(--igd-footer-text);
   /* label on the action fill: the engine's adaptive-contrast(), black or white by luminance at the WCAG AA threshold */
   --igd-color-action-on: hsla(from color(from var(--igd-color-action-default) var(--y-contrast)) h 0 l / 1);
 }
-[data-ig="icon-tile"] { --igd-tile-fill: var(--igd-tile-blue); --igd-tile-on: hsla(from color(from var(--igd-tile-fill) var(--y-contrast)) h 0 l / 1); }
+[data-ig="icon-tile"] { --igd-tile-fill: var(--igd-tile-1); --igd-tile-on: hsla(from color(from var(--igd-tile-fill) var(--y-contrast)) h 0 l / 1); }
 
 /* ===== 6. themes ===== */
 :root, [data-theme="light"] { --igd-theme-dark: 0; }

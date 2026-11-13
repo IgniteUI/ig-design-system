@@ -51,14 +51,14 @@
     "kc": 0.0436,
     "dh": 17.61
   },
-  "color-accent-blue-hover": {
-    "base": "color-accent-blue",
+  "color-accent-primary-hover": {
+    "base": "color-accent-primary",
     "dl": -0.0722,
     "kc": 0.8392,
     "dh": 0.16
   },
-  "color-accent-blue-active": {
-    "base": "color-accent-blue",
+  "color-accent-primary-active": {
+    "base": "color-accent-primary",
     "dl": -0.145,
     "kc": 0.7697,
     "dh": 0.25
@@ -124,13 +124,13 @@
     "dh": 0.47
   },
   "fw-blazor-background": {
-    "base": "color-accent-violet",
+    "base": "color-accent-secondary",
     "l": 0.9755,
     "kc": 0.0395,
     "dh": 6.03
   },
   "fw-blazor-border": {
-    "base": "color-accent-violet",
+    "base": "color-accent-secondary",
     "l": 0.904,
     "kc": 0.2125,
     "dh": 6.41
@@ -209,20 +209,20 @@
     "base": "color-action-text",
     "alias": true
   },
-  "tile-blue": {
-    "base": "color-accent-blue",
+  "tile-1": {
+    "base": "color-accent-primary",
     "alias": true
   },
-  "tile-violet": {
-    "base": "color-accent-violet",
+  "tile-2": {
+    "base": "color-accent-secondary",
     "alias": true
   },
-  "tile-royal": {
+  "tile-7": {
     "base": "color-action-default",
     "alias": true
   },
   "color-link-inverse": {
-    "base": "color-accent-sky",
+    "base": "color-accent-inverse",
     "alias": true
   },
   "footer-icon": {

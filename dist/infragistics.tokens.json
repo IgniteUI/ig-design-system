@@ -1982,27 +1982,27 @@
       },
       "$description": "Engine accent ramp `teal`, step 900: palette() seeded with the teal accent of the previous system."
     },
-    "color-accent-blue": {
+    "color-accent-primary": {
       "$value": "{color.ig-info-seed}",
-      "$description": "Brand accent blue: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white."
+      "$description": "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white."
     },
-    "color-accent-blue-hover": {
+    "color-accent-primary-hover": {
       "$value": "{color.ig-info-400}",
-      "$description": "Hover step of `color-accent-blue`."
+      "$description": "Hover step of `color-accent-primary`."
     },
-    "color-accent-blue-active": {
+    "color-accent-primary-active": {
       "$value": "{color.ig-info-500}",
-      "$description": "Press state step of `color-accent-blue`."
+      "$description": "Press state step of `color-accent-primary`."
     },
-    "color-accent-violet": {
+    "color-accent-secondary": {
       "$value": "{color.ig-secondary-seed}",
-      "$description": "Gradient partner to `color-accent-blue` and the AI marker. Never a fill on its own."
+      "$description": "Gradient partner to `color-accent-primary` and the AI marker. Never a fill on its own."
     },
-    "color-accent-sky": {
+    "color-accent-inverse": {
       "$value": "{color.ig-sky-200}",
       "$description": "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white. Contrast 8.24:1 on `color-surface-inverse`."
     },
-    "color-accent-teal": {
+    "color-accent-inverse-alt": {
       "$value": "{color.ig-teal-200}",
       "$description": "On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white. Contrast 8.19:1 on `color-surface-inverse`."
     },
@@ -2290,35 +2290,35 @@
       "$value": "{color.ig-primary-200}",
       "$description": "WPF framework pill border."
     },
-    "tile-blue": {
+    "tile-1": {
       "$value": "{color.ig-info-seed}",
       "$description": "Icon tile fill — CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph."
     },
-    "tile-violet": {
+    "tile-2": {
       "$value": "{color.ig-secondary-seed}",
       "$description": "Icon tile fill — Agent Skills on the AI toolchain row."
     },
-    "tile-pink": {
+    "tile-3": {
       "$value": "{color.ig-pink-400}",
       "$description": "Icon tile fill — Theming MCP on the AI toolchain row."
     },
-    "tile-teal": {
+    "tile-4": {
       "$value": "{color.ig-success-400}",
       "$description": "Icon tile fill — AI Scaffolding on the AI toolchain row."
     },
-    "tile-cyan": {
+    "tile-5": {
       "$value": "{color.ig-cyan-200}",
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
-    "tile-amber": {
+    "tile-6": {
       "$value": "{color.ig-warn-200}",
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
-    "tile-royal": {
+    "tile-7": {
       "$value": "{color.ig-primary-seed}",
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
-    "tile-ink": {
+    "tile-8": {
       "$value": "{color.ig-dark-surface-500}",
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
@@ -2359,7 +2359,7 @@
         "alpha": 0.4,
         "hex": "#0099ff"
       },
-      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-blue` at `opacity-heavy`."
+      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-primary` at `opacity-heavy`."
     },
     "color-emphasis-ring": {
       "$value": {
@@ -2372,7 +2372,7 @@
         "alpha": 0.12,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip at rest. Live: `color-accent-blue` at `opacity-soft`."
+      "$description": "Inner ring of the release strip at rest. Live: `color-accent-primary` at `opacity-soft`."
     },
     "color-emphasis-ring-hover": {
       "$value": {
@@ -2385,7 +2385,7 @@
         "alpha": 0.25,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip on hover. Live: `color-accent-blue` at `opacity-strong`."
+      "$description": "Inner ring of the release strip on hover. Live: `color-accent-primary` at `opacity-strong`."
     },
     "badge-oss-background": {
       "$value": {
@@ -6511,7 +6511,7 @@
         },
         "lineHeight": 1.1
       },
-      "$description": "Stat badge values: `color-accent-sky` or `color-accent-teal` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. (was `display-stat`; engine slot `h4`)"
+      "$description": "Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. (was `display-stat`; engine slot `h4`)"
     },
     "type-h6": {
       "$value": {
@@ -6756,23 +6756,23 @@
           "value": "none",
           "reason": "no shadow"
         },
-        "glow-blue": {
+        "glow-primary": {
           "value": "radial-gradient(circle, rgba(0,153,255,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-violet": {
+        "glow-secondary": {
           "value": "radial-gradient(circle, rgba(152,16,250,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-violet-strong": {
+        "glow-secondary-strong": {
           "value": "radial-gradient(circle, rgba(152,16,250,0.4), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-pink": {
+        "glow-inverse": {
           "value": "radial-gradient(circle, rgba(226,59,143,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-teal": {
+        "glow-inverse-alt": {
           "value": "radial-gradient(circle, rgba(60,195,177,0.12), transparent 68%)",
           "reason": "a radial glow"
         }

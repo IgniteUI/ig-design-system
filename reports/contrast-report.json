@@ -161,14 +161,14 @@
   "ok": true
  },
  {
-  "fg": "color-accent-sky",
+  "fg": "color-accent-inverse",
   "bg": "color-surface-inverse",
   "ratio": 8.24,
   "min": 4.5,
   "ok": true
  },
  {
-  "fg": "color-accent-teal",
+  "fg": "color-accent-inverse-alt",
   "bg": "color-surface-inverse",
   "ratio": 8.19,
   "min": 4.5,
