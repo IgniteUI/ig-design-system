@@ -122,7 +122,7 @@
       },
       "$description": "Engine palette step `primary 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-primary-accent-100": {
+    "ig-primary-A100": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -134,7 +134,7 @@
       },
       "$description": "Engine palette step `primary A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-primary-accent-200": {
+    "ig-primary-A200": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -146,7 +146,7 @@
       },
       "$description": "Engine palette step `primary A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-primary-accent-400": {
+    "ig-primary-A400": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -158,7 +158,7 @@
       },
       "$description": "Engine palette step `primary A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-primary-accent-700": {
+    "ig-primary-A700": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -290,7 +290,7 @@
       },
       "$description": "Engine palette step `secondary 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-secondary-accent-100": {
+    "ig-secondary-A100": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -302,7 +302,7 @@
       },
       "$description": "Engine palette step `secondary A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-secondary-accent-200": {
+    "ig-secondary-A200": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -314,7 +314,7 @@
       },
       "$description": "Engine palette step `secondary A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-secondary-accent-400": {
+    "ig-secondary-A400": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -326,7 +326,7 @@
       },
       "$description": "Engine palette step `secondary A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-secondary-accent-700": {
+    "ig-secondary-A700": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -458,7 +458,7 @@
       },
       "$description": "Engine palette step `info 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-info-accent-100": {
+    "ig-info-A100": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -470,7 +470,7 @@
       },
       "$description": "Engine palette step `info A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-info-accent-200": {
+    "ig-info-A200": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -482,7 +482,7 @@
       },
       "$description": "Engine palette step `info A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-info-accent-400": {
+    "ig-info-A400": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -494,7 +494,7 @@
       },
       "$description": "Engine palette step `info A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-info-accent-700": {
+    "ig-info-A700": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -626,7 +626,7 @@
       },
       "$description": "Engine palette step `success 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-success-accent-100": {
+    "ig-success-A100": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -638,7 +638,7 @@
       },
       "$description": "Engine palette step `success A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-success-accent-200": {
+    "ig-success-A200": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -650,7 +650,7 @@
       },
       "$description": "Engine palette step `success A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-success-accent-400": {
+    "ig-success-A400": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -662,7 +662,7 @@
       },
       "$description": "Engine palette step `success A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-success-accent-700": {
+    "ig-success-A700": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -794,7 +794,7 @@
       },
       "$description": "Engine palette step `warn 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-warn-accent-100": {
+    "ig-warn-A100": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -806,7 +806,7 @@
       },
       "$description": "Engine palette step `warn A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-warn-accent-200": {
+    "ig-warn-A200": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -818,7 +818,7 @@
       },
       "$description": "Engine palette step `warn A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-warn-accent-400": {
+    "ig-warn-A400": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -830,7 +830,7 @@
       },
       "$description": "Engine palette step `warn A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-warn-accent-700": {
+    "ig-warn-A700": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -962,7 +962,7 @@
       },
       "$description": "Engine palette step `error 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-error-accent-100": {
+    "ig-error-A100": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -974,7 +974,7 @@
       },
       "$description": "Engine palette step `error A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-error-accent-200": {
+    "ig-error-A200": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -986,7 +986,7 @@
       },
       "$description": "Engine palette step `error A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-error-accent-400": {
+    "ig-error-A400": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -998,7 +998,7 @@
       },
       "$description": "Engine palette step `error A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
-    "ig-error-accent-700": {
+    "ig-error-A700": {
       "$value": {
         "colorSpace": "srgb",
         "components": [

@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
+import { sets } from "./palette-sets.ts";
 import * as S from "./spec.ts";
 import type { Token, Tokens, TypeGroup, TypeStyle } from "./types.ts";
 
@@ -24,8 +25,6 @@ const engineHex = (name: string) => {
   if (m) return P.dark[`surface-${m[1]}`];
   m = name.match(/^ig-(pink|cyan|sky|teal)-(\d+)$/);
   if (m) return P[m[1]][`primary-${m[2]}`];
-  m = name.match(/^ig-([a-z]+)-accent-(\d+)$/);
-  if (m) return P.light[`${m[1]}-A${m[2]}`];
   m = name.match(/^ig-([a-z]+-(?:A?\d+|seed|base|sunken|raised|overlay))$/);
   if (m) return P.light[m[1]];
   return null;
@@ -252,11 +251,7 @@ const note = (fam: string, variant: string) =>
 for (const fam of Object.keys(FAM))
   for (const [n, v] of Object.entries(P.light))
     if (new RegExp(`^${fam}-A?\\d+$`).test(n))
-      add(
-        `ig-${n.replace(/-A(\d+)$/, "-accent-$1")}`,
-        v,
-        note(n.replace("-", " "), "light variant"),
-      );
+      add(`ig-${n}`, v, note(n.replace("-", " "), "light variant"));
 // the engine emits each family\u2019s seed as --ig-<family>-seed: the exact colour the family was built from
 for (const fam of ["primary", "secondary", "info"])
   add(
@@ -703,7 +698,20 @@ let b = `/* Infragistics Marketing Design System — theme.css
 /* ===== 1. igniteui-theming engine layer ===== */
 `;
 b += `/* dials: size large, spacing 1, elevation 1 */\n:root {\n  --ig-size: 3;\n  --ig-spacing: 1;\n  --ig-elevation-factor: 1;\n  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */\n}\n`;
-b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n${adaptiveContrast.map((d) => `  ${d}`).join("\n")}\n  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l/1);\n  --color-action-on: var(--ig-primary-600-contrast);\n}\n`;
+// The rest of the engine's palette(): every *-contrast variable, and the shades and roles the raw tier above does not list.
+// With them the package declares each custom property the engine's palette() emits, so an Ignite UI component finds its colours.
+const declared = new Set(
+  [...css.matchAll(/^\s*--([\w-]+):/gm)].map((m) => m[1]),
+);
+const enginePalette = [
+  ...sass(
+    "palette",
+    `@use 'igniteui-theming' as *;\n$p: ${sets.light};\n@include palette($p);\n`,
+  ).matchAll(/^\s*--(ig-[\w-]+): ([^;]+);/gm),
+].filter((m) => !declared.has(m[1]) && !/^ig-(wcag|contrast-level)/.test(m[1]));
+if (!enginePalette.some((m) => m[1] === "ig-primary-500-contrast"))
+  throw new Error("palette(): no contrast variables emitted");
+b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n${adaptiveContrast.map((d) => `  ${d}`).join("\n")}\n}\n/* the rest of the engine's palette(): contrast colours, accent shades, surface shades and seeds */\n:root, [data-ig-scope] {\n${enginePalette.map((m) => `  --${m[1]}: ${m[2]};`).join("\n")}\n}\n`;
 b += `/* sizing, spacing, roundness, easing and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() */\n${layoutCss.replace(/\n{2,}/g, "\n").trim()}\n`;
 b += `/* elevations tinted with \`action\` (indigo preset, colours configured through its $color-1..3) */\n:root {\n${tintUsed.map((l) => `  --ig-elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
 b +=

@@ -2,26 +2,7 @@
 
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-
-const scales: Record<string, { range: number[]; curve: number[] }> = JSON.parse(
-  fs.readFileSync("src/scales.json", "utf8"),
-);
-const sc = Object.entries(scales)
-  .map(
-    ([k, v]) =>
-      `'${k}': (range: (${v.range.join(", ")}), curve: (${v.curve.join(", ")}))`,
-  )
-  .join(", ");
-const seeds =
-  "$primary: #155dfc, $secondary: #9810fa, $info: #0099ff, $success: #0d9488, $warn: #f59e0b";
-const sets = {
-  light: `palette(${seeds}, $surface: #ffffff, $gray: #64748b, $scales: (${sc}))`,
-  dark: `palette(${seeds}, $surface: #0f172a, $gray: #cbd5e1)`,
-  pink: "palette($primary: #ec4899, $secondary: #9810fa, $surface: #ffffff)",
-  cyan: "palette($primary: #06b6d4, $secondary: #9810fa, $surface: #ffffff)",
-  sky: "palette($primary: #38bdf8, $secondary: #9810fa, $surface: #ffffff)",
-  teal: "palette($primary: #2dd4bf, $secondary: #9810fa, $surface: #ffffff)",
-};
+import { sets } from "./palette-sets.ts";
 
 // Every shade carries its plain colour under <shade>-raw; the plain key can hold a CSS expression.
 // A raw colour outside sRGB is clipped, as a browser paints it.
