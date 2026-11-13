@@ -3,3 +3,4 @@ node_modules/
 reports/mcp-typography.txt
 reports/mcp-elevations.txt
 *.map
+.vitest/
