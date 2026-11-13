@@ -14,7 +14,7 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 | `dist/theme.css` | The live layer: tokens that follow the theming dials, colours derived from the brand seeds, the dark theme, type classes and base styles. Load it second. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
-| `dist/seed.js` | Optional helper for changing the brand colours at runtime (`window.IgSeed`). |
+| `dist/seed.js` | Optional helper for changing the brand colours at runtime (`window.IgSeed`). `dist/seed.d.ts` types it. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin). |
 
 ```html
@@ -40,7 +40,7 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 | Semantic | `--color-*`, `--space-*`, `--radius-*`, `--size-*`, `--shadow-*`, … | Site code uses these. The name says what the value is for. |
 | Component | `--footer-*`, `--nav-*`, `--table-*`, … | One component's own choice, built from the semantic tier. |
 
-The raw tier and the theming dials use the prefix `--igd-`, not the engine's own `--ig-`, so these tokens never collide with an Ignite UI product theme loaded on the same page. The generator works in the engine's names and `src/namespace.mjs` applies the published prefix as the last build step.
+The raw tier and the theming dials use the prefix `--igd-`, not the engine's own `--ig-`, so these tokens never collide with an Ignite UI product theme loaded on the same page. The generator works in the engine's names and `src/namespace.ts` applies the published prefix as the last build step.
 
 **Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default`, `color-text-muted`, `color-surface-tint`. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
 
@@ -81,18 +81,18 @@ Hover, active, focus, tint and shadow colours are computed from the seed, so nob
 
 | Check | What it stops |
 |---|---|
-| `checks/lint.mjs` | A hand-typed colour, size, duration or easing in a component source |
-| `checks/check-vars.mjs` | A `var()` that points at a token that does not exist |
-| `checks/spacing-roles.mjs` | A raw spacing step used for padding, a margin or a gap |
-| `checks/gates-derived.cjs` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
-| `checks/gates-themes.cjs` | Any of 58 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
+| `checks/lint.ts` | A hand-typed colour, size, duration or easing in a component source |
+| `checks/check-vars.ts` | A `var()` that points at a token that does not exist |
+| `checks/spacing-roles.ts` | A raw spacing step used for padding, a margin or a gap |
+| `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
+| `checks/gates-themes.ts` | Any of 58 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
 
 Today the checks run against the reference components in this repository. Packaging them as one command that any consuming repository can run on its own code is the next step.
 
 ## Repository layout
 
 ```
-src/         the generator: spec.mjs (the vocabulary), make.mjs (builds dist/), namespace.mjs (applies the --igd- prefix), dtcg.mjs, seed.js
+src/         the generator: spec.ts (the vocabulary), make.ts (builds dist/), namespace.ts (applies the --igd- prefix), dtcg.ts, seed.ts, types.ts (the shape of tokens.json)
 checks/      the checks listed above
 dist/        the generated package (committed, so a site can use it without building)
 reports/     contrast and derived-colour reports from the last build
@@ -100,19 +100,19 @@ reference/   React reference components and their stylesheet. They prove the tok
 docs/        MIGRATION.md: old token names to new ones
 ```
 
-To change a token, edit `src/spec.mjs` (or the generator) and rebuild. Never edit `dist/` by hand; CI fails if `dist/` does not match the source.
+To change a token, edit `src/spec.ts` (or the generator) and rebuild. The tables in `spec.ts` are typed, so a value in the wrong slot or an unknown opacity name fails `npm run typecheck`. Never edit `dist/` by hand; CI fails if `dist/` does not match the source.
 
 ## Build
 
-Requires Node 22.
+Requires Node 22.18 or newer. The generator and the checks are TypeScript and Node runs them directly, with no build step. The sources use erasable syntax only (no `enum`, no `namespace`, no parameter properties) and import each other with the `.ts` extension.
 
 ```sh
 npm ci
 npx playwright install chromium   # the contrast checks measure real rendered colours
-npm test                          # build, then run every check
+npm test                          # type check, build, then run every check
 ```
 
-`src/palettes.json` holds the compiled engine palettes. `npm run palettes` regenerates it from the seed colours in `src/palettes.mjs`.
+`src/palettes.json` holds the compiled engine palettes. `npm run palettes` regenerates it from the seed colours in `src/palettes.ts`.
 
 ## Open items
 

@@ -67,7 +67,7 @@ body:
     id: gate
     attributes:
       label: Is the pairing measured by the contrast gate?
-      description: Optional. `reports/contrast-report-themes.json` lists the pairings that `checks/gates-themes.cjs` measures.
+      description: Optional. `reports/contrast-report-themes.json` lists the pairings that `checks/gates-themes.ts` measures.
       options:
         - Not sure
         - 'Yes, and the gate passes'
