@@ -4,11 +4,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
+
 type Derived = { base: string };
 type Named<T> = Record<string, T>;
-const ROOT = path.join(import.meta.dirname, ".."),
-  OUT = path.join(ROOT, "dist/"),
-  REP = path.join(ROOT, "reports/");
+const ROOT = path.join(import.meta.dirname, "..");
+const OUT = path.join(ROOT, "dist/");
+const REP = path.join(ROOT, "reports/");
 const BASES = [
   "color-action-default",
   "color-action-text",
@@ -27,13 +28,13 @@ const BASES = [
   "shadow-raised",
 ];
 (async () => {
-  const tokens = fs.readFileSync(OUT + "tokens.css", "utf8"),
-    bundle =
-      fs.readFileSync(OUT + "theme.css", "utf8") +
-      "\n" +
-      fs.readFileSync(path.join(ROOT, ".cache/components.css"), "utf8");
+  const tokens = fs.readFileSync(`${OUT}tokens.css`, "utf8");
+  const bundle =
+    fs.readFileSync(`${OUT}theme.css`, "utf8") +
+    "\n" +
+    fs.readFileSync(path.join(ROOT, ".cache/components.css"), "utf8");
   const derived: Named<Derived> = JSON.parse(
-    fs.readFileSync(REP + "derived-states.json", "utf8"),
+    fs.readFileSync(`${REP}derived-states.json`, "utf8"),
   );
   const comp = fs
     .readFileSync(path.join(ROOT, "reference/components.css"), "utf8")
@@ -47,10 +48,10 @@ const BASES = [
       if (!/color|background|border|shadow|outline|fill|stroke/.test(d[1]))
         continue;
       for (const v of d[2].matchAll(/var\(--([a-z0-9-]+)/g))
-        if (!/^(focus-ring|radius|border-width|space|size)/.test(v[1]))
-          (used[v[1]] = used[v[1]] || []).push(
-            m[1].trim().split("\n").pop()!.slice(0, 60),
-          );
+        if (!/^(focus-ring|radius|border-width|space|size)/.test(v[1])) {
+          used[v[1]] ??= [];
+          used[v[1]].push(m[1].trim().split("\n").pop()!.slice(0, 60));
+        }
     }
   }
   for (const d of Object.values(derived))
@@ -102,11 +103,11 @@ const BASES = [
     }, names);
   };
   let fail = 0;
-  const snap = await read(tokens),
-    live = await read(tokens + bundle);
+  const snap = await read(tokens);
+  const live = await read(tokens + bundle);
   for (const n of Object.keys(derived)) {
-    const a = snap[n].split(",").map(Number),
-      z = live[n].split(",").map(Number);
+    const a = snap[n].split(",").map(Number);
+    const z = live[n].split(",").map(Number);
     const d = Math.max(...a.map((v, i) => Math.abs(v - z[i])));
     if (d > 1) {
       fail++;
@@ -120,7 +121,10 @@ const BASES = [
       `--${base}: ${base.includes("shadow") ? "0 0 0 9px oklch(.6 .2 150)" : "oklch(.6 .2 150)"};`,
     );
     for (const n of names)
-      if (o[n] !== live[n]) (follows[n] = follows[n] || []).push(base);
+      if (o[n] !== live[n]) {
+        follows[n] ??= [];
+        follows[n].push(base);
+      }
   }
   for (const [n, d] of Object.entries(derived))
     if (!(follows[n] || []).includes(d.base)) {
@@ -142,11 +146,15 @@ const BASES = [
   }
   const affected: Named<string[]> = {};
   for (const [t, ms] of Object.entries(moved))
-    for (const m of ms) (affected[m] = affected[m] || []).push(t);
+    for (const m of ms) {
+      affected[m] ??= [];
+      affected[m].push(t);
+    }
   const groups: Named<string[]> = {};
   for (const n of all) {
     const stem = SUF.test(n) ? n.replace(SUF, "") : n;
-    (groups[stem] = groups[stem] || []).push(n);
+    groups[stem] ??= [];
+    groups[stem].push(n);
   }
   const pairs: [stem: string, members: number, roots: string[]][] = [];
   for (const [stem, ms] of Object.entries(groups)) {
@@ -173,14 +181,14 @@ const BASES = [
     const kind = BASES.includes(n)
       ? "base"
       : f.length
-        ? "derived from " + f.join(", ")
+        ? `derived from ${f.join(", ")}`
         : "ORPHAN";
     if (kind === "ORPHAN") fail++;
     rows.push([n, kind, used[n].length]);
   }
   console.log(rows.map((r) => r[0].padEnd(34) + r[1]).join("\n"));
   fs.writeFileSync(
-    REP + "derived-gate.json",
+    `${REP}derived-gate.json`,
     JSON.stringify(
       {
         stateTokens: rows.length,

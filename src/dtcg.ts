@@ -3,6 +3,7 @@
 // tokens.json stays the source; this file is generated from it and validated before it is written.
 import fs from "node:fs";
 import type { Tokens } from "./types.ts";
+
 type DtcgToken = {
   $value: unknown;
   $description?: string;
@@ -19,7 +20,9 @@ const T: Tokens = JSON.parse(fs.readFileSync(IN, "utf8"));
 const bundle = fs.readFileSync(BUNDLE, "utf8");
 const r4 = (n: number) => Math.round(n * 1e4) / 1e4;
 const hexColor = (hex: string, alpha?: number) => {
-  const c = [1, 3, 5].map((i) => r4(parseInt(hex.slice(i, i + 2), 16) / 255));
+  const c = [1, 3, 5].map((i) =>
+    r4(Number.parseInt(hex.slice(i, i + 2), 16) / 255),
+  );
   return {
     colorSpace: "srgb",
     components: c,
@@ -28,11 +31,11 @@ const hexColor = (hex: string, alpha?: number) => {
   };
 };
 const toHex = (r: string, g: string, b: string) =>
-  "#" + [r, g, b].map((v) => (+v).toString(16).padStart(2, "0")).join("");
+  `#${[r, g, b].map((v) => (+v).toString(16).padStart(2, "0")).join("")}`;
 const color = (v: string) => {
-  let m;
   if (/^#[0-9a-f]{6}$/i.test(v)) return hexColor(v);
-  if ((m = v.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)$/)))
+  const m = v.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)$/);
+  if (m)
     return hexColor(
       toHex(m[1], m[2], m[3]),
       m[4] === undefined ? undefined : +m[4],
@@ -67,9 +70,8 @@ out.color = { $type: "color" };
 for (const t of T.color.tokens) {
   const a = String(t.value).match(/^\{(.+)\}$/);
   const v = a ? `{color.${a[1]}}` : color(t.value);
-  v
-    ? (out.color[t.name] = tok(v, t.usage))
-    : skip(t.name, t.value, "not a plain colour");
+  if (v) out.color[t.name] = tok(v, t.usage);
+  else skip(t.name, t.value, "not a plain colour");
 }
 
 out.spacing = { $type: "dimension" };
@@ -86,13 +88,11 @@ out.letterSpacing = {
   $description: "Letter spacing as a multiple of the font size (em).",
 };
 for (const t of T.size.tokens) {
-  const d = dim(t.value),
-    em = String(t.value).match(/^(-?[\d.]+)em$/);
-  d
-    ? (out.size[t.name] = tok(d, t.usage))
-    : em
-      ? (out.letterSpacing[t.name] = tok(+em[1], t.usage))
-      : skip(t.name, t.value, "not a length");
+  const d = dim(t.value);
+  const em = String(t.value).match(/^(-?[\d.]+)em$/);
+  if (d) out.size[t.name] = tok(d, t.usage);
+  else if (em) out.letterSpacing[t.name] = tok(+em[1], t.usage);
+  else skip(t.name, t.value, "not a length");
 }
 out.breakpoint = { $type: "dimension" };
 for (const t of T.breakpoint.tokens)
@@ -120,7 +120,7 @@ const layer = (s: string) => {
       /^(-?[\d.]+(?:px)?)\s+(-?[\d.]+(?:px)?)\s+(-?[\d.]+(?:px)?)\s+(-?[\d.]+(?:px)?)\s+(rgba?\([^)]*\))$/,
     );
   if (!m) return null;
-  const px = (x: string) => ({ value: parseFloat(x), unit: "px" });
+  const px = (x: string) => ({ value: Number.parseFloat(x), unit: "px" });
   const c = color(m[5].replace(/\s/g, "").replace(/,/g, ","));
   return (
     c && {
@@ -180,9 +180,9 @@ for (const t of T.gradient.tokens) {
 out.typography = { $type: "typography" };
 for (const g of T.type.groups)
   for (const st of g.styles) {
-    const fs_ = dim(st.fontSize)!,
-      lh = dim(st.lineHeight)!,
-      em = st.letterSpacing ? parseFloat(st.letterSpacing) : 0;
+    const fs_ = dim(st.fontSize)!;
+    const lh = dim(st.lineHeight)!;
+    const em = st.letterSpacing ? Number.parseFloat(st.letterSpacing) : 0;
     out.typography[st.name] = tok(
       {
         fontFamily: `{fontFamily.font-${st.family || g.family}}`,

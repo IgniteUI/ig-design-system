@@ -2,19 +2,20 @@
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
+
 type Pair = [fg: string, bg: string, min?: number];
 type Row = { fg: string; bg: string; ratio: number; min: number; ok: boolean };
-const OUT = path.join(import.meta.dirname, "../dist/"),
-  REP = path.join(import.meta.dirname, "../reports/");
+const OUT = path.join(import.meta.dirname, "../dist/");
+const REP = path.join(import.meta.dirname, "../reports/");
 (async () => {
   const pairs: Pair[] = JSON.parse(
-    fs.readFileSync(REP + "contrast-pairs.json", "utf8"),
+    fs.readFileSync(`${REP}contrast-pairs.json`, "utf8"),
   );
   const css =
     fs
-      .readFileSync(OUT + "tokens.css", "utf8")
+      .readFileSync(`${OUT}tokens.css`, "utf8")
       .replace(/@font-face[^}]*}/g, "") +
-    fs.readFileSync(OUT + "theme.css", "utf8");
+    fs.readFileSync(`${OUT}theme.css`, "utf8");
   const b = await chromium.launch();
   const p = await b.newPage();
   let fail = 0;
@@ -24,10 +25,10 @@ const OUT = path.join(import.meta.dirname, "../dist/"),
       `<style>${css}</style><body><div id="t" data-theme="${theme}"><i id="pr"></i></div>`,
     );
     const rows = await p.evaluate((pairs) => {
-      const e = document.getElementById("pr")!,
-        k = document
-          .createElement("canvas")
-          .getContext("2d", { willReadFrequently: true })!;
+      const e = document.getElementById("pr")!;
+      const k = document
+        .createElement("canvas")
+        .getContext("2d", { willReadFrequently: true })!;
       k.canvas.width = k.canvas.height = 1;
       const rgb = (n: string) => {
         e.style.color = `var(--${n})`;
@@ -40,14 +41,16 @@ const OUT = path.join(import.meta.dirname, "../dist/"),
         return [...k.getImageData(0, 0, 1, 1).data].slice(0, 3);
       };
       const lum = (a: number[]) => {
-        const f = (v: number) =>
-          (v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        const f = (v: number) => {
+          const x = v / 255;
+          return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
+        };
         return 0.2126 * f(a[0]) + 0.7152 * f(a[1]) + 0.0722 * f(a[2]);
       };
       return pairs.map(([fg, bg, min = 4.5]) => {
-        const x = lum(rgb(fg)),
-          y = lum(rgb(bg)),
-          r = (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+        const x = lum(rgb(fg));
+        const y = lum(rgb(bg));
+        const r = (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
         return { fg, bg, ratio: +r.toFixed(2), min, ok: r >= min };
       });
     }, pairs);
@@ -61,7 +64,7 @@ const OUT = path.join(import.meta.dirname, "../dist/"),
       }
   }
   fs.writeFileSync(
-    REP + "contrast-report-themes.json",
+    `${REP}contrast-report-themes.json`,
     JSON.stringify(report, null, 1),
   );
   console.log(

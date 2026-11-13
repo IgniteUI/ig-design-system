@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+
 const files: string[] = [];
 const walk = (d: string): void => {
   for (const f of fs.readdirSync(d)) {
@@ -37,9 +38,7 @@ for (const f of files) {
       .replace(/d="[^"]*"/g, "")
       .replace(/https?:\/\/[^\s'"`)]+/g, "");
     for (const [name, re] of rules) {
-      re.lastIndex = 0;
-      let m;
-      while ((m = re.exec(t))) {
+      for (const m of t.matchAll(re)) {
         if (
           name === "easing literal" &&
           /ease-in-out/.test(m[0]) &&

@@ -2,6 +2,7 @@
 // node checks/spacing-roles.ts <dir-or-file> [...]
 import fs from "node:fs";
 import path from "node:path";
+
 const role = (prop: string) => {
   const p = prop.replace(/-/g, "").toLowerCase();
   if (p.startsWith("padding") || p.endsWith("pad")) return "inset";
@@ -20,11 +21,12 @@ const role = (prop: string) => {
   return null;
 };
 const files: string[] = [];
-const walk = (p: string): unknown =>
-  fs.statSync(p).isDirectory()
-    ? fs.readdirSync(p).forEach((f) => walk(path.join(p, f)))
-    : /\.(jsx|css)$/.test(p) && files.push(p);
-process.argv.slice(2).forEach(walk);
+const walk = (p: string): void => {
+  if (fs.statSync(p).isDirectory())
+    for (const f of fs.readdirSync(p)) walk(path.join(p, f));
+  else if (/\.(jsx|css)$/.test(p)) files.push(p);
+};
+for (const p of process.argv.slice(2)) walk(p);
 let bad = 0;
 for (const f of files) {
   const t = fs.readFileSync(f, "utf8");

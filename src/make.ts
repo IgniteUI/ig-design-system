@@ -1,5 +1,5 @@
-import fs from "node:fs";
 import { execSync } from "node:child_process";
+import fs from "node:fs";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import * as S from "./spec.ts";
@@ -8,33 +8,28 @@ import type { Token, Tokens, TypeGroup, TypeStyle } from "./types.ts";
 type Named<T> = Record<string, T>;
 
 // Run from the repository root: node src/make.ts
-const OUT = "dist",
-  REP = "reports",
-  TMP = ".cache/sass";
+const OUT = "dist";
+const REP = "reports";
+const TMP = ".cache/sass";
 for (const d of [OUT, REP, TMP]) fs.mkdirSync(d, { recursive: true });
 const P: Named<Named<string>> = JSON.parse(
   fs.readFileSync("src/palettes.json", "utf8"),
 );
-const OLD: { color: { tokens: { name: string; usage: string }[] } } =
-  JSON.parse(fs.readFileSync("src/legacy-usage.json", "utf8"));
 const f4 = (n: number) => (+n.toFixed(4)).toString();
-const rem = (px: number) => f4(px / 16) + "rem";
+const rem = (px: number) => `${f4(px / 16)}rem`;
 
 // ---------- engine colour lookup: token name -> hex ----------
 const engineHex = (name: string) => {
-  let m;
-  if ((m = name.match(/^ig-dark-(gray|surface)-(\d+)$/)))
-    return P.dark[`${m[1]}-${m[2]}`];
-  if ((m = name.match(/^ig-dark-surface-(sunken|raised|overlay|base)$/)))
-    return P.dark[`surface-${m[1]}`];
-  if ((m = name.match(/^ig-(pink|cyan|sky|teal)-(\d+)$/)))
-    return P[m[1]][`primary-${m[2]}`];
-  if ((m = name.match(/^ig-([a-z]+)-accent-(\d+)$/)))
-    return P.light[`${m[1]}-A${m[2]}`];
-  if (
-    (m = name.match(/^ig-([a-z]+-(?:A?\d+|seed|base|sunken|raised|overlay))$/))
-  )
-    return P.light[m[1]];
+  let m = name.match(/^ig-dark-(gray|surface)-(\d+)$/);
+  if (m) return P.dark[`${m[1]}-${m[2]}`];
+  m = name.match(/^ig-dark-surface-(sunken|raised|overlay|base)$/);
+  if (m) return P.dark[`surface-${m[1]}`];
+  m = name.match(/^ig-(pink|cyan|sky|teal)-(\d+)$/);
+  if (m) return P[m[1]][`primary-${m[2]}`];
+  m = name.match(/^ig-([a-z]+)-accent-(\d+)$/);
+  if (m) return P.light[`${m[1]}-A${m[2]}`];
+  m = name.match(/^ig-([a-z]+-(?:A?\d+|seed|base|sunken|raised|overlay))$/);
+  if (m) return P.light[m[1]];
   return null;
 };
 const hexOf = (name: string): string => {
@@ -43,22 +38,22 @@ const hexOf = (name: string): string => {
     ? hexOf(a[0])
     : (engineHex(name) ??
         (() => {
-          throw new Error("unknown colour " + name);
+          throw new Error(`unknown colour ${name}`);
         })());
 };
 const rgbOf = (h: string) =>
-  [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
 const lin = (v: number) => {
-  v /= 255;
-  return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  const x = v / 255;
+  return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
 };
 const lum = (h: string) => {
   const [r, g, b] = rgbOf(h).map(lin);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 const cr = (a: string, b: string) => {
-  const x = lum(hexOf(a)),
-    y = lum(hexOf(b));
+  const x = lum(hexOf(a));
+  const y = lum(hexOf(b));
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 };
 
@@ -78,7 +73,7 @@ const call = async (name: string, args: Named<unknown>) => {
   return text;
 };
 const customScale: Named<object> = {};
-for (const [slot, , fam, px, line, weight, track, transform] of S.TYPE)
+for (const [slot, , _fam, px, line, weight, track, transform] of S.TYPE)
   customScale[slot] = {
     fontSize: rem(px),
     fontWeight: weight,
@@ -120,17 +115,19 @@ const typeScss =
   `\n);\n:root { @include typography('x', $scale); }\n`;
 fs.writeFileSync(".cache/sass/type.scss", typeScss);
 execSync(
-  `npx sass --quiet --load-path=node_modules .cache/sass/type.scss .cache/sass/type.css`,
+  "npx sass --quiet --load-path=node_modules .cache/sass/type.scss .cache/sass/type.css",
 );
 const type: Named<Named<string>> = {};
 for (const m of fs
   .readFileSync(".cache/sass/type.css", "utf8")
   .matchAll(
     /--ig-([a-z0-9-]+?)-(font-size|font-weight|font-style|line-height|letter-spacing|text-transform): ([^;]+);/g,
-  ))
-  (type[m[1]] ??= {})[m[2]] = m[3];
+  )) {
+  type[m[1]] ??= {};
+  type[m[1]][m[2]] = m[3];
+}
 for (const [slot] of S.TYPE)
-  if (!type[slot]) throw new Error("slot missing in engine output: " + slot);
+  if (!type[slot]) throw new Error(`slot missing in engine output: ${slot}`);
 // neutral elevations 0..24
 const elevNeutral: Named<string> = {};
 for (const m of cssBlock(elev).matchAll(/--ig-elevation-(\d+): ([^;]+);/g))
@@ -138,12 +135,13 @@ for (const m of cssBlock(elev).matchAll(/--ig-elevation-(\d+): ([^;]+);/g))
 
 // ---------- 2. Sass: layout knobs + tinted elevations ----------
 const primary600 = rgbOf(hexOf("ig-primary-600")).join(" ");
-const sm = S.SIZE_RATIO.small,
-  md = S.SIZE_RATIO.medium;
+const sm = S.SIZE_RATIO.small;
+const md = S.SIZE_RATIO.medium;
 const px3 = (n: number) =>
   `rem(${f4(n * sm)}px), rem(${f4(n * md)}px), rem(${f4(n)}px)`;
 let scss = `@use 'sass:math';\n@use 'igniteui-theming' as *;\n@use 'igniteui-theming/sass/animations/easings' as ease;\n@use 'igniteui-theming/sass/elevations' as e;\n@use 'igniteui-theming/sass/elevations/presets/indigo' as neutral;\n`;
-scss += `:root, [data-size] {\n  --ig-size-small: 1; --ig-size-medium: 2; --ig-size-large: 3;\n  --component-size: var(--ig-size, var(--ig-size-large));\n  @include sizable();\n`;
+scss +=
+  ":root, [data-size] {\n  --ig-size-small: 1; --ig-size-medium: 2; --ig-size-large: 3;\n  --component-size: var(--ig-size, var(--ig-size-large));\n  @include sizable();\n";
 for (const [name, n] of Object.entries(S.SPACE))
   scss += `  --space-${name}: #{pad(${px3(n)})};\n`;
 // semantic spacing roles, declared beside the steps so a region with its own --ig-size or --ig-spacing re-resolves them
@@ -152,22 +150,23 @@ for (const [role, [, sizes]] of Object.entries(S.SPACE_ROLES))
     scss += `  --space-${role}-${sz}: var(--space-${sz});\n`;
 for (const [name, [px]] of Object.entries(S.SIZE))
   scss += `  --${name}: #{sizable(${px3(px)})};\n`;
-scss += `}\n:root {\n`;
+scss += "}\n:root {\n";
 // every radius role goes through the engine's border-radius($radius, $min, $max): unset knob = the design value,
 // 0 = the role's minimum, 1 = the role's maximum. Limits are per role, so a tile or card never becomes a circle.
 for (const [name, [px, , min = 0, max = px]] of Object.entries(S.RADIUS))
   scss += `  --${name}: #{border-radius(rem(${px}px), rem(${min}px), rem(${max}px))};\n`;
-scss += `  --easing-default: #{ease.$out-cubic};\n  @include e.elevations(neutral.$elevations);\n}\n`;
+scss +=
+  "  --easing-default: #{ease.$out-cubic};\n  @include e.elevations(neutral.$elevations);\n}\n";
 fs.writeFileSync(".cache/sass/layout.scss", scss);
 execSync(
-  `npx sass --quiet --load-path=node_modules .cache/sass/layout.scss .cache/sass/layout.css`,
+  "npx sass --quiet --load-path=node_modules .cache/sass/layout.scss .cache/sass/layout.css",
 );
 fs.writeFileSync(
   ".cache/sass/tint.scss",
   `@use 'igniteui-theming/sass/elevations' as e;\n@use 'igniteui-theming/sass/elevations/presets/indigo' as tinted with ($color-1: rgb(${primary600} / 0.26), $color-2: rgb(${primary600} / 0.12), $color-3: rgb(${primary600} / 0.08));\n:root { @include e.elevations(tinted.$elevations); }\n`,
 );
 execSync(
-  `npx sass --quiet --load-path=node_modules .cache/sass/tint.scss .cache/sass/tint.css`,
+  "npx sass --quiet --load-path=node_modules .cache/sass/tint.scss .cache/sass/tint.css",
 );
 const layoutCss = fs.readFileSync(".cache/sass/layout.css", "utf8");
 const tintVars: Named<string> = {};
@@ -180,7 +179,7 @@ const resolveShadow = (s: string) =>
   s
     .replace(
       /calc\(var\(--ig-elevation-factor, 1\) \* (-?[\d.]+)px\)/g,
-      (_, n: string) => (+n === 0 ? "0" : n + "px"),
+      (_, n: string) => (+n === 0 ? "0" : `${n}px`),
     )
     .replace(/rgba\((\d+), (\d+), (\d+), ([\d.]+)\)/g, "rgba($1,$2,$3,$4)")
     .replace(/ 0px/g, " 0");
@@ -227,7 +226,7 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     `inset 0 0 0 1px ${(() => {
       const [r, g, b] = rgbOf(hexOf("color-accent-blue"));
       return `rgba(${r},${g},${b},${S.OPACITY["opacity-soft"][0]})`;
-    })()}, ` + resolveShadow(tintVars[13]),
+    })()}, ${resolveShadow(tintVars[13])}`,
     "Release strip at rest. Engine elevation 13 tinted with `color-action-default`.",
   ],
   "callout-release-shadow-hover": [
@@ -235,7 +234,7 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     `inset 0 0 0 1px ${(() => {
       const [r, g, b] = rgbOf(hexOf("color-accent-blue"));
       return `rgba(${r},${g},${b},${S.OPACITY["opacity-strong"][0]})`;
-    })()}, ` + resolveShadow(tintVars[16]),
+    })()}, ${resolveShadow(tintVars[16])}`,
     "Release strip on hover. Engine elevation 16 tinted with `color-action-default`.",
   ],
   "shadow-panel": [
@@ -289,12 +288,6 @@ const FONTS = [
     style: "normal",
   },
 ];
-const strip = (u: string) =>
-  u
-    .replace(/\s*\((?:[^()]*?)\d+(?:\.\d+)?:1[^()]*\)/g, "")
-    .replace(/\s*Source value:[^.]*\./g, "")
-    .replace(/\s*;\s*kept exact\./g, ".")
-    .trim();
 const colorTokens: Token[] = [];
 const add = (name: string, value: string, usage: string) =>
   colorTokens.push({ name, value, usage });
@@ -350,9 +343,6 @@ for (const fam of ["pink", "cyan", "sky", "teal"])
       P[fam][`primary-${s}`],
       `Engine accent ramp \`${fam}\`, step ${s}: palette() seeded with the ${fam} accent of the previous system.`,
     );
-const oldUsage = Object.fromEntries(
-  OLD.color.tokens.map((t) => [t.name, t.usage]),
-);
 const aliasUsage = (name: string) => S.ALIAS[name][1];
 // contrast checks that decide which ratio is quoted in a note
 const CHECKS: [fg: string, bg: string, min?: number][] = [
@@ -418,7 +408,8 @@ const ratioNote: Named<string[]> = {};
 for (const [fg, bg, min = 4.5] of CHECKS) {
   const r = cr(fg, bg);
   report.push({ fg, bg, ratio: +r.toFixed(2), min, ok: r >= min });
-  (ratioNote[fg] ??= []).push(`${r.toFixed(1)}:1 on \`${bg}\``);
+  ratioNote[fg] ??= [];
+  ratioNote[fg].push(`${r.toFixed(1)}:1 on \`${bg}\``);
 }
 for (const [name, [eng]] of Object.entries(S.ALIAS))
   add(
@@ -508,11 +499,11 @@ for (const [
   slot,
   role,
   fam,
-  px,
-  line,
+  _px,
+  _line,
   weight,
   track,
-  transform,
+  _transform,
   usage,
   sample,
 ] of S.TYPE) {
@@ -639,7 +630,7 @@ const tokens: Tokens = {
     })),
   },
 };
-fs.writeFileSync(`${OUT}/tokens.json`, JSON.stringify(tokens, null, 2) + "\n");
+fs.writeFileSync(`${OUT}/tokens.json`, `${JSON.stringify(tokens, null, 2)}\n`);
 
 // ---------- 5. tokens.css (as the page compiles it) ----------
 const colorVal = (v: string) =>
@@ -647,7 +638,7 @@ const colorVal = (v: string) =>
 let css = `/* Infragistics Marketing Design System — generated from tokens.json */\n\n:root, [data-theme="light"] {\n`;
 for (const t of colorTokens) css += `  --${t.name}: ${colorVal(t.value)};\n`;
 for (const t of tokens.shadow.tokens) css += `  --${t.name}: ${t.value};\n`;
-css += `}\n\n:root {\n`;
+css += "}\n\n:root {\n";
 for (const fam of [
   "spacing",
   "radius",
@@ -662,10 +653,10 @@ for (const fam of [
     css += `  --${t.name}: ${colorVal(String(t.value))};\n`;
 for (const [k, v] of Object.entries(S.FAMILIES))
   css += `  --font-${k}: ${v};\n`;
-css += `}\n\n`;
+css += "}\n\n";
 for (const f of FONTS)
   css += `@font-face { font-family: '${f.family}'; src: url('fonts/${f.file}') format('woff2'); font-weight: ${f.weight}; font-style: ${f.style}; font-display: swap; }\n`;
-css += `\n`;
+css += "\n";
 for (const g of typeGroups)
   for (const st of g.styles) {
     const fam = st.family || g.family;
@@ -674,7 +665,6 @@ for (const g of typeGroups)
 fs.writeFileSync(`${OUT}/tokens.css`, css);
 
 // ---------- 6. theme.css ----------
-const live = {}; // live overrides, same names as tokens.json
 let b = `/* Infragistics Marketing Design System — theme.css
    Loaded after tokens.css. This file is the live layer of the igniteui-theming engine:
    1. the engine's own variables (--ig-*): sizing, spacing, roundness, elevations, typography, contrast;
@@ -690,7 +680,8 @@ b += `/* knobs (set_size large, set_spacing 1, set_roundness 1 as called through
 b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n  --ig-wcag-a: 0.31;\n  --ig-wcag-aa: 0.185;\n  --ig-wcag-aaa: 0.178;\n  --ig-contrast-level: var(--ig-wcag-aa);\n  --y: clamp(0, (y / var(--ig-contrast-level) - 1) * -infinity, 1);\n  --y-contrast: xyz-d65 var(--y) var(--y) var(--y);\n  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l/1);\n  --color-action-on: var(--ig-primary-600-contrast);\n}\n`;
 b += `/* sizing, spacing, roundness, easing and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() */\n${layoutCss.replace(/\n{2,}/g, "\n").trim()}\n`;
 b += `/* elevations tinted with \`action\` (indigo preset, colours configured through its $color-1..3) */\n:root {\n${tintUsed.map((l) => `  --ig-elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
-b += `/* typography: engine slot variables (create_typography, indigo scale, customScale from the previous styles) */\n:root {\n  --ig-font-family: var(--font-body);\n`;
+b +=
+  "/* typography: engine slot variables (create_typography, indigo scale, customScale from the previous styles) */\n:root {\n  --ig-font-family: var(--font-body);\n";
 for (const [slot, , fam] of S.TYPE) {
   const t = type[slot];
   b += `  --ig-${slot}-font-family: var(--font-${fam});\n`;
@@ -704,7 +695,8 @@ for (const [slot, , fam] of S.TYPE) {
   ])
     b += `  --ig-${slot}-${p}: ${t[p]};\n`;
 }
-b += `}\n\n/* ===== 2. live tokens (same names as tokens.json) ===== */\n:root {\n`;
+b +=
+  "}\n\n/* ===== 2. live tokens (same names as tokens.json) ===== */\n:root {\n";
 for (const [n, [liveVal]] of Object.entries(SHADOWS)) {
   if (n === "callout-release-shadow")
     b += `  --${n}: inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring), var(--ig-elevation-tint-13);\n`;
@@ -721,17 +713,21 @@ for (const [n, [base, op, stop]] of Object.entries(GLOWS))
   b += `  --${n}: ${glow(base, op, stop)[1]};\n`;
 for (const [n, [base, op]] of Object.entries(S.ALPHA))
   b += `  --${n}: hsl(from var(--${base}) h s l / var(--${op}));\n`;
-b += `  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-violet)) border-box;\n`;
-b += `  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-blue) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-sky) h s l / var(--opacity-faint)));\n`;
-b += `  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);\n`;
-b += `  --container-gutter: clamp(var(--space-md), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n`;
-b += `  --nav-backdrop-blur: blur(var(--space-sm));\n`;
+b +=
+  "  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-violet)) border-box;\n";
+b +=
+  "  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-blue) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-sky) h s l / var(--opacity-faint)));\n";
+b +=
+  "  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);\n";
+b +=
+  "  --container-gutter: clamp(var(--space-md), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n";
+b += "  --nav-backdrop-blur: blur(var(--space-sm));\n";
 b += `}\n\n/* motion */\n:root {\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
   --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n}\n`;
-b += `\n/* ===== 3. type variables and classes ===== */\n:root {\n`;
-for (const [slot, , fam] of S.TYPE)
+b += "\n/* ===== 3. type variables and classes ===== */\n:root {\n";
+for (const [slot, , _fam] of S.TYPE)
   b += `  --type-${slot}-font-family: var(--ig-${slot}-font-family);\n  --type-${slot}-font-size: var(--ig-${slot}-font-size);\n  --type-${slot}-font-weight: var(--ig-${slot}-font-weight);\n  --type-${slot}-line-height: var(--ig-${slot}-line-height);\n  --type-${slot}-letter-spacing: var(--ig-${slot}-letter-spacing);\n  --type-${slot}-text-transform: var(--ig-${slot}-text-transform);\n`;
-b += `}\n`;
+b += "}\n";
 for (const [slot] of S.TYPE)
   b += `.type-${slot} { font-family: var(--type-${slot}-font-family); font-size: var(--type-${slot}-font-size); font-weight: var(--type-${slot}-font-weight); line-height: var(--type-${slot}-line-height); letter-spacing: var(--type-${slot}-letter-spacing); text-transform: var(--type-${slot}-text-transform); }\n`;
 b += `
@@ -797,9 +793,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   ];
   const famOf = (f: string) => (f === "primary" || f === "info" ? "brand" : f);
   const fams = [...new Set(ramps.map((m) => famOf(m[2])))];
-  let s = `\n/* ===== 5. seed layer: derived colour ===== */\n/* knobs: --<family>-dl (lightness +), --<family>-kc (chroma ×), --<family>-dh (hue +°). Defaults leave the engine ramp unchanged.\n   Set them with setSeed() from components/seed.js, or by hand. Every state (hover, active, focus, tint, border, shadow, glow) reads the ramp, so none needs its own colour. */\n:root {\n`;
+  let s =
+    "\n/* ===== 5. seed layer: derived colour ===== */\n/* knobs: --<family>-dl (lightness +), --<family>-kc (chroma ×), --<family>-dh (hue +°). Defaults leave the engine ramp unchanged.\n   Set them with setSeed() from components/seed.js, or by hand. Every state (hover, active, focus, tint, border, shadow, glow) reads the ramp, so none needs its own colour. */\n:root {\n";
   for (const f of fams) s += `  --${f}-dl: 0; --${f}-kc: 1; --${f}-dh: 0;\n`;
-  s += `}\n/* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours or knobs */\n:root, [data-ig-scope] {\n`;
+  s +=
+    "}\n/* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours or knobs */\n:root, [data-ig-scope] {\n";
   for (const m of ramps) {
     const f = famOf(m[2]);
     s += `  --engine-${m[1]}: ${m[3]};\n  --${m[1]}: oklch(from var(--engine-${m[1]}) calc(l + var(--${f}-dl)) calc(c * var(--${f}-kc)) calc(h + var(--${f}-dh)));\n`;
@@ -809,27 +807,27 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   // and overriding the base (or moving its seed) moves the state with it.
   const hx = (n: string): string => {
     const m = css.match(new RegExp(`--${n}: ([^;]+);`));
-    if (!m) throw new Error("no token " + n);
+    if (!m) throw new Error(`no token ${n}`);
     const v = m[1].trim();
     const r = v.match(/^var\(--([a-z0-9-]+)\)$/);
     return r ? hx(r[1]) : v;
   };
   const ok = (hex: string) => {
     const v = [1, 3, 5].map((i) => {
-      const x = parseInt(hex.slice(i, i + 2), 16) / 255;
+      const x = Number.parseInt(hex.slice(i, i + 2), 16) / 255;
       return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
     });
     const l = Math.cbrt(
-        0.4122214708 * v[0] + 0.5363325363 * v[1] + 0.0514459929 * v[2],
-      ),
-      m = Math.cbrt(
-        0.2119034982 * v[0] + 0.6806995451 * v[1] + 0.1073969566 * v[2],
-      ),
-      q = Math.cbrt(
-        0.0883024619 * v[0] + 0.2817188376 * v[1] + 0.6299787005 * v[2],
-      );
-    const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * q,
-      B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * q;
+      0.4122214708 * v[0] + 0.5363325363 * v[1] + 0.0514459929 * v[2],
+    );
+    const m = Math.cbrt(
+      0.2119034982 * v[0] + 0.6806995451 * v[1] + 0.1073969566 * v[2],
+    );
+    const q = Math.cbrt(
+      0.0883024619 * v[0] + 0.2817188376 * v[1] + 0.6299787005 * v[2],
+    );
+    const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * q;
+    const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * q;
     return {
       l: 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * q,
       c: Math.hypot(A, B),
@@ -887,8 +885,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   // token re-declared inside a scope still lands on the right side.
   const F = "var(--theme-dark)";
   const textExpr = (from: string, L: number) => {
-    const Tl = `min(l, max(0.35, ${L} - 0.6 * max(0, l - ${L})))`,
-      Td = `max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))`;
+    const Tl = `min(l, max(0.35, ${L} - 0.6 * max(0, l - ${L})))`;
+    const Td = "max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))";
     return `oklch(from ${from} calc((1 - ${F}) * ${Tl} + ${F} * ${Td}) calc(c * ((1 - ${F}) * ${Tl} / max(l, 0.0001) + ${F} * min(1, (1 - ${Td}) / max(1 - l, 0.0001)))) h)`;
   };
   {
@@ -897,19 +895,19 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
       ...ALIAS.map((d) => d[0]),
       "color-action-text",
     ]);
-    s += `  /* semantic tokens that alias a ramp step */\n`;
+    s += "  /* semantic tokens that alias a ramp step */\n";
     for (const m of css.matchAll(
       /^\s*--([a-z0-9-]+): (var\(--ig-(?!dark-|gray-|surface-)[a-z-]+-(?:\d+|seed)\));/gm,
     ))
       if (!m[1].startsWith("ig-") && !taken.has(m[1])) {
         // a token that is text on a light surface keeps its own lightness as a ceiling, so moving its family's seed lighter cannot make it unreadable
-        const o = ok(hx(m[1])),
-          isText =
-            /^(color-text|color-link)|-color$|^color-feedback-error-default$/.test(
-              m[1],
-            ) &&
-            o.l < 0.6 &&
-            o.c > 0.005;
+        const o = ok(hx(m[1]));
+        const isText =
+          /^(color-text|color-link)|-color$|^color-feedback-error-default$/.test(
+            m[1],
+          ) &&
+          o.l < 0.6 &&
+          o.c > 0.005;
         if (isText) {
           const L = Math.ceil(o.l * 1e4) / 1e4;
           s += `  --${m[1]}: ${textExpr(m[2], L)};\n`;
@@ -917,7 +915,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
         } else s += `  --${m[1]}: ${m[2]};\n`;
       }
   }
-  s += `  /* state tokens: derived from their base. Override a base and its states follow. */\n`;
+  s +=
+    "  /* state tokens: derived from their base. Override a base and its states follow. */\n";
   const derivedRecord: Named<object> = {};
   // the action colour as text: the seed itself until it is too light to read on the page, then darkened to the brand's own lightness
   {
@@ -931,15 +930,15 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     };
   }
   for (const [tok, base] of DERIVED) {
-    const a = ok(hx(base)),
-      z = ok(hx(tok));
+    const a = ok(hx(base));
+    const z = ok(hx(tok));
     const chroma = a.c > 0.005;
-    const dl = (z.l - a.l).toFixed(4),
-      kc = chroma ? (z.c / a.c).toFixed(4) : "1",
-      dh =
-        chroma && z.c > 0.005
-          ? (((z.h - a.h + 540) % 360) - 180).toFixed(2)
-          : "0";
+    const dl = (z.l - a.l).toFixed(4);
+    const kc = chroma ? (z.c / a.c).toFixed(4) : "1";
+    const dh =
+      chroma && z.c > 0.005
+        ? (((z.h - a.h + 540) % 360) - 180).toFixed(2)
+        : "0";
     // a grey base has no hue to shift, so the state takes the engine's own chroma and hue and follows the base in lightness only
     // a light surface or hairline stays light whatever the seed's lightness: it takes the seed's hue and a share of its chroma, never its darkness
     const fixedL =
@@ -994,8 +993,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     "\n:root {\n  --ig-elevation-tint-1:",
     "\n:root, [data-ig-scope] {\n  --ig-elevation-tint-1:",
   );
-  const i = b.indexOf(mark),
-    j = b.indexOf("\n:root {", i);
+  const i = b.indexOf(mark);
+  const j = b.indexOf("\n:root {", i);
   b =
     b.slice(0, j) +
     "\n:root, [data-ig-scope] {" +
@@ -1027,12 +1026,13 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
       b += `  --ig-surface-${s}: var(--ig-dark-surface-${s});\n`;
   for (const r of ["base", "sunken", "raised", "overlay"])
     b += `  --ig-surface-${r}: var(--ig-dark-surface-${r});\n`;
-  b += `}\n[data-theme] { background-color: var(--color-surface-page); color: var(--color-text-primary); }\n`;
+  b +=
+    "}\n[data-theme] { background-color: var(--color-surface-page); color: var(--color-text-primary); }\n";
 }
 const bpSub = (t: string) =>
   t.replace(
     /\{\{(breakpoint-[a-z]+)\}\}/g,
-    (_, k: string) => S.BREAKPOINT[k][0] + "px",
+    (_, k: string) => `${S.BREAKPOINT[k][0]}px`,
   );
 // theme.css is the package: tokens, live layers and base styles. The reference components keep their own stylesheet.
 fs.writeFileSync(`${OUT}/theme.css`, b);

@@ -109,7 +109,9 @@ Requires Node 22.18 or newer. The generator and the checks are TypeScript and No
 ```sh
 npm ci
 npx playwright install chromium   # the contrast checks measure real rendered colours
-npm test                          # type check, build, then run every check
+npm test                          # type check, lint, build, then run every check
+npm run lint                      # Biome: format and lint rules, no changes written
+npm run format                    # Biome: write the format and the safe lint fixes
 ```
 
 `src/palettes.json` holds the compiled engine palettes. `npm run palettes` regenerates it from the seed colours in `src/palettes.ts`.

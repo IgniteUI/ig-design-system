@@ -1,7 +1,9 @@
 // Compiles the engine's palette() Sass function and resolves every colour var to rgb in headless Chromium.
-import fs from "node:fs";
+
 import { execSync } from "node:child_process";
+import fs from "node:fs";
 import { chromium } from "playwright";
+
 const scales: Record<string, { range: number[]; curve: number[] }> = JSON.parse(
   fs.readFileSync("src/scales.json", "utf8"),
 );
@@ -11,14 +13,15 @@ const sc = Object.entries(scales)
       `'${k}': (range: (${v.range.join(", ")}), curve: (${v.curve.join(", ")}))`,
   )
   .join(", ");
-const seeds = `$primary: #155dfc, $secondary: #9810fa, $info: #0099ff, $success: #0d9488, $warn: #f59e0b`;
+const seeds =
+  "$primary: #155dfc, $secondary: #9810fa, $info: #0099ff, $success: #0d9488, $warn: #f59e0b";
 const sets = {
   light: `palette(${seeds}, $surface: #ffffff, $gray: #64748b, $scales: (${sc}))`,
   dark: `palette(${seeds}, $surface: #0f172a, $gray: #cbd5e1)`,
-  pink: `palette($primary: #ec4899, $secondary: #9810fa, $surface: #ffffff)`,
-  cyan: `palette($primary: #06b6d4, $secondary: #9810fa, $surface: #ffffff)`,
-  sky: `palette($primary: #38bdf8, $secondary: #9810fa, $surface: #ffffff)`,
-  teal: `palette($primary: #2dd4bf, $secondary: #9810fa, $surface: #ffffff)`,
+  pink: "palette($primary: #ec4899, $secondary: #9810fa, $surface: #ffffff)",
+  cyan: "palette($primary: #06b6d4, $secondary: #9810fa, $surface: #ffffff)",
+  sky: "palette($primary: #38bdf8, $secondary: #9810fa, $surface: #ffffff)",
+  teal: "palette($primary: #2dd4bf, $secondary: #9810fa, $surface: #ffffff)",
 };
 fs.mkdirSync(".cache/sass", { recursive: true });
 const css: Record<string, string> = {};
@@ -66,7 +69,7 @@ const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const toHex = (c: string) => {
   const mm = c.match(/^color\(srgb ([^)]+)\)$/);
   if (mm) {
-    const q = mm[1].split(/[ \/]+/).map(Number);
+    const q = mm[1].split(/[ /]+/).map(Number);
     return (
       "#" +
       q
@@ -81,7 +84,7 @@ const toHex = (c: string) => {
   }
   const m = c.match(/rgba?\(([^)]+)\)/);
   if (!m) return c;
-  const p = m[1].split(/[ ,\/]+/).map(Number);
+  const p = m[1].split(/[ ,/]+/).map(Number);
   const h = p
     .slice(0, 3)
     .map((v) => Math.round(v).toString(16).padStart(2, "0"))
@@ -113,6 +116,6 @@ console.log(
   Object.entries(flat.light)
     .filter(([n]) => /^surface|contrast/.test(n))
     .slice(0, 24)
-    .map(([n, v]) => n + "=" + v)
+    .map(([n, v]) => `${n}=${v}`)
     .join("\n"),
 );

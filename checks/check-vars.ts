@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+
 const [css1, css2, ...dirs] = process.argv.slice(2);
 const defd = new Set(
   [
@@ -26,12 +27,14 @@ for (const f of files)
       !defd.has(m[1]) &&
       !/^(igd?-|y$|y-contrast)/.test(m[1]) &&
       !m[1].endsWith("-")
-    )
-      (bad[m[1]] ??= new Set()).add(path.basename(f));
+    ) {
+      bad[m[1]] ??= new Set();
+      bad[m[1]].add(path.basename(f));
+    }
 for (const [k, v] of Object.entries(bad))
-  console.log("UNDEFINED --" + k, [...v].slice(0, 3).join(","));
+  console.log(`UNDEFINED --${k}`, [...v].slice(0, 3).join(","));
 console.log(
   Object.keys(bad).length
-    ? "undefined vars: " + Object.keys(bad).length
+    ? `undefined vars: ${Object.keys(bad).length}`
     : "all var() references defined",
 );
