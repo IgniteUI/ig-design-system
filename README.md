@@ -66,7 +66,7 @@ Set a dial on the root, or on any element, and every token below it follows.
 | `data-theme="dark"` | the dark theme, on the page or on one region |
 | `data-ig-scope` | a region that carries its own base colours |
 
-**Brand colours.** The brand colours are a build input. The seeds live in `src/palettes.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action colour used as text keeps the seed while the seed clears 4.5:1 on the light surfaces, and is darkened to the first primary step that does otherwise.
+**Brand colours.** The brand colours are a build input. The seeds live in `src/palettes.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action colour used as text keeps the seed while the seed clears 4.5:1 on the light surfaces, and is darkened to the first primary step that does otherwise. `tokens.css` publishes that darkened colour. The label on the action fill is black or white, whichever reads on the seed. A primary seed below 3:1 against the page stops the build with a message, because a filled control would not stand out.
 
 **Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. The action colour used as text or as an outline is adjusted in lightness where it would be too light (or, in the dark theme, too dark) to read. Fills keep the exact colour with a black or white label.
 
@@ -122,5 +122,4 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 - Home organisation, licence and public package name
 - The checks as one installable command for consuming repositories
-- A primary seed that does not clear 4.5:1 as text on white builds, but the derived-state gate reports drift and one table label fails AA (#15)
 - A reduced-motion, focus and target-size check (it exists for the reference components, but depends on a showcase page that is not in this repository yet)

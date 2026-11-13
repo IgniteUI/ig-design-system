@@ -45,12 +45,6 @@
     "kc": 0.236,
     "dh": 10.49
   },
-  "table-header-sub-highlight-color": {
-    "base": "color-action-default",
-    "l": 0.9717,
-    "kc": 0.0436,
-    "dh": 17.61
-  },
   "color-accent-primary-hover": {
     "base": "color-accent-primary",
     "dl": -0.0722,
@@ -200,6 +194,10 @@
     "dl": -0.2694,
     "kc": 1,
     "dh": 0
+  },
+  "table-header-sub-highlight-color": {
+    "base": "color-action-on",
+    "alias": true
   },
   "color-link-utility-hover": {
     "base": "color-action-text",

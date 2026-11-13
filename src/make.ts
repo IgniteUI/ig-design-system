@@ -30,7 +30,10 @@ const engineHex = (name: string) => {
   if (m) return P.light[m[1]];
   return null;
 };
+// Published values the build computes, in place of the alias in the spec.
+const SNAPSHOT: Named<string> = {};
 const hexOf = (name: string): string => {
+  if (SNAPSHOT[name]) return SNAPSHOT[name];
   const a = S.ALIAS[name];
   return a
     ? hexOf(a[0])
@@ -365,28 +368,69 @@ const TEXT_SURFACES = [
   "color-surface-card",
   "color-surface-subtle",
 ];
+// Mirrors textExpr() in the derived-colour section: the light-theme lightness and chroma of the action colour as text.
+const guardCss = sass(
+  "guard",
+  `@use 'sass:color';
+@use 'sass:math';
+@use 'igniteui-theming' as *;
+$fill: ${hexOf("color-action-default")};
+$l: math.div(color.channel($fill, 'lightness', $space: oklch), 100%);
+@function as-text($source) {
+  $ceiling: math.div(math.ceil(math.div(color.channel($source, 'lightness', $space: oklch), 100%) * 10000), 10000);
+  $text-l: math.min($l, math.max(0.35, $ceiling - 0.6 * math.max(0, $l - $ceiling)));
+  $c: color.to-gamut(color.change($fill, $lightness: $text-l * 100%, $chroma: color.channel($fill, 'chroma', $space: oklch) * math.div($text-l, $l), $space: oklch), $space: rgb, $method: clip);
+  @return math.round(color.channel($c, 'red', $space: rgb)) math.round(color.channel($c, 'green', $space: rgb)) math.round(color.channel($c, 'blue', $space: rgb));
+}
+.guard {
+  --luminance: #{luminance($fill)};
+${TEXT_CANDIDATES.flatMap((c, ci) => [`  --text-${ci}: #{as-text(${hexOf(c)})};`, ...TEXT_SURFACES.map((bg, si) => `  --t-${ci}-${si}: #{contrast(${hexOf(bg)}, ${hexOf(c)})};`)]).join("\n")}
+}
+.adaptive { @include adaptive-contrast('aa'); }
+`,
+);
+const adaptiveContrast = guardCss
+  .slice(guardCss.indexOf(".adaptive"))
+  .match(/--[\w-]+: [^;]+;/g);
+if (!adaptiveContrast)
+  throw new Error("adaptive-contrast(): no variables emitted");
+const guard = (name: string) => {
+  const m = guardCss.match(new RegExp(`--${name}: ([^;]+);`));
+  if (!m) throw new Error(`guard: --${name} missing`);
+  return m[1];
+};
+// TEXT_CANDIDATES[0] is the action fill and TEXT_SURFACES[0] is the page.
+if (+guard("t-0-0") < 3)
+  throw new Error(
+    `The primary seed ${hexOf("color-action-default")} is ${guard("t-0-0")}:1 on the page. A filled control needs 3:1 against its surroundings. Pick a darker primary seed.`,
+  );
+const actionTextIndex = TEXT_CANDIDATES.findIndex((_c, ci) =>
+  TEXT_SURFACES.every((_bg, si) => +guard(`t-${ci}-${si}`) >= 4.5),
+);
+if (actionTextIndex < 0)
+  throw new Error(
+    "No primary step from 500 to 900 clears 4.5:1 on every light surface. Pick a different primary seed.",
+  );
+const actionTextSource = TEXT_CANDIDATES[actionTextIndex];
+const hex2 = (v: string) => (+v).toString(16).padStart(2, "0");
+// A seed that reads as text is published as itself; a darkened one is published as the colour theme.css computes.
+if (actionTextIndex > 0)
+  SNAPSHOT["color-action-text"] =
+    `#${guard(`text-${actionTextIndex}`).split(" ").map(hex2).join("")}`;
+// The label on the action fill: black above the engine's AA luminance threshold, white below it.
+const aaThreshold = adaptiveContrast
+  .map((d) => d.match(/^--ig-wcag-aa: ([\d.]+);$/))
+  .find((m) => m !== null);
+if (!aaThreshold) throw new Error("adaptive-contrast(): --ig-wcag-aa missing");
+SNAPSHOT["color-action-on"] =
+  +guard("luminance") > +aaThreshold[1] ? "#000000" : "#ffffff";
 const engineCss = sass(
   "contrast",
-  `@use 'igniteui-theming' as *;\n.ratios {\n${CHECKS.map(([fg, bg], i) => `  --r-${i}: #{contrast(${hexOf(bg)}, ${hexOf(fg)})};`).join("\n")}\n${TEXT_CANDIDATES.flatMap((c, ci) => TEXT_SURFACES.map((bg, si) => `  --t-${ci}-${si}: #{contrast(${hexOf(bg)}, ${hexOf(c)})};`)).join("\n")}\n}\n.adaptive { @include adaptive-contrast('aa'); }\n`,
+  `@use 'igniteui-theming' as *;\n.ratios {\n${CHECKS.map(([fg, bg], i) => `  --r-${i}: #{contrast(${hexOf(bg)}, ${hexOf(fg)})};`).join("\n")}\n}\n`,
 );
 const ratios = [...engineCss.matchAll(/--r-\d+: ([\d.]+);/g)].map((m) => +m[1]);
 if (ratios.length !== CHECKS.length)
   throw new Error("contrast(): one ratio per pairing expected");
-const adaptiveContrast = engineCss
-  .slice(engineCss.indexOf(".adaptive"))
-  .match(/--[\w-]+: [^;]+;/g);
-if (!adaptiveContrast)
-  throw new Error("adaptive-contrast(): no variables emitted");
-const actionTextSource = TEXT_CANDIDATES.find((_c, ci) =>
-  TEXT_SURFACES.every((_bg, si) => {
-    const m = engineCss.match(new RegExp(`--t-${ci}-${si}: ([\\d.]+);`));
-    return m !== null && +m[1] >= 4.5;
-  }),
-);
-if (!actionTextSource)
-  throw new Error(
-    "No primary step from 500 to 900 clears 4.5:1 on every light surface. Pick a different primary seed.",
-  );
 for (const [i, [fg, bg, min = 4.5]] of CHECKS.entries()) {
   const r = ratios[i];
   report.push({ fg, bg, ratio: r, min, ok: r >= min });
@@ -396,7 +440,7 @@ for (const [i, [fg, bg, min = 4.5]] of CHECKS.entries()) {
 for (const [name, [eng]] of Object.entries(S.ALIAS))
   add(
     name,
-    `{${eng}}`,
+    SNAPSHOT[name] ?? `{${eng}}`,
     aliasUsage(name) +
       (ratioNote[name] ? ` Contrast ${ratioNote[name].join(", ")}.` : ""),
   );
@@ -807,7 +851,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     ["color-surface-tint", "color-action-default"],
     ["color-surface-tint-strong", "color-action-default"],
     ["color-border-accent", "color-action-default"],
-    ["table-header-sub-highlight-color", "color-action-default"],
     ["color-accent-primary-hover", "color-accent-primary"],
     ["color-accent-primary-active", "color-accent-primary"],
     ["color-link-inverse-hover", "color-link-inverse"],
@@ -836,6 +879,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     ["color-text-inverse-muted", "color-text-inverse"],
   ];
   const ALIAS = [
+    ["table-header-sub-highlight-color", "color-action-on"],
     ["color-link-utility-hover", "color-action-text"],
     ["color-focus-default", "color-action-text"],
     ["tile-1", "color-accent-primary"],
@@ -849,6 +893,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   // --theme-dark is 0 in the light theme and 1 under [data-theme="dark"]; every theme-dependent formula blends on it, so a
   // token re-declared inside a scope still lands on the right side.
   const F = "var(--theme-dark)";
+  // Mirrored by as-text() in the guard stylesheet, which computes the published value.
   const textExpr = (from: string, L: number) => {
     const Tl = `min(l, max(0.35, ${L} - 0.6 * max(0, l - ${L})))`;
     const Td = "max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))";
@@ -906,15 +951,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
         : "0";
     // a grey base has no hue to shift, so the state takes the engine's own chroma and hue and follows the base in lightness only
     // a light surface or hairline stays light whatever the base's lightness: it takes the base's hue and a share of its chroma, never its darkness
-    const fixedL =
-      z.l > 0.8 && /(background|surface|border|highlight)/.test(tok);
+    const fixedL = z.l > 0.8 && /(background|surface|border)/.test(tok);
     const Ld = Math.min(0.42, 0.2 + (1 - z.l) * 1.3).toFixed(4);
     s +=
       fixedL && chroma
-        ? `  --${tok}: oklch(from var(--${base}) calc((1 - ${F}) * ${z.l.toFixed(4)} + ${F} * ${Ld}) calc(c * ${kc} * (1 + 1.5 * ${F})) calc(h + ${dh}));\n`.replaceAll(
-            F,
-            /highlight/.test(tok) ? "0" : F,
-          )
+        ? `  --${tok}: oklch(from var(--${base}) calc((1 - ${F}) * ${z.l.toFixed(4)} + ${F} * ${Ld}) calc(c * ${kc} * (1 + 1.5 * ${F})) calc(h + ${dh}));\n`
         : chroma
           ? `  --${tok}: oklch(from var(--${base}) calc(l + ${dl}) calc(c * ${kc}) calc(h + ${dh}));\n`
           : `  --${tok}: oklch(from var(--${base}) calc(l + ${dl}) ${z.c.toFixed(4)} ${z.h.toFixed(2)});\n`;

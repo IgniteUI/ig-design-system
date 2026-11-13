@@ -567,7 +567,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-color-surface-tint: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
   --igd-color-surface-tint-strong: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9395 + var(--igd-theme-dark) * 0.2786) calc(c * 0.1176 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 12.29));
   --igd-color-border-accent: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
-  --igd-table-header-sub-highlight-color: oklch(from var(--igd-color-action-default) calc((1 - 0) * 0.9717 + 0 * 0.2368) calc(c * 0.0436 * (1 + 1.5 * 0)) calc(h + 17.61));
   --igd-color-accent-primary-hover: oklch(from var(--igd-color-accent-primary) calc(l + -0.0722) calc(c * 0.8392) calc(h + 0.16));
   --igd-color-accent-primary-active: oklch(from var(--igd-color-accent-primary) calc(l + -0.1450) calc(c * 0.7697) calc(h + 0.25));
   --igd-color-link-inverse-hover: oklch(from var(--igd-color-link-inverse) calc(l + 0.2371) calc(c * 0.0000) calc(h + 0));
@@ -593,6 +592,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-footer-link: oklch(from var(--igd-footer-text) calc(l + 0.0778) calc(c * 0.5091) calc(h + -4.35));
   --igd-footer-strong: oklch(from var(--igd-footer-text) calc(l + 0.1662) calc(c * 0.1365) calc(h + 0));
   --igd-color-text-inverse-muted: oklch(from var(--igd-color-text-inverse) calc(l + -0.2694) 0.0171 253.94);
+  --igd-table-header-sub-highlight-color: var(--igd-color-action-on);
   --igd-color-link-utility-hover: var(--igd-color-action-text);
   --igd-color-focus-default: var(--igd-color-action-text);
   --igd-tile-1: var(--igd-color-accent-primary);

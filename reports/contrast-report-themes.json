@@ -241,7 +241,7 @@
   {
    "fg": "table-header-sub-highlight-color",
    "bg": "color-action-default",
-   "ratio": 4.83,
+   "ratio": 5.25,
    "min": 4.5,
    "ok": true
   },
@@ -649,7 +649,7 @@
   {
    "fg": "table-header-sub-highlight-color",
    "bg": "color-action-default",
-   "ratio": 4.83,
+   "ratio": 5.25,
    "min": 4.5,
    "ok": true
   },

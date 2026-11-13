@@ -114,17 +114,22 @@ const BASES = [
       console.log("DRIFT", n, snap[n], live[n]);
     }
   }
+  // A light and a dark probe: a token follows its base when either one moves it, so a base that already equals one probe is still detected.
+  const PROBES = ["oklch(.6 .2 150)", "oklch(.3 .15 300)"];
   const follows: Named<string[]> = {};
   for (const base of BASES) {
-    const o = await read(
-      tokens + bundle,
-      `--igd-${base}: ${base.includes("shadow") ? "0 0 0 9px oklch(.6 .2 150)" : "oklch(.6 .2 150)"};`,
-    );
-    for (const n of names)
-      if (o[n] !== live[n]) {
-        follows[n] ??= [];
-        follows[n].push(base);
-      }
+    const moved = new Set<string>();
+    for (const probe of PROBES) {
+      const o = await read(
+        tokens + bundle,
+        `--igd-${base}: ${base.includes("shadow") ? `0 0 0 9px ${probe}` : probe};`,
+      );
+      for (const n of names) if (o[n] !== live[n]) moved.add(n);
+    }
+    for (const n of moved) {
+      follows[n] ??= [];
+      follows[n].push(base);
+    }
   }
   for (const [n, d] of Object.entries(derived))
     if (!(follows[n] || []).includes(d.base)) {
@@ -141,8 +146,12 @@ const BASES = [
   };
   const moved: Named<string[]> = {};
   for (const t of all) {
-    const o = await read(tokens + bundle, `--igd-${t}: oklch(.6 .2 150);`);
-    moved[t] = all.filter((n) => n !== t && o[n] !== live[n]);
+    const hit = new Set<string>();
+    for (const probe of PROBES) {
+      const o = await read(tokens + bundle, `--igd-${t}: ${probe};`);
+      for (const n of all) if (n !== t && o[n] !== live[n]) hit.add(n);
+    }
+    moved[t] = all.filter((n) => hit.has(n));
   }
   const affected: Named<string[]> = {};
   for (const [t, ms] of Object.entries(moved))

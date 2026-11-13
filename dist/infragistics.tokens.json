@@ -2027,15 +2027,23 @@
       "$description": "The action colour when it is text, an icon or a thin line on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. Equal to `color-action-default` by default. A lighter seed is darkened until it reads on `color-surface-page` (AA)."
     },
     "color-action-on": {
-      "$value": "{color.ig-surface-base}",
-      "$description": "Label and icon colour on `color-action-default` fills. Live value: the engine contrast colour of `ig-primary-600`. Contrast 5.25:1 on `color-action-default`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      },
+      "$description": "Label and icon colour on `color-action-default` fills: black or white, whichever reads on the fill (the engine’s adaptive contrast). Contrast 5.25:1 on `color-action-default`."
     },
     "color-link-utility": {
       "$value": "{color.ig-info-500}",
       "$description": "Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`."
     },
     "color-link-utility-hover": {
-      "$value": "{color.ig-primary-seed}",
+      "$value": "{color.color-action-text}",
       "$description": "Utility-row link hover."
     },
     "color-link-inverse": {
@@ -2055,7 +2063,7 @@
       "$description": "Footer link hover."
     },
     "color-focus-default": {
-      "$value": "{color.ig-primary-seed}",
+      "$value": "{color.color-action-text}",
       "$description": "Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only. Contrast 5.25:1 on `color-surface-page`."
     },
     "color-focus-inverse": {
@@ -2215,8 +2223,8 @@
       "$description": "Sub-label under a comparison column name, on `color-surface-inverse`. Contrast 7.17:1 on `color-surface-inverse`."
     },
     "table-header-sub-highlight-color": {
-      "$value": "{color.ig-primary-50}",
-      "$description": "Sub-label on the highlighted column header (`color-action-default` fill). Contrast 4.83:1 on `color-action-default`."
+      "$value": "{color.color-action-on}",
+      "$description": "Sub-label on the highlighted column header (`color-action-default` fill). Contrast 5.25:1 on `color-action-default`."
     },
     "table-header-detail-color": {
       "$value": "{color.ig-dark-gray-600}",
