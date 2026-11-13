@@ -1,8 +1,7 @@
-// Compiles the engine's palette() Sass function and resolves every colour var to rgb in headless Chromium.
+// Compiles the engine's palette() Sass function and stores the raw colour of every shade as hex.
 
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-import { chromium } from "playwright";
 
 const scales: Record<string, { range: number[]; curve: number[] }> = JSON.parse(
   fs.readFileSync("src/scales.json", "utf8"),
@@ -23,99 +22,55 @@ const sets = {
   sky: "palette($primary: #38bdf8, $secondary: #9810fa, $surface: #ffffff)",
   teal: "palette($primary: #2dd4bf, $secondary: #9810fa, $surface: #ffffff)",
 };
+
+// Every shade carries its plain colour under <shade>-raw; the plain key can hold a CSS expression.
+// A raw colour outside sRGB is clipped, as a browser paints it.
+const rawShades = (palette: string) => `@use 'sass:color';
+@use 'sass:map';
+@use 'sass:string';
+@use 'igniteui-theming' as *;
+$p: ${palette};
+.raw {
+  @each $family, $shades in map.remove($p, '_meta') {
+    @each $shade, $value in $shades {
+      $i: string.index('#{$shade}', '-raw');
+      @if $i {
+        $c: color.to-gamut($value, $space: rgb, $method: clip);
+        --#{$family}-#{string.slice('#{$shade}', 1, $i - 1)}: #{color.channel($c, 'red', $space: rgb)} #{color.channel($c, 'green', $space: rgb)} #{color.channel($c, 'blue', $space: rgb)} #{color.alpha($c)};
+      }
+    }
+  }
+}
+`;
+
+const hex = (v: number) => Math.round(v).toString(16).padStart(2, "0");
+/** Turns the `r g b a` channels the stylesheet prints into `#rrggbb`, or `#rrggbbaa` below full alpha. */
+const toHex = (channels: string) => {
+  const [r, g, b, a] = channels.split(" ").map(Number);
+  return `#${hex(r)}${hex(g)}${hex(b)}${a < 1 ? hex(a * 255) : ""}`;
+};
+
 fs.mkdirSync(".cache/sass", { recursive: true });
-const css: Record<string, string> = {};
+const flat: Record<string, Record<string, string>> = {};
 for (const [k, expr] of Object.entries(sets)) {
-  fs.writeFileSync(
-    `.cache/sass/${k}.scss`,
-    `@use 'igniteui-theming' as *;\n$p: ${expr};\n@include palette($p);\n`,
-  );
+  fs.writeFileSync(`.cache/sass/${k}.scss`, rawShades(expr));
   execSync(
     `npx sass --quiet --load-path=node_modules .cache/sass/${k}.scss .cache/sass/${k}.css`,
   );
-  css[k] = fs.readFileSync(`.cache/sass/${k}.css`, "utf8");
-}
-const browser = await chromium.launch();
-const out: Record<string, Record<string, string>> = {};
-for (const [k, text] of Object.entries(css)) {
-  const page = await browser.newPage();
-  await page.setContent(`<style>${text}</style><div id=p></div>`);
-  out[k] = await page.evaluate(() => {
-    const names = [];
-    for (const sheet of document.styleSheets)
-      for (const r of sheet.cssRules as Iterable<CSSStyleRule>)
-        if (r.style)
-          for (const n of r.style) if (n.startsWith("--ig-")) names.push(n);
-    const el = document.getElementById("p")!;
-    const res: Record<string, string> = {};
-    for (const n of new Set(names)) {
-      if (
-        /wcag|contrast-level|-seed-contrast/.test(n) ||
-        n === "--y" ||
-        n === "--y-contrast"
-      )
-        continue;
-      el.style.color = "";
-      el.style.color = `var(${n})`;
-      const c = getComputedStyle(el).color;
-      if (c) res[n] = c;
-    }
-    return res;
-  });
-  await page.close();
-}
-await browser.close();
-const clamp = (v: number) => Math.min(1, Math.max(0, v));
-const toHex = (c: string) => {
-  const mm = c.match(/^color\(srgb ([^)]+)\)$/);
-  if (mm) {
-    const q = mm[1].split(/[ /]+/).map(Number);
-    return (
-      "#" +
-      q
-        .slice(0, 3)
-        .map((v) =>
-          Math.round(clamp(v) * 255)
-            .toString(16)
-            .padStart(2, "0"),
-        )
-        .join("")
-    );
-  }
-  const m = c.match(/rgba?\(([^)]+)\)/);
-  if (!m) return c;
-  const p = m[1].split(/[ ,/]+/).map(Number);
-  const h = p
-    .slice(0, 3)
-    .map((v) => Math.round(v).toString(16).padStart(2, "0"))
-    .join("");
-  return p.length > 3 && p[3] < 1
-    ? `#${h}${Math.round(p[3] * 255)
-        .toString(16)
-        .padStart(2, "0")}`
-    : `#${h}`;
-};
-const flat: Record<string, Record<string, string>> = {};
-for (const [k, v] of Object.entries(out)) {
   flat[k] = {};
-  for (const [n, c] of Object.entries(v))
-    flat[k][n.replace("--ig-", "")] = toHex(c);
+  for (const m of fs
+    .readFileSync(`.cache/sass/${k}.css`, "utf8")
+    .matchAll(/--([\w-]+): ([^;]+);/g))
+    flat[k][m[1]] = toHex(m[2]);
 }
 fs.writeFileSync("src/palettes.json", JSON.stringify(flat, null, 1));
 for (const k of Object.keys(flat))
   console.log(
     k,
     Object.keys(flat[k]).length,
-    "vars; sample:",
+    "colours; sample:",
     flat[k]["primary-500"],
     flat[k]["gray-900"] ?? "",
     flat[k]["surface-base"] ?? "",
     flat[k]["surface-50"] ?? "",
   );
-console.log(
-  Object.entries(flat.light)
-    .filter(([n]) => /^surface/.test(n) || n.includes("contrast"))
-    .slice(0, 24)
-    .map(([n, v]) => `${n}=${v}`)
-    .join("\n"),
-);

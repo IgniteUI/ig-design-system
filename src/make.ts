@@ -1,7 +1,5 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import * as S from "./spec.ts";
 import type { Token, Tokens, TypeGroup, TypeStyle } from "./types.ts";
 
@@ -43,69 +41,15 @@ const hexOf = (name: string): string => {
 };
 const rgbOf = (h: string) =>
   [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
-const lin = (v: number) => {
-  const x = v / 255;
-  return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
-};
-const lum = (h: string) => {
-  const [r, g, b] = rgbOf(h).map(lin);
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
-const cr = (a: string, b: string) => {
-  const x = lum(hexOf(a));
-  const y = lum(hexOf(b));
-  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+const sass = (name: string, source: string) => {
+  fs.writeFileSync(`${TMP}/${name}.scss`, source);
+  execSync(
+    `npx sass --quiet --load-path=node_modules ${TMP}/${name}.scss ${TMP}/${name}.css`,
+  );
+  return fs.readFileSync(`${TMP}/${name}.css`, "utf8");
 };
 
-// ---------- 1. MCP calls (recorded) ----------
-const client = new Client({ name: "ds-build", version: "1" });
-await client.connect(
-  new StdioClientTransport({
-    command: "node",
-    args: ["node_modules/igniteui-theming/dist/mcp/index.js"],
-  }),
-);
-const calls: { tool: string; input: object }[] = [];
-const call = async (name: string, args: Named<unknown>) => {
-  const r = await client.callTool({ name, arguments: args });
-  const text = (r.content as { text: string }[]).map((x) => x.text).join("\n");
-  calls.push({ tool: name, input: args });
-  return text;
-};
-const customScale: Named<object> = {};
-for (const [slot, , _fam, px, line, weight, track, transform] of S.TYPE)
-  customScale[slot] = {
-    fontSize: rem(px),
-    fontWeight: weight,
-    lineHeight: rem(px * line),
-    letterSpacing: track === "0" ? "0" : track,
-    textTransform: transform,
-  };
-const typo = await call("create_typography", {
-  platform: "generic",
-  output: "css",
-  designSystem: "indigo",
-  fontFamily: S.FAMILIES.body,
-  customScale,
-  name: "ig-type",
-});
-const elev = await call("create_elevations", {
-  platform: "generic",
-  output: "css",
-  designSystem: "indigo",
-  name: "ig-elev",
-});
-const sizeT = await call("set_size", { platform: "generic", size: "large" });
-const spaceT = await call("set_spacing", { platform: "generic", spacing: 1 });
-const roundT = await call("set_roundness", {
-  platform: "generic",
-  radiusFactor: 1,
-});
-await client.close();
-fs.writeFileSync(`${REP}/mcp-typography.txt`, typo);
-fs.writeFileSync(`${REP}/mcp-elevations.txt`, elev);
-const cssBlock = (t: string) => t.match(/```css\n([\s\S]*?)```/)?.[1] ?? "";
-// typography: the MCP ignores customScale, so the engine's typography() mixin is compiled directly with the custom type scale
+// ---------- 1. typography ----------
 const typeScss =
   `@use 'igniteui-theming' as *;\n$scale: (\n` +
   S.TYPE.map(
@@ -128,10 +72,6 @@ for (const m of fs
 }
 for (const [slot] of S.TYPE)
   if (!type[slot]) throw new Error(`slot missing in engine output: ${slot}`);
-// neutral elevations 0..24
-const elevNeutral: Named<string> = {};
-for (const m of cssBlock(elev).matchAll(/--ig-elevation-(\d+): ([^;]+);/g))
-  elevNeutral[m[1]] = m[2];
 
 // ---------- 2. Sass: layout knobs + tinted elevations ----------
 const primary600 = rgbOf(hexOf("ig-primary-600")).join(" ");
@@ -169,6 +109,10 @@ execSync(
   "npx sass --quiet --load-path=node_modules .cache/sass/tint.scss .cache/sass/tint.css",
 );
 const layoutCss = fs.readFileSync(".cache/sass/layout.css", "utf8");
+// neutral elevations 0..24
+const elevNeutral: Named<string> = {};
+for (const m of layoutCss.matchAll(/--ig-elevation-(\d+): ([^;]+);/g))
+  elevNeutral[m[1]] = m[2];
 const tintVars: Named<string> = {};
 for (const m of fs
   .readFileSync(".cache/sass/tint.css", "utf8")
@@ -405,11 +349,24 @@ const report: {
   ok: boolean;
 }[] = [];
 const ratioNote: Named<string[]> = {};
-for (const [fg, bg, min = 4.5] of CHECKS) {
-  const r = cr(fg, bg);
-  report.push({ fg, bg, ratio: +r.toFixed(2), min, ok: r >= min });
+// Contrast ratios and the adaptive-contrast variables come from the engine's contrast() and adaptive-contrast().
+const engineCss = sass(
+  "contrast",
+  `@use 'igniteui-theming' as *;\n.ratios {\n${CHECKS.map(([fg, bg], i) => `  --r-${i}: #{contrast(${hexOf(bg)}, ${hexOf(fg)})};`).join("\n")}\n}\n.adaptive { @include adaptive-contrast('aa'); }\n`,
+);
+const ratios = [...engineCss.matchAll(/--r-\d+: ([\d.]+);/g)].map((m) => +m[1]);
+if (ratios.length !== CHECKS.length)
+  throw new Error("contrast(): one ratio per pairing expected");
+const adaptiveContrast = engineCss
+  .slice(engineCss.indexOf(".adaptive"))
+  .match(/--[\w-]+: [^;]+;/g);
+if (!adaptiveContrast)
+  throw new Error("adaptive-contrast(): no variables emitted");
+for (const [i, [fg, bg, min = 4.5]] of CHECKS.entries()) {
+  const r = ratios[i];
+  report.push({ fg, bg, ratio: r, min, ok: r >= min });
   ratioNote[fg] ??= [];
-  ratioNote[fg].push(`${r.toFixed(1)}:1 on \`${bg}\``);
+  ratioNote[fg].push(`${r}:1 on \`${bg}\``);
 }
 for (const [name, [eng]] of Object.entries(S.ALIAS))
   add(
@@ -677,7 +634,7 @@ let b = `/* Infragistics Marketing Design System — theme.css
 /* ===== 1. igniteui-theming engine layer ===== */
 `;
 b += `/* knobs (set_size large, set_spacing 1, set_roundness 1 as called through the MCP) */\n:root {\n  --ig-size: 3;\n  --ig-spacing: 1;\n  --ig-elevation-factor: 1;\n  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */\n}\n`;
-b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n  --ig-wcag-a: 0.31;\n  --ig-wcag-aa: 0.185;\n  --ig-wcag-aaa: 0.178;\n  --ig-contrast-level: var(--ig-wcag-aa);\n  --y: clamp(0, (y / var(--ig-contrast-level) - 1) * -infinity, 1);\n  --y-contrast: xyz-d65 var(--y) var(--y) var(--y);\n  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l/1);\n  --color-action-on: var(--ig-primary-600-contrast);\n}\n`;
+b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n${adaptiveContrast.map((d) => `  ${d}`).join("\n")}\n  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l/1);\n  --color-action-on: var(--ig-primary-600-contrast);\n}\n`;
 b += `/* sizing, spacing, roundness, easing and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() */\n${layoutCss.replace(/\n{2,}/g, "\n").trim()}\n`;
 b += `/* elevations tinted with \`action\` (indigo preset, colours configured through its $color-1..3) */\n:root {\n${tintUsed.map((l) => `  --ig-elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
 b +=
@@ -1067,7 +1024,6 @@ fs.writeFileSync(
     ["color-focus-default", "color-surface-page", 3],
   ]),
 );
-fs.writeFileSync(`${REP}/mcp-calls.json`, JSON.stringify(calls, null, 1));
 fs.writeFileSync(
   `${REP}/engine-snapshot.json`,
   JSON.stringify(
@@ -1075,11 +1031,6 @@ fs.writeFileSync(
       type,
       elevNeutral,
       tintVars,
-      layoutKnobs: {
-        size: sizeT.trim(),
-        spacing: spaceT.trim(),
-        roundness: roundT.trim(),
-      },
     },
     null,
     1,

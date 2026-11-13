@@ -177,10 +177,5 @@
   "22": "0 calc(var(--igd-elevation-factor, 1) * 10px) calc(var(--igd-elevation-factor, 1) * 14px) calc(var(--igd-elevation-factor, 1) * -6px) rgba(36, 98, 234, 0.26), 0 calc(var(--igd-elevation-factor, 1) * 22px) calc(var(--igd-elevation-factor, 1) * 35px) calc(var(--igd-elevation-factor, 1) * 3px) rgba(36, 98, 234, 0.12), 0 calc(var(--igd-elevation-factor, 1) * 8px) calc(var(--igd-elevation-factor, 1) * 42px) calc(var(--igd-elevation-factor, 1) * 7px) rgba(36, 98, 234, 0.08)",
   "23": "0 0 calc(var(--igd-elevation-factor, 1) * 16px) 0 rgba(0, 0, 0, 0.3)",
   "24": "0 0 calc(var(--igd-elevation-factor, 1) * 16px) 0 rgba(36, 37, 44, 0.4)"
- },
- "layoutKnobs": {
-  "size": "Set size to large (3) in global scope (:root).\n\n```css\n:root\n{\n  --igd-size: 3;\n}\n```",
-  "spacing": "Set spacing in global scope (:root).\n\n```css\n:root\n{\n  --igd-spacing: 1;\n}\n```",
-  "roundness": "Set roundness factor to 1 in global scope (:root).\n\n```css\n:root\n{\n  --igd-radius-factor: 1;\n}\n```"
  }
 }
