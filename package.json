@@ -14,14 +14,10 @@
     "./tokens.css": "./dist/tokens.css",
     "./theme.css": "./dist/theme.css",
     "./tokens.json": "./dist/tokens.json",
-    "./tokens.dtcg.json": "./dist/infragistics.tokens.json",
-    "./seed.js": {
-      "types": "./dist/seed.d.ts",
-      "default": "./dist/seed.js"
-    }
+    "./tokens.dtcg.json": "./dist/infragistics.tokens.json"
   },
   "scripts": {
-    "build": "node src/make.ts && node src/migration.ts docs/MIGRATION.md && node src/namespace.ts && node src/dtcg.ts dist/tokens.json dist/theme.css dist/infragistics.tokens.json && tsc -p tsconfig.seed.json",
+    "build": "node src/make.ts && node src/migration.ts docs/MIGRATION.md && node src/namespace.ts && node src/dtcg.ts dist/tokens.json dist/theme.css dist/infragistics.tokens.json",
     "typecheck": "tsc",
     "lint": "biome check",
     "format": "biome check --fix",

@@ -350,9 +350,24 @@ const report: {
 }[] = [];
 const ratioNote: Named<string[]> = {};
 // Contrast ratios and the adaptive-contrast variables come from the engine's contrast() and adaptive-contrast().
+// The action colour as text must clear AA on every light surface that carries text. The first of these that does sets its lightness ceiling.
+const TEXT_CANDIDATES = [
+  "color-action-default",
+  "ig-primary-500",
+  "ig-primary-600",
+  "ig-primary-700",
+  "ig-primary-800",
+  "ig-primary-900",
+];
+const TEXT_SURFACES = [
+  "color-surface-page",
+  "color-surface-tint",
+  "color-surface-card",
+  "color-surface-subtle",
+];
 const engineCss = sass(
   "contrast",
-  `@use 'igniteui-theming' as *;\n.ratios {\n${CHECKS.map(([fg, bg], i) => `  --r-${i}: #{contrast(${hexOf(bg)}, ${hexOf(fg)})};`).join("\n")}\n}\n.adaptive { @include adaptive-contrast('aa'); }\n`,
+  `@use 'igniteui-theming' as *;\n.ratios {\n${CHECKS.map(([fg, bg], i) => `  --r-${i}: #{contrast(${hexOf(bg)}, ${hexOf(fg)})};`).join("\n")}\n${TEXT_CANDIDATES.flatMap((c, ci) => TEXT_SURFACES.map((bg, si) => `  --t-${ci}-${si}: #{contrast(${hexOf(bg)}, ${hexOf(c)})};`)).join("\n")}\n}\n.adaptive { @include adaptive-contrast('aa'); }\n`,
 );
 const ratios = [...engineCss.matchAll(/--r-\d+: ([\d.]+);/g)].map((m) => +m[1]);
 if (ratios.length !== CHECKS.length)
@@ -362,6 +377,16 @@ const adaptiveContrast = engineCss
   .match(/--[\w-]+: [^;]+;/g);
 if (!adaptiveContrast)
   throw new Error("adaptive-contrast(): no variables emitted");
+const actionTextSource = TEXT_CANDIDATES.find((_c, ci) =>
+  TEXT_SURFACES.every((_bg, si) => {
+    const m = engineCss.match(new RegExp(`--t-${ci}-${si}: ([\\d.]+);`));
+    return m !== null && +m[1] >= 4.5;
+  }),
+);
+if (!actionTextSource)
+  throw new Error(
+    "No primary step from 500 to 900 clears 4.5:1 on every light surface. Pick a different primary seed.",
+  );
 for (const [i, [fg, bg, min = 4.5]] of CHECKS.entries()) {
   const r = ratios[i];
   report.push({ fg, bg, ratio: r, min, ok: r >= min });
@@ -633,7 +658,7 @@ let b = `/* Infragistics Marketing Design System — theme.css
 
 /* ===== 1. igniteui-theming engine layer ===== */
 `;
-b += `/* knobs (set_size large, set_spacing 1, set_roundness 1 as called through the MCP) */\n:root {\n  --ig-size: 3;\n  --ig-spacing: 1;\n  --ig-elevation-factor: 1;\n  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */\n}\n`;
+b += `/* dials: size large, spacing 1, elevation 1 */\n:root {\n  --ig-size: 3;\n  --ig-spacing: 1;\n  --ig-elevation-factor: 1;\n  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */\n}\n`;
 b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n${adaptiveContrast.map((d) => `  ${d}`).join("\n")}\n  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l/1);\n  --color-action-on: var(--ig-primary-600-contrast);\n}\n`;
 b += `/* sizing, spacing, roundness, easing and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() */\n${layoutCss.replace(/\n{2,}/g, "\n").trim()}\n`;
 b += `/* elevations tinted with \`action\` (indigo preset, colours configured through its $color-1..3) */\n:root {\n${tintUsed.map((l) => `  --ig-elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
@@ -738,30 +763,13 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .ig-hide-below-md { }
 @media (max-width: ${S.BREAKPOINT["breakpoint-md"][0]}px) { .ig-hide-below-md { display: none !important; } }
 `;
-// ---------- 7. seed layer: every ramp re-derives from one set of knobs ----------
-// engine hex stays in --engine-<name>; --<name> is derived by OKLCH delta from it. At the default knobs
-// (0, 1, 0) the ramp is the engine's own, unchanged. `primary` and `info` share the brand knobs, so one seed
-// moves actions, tints, borders, focus rings, the accent blue and the gradient start together.
+// ---------- 7. derived colour: every state follows its base token ----------
 {
-  const ramps = [
-    ...css.matchAll(
-      /--(ig-(?!dark-|gray-|surface-)([a-z]+)(?:-accent)?-(?:\d+|seed)): (#[0-9a-f]{6});/g,
-    ),
-  ];
-  const famOf = (f: string) => (f === "primary" || f === "info" ? "brand" : f);
-  const fams = [...new Set(ramps.map((m) => famOf(m[2])))];
   let s =
-    "\n/* ===== 5. seed layer: derived colour ===== */\n/* knobs: --<family>-dl (lightness +), --<family>-kc (chroma ×), --<family>-dh (hue +°). Defaults leave the engine ramp unchanged.\n   Set them with setSeed() from components/seed.js, or by hand. Every state (hover, active, focus, tint, border, shadow, glow) reads the ramp, so none needs its own colour. */\n:root {\n";
-  for (const f of fams) s += `  --${f}-dl: 0; --${f}-kc: 1; --${f}-dh: 0;\n`;
-  s +=
-    "}\n/* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours or knobs */\n:root, [data-ig-scope] {\n";
-  for (const m of ramps) {
-    const f = famOf(m[2]);
-    s += `  --engine-${m[1]}: ${m[3]};\n  --${m[1]}: oklch(from var(--engine-${m[1]}) calc(l + var(--${f}-dl)) calc(c * var(--${f}-kc)) calc(h + var(--${f}-dh)));\n`;
-  }
+    "\n/* ===== 5. derived colour ===== */\n/* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours */\n:root, [data-ig-scope] {\n";
   // ---- state tokens derive from their base token, not from a ramp step of their own ----
   // The delta is measured at build time between the engine's two values, so the default is the engine's colour exactly,
-  // and overriding the base (or moving its seed) moves the state with it.
+  // and overriding the base moves the state with it.
   const hx = (n: string): string => {
     const m = css.match(new RegExp(`--${n}: ([^;]+);`));
     if (!m) throw new Error(`no token ${n}`);
@@ -836,7 +844,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     ["color-link-inverse", "color-accent-sky"],
     ["footer-icon", "footer-text"],
   ];
-  // semantic tokens that point straight at a ramp step are declared again here, so a scope with its own knobs re-resolves them
+  // semantic tokens that point straight at a ramp step are declared again here, so a scope with its own ramp re-resolves them
   const textSafe: string[] = [];
   // --theme-dark is 0 in the light theme and 1 under [data-theme="dark"]; every theme-dependent formula blends on it, so a
   // token re-declared inside a scope still lands on the right side.
@@ -857,7 +865,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
       /^\s*--([a-z0-9-]+): (var\(--ig-(?!dark-|gray-|surface-)[a-z-]+-(?:\d+|seed)\));/gm,
     ))
       if (!m[1].startsWith("ig-") && !taken.has(m[1])) {
-        // a token that is text on a light surface keeps its own lightness as a ceiling, so moving its family's seed lighter cannot make it unreadable
+        // a token that is text on a light surface keeps its own lightness as a ceiling, so a lighter ramp step set on a scope cannot make it unreadable
         const o = ok(hx(m[1]));
         const isText =
           /^(color-text|color-link)|-color$|^color-feedback-error-default$/.test(
@@ -875,10 +883,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   s +=
     "  /* state tokens: derived from their base. Override a base and its states follow. */\n";
   const derivedRecord: Named<object> = {};
-  // the action colour as text: the seed itself until it is too light to read on the page, then darkened to the brand's own lightness
+  // the action colour as text: the action colour itself while it clears AA on the light surfaces, otherwise darkened to the first primary step that does
   {
-    const L = Math.ceil(ok(hx("color-action-default")).l * 1e4) / 1e4;
-    // seeds lighter than the brand are darkened a little past it (0.6 for each step of extra lightness, never below 0.35),
+    const L = Math.ceil(ok(hexOf(actionTextSource)).l * 1e4) / 1e4;
+    // action colours lighter than the brand are darkened a little past it (0.6 for each step of extra lightness, never below 0.35),
     // because yellow, green and cyan are brighter to the eye than blue at the same OKLCH lightness
     s += `  --color-action-text: ${textExpr("var(--color-action-default)", L)};\n`;
     derivedRecord["color-action-text"] = {
@@ -897,7 +905,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
         ? (((z.h - a.h + 540) % 360) - 180).toFixed(2)
         : "0";
     // a grey base has no hue to shift, so the state takes the engine's own chroma and hue and follows the base in lightness only
-    // a light surface or hairline stays light whatever the seed's lightness: it takes the seed's hue and a share of its chroma, never its darkness
+    // a light surface or hairline stays light whatever the base's lightness: it takes the base's hue and a share of its chroma, never its darkness
     const fixedL =
       z.l > 0.8 && /(background|surface|border|highlight)/.test(tok);
     const Ld = Math.min(0.42, 0.2 + (1 - z.l) * 1.3).toFixed(4);
@@ -939,8 +947,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
       ),
   );
   b = b.replace(
-    "\n/* ===== 5. seed layer",
-    "\n:root { --color-shadow: oklch(0 0 0); }\n/* ===== 5. seed layer",
+    "\n/* ===== 5. derived colour",
+    "\n:root { --color-shadow: oklch(0 0 0); }\n/* ===== 5. derived colour",
   );
   // the live colour tokens and tinted elevations resolve again inside a scope
   const mark = "/* ===== 2. live tokens";
@@ -959,7 +967,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   // tinted elevations carry the action colour, not a fixed rgb
   b = b.replace(/(--ig-elevation-tint-\d+: [^;]+;)/g, (l) =>
     l.replace(
-      /rgba\(36, 98, 234, ([\d.]+)\)/g,
+      new RegExp(
+        `rgba\\(${rgbOf(hexOf("ig-primary-600")).join(", ")}, ([\\d.]+)\\)`,
+        "g",
+      ),
       "hsl(from var(--color-action-default) h s l / $1)",
     ),
   );

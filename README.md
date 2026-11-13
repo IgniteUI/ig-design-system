@@ -11,10 +11,9 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 | File | What it is |
 |---|---|
 | `dist/tokens.css` | Every token as a CSS custom property, with its default value. Load it first. |
-| `dist/theme.css` | The live layer: tokens that follow the theming dials, colours derived from the brand seeds, the dark theme, type classes and base styles. Load it second. |
+| `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark theme, type classes and base styles. Load it second. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
-| `dist/seed.js` | Optional helper for changing the brand colours at runtime (`window.IgSeed`). `dist/seed.d.ts` types it. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin). |
 
 ```html
@@ -61,17 +60,11 @@ Set a dial on the root, or on any element, and every token below it follows.
 | `--igd-radius-factor` | unset by default (each role takes its design value); 0 is each role's minimum, 1 its maximum |
 | `--igd-elevation-factor` | multiplier, default 1 |
 | `data-theme="dark"` | the dark theme, on the page or on one region |
-| `data-ig-scope` | a region that carries its own brand colours |
+| `data-ig-scope` | a region that carries its own base colours |
 
-**Brand colours.** The primary and secondary seeds can be changed at runtime:
+**Brand colours.** The brand colours are a build input. The seeds live in `src/palettes.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action colour used as text keeps the seed while the seed clears 4.5:1 on the light surfaces, and is darkened to the first primary step that does otherwise.
 
-```js
-IgSeed.setSeed('#0f9d58');        // primary: buttons, links, tints, shadows, focus
-IgSeed.setSecondary('#9810fa');   // secondary: violet accents
-IgSeed.resetSeed();
-```
-
-Hover, active, focus, tint and shadow colours are computed from the seed, so nobody picks them by hand. Two guard rails apply: a colour no screen can show is fitted, and a colour too light (or, in the dark theme, too dark) to read is adjusted wherever it is used as text or as an outline. Fills keep the exact seed with a black or white label.
+**Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. The action colour used as text or as an outline is adjusted in lightness where it would be too light (or, in the dark theme, too dark) to read. Fills keep the exact colour with a black or white label.
 
 **Dark theme.** Built from the engine's dark palette. The grey and surface ramps are swapped; every semantic name keeps its meaning.
 
@@ -94,7 +87,7 @@ Today the checks run against the reference components in this repository. Packag
 ## Repository layout
 
 ```
-src/         the generator: spec.ts (the vocabulary), make.ts (builds dist/), namespace.ts (applies the --igd- prefix), dtcg.ts, seed.ts, types.ts (the shape of tokens.json)
+src/         the generator: spec.ts (the vocabulary), make.ts (builds dist/), namespace.ts (applies the --igd- prefix), dtcg.ts, types.ts (the shape of tokens.json)
 checks/      the checks listed above
 dist/        the generated package (committed, so a site can use it without building)
 reports/     contrast and derived-colour reports from the last build
@@ -125,5 +118,5 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 - Home organisation, licence and public package name
 - The checks as one installable command for consuming repositories
+- A primary seed that does not clear 4.5:1 as text on white builds, but the derived-state gate reports drift and one table label fails AA (#15)
 - A reduced-motion, focus and target-size check (it exists for the reference components, but depends on a showcase page that is not in this repository yet)
-- Greys have no seed, so only the primary and secondary colours can be moved at runtime

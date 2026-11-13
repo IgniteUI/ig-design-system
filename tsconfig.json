@@ -16,8 +16,7 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "erasableSyntaxOnly": true,
-    "moduleDetection": "legacy"
+    "erasableSyntaxOnly": true
   },
   "include": [
     "src",
