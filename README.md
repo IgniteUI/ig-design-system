@@ -117,7 +117,9 @@ npm run lint                      # Biome: format and lint rules, no changes wri
 npm run format                    # Biome: write the format and the safe lint fixes
 ```
 
-`src/palettes.json` holds the compiled engine palettes. `npm run palettes` regenerates it from the seed colours in `src/palettes.ts`.
+`src/palettes.json` holds the compiled engine palettes: the raw colour of every shade, as hex. `npm run palettes` regenerates it from the seed colours in `src/palettes.ts` with Sass alone.
+
+The generator takes its numbers from the engine: `palette()` for the colours, `contrast()` for the ratios quoted in the token notes, `adaptive-contrast()` for the contrast variables, `typography()`, `elevations()`, `pad()`, `sizable()` and `border-radius()` for the rest.
 
 ## Open items
 
