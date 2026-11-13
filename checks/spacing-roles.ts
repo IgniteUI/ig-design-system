@@ -2,8 +2,10 @@
 // node checks/spacing-roles.ts <dir-or-file> [...]
 import fs from "node:fs";
 import path from "node:path";
+import { isMain } from "../src/main.ts";
 
-const role = (prop: string) => {
+/** The spacing role a property takes, or null when the property is not a spacing property. */
+export const role = (prop: string) => {
   const p = prop.replace(/-/g, "").toLowerCase();
   if (p.startsWith("padding") || p.endsWith("pad")) return "inset";
   if (
@@ -20,35 +22,46 @@ const role = (prop: string) => {
   if (p.startsWith("margin")) return "stack";
   return null;
 };
-const files: string[] = [];
-const walk = (p: string): void => {
-  if (fs.statSync(p).isDirectory())
-    for (const f of fs.readdirSync(p)) walk(path.join(p, f));
-  else if (/\.(jsx|css)$/.test(p)) files.push(p);
-};
-for (const p of process.argv.slice(2)) walk(p);
-let bad = 0;
-for (const f of files) {
-  const t = fs.readFileSync(f, "utf8");
-  for (const m of t.matchAll(/var\(--space-((?:\d?x[sl]|sm|md|lg))\)/g)) {
-    const before = t.slice(Math.max(0, m.index - 400), m.index);
+
+export type RawStep = { prop: string; value: string; fix: string };
+
+/** Lists the raw spacing steps used in a spacing property. The property is the nearest name before the var(), within 400 characters. */
+export const rawSteps = (text: string): RawStep[] => {
+  const found: RawStep[] = [];
+  for (const m of text.matchAll(/var\(--space-((?:\d?x[sl]|sm|md|lg))\)/g)) {
+    const before = text.slice(Math.max(0, m.index - 400), m.index);
     const props = [
       ...before.matchAll(
         /(?:[{,;]\s*|\b(?:const|let)\s+)([a-zA-Z-]+)\s*[:=](?!=)/g,
       ),
     ].map((x) => x[1]);
-    const r = props.length ? role(props.at(-1)!) : null;
-    if (r) {
+    const prop = props.at(-1);
+    const r = prop ? role(prop) : null;
+    if (prop && r)
+      found.push({ prop, value: m[0], fix: `var(--space-${r}-${m[1]})` });
+  }
+  return found;
+};
+
+if (isMain(import.meta.url)) {
+  const files: string[] = [];
+  const walk = (p: string): void => {
+    if (fs.statSync(p).isDirectory())
+      for (const f of fs.readdirSync(p)) walk(path.join(p, f));
+    else if (/\.(jsx|css)$/.test(p)) files.push(p);
+  };
+  for (const p of process.argv.slice(2)) walk(p);
+  let bad = 0;
+  for (const f of files) {
+    for (const s of rawSteps(fs.readFileSync(f, "utf8"))) {
       bad++;
-      console.log(
-        `${f}: ${props.at(-1)} uses ${m[0]}; use var(--space-${r}-${m[1]})`,
-      );
+      console.log(`${f}: ${s.prop} uses ${s.value}; use ${s.fix}`);
     }
   }
+  console.log(
+    bad
+      ? `spacing roles gate: ${bad} raw step(s) in a spacing property`
+      : `spacing roles gate: pass (${files.length} files)`,
+  );
+  process.exit(bad ? 1 : 0);
 }
-console.log(
-  bad
-    ? `spacing roles gate: ${bad} raw step(s) in a spacing property`
-    : `spacing roles gate: pass (${files.length} files)`,
-);
-process.exit(bad ? 1 : 0);

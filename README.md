@@ -87,6 +87,8 @@ Hover, active, focus, tint and shadow colours are computed from the seed, so nob
 | `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
 | `checks/gates-themes.ts` | Any of 58 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
 
+The rules of the three source checks and the functions of the generator have unit tests in `src/*.test.ts` and `checks/*.test.ts`. Each script exports its functions and does its file work only when it is the script Node was started with.
+
 Today the checks run against the reference components in this repository. Packaging them as one command that any consuming repository can run on its own code is the next step.
 
 ## Repository layout
@@ -109,7 +111,8 @@ Requires Node 22.18 or newer. The generator and the checks are TypeScript and No
 ```sh
 npm ci
 npx playwright install chromium   # the contrast checks measure real rendered colours
-npm test                          # type check, lint, build, then run every check
+npm test                          # type check, lint, build, unit tests, then every check
+npm run test:unit                 # Vitest: the unit tests next to the sources (`*.test.ts`)
 npm run lint                      # Biome: format and lint rules, no changes written
 npm run format                    # Biome: write the format and the safe lint fixes
 ```
