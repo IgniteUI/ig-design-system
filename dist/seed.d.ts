@@ -6,7 +6,7 @@ interface IgOklch {
 interface IgFittedOklch extends IgOklch {
     fitted: boolean;
 }
-type IgSeedFamily = 'brand' | 'secondary';
+type IgSeedFamily = "brand" | "secondary";
 interface IgSeedContrast {
     label: number;
     text: number;
