@@ -6,18 +6,18 @@ export function UtilityBar({
   style, ...rest
 }) {
   return (
-    <div className="type-detail-1" style={{
-      maxWidth: 'var(--container-max-width)', margin: '0 auto',
-      padding: 'var(--space-inset-xs) var(--container-gutter)', display: 'flex', alignItems: 'center',
-      flexWrap: 'wrap', justifyContent: 'flex-end', gap: 'var(--space-gap-2xs) clamp(var(--space-gap-xs), 1.6vw, var(--space-gap-xl))',
-      fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-secondary)', ...style,
+    <div className="igd-type-detail-1" style={{
+      maxWidth: 'var(--igd-container-max-width)', margin: '0 auto',
+      padding: 'var(--igd-space-inset-xs) var(--igd-container-gutter)', display: 'flex', alignItems: 'center',
+      flexWrap: 'wrap', justifyContent: 'flex-end', gap: 'var(--igd-space-gap-2xs) clamp(var(--igd-space-gap-xs), 1.6vw, var(--igd-space-gap-xl))',
+      fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-text-secondary)', ...style,
     }} {...rest}>
       <span style={{ whiteSpace: 'nowrap' }}>
         {salesLabel}{' '}
-        <a href={'tel:' + phone.replace(/[^0-9]/g, '')} style={{ color: 'var(--color-text-secondary)', whiteSpace: 'nowrap' }}>{phone}</a>
+        <a href={'tel:' + phone.replace(/[^0-9]/g, '')} style={{ color: 'var(--igd-color-text-secondary)', whiteSpace: 'nowrap' }}>{phone}</a>
       </span>
       {links.map(l => (
-        <a key={l.label} href={l.href} style={{ color: 'var(--color-link-utility)' }}>{l.label}</a>
+        <a key={l.label} href={l.href} style={{ color: 'var(--igd-color-link-utility)' }}>{l.label}</a>
       ))}
     </div>
   );

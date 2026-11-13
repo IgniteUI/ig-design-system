@@ -233,7 +233,7 @@ describe("toDtcg", () => {
   it("reads durations and easings from the theme stylesheet", () => {
     const { groups } = toDtcg(
       tokens(),
-      ":root {\n  --duration-fast: 160ms;\n  --easing-default: cubic-bezier(0.33, 1, 0.68, 1);\n}",
+      ":root {\n  --igd-duration-fast: 160ms;\n  --igd-easing-default: cubic-bezier(0.33, 1, 0.68, 1);\n}",
     );
     expect(groups.duration["duration-fast"]).toEqual({
       $value: { value: 160, unit: "ms" },

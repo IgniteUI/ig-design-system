@@ -1,4 +1,4 @@
-// Gate: padding, margins and gaps in a component use the spacing roles (space-inset-*, space-stack-*, space-gap-*), never a raw step.
+// Gate: padding, margins and gaps in a component use the spacing roles (--igd-space-inset-*, --igd-space-stack-*, --igd-space-gap-*), never a raw step.
 // node checks/spacing-roles.ts <dir-or-file> [...]
 import fs from "node:fs";
 import path from "node:path";
@@ -28,7 +28,9 @@ export type RawStep = { prop: string; value: string; fix: string };
 /** Lists the raw spacing steps used in a spacing property. The property is the nearest name before the var(), within 400 characters. */
 export const rawSteps = (text: string): RawStep[] => {
   const found: RawStep[] = [];
-  for (const m of text.matchAll(/var\(--space-((?:\d?x[sl]|sm|md|lg))\)/g)) {
+  for (const m of text.matchAll(
+    /var\(--igd-space-((?:\d?x[sl]|sm|md|lg))\)/g,
+  )) {
     const before = text.slice(Math.max(0, m.index - 400), m.index);
     const props = [
       ...before.matchAll(
@@ -38,7 +40,7 @@ export const rawSteps = (text: string): RawStep[] => {
     const prop = props.at(-1);
     const r = prop ? role(prop) : null;
     if (prop && r)
-      found.push({ prop, value: m[0], fix: `var(--space-${r}-${m[1]})` });
+      found.push({ prop, value: m[0], fix: `var(--igd-space-${r}-${m[1]})` });
   }
   return found;
 };

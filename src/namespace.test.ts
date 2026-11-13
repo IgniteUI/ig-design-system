@@ -1,41 +1,53 @@
 import { describe, expect, it } from "vitest";
-import { ns } from "./namespace.ts";
+import { cssVar, ns } from "./namespace.ts";
 
 describe("ns", () => {
-  it("renames an engine custom property", () => {
-    expect(ns("--ig-primary-500: #155dfc;")).toBe(
-      "--igd-primary-500: #155dfc;",
+  it("prefixes a design system custom property", () => {
+    expect(ns("--color-action-default: #155dfc;")).toBe(
+      "--igd-color-action-default: #155dfc;",
     );
   });
 
-  it("renames an engine name inside var()", () => {
-    expect(ns("color: var(--ig-gray-900);")).toBe(
-      "color: var(--igd-gray-900);",
+  it("prefixes a design system name inside var()", () => {
+    expect(ns("padding: var(--space-inset-md);")).toBe(
+      "padding: var(--igd-space-inset-md);",
     );
   });
 
-  it("renames a bare token name in JSON and in an alias", () => {
-    expect(ns('"name": "ig-gray-900", "value": "{ig-surface-base}"')).toBe(
-      '"name": "igd-gray-900", "value": "{igd-surface-base}"',
-    );
+  it("leaves an engine name alone", () => {
+    const text = "--color: var(--ig-primary-500); --ig-size: 3;";
+    expect(ns(text)).toBe("--igd-color: var(--ig-primary-500); --ig-size: 3;");
   });
 
-  it("leaves a name that only contains ig- alone", () => {
-    const text = "config-value big-step --color-ig-thing";
+  it("leaves the custom properties the engine emits without a prefix alone", () => {
+    const text =
+      "--component-size: var(--ig-size); --is-large: 1; --y: 0; --y-contrast: xyz-d65 var(--y) var(--y) var(--y);";
     expect(ns(text)).toBe(text);
   });
 
-  it("leaves ig- alone when no letter follows", () => {
-    expect(ns("ig-500 ig-")).toBe("ig-500 ig-");
+  it("prefixes a name that only starts like a bare engine name", () => {
+    expect(ns("--y-offset: 0; --is-largest: 1;")).toBe(
+      "--igd-y-offset: 0; --igd-is-largest: 1;",
+    );
   });
 
-  it("leaves a published name alone", () => {
-    const text = "--igd-size: 3; igd-primary-500";
+  it("leaves a class-name modifier alone", () => {
+    const text = ".button--primary .a--b";
     expect(ns(text)).toBe(text);
   });
 
   it("gives the same text when applied twice", () => {
-    const once = ns("--ig-size: var(--ig-size-large); {ig-primary-600}");
+    const once = ns("--space-md: var(--space-lg); --ig-size: 3;");
     expect(ns(once)).toBe(once);
+  });
+});
+
+describe("cssVar", () => {
+  it("keeps the engine prefix of an engine name", () => {
+    expect(cssVar("ig-dark-surface-200")).toBe("--ig-dark-surface-200");
+  });
+
+  it("adds the published prefix to a design system name", () => {
+    expect(cssVar("color-text-muted")).toBe("--igd-color-text-muted");
   });
 });

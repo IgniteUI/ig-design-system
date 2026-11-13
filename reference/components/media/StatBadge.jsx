@@ -1,25 +1,25 @@
 import React from 'react';
 
-const ACCENTS = { sky: 'var(--color-accent-sky)', teal: 'var(--color-accent-teal)', blue: 'var(--color-accent-blue)', violet: 'var(--color-accent-violet)' };
-const OFF = 'calc(-1 * var(--stat-badge-offset))';
+const ACCENTS = { sky: 'var(--igd-color-accent-sky)', teal: 'var(--igd-color-accent-teal)', blue: 'var(--igd-color-accent-blue)', violet: 'var(--igd-color-accent-violet)' };
+const OFF = 'calc(-1 * var(--igd-stat-badge-offset))';
 const POS = {
   'top-left': { top: OFF, left: OFF }, 'top-right': { top: OFF, right: OFF },
-  'bottom-left': { bottom: 'var(--stat-badge-inset)', left: 'var(--stat-badge-inset)' },
-  'bottom-right': { bottom: 'var(--stat-badge-inset)', right: 'var(--stat-badge-inset)' },
+  'bottom-left': { bottom: 'var(--igd-stat-badge-inset)', left: 'var(--igd-stat-badge-inset)' },
+  'bottom-right': { bottom: 'var(--igd-stat-badge-inset)', right: 'var(--igd-stat-badge-inset)' },
 };
 
-// duration (seconds) overrides --duration-float for this badge only.
+// duration (seconds) overrides --igd-duration-float for this badge only.
 export function StatBadge({ value, label, accent = 'sky', position = 'top-left', duration, style, ...rest }) {
   return (
     <div style={{
-      position: 'absolute', ...POS[position], zIndex: 'var(--z-index-media)',
-      background: 'var(--color-surface-inverse)', borderRadius: 'var(--radius-md)',
-      padding: 'var(--space-inset-sm) var(--space-inset-md)', boxShadow: 'var(--shadow-floating)',
-      animation: 'ig-float var(--duration-float) ease-in-out infinite',
+      position: 'absolute', ...POS[position], zIndex: 'var(--igd-z-index-media)',
+      background: 'var(--igd-color-surface-inverse)', borderRadius: 'var(--igd-radius-md)',
+      padding: 'var(--igd-space-inset-sm) var(--igd-space-inset-md)', boxShadow: 'var(--igd-shadow-floating)',
+      animation: 'igd-float var(--igd-duration-float) ease-in-out infinite',
       animationDuration: duration != null ? duration + 's' : undefined, ...style,
     }} {...rest}>
-      <div className="type-h4" style={{ color: ACCENTS[accent] || accent, whiteSpace: 'nowrap' }}>{value}</div>
-      <div className="type-detail-2" style={{ color: 'var(--color-text-inverse-muted)' }}>{label}</div>
+      <div className="igd-type-h4" style={{ color: ACCENTS[accent] || accent, whiteSpace: 'nowrap' }}>{value}</div>
+      <div className="igd-type-detail-2" style={{ color: 'var(--igd-color-text-inverse-muted)' }}>{label}</div>
     </div>
   );
 }

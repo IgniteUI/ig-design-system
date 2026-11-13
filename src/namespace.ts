@@ -1,41 +1,37 @@
 // node src/namespace.ts
-// The engine emits its variables as --ig-*. The design system publishes them as --igd-*, so its tokens can never collide
-// with an Ignite UI product theme loaded on the same page. The generator works in the engine's own names; this step is
-// the single place where the published prefix is applied, to every generated file.
+// Publishes every token the design system defines as --igd-*. The engine's own output keeps the engine's names
+// (--ig-primary-500, --ig-size, …), so an Ignite UI component on the page follows the same palette and dials.
+// The generator works in bare names; this step is the single place where the published prefix is applied.
 import fs from "node:fs";
-import path from "node:path";
 import { isMain } from "./main.ts";
 
-export const ENGINE = "ig",
-  PUBLISHED = "igd";
-const css = new RegExp(`--${ENGINE}-`, "g"); // custom properties: --ig-primary-500, --ig-size, …
-const name = new RegExp(`(?<![\\w-])${ENGINE}-(?=[a-z])`, "g"); // token names in JSON and prose: ig-primary-500, {ig-gray-900}
-export const ns = (t: string) =>
-  t.replace(css, `--${PUBLISHED}-`).replace(name, `${PUBLISHED}-`);
+export const ENGINE = "ig";
+export const PUBLISHED = "igd";
+// Mirrors the custom properties the engine emits without its prefix: sizable() and adaptive-contrast().
+export const ENGINE_BARE = [
+  "component-size",
+  "is-large",
+  "is-medium",
+  "is-small",
+  "y",
+  "y-contrast",
+];
+const own = new RegExp(
+  `(?<![\\w-])--(?!${ENGINE}-|${PUBLISHED}-|(?:${ENGINE_BARE.join("|")})(?![\\w-]))(?=[a-z])`,
+  "g",
+);
+
+/** Adds the published prefix to every custom property that is not engine output. */
+export const ns = (t: string) => t.replace(own, `--${PUBLISHED}-`);
+
+/** The custom property of a token name: engine names keep theirs, the rest get the published prefix. */
+export const cssVar = (name: string) =>
+  name.startsWith(`${ENGINE}-`) ? `--${name}` : `--${PUBLISHED}-${name}`;
 
 if (isMain(import.meta.url)) {
-  const targets = [
-    "dist/tokens.css",
-    "dist/theme.css",
-    "dist/tokens.json",
-    ".cache/components.css",
-    "docs/MIGRATION.md",
-    ...fs
-      .readdirSync("reports")
-      .filter((f) => f.endsWith(".json"))
-      .map((f) => path.join("reports", f)),
-  ];
   let n = 0;
-  for (const f of targets) {
-    let t: string;
-    try {
-      t = fs.readFileSync(f, "utf8");
-    } catch {
-      // A target that was not generated is skipped.
-      continue;
-    }
-    if (new RegExp(`--${PUBLISHED}-`).test(t) && !css.test(t)) continue;
-    css.lastIndex = 0;
+  for (const f of ["dist/tokens.css", "dist/theme.css"]) {
+    const t = fs.readFileSync(f, "utf8");
     const u = ns(t);
     if (u !== t) {
       fs.writeFileSync(f, u);
@@ -43,6 +39,6 @@ if (isMain(import.meta.url)) {
     }
   }
   console.log(
-    `namespace: --${ENGINE}-* published as --${PUBLISHED}-* in ${n} file(s)`,
+    `namespace: design system tokens published as --${PUBLISHED}-* in ${n} file(s)`,
   );
 }

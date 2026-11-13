@@ -47,7 +47,7 @@ const BASES = [
     for (const d of m[2].matchAll(/([a-z-]+)\s*:\s*([^;]+)/g)) {
       if (!/color|background|border|shadow|outline|fill|stroke/.test(d[1]))
         continue;
-      for (const v of d[2].matchAll(/var\(--([a-z0-9-]+)/g))
+      for (const v of d[2].matchAll(/var\(--igd-([a-z0-9-]+)/g))
         if (!/^(focus-ring|radius|border-width|space|size)/.test(v[1])) {
           used[v[1]] ??= [];
           used[v[1]].push(m[1].trim().split("\n").pop()!.slice(0, 60));
@@ -61,7 +61,7 @@ const BASES = [
     ...new Set(
       [
         ...(tokens + bundle).matchAll(
-          /^\s*--((?:color|badge|footer|nav|table|tile|fw|window|callout)-[a-z0-9-]+):/gm,
+          /^\s*--igd-((?:color|badge|footer|nav|table|tile|fw|window|callout)-[a-z0-9-]+):/gm,
         ),
       ].map((m) => m[1]),
     ),
@@ -88,10 +88,10 @@ const BASES = [
       for (const n of ns) {
         e.style.cssText = "";
         if (n.includes("shadow")) {
-          e.style.boxShadow = `var(--${n})`;
+          e.style.boxShadow = `var(--igd-${n})`;
           o[n] = getComputedStyle(e).boxShadow;
         } else {
-          e.style.color = `var(--${n})`;
+          e.style.color = `var(--igd-${n})`;
           const c = getComputedStyle(e).color;
           const k = document.createElement("canvas").getContext("2d")!;
           k.fillStyle = c;
@@ -118,7 +118,7 @@ const BASES = [
   for (const base of BASES) {
     const o = await read(
       tokens + bundle,
-      `--${base}: ${base.includes("shadow") ? "0 0 0 9px oklch(.6 .2 150)" : "oklch(.6 .2 150)"};`,
+      `--igd-${base}: ${base.includes("shadow") ? "0 0 0 9px oklch(.6 .2 150)" : "oklch(.6 .2 150)"};`,
     );
     for (const n of names)
       if (o[n] !== live[n]) {
@@ -141,7 +141,7 @@ const BASES = [
   };
   const moved: Named<string[]> = {};
   for (const t of all) {
-    const o = await read(tokens + bundle, `--${t}: oklch(.6 .2 150);`);
+    const o = await read(tokens + bundle, `--igd-${t}: oklch(.6 .2 150);`);
     moved[t] = all.filter((n) => n !== t && o[n] !== live[n]);
   }
   const affected: Named<string[]> = {};

@@ -23,25 +23,29 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 
 ```css
 .promo-button {
-  background: var(--color-action-default);
-  color: var(--color-action-on);
-  padding: var(--space-inset-sm) var(--space-inset-xl);
-  border-radius: var(--radius-full);
+  background: var(--igd-color-action-default);
+  color: var(--igd-color-action-on);
+  padding: var(--igd-space-inset-sm) var(--igd-space-inset-xl);
+  border-radius: var(--igd-radius-full);
 }
-.promo-button:hover { background: var(--color-action-fill-hover); }
+.promo-button:hover { background: var(--igd-color-action-fill-hover); }
 ```
 
 ## Token tiers
 
 | Tier | Prefix | Who uses it |
 |---|---|---|
-| Raw | `--igd-*` | Engine output: palette steps and seeds. Only the design system reaches in here. |
-| Semantic | `--color-*`, `--space-*`, `--radius-*`, `--size-*`, `--shadow-*`, … | Site code uses these. The name says what the value is for. |
-| Component | `--footer-*`, `--nav-*`, `--table-*`, … | One component's own choice, built from the semantic tier. |
+| Raw | `--ig-*` | Engine output, under the engine's own names: palette steps, seeds, elevations, type slots and the theming dials. Only the design system reaches in here. |
+| Semantic | `--igd-color-*`, `--igd-space-*`, `--igd-radius-*`, `--igd-size-*`, `--igd-shadow-*`, … | Site code uses these. The name says what the value is for. |
+| Component | `--igd-footer-*`, `--igd-nav-*`, `--igd-table-*`, … | One component's own choice, built from the semantic tier. |
 
-The raw tier and the theming dials use the prefix `--igd-`, not the engine's own `--ig-`, so these tokens never collide with an Ignite UI product theme loaded on the same page. The generator works in the engine's names and `src/namespace.ts` applies the published prefix as the last build step.
+Every token the design system defines is published as `--igd-*`, so it cannot collide with a site's own custom properties. Engine output keeps `--ig-*`. An Ignite UI component on the same page reads the same names, so the page has one palette and one set of dials (`--ig-size`, `--ig-spacing`, `--ig-radius-factor`, `--ig-elevation-factor`). The package is not a complete Ignite UI theme: of the engine's `*-contrast` variables it ships only `--ig-primary-600-contrast`. The generator works in bare names and `src/namespace.ts` applies the published prefix as the last build step.
 
-**Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default`, `color-text-muted`, `color-surface-tint`. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
+Token names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS.
+
+The classes and keyframes the package defines follow the same rule: `.igd-type-h1` … `.igd-type-detail-2` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
+
+**Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default` (`--igd-color-action-default` in CSS), `color-text-muted`, `color-surface-tint`. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
 
 **Spacing** has two tiers. The steps are `space-3xs` … `space-6xl`; the name is a size, not a pixel value, because the live value follows the spacing and size dials. On top of them sit three roles, and these are what components use:
 
@@ -55,10 +59,10 @@ Set a dial on the root, or on any element, and every token below it follows.
 
 | Dial | Values |
 |---|---|
-| `--igd-size` | 1 small, 2 medium, 3 large (default) |
-| `--igd-spacing` | multiplier, default 1 |
-| `--igd-radius-factor` | unset by default (each role takes its design value); 0 is each role's minimum, 1 its maximum |
-| `--igd-elevation-factor` | multiplier, default 1 |
+| `--ig-size` | 1 small, 2 medium, 3 large (default) |
+| `--ig-spacing` | multiplier, default 1 |
+| `--ig-radius-factor` | unset by default (each role takes its design value); 0 is each role's minimum, 1 its maximum |
+| `--ig-elevation-factor` | multiplier, default 1 |
 | `data-theme="dark"` | the dark theme, on the page or on one region |
 | `data-ig-scope` | a region that carries its own base colours |
 

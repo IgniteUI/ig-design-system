@@ -3,19 +3,21 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isMain } from "../src/main.ts";
+import { ENGINE_BARE } from "../src/namespace.ts";
 
 /** Names of the custom properties a stylesheet declares, without the leading `--`. */
 export const definedVars = (css: string) =>
   new Set([...css.matchAll(/--([\w-]+)\s*:/g)].map((m) => m[1]));
 
-/** Names read through var() that are not defined. Raw-tier names, the contrast helpers and built-up names ending in `-` are skipped. */
+/** Names read through var() that are not defined. Engine names and built-up names ending in `-` are skipped. */
 export const undefinedVars = (text: string, defined: Set<string>) =>
   [...text.matchAll(/var\(--([\w-]+)/g)]
     .map((m) => m[1])
     .filter(
       (n) =>
         !defined.has(n) &&
-        !/^(igd?-|y$|y-contrast)/.test(n) &&
+        !n.startsWith("ig-") &&
+        !ENGINE_BARE.includes(n) &&
         !n.endsWith("-"),
     );
 

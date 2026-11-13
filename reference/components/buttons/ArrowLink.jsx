@@ -6,7 +6,7 @@ const TYPE = { sm: 'caption', md: 'body-2', lg: 'subtitle-2' };
 
 export function ArrowLink({ children, href, tone = 'action', size = 'md', style, ...rest }) {
   return (
-    <a href={href} className={'type-' + (TYPE[size] || TYPE.md)} data-ig="arrow-link" data-tone={tone} style={style} {...rest}>
+    <a href={href} className={'igd-type-' + (TYPE[size] || TYPE.md)} data-ig="arrow-link" data-tone={tone} style={style} {...rest}>
       {children}
       <Icon name="arrow-right" size="text" />
     </a>
