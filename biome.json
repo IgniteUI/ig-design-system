@@ -47,17 +47,5 @@
         "noDebugger": "error"
       }
     }
-  },
-  "overrides": [
-    {
-      "includes": ["src/seed.ts"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noFocusedTests": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }
