@@ -16,13 +16,11 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "erasableSyntaxOnly": true
+    "erasableSyntaxOnly": true,
+    "moduleDetection": "legacy"
   },
   "include": [
     "src",
     "checks"
-  ],
-  "exclude": [
-    "src/seed.ts"
   ]
 }
