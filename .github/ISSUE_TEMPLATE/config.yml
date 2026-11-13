@@ -1,0 +1,9 @@
+# Hides the blank-issue option; issues use the forms.
+blank_issues_enabled: false
+contact_links:
+  - name: Engine bug (igniteui-theming)
+    url: https://github.com/IgniteUI/igniteui-theming/issues/new/choose
+    about: A palette, pad(), sizable(), border-radius() or adaptive-contrast result that is wrong in the engine itself belongs in the theming repository.
+  - name: Shared Astro component bug
+    url: https://github.com/IgniteUI/igniteui-astro-components/issues/new/choose
+    about: A problem in a component used by the Blog, Docs or API docs (not in a token) belongs in the Astro components repository.

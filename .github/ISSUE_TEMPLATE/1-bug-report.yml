@@ -1,0 +1,101 @@
+name: Bug report
+description: A token has the wrong value, the build output is wrong, or a check passes or fails when it should not.
+title: '[Bug]: '
+labels: [':bug: bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Three fields are required: what happened, how to reproduce it, and the area. The rest helps us fix it faster but is optional.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What you did, what you got, and what you expected instead. Name the token or the check, and give the values.
+      placeholder: |
+        `--color-action-text` resolves to `oklch(0.82 0.12 95)` after `IgSeed.setSeed('#ffd400')` in the light theme.
+        It measures 1.9:1 on `--color-surface-default`. I expected it to be adjusted to at least 4.5:1.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The smallest CSS, HTML or command that shows it.
+      placeholder: |
+        1. Load `dist/tokens.css` and `dist/theme.css`
+        2. Run `IgSeed.setSeed('#ffd400')`
+        3. Inspect a link
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Token value (colour)
+        - Token value (spacing, size, radius, shadow, type)
+        - Dark theme
+        - Seed / runtime theming (seed.js, data-ig-scope)
+        - Theming dials (--igd-size, --igd-spacing, --igd-radius-factor, --igd-elevation-factor)
+        - DTCG export (infragistics.tokens.json)
+        - tokens.json
+        - Check reports a false failure
+        - Check misses a real problem
+        - Build / generator
+        - Reference components
+        - Docs / MIGRATION.md
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      description: Optional.
+      options:
+        - Both
+        - Light
+        - Dark
+        - Does not apply
+
+  - type: dropdown
+    id: site
+    attributes:
+      label: Where did you see it?
+      description: Optional.
+      multiple: true
+      options:
+        - This repository
+        - Marketing site (Astro pages)
+        - Marketing site (Umbraco)
+        - Marketing site (WordPress)
+        - Astro components
+        - Blog
+        - Docs
+        - API docs
+        - Design tool (Figma or another DTCG consumer)
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: Optional. Output of `npm ls ig-design-system`, or a commit SHA.
+      placeholder: '0.1.0'
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Optional. Browser and OS for a rendering issue; Node version for a build or check issue.
+      placeholder: Chrome 141 / macOS 26, Node 22.18
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Optional. Check output, related issues, workarounds, the version it last worked in.

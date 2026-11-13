@@ -1,0 +1,56 @@
+name: Adoption
+description: Move a site or a part of a site onto the design system, or report what blocks it.
+title: '[Adoption]: '
+labels: [':screwdriver: enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One issue per site or per part of a site. Two fields are required: the consumer and the scope.
+
+  - type: dropdown
+    id: consumer
+    attributes:
+      label: Consumer
+      options:
+        - Marketing site (Astro pages)
+        - Marketing site (Umbraco)
+        - Marketing site (WordPress)
+        - Astro components
+        - Blog
+        - Docs
+        - API docs
+        - Other (say which below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Which pages, components or stylesheets move, and what stays for a later issue. Link the repository and the PR when one exists.
+      placeholder: |
+        Replace the token layer in `igniteui-astro-components` (`src/styles/tokens`) with `ig-design-system/tokens.css` and `theme.css`.
+        Component styles keep their layout; every colour, size, spacing, shadow and radius maps to a system token.
+    validations:
+      required: true
+
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Blockers
+      description: Optional. Missing tokens, old names with no row in `docs/MIGRATION.md`, checks that cannot run on the consumer's code, build or loading constraints. Link a Token request or Bug report for each.
+
+  - type: textarea
+    id: checks
+    attributes:
+      label: Checks
+      description: Optional. Which design system checks the consumer runs in CI after the move, and on which paths.
+      placeholder: literal lint, check-vars and spacing roles on `src/components`
+
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: Optional. The condition that closes this issue.
+      placeholder: No hand-typed colour, size or spacing is left in `src/components`, and the checks pass in the consumer's CI.

@@ -1,0 +1,87 @@
+name: Accessibility issue
+description: A contrast, focus, target size or motion problem caused by a token, a theme or a reference component.
+title: '[A11y]: '
+labels: [':wheelchair: a11y', ':bug: bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The target is WCAG 2.1 AA in the light and the dark theme. Required: the tokens or component, what is wrong, and how to reproduce it.
+
+  - type: input
+    id: subject
+    attributes:
+      label: Tokens or component
+      description: For contrast, the foreground and the background token.
+      placeholder: '`color-text-muted` on `color-surface-subtle`'
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is wrong and who does it affect?
+      description: Give measured values (contrast ratio, target size in px) and the tool you used (axe, Lighthouse, DevTools, VoiceOver, NVDA).
+      placeholder: Measures 4.1:1 in the dark theme with the default seed. AA needs 4.5:1 for body text.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the seed colours and the dial values when they are not the defaults.
+      placeholder: |
+        1. Load `dist/tokens.css` and `dist/theme.css`
+        2. Set `data-theme="dark"` on the root
+        3. …
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Optional.
+      multiple: true
+      options:
+        - Colour contrast (text)
+        - Colour contrast (outline, icon, focus ring)
+        - Focus visibility
+        - Touch / pointer target size
+        - Motion / reduced motion
+        - Text size / spacing / reflow
+        - Other
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      description: Optional.
+      options:
+        - Both
+        - Light
+        - Dark
+
+  - type: dropdown
+    id: gate
+    attributes:
+      label: Is the pairing measured by the contrast gate?
+      description: Optional. `reports/contrast-report-themes.json` lists the pairings that `checks/gates-themes.cjs` measures.
+      options:
+        - Not sure
+        - 'Yes, and the gate passes'
+        - 'No, the pairing is missing from the gate'
+
+  - type: input
+    id: criterion
+    attributes:
+      label: WCAG success criterion
+      description: Optional, if you know it.
+      placeholder: 1.4.3 Contrast (Minimum)
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix
+      description: Optional.

@@ -1,0 +1,117 @@
+name: Token request
+description: Add a token, change a value, or rename or remove a token.
+title: '[Token]: '
+labels: [':screwdriver: enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Components use semantic tokens only and cannot invent a colour, size, spacing, shadow or radius. When no existing token fits, ask for one here.
+        Three fields are required: the kind of change, the problem, and the proposal.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of change
+      options:
+        - Add a token
+        - Change a token's value
+        - Rename a token (breaking)
+        - Remove a token (breaking)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can a component not express with the tokens that exist today? Link the page or design where it shows up, and name the closest existing token and why it does not fit.
+      placeholder: |
+        The pricing card needs a padding between `space-inset-xl` (24px) and `space-inset-2xl` (32px).
+        `space-inset-xl` leaves the price touching the divider on the 3-column layout.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: |
+        The token name, its value in the light and the dark theme, and what it is for.
+        Colour names follow `color-{role}-{variant}-{state}`. Spacing uses the roles `space-inset-*`, `space-stack-*` and `space-gap-*`. A name says what the value is for, not what it is.
+      placeholder: |
+        `color-surface-tint-subtle`: a section background one step lighter than `color-surface-tint`.
+        Light: derived from `color-action-default` at a fixed lightness. Dark: the same rule on the dark ramp.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Colour
+        - Spacing
+        - Size
+        - Radius
+        - Shadow / elevation
+        - Typography
+        - Opacity
+        - Motion (duration, easing)
+        - Breakpoint
+        - Z-index
+        - Component tier (one component's own token)
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Tier
+      description: Optional. Raw steps are engine output and are not used by site code.
+      options:
+        - Semantic
+        - Component
+        - Raw (--igd-*)
+        - Not sure
+
+  - type: input
+    id: design
+    attributes:
+      label: Design reference
+      description: Optional. Figma link or design doc.
+      placeholder: https://www.figma.com/design/…
+
+  - type: dropdown
+    id: consumers
+    attributes:
+      label: Which sites need it?
+      description: Optional.
+      multiple: true
+      options:
+        - All
+        - Marketing site (Astro pages)
+        - Marketing site (Umbraco)
+        - Marketing site (WordPress)
+        - Astro components
+        - Blog
+        - Docs
+        - API docs
+
+  - type: textarea
+    id: contrast
+    attributes:
+      label: Contrast pairings
+      description: Optional, for a colour. Which text or outline is drawn on which surface. Each pairing must reach WCAG AA in both themes and is added to the contrast gate.
+      placeholder: '`color-text-default` on `color-surface-tint-subtle`'
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional. Existing tokens you tried and why they are not enough.
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a PR for this.
