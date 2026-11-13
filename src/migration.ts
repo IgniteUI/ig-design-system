@@ -3,10 +3,24 @@ import fs from "node:fs";
 import * as M from "./rename-map.ts";
 import { SPACE } from "./spec.ts";
 const OUT = process.argv[2];
-const tbl = (rows: string[][], a: string, b: string) => `| ${a} | ${b} |\n|---|---|\n` + rows.map(([x, y]) => `| \`--${x}\` | \`--${y}\` |`).join("\n") + "\n";
-const groups: [string, string[][]][] = [["Colour", Object.entries(M.COLOR)], ["Size, radius, border, typography, motion and everything else", [...Object.entries(M.SIZEMAP), ...Object.entries(M.OTHER)]]];
-const NAME: Record<number, string> = Object.fromEntries(Object.entries(SPACE).map(([k, v]) => [v, k]));
-const sp = Object.entries(M.SPACEMAP).map(([o, n]) => [`space-${o}`, `space-${NAME[n]}`]);
+const tbl = (rows: string[][], a: string, b: string) =>
+  `| ${a} | ${b} |\n|---|---|\n` +
+  rows.map(([x, y]) => `| \`--${x}\` | \`--${y}\` |`).join("\n") +
+  "\n";
+const groups: [string, string[][]][] = [
+  ["Colour", Object.entries(M.COLOR)],
+  [
+    "Size, radius, border, typography, motion and everything else",
+    [...Object.entries(M.SIZEMAP), ...Object.entries(M.OTHER)],
+  ],
+];
+const NAME: Record<number, string> = Object.fromEntries(
+  Object.entries(SPACE).map(([k, v]) => [v, k]),
+);
+const sp = Object.entries(M.SPACEMAP).map(([o, n]) => [
+  `space-${o}`,
+  `space-${NAME[n]}`,
+]);
 let md = `# Migration guide
 
 This release is a clean break. The system now sits on the **igniteui-theming** engine, token names follow a three-tier convention, and nothing from the previous names is kept: no aliases, no deprecated files. This page lists every rename so a consumer can migrate with search-and-replace.
@@ -44,7 +58,8 @@ In a component, pick the role for the property: padding → \`--space-inset-{siz
 ## 4. Token renames
 
 `;
-for (const [t, rows] of groups) md += `### ${t}\n\n${tbl(rows, "Before", "Now")}\n`;
+for (const [t, rows] of groups)
+  md += `### ${t}\n\n${tbl(rows, "Before", "Now")}\n`;
 md += `Type classes: \`.ig-t-{slot}\` → \`.type-{slot}\`. Type variables: \`--type-{slot}-{font-size|font-weight|line-height|font-family}\` follow the engine slot names (\`h1\`–\`h6\`, \`subtitle-1\`, \`subtitle-2\`, \`body-1\`, \`body-2\`, \`button\`, \`caption\`, \`overline\`, \`detail-1\`, \`detail-2\`).
 
 ## 5. Component API changes
@@ -80,4 +95,5 @@ These no longer exist and have no replacement file:
 4. Drop any local hover state you layered on a component: the CSS covers it.
 5. Search for hard-coded hex, px and ms in your own code; map each to a token or ask for one.
 `;
-fs.writeFileSync(OUT, md); console.log("migration", md.length);
+fs.writeFileSync(OUT, md);
+console.log("migration", md.length);
