@@ -1,0 +1,61 @@
+# Checks the PR description against .github/PULL_REQUEST_TEMPLATE.md. Skips bot PRs.
+name: PR template
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  check:
+    name: PR template
+    if: github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request body
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const body = (context.payload.pull_request.body || '').replace(/<!--[\s\S]*?-->/g, '');
+            const errors = [];
+
+            // Splits the body into the opening text and the "## Heading" sections.
+            const sections = {};
+            let opening = '';
+            let current = null;
+            for (const line of body.split(/\r?\n/)) {
+              const m = /^##\s+(.+?)\s*$/.exec(line);
+              if (m) { current = m[1]; sections[current] = ''; continue; }
+              if (current) sections[current] += line + '\n';
+              else opening += line + '\n';
+            }
+            const text = (name) => (sections[name] || '').trim();
+            const empty = /^(n\/?a|none|-|tbd)\.?$/i;
+            const filled = (name) => text(name).length > 0 && !empty.test(text(name));
+            const ticked = (name) => text(name).match(/^\s*-\s*\[[xX]\]\s*.*$/gm) || [];
+
+            if (!opening.trim()) errors.push('Start the description with "Closes #123.", "Part of #123." or one sentence saying what changes and why.');
+            if (!filled('Changes')) errors.push('List the changes under "## Changes", one bullet per resulting rule.');
+
+            const types = ticked('Type of change');
+            if (types.length === 0) errors.push('Tick at least one box under "## Type of change".');
+
+            // A filled row has a token name other than the placeholder.
+            const tokenRows = text('Token changes').split('\n').filter((l) => /^\|\s*`--[a-z0-9-]+`/.test(l));
+            if (types.some((l) => /token (added|value changed|renamed or removed)/i.test(l)) && tokenRows.length === 0) {
+              errors.push('A token box is ticked: add one row per token under "## Token changes" with its value before and after.');
+            }
+
+            if (types.some((l) => /renamed or removed/i.test(l)) && !filled('Consumer impact')) {
+              errors.push('"Token renamed or removed" is ticked: say under "## Consumer impact" what each consuming site must change.');
+            }
+
+            if (!filled('Tests')) errors.push('Under "## Tests" give the commands you ran and their result.');
+
+            if (errors.length) {
+              core.setFailed(`The PR description is incomplete:\n- ${errors.join('\n- ')}\n\nEdit the description (not a comment) and this check runs again.`);
+            } else {
+              core.info('PR description follows the template.');
+            }

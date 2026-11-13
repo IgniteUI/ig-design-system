@@ -1,0 +1,48 @@
+name: Task
+description: Build, tooling, CI, dependency or repository work that changes no token.
+title: '[Task]: '
+labels: [':screwdriver: enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For work on the generator, the checks, CI or the repository itself. A new or changed token is a Token request. Two fields are required: the problem and the proposal.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is slow, fragile, missing or out of date today, and who it affects.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What changes, as a list of resulting rules. Say what stays the same.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Optional.
+      multiple: true
+      options:
+        - Build / generator
+        - Checks
+        - Tests
+        - CI / workflows
+        - Tooling (lint, format, types)
+        - Dependencies
+        - Packaging / release
+        - Docs / repository
+
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: Optional. The condition that closes this issue, and how to verify that the generated package did not change.
+      placeholder: '`npm test` passes and `git diff --exit-code -- dist docs` is clean.'
