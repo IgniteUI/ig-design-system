@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import * as M from "./rename-map.ts";
 import { SPACE } from "./spec.ts";
+
 const OUT = process.argv[2];
 const tbl = (rows: string[][], a: string, b: string) =>
   `| ${a} | ${b} |\n|---|---|\n` +
