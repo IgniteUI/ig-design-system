@@ -2,7 +2,7 @@ import React from 'react';
 
 // One icon component for the whole system. Geometry is a 24 x 24 grid; stroke width, size and colour are all tokens.
 //   size:   'text' follows the surrounding font size; otherwise the name of a `size-icon-*` token (xs, sm, md, lg).
-//   weight: 'regular' = --size-icon-stroke, 'strong' = --size-icon-stroke-strong.
+//   weight: 'regular' = --igd-size-icon-stroke, 'strong' = --igd-size-icon-stroke-strong.
 // Colour is currentColor, so an icon takes the colour of the element it sits in.
 const SHAPES = {
   'arrow-right':  <><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></>,
@@ -17,8 +17,8 @@ const SHAPES = {
 
 
 export function Icon({ name, size = 'md', weight = 'regular', label, style, ...rest }) {
-  const box = size === 'text' ? '1em' : 'var(--size-icon-' + size + ')';
-  const stroke = weight === 'strong' ? 'var(--size-icon-stroke-strong)' : 'var(--size-icon-stroke)';
+  const box = size === 'text' ? '1em' : 'var(--igd-size-icon-' + size + ')';
+  const stroke = weight === 'strong' ? 'var(--igd-size-icon-stroke-strong)' : 'var(--igd-size-icon-stroke)';
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
          role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}

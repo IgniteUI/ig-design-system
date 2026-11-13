@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Single-line text input with its label, hint and error message wired up (label for, aria-describedby, aria-invalid).
-//   size   'md' (--size-control-md) | 'lg' (--size-control-lg)
+//   size   'md' (--igd-size-control-md) | 'lg' (--igd-size-control-lg)
 //   tone   'light' (default) | 'dark' for dark sections such as the footer
 //   error  a message string. Setting it turns on the invalid state and shows the message.
 //   hideLabel keeps the label for screen readers only.
@@ -16,11 +16,11 @@ export function TextField({
   const msg = error || hint;
   return (
     <div data-ig="field" data-tone={tone} style={style}>
-      <label htmlFor={fid} className="type-detail-1" data-ig-label="" data-hidden={hideLabel || undefined}>{label}</label>
-      <input id={fid} className="type-body-2" data-ig="input" data-size={size} data-bare={bare || undefined}
+      <label htmlFor={fid} className="igd-type-detail-1" data-ig-label="" data-hidden={hideLabel || undefined}>{label}</label>
+      <input id={fid} className="igd-type-body-2" data-ig="input" data-size={size} data-bare={bare || undefined}
              disabled={disabled} aria-invalid={error ? 'true' : undefined}
              aria-describedby={msg ? fid + '-msg' : undefined} style={inputStyle} {...rest} />
-      {msg && <p id={fid + '-msg'} className="type-detail-1" data-ig-message="" data-error={error ? '' : undefined} role={error ? 'alert' : undefined}>{msg}</p>}
+      {msg && <p id={fid + '-msg'} className="igd-type-detail-1" data-ig-message="" data-error={error ? '' : undefined} role={error ? 'alert' : undefined}>{msg}</p>}
     </div>
   );
 }

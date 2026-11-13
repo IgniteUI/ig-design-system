@@ -6,7 +6,7 @@ import { SPACE } from "./spec.ts";
 const OUT = process.argv[2];
 const tbl = (rows: string[][], a: string, b: string) =>
   `| ${a} | ${b} |\n|---|---|\n` +
-  rows.map(([x, y]) => `| \`--${x}\` | \`--${y}\` |`).join("\n") +
+  rows.map(([x, y]) => `| \`--${x}\` | \`--igd-${y}\` |`).join("\n") +
   "\n";
 const groups: [string, string[][]][] = [
   ["Colour", Object.entries(M.COLOR)],
@@ -31,7 +31,7 @@ This release is a clean break. The system now sits on the **igniteui-theming** e
 | Area | Before | Now |
 |---|---|---|
 | Palette, type, spacing, size, radius, elevation | Hand-picked literals | Engine output (\`palette()\`, \`typography()\`, \`pad()\`, \`sizable()\`, \`border-radius()\`, indigo elevations) |
-| Token names | \`--ig-blue\`, \`--text-muted\`, \`--space-6\`, \`--ig-t-…\` | \`--color-{role}-{variant}-{state}\`, \`--space-{n}\`, \`--radius-{step}\`, \`--shadow-{role}\`, \`--type-{slot}-…\` |
+| Token names | \`--ig-blue\`, \`--text-muted\`, \`--space-6\`, \`--ig-t-…\` | \`--igd-color-{role}-{variant}-{state}\`, \`--igd-space-{size}\`, \`--igd-radius-{step}\`, \`--igd-shadow-{role}\`, \`--igd-type-{slot}-…\` |
 | Component styling | Inline literals and JS hover state | Tokens only; hover, focus, disabled, invalid and loading are CSS |
 | Icons | An inline \`<svg>\` per component | One \`Icon\` component with stroke and size tokens |
 | Forms | A bespoke input and checkbox inside the footer | \`TextField\` and \`Checkbox\` components |
@@ -44,8 +44,8 @@ Re-theming: set \`--ig-size\` (1 small, 2 medium, 3 large), \`--ig-spacing\`, \`
 Three tiers, role-based names, no colour words in semantic names.
 
 1. **Raw** (\`--ig-*\`): engine steps, for example \`--ig-primary-600\`, \`--ig-gray-200\`. Only the semantic tier points at them.
-2. **Semantic** (\`--color-*\`, \`--space-*\`, \`--radius-*\`, \`--size-*\`, \`--shadow-*\`, \`--font-weight-*\`, \`--opacity-*\`, \`--z-index-*\`, \`--breakpoint-*\`): what a value is for. Use these in product code.
-3. **Component** (\`--footer-*\`, \`--table-*\`, \`--fw-*\`, \`--badge-*\`, \`--tile-*\`, \`--callout-*\`): a decision made for one component, defined from the semantic tier.
+2. **Semantic** (\`--igd-color-*\`, \`--igd-space-*\`, \`--igd-radius-*\`, \`--igd-size-*\`, \`--igd-shadow-*\`, \`--igd-font-weight-*\`, \`--igd-opacity-*\`, \`--igd-z-index-*\`, \`--igd-breakpoint-*\`): what a value is for. Use these in product code.
+3. **Component** (\`--igd-footer-*\`, \`--igd-table-*\`, \`--igd-fw-*\`, \`--igd-badge-*\`, \`--igd-tile-*\`, \`--igd-callout-*\`): a decision made for one component, defined from the semantic tier.
 
 Colour roles read \`color-{role}-{variant}-{state}\`: \`color-action-default\`, \`color-action-hover\`, \`color-text-muted\`, \`color-surface-tint\`, \`color-border-control\`, \`color-feedback-error-default\`.
 
@@ -54,14 +54,14 @@ Colour roles read \`color-{role}-{variant}-{state}\`: \`color-action-default\`, 
 The 25-step scale collapsed to 12 engine steps, and the steps are now named by size (\`3xs\` to \`6xl\`), not by pixel value, because the live value follows \`--ig-spacing\` and \`--ig-size\`. Steps that sat one or two pixels apart merged into their nearest neighbour. Components do not use the steps directly for padding, margins and gaps: they use the roles \`--space-inset-*\`, \`--space-stack-*\` and \`--space-gap-*\`.
 
 ${tbl(sp, "Before", "Now")}
-In a component, pick the role for the property: padding → \`--space-inset-{size}\`, vertical margins → \`--space-stack-{size}\`, gap and inline margins → \`--space-gap-{size}\`.
+In a component, pick the role for the property: padding → \`--igd-space-inset-{size}\`, vertical margins → \`--igd-space-stack-{size}\`, gap and inline margins → \`--igd-space-gap-{size}\`.
 
 ## 4. Token renames
 
 `;
 for (const [t, rows] of groups)
   md += `### ${t}\n\n${tbl(rows, "Before", "Now")}\n`;
-md += `Type classes: \`.ig-t-{slot}\` → \`.type-{slot}\`. Type variables: \`--type-{slot}-{font-size|font-weight|line-height|font-family}\` follow the engine slot names (\`h1\`–\`h6\`, \`subtitle-1\`, \`subtitle-2\`, \`body-1\`, \`body-2\`, \`button\`, \`caption\`, \`overline\`, \`detail-1\`, \`detail-2\`).
+md += `Type classes: \`.ig-t-{slot}\` → \`.igd-type-{slot}\`. Type variables: \`--igd-type-{slot}-{font-size|font-weight|line-height|font-family}\` follow the engine slot names (\`h1\`–\`h6\`, \`subtitle-1\`, \`subtitle-2\`, \`body-1\`, \`body-2\`, \`button\`, \`caption\`, \`overline\`, \`detail-1\`, \`detail-2\`).
 
 ## 5. Component API changes
 
@@ -72,7 +72,7 @@ md += `Type classes: \`.ig-t-{slot}\` → \`.type-{slot}\`. Type variables: \`--
 | \`IconTile\` | \`size\` is a name (\`tile\`, \`sm\`, \`md\`, \`lg\`, \`xl\`), not a number. Numeric sizes were removed. |
 | \`FeatureCard\` | \`iconFill\` was removed (it did nothing). Hover lift is CSS and also fires on keyboard focus. |
 | \`StatBadge\` | \`duration\` still sets seconds and now overrides \`--duration-float\`. |
-| \`NavBar\` | \`panelWidth\` is a CSS length (default \`var(--nav-panel-max-width)\`), not a number. |
+| \`NavBar\` | \`panelWidth\` is a CSS length (default \`var(--igd-nav-panel-max-width)\`), not a number. |
 | \`CalloutStrip\`, \`PlatformChip\`, \`FrameworkPill\`, \`NavLink\` | Hover and focus moved to CSS; no prop changes. |
 | \`SiteFooter\` | The newsletter block is built from \`TextField\`, \`Button\` and \`Checkbox\`. Props unchanged. |
 | New | \`Icon\`, \`TextField\`, \`Checkbox\` |

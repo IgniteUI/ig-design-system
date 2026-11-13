@@ -203,11 +203,11 @@ export const toDtcg = (T: Tokens, bundle: string) => {
   out.duration = { $type: "duration" };
   out.easing = { $type: "cubicBezier" };
   for (const m of bundle.matchAll(
-    /^\s*--(duration-[a-z0-9-]+):\s*([\d.]+)(ms|s);/gm,
+    /^\s*--igd-(duration-[a-z0-9-]+):\s*([\d.]+)(ms|s);/gm,
   ))
     out.duration[m[1]] ??= tok({ value: +m[2], unit: m[3] });
   for (const m of bundle.matchAll(
-    /^\s*--(easing-[a-z0-9-]+):\s*cubic-bezier\(([^)]+)\);/gm,
+    /^\s*--igd-(easing-[a-z0-9-]+):\s*cubic-bezier\(([^)]+)\);/gm,
   ))
     out.easing[m[1]] ??= tok(m[2].split(",").map(Number));
   for (const g of ["duration", "easing"])

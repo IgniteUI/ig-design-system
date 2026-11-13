@@ -31,7 +31,7 @@ const REP = path.join(import.meta.dirname, "../reports/");
         .getContext("2d", { willReadFrequently: true })!;
       k.canvas.width = k.canvas.height = 1;
       const rgb = (n: string) => {
-        e.style.color = `var(--${n})`;
+        e.style.color = `var(--${n.startsWith("ig-") ? n : `igd-${n}`})`;
         const c = getComputedStyle(e).color;
         k.clearRect(0, 0, 1, 1);
         k.fillStyle = "#fff";

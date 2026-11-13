@@ -642,7 +642,7 @@ css += "\n";
 for (const g of typeGroups)
   for (const st of g.styles) {
     const fam = st.family || g.family;
-    css += `.${st.name} { font-family: var(--font-${fam}); font-size: ${st.fontSize}; line-height: ${st.lineHeight}; font-weight: ${st.fontWeight};${st.letterSpacing ? ` letter-spacing: ${st.letterSpacing};` : ""} }\n`;
+    css += `.igd-${st.name} { font-family: var(--font-${fam}); font-size: ${st.fontSize}; line-height: ${st.lineHeight}; font-weight: ${st.fontWeight};${st.letterSpacing ? ` letter-spacing: ${st.letterSpacing};` : ""} }\n`;
   }
 fs.writeFileSync(`${OUT}/tokens.css`, css);
 
@@ -653,7 +653,7 @@ let b = `/* Infragistics Marketing Design System — theme.css
    2. the tokens that must stay live — spacing, sizes, radii, shadows, gradients, translucent colours —
       declared again with the same names as tokens.json, so --ig-size, --ig-spacing, --ig-radius-factor,
       --ig-elevation-factor and palette edits cascade. At the default knob values they equal tokens.json;
-   3. the semantic type variables and classes (.type-<slot>), motion, and base element styles.
+   3. the semantic type variables and classes (.igd-type-<slot>), motion, and base element styles.
    Nothing in a component may carry a literal colour, length, font size, shadow or radius: it reads a token. */
 
 /* ===== 1. igniteui-theming engine layer ===== */
@@ -711,7 +711,7 @@ for (const [slot, , _fam] of S.TYPE)
   b += `  --type-${slot}-font-family: var(--ig-${slot}-font-family);\n  --type-${slot}-font-size: var(--ig-${slot}-font-size);\n  --type-${slot}-font-weight: var(--ig-${slot}-font-weight);\n  --type-${slot}-line-height: var(--ig-${slot}-line-height);\n  --type-${slot}-letter-spacing: var(--ig-${slot}-letter-spacing);\n  --type-${slot}-text-transform: var(--ig-${slot}-text-transform);\n`;
 b += "}\n";
 for (const [slot] of S.TYPE)
-  b += `.type-${slot} { font-family: var(--type-${slot}-font-family); font-size: var(--type-${slot}-font-size); font-weight: var(--type-${slot}-font-weight); line-height: var(--type-${slot}-line-height); letter-spacing: var(--type-${slot}-letter-spacing); text-transform: var(--type-${slot}-text-transform); }\n`;
+  b += `.igd-type-${slot} { font-family: var(--type-${slot}-font-family); font-size: var(--type-${slot}-font-size); font-weight: var(--type-${slot}-font-weight); line-height: var(--type-${slot}-line-height); letter-spacing: var(--type-${slot}-letter-spacing); text-transform: var(--type-${slot}-text-transform); }\n`;
 b += `
 /* ===== 4. motion keyframes and base styles ===== */
 @media (prefers-reduced-motion: reduce) {
@@ -722,11 +722,11 @@ b += `
     scroll-behavior: auto !important;
   }
 }
-@keyframes ig-float {
+@keyframes igd-float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(calc(-1 * var(--space-xs))); }
 }
-@keyframes ig-app-shimmer {
+@keyframes igd-app-shimmer {
   0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-blue) h s l / var(--opacity-heavy))); opacity: 1; }
   50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-sky) h s l / var(--opacity-heavy))); opacity: 1; }
 }
@@ -760,8 +760,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 }
 
 /* Breakpoints (media queries cannot read custom properties; generated from tokens.json breakpoint family) */
-.ig-hide-below-md { }
-@media (max-width: ${S.BREAKPOINT["breakpoint-md"][0]}px) { .ig-hide-below-md { display: none !important; } }
+.igd-hide-below-md { }
+@media (max-width: ${S.BREAKPOINT["breakpoint-md"][0]}px) { .igd-hide-below-md { display: none !important; } }
 `;
 // ---------- 7. derived colour: every state follows its base token ----------
 {

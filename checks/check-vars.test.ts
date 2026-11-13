@@ -26,14 +26,23 @@ describe("undefinedVars", () => {
     ]);
   });
 
-  it("skips the raw tier in both prefixes", () => {
-    expect(
-      undefinedVars("var(--ig-primary-500) var(--igd-primary-500)", defined),
-    ).toEqual([]);
+  it("skips an engine name", () => {
+    expect(undefinedVars("var(--ig-primary-500)", defined)).toEqual([]);
   });
 
-  it("skips the contrast helpers", () => {
-    expect(undefinedVars("var(--y) var(--y-contrast)", defined)).toEqual([]);
+  it("reports a published name that does not exist", () => {
+    expect(undefinedVars("var(--igd-color-b)", defined)).toEqual([
+      "igd-color-b",
+    ]);
+  });
+
+  it("skips the custom properties the engine emits without a prefix", () => {
+    expect(
+      undefinedVars(
+        "var(--y) var(--y-contrast) var(--component-size)",
+        defined,
+      ),
+    ).toEqual([]);
   });
 
   it("skips a name that is completed at runtime", () => {
