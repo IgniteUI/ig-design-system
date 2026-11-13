@@ -1,9 +1,11 @@
-// node src/migration.mjs <out.md> — the old → new tables come from rename-map.mjs, so they cannot drift from the build.
+// node src/migration.ts <out.md> — the old → new tables come from rename-map.ts, so they cannot drift from the build.
 import fs from "node:fs";
-const M = await import("./rename-map.mjs"); const OUT = process.argv[2];
-const tbl = (rows, a, b) => `| ${a} | ${b} |\n|---|---|\n` + rows.map(([x, y]) => `| \`--${x}\` | \`--${y}\` |`).join("\n") + "\n";
-const groups = [["Colour", Object.entries(M.COLOR)], ["Size, radius, border, typography, motion and everything else", [...Object.entries(M.SIZEMAP), ...Object.entries(M.OTHER)]]];
-const SP = (await import('./spec.mjs')).SPACE; const NAME = Object.fromEntries(Object.entries(SP).map(([k, v]) => [v, k]));
+import * as M from "./rename-map.ts";
+import { SPACE } from "./spec.ts";
+const OUT = process.argv[2];
+const tbl = (rows: string[][], a: string, b: string) => `| ${a} | ${b} |\n|---|---|\n` + rows.map(([x, y]) => `| \`--${x}\` | \`--${y}\` |`).join("\n") + "\n";
+const groups: [string, string[][]][] = [["Colour", Object.entries(M.COLOR)], ["Size, radius, border, typography, motion and everything else", [...Object.entries(M.SIZEMAP), ...Object.entries(M.OTHER)]]];
+const NAME: Record<number, string> = Object.fromEntries(Object.entries(SPACE).map(([k, v]) => [v, k]));
 const sp = Object.entries(M.SPACEMAP).map(([o, n]) => [`space-${o}`, `space-${NAME[n]}`]);
 let md = `# Migration guide
 

@@ -2,8 +2,9 @@
 // scale of spacing / sizes / radii / type slots. Values only ever come from engine output or from this map.
 
 // ---- semantic colour tokens: name -> engine token (alias) ---------------------------------------
-// Each entry: [engineToken, usage]. Usage sentences are carried from the previous system, contrast numbers are recomputed by make.mjs.
-export const ALIAS = {
+// Each entry: [engineToken, usage]. Usage sentences are carried from the previous system, contrast numbers are recomputed by make.ts.
+export type AliasEntry = [engineToken: string, usage: string];
+export const ALIAS: Record<string, AliasEntry> = {
   // brand + action
   'color-accent-blue':            ['ig-info-seed',       'Brand accent blue: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white.'],
   'color-accent-blue-hover':      ['ig-info-400',       'Hover step of `color-accent-blue`.'],
@@ -100,7 +101,8 @@ export const ALIAS = {
 };
 
 // ---- translucent colours: live = hsl(from <base> h s l / <opacity token>) ----------------------
-export const ALPHA = {
+export type AlphaEntry = [base: string, opacity: OpacityName, usage: string];
+export const ALPHA: Record<string, AlphaEntry> = {
   'color-action-subtle':          ['color-action-default',            'opacity-subtle', 'Tinted capsule fill behind `color-action-default` text.'],
   'color-action-subtle-border':   ['color-action-default',            'opacity-strong', 'Border of the `color-action-subtle` capsule.'],
   'color-emphasis-border':      ['color-accent-blue',           'opacity-heavy',  'Border of emphasised cards and the release strip at rest.'],
@@ -122,14 +124,17 @@ export const ALPHA = {
 
 // ---- px scales (nominal px at default density: size=large, spacing=1) --------------------------
 // Raw spacing steps. The name is a size, not a pixel claim: the live value follows --ig-spacing and --ig-size.
-export const SPACE = { '3xs': 2, '2xs': 4, 'xs': 8, 'sm': 12, 'md': 16, 'lg': 20, 'xl': 24, '2xl': 32, '3xl': 40, '4xl': 48, '5xl': 64, '6xl': 104 };
+export const SPACE = { '3xs': 2, '2xs': 4, 'xs': 8, 'sm': 12, 'md': 16, 'lg': 20, 'xl': 24, '2xl': 32, '3xl': 40, '4xl': 48, '5xl': 64, '6xl': 104 } satisfies Record<string, number>;
+export type SpaceStep = keyof typeof SPACE;
 // Semantic spacing: what the space is for. Components use these for padding, margins and gaps; each role can be retuned on its own.
-export const SPACE_ROLES = {
+export type SpaceRoleEntry = [usage: string, sizes: SpaceStep[]];
+export const SPACE_ROLES: Record<'inset' | 'stack' | 'gap', SpaceRoleEntry> = {
   inset: ['Padding inside a container: the space between an edge and its content.', ['3xs', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']],
   stack: ['Vertical distance between elements stacked on top of each other (margins).', ['3xs', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']],
   gap:   ['Distance between items that sit side by side or in a grid (gap, inline margins).', ['3xs', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']],
 };
-export const SIZE = { // name: [px, usage]
+export type SizeEntry = [px: number, usage: string];
+export const SIZE: Record<string, SizeEntry> = {
   'border-width-default': [1, 'Hairline borders and dividers.'],
   'border-width-strong': [1.5, 'Checkbox and gradient-border strokes.'],
   'focus-ring-width': [3, 'Width of the `color-focus-default` outline on `:focus-visible`.'],
@@ -168,12 +173,16 @@ export const SIZE = { // name: [px, usage]
   'container-prose-max-width': [880, 'Max width of prose.'],
   'catalog-card-min-width': [340, 'Min card width in the catalog grid: repeat(auto-fill, minmax(var(--catalog-card-min-width), 1fr)).'],
 };
-export const TRACKING = { // em, from the type slots
+export type TrackingEntry = [em: string, usage: string];
+// em, from the type slots
+export const TRACKING: Record<string, TrackingEntry> = {
   'letter-spacing-label': ['0.12em', 'Uppercase table and column headers.'],
   'letter-spacing-badge': ['0.04em', 'Uppercase badges.'],
   'letter-spacing-mono':  ['0.02em', 'Monogram badge.'],
 };
-export const RADIUS = { // name: [design px, usage, min px, max px]. The engine's border-radius() clamps between min and max.
+export type RadiusEntry = [designPx: number, usage: string, minPx?: number, maxPx?: number];
+// The engine's border-radius() clamps between min and max.
+export const RADIUS: Record<string, RadiusEntry> = {
   'radius-full': [32, 'Pills: every action, chip and framework selector. Fully round on controls up to 64px tall; never sharper than 4px.', 4, 32],
   'nav-panel-radius': [30, 'Flared top corners of an open nav panel.', 0, 30],
   'radius-xl': [18, 'Emphasis and catalog cards. Never a circle: capped at 28px.', 4, 28],
@@ -182,6 +191,7 @@ export const RADIUS = { // name: [design px, usage, min px, max px]. The engine'
   'radius-sm': [8, 'Small elements and the monogram badge.', 2, 12],
   'radius-xs': [6, 'OSS tag and checkbox.', 2, 8],
 };
+export type OpacityEntry = [value: number, usage: string];
 export const OPACITY = {
   'opacity-faint': [0.04, 'Barely-there tint.'],
   'opacity-subtle': [0.08, 'Soft fills and hairlines.'],
@@ -192,15 +202,19 @@ export const OPACITY = {
   'opacity-field': [0.6, 'Input fill on the dark footer.'],
   'opacity-nav': [0.96, 'Sticky nav background.'],
   'opacity-disabled': [0.45, 'Disabled controls.'],
-};
-export const WEIGHT = { 'font-weight-regular': 400, 'font-weight-medium': 500, 'font-weight-semibold': 600, 'font-weight-bold': 700, 'font-weight-extrabold': 800, 'font-weight-black': 900 };
-export const BREAKPOINT = { 'breakpoint-sm': [640, 'Two-up copy/media splits stack; footer collapses to accordions; catalog drops to one column.'], 'breakpoint-md': [768, 'Nav collapses to a menu button; the utility bar hides.'], 'breakpoint-lg': [1024, 'Feature grid goes 3-up → 2-up; the nav items collapse to a menu.'], 'breakpoint-xl': [1280, 'Container reaches full width; the gutter stops growing; secondary nav links hide below it.'] };
-export const ZINDEX = { 'z-index-base': [1, 'Section content sitting above an ambient glow.'], 'z-index-raised': [2, 'Full-card link overlays; the footer above a card body.'], 'z-index-media': [3, 'Floating stat badges over a browser frame.'], 'z-index-lift': [5, 'The G2 card that straddles two bands.'], 'z-index-sticky': [40, 'Sticky filter bar on the catalog and the nav scrim.'], 'z-index-nav': [50, 'The site header. Nothing in page content may exceed this.'], 'z-index-panel': [60, 'Nav dropdown panels.'], 'z-index-overlay': [100, 'Anything modal.'] };
+} satisfies Record<string, OpacityEntry>;
+export type OpacityName = keyof typeof OPACITY;
+export const WEIGHT: Record<string, number> = { 'font-weight-regular': 400, 'font-weight-medium': 500, 'font-weight-semibold': 600, 'font-weight-bold': 700, 'font-weight-extrabold': 800, 'font-weight-black': 900 };
+export type BreakpointEntry = [px: number, usage: string];
+export const BREAKPOINT: Record<string, BreakpointEntry> = { 'breakpoint-sm': [640, 'Two-up copy/media splits stack; footer collapses to accordions; catalog drops to one column.'], 'breakpoint-md': [768, 'Nav collapses to a menu button; the utility bar hides.'], 'breakpoint-lg': [1024, 'Feature grid goes 3-up → 2-up; the nav items collapse to a menu.'], 'breakpoint-xl': [1280, 'Container reaches full width; the gutter stops growing; secondary nav links hide below it.'] };
+export type ZIndexEntry = [value: number, usage: string];
+export const ZINDEX: Record<string, ZIndexEntry> = { 'z-index-base': [1, 'Section content sitting above an ambient glow.'], 'z-index-raised': [2, 'Full-card link overlays; the footer above a card body.'], 'z-index-media': [3, 'Floating stat badges over a browser frame.'], 'z-index-lift': [5, 'The G2 card that straddles two bands.'], 'z-index-sticky': [40, 'Sticky filter bar on the catalog and the nav scrim.'], 'z-index-nav': [50, 'The site header. Nothing in page content may exceed this.'], 'z-index-panel': [60, 'Nav dropdown panels.'], 'z-index-overlay': [100, 'Anything modal.'] };
 
 // ---- type: old role -> engine slot, with the values handed to the engine as customScale -------
 // px values are the current system's; the engine returns them as rem. family: which face the slot uses.
-export const TYPE = [
-  // slot, role (old style name), family, size px, line (unitless x size), weight, tracking, transform, usage, sample
+// line is unitless, a multiple of the size; role is the old style name.
+export type TypeRow = [slot: string, role: string, family: FamilyName, sizePx: number, line: number, weight: number, tracking: string, transform: 'none' | 'uppercase', usage: string, sample: string];
+export const TYPE: TypeRow[] = [
   ['h1',         'display-h1',   'display', 70,  1.12, 900, '-0.0257em', 'none',      'Homepage hero only, in `color-text-heading`.', 'Enterprise UI Components, Accelerated by AI'],
   ['h2',         'display-h2',   'display', 43,  1.06, 800, '-0.0256em', 'none',      'Section heads, in `color-text-heading`.', 'Meet the Industry’s Fastest Data Grid'],
   ['h3',         'display-h3',   'display', 27,  1.2,  800, '-0.0222em', 'none',      'Sub-section and panel heads; `color-text-inverse` on dark. There is no h7.', 'Sales Dashboard'],
@@ -217,9 +231,10 @@ export const TYPE = [
   ['detail-1',   'body-micro',   'body',    13,  1.5,  400, '0',         'none',      'Micro text: utility bar, legal copy, chips.', 'North American Sales: 1-800-231-8588'],
   ['detail-2',   'body-nano',    'body',    11,  1.4,  400, '0',         'none',      'Badge sublabels and nano meta labels (`color-text-muted`).', 'Fastest grid'],
 ];
-export const FAMILIES = {
+export type FamilyName = 'display' | 'body' | 'mono';
+export const FAMILIES: Record<FamilyName, string> = {
   display: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
   body: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",
   mono: "'JetBrains Mono', ui-monospace, monospace",
 };
-export const SIZE_RATIO = { small: 0.75, medium: 0.875, large: 1 }; // density steps applied by sizable()/pad()
+export const SIZE_RATIO: Record<'small' | 'medium' | 'large', number> = { small: 0.75, medium: 0.875, large: 1 }; // density steps applied by sizable()/pad()

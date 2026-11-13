@@ -1,8 +1,8 @@
 import fs from "node:fs"; import path from "node:path";
-const files = []; const walk = d => { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); fs.statSync(p).isDirectory() ? walk(p) : /\.(jsx|js)$/.test(f) && !/bundle\.js$/.test(f) && files.push(p); } };
+const files: string[] = []; const walk = (d: string): void => { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); fs.statSync(p).isDirectory() ? walk(p) : /\.(jsx|js)$/.test(f) && !/bundle\.js$/.test(f) && files.push(p); } };
 walk(process.argv[2]);
 const PROPS = "width|height|minWidth|maxWidth|minHeight|maxHeight|padding\\w*|margin\\w*|gap|rowGap|columnGap|fontSize|lineHeight|letterSpacing|borderRadius|border\\w*|top|left|right|bottom|inset|zIndex|fontWeight|opacity|flexBasis|boxShadow|transition\\w*|animation\\w*|outline\\w*|verticalAlign|fontFamily";
-const rules = [
+const rules: [name: string, pattern: RegExp][] = [
   ["hex colour", /(?<![\w&])#[0-9a-fA-F]{3,8}\b(?![^<]*<\/)/g],
   ["rgb/hsl literal", /\b(rgba?|hsla?|oklch|color-mix)\(/g],
   ["px/rem/ms literal", /(?<![\w.-])-?\d*\.?\d+(px|rem|ms)\b/g],

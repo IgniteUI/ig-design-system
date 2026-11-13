@@ -70,8 +70,8 @@ For a fix: the check or test that fails without it.
 - [ ] `dist/` and `docs/` are rebuilt and committed; `git diff --exit-code -- dist docs` is clean after the build.
 - [ ] New and changed tokens are semantic: the name says what the value is for, not what it is.
 - [ ] Reference components use system tokens only, with no hand-typed colour, size, spacing, shadow or radius.
-- [ ] Every new text or outline colour pairing is measured by `checks/gates-themes.cjs` in both themes.
-- [ ] A renamed or removed token has its row in `src/rename-map.mjs` and `docs/MIGRATION.md`.
+- [ ] Every new text or outline colour pairing is measured by `checks/gates-themes.ts` in both themes.
+- [ ] A renamed or removed token has its row in `src/rename-map.ts` and `docs/MIGRATION.md`.
 - [ ] The README is updated when a token tier, dial, check or package file changes.
 
 ## Notes for the reviewer
