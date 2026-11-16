@@ -95,6 +95,7 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 - Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
 - The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
 - The type classes are in `theme.css` only.
+- The sizes in `TYPE` are the marketing site's. `TYPE_SETS` holds a second set, `docs`, with a value for every role. `data-igd-type="docs"` on the page or on a region selects it. A set changes size, line height, weight, letter spacing and case; the face of a role does not change.
 
 Why role names: a slot name says nothing about use. `h4` is the stat number and `h6` the card title. A role name tells a developer what the style is for, as a colour token does.
 
@@ -103,6 +104,10 @@ Why unitless: a site may override a font size, and a fluid size changes with the
 Why fluid: a 70px heading does not fit a phone, and a component is meant to follow its container, not the page.
 
 Why only five: text at 16px and below is already at a size that reads on a phone. Shrinking it further would hurt.
+
+Why a set in the package: a docs page cannot take a 70px heading, and Blog, Docs and API docs would otherwise each repeat the same overrides and drift apart. The owner chose one shipped set per kind of site over per-site overrides. The `docs` values are the type scale `igniteui-astro-components` had. The set is not fluid: its largest size is 36px.
+
+A new kind of site gets a new set in `TYPE_SETS`. The build stops when a set does not list each role once.
 
 Not reviewed yet: the minimums (40, 30, 22, 18 and 17px) and the width range are a first version chosen by engineering, not by design. Changing one is one number in `src/spec.ts`.
 
@@ -127,6 +132,17 @@ Why apart: a docs site has its own element styles. Loaded on top of it, the elem
 
 Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew (an input from 40px to 48px). The owner decided each site sets the dials for itself.
 
+### 10. The showcase is generated, and it is where the tokens are documented
+
+- `src/showcase.ts` writes `docs/showcase.html` from `dist/tokens.json` on every build. Do not edit the HTML.
+- A new kind of token gets a section there. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets.
+- `check-vars` reads the page, so a `var()` in it that names no token fails `npm test`.
+- The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
+- Every token on the page is an element with `data-token="<name>"`. The filter, and any later tool that edits a token, finds it by that attribute.
+- A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
+
+Why here: `igniteui-astro-components` had its own Colors and Typography pages for its own palette and type scale. The owner decided the foundations are documented with the tokens, and that the pages about Markdown content (lists, tables, code, images, badges) stay in that repository.
+
 ## Open
 
 Nothing below is decided. Ask the owner before acting on one.
@@ -136,6 +152,7 @@ Nothing below is decided. Ask the owner before acting on one.
 - The fluid type minimums have not been reviewed by design or seen on a real page.
 - CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
+- The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
 
 ## Working here

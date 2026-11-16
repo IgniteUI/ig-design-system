@@ -13,6 +13,7 @@ const tokens = (over: Partial<Tokens> = {}): Tokens => ({
     fonts: [],
     families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
     fluid: { from: 360, to: 1280 },
+    sets: {},
     groups: [],
   },
   spacing: { tokens: [] },
@@ -202,6 +203,7 @@ describe("toDtcg", () => {
           fonts: [],
           families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
           fluid: { from: 360, to: 1280 },
+          sets: {},
           groups: [
             {
               name: "Body",
@@ -242,6 +244,7 @@ describe("toDtcg", () => {
           fonts: [],
           families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
           fluid: { from: 360, to: 1280 },
+          sets: {},
           groups: [
             {
               name: "Display",
@@ -275,6 +278,7 @@ describe("toDtcg", () => {
           fonts: [],
           families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
           fluid: { from: 360, to: 1280 },
+          sets: {},
           groups: [
             {
               name: "Display",
@@ -317,6 +321,7 @@ describe("toDtcg", () => {
           fonts: [],
           families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
           fluid: { from: 360, to: 1280 },
+          sets: {},
           groups: [
             {
               name: "Body",
@@ -340,6 +345,55 @@ describe("toDtcg", () => {
     expect(groups.typography["type-body-md"]).not.toHaveProperty("$extensions");
   });
 
+  it("writes a type set as its own group, with the face of each role", () => {
+    const { groups, errs } = toDtcg(
+      tokens({
+        type: {
+          fonts: [],
+          families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+          fluid: { from: 360, to: 1280 },
+          sets: {
+            docs: [
+              {
+                name: "type-display-lg",
+                fontSize: "2.25rem",
+                lineHeight: "1.1111",
+                fontWeight: 700,
+              },
+            ],
+          },
+          groups: [
+            {
+              name: "Display",
+              family: "display",
+              styles: [
+                {
+                  name: "type-display-lg",
+                  fontSize: "4.375rem",
+                  lineHeight: "1.12",
+                  fontWeight: 900,
+                  usage: "",
+                  sample: "",
+                },
+              ],
+            },
+          ],
+        },
+      }),
+      "",
+    );
+    expect(errs).toEqual([]);
+    expect(groups["typography-docs"]["type-display-lg"]).toEqual({
+      $value: {
+        fontFamily: "{fontFamily.font-display}",
+        fontSize: { value: 2.25, unit: "rem" },
+        fontWeight: 700,
+        letterSpacing: { value: 0, unit: "rem" },
+        lineHeight: 1.1111,
+      },
+    });
+  });
+
   it("reads durations and easings from the theme stylesheet", () => {
     const { groups } = toDtcg(
       tokens(),
@@ -359,13 +413,13 @@ describe("toDtcg", () => {
     expect(groups).not.toHaveProperty("easing");
   });
 
-  it("converts the committed tokens to 395 tokens with 8 CSS-only and no error", () => {
+  it("converts the committed tokens to 410 tokens with 8 CSS-only and no error", () => {
     const { flat, cssOnly, errs } = toDtcg(
       JSON.parse(fs.readFileSync("dist/tokens.json", "utf8")),
       fs.readFileSync("dist/theme.css", "utf8"),
     );
     expect(errs).toEqual([]);
-    expect(Object.keys(flat)).toHaveLength(395);
+    expect(Object.keys(flat)).toHaveLength(410);
     expect(Object.keys(cssOnly)).toHaveLength(8);
   });
 });

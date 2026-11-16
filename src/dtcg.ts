@@ -213,6 +213,28 @@ export const toDtcg = (T: Tokens, bundle: string) => {
       );
     }
 
+  // a type set is a second group of the same roles; each style takes the face of its role
+  const faces = Object.fromEntries(
+    T.type.groups.flatMap((g) =>
+      g.styles.map((st) => [st.name, st.family || g.family]),
+    ),
+  );
+  for (const [set, styles] of Object.entries(T.type.sets)) {
+    const group = `typography-${set}`;
+    out[group] = { $type: "typography" };
+    for (const st of styles) {
+      const size = dim(st.fontSize)!;
+      const em = st.letterSpacing ? Number.parseFloat(st.letterSpacing) : 0;
+      out[group][st.name] = tok({
+        fontFamily: `{fontFamily.font-${faces[st.name]}}`,
+        fontSize: size,
+        fontWeight: st.fontWeight,
+        letterSpacing: { value: r4(em * size.value), unit: size.unit },
+        lineHeight: +st.lineHeight,
+      });
+    }
+  }
+
   // motion lives in theme.css
   out.duration = { $type: "duration" };
   out.easing = { $type: "cubicBezier" };
