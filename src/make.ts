@@ -171,6 +171,30 @@ for (const m of fs
   .matchAll(/--ig-elevation-(\d+): ([^;]+);/g))
   tintVars[m[1]] = m[2];
 const tintUsed = [1, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+// The neutral semantic shadows go through the engine's box-shadow(), so they follow --ig-elevation-factor.
+const SHADOW_TINT: Named<string> = {
+  "color-shadow": "0, 0, 0",
+  "color-surface-inverse": rgbOf(hexOf("color-surface-inverse")).join(", "),
+};
+fs.writeFileSync(
+  ".cache/sass/shadows.scss",
+  `@use 'igniteui-theming/sass/elevations' as e;\n:root {\n${Object.entries(
+    S.SHADOW,
+  )
+    .map(
+      ([name, layers]) =>
+        `  --${name}: #{e.box-shadow((${layers.map(([y, blur, spread, tint, alpha]) => `0 ${y}px ${blur}px ${spread}px rgba(${SHADOW_TINT[tint]}, ${alpha})`).join(", ")}${layers.length === 1 ? "," : ""}))};`,
+    )
+    .join("\n")}\n}\n`,
+);
+execSync(
+  "npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/shadows.scss .cache/sass/shadows.css",
+);
+const soft: Named<string> = {};
+for (const m of fs
+  .readFileSync(".cache/sass/shadows.css", "utf8")
+  .matchAll(/--(shadow-[\w-]+): ([^;]+);/g))
+  soft[m[1]] = m[2];
 const resolveShadow = (s: string) =>
   s
     .replace(
@@ -188,9 +212,9 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     "Cards at rest — flat; a card is defined by its hairline `color-border-default`. Engine elevation 0.",
   ],
   "shadow-raised": [
-    "var(--ig-elevation-4)",
-    resolveShadow(elevNeutral[4]),
-    "Card hover: cards lift shadow only, no translate or scale. Engine elevation 4.",
+    soft["shadow-raised"],
+    resolveShadow(soft["shadow-raised"]),
+    "Card hover: cards lift shadow only, no translate or scale.",
   ],
   "shadow-accent-lg": [
     "var(--elevation-tint-16)",
@@ -203,14 +227,14 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`.",
   ],
   "shadow-overlay": [
-    "var(--ig-elevation-22)",
-    resolveShadow(elevNeutral[22]),
-    "Screenshots inside a BrowserFrame. Engine elevation 22.",
+    soft["shadow-overlay"],
+    resolveShadow(soft["shadow-overlay"]),
+    "Screenshots inside a BrowserFrame.",
   ],
   "shadow-floating": [
-    "var(--ig-elevation-16)",
-    resolveShadow(elevNeutral[16]),
-    "Floating stat badges. Engine elevation 16.",
+    soft["shadow-floating"],
+    resolveShadow(soft["shadow-floating"]),
+    "Floating stat badges.",
   ],
   "shadow-accent-md": [
     "var(--elevation-tint-13)",
@@ -664,7 +688,7 @@ const tokens: Tokens = {
     ],
   },
   shadow: {
-    note: "Resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
+    note: "`shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
     tokens: [
       ...Object.entries(SHADOWS).map(([name, [, snap, usage]]) => ({
         name,
@@ -1061,7 +1085,7 @@ b += `
   b += s;
   // one shadow colour behind every neutral elevation
   b = b.replace(
-    /(--ig-elevation-\d+: [^;]+;|--shadow-popover-filter: [^;]+;)/g,
+    /(--ig-elevation-\d+: [^;]+;|--shadow-(?:popover-filter|raised): [^;]+;)/g,
     (l) =>
       l.replace(
         /rgba\(0, ?0, ?0, ?([\d.]+)\)/g,

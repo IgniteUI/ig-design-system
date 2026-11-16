@@ -407,11 +407,11 @@
 /* ===== 2. live tokens (same names as tokens.json) ===== */
 :root, [data-ig-scope], [data-theme] {
   --igd-shadow-none: var(--ig-elevation-0);
-  --igd-shadow-raised: var(--ig-elevation-4);
+  --igd-shadow-raised: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 30px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.08), 0 calc(var(--ig-elevation-factor, 1) * 4px) calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.04);
   --igd-shadow-accent-lg: var(--igd-elevation-tint-16);
   --igd-shadow-accent-sm: var(--igd-elevation-tint-1);
-  --igd-shadow-overlay: var(--ig-elevation-22);
-  --igd-shadow-floating: var(--ig-elevation-16);
+  --igd-shadow-overlay: 0 calc(var(--ig-elevation-factor, 1) * 44px) calc(var(--ig-elevation-factor, 1) * 90px) calc(var(--ig-elevation-factor, 1) * -34px) rgba(15, 23, 42, 0.4);
+  --igd-shadow-floating: 0 calc(var(--ig-elevation-factor, 1) * 16px) calc(var(--ig-elevation-factor, 1) * 32px) calc(var(--ig-elevation-factor, 1) * -12px) rgba(15, 23, 42, 0.4);
   --igd-shadow-accent-md: var(--igd-elevation-tint-13);
   --igd-callout-release-shadow: inset 0 0 0 var(--igd-border-width-default) var(--igd-color-emphasis-ring), var(--igd-elevation-tint-13);
   --igd-callout-release-shadow-hover: inset 0 0 0 var(--igd-border-width-default) var(--igd-color-emphasis-ring-hover), var(--igd-elevation-tint-16);

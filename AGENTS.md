@@ -117,7 +117,8 @@ Considered and not done: the engine lets you register more type slots, through `
 
 ### 8. Use the engine, not a copy of it
 
-- Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()`, type from `typography()`.
+- Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()` and `box-shadow()`, type from `typography()`.
+- `shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. Why not an elevation level: the engine's levels are Material shadows at 26% black, far heavier than the site's, and loading them changed every card and screenshot. The tinted shadows, the nav panel and the raw `elevation-*` tokens are still engine levels.
 - The build starts no MCP server and no browser. Only the two gates use a browser.
 - The main palette is built with `palette()` in full, and `theme.css` declares every custom property it emits for the light palette. Ignite UI components depend on every shade of the built-in families: primary, secondary, gray, surface, info, success, warn and error. Do not trim it.
 
