@@ -130,7 +130,9 @@
   --igd-color-text-inverse: #fbfbfb;
   --igd-color-text-inverse-muted: #9da5af;
   --igd-color-icon-subtle: var(--ig-gray-400);
-  --igd-color-feedback-error-default: var(--ig-error-600);
+  --igd-color-feedback-error-default: var(--ig-error-500);
+  --igd-color-feedback-info-default: var(--ig-primary-700);
+  --igd-color-feedback-success-inverse: var(--ig-success-300);
   --igd-color-feedback-success-default: var(--ig-success-600);
   --igd-color-feedback-warning-default: var(--ig-warn-500);
   --igd-color-feedback-error-inverse: var(--ig-error-300);
@@ -211,7 +213,8 @@
   --igd-badge-preview-border: rgba(149,94,1,0.25);
   --igd-badge-premium-background: rgba(123,39,197,0.12);
   --igd-badge-premium-border: rgba(123,39,197,0.25);
-  --igd-color-feedback-error-surface: rgba(172,15,48,0.12);
+  --igd-color-feedback-info-surface: rgba(22,78,203,0.12);
+  --igd-color-feedback-error-surface: rgba(207,27,62,0.12);
   --igd-color-feedback-success-surface: rgba(6,99,60,0.12);
   --igd-color-feedback-warning-surface: rgba(149,94,1,0.12);
   --igd-nav-background: rgba(255,255,255,0.96);

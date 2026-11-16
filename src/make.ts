@@ -406,6 +406,9 @@ const CHECKS: [fg: string, bg: string, min?: number][] = [
   ["badge-preview-color", "color-surface-page"],
   ["badge-premium-color", "color-surface-page"],
   ["color-feedback-success-default", "color-surface-page"],
+  ["color-feedback-info-default", "color-surface-page"],
+  ["color-feedback-info-default", "color-surface-tint"],
+  ["color-feedback-success-inverse", "color-surface-inverse", 3],
   ["color-feedback-warning-default", "color-surface-page"],
   ["table-mark-yes-color", "table-mark-yes-background"],
   ["table-mark-partial-color", "table-mark-partial-background"],
@@ -977,6 +980,7 @@ b += `
     ["footer-focus", "color-link-inverse"],
     ["footer-link-hover", "footer-link"],
     ["color-feedback-error-inverse", "color-feedback-error-default"],
+    ["color-feedback-success-inverse", "color-feedback-success-default"],
     ["badge-bundle-background", "badge-bundle-color"],
     // pairs that belong together share one base
     ["fw-angular-background", "fw-angular-color"],
