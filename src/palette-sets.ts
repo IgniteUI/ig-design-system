@@ -11,7 +11,7 @@ const sc = Object.entries(scales)
   )
   .join(", ");
 const seeds =
-  "$primary: #155dfc, $secondary: #9810fa, $info: #0099ff, $success: #0d9488, $warn: #f59e0b";
+  "$primary: #155dfc, $secondary: #9810fa, $info: #0099ff, $success: #028a54, $warn: #f59e0b";
 /** The engine palette() call of each palette the design system builds. */
 export const sets = {
   light: `palette(${seeds}, $surface: #ffffff, $gray: #64748b, $scales: (${sc}))`,

@@ -206,7 +206,7 @@
   {
    "fg": "badge-oss-color",
    "bg": "color-surface-page",
-   "ratio": 7.32,
+   "ratio": 7.35,
    "min": 4.5,
    "ok": true
   },
@@ -614,7 +614,7 @@
   {
    "fg": "badge-oss-color",
    "bg": "color-surface-page",
-   "ratio": 14.02,
+   "ratio": 14.11,
    "min": 4.5,
    "ok": true
   },

@@ -510,11 +510,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.7098,
-          0.9765,
-          0.9373
+          0.7451,
+          0.9804,
+          0.8353
         ],
-        "hex": "#b5f9ef"
+        "hex": "#befad5"
       },
       "$description": "Engine palette step `success 50`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -523,10 +523,10 @@
         "colorSpace": "srgb",
         "components": [
           0.3608,
-          0.8824,
-          0.8196
+          0.898,
+          0.6157
         ],
-        "hex": "#5ce1d1"
+        "hex": "#5ce59d"
       },
       "$description": "Engine palette step `success 100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -534,11 +534,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.2039,
-          0.7647,
-          0.7098
+          0.1882,
+          0.7843,
+          0.5059
         ],
-        "hex": "#34c3b5"
+        "hex": "#30c881"
       },
       "$description": "Engine palette step `success 200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -546,11 +546,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.102,
-          0.6588,
-          0.6078
+          0.0745,
+          0.6745,
+          0.4196
         ],
-        "hex": "#1aa89b"
+        "hex": "#13ac6b"
       },
       "$description": "Engine palette step `success 300`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -558,11 +558,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.051,
-          0.5608,
-          0.5137
+          0.0118,
+          0.5725,
+          0.349
         ],
-        "hex": "#0d8f83"
+        "hex": "#039259"
       },
       "$description": "Engine palette step `success 400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -570,11 +570,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.0353,
-          0.4667,
-          0.4275
+          0.0078,
+          0.4784,
+          0.2902
         ],
-        "hex": "#09776d"
+        "hex": "#027a4a"
       },
       "$description": "Engine palette step `success 500`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -582,11 +582,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.0392,
-          0.3804,
-          0.349
+          0.0235,
+          0.3882,
+          0.2353
         ],
-        "hex": "#0a6159"
+        "hex": "#06633c"
       },
       "$description": "Engine palette step `success 600`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -594,11 +594,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.0549,
-          0.2941,
-          0.2706
+          0.0471,
+          0.302,
+          0.1843
         ],
-        "hex": "#0e4b45"
+        "hex": "#0c4d2f"
       },
       "$description": "Engine palette step `success 700`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -606,11 +606,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.0549,
-          0.2039,
-          0.1882
+          0.051,
+          0.2118,
+          0.1294
         ],
-        "hex": "#0e3430"
+        "hex": "#0d3621"
       },
       "$description": "Engine palette step `success 800`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -619,10 +619,10 @@
         "colorSpace": "srgb",
         "components": [
           0.0275,
-          0.0941,
-          0.0863
+          0.098,
+          0.0588
         ],
-        "hex": "#071816"
+        "hex": "#07190f"
       },
       "$description": "Engine palette step `success 900`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -630,11 +630,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.0784,
-          0.9569,
-          0.8784
+          0.1608,
+          0.9725,
+          0.6196
         ],
-        "hex": "#14f4e0"
+        "hex": "#29f89e"
       },
       "$description": "Engine palette step `success A100`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -643,10 +643,10 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.7059,
-          0.6471
+          0.7216,
+          0.4431
         ],
-        "hex": "#00b4a5"
+        "hex": "#00b871"
       },
       "$description": "Engine palette step `success A200`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -655,10 +655,10 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.5451,
-          0.498
+          0.5569,
+          0.3373
         ],
-        "hex": "#008b7f"
+        "hex": "#008e56"
       },
       "$description": "Engine palette step `success A400`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -667,10 +667,10 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.4275,
-          0.3922
+          0.4392,
+          0.2627
         ],
-        "hex": "#006d64"
+        "hex": "#007043"
       },
       "$description": "Engine palette step `success A700`, light variant. Seeded from the previous system; each step is solved for contrast by igniteui-theming."
     },
@@ -1568,7 +1568,7 @@
     },
     "badge-oss-color": {
       "$value": "{color.ig-success-600}",
-      "$description": "OSS tag label on `badge-oss-background`. Contrast 7.32:1 on `color-surface-page`."
+      "$description": "OSS tag label on `badge-oss-background`. Contrast 7.35:1 on `color-surface-page`."
     },
     "table-mark-yes-background": {
       "$value": "{color.ig-gray-200}",
@@ -1863,12 +1863,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.0392,
-          0.3804,
-          0.349
+          0.0235,
+          0.3882,
+          0.2353
         ],
         "alpha": 0.12,
-        "hex": "#0a6159"
+        "hex": "#06633c"
       },
       "$description": "OSS tag fill. Live: `badge-oss-color` at `opacity-soft`."
     },
