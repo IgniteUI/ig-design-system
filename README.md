@@ -76,25 +76,24 @@ The classes and keyframes the package defines follow the same rule: `.igd-type-d
 
 Thirteen roles read one of the engine's type slots (`--ig-h1-font-size`). `body-xs` and `body-2xs` have no engine slot and hold their own values. Line height is a unitless multiple of the font size, so it follows a font size that a site overrides.
 
-Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows from a minimum in a 360px container to its full size in a 1280px one, and follows the nearest query container, or the viewport when it is in none.
+Four roles are fluid: `display-lg`, `display-md`, `display-sm` and `lead`. Each grows from a minimum in a 360px container to its full size in a 1280px one, and follows the nearest query container, or the viewport when it is in none.
 
 | Role | 360px and narrower | 1280px and wider |
 |---|---|---|
-| `display-lg` | 40px | 70px |
+| `display-lg` | 36px | 52px |
 | `display-md` | 30px | 43px |
-| `display-sm` | 22px | 27px |
-| `lead` | 18px | 20px |
-| `body-lg` | 17px | 19px |
+| `display-sm` | 20px | 23px |
+| `lead` | 17px | 19px |
 
-**Type sets.** The sizes above are the marketing site's. A documentation page needs the same roles smaller, so the package ships a second set, `docs`. Put `data-igd-type="docs"` on the page, or on a region, and every role takes its docs value. The faces stay the same.
+**Type sets.** The sizes above are the ones www.infragistics.com ships. A documentation page needs the same roles smaller, so the package ships a second set, `docs`. Put `data-igd-type="docs"` on the page, or on a region, and every role takes its docs value. The faces stay the same.
 
 | Role | Default | `docs` |
 |---|---|---|
-| `display-lg` | 70px (40px on a phone) | 36px |
+| `display-lg` | 52px (36px on a phone) | 36px |
 | `display-md` | 43px (30px) | 24px |
-| `display-sm` | 27px (22px) | 20px |
+| `display-sm` | 23px (20px) | 20px |
 | `title-md`, `title-sm` | 18px, 16px | 16px, 14px |
-| `body-lg`, `body-md`, `body-sm` | 19px (17px), 15px, 14px | 16px, 14px, 12px |
+| `body-lg`, `body-md`, `body-sm` | 16px, 15px, 14px | 16px, 14px, 12px |
 
 The `docs` set is not fluid. `src/spec.ts` holds every value, in `TYPE_SETS`.
 

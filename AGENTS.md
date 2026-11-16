@@ -92,7 +92,7 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 - The engine has 13 type slots by default, and Ignite UI components read those 13. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
 - The six heading slots descend in size: 70, 43, 27, 21, 18, 16px from `h1` to `h6`. Keep them in order when a size changes: an Ignite UI component on the page reads them as a heading scale.
 - Line height is unitless.
-- Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
+- Four roles are fluid: `display-lg`, `display-md`, `display-sm` and `lead`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
 - The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
 - The type classes are in `theme.css` only.
 - The sizes in `TYPE` are the marketing site's. `TYPE_SETS` holds a second set, `docs`, with a value for every role. `data-igd-type="docs"` on the page or on a region selects it. A set changes size, line height, weight, letter spacing and case; the face of a role does not change.
@@ -101,15 +101,17 @@ Why role names: a slot name says nothing about use. `h4` is the stat number and 
 
 Why unitless: a site may override a font size, and a fluid size changes with the container. A line height given as a length would follow neither.
 
-Why fluid: a 70px heading does not fit a phone, and a component is meant to follow its container, not the page.
+Why fluid: a 52px heading does not fit a phone, and a component is meant to follow its container, not the page.
 
-Why only five: text at 16px and below is already at a size that reads on a phone. Shrinking it further would hurt.
+Why only four: text at 16px and below is already at a size that reads on a phone. Shrinking it further would hurt.
 
-Why a set in the package: a docs page cannot take a 70px heading, and Blog, Docs and API docs would otherwise each repeat the same overrides and drift apart. The owner chose one shipped set per kind of site over per-site overrides. The `docs` values are the type scale `igniteui-astro-components` had. The set is not fluid: its largest size is 36px.
+Why a set in the package: a docs page cannot take a 52px heading, and Blog, Docs and API docs would otherwise each repeat the same overrides and drift apart. The owner chose one shipped set per kind of site over per-site overrides. The `docs` values are the type scale `igniteui-astro-components` had. The set is not fluid: its largest size is 36px.
 
 A new kind of site gets a new set in `TYPE_SETS`. The build stops when a set does not list each role once.
 
-Not reviewed yet: the minimums (40, 30, 22, 18 and 17px) and the width range are a first version chosen by engineering, not by design. Changing one is one number in `src/spec.ts`.
+Why these sizes: the default set is the type www.infragistics.com ships (`src/styles/design-system/tokens.css` in the website repository). The full sizes are its desktop values and the minimums (36, 30, 20 and 17px) are the values it steps to below 900px. The earlier defaults (70px hero, 19px body) came from a design draft that never shipped, and loading them moved every page of the site. The owner chose the live site as the source.
+
+Not reviewed yet: the width range (360px to 1280px). The site steps once at 900px, so between the two ends a fluid size differs from the site by a few pixels.
 
 Considered and not done: the engine lets you register more type slots, through `$ITypeScale` and `$IElementCategories`. `body-xs` and `body-2xs` could be registered and published as `--ig-body-xs-*`. They are not, for three reasons. No Ignite UI component reads a slot beyond the 13. The list can only be configured on the inner module `igniteui-theming/sass/typography/types`, before anything else loads the engine; through the main entry Sass fails with "module already loaded". And a site overrides type through `--igd-type-{role}-*`, which is the same for all 15 styles.
 
@@ -149,7 +151,7 @@ Nothing below is decided. Ask the owner before acting on one.
 
 - No site consumes the package yet. It is `private`, has no licence and no release process, and its home organisation and public name are not settled.
 - The checks run only in this repository. A consumer needs them as an installed command, compiled to JavaScript: Node does not run a `.ts` file from `node_modules`.
-- The fluid type minimums have not been reviewed by design or seen on a real page.
+- The fluid type width range has not been reviewed by design.
 - CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
 - The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
