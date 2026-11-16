@@ -1,7 +1,7 @@
 {
  "stateTokens": 25,
  "derivedTokens": 41,
- "pairGroups": 12,
+ "pairGroups": 16,
  "rows": [
   [
    "callout-release-shadow-hover",
@@ -162,8 +162,36 @@
    ]
   ],
   [
+   "badge-new",
+   3,
+   [
+    "badge-new-color"
+   ]
+  ],
+  [
+   "badge-updated",
+   3,
+   [
+    "badge-updated-color"
+   ]
+  ],
+  [
+   "badge-preview",
+   3,
+   [
+    "badge-preview-color"
+   ]
+  ],
+  [
+   "badge-premium",
+   3,
+   [
+    "badge-premium-color"
+   ]
+  ],
+  [
    "badge-oss",
-   2,
+   3,
    [
     "badge-oss-color"
    ]

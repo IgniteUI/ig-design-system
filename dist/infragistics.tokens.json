@@ -1410,6 +1410,14 @@
       "$value": "{color.ig-error-600}",
       "$description": "Validation text and border on light surfaces. Contrast 7.33:1 on `color-surface-page`, 6.97:1 on `color-surface-subtle`."
     },
+    "color-feedback-success-default": {
+      "$value": "{color.ig-success-600}",
+      "$description": "Success text and icons on light surfaces: a confirmed state, a check mark. Contrast 7.35:1 on `color-surface-page`."
+    },
+    "color-feedback-warning-default": {
+      "$value": "{color.ig-warn-500}",
+      "$description": "Warning text and icons on light surfaces. Contrast 5.41:1 on `color-surface-page`."
+    },
     "color-feedback-error-inverse": {
       "$value": "{color.ig-error-300}",
       "$description": "Validation text and border on the dark footer. Contrast 5.28:1 on `color-surface-inverse-raised`."
@@ -1565,6 +1573,26 @@
     "badge-bundle-color": {
       "$value": "{color.ig-secondary-700}",
       "$description": "Bundle badge label on `badge-bundle-background`. Contrast 6.64:1 on `badge-bundle-background`."
+    },
+    "badge-new-color": {
+      "$value": "{color.ig-success-600}",
+      "$description": "New status badge label on `badge-new-background`. Contrast 7.35:1 on `color-surface-page`."
+    },
+    "badge-updated-color": {
+      "$value": "{color.ig-primary-700}",
+      "$description": "Updated status badge label on `badge-updated-background`. Contrast 7.03:1 on `color-surface-page`."
+    },
+    "badge-preview-color": {
+      "$value": "{color.ig-warn-500}",
+      "$description": "Preview status badge label on `badge-preview-background`. Contrast 5.41:1 on `color-surface-page`."
+    },
+    "badge-premium-color": {
+      "$value": "{color.ig-secondary-700}",
+      "$description": "Premium status badge label on `badge-premium-background`. Contrast 7.15:1 on `color-surface-page`."
+    },
+    "rating-star": {
+      "$value": "{color.ig-warn-200}",
+      "$description": "Filled star of a rating. Decorative."
     },
     "badge-oss-color": {
       "$value": "{color.ig-success-600}",
@@ -1871,6 +1899,162 @@
         "hex": "#06633c"
       },
       "$description": "OSS tag fill. Live: `badge-oss-color` at `opacity-soft`."
+    },
+    "badge-oss-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0235,
+          0.3882,
+          0.2353
+        ],
+        "alpha": 0.25,
+        "hex": "#06633c"
+      },
+      "$description": "OSS tag border. Live: `badge-oss-color` at `opacity-strong`."
+    },
+    "badge-new-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0235,
+          0.3882,
+          0.2353
+        ],
+        "alpha": 0.12,
+        "hex": "#06633c"
+      },
+      "$description": "New status badge fill. Live: `badge-new-color` at `opacity-soft`."
+    },
+    "badge-new-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0235,
+          0.3882,
+          0.2353
+        ],
+        "alpha": 0.25,
+        "hex": "#06633c"
+      },
+      "$description": "New status badge border. Live: `badge-new-color` at `opacity-strong`."
+    },
+    "badge-updated-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0863,
+          0.3059,
+          0.7961
+        ],
+        "alpha": 0.12,
+        "hex": "#164ecb"
+      },
+      "$description": "Updated status badge fill. Live: `badge-updated-color` at `opacity-soft`."
+    },
+    "badge-updated-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0863,
+          0.3059,
+          0.7961
+        ],
+        "alpha": 0.25,
+        "hex": "#164ecb"
+      },
+      "$description": "Updated status badge border. Live: `badge-updated-color` at `opacity-strong`."
+    },
+    "badge-preview-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.3686,
+          0.0039
+        ],
+        "alpha": 0.12,
+        "hex": "#955e01"
+      },
+      "$description": "Preview status badge fill. Live: `badge-preview-color` at `opacity-soft`."
+    },
+    "badge-preview-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.3686,
+          0.0039
+        ],
+        "alpha": 0.25,
+        "hex": "#955e01"
+      },
+      "$description": "Preview status badge border. Live: `badge-preview-color` at `opacity-strong`."
+    },
+    "badge-premium-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4824,
+          0.1529,
+          0.7725
+        ],
+        "alpha": 0.12,
+        "hex": "#7b27c5"
+      },
+      "$description": "Premium status badge fill. Live: `badge-premium-color` at `opacity-soft`."
+    },
+    "badge-premium-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4824,
+          0.1529,
+          0.7725
+        ],
+        "alpha": 0.25,
+        "hex": "#7b27c5"
+      },
+      "$description": "Premium status badge border. Live: `badge-premium-color` at `opacity-strong`."
+    },
+    "color-feedback-error-surface": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6745,
+          0.0588,
+          0.1882
+        ],
+        "alpha": 0.12,
+        "hex": "#ac0f30"
+      },
+      "$description": "Tinted fill behind `color-feedback-error-default` text. Live: `color-feedback-error-default` at `opacity-soft`."
+    },
+    "color-feedback-success-surface": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0235,
+          0.3882,
+          0.2353
+        ],
+        "alpha": 0.12,
+        "hex": "#06633c"
+      },
+      "$description": "Tinted fill behind `color-feedback-success-default` text. Live: `color-feedback-success-default` at `opacity-soft`."
+    },
+    "color-feedback-warning-surface": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.3686,
+          0.0039
+        ],
+        "alpha": 0.12,
+        "hex": "#955e01"
+      },
+      "$description": "Tinted fill behind `color-feedback-warning-default` text. Live: `color-feedback-warning-default` at `opacity-soft`."
     },
     "nav-background": {
       "$value": {

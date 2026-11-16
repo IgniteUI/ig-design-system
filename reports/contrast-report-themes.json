@@ -211,6 +211,48 @@
    "ok": true
   },
   {
+   "fg": "badge-new-color",
+   "bg": "color-surface-page",
+   "ratio": 7.35,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-updated-color",
+   "bg": "color-surface-page",
+   "ratio": 7.03,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-preview-color",
+   "bg": "color-surface-page",
+   "ratio": 5.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-premium-color",
+   "bg": "color-surface-page",
+   "ratio": 7.15,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-success-default",
+   "bg": "color-surface-page",
+   "ratio": 7.35,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-warning-default",
+   "bg": "color-surface-page",
+   "ratio": 5.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
    "fg": "table-mark-yes-color",
    "bg": "table-mark-yes-background",
    "ratio": 8.52,
@@ -615,6 +657,48 @@
    "fg": "badge-oss-color",
    "bg": "color-surface-page",
    "ratio": 14.11,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-new-color",
+   "bg": "color-surface-page",
+   "ratio": 14.11,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-updated-color",
+   "bg": "color-surface-page",
+   "ratio": 13.16,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-preview-color",
+   "bg": "color-surface-page",
+   "ratio": 11.86,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-premium-color",
+   "bg": "color-surface-page",
+   "ratio": 12.71,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-success-default",
+   "bg": "color-surface-page",
+   "ratio": 14.11,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-warning-default",
+   "bg": "color-surface-page",
+   "ratio": 11.86,
    "min": 4.5,
    "ok": true
   },

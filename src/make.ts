@@ -401,6 +401,12 @@ const CHECKS: [fg: string, bg: string, min?: number][] = [
   ["color-feedback-error-inverse", "color-surface-inverse-raised"],
   ["badge-bundle-color", "badge-bundle-background"],
   ["badge-oss-color", "color-surface-page"],
+  ["badge-new-color", "color-surface-page"],
+  ["badge-updated-color", "color-surface-page"],
+  ["badge-preview-color", "color-surface-page"],
+  ["badge-premium-color", "color-surface-page"],
+  ["color-feedback-success-default", "color-surface-page"],
+  ["color-feedback-warning-default", "color-surface-page"],
   ["table-mark-yes-color", "table-mark-yes-background"],
   ["table-mark-partial-color", "table-mark-partial-background"],
   ["table-mark-no-color", "table-mark-no-background"],
@@ -1029,7 +1035,7 @@ b += `
         // a token that is text on a light surface keeps its own lightness as a ceiling, so a lighter ramp step set on a scope cannot make it unreadable
         const o = ok(hx(m[1]));
         const isText =
-          /^(color-text|color-link)|-color$|^color-feedback-error-default$/.test(
+          /^(color-text|color-link)|-color$|^color-feedback-[a-z]+-default$/.test(
             m[1],
           ) &&
           o.l < 0.6 &&
