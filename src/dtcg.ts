@@ -180,12 +180,12 @@ export const toDtcg = (T: Tokens, bundle: string) => {
     );
   }
 
-  // type styles as composite tokens. Line height is a multiple of the font size; letter spacing is converted from em.
+  // type styles as composite tokens. Line height is a multiple of the font size, taken as is when unitless and divided by the font size when a length; letter spacing is converted from em.
   out.typography = { $type: "typography" };
   for (const g of T.type.groups)
     for (const st of g.styles) {
       const fs_ = dim(st.fontSize)!;
-      const lh = dim(st.lineHeight)!;
+      const lh = dim(st.lineHeight);
       const em = st.letterSpacing ? Number.parseFloat(st.letterSpacing) : 0;
       out.typography[st.name] = tok(
         {
@@ -193,7 +193,7 @@ export const toDtcg = (T: Tokens, bundle: string) => {
           fontSize: fs_,
           fontWeight: +st.fontWeight,
           letterSpacing: { value: r4(em * fs_.value), unit: fs_.unit },
-          lineHeight: r4(lh.value / fs_.value),
+          lineHeight: r4(lh ? lh.value / fs_.value : +st.lineHeight),
         },
         st.usage,
       );

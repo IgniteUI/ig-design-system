@@ -17,7 +17,7 @@ function BadgeMark({ cell, ours }) {
   const b = c.mark === 'yes' && ours ? BADGE.yesOurs : (BADGE[c.mark] || BADGE.no);
   const text = c.text ?? (c.mark === 'yes' ? 'Yes' : c.mark === 'no' ? 'No' : '');
   return (
-    <span className="igd-type-caption" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--igd-space-gap-xs)', lineHeight: 'var(--igd-type-body-2-line-height)', fontWeight: ours && c.mark === 'yes' ? 'var(--igd-font-weight-semibold)' : 'var(--igd-font-weight-regular)', color: ours && c.mark === 'yes' ? 'var(--igd-color-text-heading)' : 'var(--igd-color-text-ui)' }}>
+    <span className="igd-type-body-sm" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--igd-space-gap-xs)', lineHeight: 'var(--igd-type-body-md-line-height)', fontWeight: ours && c.mark === 'yes' ? 'var(--igd-font-weight-semibold)' : 'var(--igd-font-weight-regular)', color: ours && c.mark === 'yes' ? 'var(--igd-color-text-heading)' : 'var(--igd-color-text-ui)' }}>
       <span title={b.sr} style={{ flex: '0 0 auto', width: 'var(--igd-size-icon-lg)', height: 'var(--igd-size-icon-lg)', borderRadius: 'var(--igd-radius-full)', background: b.bg, color: b.fg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{b.icon}</span>
       <span>{text || <span style={SR}>{b.sr}</span>}</span>
     </span>
@@ -27,7 +27,7 @@ function PlainMark({ cell }) {
   const on = norm(cell).mark === 'yes';
   return on
     ? <span role="img" aria-label="Included" style={{ color: 'var(--igd-color-action-text)', display: 'inline-flex' }}><Icon name="check" size="lg" weight="strong" /></span>
-    : <span role="img" aria-label="Not included" style={{ color: 'var(--igd-color-icon-subtle)', fontSize: 'var(--igd-type-h6-font-size)', fontWeight: 'var(--igd-font-weight-medium)', lineHeight: 1 }}>—</span>;
+    : <span role="img" aria-label="Not included" style={{ color: 'var(--igd-color-icon-subtle)', fontSize: 'var(--igd-type-title-md-font-size)', fontWeight: 'var(--igd-font-weight-medium)', lineHeight: 1 }}>—</span>;
 }
 
 export function ComparisonTable({ variant = 'comparison', label, columns = [], groups = [], detail, collapsible, verified, sourcesHref, sourcesLabel = 'Sources', style, ...rest }) {
@@ -42,7 +42,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
   const cellPad = isCmp ? 'var(--igd-space-inset-md) var(--igd-space-inset-xl)' : 'var(--igd-space-inset-md) var(--igd-space-inset-xl)';
   const align = isCmp ? 'flex-start' : 'center';
   const tint = i => i === ours ? 'var(--igd-color-surface-tint)' : undefined;
-  const caps = { fontSize: 'var(--igd-type-overline-font-size)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-label)', textTransform: 'uppercase' };
+  const caps = { fontSize: 'var(--igd-type-eyebrow-font-size)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-label)', textTransform: 'uppercase' };
   const headPad = 'var(--igd-space-inset-md) var(--igd-space-inset-xl)';
 
   const head = isCmp ? (
@@ -51,7 +51,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
       {columns.map((c, i) => (
         <div role="columnheader" key={i} style={{ padding: headPad, background: i === ours ? 'var(--igd-color-action-default)' : undefined }}>
           <div style={caps}>{c.name}</div>
-          {c.sub && <div style={{ fontSize: 'var(--igd-type-overline-font-size)', marginTop: 'var(--igd-space-stack-2xs)', color: i === ours ? 'var(--igd-table-header-sub-highlight-color)' : 'var(--igd-table-header-sub-color)' }}>{c.sub}</div>}
+          {c.sub && <div style={{ fontSize: 'var(--igd-type-eyebrow-font-size)', marginTop: 'var(--igd-space-stack-2xs)', color: i === ours ? 'var(--igd-table-header-sub-highlight-color)' : 'var(--igd-table-header-sub-color)' }}>{c.sub}</div>}
         </div>
       ))}
       {showDetail && <div role="columnheader" style={{ padding: headPad, ...caps, color: 'var(--igd-table-header-detail-color)' }}>Detail</div>}
@@ -61,8 +61,8 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
       <div role="columnheader" style={{ padding: 'var(--igd-space-inset-xl)', ...caps, color: 'var(--igd-color-text-secondary)', display: 'flex', alignItems: 'flex-end' }}>{label ?? 'Feature'}</div>
       {columns.map((c, i) => (
         <div role="columnheader" key={i} style={{ background: tint(i), display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
-          {c.tab && <div style={{ background: 'var(--igd-color-action-default)', color: 'var(--igd-color-action-on)', fontSize: 'var(--igd-type-detail-2-font-size)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-label)', textTransform: 'uppercase', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-xs)' }}>{c.tab}</div>}
-          <div className="igd-type-body-2" style={{ padding: c.tab ? 'var(--igd-space-inset-sm) var(--igd-space-inset-md) var(--igd-space-inset-md)' : 'var(--igd-space-inset-xl) var(--igd-space-inset-md)', fontWeight: 'var(--igd-font-weight-bold)', color: 'var(--igd-color-text-heading)' }}>{c.name}{c.sub && <div style={{ fontSize: 'var(--igd-type-overline-font-size)', fontWeight: 'var(--igd-font-weight-regular)', color: 'var(--igd-color-text-muted)', marginTop: 'var(--igd-space-stack-2xs)' }}>{c.sub}</div>}</div>
+          {c.tab && <div style={{ background: 'var(--igd-color-action-default)', color: 'var(--igd-color-action-on)', fontSize: 'var(--igd-type-body-2xs-font-size)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-label)', textTransform: 'uppercase', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-xs)' }}>{c.tab}</div>}
+          <div className="igd-type-body-md" style={{ padding: c.tab ? 'var(--igd-space-inset-sm) var(--igd-space-inset-md) var(--igd-space-inset-md)' : 'var(--igd-space-inset-xl) var(--igd-space-inset-md)', fontWeight: 'var(--igd-font-weight-bold)', color: 'var(--igd-color-text-heading)' }}>{c.name}{c.sub && <div style={{ fontSize: 'var(--igd-type-eyebrow-font-size)', fontWeight: 'var(--igd-font-weight-regular)', color: 'var(--igd-color-text-muted)', marginTop: 'var(--igd-space-stack-2xs)' }}>{c.sub}</div>}</div>
         </div>
       ))}
     </div>
@@ -93,13 +93,13 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
               )}
               {!isClosed && (g.rows || []).map((r, ri) => (
                 <div role="row" key={ri} style={{ ...row, borderTop: BORDER }}>
-                  <div role="rowheader" className="igd-type-body-2" style={{ padding: cellPad, fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-text-heading)' }}>{r.label}</div>
+                  <div role="rowheader" className="igd-type-body-md" style={{ padding: cellPad, fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-text-heading)' }}>{r.label}</div>
                   {columns.map((c, ci) => (
                     <div role="cell" key={ci} style={{ padding: cellPad, background: tint(ci), display: 'flex', justifyContent: isCmp ? 'flex-start' : 'center', alignItems: align }}>
                       {isCmp ? <BadgeMark cell={r.cells?.[ci]} ours={ci === ours} /> : <PlainMark cell={r.cells?.[ci]} />}
                     </div>
                   ))}
-                  {showDetail && <div role="cell" className="igd-type-caption" style={{ padding: cellPad, color: 'var(--igd-color-text-secondary)', textWrap: 'pretty' }}>{r.detail}</div>}
+                  {showDetail && <div role="cell" className="igd-type-body-sm" style={{ padding: cellPad, color: 'var(--igd-color-text-secondary)', textWrap: 'pretty' }}>{r.detail}</div>}
                 </div>
               ))}
             </div>
@@ -107,7 +107,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
         })}
       </div>
       {isCmp && (verified || sourcesHref) && (
-        <div className="igd-type-detail-1" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--igd-space-gap-2xs) var(--igd-space-gap-sm)', marginTop: 'var(--igd-space-stack-sm)', color: 'var(--igd-color-text-muted)' }}>
+        <div className="igd-type-body-xs" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--igd-space-gap-2xs) var(--igd-space-gap-sm)', marginTop: 'var(--igd-space-stack-sm)', color: 'var(--igd-color-text-muted)' }}>
           {verified && <span>Last verified {verified}</span>}
           {sourcesHref && <a href={sourcesHref} style={{ color: 'var(--igd-color-action-text)', textDecoration: 'none', fontWeight: 'var(--igd-font-weight-semibold)' }}>{sourcesLabel}</a>}
         </div>

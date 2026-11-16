@@ -55,8 +55,8 @@ const sass = (name: string, source: string) => {
 const typeScss =
   `@use 'igniteui-theming' as *;\n$scale: (\n` +
   S.TYPE.map(
-    ([slot, , , px, line, weight, track, transform]) =>
-      `  '${slot}': type-style($font-size: rem(${px}px), $font-weight: ${weight}, $line-height: rem(${f4(px * line)}px), $letter-spacing: ${track === "0" ? "0" : track}, $text-transform: ${transform})`,
+    ([slot, , , , px, line, weight, track, transform]) =>
+      `  '${slot}': type-style($font-size: rem(${px}px), $font-weight: ${weight}, $line-height: ${line}, $letter-spacing: ${track === "0" ? "0" : track}, $text-transform: ${transform})`,
   ).join(",\n") +
   `\n);\n:root { @include typography('x', $scale); }\n`;
 fs.writeFileSync(".cache/sass/type.scss", typeScss);
@@ -513,7 +513,8 @@ const typeGroups: TypeGroup[] = [
 ];
 for (const [
   slot,
-  role,
+  name,
+  was,
   fam,
   _px,
   _line,
@@ -525,11 +526,11 @@ for (const [
 ] of S.TYPE) {
   const t = type[slot];
   const st: TypeStyle = {
-    name: `type-${slot}`,
+    name: `type-${name}`,
     fontSize: t["font-size"],
     lineHeight: t["line-height"],
     fontWeight: weight,
-    usage: `${usage} (was \`${role}\`; engine slot \`${slot}\`)`,
+    usage: `${usage} (was \`${was}\`${S.ENGINE_TYPE_SLOTS.includes(slot) ? `; engine slot \`${slot}\`` : ""})`,
     sample,
   };
   if (track !== "0") st.letterSpacing = t["letter-spacing"];
@@ -538,8 +539,7 @@ for (const [
 // slots that use the display face but sit in the body group keep their own family
 for (const g of typeGroups)
   for (const st of g.styles) {
-    const slot = st.name.slice(5);
-    const fam = S.TYPE.find((r) => r[0] === slot)![2];
+    const fam = S.TYPE.find((r) => `type-${r[1]}` === st.name)![3];
     if (fam !== g.family) st.family = fam;
   }
 
@@ -673,11 +673,6 @@ css += "}\n\n";
 for (const f of FONTS)
   css += `@font-face { font-family: '${f.family}'; src: url('fonts/${f.file}') format('woff2'); font-weight: ${f.weight}; font-style: ${f.style}; font-display: swap; }\n`;
 css += "\n";
-for (const g of typeGroups)
-  for (const st of g.styles) {
-    const fam = st.family || g.family;
-    css += `.igd-${st.name} { font-family: var(--font-${fam}); font-size: ${st.fontSize}; line-height: ${st.lineHeight}; font-weight: ${st.fontWeight};${st.letterSpacing ? ` letter-spacing: ${st.letterSpacing};` : ""} }\n`;
-  }
 fs.writeFileSync(`${OUT}/tokens.css`, css);
 
 // ---------- 6. theme.css ----------
@@ -705,7 +700,8 @@ if (sized.length !== 1 || layoutRules.length < 2)
     "layout stylesheet: one sized rule and at least one :root rule expected",
   );
 let typography = "  --ig-font-family: var(--font-body);\n";
-for (const [slot, , fam] of S.TYPE) {
+for (const [slot, , , fam] of S.TYPE) {
+  if (!S.ENGINE_TYPE_SLOTS.includes(slot)) continue;
   const t = type[slot];
   typography += `  --ig-${slot}-font-family: var(--font-${fam});\n`;
   for (const p of [
@@ -777,11 +773,23 @@ b +=
 b += "  --nav-backdrop-blur: blur(var(--space-sm));\n";
 b += `}\n\n/* ===== 3. motion, type variables and classes ===== */\n:root {\n  /* motion */\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
   --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n  /* type */\n`;
-for (const [slot, , _fam] of S.TYPE)
-  b += `  --type-${slot}-font-family: var(--ig-${slot}-font-family);\n  --type-${slot}-font-size: var(--ig-${slot}-font-size);\n  --type-${slot}-font-weight: var(--ig-${slot}-font-weight);\n  --type-${slot}-line-height: var(--ig-${slot}-line-height);\n  --type-${slot}-letter-spacing: var(--ig-${slot}-letter-spacing);\n  --type-${slot}-text-transform: var(--ig-${slot}-text-transform);\n`;
+const TYPE_PROPS = [
+  "font-family",
+  "font-size",
+  "font-weight",
+  "line-height",
+  "letter-spacing",
+  "text-transform",
+];
+// A role reads its engine slot. A role the engine has no slot for holds the compiled value itself.
+for (const [slot, name, , fam] of S.TYPE)
+  for (const p of TYPE_PROPS) {
+    const own = p === "font-family" ? `var(--font-${fam})` : type[slot][p];
+    b += `  --type-${name}-${p}: ${S.ENGINE_TYPE_SLOTS.includes(slot) ? `var(--ig-${slot}-${p})` : own};\n`;
+  }
 b += "}\n";
-for (const [slot] of S.TYPE)
-  b += `.igd-type-${slot} { font-family: var(--type-${slot}-font-family); font-size: var(--type-${slot}-font-size); font-weight: var(--type-${slot}-font-weight); line-height: var(--type-${slot}-line-height); letter-spacing: var(--type-${slot}-letter-spacing); text-transform: var(--type-${slot}-text-transform); }\n`;
+for (const [, name] of S.TYPE)
+  b += `.igd-type-${name} { ${TYPE_PROPS.map((p) => `${p}: var(--type-${name}-${p});`).join(" ")} }\n`;
 b += `
 /* ===== 4. motion keyframes and base styles ===== */
 @media (prefers-reduced-motion: reduce) {
@@ -806,8 +814,8 @@ body {
   margin: 0;
   background: var(--color-surface-page);
   font-family: var(--font-body);
-  font-size: var(--type-body-2-font-size);
-  line-height: var(--type-body-2-line-height);
+  font-size: var(--type-body-md-font-size);
+  line-height: var(--type-body-md-line-height);
   color: var(--color-text-primary);
   text-wrap: pretty;
 }

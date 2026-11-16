@@ -2,17 +2,17 @@ import React from 'react';
 
 const KINDS = {
   bundle: {
-    type: 'detail-2', background: 'var(--igd-badge-bundle-background)', color: 'var(--igd-badge-bundle-color)',
+    type: 'body-2xs', background: 'var(--igd-badge-bundle-background)', color: 'var(--igd-badge-bundle-color)',
     fontFamily: 'var(--igd-font-display)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-badge)',
     textTransform: 'uppercase', padding: 'var(--igd-space-inset-2xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-full)',
   },
   oss: {
-    type: 'detail-2', background: 'var(--igd-badge-oss-background)', color: 'var(--igd-badge-oss-color)',
+    type: 'body-2xs', background: 'var(--igd-badge-oss-background)', color: 'var(--igd-badge-oss-color)',
     fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-badge)',
     padding: 'var(--igd-space-inset-3xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-xs)',
   },
   mono: {
-    type: 'detail-1', background: 'var(--igd-color-surface-tint)', color: 'var(--igd-color-action-text)',
+    type: 'body-xs', background: 'var(--igd-color-surface-tint)', color: 'var(--igd-color-action-text)',
     fontFamily: 'var(--igd-font-display)', fontWeight: 'var(--igd-font-weight-extrabold)', letterSpacing: 'var(--igd-letter-spacing-mono)',
     height: 'var(--igd-badge-mono-size)', minWidth: 'var(--igd-badge-mono-size)', padding: '0 var(--igd-space-inset-xs)',
     borderRadius: 'var(--igd-radius-sm)', justifyContent: 'center',

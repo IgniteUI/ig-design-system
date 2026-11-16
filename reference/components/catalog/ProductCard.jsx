@@ -18,12 +18,12 @@ export function ProductCard({
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', minWidth: 0 }}>
           {logo && <img src={logo} alt={name} style={{ height: 'var(--igd-product-logo-height)', maxWidth: 'var(--igd-product-logo-max-width)', width: 'auto', objectFit: 'contain', display: 'block', flex: '0 0 auto' }} />}
           {!logo && monogram}
-          {showName && <div className="igd-type-h6" style={{ color: 'var(--igd-color-text-heading)' }}>{name}</div>}
+          {showName && <div className="igd-type-title-md" style={{ color: 'var(--igd-color-text-heading)' }}>{name}</div>}
         </div>
         {badge}
       </div>
       {description && (
-        <div className="igd-type-caption" style={{ color: 'var(--igd-color-text-muted)', marginBottom: 'var(--igd-space-stack-md)', flex: 1 }}>{description}</div>
+        <div className="igd-type-body-sm" style={{ color: 'var(--igd-color-text-muted)', marginBottom: 'var(--igd-space-stack-md)', flex: 1 }}>{description}</div>
       )}
       {children}
       {footer && <div style={{ marginTop: 'auto' }}>{footer}</div>}

@@ -5,8 +5,8 @@ import { Icon } from '../icons/Icon.jsx';
 function ReleaseStrip({ href, label = 'Latest Release', title, body, linkLabel = 'Read More', style, ...rest }) {
   const nw = { whiteSpace: 'nowrap' };
   return (
-    <a href={href} className="igd-type-body-2" data-ig="release-strip" style={style} {...rest}>
-      <span className="igd-type-overline" data-ig-label="" style={nw}>{label}</span>
+    <a href={href} className="igd-type-body-md" data-ig="release-strip" style={style} {...rest}>
+      <span className="igd-type-eyebrow" data-ig-label="" style={nw}>{label}</span>
       <span style={{ ...nw, fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-text-heading)' }}>{title}</span>
       {body && <span style={{ ...nw, color: 'var(--igd-color-text-secondary)' }}>{body}</span>}
       <span style={{ ...nw, display: 'inline-flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-action-text)' }}>
@@ -27,8 +27,8 @@ export function CalloutStrip({ kind = 'default', title, body, action, style, ...
       border: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', flexWrap: 'wrap', ...style,
     }} {...divRest}>
       <div style={{ flex: 1, minWidth: 'var(--igd-callout-min-width)' }}>
-        <div className="igd-type-subtitle-2" style={{ color: 'var(--igd-color-text-heading)', marginBottom: 'var(--igd-space-stack-2xs)' }}>{title}</div>
-        {body && <div className="igd-type-caption" style={{ color: 'var(--igd-color-text-muted)' }}>{body}</div>}
+        <div className="igd-type-label-lg" style={{ color: 'var(--igd-color-text-heading)', marginBottom: 'var(--igd-space-stack-2xs)' }}>{title}</div>
+        {body && <div className="igd-type-body-sm" style={{ color: 'var(--igd-color-text-muted)' }}>{body}</div>}
       </div>
       {action}
     </div>

@@ -23,7 +23,7 @@ Do not reverse one of these without asking the owner.
 
 - A custom property is `--ig-*` only when `igniteui-theming` itself emits that exact name: the palette (`--ig-primary-500`, `--ig-primary-A100`, `--ig-primary-500-contrast`), the dials (`--ig-size`, `--ig-spacing`, `--ig-radius-factor`, `--ig-elevation-factor`), `--ig-elevation-<n>` and the type slot variables.
 - The engine also emits `--ig-<name>-<step>` for a custom family built with its `shades()` function and passed to the `palette()` mixin. That is engine output too. The package publishes no custom family today.
-- Everything the design system defines is `--igd-*`, in the semantic tier and in the component tier. The same goes for classes and keyframes: `.igd-type-h1`, `igd-float`.
+- Everything the design system defines is `--igd-*`, in the semantic tier and in the component tier. The same goes for classes and keyframes: `.igd-type-display-lg`, `igd-float`.
 - The generator works in bare names. `src/namespace.ts` adds `--igd-` as the last build step.
 
 Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name the generator makes up under `--ig-`, such as the former `--ig-elevation-tint-<n>`, looks like engine API and is not.
@@ -82,7 +82,22 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 
 Why: a seed can change, and a token called "blue" would then be another colour.
 
-### 7. Use the engine, not a copy of it
+### 7. A type style is named for its role
+
+- `src/spec.ts` lists 15 type styles. Each has a role name (`display-lg`, `title-sm`, `eyebrow`) and the engine slot that holds it.
+- The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h5-font-size)`.
+- The engine has 13 type slots. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
+- Line height is unitless.
+
+Why: the slot names say nothing about use, and they are not even a hierarchy here. `h5` is the 16px card title and `h6` the 18px product name. A role name tells a developer what the style is for, as a colour token does.
+
+Why unitless: a site may override a font size. A line height given as a length would not follow it.
+
+Not decided yet:
+- The sizes are fixed. `display-lg` is 70px on a phone. Fluid sizes need minimum sizes from design.
+- An Ignite UI component on the page reads the engine slots. One that uses `h6` for a dialog title gets the product-name style, and `h6` is larger than `h5`. Keeping the slots a true hierarchy would move the odd styles (`stat`, `title-md`) to values of our own.
+
+### 8. Use the engine, not a copy of it
 
 - Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()`, type from `typography()`.
 - The build starts no MCP server and no browser. Only the two gates use a browser.

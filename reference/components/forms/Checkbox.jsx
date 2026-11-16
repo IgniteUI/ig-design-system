@@ -10,7 +10,7 @@ export function Checkbox({ children, error, tone = 'light', disabled = false, id
   const cid = id || 'ig-check-' + uid.replace(/:/g, '');
   return (
     <div data-ig="checkbox-field" data-tone={tone} style={style}>
-      <label className="igd-type-detail-1" data-ig="checkbox" htmlFor={cid} data-disabled={disabled || undefined}>
+      <label className="igd-type-body-xs" data-ig="checkbox" htmlFor={cid} data-disabled={disabled || undefined}>
         <span data-ig-box="">
           <input id={cid} type="checkbox" disabled={disabled} aria-invalid={error ? 'true' : undefined}
                  aria-describedby={error ? cid + '-msg' : undefined} {...rest} />
@@ -18,7 +18,7 @@ export function Checkbox({ children, error, tone = 'light', disabled = false, id
         </span>
         <span style={{ textWrap: 'pretty' }}>{children}</span>
       </label>
-      {error && <p id={cid + '-msg'} className="igd-type-detail-1" data-ig-message="" data-error="" role="alert">{error}</p>}
+      {error && <p id={cid + '-msg'} className="igd-type-body-xs" data-ig-message="" data-error="" role="alert">{error}</p>}
     </div>
   );
 }

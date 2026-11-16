@@ -10,8 +10,8 @@ export function FeatureCard({
       {href && <a href={href} aria-label={title} data-ig-cover="" />}
       {icon}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-2xs)', minWidth: 0 }}>
-        {title && <h3 className="igd-type-h5" style={{ fontFamily: 'var(--igd-font-body)', color: 'var(--igd-color-text-heading)', margin: 0 }}>{title}</h3>}
-        {body && <p className="igd-type-caption" style={{ color: 'var(--igd-color-text-secondary)', margin: 0 }}>{body}</p>}
+        {title && <h3 className="igd-type-title-sm" style={{ fontFamily: 'var(--igd-font-body)', color: 'var(--igd-color-text-heading)', margin: 0 }}>{title}</h3>}
+        {body && <p className="igd-type-body-sm" style={{ color: 'var(--igd-color-text-secondary)', margin: 0 }}>{body}</p>}
         {children}
         {footer && <div style={{ marginTop: 'var(--igd-space-stack-xs)', position: 'relative', zIndex: 'var(--igd-z-index-media)' }}>{footer}</div>}
       </div>

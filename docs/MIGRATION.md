@@ -7,7 +7,7 @@ This release is a clean break. The system now sits on the **igniteui-theming** e
 | Area | Before | Now |
 |---|---|---|
 | Palette, type, spacing, size, radius, elevation | Hand-picked literals | Engine output (`palette()`, `typography()`, `pad()`, `sizable()`, `border-radius()`, indigo elevations) |
-| Token names | `--ig-blue`, `--text-muted`, `--space-6`, `--ig-t-…` | `--igd-color-{role}-{variant}-{state}`, `--igd-space-{size}`, `--igd-radius-{step}`, `--igd-shadow-{role}`, `--igd-type-{slot}-…` |
+| Token names | `--ig-blue`, `--text-muted`, `--space-6`, `--ig-t-…` | `--igd-color-{role}-{variant}-{state}`, `--igd-space-{size}`, `--igd-radius-{step}`, `--igd-shadow-{role}`, `--igd-type-{role}-…` |
 | Component styling | Inline literals and JS hover state | Tokens only; hover, focus, disabled, invalid and loading are CSS |
 | Icons | An inline `<svg>` per component | One `Icon` component with stroke and size tokens |
 | Forms | A bespoke input and checkbox inside the footer | `TextField` and `Checkbox` components |
@@ -242,7 +242,27 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--shadow-release-hover` | `--igd-callout-release-shadow-hover` |
 | `--shadow-panel-filter` | `--igd-shadow-popover-filter` |
 
-Type classes: `.ig-t-{slot}` → `.igd-type-{slot}`. Type variables: `--igd-type-{slot}-{font-size|font-weight|line-height|font-family}` follow the engine slot names (`h1`–`h6`, `subtitle-1`, `subtitle-2`, `body-1`, `body-2`, `button`, `caption`, `overline`, `detail-1`, `detail-2`).
+### Type styles
+
+A type style is named for its role. The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{font-family|font-size|font-weight|line-height|letter-spacing|text-transform}`. Line height is a unitless multiple of the font size.
+
+| Before | Now | Engine slot |
+|---|---|---|
+| `display-h1` | `.igd-type-display-lg` | `h1` |
+| `display-h2` | `.igd-type-display-md` | `h2` |
+| `display-h3` | `.igd-type-display-sm` | `h3` |
+| `display-stat` | `.igd-type-stat` | `h4` |
+| `card-title` | `.igd-type-title-sm` | `h5` |
+| `product-name` | `.igd-type-title-md` | `h6` |
+| `body-lead` | `.igd-type-lead` | `subtitle-1` |
+| `callout-title` | `.igd-type-label-lg` | `subtitle-2` |
+| `body-text` | `.igd-type-body-lg` | `body-1` |
+| `body-ui` | `.igd-type-body-md` | `body-2` |
+| `button` | `.igd-type-label-md` | `button` |
+| `body-caption` | `.igd-type-body-sm` | `caption` |
+| `eyebrow` | `.igd-type-eyebrow` | `overline` |
+| `body-micro` | `.igd-type-body-xs` | none |
+| `body-nano` | `.igd-type-body-2xs` | none |
 
 ## 5. Component API changes
 

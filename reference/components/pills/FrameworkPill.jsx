@@ -12,7 +12,7 @@ const FW = {
 export function FrameworkPill({ framework, href, assetBase = '../assets/logos/', size = 'md', style, ...rest }) {
   const fw = FW[framework] || FW.angular;
   return (
-    <a href={href} className="igd-type-body-2" data-ig="framework-pill" data-fw={FW[framework] ? framework : 'angular'} data-size={size} style={style} {...rest}>
+    <a href={href} className="igd-type-body-md" data-ig="framework-pill" data-fw={FW[framework] ? framework : 'angular'} data-size={size} style={style} {...rest}>
       <img src={assetBase + fw.logo} alt="" style={{ height: 'var(--igd-fw-logo-height)', width: 'auto', display: 'block', flex: '0 0 auto' }} />
       {fw.label}
     </a>

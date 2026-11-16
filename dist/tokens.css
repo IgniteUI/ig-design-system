@@ -391,18 +391,3 @@
 @font-face { font-family: 'DM Sans'; src: url('fonts/dm-sans-latin-wght-normal.woff2') format('woff2'); font-weight: 100 1000; font-style: normal; font-display: swap; }
 @font-face { font-family: 'JetBrains Mono'; src: url('fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); font-weight: 100 800; font-style: normal; font-display: swap; }
 
-.igd-type-h1 { font-family: var(--igd-font-display); font-size: 4.375rem; line-height: 4.9rem; font-weight: 900; letter-spacing: -0.0257em; }
-.igd-type-h2 { font-family: var(--igd-font-display); font-size: 2.6875rem; line-height: 2.84875rem; font-weight: 800; letter-spacing: -0.0256em; }
-.igd-type-h3 { font-family: var(--igd-font-display); font-size: 1.6875rem; line-height: 2.025rem; font-weight: 800; letter-spacing: -0.0222em; }
-.igd-type-h4 { font-family: var(--igd-font-display); font-size: 1.3125rem; line-height: 1.44375rem; font-weight: 800; }
-.igd-type-h6 { font-family: var(--igd-font-display); font-size: 1.125rem; line-height: 1.4625rem; font-weight: 800; letter-spacing: -0.0167em; }
-.igd-type-h5 { font-family: var(--igd-font-body); font-size: 1rem; line-height: 1.4rem; font-weight: 600; }
-.igd-type-subtitle-1 { font-family: var(--igd-font-body); font-size: 1.25rem; line-height: 2rem; font-weight: 400; }
-.igd-type-subtitle-2 { font-family: var(--igd-font-body); font-size: 1.0625rem; line-height: 1.59375rem; font-weight: 700; }
-.igd-type-body-1 { font-family: var(--igd-font-body); font-size: 1.1875rem; line-height: 1.92375rem; font-weight: 400; }
-.igd-type-body-2 { font-family: var(--igd-font-body); font-size: 0.9375rem; line-height: 1.40625rem; font-weight: 400; }
-.igd-type-button { font-family: var(--igd-font-body); font-size: 0.9375rem; line-height: 1.40625rem; font-weight: 600; }
-.igd-type-caption { font-family: var(--igd-font-body); font-size: 0.875rem; line-height: 1.35625rem; font-weight: 400; }
-.igd-type-overline { font-family: var(--igd-font-body); font-size: 0.75rem; line-height: 1.125rem; font-weight: 600; letter-spacing: 0.16em; }
-.igd-type-detail-1 { font-family: var(--igd-font-body); font-size: 0.8125rem; line-height: 1.21875rem; font-weight: 400; }
-.igd-type-detail-2 { font-family: var(--igd-font-body); font-size: 0.6875rem; line-height: 0.9625rem; font-weight: 400; }

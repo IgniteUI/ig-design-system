@@ -6,7 +6,7 @@ export function UtilityBar({
   style, ...rest
 }) {
   return (
-    <div className="igd-type-detail-1" style={{
+    <div className="igd-type-body-xs" style={{
       maxWidth: 'var(--igd-container-max-width)', margin: '0 auto',
       padding: 'var(--igd-space-inset-xs) var(--igd-container-gutter)', display: 'flex', alignItems: 'center',
       flexWrap: 'wrap', justifyContent: 'flex-end', gap: 'var(--igd-space-gap-2xs) clamp(var(--igd-space-gap-xs), 1.6vw, var(--igd-space-gap-xl))',

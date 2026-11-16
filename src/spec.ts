@@ -585,9 +585,27 @@ export const ZINDEX: Record<string, ZIndexEntry> = {
 // ---- type: old role -> engine slot, with the values handed to the engine as customScale -------
 // px values are the current system's; the engine returns them as rem. family: which face the slot uses.
 // line is unitless, a multiple of the size; role is the old style name.
+// The 13 type slots igniteui-theming has. Mirrors $ITypeScale in the engine.
+export const ENGINE_TYPE_SLOTS = [
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "subtitle-1",
+  "subtitle-2",
+  "body-1",
+  "body-2",
+  "button",
+  "caption",
+  "overline",
+];
+// name is the published role; slot is the engine slot that holds it, or a build-only key when the engine has none; was is the old style name.
 export type TypeRow = [
   slot: string,
-  role: string,
+  name: string,
+  was: string,
   family: FamilyName,
   sizePx: number,
   line: number,
@@ -600,6 +618,7 @@ export type TypeRow = [
 export const TYPE: TypeRow[] = [
   [
     "h1",
+    "display-lg",
     "display-h1",
     "display",
     70,
@@ -612,6 +631,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "h2",
+    "display-md",
     "display-h2",
     "display",
     43,
@@ -624,6 +644,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "h3",
+    "display-sm",
     "display-h3",
     "display",
     27,
@@ -636,6 +657,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "h4",
+    "stat",
     "display-stat",
     "display",
     21,
@@ -648,6 +670,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "h5",
+    "title-sm",
     "card-title",
     "body",
     16,
@@ -660,6 +683,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "h6",
+    "title-md",
     "product-name",
     "display",
     18,
@@ -672,6 +696,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "subtitle-1",
+    "lead",
     "body-lead",
     "body",
     20,
@@ -684,6 +709,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "subtitle-2",
+    "label-lg",
     "callout-title",
     "body",
     17,
@@ -696,6 +722,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "body-1",
+    "body-lg",
     "body-text",
     "body",
     19,
@@ -708,6 +735,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "body-2",
+    "body-md",
     "body-ui",
     "body",
     15,
@@ -720,6 +748,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "button",
+    "label-md",
     "button",
     "body",
     15,
@@ -732,6 +761,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "caption",
+    "body-sm",
     "body-caption",
     "body",
     14,
@@ -745,6 +775,7 @@ export const TYPE: TypeRow[] = [
   [
     "overline",
     "eyebrow",
+    "eyebrow",
     "body",
     12,
     1.5,
@@ -756,6 +787,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "detail-1",
+    "body-xs",
     "body-micro",
     "body",
     13,
@@ -768,6 +800,7 @@ export const TYPE: TypeRow[] = [
   ],
   [
     "detail-2",
+    "body-2xs",
     "body-nano",
     "body",
     11,

@@ -45,9 +45,23 @@ Token names in `tokens.json` and in the DTCG file carry no prefix: the prefix be
 
 **Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark theme and for the areas that stay dark in both themes. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from the four accent palettes and 9 steps of the dark ramps outside the dark theme, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
 
-The classes and keyframes the package defines follow the same rule: `.igd-type-h1` … `.igd-type-detail-2` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
+The classes and keyframes the package defines follow the same rule: `.igd-type-display-lg` … `.igd-type-body-2xs` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
 **Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default` (`--igd-color-action-default` in CSS), `color-text-muted`, `color-surface-tint`. No semantic or component name carries a hue: the accents are `color-accent-primary`, `-secondary`, `-inverse` and `-inverse-alt`, the icon tile fills are `tile-1` … `tile-8`, and the glows take the name of the accent they derive from. A hue appears only in the raw tier, where the name says what the value is. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
+
+**Type** has 15 styles, each named for its role. The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`.
+
+| Role | Use |
+|---|---|
+| `display-lg`, `display-md`, `display-sm` | Hero, section and sub-section headings |
+| `stat` | Stat numbers |
+| `title-md`, `title-sm` | Product names; card titles |
+| `lead` | The paragraph under a heading |
+| `body-lg`, `body-md`, `body-sm`, `body-xs`, `body-2xs` | Prose, UI text, captions, micro and nano text |
+| `label-lg`, `label-md` | Large and standard button and callout labels |
+| `eyebrow` | The uppercase line above a heading |
+
+Thirteen roles read one of the engine's type slots (`--ig-h1-font-size`). `body-xs` and `body-2xs` have no engine slot and hold their own values. Line height is a unitless multiple of the font size, so it follows a font size that a site overrides.
 
 **Spacing** has two tiers. The steps are `space-3xs` … `space-6xl`; the name is a size, not a pixel value, because the live value follows the spacing and size dials. On top of them sit three roles, and these are what components use:
 

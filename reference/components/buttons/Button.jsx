@@ -6,7 +6,7 @@ import { Icon } from '../icons/Icon.jsx';
 // States are CSS: :hover, :focus-visible, [aria-disabled], [aria-busy]. Nothing here tracks hover in JS.
 //   disabled  dims to --igd-opacity-disabled, blocks pointer events, keeps the label readable
 //   loading   shows a spinner in place of the arrow, sets aria-busy and ignores clicks
-const TYPE = { hero: 'subtitle-2', md: 'button', catalog: 'caption', sm: 'caption' };
+const TYPE = { hero: 'label-lg', md: 'label-md', catalog: 'body-sm', sm: 'body-sm' };
 
 export function Button({
   children, variant = 'primary', size = 'hero', href, arrow = variant === 'primary',

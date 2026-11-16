@@ -18,8 +18,8 @@ export function StatBadge({ value, label, accent = 'inverse', position = 'top-le
       animation: 'igd-float var(--igd-duration-float) ease-in-out infinite',
       animationDuration: duration != null ? duration + 's' : undefined, ...style,
     }} {...rest}>
-      <div className="igd-type-h4" style={{ color: ACCENTS[accent] || accent, whiteSpace: 'nowrap' }}>{value}</div>
-      <div className="igd-type-detail-2" style={{ color: 'var(--igd-color-text-inverse-muted)' }}>{label}</div>
+      <div className="igd-type-stat" style={{ color: ACCENTS[accent] || accent, whiteSpace: 'nowrap' }}>{value}</div>
+      <div className="igd-type-body-2xs" style={{ color: 'var(--igd-color-text-inverse-muted)' }}>{label}</div>
     </div>
   );
 }
