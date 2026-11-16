@@ -245,6 +245,48 @@
   "ok": true
  },
  {
+  "fg": "badge-new-color",
+  "bg": "color-surface-page",
+  "ratio": 7.35,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "badge-updated-color",
+  "bg": "color-surface-page",
+  "ratio": 7.03,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "badge-preview-color",
+  "bg": "color-surface-page",
+  "ratio": 5.41,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "badge-premium-color",
+  "bg": "color-surface-page",
+  "ratio": 7.15,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "color-feedback-success-default",
+  "bg": "color-surface-page",
+  "ratio": 7.35,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "color-feedback-warning-default",
+  "bg": "color-surface-page",
+  "ratio": 5.41,
+  "min": 4.5,
+  "ok": true
+ },
+ {
   "fg": "table-mark-yes-color",
   "bg": "table-mark-yes-background",
   "ratio": 8.52,

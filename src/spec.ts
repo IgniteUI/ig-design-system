@@ -117,6 +117,14 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-error-600",
     "Validation text and border on light surfaces.",
   ],
+  "color-feedback-success-default": [
+    "ig-success-600",
+    "Success text and icons on light surfaces: a confirmed state, a check mark.",
+  ],
+  "color-feedback-warning-default": [
+    "ig-warn-500",
+    "Warning text and icons on light surfaces.",
+  ],
   "color-feedback-error-inverse": [
     "ig-error-300",
     "Validation text and border on the dark footer.",
@@ -198,6 +206,23 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-secondary-700",
     "Bundle badge label on `badge-bundle-background`.",
   ],
+  "badge-new-color": [
+    "ig-success-600",
+    "New status badge label on `badge-new-background`.",
+  ],
+  "badge-updated-color": [
+    "ig-primary-700",
+    "Updated status badge label on `badge-updated-background`.",
+  ],
+  "badge-preview-color": [
+    "ig-warn-500",
+    "Preview status badge label on `badge-preview-background`.",
+  ],
+  "badge-premium-color": [
+    "ig-secondary-700",
+    "Premium status badge label on `badge-premium-background`.",
+  ],
+  "rating-star": ["ig-warn-200", "Filled star of a rating. Decorative."],
   "badge-oss-color": [
     "ig-success-600",
     "OSS tag label on `badge-oss-background`.",
@@ -335,6 +360,62 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "Inner ring of the release strip on hover.",
   ],
   "badge-oss-background": ["badge-oss-color", "opacity-soft", "OSS tag fill."],
+  "badge-oss-border": ["badge-oss-color", "opacity-strong", "OSS tag border."],
+  "badge-new-background": [
+    "badge-new-color",
+    "opacity-soft",
+    "New status badge fill.",
+  ],
+  "badge-new-border": [
+    "badge-new-color",
+    "opacity-strong",
+    "New status badge border.",
+  ],
+  "badge-updated-background": [
+    "badge-updated-color",
+    "opacity-soft",
+    "Updated status badge fill.",
+  ],
+  "badge-updated-border": [
+    "badge-updated-color",
+    "opacity-strong",
+    "Updated status badge border.",
+  ],
+  "badge-preview-background": [
+    "badge-preview-color",
+    "opacity-soft",
+    "Preview status badge fill.",
+  ],
+  "badge-preview-border": [
+    "badge-preview-color",
+    "opacity-strong",
+    "Preview status badge border.",
+  ],
+  "badge-premium-background": [
+    "badge-premium-color",
+    "opacity-soft",
+    "Premium status badge fill.",
+  ],
+  "badge-premium-border": [
+    "badge-premium-color",
+    "opacity-strong",
+    "Premium status badge border.",
+  ],
+  "color-feedback-error-surface": [
+    "color-feedback-error-default",
+    "opacity-soft",
+    "Tinted fill behind `color-feedback-error-default` text.",
+  ],
+  "color-feedback-success-surface": [
+    "color-feedback-success-default",
+    "opacity-soft",
+    "Tinted fill behind `color-feedback-success-default` text.",
+  ],
+  "color-feedback-warning-surface": [
+    "color-feedback-warning-default",
+    "opacity-soft",
+    "Tinted fill behind `color-feedback-warning-default` text.",
+  ],
   "nav-background": [
     "color-surface-page",
     "opacity-nav",
