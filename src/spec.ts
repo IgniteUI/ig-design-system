@@ -136,6 +136,14 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-primary-50",
     "Soft blue fill: tinted chips, callouts, the catalog band, release strip at rest and monogram badges.",
   ],
+  "color-surface-inverse-raised": [
+    "ig-dark-surface-200",
+    "The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient.",
+  ],
+  "color-surface-inverse-sunken": [
+    "ig-dark-surface-900",
+    "The darkest dark surface: the deepest part of a dark area, such as the end of the footer gradient.",
+  ],
   "color-surface-inverse": [
     "ig-dark-surface-500",
     "The one dark treatment: stat badges, table header and dark stat panels (the engine dark-variant surface).",
@@ -147,7 +155,7 @@ export const ALIAS: Record<string, AliasEntry> = {
   "color-surface-muted": ["ig-gray-100", '"Coming soon" pill fill.'],
   // footer
   "footer-background": [
-    "ig-dark-surface-900",
+    "color-surface-inverse-sunken",
     "Footer gradient end; flat fallback for `footer-background-gradient`.",
   ],
   "footer-text": [

@@ -458,7 +458,7 @@
   --igd-elevation-22: var(--ig-elevation-22);
   --igd-elevation-23: var(--ig-elevation-23);
   --igd-elevation-24: var(--ig-elevation-24);
-  --igd-footer-background-gradient: linear-gradient(155deg, var(--ig-dark-surface-200) 0%, var(--ig-dark-surface-400) 42%, var(--igd-footer-background) 100%);
+  --igd-footer-background-gradient: linear-gradient(155deg, var(--igd-color-surface-inverse-raised) 0%, #121a2c 42%, var(--igd-footer-background) 100%);
   --igd-gradient-brand: linear-gradient(92deg, var(--igd-color-accent-primary), var(--igd-color-accent-secondary));
   --igd-gradient-hero: linear-gradient(180deg, var(--igd-color-surface-hero), var(--igd-color-surface-page));
   --igd-glow-primary: radial-gradient(circle, hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-muted)), transparent 62%);
@@ -752,19 +752,19 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
    Every semantic name keeps its meaning. Brand fills keep the seed; text, outlines, tints and hairlines switch through --igd-theme-dark. */
 [data-theme="dark"] {
   --igd-theme-dark: 1; color-scheme: dark;
-  --ig-gray-50: var(--ig-dark-gray-50);
-  --ig-gray-100: var(--ig-dark-gray-100);
-  --ig-gray-200: var(--ig-dark-gray-200);
-  --ig-gray-300: var(--ig-dark-gray-300);
-  --ig-gray-400: var(--ig-dark-gray-400);
-  --ig-gray-500: var(--ig-dark-gray-500);
-  --ig-gray-600: var(--ig-dark-gray-600);
-  --ig-gray-700: var(--ig-dark-gray-700);
-  --ig-gray-800: var(--ig-dark-gray-800);
-  --ig-gray-900: var(--ig-dark-gray-900);
-  --ig-surface-base: var(--ig-dark-surface-base);
-  --ig-surface-sunken: var(--ig-dark-surface-sunken);
-  --ig-surface-raised: var(--ig-dark-surface-raised);
-  --ig-surface-overlay: var(--ig-dark-surface-overlay);
+  --ig-gray-50: #1f2124;
+  --ig-gray-100: #3e4248;
+  --ig-gray-200: #5c646d;
+  --ig-gray-300: #7c8590;
+  --ig-gray-400: #9da5af;
+  --ig-gray-500: #bcc1c9;
+  --ig-gray-600: #d7dade;
+  --ig-gray-700: #eaecee;
+  --ig-gray-800: #f6f7f8;
+  --ig-gray-900: #fbfbfb;
+  --ig-surface-base: #0f172a;
+  --ig-surface-sunken: #080f21;
+  --ig-surface-raised: #161f32;
+  --ig-surface-overlay: #1d263a;
 }
 [data-theme] { background-color: var(--igd-color-surface-page); color: var(--igd-color-text-primary); }

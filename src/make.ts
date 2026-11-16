@@ -265,21 +265,17 @@ for (const r of ["base", "sunken", "raised", "overlay"])
     P.light[`surface-${r}`],
     `Engine surface role \`${r}\` (light variant).`,
   );
-for (const fam of ["gray", "surface"])
-  for (const s of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900])
-    add(
-      `ig-dark-${fam}-${s}`,
-      P.dark[`${fam}-${s}`],
-      `Engine ${fam} step ${s}, dark variant (surface seed from the previous \`surface-dark\`). Only for the fixed dark treatments (footer, stat badges, table header).`,
-    );
-for (const r of ["base", "sunken", "raised", "overlay"])
-  add(
-    `ig-dark-surface-${r}`,
-    P.dark[`surface-${r}`],
-    `Engine surface role \`${r}\` (dark variant).`,
-  );
-// A step of an accent palette (pink, cyan, sky, teal) is built by the engine and not published: the token that uses it carries the colour itself.
+// A step of an accent palette (pink, cyan, sky, teal) or of the dark palette is built by the engine and not published: the token that uses it carries the colour itself.
 const ACCENT_STEP = /^ig-(pink|cyan|sky|teal)-(\d+)$/;
+const DARK_STEP = /^ig-dark-(gray|surface)-(\d+)$/;
+const unpublished = (eng: string) =>
+  ACCENT_STEP.test(eng) || DARK_STEP.test(eng);
+const stepNote = (eng: string) =>
+  ACCENT_STEP.test(eng)
+    ? ` Engine step ${eng.replace(ACCENT_STEP, "$2 of the $1 palette")}.`
+    : DARK_STEP.test(eng)
+      ? ` Engine step ${eng.replace(DARK_STEP, "$2 of the dark palette's $1 ramp")}.`
+      : "";
 const inlined = new Set<string>();
 const aliasUsage = (name: string) => S.ALIAS[name][1];
 // contrast checks that decide which ratio is quoted in a note
@@ -311,12 +307,12 @@ const CHECKS: [fg: string, bg: string, min?: number][] = [
   ["color-accent-inverse-alt", "color-surface-inverse"],
   ["color-link-inverse", "color-surface-inverse"],
   ["color-focus-inverse", "color-surface-inverse"],
-  ["footer-link", "ig-dark-surface-200"],
-  ["footer-text", "ig-dark-surface-200"],
-  ["footer-strong", "ig-dark-surface-200"],
-  ["footer-heading", "ig-dark-surface-200"],
-  ["footer-icon", "ig-dark-surface-200"],
-  ["color-feedback-error-inverse", "ig-dark-surface-200"],
+  ["footer-link", "color-surface-inverse-raised"],
+  ["footer-text", "color-surface-inverse-raised"],
+  ["footer-strong", "color-surface-inverse-raised"],
+  ["footer-heading", "color-surface-inverse-raised"],
+  ["footer-icon", "color-surface-inverse-raised"],
+  ["color-feedback-error-inverse", "color-surface-inverse-raised"],
   ["badge-bundle-color", "badge-bundle-background"],
   ["badge-oss-color", "color-surface-page"],
   ["table-mark-yes-color", "table-mark-yes-background"],
@@ -432,11 +428,9 @@ for (const [name, [eng]] of Object.entries(S.ALIAS)) {
   if (ACCENT_STEP.test(eng) && !SNAPSHOT[name]) inlined.add(name);
   add(
     name,
-    SNAPSHOT[name] ?? (ACCENT_STEP.test(eng) ? hexOf(eng) : `{${eng}}`),
+    SNAPSHOT[name] ?? (unpublished(eng) ? hexOf(eng) : `{${eng}}`),
     aliasUsage(name) +
-      (ACCENT_STEP.test(eng)
-        ? ` Engine step ${eng.replace(ACCENT_STEP, "$2 of the $1 palette")}.`
-        : "") +
+      stepNote(eng) +
       (ratioNote[name] ? ` Contrast ${ratioNote[name].join(", ")}.` : ""),
   );
 }
@@ -451,8 +445,8 @@ for (const [name, [base, op, usage]] of Object.entries(S.ALPHA)) {
 
 const GRAD: Named<[snapshot: string, live: string, usage: string]> = {
   "footer-background-gradient": [
-    `linear-gradient(155deg, ${hexOf("ig-dark-surface-200")} 0%, ${hexOf("ig-dark-surface-400")} 42%, ${hexOf("footer-background")} 100%)`,
-    "linear-gradient(155deg, var(--ig-dark-surface-200) 0%, var(--ig-dark-surface-400) 42%, var(--footer-background) 100%)",
+    `linear-gradient(155deg, ${hexOf("color-surface-inverse-raised")} 0%, ${hexOf("ig-dark-surface-400")} 42%, ${hexOf("footer-background")} 100%)`,
+    `linear-gradient(155deg, var(--color-surface-inverse-raised) 0%, ${hexOf("ig-dark-surface-400")} 42%, var(--footer-background) 100%)`,
     "The site footer’s own 155° gradient — one of the two dark surfaces in the system.",
   ],
   "gradient-brand": [
@@ -1062,12 +1056,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   b += `/* neutral roles, declared again so a themed region or a scope resolves them against its own grey and surface ramps */\n:root, [data-ig-scope], [data-theme] {\n${neutral.map(([n, [eng]]) => `  --${n}: var(--${eng});`).join("\n")}\n}\n`;
   b += `/* dark: the light grey and surface ramps are swapped for the engine's dark palette (palette() with a dark surface and a light grey).\n   Every semantic name keeps its meaning. Brand fills keep the seed; text, outlines, tints and hairlines switch through --theme-dark. */\n[data-theme="dark"] {\n  --theme-dark: 1; color-scheme: dark;\n`;
   for (const s of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900])
-    b += `  --ig-gray-${s}: var(--ig-dark-gray-${s});\n`;
-  for (const s of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900])
-    if (css.includes(`--ig-surface-${s}:`))
-      b += `  --ig-surface-${s}: var(--ig-dark-surface-${s});\n`;
+    b += `  --ig-gray-${s}: ${P.dark[`gray-${s}`]};\n`;
   for (const r of ["base", "sunken", "raised", "overlay"])
-    b += `  --ig-surface-${r}: var(--ig-dark-surface-${r});\n`;
+    b += `  --ig-surface-${r}: ${P.dark[`surface-${r}`]};\n`;
   b +=
     "}\n[data-theme] { background-color: var(--color-surface-page); color: var(--color-text-primary); }\n";
 }
