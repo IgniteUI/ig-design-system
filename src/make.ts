@@ -839,7 +839,7 @@ b +=
 b +=
   "  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);\n";
 b +=
-  "  --container-gutter: clamp(var(--space-md), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n";
+  "  --container-gutter: clamp(var(--space-lg), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n";
 b += "  --nav-backdrop-blur: blur(var(--space-sm));\n";
 b += `}\n\n/* ===== 3. motion, type variables and classes ===== */\n:root {\n  /* motion */\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
   --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n}\n/* type roles, declared again on a region that picks a type set */\n:root, [data-igd-type] {\n`;

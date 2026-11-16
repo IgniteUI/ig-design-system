@@ -14,9 +14,9 @@
   /* one shadow colour behind every neutral elevation */
   --igd-color-shadow: oklch(0 0 0);
   /* roundness, easing and neutral elevations: compiled from the engine's border-radius() and elevations() */
-  --igd-radius-full: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 2rem), 2rem);
+  --igd-radius-full: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 624.9375rem), 624.9375rem);
   --igd-nav-panel-radius: clamp(0rem, calc(var(--ig-radius-factor, 1) * 1.875rem), 1.875rem);
-  --igd-radius-xl: clamp(0.25rem, calc(var(--ig-radius-factor, 0.6428571429) * 1.75rem), 1.75rem);
+  --igd-radius-xl: clamp(0.25rem, calc(var(--ig-radius-factor, 0.8571428571) * 1.75rem), 1.75rem);
   --igd-radius-lg: clamp(0rem, calc(var(--ig-radius-factor, 0.6666666667) * 1.5rem), 1.5rem);
   --igd-radius-md: clamp(0.25rem, calc(var(--ig-radius-factor, 0.75) * 1rem), 1rem);
   --igd-radius-sm: clamp(0.125rem, calc(var(--ig-radius-factor, 0.6666666667) * 0.75rem), 0.75rem);
@@ -317,7 +317,7 @@
   --igd-space-3xl: max(var(--is-large, 1) * 2.5rem * var(--ig-spacing-large, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-medium, 1) * 2.1875rem * var(--ig-spacing-medium, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-small, 1) * 1.875rem * var(--ig-spacing-small, var(--ig-spacing, var(--ig-spacing, 1))));
   --igd-space-4xl: max(var(--is-large, 1) * 3rem * var(--ig-spacing-large, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-medium, 1) * 2.625rem * var(--ig-spacing-medium, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-small, 1) * 2.25rem * var(--ig-spacing-small, var(--ig-spacing, var(--ig-spacing, 1))));
   --igd-space-5xl: max(var(--is-large, 1) * 4rem * var(--ig-spacing-large, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-medium, 1) * 3.5rem * var(--ig-spacing-medium, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-small, 1) * 3rem * var(--ig-spacing-small, var(--ig-spacing, var(--ig-spacing, 1))));
-  --igd-space-6xl: max(var(--is-large, 1) * 6.5rem * var(--ig-spacing-large, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-medium, 1) * 5.6875rem * var(--ig-spacing-medium, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-small, 1) * 4.875rem * var(--ig-spacing-small, var(--ig-spacing, var(--ig-spacing, 1))));
+  --igd-space-6xl: max(var(--is-large, 1) * 6rem * var(--ig-spacing-large, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-medium, 1) * 5.25rem * var(--ig-spacing-medium, var(--ig-spacing, var(--ig-spacing, 1))), var(--is-small, 1) * 4.5rem * var(--ig-spacing-small, var(--ig-spacing, var(--ig-spacing, 1))));
   --igd-space-inset-3xs: var(--igd-space-3xs);
   --igd-space-inset-2xs: var(--igd-space-2xs);
   --igd-space-inset-xs: var(--igd-space-xs);
@@ -469,7 +469,7 @@
   --igd-gradient-border-bundle: linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) padding-box, linear-gradient(135deg, var(--igd-color-accent-primary), var(--igd-color-accent-secondary)) border-box;
   --igd-gradient-emphasis: linear-gradient(180deg, hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-subtle)), hsl(from var(--igd-color-accent-inverse) h s l / var(--igd-opacity-faint)));
   --igd-footer-card-background: linear-gradient(180deg, hsl(from var(--igd-color-text-inverse) h s l / var(--igd-opacity-faint)), transparent);
-  --igd-container-gutter: clamp(var(--igd-space-md), 4vw, var(--igd-space-4xl)); /* @kind spacing */
+  --igd-container-gutter: clamp(var(--igd-space-lg), 4vw, var(--igd-space-4xl)); /* @kind spacing */
   --igd-layout-split: 0.95fr 1.05fr; /* @kind other */
   --igd-nav-backdrop-blur: blur(var(--igd-space-sm));
 }
