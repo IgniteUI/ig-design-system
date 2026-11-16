@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
+import { fluid } from "./fluid.ts";
 import { sets } from "./palette-sets.ts";
 import * as S from "./spec.ts";
 import type { Token, Tokens, TypeGroup, TypeStyle } from "./types.ts";
@@ -52,11 +53,16 @@ const sass = (name: string, source: string) => {
 };
 
 // ---------- 1. typography ----------
+for (const name of Object.keys(S.TYPE_MIN))
+  if (!S.TYPE.some((r) => r[1] === name))
+    throw new Error(
+      `TYPE_MIN names "${name}", which is not a type role. The roles are: ${S.TYPE.map((r) => r[1]).join(", ")}.`,
+    );
 const typeScss =
   `@use 'igniteui-theming' as *;\n$scale: (\n` +
   S.TYPE.map(
-    ([slot, , , , px, line, weight, track, transform]) =>
-      `  '${slot}': type-style($font-size: rem(${px}px), $font-weight: ${weight}, $line-height: ${line}, $letter-spacing: ${track === "0" ? "0" : track}, $text-transform: ${transform})`,
+    ([slot, name, , , px, line, weight, track, transform]) =>
+      `  '${slot}': type-style($font-size: ${S.TYPE_MIN[name] ? fluid(S.TYPE_MIN[name], px, S.TYPE_FLUID_RANGE.from, S.TYPE_FLUID_RANGE.to) : `rem(${px}px)`}, $font-weight: ${weight}, $line-height: ${line}, $letter-spacing: ${track === "0" ? "0" : track}, $text-transform: ${transform})`,
   ).join(",\n") +
   `\n);\n:root { @include typography('x', $scale); }\n`;
 fs.writeFileSync(".cache/sass/type.scss", typeScss);
@@ -516,7 +522,7 @@ for (const [
   name,
   was,
   fam,
-  _px,
+  px,
   _line,
   weight,
   track,
@@ -527,7 +533,8 @@ for (const [
   const t = type[slot];
   const st: TypeStyle = {
     name: `type-${name}`,
-    fontSize: t["font-size"],
+    fontSize: rem(px),
+    ...(S.TYPE_MIN[name] ? { fontSizeMin: rem(S.TYPE_MIN[name]) } : {}),
     lineHeight: t["line-height"],
     fontWeight: weight,
     usage: `${usage} (was \`${was}\`${S.ENGINE_TYPE_SLOTS.includes(slot) ? `; engine slot \`${slot}\`` : ""})`,
@@ -547,7 +554,12 @@ const tokens: Tokens = {
   name: "Infragistics Design System",
   version: 2,
   color: { themes: [{ id: "light", name: "Light" }], tokens: colorTokens },
-  type: { fonts: FONTS, families: S.FAMILIES, groups: typeGroups },
+  type: {
+    fonts: FONTS,
+    families: S.FAMILIES,
+    fluid: S.TYPE_FLUID_RANGE,
+    groups: typeGroups,
+  },
   spacing: {
     note: "Two tiers. Steps (space-3xs … space-6xl) are the raw scale; the name is a size, not a pixel value, and the live value comes from the engine's pad() in theme.css, following --ig-spacing and --ig-size. Roles (space-inset-*, space-stack-*, space-gap-*) say what the space is for and are what components use.",
     tokens: [

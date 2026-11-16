@@ -63,6 +63,16 @@ The classes and keyframes the package defines follow the same rule: `.igd-type-d
 
 Thirteen roles read one of the engine's type slots (`--ig-h1-font-size`). `body-xs` and `body-2xs` have no engine slot and hold their own values. Line height is a unitless multiple of the font size, so it follows a font size that a site overrides.
 
+Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows from a minimum in a 360px container to its full size in a 1280px one, and follows the nearest query container, or the viewport when it is in none.
+
+| Role | 360px and narrower | 1280px and wider |
+|---|---|---|
+| `display-lg` | 40px | 70px |
+| `display-md` | 30px | 43px |
+| `display-sm` | 22px | 27px |
+| `lead` | 18px | 20px |
+| `body-lg` | 17px | 19px |
+
 **Spacing** has two tiers. The steps are `space-3xs` … `space-6xl`; the name is a size, not a pixel value, because the live value follows the spacing and size dials. On top of them sit three roles, and these are what components use:
 
 - `space-inset-{size}` for padding

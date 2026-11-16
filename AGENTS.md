@@ -96,8 +96,14 @@ Why unitless: a site may override a font size. A line height given as a length w
 
 Considered and not done: the engine lets you register more type slots, through `$ITypeScale` and `$IElementCategories`. `body-xs` and `body-2xs` could be registered and published as `--ig-body-xs-*`. They are not, for three reasons. No Ignite UI component reads a slot beyond the 13. The list can only be configured on the inner module `igniteui-theming/sass/typography/types`, before anything else loads the engine; through the main entry Sass fails with "module already loaded". And a site overrides type through `--igd-type-{role}-*`, which is the same for all 15 styles.
 
-Not decided yet:
-- The sizes are fixed. `display-lg` is 70px on a phone. Fluid sizes need minimum sizes from design.
+- Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
+- The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
+
+Why fluid: a 70px heading does not fit a phone, and a component is meant to follow its container, not the page.
+
+Why only five: text at 16px and below is already at a size that reads on a phone. Shrinking it further would hurt.
+
+The minimums (40, 30, 22, 18 and 17px) are a first version chosen by engineering, not by design. Changing one is one number in `TYPE_MIN`.
 
 ### 8. Use the engine, not a copy of it
 
