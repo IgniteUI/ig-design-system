@@ -132,6 +132,15 @@ Why apart: a docs site has its own element styles. Loaded on top of it, the elem
 
 Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew (an input from 40px to 48px). The owner decided each site sets the dials for itself.
 
+### 10. The showcase is generated, and it is where the tokens are documented
+
+- `src/showcase.ts` writes `docs/showcase.html` from `dist/tokens.json` on every build. Do not edit the HTML.
+- A new kind of token gets a section there. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets.
+- `check-vars` reads the page, so a `var()` in it that names no token fails `npm test`.
+- The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
+
+Why here: `igniteui-astro-components` had its own Colors and Typography pages for its own palette and type scale. The owner decided the foundations are documented with the tokens, and that the pages about Markdown content (lists, tables, code, images, badges) stay in that repository.
+
 ## Open
 
 Nothing below is decided. Ask the owner before acting on one.

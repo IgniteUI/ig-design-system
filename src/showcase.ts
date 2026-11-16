@@ -1,0 +1,256 @@
+// node src/showcase.ts <tokens.json> <out.html>
+// Writes the token showcase: one static page that renders every colour, type role, spacing step, radius and shadow
+// from the built stylesheets, in the light and the dark theme and in each type set.
+import fs from "node:fs";
+import { isMain } from "./main.ts";
+import { cssVar } from "./namespace.ts";
+import type { Token, Tokens } from "./types.ts";
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+/** Escapes a usage note and turns its backticked names into <code>. */
+export const prose = (s: string) =>
+  esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
+
+const RAW_FAMILIES = [
+  "primary",
+  "secondary",
+  "gray",
+  "surface",
+  "info",
+  "success",
+  "warn",
+  "error",
+];
+const COLOR_GROUPS: [key: string, title: string][] = [
+  ["action", "Action"],
+  ["text", "Text"],
+  ["surface", "Surface"],
+  ["border", "Border"],
+  ["accent", "Accent"],
+  ["link", "Link"],
+  ["focus", "Focus"],
+  ["feedback", "Feedback"],
+];
+
+/** Sorts the colour tokens into the raw ramps, the semantic groups and the component tier. */
+export const groupColors = (tokens: Token[]) => {
+  const raw: Record<string, Token[]> = {};
+  const semantic: Record<string, Token[]> = {};
+  const component: Token[] = [];
+  for (const t of tokens) {
+    const family = t.name.match(/^ig-([a-z]+)-/)?.[1];
+    if (family) {
+      raw[family] ??= [];
+      raw[family].push(t);
+    } else if (t.name.startsWith("color-")) {
+      const key = t.name.split("-")[1];
+      const group = COLOR_GROUPS.some(([k]) => k === key) ? key : "other";
+      semantic[group] ??= [];
+      semantic[group].push(t);
+    } else component.push(t);
+  }
+  return { raw, semantic, component };
+};
+
+const swatch = (t: Token) =>
+  `<li class="swatch"><span class="chip" style="background: var(${cssVar(t.name)})"></span><span class="meta"><code>${cssVar(t.name)}</code><output data-color="${cssVar(t.name)}"></output>${t.usage ? `<span class="note">${prose(t.usage)}</span>` : ""}</span></li>`;
+
+const section = (id: string, title: string, lead: string, body: string) =>
+  `<section aria-labelledby="${id}"><h2 id="${id}" class="igd-type-display-sm">${title}</h2><p class="lead">${lead}</p>${body}</section>`;
+
+/** Builds the page from tokens.json. */
+export const showcase = (T: Tokens) => {
+  const { raw, semantic, component } = groupColors(T.color.tokens);
+  const steps = (family: string) =>
+    (raw[family] ?? []).filter((t) => /-(\d+)$/.test(t.name));
+
+  const colors =
+    COLOR_GROUPS.concat([["other", "Other"]])
+      .filter(([key]) => semantic[key])
+      .map(
+        ([key, title]) =>
+          `<h3 class="igd-type-title-md">${title}</h3><ul class="swatches">${semantic[key].map(swatch).join("")}</ul>`,
+      )
+      .join("") +
+    `<details><summary class="igd-type-label-md">Component colours (${component.length})</summary><ul class="swatches">${component.map(swatch).join("")}</ul></details>`;
+
+  const ramps = RAW_FAMILIES.filter((f) => steps(f).length)
+    .map(
+      (f) =>
+        `<tr><th scope="row"><code>--ig-${f}-*</code></th><td><ol class="ramp">${steps(
+          f,
+        )
+          .map(
+            (t) =>
+              `<li style="background: var(${cssVar(t.name)}); color: var(${cssVar(`${t.name}-contrast`)})">${t.name.split("-").pop()}</li>`,
+          )
+          .join("")}</ol></td></tr>`,
+    )
+    .join("");
+
+  const type = T.type.groups
+    .flatMap((g) => g.styles)
+    .map(
+      (st) =>
+        `<tr><th scope="row"><code>.igd-${st.name}</code><output data-type="igd-${st.name}"></output></th><td><span class="igd-${st.name}">${esc(st.sample)}</span><span class="note">${prose(st.usage)}</span></td></tr>`,
+    )
+    .join("");
+
+  const spacing = T.spacing.tokens
+    .filter((t) => /^space-\d?[a-z]+$/.test(t.name))
+    .map(
+      (t) =>
+        `<tr><th scope="row"><code>${cssVar(t.name)}</code></th><td><output data-length="${cssVar(t.name)}"></output></td><td><span class="bar" style="inline-size: var(${cssVar(t.name)})"></span></td></tr>`,
+    )
+    .join("");
+
+  const radius = T.radius.tokens
+    .map(
+      (t) =>
+        `<li><span class="box" style="border-radius: var(${cssVar(t.name)})"></span><code>${cssVar(t.name)}</code><output data-length="${cssVar(t.name)}"></output><span class="note">${prose(t.usage)}</span></li>`,
+    )
+    .join("");
+
+  const shadows = T.shadow.tokens
+    .filter((t) => /^shadow-/.test(t.name) && !t.name.endsWith("-filter"))
+    .map(
+      (t) =>
+        `<li><span class="box" style="box-shadow: var(${cssVar(t.name)})"></span><code>${cssVar(t.name)}</code><span class="note">${prose(t.usage)}</span></li>`,
+    )
+    .join("");
+
+  const sets = Object.keys(T.type.sets);
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token showcase</title>
+<!-- Generated by src/showcase.ts from dist/tokens.json. Do not edit by hand. -->
+<script>
+// Applies the stored theme before the first paint; with none stored the page follows the system.
+(function () {
+  var stored = null;
+  try { stored = localStorage.getItem("igd-showcase-theme"); } catch (e) {}
+  var dark = stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+})();
+</script>
+<link rel="stylesheet" href="../dist/tokens.css">
+<link rel="stylesheet" href="../dist/theme.css">
+<link rel="stylesheet" href="../dist/base.css">
+<style>
+body { padding: var(--igd-space-inset-xl) var(--igd-container-gutter); }
+main { max-inline-size: var(--igd-container-max-width); margin-inline: auto; container-type: inline-size; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--igd-space-gap-lg); margin-block-end: var(--igd-space-stack-3xl); }
+header p, .lead { color: var(--igd-color-text-secondary); margin-block: var(--igd-space-stack-xs) 0; max-inline-size: var(--igd-container-prose-max-width); }
+.controls { display: flex; flex-wrap: wrap; gap: var(--igd-space-gap-sm); }
+.controls button { font: inherit; font-weight: var(--igd-font-weight-semibold); min-block-size: var(--igd-size-control-md); padding: var(--igd-space-inset-xs) var(--igd-space-inset-lg); border: var(--igd-border-width-default) solid var(--igd-color-border-control); border-radius: var(--igd-radius-full); background: var(--igd-color-surface-card); color: var(--igd-color-text-ui); cursor: pointer; }
+.controls button[aria-pressed="true"] { background: var(--igd-color-action-default); border-color: var(--igd-color-action-default); color: var(--igd-color-action-on); }
+section { margin-block-end: var(--igd-space-stack-4xl); }
+h3 { margin-block: var(--igd-space-stack-xl) var(--igd-space-stack-sm); }
+code { font-size: var(--igd-type-body-xs-font-size); }
+output { display: block; font-family: var(--igd-font-mono); font-size: var(--igd-type-body-xs-font-size); color: var(--igd-color-text-muted); }
+.note { display: block; font-size: var(--igd-type-body-sm-font-size); line-height: var(--igd-type-body-sm-line-height); color: var(--igd-color-text-muted); }
+.swatches, .tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--igd-catalog-card-min-width), 1fr)); gap: var(--igd-space-gap-md); }
+.swatch { display: grid; grid-template-columns: var(--igd-size-control-xl) 1fr; gap: var(--igd-space-gap-sm); align-items: start; }
+.chip { block-size: var(--igd-size-control-xl); border-radius: var(--igd-radius-md); border: var(--igd-border-width-default) solid var(--igd-color-border-default); }
+.tiles li { display: grid; gap: var(--igd-space-gap-2xs); }
+.box { display: block; block-size: var(--igd-size-control-xl); margin-block-end: var(--igd-space-stack-xs); background: var(--igd-color-surface-card); border: var(--igd-border-width-default) solid var(--igd-color-border-default); }
+.tiles.shadows .box { border-color: transparent; border-radius: var(--igd-radius-md); margin: var(--igd-space-stack-md) var(--igd-space-gap-md); }
+details { margin-block-start: var(--igd-space-stack-xl); }
+summary { cursor: pointer; margin-block-end: var(--igd-space-stack-md); }
+.table { overflow: auto; }
+table { border-collapse: collapse; inline-size: 100%; }
+th, td { text-align: start; vertical-align: top; padding: var(--igd-space-inset-sm) var(--igd-space-inset-sm) var(--igd-space-inset-sm) 0; border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle); font-weight: var(--igd-font-weight-regular); }
+.ramp { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, 1fr); border-radius: var(--igd-radius-sm); overflow: hidden; }
+.ramp li { padding: var(--igd-space-inset-sm) var(--igd-space-inset-2xs); text-align: center; font-size: var(--igd-type-body-2xs-font-size); }
+.bar { display: block; block-size: var(--igd-space-sm); background: var(--igd-color-action-default); border-radius: var(--igd-radius-xs); }
+/* A table row stacks when the page has no room for two columns. */
+@container (inline-size < 40rem) {
+  .type tr, .type th, .type td { display: block; }
+  .type th { border: 0; padding-block-end: 0; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1 class="igd-type-display-md">Token showcase</h1>
+    <p>${esc(T.name)}. Every value on this page is read from the built stylesheets.</p>
+  </div>
+  <div class="controls">
+    <button type="button" id="theme" aria-pressed="false">Dark theme</button>
+    ${sets.map((s) => `<button type="button" data-set="${s}" aria-pressed="false">Type set: ${s}</button>`).join("")}
+  </div>
+</header>
+${section("colour", "Colour", "Site code uses the semantic tokens. Each name says what the colour is for.", colors)}
+${section("palette", "Engine palette", "The raw tier, under the engine's own names. The number on a step is drawn in its contrast colour.", `<div class="table" tabindex="0" role="region" aria-labelledby="palette"><table><tbody>${ramps}</tbody></table></div>`)}
+${section("type", "Type", "Fifteen roles. The readout under a class is its size, line height and weight as rendered right now: resize the window, or pick a type set.", `<div class="table type" tabindex="0" role="region" aria-labelledby="type"><table><tbody>${type}</tbody></table></div>`)}
+${section("spacing", "Spacing", "The raw steps. A component uses the roles built on them: <code>--igd-space-inset-*</code> for padding, <code>--igd-space-stack-*</code> for vertical margins, <code>--igd-space-gap-*</code> for gaps.", `<div class="table" tabindex="0" role="region" aria-labelledby="spacing"><table><tbody>${spacing}</tbody></table></div>`)}
+${section("radius", "Radius", "Each role has a design value and a range it stays within.", `<ul class="tiles">${radius}</ul>`)}
+${section("shadow", "Shadow", "Built from the engine's elevations. The accent shadows take the action colour.", `<ul class="tiles shadows">${shadows}</ul>`)}
+</main>
+<script>
+(function () {
+  var root = document.documentElement;
+  var probe = document.createElement("canvas").getContext("2d");
+  function hex(color) {
+    probe.clearRect(0, 0, 1, 1); probe.fillStyle = color; probe.fillRect(0, 0, 1, 1);
+    var d = probe.getImageData(0, 0, 1, 1).data;
+    return "#" + [d[0], d[1], d[2]].map(function (v) { return v.toString(16).padStart(2, "0"); }).join("") + (d[3] < 255 ? " at " + Math.round(d[3] / 2.55) + "%" : "");
+  }
+  // Writes the rendered value of each token next to its name.
+  function read() {
+    var el = document.createElement("i"); el.style.position = "absolute"; document.body.appendChild(el);
+    document.querySelectorAll("output[data-color]").forEach(function (o) { el.style.backgroundColor = "var(" + o.dataset.color + ")"; o.textContent = hex(getComputedStyle(el).backgroundColor); });
+    document.querySelectorAll("output[data-length]").forEach(function (o) { el.style.inlineSize = "var(" + o.dataset.length + ")"; o.textContent = Math.round(parseFloat(getComputedStyle(el).inlineSize) * 100) / 100 + "px"; });
+    el.remove();
+    document.querySelectorAll("output[data-type]").forEach(function (o) {
+      var s = getComputedStyle(document.querySelector("span." + o.dataset.type));
+      o.textContent = Math.round(parseFloat(s.fontSize) * 10) / 10 + "px / " + Math.round(parseFloat(s.lineHeight) * 10) / 10 + "px, weight " + s.fontWeight;
+    });
+  }
+  var theme = document.getElementById("theme");
+  function sync() { theme.setAttribute("aria-pressed", String(root.getAttribute("data-theme") === "dark")); read(); }
+  theme.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    // Stored only while it differs from the system, so choosing the system's scheme again follows the system.
+    try {
+      if ((next === "dark") === matchMedia("(prefers-color-scheme: dark)").matches) localStorage.removeItem("igd-showcase-theme");
+      else localStorage.setItem("igd-showcase-theme", next);
+    } catch (e) {}
+    sync();
+  });
+  document.querySelectorAll("button[data-set]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var on = root.getAttribute("data-igd-type") === b.dataset.set;
+      if (on) root.removeAttribute("data-igd-type"); else root.setAttribute("data-igd-type", b.dataset.set);
+      document.querySelectorAll("button[data-set]").forEach(function (x) { x.setAttribute("aria-pressed", String(root.getAttribute("data-igd-type") === x.dataset.set)); });
+      read();
+    });
+  });
+  addEventListener("resize", read);
+  addEventListener("storage", function (e) {
+    if (e.key !== "igd-showcase-theme") return;
+    root.setAttribute("data-theme", (e.newValue ? e.newValue === "dark" : matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light");
+    sync();
+  });
+  document.fonts.ready.then(sync);
+})();
+</script>
+</body>
+</html>
+`;
+};
+
+if (isMain(import.meta.url)) {
+  const [, , IN, OUT] = process.argv;
+  const html = showcase(JSON.parse(fs.readFileSync(IN, "utf8")));
+  fs.writeFileSync(OUT, html);
+  console.log(`showcase: ${OUT} (${html.length} bytes)`);
+}
