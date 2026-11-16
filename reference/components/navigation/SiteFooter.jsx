@@ -56,7 +56,7 @@ function FLink({ l }) {
 function Item({ l }) {
   if (l.heading) return (
     <li style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-xs)' }}>
-      <span className="igd-type-body-2" style={{ fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-footer-strong)' }}>{l.label}</span>
+      <span className="igd-type-body-md" style={{ fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-footer-strong)' }}>{l.label}</span>
       <ul role="list" style={subList}>{l.children.map((c, i) => <Item key={i} l={c} />)}</ul>
     </li>);
   return (
@@ -80,10 +80,10 @@ function Newsletter({ variant, onSubscribe }) {
       ? { margin: '0 0 var(--igd-space-stack-3xl)', padding: 'var(--igd-space-inset-2xl) clamp(var(--igd-space-inset-lg), 3vw, var(--igd-space-inset-3xl))', borderRadius: 'var(--igd-radius-xl)', border: 'var(--igd-border-width-default) solid var(--igd-footer-card-border)', background: 'var(--igd-footer-card-background)', display: 'grid', gridTemplateColumns: cols, gap: 'var(--igd-space-gap-lg) var(--igd-space-gap-4xl)', alignItems: 'center' }
       : { display: 'grid', gridTemplateColumns: cols, gap: 'var(--igd-space-gap-lg) var(--igd-space-gap-4xl)', alignItems: 'start', padding: 'var(--igd-space-inset-2xl) 0 var(--igd-space-inset-3xl)', borderTop: 'var(--igd-border-width-default) solid var(--igd-footer-rule)' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: card ? 'var(--igd-space-gap-xs)' : 'var(--igd-space-gap-xs)', minWidth: 0 }}>
-        <h2 id="igf-nl-h" className={card ? 'igd-type-h4' : 'igd-type-overline'} style={card ? { margin: 0, color: 'var(--igd-color-text-inverse)' } : label}>Newsletter</h2>
-        <p className="igd-type-body-2" style={{ margin: 0, color: 'var(--igd-footer-text)', textWrap: 'pretty' }}>Product releases, webinars and developer resources from Infragistics.</p>
+        <h2 id="igf-nl-h" className={card ? 'igd-type-stat' : 'igd-type-eyebrow'} style={card ? { margin: 0, color: 'var(--igd-color-text-inverse)' } : label}>Newsletter</h2>
+        <p className="igd-type-body-md" style={{ margin: 0, color: 'var(--igd-footer-text)', textWrap: 'pretty' }}>Product releases, webinars and developer resources from Infragistics.</p>
       </div>
-      {done ? <p role="status" className="igd-type-body-2" style={{ margin: 0, color: 'var(--igd-color-accent-inverse-alt)' }}>Thanks. You're subscribed.</p> : (
+      {done ? <p role="status" className="igd-type-body-md" style={{ margin: 0, color: 'var(--igd-color-accent-inverse-alt)' }}>Thanks. You're subscribed.</p> : (
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-sm)', minWidth: 0 }}>
           <div data-nl-field="" data-card={card || undefined}>
             <TextField tone="dark" size={card ? 'md' : 'lg'} bare={card} hideLabel label="Email address" type="email" required autoComplete="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} style={{ flex: '1 1 var(--igd-field-min-width)', minWidth: 0 }} />
@@ -92,7 +92,7 @@ function Newsletter({ variant, onSubscribe }) {
           <Checkbox tone="dark" checked={agree} onChange={e => { setAgree(e.target.checked); setErr(false); }} error={err ? 'Check the box to agree before subscribing.' : undefined}>
             I understand and agree to the terms of infragistics' <a href={IG + '/legal/terms-of-use'} style={legalA}>Terms of Use</a> and <a href={IG + '/legal/privacy'} style={legalA}>Privacy Policy</a>
           </Checkbox>
-          <p className="igd-type-detail-1" style={{ margin: 0, paddingLeft: 'var(--igd-space-inset-xl)', fontSize: 'var(--igd-type-overline-font-size)', color: 'var(--igd-footer-heading)', textWrap: 'pretty' }}>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Use</a> apply</p>
+          <p className="igd-type-body-xs" style={{ margin: 0, paddingLeft: 'var(--igd-space-inset-xl)', fontSize: 'var(--igd-type-eyebrow-font-size)', color: 'var(--igd-footer-heading)', textWrap: 'pretty' }}>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Use</a> apply</p>
         </form>
       )}
     </section>
@@ -110,7 +110,7 @@ export function SiteFooter({
   const rule = 'var(--igd-border-width-default) solid var(--igd-footer-rule)';
   const sep = { borderLeft: 'var(--igd-border-width-default) solid var(--igd-footer-rule-strong)', lineHeight: 1, whiteSpace: 'nowrap' };
   return (
-    <footer data-igf="" data-on-dark="" className="igd-type-body-2" style={{ position: 'relative', overflow: 'hidden', background: 'var(--igd-footer-background-gradient)', color: 'var(--igd-footer-text)', fontFamily: 'var(--igd-font-body)', ...style }} {...rest}>
+    <footer data-igf="" data-on-dark="" className="igd-type-body-md" style={{ position: 'relative', overflow: 'hidden', background: 'var(--igd-footer-background-gradient)', color: 'var(--igd-footer-text)', fontFamily: 'var(--igd-font-body)', ...style }} {...rest}>
       <span aria-hidden="true" style={{ position: 'absolute', top: 'calc(var(--igd-glow-size-lg) * -0.5)', right: 'calc(var(--igd-glow-size-lg) * -0.29)', width: 'var(--igd-glow-size-lg)', height: 'var(--igd-glow-size-lg)', background: 'var(--igd-glow-secondary-strong)', pointerEvents: 'none' }}></span>
       <span aria-hidden="true" style={{ position: 'absolute', bottom: 'calc(var(--igd-glow-size-md) * -0.4)', left: 'calc(var(--igd-glow-size-md) * -0.31)', width: 'var(--igd-glow-size-md)', height: 'var(--igd-glow-size-md)', background: 'var(--igd-glow-inverse-alt)', pointerEvents: 'none' }}></span>
       <div style={{ position: 'relative', maxWidth: 'var(--igd-container-max-width)', margin: '0 auto', padding: 'var(--igd-space-inset-3xl) var(--igd-container-gutter) 0' }}>
@@ -132,7 +132,7 @@ export function SiteFooter({
             <div key={ci} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-sm)', minWidth: 0 }}>
               {stack.map((g, gi) => { const k = ci + '-' + gi; const isOpen = !!open[k]; return (
                 <div key={gi} data-group="" data-open={isOpen ? 'true' : 'false'} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-sm)', marginTop: gi ? 'var(--igd-space-stack-lg)' : 0 }}>
-                  <h2 className="igd-type-overline" style={{ ...label, margin: '0 0 var(--igd-space-stack-xs)' }}>
+                  <h2 className="igd-type-eyebrow" style={{ ...label, margin: '0 0 var(--igd-space-stack-xs)' }}>
                     <span data-htext="">{g.title}</span>
                     <button type="button" data-acc="" aria-expanded={isOpen} onClick={() => setOpen(s => ({ ...s, [k]: !s[k] }))} style={{ width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--igd-space-gap-sm)', minHeight: 'var(--igd-size-control-xl)', padding: 0, background: 'none', border: 'none', color: 'inherit', font: 'inherit', letterSpacing: 'inherit', textTransform: 'inherit', cursor: 'pointer' }}>
                       {g.title}<Icon name="chevron-down" size="md" />
@@ -148,7 +148,7 @@ export function SiteFooter({
 
         {moreProducts.length > 0 && (
           <div data-igf-more="" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--igd-space-gap-xs) var(--igd-space-gap-xl)', padding: 'var(--igd-space-inset-md) 0', borderTop: rule, marginBottom: newsletter === 'card' ? 'var(--igd-space-stack-xl)' : 0 }}>
-            <h2 className="igd-type-overline" style={label}>More Infragistics Products</h2>
+            <h2 className="igd-type-eyebrow" style={label}>More Infragistics Products</h2>
             <ul role="list" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexWrap: 'wrap', gap: 'var(--igd-space-gap-xs) var(--igd-space-gap-2xl)' }}>
               {moreProducts.map((l, i) => <li key={i}><FLink l={l} /></li>)}
             </ul>
@@ -160,13 +160,13 @@ export function SiteFooter({
       <div style={{ position: 'relative', borderTop: rule }}>
         <div style={{ maxWidth: 'var(--igd-container-max-width)', margin: '0 auto', padding: 'var(--igd-space-inset-2xl) var(--igd-container-gutter) var(--igd-space-inset-2xl)', display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-md)' }}>
           <nav aria-label="Legal">
-            <ul role="list" className="igd-type-caption" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 'var(--igd-space-gap-xs)' }}>
+            <ul role="list" className="igd-type-body-sm" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 'var(--igd-space-gap-xs)' }}>
               {legalLinks.map((l, i) => <li key={i} style={{ padding: i ? '0 var(--igd-space-inset-sm)' : '0 var(--igd-space-inset-sm) 0 0', borderLeft: i ? sep.borderLeft : 'none', lineHeight: sep.lineHeight, whiteSpace: sep.whiteSpace }}><a href={l.href}>{l.label}</a></li>)}
-              {onCookieSettings && <li style={{ padding: '0 var(--igd-space-inset-sm)', ...sep }}><button type="button" className="igd-type-caption" onClick={onCookieSettings} style={{ padding: 0, minHeight: 'var(--igd-space-xl)', border: 'none', background: 'none', fontFamily: 'inherit', color: 'var(--igd-footer-text)', cursor: 'pointer' }}>Cookie Settings</button></li>}
+              {onCookieSettings && <li style={{ padding: '0 var(--igd-space-inset-sm)', ...sep }}><button type="button" className="igd-type-body-sm" onClick={onCookieSettings} style={{ padding: 0, minHeight: 'var(--igd-space-xl)', border: 'none', background: 'none', fontFamily: 'inherit', color: 'var(--igd-footer-text)', cursor: 'pointer' }}>Cookie Settings</button></li>}
             </ul>
           </nav>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--igd-space-gap-md) var(--igd-space-gap-2xl)' }}>
-            <div className="igd-type-detail-1" style={{ color: 'var(--igd-footer-heading)' }}>{legal ?? copyright}</div>
+            <div className="igd-type-body-xs" style={{ color: 'var(--igd-footer-heading)' }}>{legal ?? copyright}</div>
             {seals.length > 0 && <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-sm)' }}>{seals.map((s, i) => <img key={i} src={s.src || assetBase + s.file} alt={s.alt} title={s.alt} style={{ height: 'var(--igd-size-control-md)', display: 'block' }} />)}</div>}
           </div>
         </div>

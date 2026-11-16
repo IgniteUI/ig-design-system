@@ -5921,7 +5921,7 @@
   },
   "typography": {
     "$type": "typography",
-    "type-h1": {
+    "type-display-lg": {
       "$value": {
         "fontFamily": "{fontFamily.font-display}",
         "fontSize": {
@@ -5937,7 +5937,7 @@
       },
       "$description": "Homepage hero only, in `color-text-heading`. (was `display-h1`; engine slot `h1`)"
     },
-    "type-h2": {
+    "type-display-md": {
       "$value": {
         "fontFamily": "{fontFamily.font-display}",
         "fontSize": {
@@ -5953,7 +5953,7 @@
       },
       "$description": "Section heads, in `color-text-heading`. (was `display-h2`; engine slot `h2`)"
     },
-    "type-h3": {
+    "type-display-sm": {
       "$value": {
         "fontFamily": "{fontFamily.font-display}",
         "fontSize": {
@@ -5969,7 +5969,7 @@
       },
       "$description": "Sub-section and panel heads; `color-text-inverse` on dark. There is no h7. (was `display-h3`; engine slot `h3`)"
     },
-    "type-h4": {
+    "type-stat": {
       "$value": {
         "fontFamily": "{fontFamily.font-display}",
         "fontSize": {
@@ -5985,7 +5985,7 @@
       },
       "$description": "Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. (was `display-stat`; engine slot `h4`)"
     },
-    "type-h6": {
+    "type-title-md": {
       "$value": {
         "fontFamily": "{fontFamily.font-display}",
         "fontSize": {
@@ -6001,7 +6001,7 @@
       },
       "$description": "Product names in a catalog card, in `color-text-heading`. (was `product-name`; engine slot `h6`)"
     },
-    "type-h5": {
+    "type-title-sm": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6017,7 +6017,7 @@
       },
       "$description": "Card titles, sentence case, in `color-text-heading` — body face, not the display face. (was `card-title`; engine slot `h5`)"
     },
-    "type-subtitle-1": {
+    "type-lead": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6033,7 +6033,7 @@
       },
       "$description": "Lead under an h1 or h2, in `color-text-secondary`. (was `body-lead`; engine slot `subtitle-1`)"
     },
-    "type-subtitle-2": {
+    "type-label-lg": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6049,7 +6049,7 @@
       },
       "$description": "Hero button label and callout titles. (was `callout-title`; engine slot `subtitle-2`)"
     },
-    "type-body-1": {
+    "type-body-lg": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6065,7 +6065,7 @@
       },
       "$description": "Running prose, in `color-text-secondary`. (was `body-text`; engine slot `body-1`)"
     },
-    "type-body-2": {
+    "type-body-md": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6081,7 +6081,7 @@
       },
       "$description": "Nav, buttons and list rows, in `color-text-ui`. (was `body-ui`; engine slot `body-2`)"
     },
-    "type-button": {
+    "type-label-md": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6097,7 +6097,7 @@
       },
       "$description": "Button and CTA labels. (was `button`; engine slot `button`)"
     },
-    "type-caption": {
+    "type-body-sm": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6113,7 +6113,7 @@
       },
       "$description": "Captions, card descriptions and table detail copy. (was `body-caption`; engine slot `caption`)"
     },
-    "type-overline": {
+    "type-eyebrow": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6129,7 +6129,7 @@
       },
       "$description": "Eyebrows: ALL CAPS, in `color-action-default`. (was `eyebrow`; engine slot `overline`)"
     },
-    "type-detail-1": {
+    "type-body-xs": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6143,9 +6143,9 @@
         },
         "lineHeight": 1.5
       },
-      "$description": "Micro text: utility bar, legal copy, chips. (was `body-micro`; engine slot `detail-1`)"
+      "$description": "Micro text: utility bar, legal copy, chips. (was `body-micro`)"
     },
-    "type-detail-2": {
+    "type-body-2xs": {
       "$value": {
         "fontFamily": "{fontFamily.font-body}",
         "fontSize": {
@@ -6159,7 +6159,7 @@
         },
         "lineHeight": 1.4
       },
-      "$description": "Badge sublabels and nano meta labels (`color-text-muted`). (was `body-nano`; engine slot `detail-2`)"
+      "$description": "Badge sublabels and nano meta labels (`color-text-muted`). (was `body-nano`)"
     }
   },
   "duration": {

@@ -1,7 +1,7 @@
 // node src/migration.ts <out.md> — the old → new tables come from rename-map.ts, so they cannot drift from the build.
 import fs from "node:fs";
 import * as M from "./rename-map.ts";
-import { SPACE } from "./spec.ts";
+import { ENGINE_TYPE_SLOTS, SPACE, TYPE } from "./spec.ts";
 
 const OUT = process.argv[2];
 const tbl = (rows: string[][], a: string, b: string) =>
@@ -31,7 +31,7 @@ This release is a clean break. The system now sits on the **igniteui-theming** e
 | Area | Before | Now |
 |---|---|---|
 | Palette, type, spacing, size, radius, elevation | Hand-picked literals | Engine output (\`palette()\`, \`typography()\`, \`pad()\`, \`sizable()\`, \`border-radius()\`, indigo elevations) |
-| Token names | \`--ig-blue\`, \`--text-muted\`, \`--space-6\`, \`--ig-t-…\` | \`--igd-color-{role}-{variant}-{state}\`, \`--igd-space-{size}\`, \`--igd-radius-{step}\`, \`--igd-shadow-{role}\`, \`--igd-type-{slot}-…\` |
+| Token names | \`--ig-blue\`, \`--text-muted\`, \`--space-6\`, \`--ig-t-…\` | \`--igd-color-{role}-{variant}-{state}\`, \`--igd-space-{size}\`, \`--igd-radius-{step}\`, \`--igd-shadow-{role}\`, \`--igd-type-{role}-…\` |
 | Component styling | Inline literals and JS hover state | Tokens only; hover, focus, disabled, invalid and loading are CSS |
 | Icons | An inline \`<svg>\` per component | One \`Icon\` component with stroke and size tokens |
 | Forms | A bespoke input and checkbox inside the footer | \`TextField\` and \`Checkbox\` components |
@@ -61,7 +61,7 @@ In a component, pick the role for the property: padding → \`--igd-space-inset-
 `;
 for (const [t, rows] of groups)
   md += `### ${t}\n\n${tbl(rows, "Before", "Now")}\n`;
-md += `Type classes: \`.ig-t-{slot}\` → \`.igd-type-{slot}\`. Type variables: \`--igd-type-{slot}-{font-size|font-weight|line-height|font-family}\` follow the engine slot names (\`h1\`–\`h6\`, \`subtitle-1\`, \`subtitle-2\`, \`body-1\`, \`body-2\`, \`button\`, \`caption\`, \`overline\`, \`detail-1\`, \`detail-2\`).
+md += `### Type styles\n\nA type style is named for its role. The class is \`.igd-type-{role}\` and its variables are \`--igd-type-{role}-{font-family|font-size|font-weight|line-height|letter-spacing|text-transform}\`. Line height is a unitless multiple of the font size.\n\n| Before | Now | Engine slot |\n|---|---|---|\n${TYPE.map(([slot, name, was]) => `| \`${was}\` | \`.igd-type-${name}\` | ${ENGINE_TYPE_SLOTS.includes(slot) ? `\`${slot}\`` : "none"} |`).join("\n")}
 
 ## 5. Component API changes
 

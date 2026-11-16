@@ -16,11 +16,11 @@ export function TextField({
   const msg = error || hint;
   return (
     <div data-ig="field" data-tone={tone} style={style}>
-      <label htmlFor={fid} className="igd-type-detail-1" data-ig-label="" data-hidden={hideLabel || undefined}>{label}</label>
-      <input id={fid} className="igd-type-body-2" data-ig="input" data-size={size} data-bare={bare || undefined}
+      <label htmlFor={fid} className="igd-type-body-xs" data-ig-label="" data-hidden={hideLabel || undefined}>{label}</label>
+      <input id={fid} className="igd-type-body-md" data-ig="input" data-size={size} data-bare={bare || undefined}
              disabled={disabled} aria-invalid={error ? 'true' : undefined}
              aria-describedby={msg ? fid + '-msg' : undefined} style={inputStyle} {...rest} />
-      {msg && <p id={fid + '-msg'} className="igd-type-detail-1" data-ig-message="" data-error={error ? '' : undefined} role={error ? 'alert' : undefined}>{msg}</p>}
+      {msg && <p id={fid + '-msg'} className="igd-type-body-xs" data-ig-message="" data-error={error ? '' : undefined} role={error ? 'alert' : undefined}>{msg}</p>}
     </div>
   );
 }

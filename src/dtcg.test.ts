@@ -233,6 +233,38 @@ describe("toDtcg", () => {
     });
   });
 
+  it("takes a unitless line height as the ratio", () => {
+    const { groups, errs } = toDtcg(
+      tokens({
+        type: {
+          fonts: [],
+          families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+          groups: [
+            {
+              name: "Display",
+              family: "display",
+              styles: [
+                {
+                  name: "type-display-lg",
+                  fontSize: "4.375rem",
+                  lineHeight: "1.12",
+                  fontWeight: 900,
+                  usage: "",
+                  sample: "",
+                },
+              ],
+            },
+          ],
+        },
+      }),
+      "",
+    );
+    expect(errs).toEqual([]);
+    expect(groups.typography["type-display-lg"]).toMatchObject({
+      $value: { lineHeight: 1.12, fontSize: { value: 4.375, unit: "rem" } },
+    });
+  });
+
   it("reads durations and easings from the theme stylesheet", () => {
     const { groups } = toDtcg(
       tokens(),

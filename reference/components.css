@@ -121,7 +121,7 @@
 [data-ign] [data-ign-burger] { display: none; }
 @media (max-width: {{breakpoint-xl}}) {
   [data-ign] [data-ign-secondary] { display: none !important; }
-  [data-ign] [data-ign-items] { font-size: var(--igd-type-caption-font-size) !important; gap: 0 !important; }
+  [data-ign] [data-ign-items] { font-size: var(--igd-type-body-sm-font-size) !important; gap: 0 !important; }
 }
 @media (max-width: {{breakpoint-lg}}) {
   [data-ign] [data-ign-items] { display: none !important; }
@@ -135,7 +135,7 @@
 /* SiteFooter */
 [data-igf] a { color: var(--igd-footer-text); text-decoration: none; transition: color var(--igd-duration-fast) var(--igd-easing-default); }
 [data-igf] a:hover { color: var(--igd-color-text-inverse); }
-[data-igf] [data-igf-nav] a, [data-igf] [data-igf-more] a { color: var(--igd-footer-link); font-size: var(--igd-type-body-2-font-size); line-height: var(--igd-type-body-2-line-height); }
+[data-igf] [data-igf-nav] a, [data-igf] [data-igf-more] a { color: var(--igd-footer-link); font-size: var(--igd-type-body-md-font-size); line-height: var(--igd-type-body-md-line-height); }
 [data-igf] [data-igf-nav] a:hover, [data-igf] [data-igf-more] a:hover { color: var(--igd-color-text-inverse); }
 [data-igf] [data-igf-nav] a[data-strong] { color: var(--igd-footer-strong); font-weight: var(--igd-font-weight-semibold); }
 [data-igf] a:focus-visible, [data-igf] button:focus-visible { outline: var(--igd-focus-ring-width) solid var(--igd-footer-focus); outline-offset: var(--igd-focus-ring-offset); border-radius: var(--igd-radius-xs); }

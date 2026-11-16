@@ -44,7 +44,7 @@ export function NavBar({
         {utility}
         <div style={{ maxWidth: 'var(--igd-container-max-width)', margin: '0 auto', padding: '0 var(--igd-container-gutter)', minHeight: 'var(--igd-nav-height)', display: 'flex', alignItems: 'center', gap: 'clamp(var(--igd-space-gap-md), 2.4vw, var(--igd-space-gap-3xl))' }}>
           <a href={logoHref} aria-label="Infragistics home" style={{ flex: '0 0 auto', display: 'block' }}><img src={logo} alt="Infragistics" style={{ height: 'var(--igd-logo-height)', display: 'block' }} /></a>
-          <div data-ign-items="" style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: 'clamp(var(--igd-space-gap-3xs), 0.7vw, var(--igd-space-gap-xs))', fontSize: 'clamp(var(--igd-type-detail-1-font-size), 1.15vw, var(--igd-type-body-2-font-size))', fontWeight: 'var(--igd-font-weight-semibold)' }}>
+          <div data-ign-items="" style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: 'clamp(var(--igd-space-gap-3xs), 0.7vw, var(--igd-space-gap-xs))', fontSize: 'clamp(var(--igd-type-body-xs-font-size), 1.15vw, var(--igd-type-body-md-font-size))', fontWeight: 'var(--igd-font-weight-semibold)' }}>
             {items.map(it => {
               const k = keyOf(it);
               if (!it.panel) return <a key={k} data-ign-trig="" href={it.href || '#'} style={trigStyle}>{it.label}</a>;
@@ -60,9 +60,9 @@ export function NavBar({
           <div style={{ flex: '0 0 auto', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-sm)' }}>
             {onMenu && <button type="button" data-ign-burger="" data-ign-icon="" aria-label="Open menu" onClick={onMenu} style={iconBtn}><Icon name="menu" size="lg" /></button>}
             {onSearch && <button type="button" data-ign-icon="" aria-label="Search" onClick={onSearch} style={iconBtn}><Icon name="search" size="lg" /></button>}
-            {accountHref && <a data-ign-secondary="" data-ign-text="" href={accountHref} className="igd-type-body-2" style={{ fontWeight: 'var(--igd-font-weight-semibold)', whiteSpace: 'nowrap', color: 'var(--igd-color-text-secondary)', textDecoration: 'none', transition: 'var(--igd-transition-default)' }}>My Account</a>}
+            {accountHref && <a data-ign-secondary="" data-ign-text="" href={accountHref} className="igd-type-body-md" style={{ fontWeight: 'var(--igd-font-weight-semibold)', whiteSpace: 'nowrap', color: 'var(--igd-color-text-secondary)', textDecoration: 'none', transition: 'var(--igd-transition-default)' }}>My Account</a>}
             {githubHref && <a data-ign-text="" href={githubHref} target="_blank" rel="noopener" aria-label="Ignite UI on GitHub (opens in new tab)" style={{ display: 'inline-flex', padding: 'var(--igd-space-inset-2xs)', color: 'var(--igd-color-text-secondary)', transition: 'var(--igd-transition-default)' }}><svg style={{ width: 'var(--igd-size-icon-lg)', height: 'var(--igd-size-icon-lg)' }} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path></svg></a>}
-            {cta && <a data-ign-cta="" href={cta.href} className="igd-type-button" style={{ display: 'inline-flex', alignItems: 'center', height: 'var(--igd-size-control-md)', padding: '0 var(--igd-space-inset-md)', borderRadius: 'var(--igd-radius-full)', background: 'var(--igd-color-action-default)', color: 'var(--igd-color-action-on)', fontWeight: 'var(--igd-font-weight-semibold)', whiteSpace: 'nowrap', textDecoration: 'none', boxShadow: 'var(--igd-shadow-accent-lg)', transition: 'all var(--igd-duration-button) var(--igd-easing-default)' }}>{cta.label}</a>}
+            {cta && <a data-ign-cta="" href={cta.href} className="igd-type-label-md" style={{ display: 'inline-flex', alignItems: 'center', height: 'var(--igd-size-control-md)', padding: '0 var(--igd-space-inset-md)', borderRadius: 'var(--igd-radius-full)', background: 'var(--igd-color-action-default)', color: 'var(--igd-color-action-on)', fontWeight: 'var(--igd-font-weight-semibold)', whiteSpace: 'nowrap', textDecoration: 'none', boxShadow: 'var(--igd-shadow-accent-lg)', transition: 'all var(--igd-duration-button) var(--igd-easing-default)' }}>{cta.label}</a>}
           </div>
         </div>
         {current && (
@@ -80,7 +80,7 @@ export function NavPanelCard({ title, tint = 'var(--igd-color-surface-tint)', ch
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--igd-space-gap-sm)', minWidth: 0, border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', borderRadius: 'var(--igd-radius-lg)', padding: 'var(--igd-space-inset-lg) var(--igd-space-inset-lg) var(--igd-space-inset-lg) var(--igd-space-inset-xl)', overflow: 'hidden', ...style }}>
       <div style={{ background: tint, margin: 'calc(-1 * var(--igd-space-stack-lg)) calc(-1 * var(--igd-space-stack-lg)) var(--igd-space-stack-2xs) calc(-1 * var(--igd-space-stack-xl))', padding: 'var(--igd-space-inset-md) var(--igd-space-inset-lg) var(--igd-space-inset-sm) var(--igd-space-inset-xl)' }}>
-        <h3 className="igd-type-h6" style={{ margin: 0, fontSize: 'clamp(var(--igd-type-subtitle-2-font-size), 1.5vw, var(--igd-type-subtitle-1-font-size))', color: 'var(--igd-color-text-heading)' }}>{title}</h3>
+        <h3 className="igd-type-title-md" style={{ margin: 0, fontSize: 'clamp(var(--igd-type-label-lg-font-size), 1.5vw, var(--igd-type-lead-font-size))', color: 'var(--igd-color-text-heading)' }}>{title}</h3>
       </div>
       {children}
     </div>
@@ -88,8 +88,8 @@ export function NavPanelCard({ title, tint = 'var(--igd-color-surface-tint)', ch
 }
 
 export function NavLink({ href, icon: lead, label, desc, level = 1, soon, external, style }) {
-  const fontSize = level === 3 ? 'var(--igd-type-body-2-font-size)' : 'var(--igd-type-h6-font-size)';
-  const pill = soon && <span className="igd-type-overline" style={{ display: 'inline-flex', padding: 'var(--igd-space-inset-3xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-full)', background: 'var(--igd-color-surface-muted)', border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', textTransform: 'none', letterSpacing: 'normal', color: 'var(--igd-color-text-secondary)', whiteSpace: 'nowrap' }}>Coming Soon</span>;
+  const fontSize = level === 3 ? 'var(--igd-type-body-md-font-size)' : 'var(--igd-type-title-md-font-size)';
+  const pill = soon && <span className="igd-type-eyebrow" style={{ display: 'inline-flex', padding: 'var(--igd-space-inset-3xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-full)', background: 'var(--igd-color-surface-muted)', border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', textTransform: 'none', letterSpacing: 'normal', color: 'var(--igd-color-text-secondary)', whiteSpace: 'nowrap' }}>Coming Soon</span>;
   if (soon || !href) return <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--igd-space-gap-2xs) var(--igd-space-gap-xs)', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-sm)', marginLeft: 'calc(-1 * var(--igd-space-gap-sm))', fontSize, fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-text-secondary)', ...style }}>{lead}{label}{pill}</div>;
   const x = external ? { target: '_blank', rel: 'noopener' } : {};
   return (
@@ -97,7 +97,7 @@ export function NavLink({ href, icon: lead, label, desc, level = 1, soon, extern
       style={{ display: 'flex', alignItems: desc ? 'flex-start' : 'center', gap: 'var(--igd-space-gap-xs)', padding: desc ? 'var(--igd-space-inset-sm)' : level === 3 ? 'var(--igd-space-inset-2xs) var(--igd-space-inset-sm)' : 'var(--igd-space-inset-xs) var(--igd-space-inset-sm)', marginLeft: 'calc(-1 * var(--igd-space-gap-sm))', borderRadius: 'var(--igd-radius-md)', fontSize, fontWeight: level === 1 ? 'var(--igd-font-weight-semibold)' : level === 2 ? 'var(--igd-font-weight-medium)' : 'var(--igd-font-weight-regular)', textDecoration: 'none', ...style }}>
       <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', minWidth: 0 }}>
         {lead}
-        {desc ? <span style={{ display: 'block' }}><span data-ig-label="" style={{ display: 'block' }}>{label}</span><span style={{ display: 'block', fontSize: 'var(--igd-type-body-2-font-size)', fontWeight: 'var(--igd-font-weight-regular)', lineHeight: 'var(--igd-type-body-2-line-height)', color: 'var(--igd-color-text-muted)', marginTop: 'var(--igd-space-stack-2xs)' }}>{desc}</span></span>
+        {desc ? <span style={{ display: 'block' }}><span data-ig-label="" style={{ display: 'block' }}>{label}</span><span style={{ display: 'block', fontSize: 'var(--igd-type-body-md-font-size)', fontWeight: 'var(--igd-font-weight-regular)', lineHeight: 'var(--igd-type-body-md-line-height)', color: 'var(--igd-color-text-muted)', marginTop: 'var(--igd-space-stack-2xs)' }}>{desc}</span></span>
           : <span style={{ paddingLeft: level === 3 ? 'var(--igd-space-inset-2xl)' : 0 }}>{label}</span>}
       </span>
       {!desc && <Icon name="arrow-right" size={level === 3 ? 'sm' : 'md'} data-ig-arrow="" />}
