@@ -55,7 +55,7 @@ The 25-step scale collapsed to 12 engine steps, and the steps are now named by s
 | `--space-52` | `--igd-space-4xl` |
 | `--space-56` | `--igd-space-5xl` |
 | `--space-64` | `--igd-space-5xl` |
-| `--space-104` | `--igd-space-undefined` |
+| `--space-104` | `--igd-space-6xl` |
 
 In a component, pick the role for the property: padding → `--igd-space-inset-{size}`, vertical margins → `--igd-space-stack-{size}`, gap and inline margins → `--igd-space-gap-{size}`.
 
