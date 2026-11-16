@@ -621,7 +621,7 @@ export const TYPE: TypeRow[] = [
     "display-lg",
     "display-h1",
     "display",
-    70,
+    52,
     1.12,
     900,
     "-0.0257em",
@@ -647,7 +647,7 @@ export const TYPE: TypeRow[] = [
     "display-sm",
     "display-h3",
     "display",
-    27,
+    23,
     1.2,
     800,
     "-0.0222em",
@@ -660,7 +660,7 @@ export const TYPE: TypeRow[] = [
     "stat",
     "display-stat",
     "display",
-    21,
+    26,
     1.1,
     800,
     "0",
@@ -699,7 +699,7 @@ export const TYPE: TypeRow[] = [
     "lead",
     "body-lead",
     "body",
-    20,
+    19,
     1.6,
     400,
     "0",
@@ -725,7 +725,7 @@ export const TYPE: TypeRow[] = [
     "body-lg",
     "body-text",
     "body",
-    19,
+    16,
     1.62,
     400,
     "0",
@@ -817,11 +817,10 @@ export type FamilyName = "display" | "body" | "mono";
 export const TYPE_FLUID_RANGE = { from: 360, to: 1280 };
 // The size, in px, of a fluid type role in a container TYPE_FLUID_RANGE.from wide. A role that is not listed has one size.
 export const TYPE_MIN: Record<string, number> = {
-  "display-lg": 40,
+  "display-lg": 36,
   "display-md": 30,
-  "display-sm": 22,
-  lead: 18,
-  "body-lg": 17,
+  "display-sm": 20,
+  lead: 17,
 };
 // A type set gives the roles other values for one kind of site. The face of each role stays the one in TYPE.
 export type TypeSetEntry = {
