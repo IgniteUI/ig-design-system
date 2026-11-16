@@ -43,6 +43,8 @@ Every token the design system defines is published as `--igd-*`, so it cannot co
 
 Token names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS.
 
+**Accent palettes.** Four more palettes are built with the engine for accent colours: pink, cyan, sky and teal. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from them, so publishing 40 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
+
 The classes and keyframes the package defines follow the same rule: `.igd-type-h1` … `.igd-type-detail-2` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
 **Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default` (`--igd-color-action-default` in CSS), `color-text-muted`, `color-surface-tint`. No semantic or component name carries a hue: the accents are `color-accent-primary`, `-secondary`, `-inverse` and `-inverse-alt`, the icon tile fills are `tile-1` … `tile-8`, and the glows take the name of the accent they derive from. A hue appears only in the raw tier, where the name says what the value is. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
@@ -97,6 +99,7 @@ dist/        the generated package (committed, so a site can use it without buil
 reports/     contrast and derived-colour reports from the last build
 reference/   React reference components and their stylesheet. They prove the tokens and feed the checks; they are not part of the package
 docs/        MIGRATION.md: old token names to new ones
+AGENTS.md    the decisions behind the code and the reason for each
 ```
 
 To change a token, edit `src/spec.ts` (or the generator) and rebuild. The tables in `spec.ts` are typed, so a value in the wrong slot or an unknown opacity name fails `npm run typecheck`. Never edit `dist/` by hand; CI fails if `dist/` does not match the source.

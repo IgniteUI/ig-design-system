@@ -252,13 +252,13 @@ describe("toDtcg", () => {
     expect(groups).not.toHaveProperty("easing");
   });
 
-  it("converts the committed tokens to 457 tokens with 8 CSS-only and no error", () => {
+  it("converts the committed tokens to 417 tokens with 8 CSS-only and no error", () => {
     const { flat, cssOnly, errs } = toDtcg(
       JSON.parse(fs.readFileSync("dist/tokens.json", "utf8")),
       fs.readFileSync("dist/theme.css", "utf8"),
     );
     expect(errs).toEqual([]);
-    expect(Object.keys(flat)).toHaveLength(457);
+    expect(Object.keys(flat)).toHaveLength(417);
     expect(Object.keys(cssOnly)).toHaveLength(8);
   });
 });

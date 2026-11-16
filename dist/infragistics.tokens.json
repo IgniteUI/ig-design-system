@@ -1502,486 +1502,6 @@
       },
       "$description": "Engine surface role `overlay` (dark variant)."
     },
-    "ig-pink-50": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.9961,
-          0.902,
-          0.9255
-        ],
-        "hex": "#fee6ec"
-      },
-      "$description": "Engine accent ramp `pink`, step 50: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-100": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          1,
-          0.7255,
-          0.8078
-        ],
-        "hex": "#ffb9ce"
-      },
-      "$description": "Engine accent ramp `pink`, step 100: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-200": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          1,
-          0.549,
-          0.7137
-        ],
-        "hex": "#ff8cb6"
-      },
-      "$description": "Engine accent ramp `pink`, step 200: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-300": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.9686,
-          0.3725,
-          0.6353
-        ],
-        "hex": "#f75fa2"
-      },
-      "$description": "Engine accent ramp `pink`, step 300: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-400": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.8863,
-          0.2314,
-          0.5608
-        ],
-        "hex": "#e23b8f"
-      },
-      "$description": "Engine accent ramp `pink`, step 400: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-500": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.7686,
-          0.1451,
-          0.4745
-        ],
-        "hex": "#c42579"
-      },
-      "$description": "Engine accent ramp `pink`, step 500: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-600": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.6353,
-          0.1059,
-          0.3882
-        ],
-        "hex": "#a21b63"
-      },
-      "$description": "Engine accent ramp `pink`, step 600: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-700": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.4941,
-          0.0941,
-          0.302
-        ],
-        "hex": "#7e184d"
-      },
-      "$description": "Engine accent ramp `pink`, step 700: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-800": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.3412,
-          0.0824,
-          0.2078
-        ],
-        "hex": "#571535"
-      },
-      "$description": "Engine accent ramp `pink`, step 800: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-pink-900": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1608,
-          0.0392,
-          0.0941
-        ],
-        "hex": "#290a18"
-      },
-      "$description": "Engine accent ramp `pink`, step 900: palette() seeded with the pink accent of the previous system."
-    },
-    "ig-cyan-50": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.8275,
-          0.9451,
-          0.9804
-        ],
-        "hex": "#d3f1fa"
-      },
-      "$description": "Engine accent ramp `cyan`, step 50: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-100": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.4706,
-          0.8549,
-          0.949
-        ],
-        "hex": "#78daf2"
-      },
-      "$description": "Engine accent ramp `cyan`, step 100: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-200": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.2235,
-          0.749,
-          0.8627
-        ],
-        "hex": "#39bfdc"
-      },
-      "$description": "Engine accent ramp `cyan`, step 200: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-300": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0824,
-          0.6471,
-          0.749
-        ],
-        "hex": "#15a5bf"
-      },
-      "$description": "Engine accent ramp `cyan`, step 300: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-400": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0078,
-          0.549,
-          0.6392
-        ],
-        "hex": "#028ca3"
-      },
-      "$description": "Engine accent ramp `cyan`, step 400: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-500": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0039,
-          0.4588,
-          0.5373
-        ],
-        "hex": "#017589"
-      },
-      "$description": "Engine accent ramp `cyan`, step 500: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-600": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0196,
-          0.3725,
-          0.4353
-        ],
-        "hex": "#055f6f"
-      },
-      "$description": "Engine accent ramp `cyan`, step 600: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-700": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0431,
-          0.2902,
-          0.3373
-        ],
-        "hex": "#0b4a56"
-      },
-      "$description": "Engine accent ramp `cyan`, step 700: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-800": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.051,
-          0.2,
-          0.2353
-        ],
-        "hex": "#0d333c"
-      },
-      "$description": "Engine accent ramp `cyan`, step 800: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-cyan-900": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0275,
-          0.0902,
-          0.1098
-        ],
-        "hex": "#07171c"
-      },
-      "$description": "Engine accent ramp `cyan`, step 900: palette() seeded with the cyan accent of the previous system."
-    },
-    "ig-sky-50": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.8627,
-          0.9373,
-          0.9804
-        ],
-        "hex": "#dceffa"
-      },
-      "$description": "Engine accent ramp `sky`, step 50: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-100": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.5843,
-          0.8353,
-          0.9686
-        ],
-        "hex": "#95d5f7"
-      },
-      "$description": "Engine accent ramp `sky`, step 100: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-200": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.3176,
-          0.7333,
-          0.9333
-        ],
-        "hex": "#51bbee"
-      },
-      "$description": "Engine accent ramp `sky`, step 200: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-300": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1373,
-          0.6314,
-          0.8392
-        ],
-        "hex": "#23a1d6"
-      },
-      "$description": "Engine accent ramp `sky`, step 300: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-400": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0314,
-          0.5373,
-          0.7255
-        ],
-        "hex": "#0889b9"
-      },
-      "$description": "Engine accent ramp `sky`, step 400: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-500": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0078,
-          0.4471,
-          0.6078
-        ],
-        "hex": "#02729b"
-      },
-      "$description": "Engine accent ramp `sky`, step 500: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-600": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0196,
-          0.3647,
-          0.498
-        ],
-        "hex": "#055d7f"
-      },
-      "$description": "Engine accent ramp `sky`, step 600: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-700": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0431,
-          0.2824,
-          0.3843
-        ],
-        "hex": "#0b4862"
-      },
-      "$description": "Engine accent ramp `sky`, step 700: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-800": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.051,
-          0.1961,
-          0.2667
-        ],
-        "hex": "#0d3244"
-      },
-      "$description": "Engine accent ramp `sky`, step 800: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-sky-900": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0275,
-          0.0902,
-          0.1216
-        ],
-        "hex": "#07171f"
-      },
-      "$description": "Engine accent ramp `sky`, step 900: palette() seeded with the sky accent of the previous system."
-    },
-    "ig-teal-50": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.7216,
-          0.9725,
-          0.9255
-        ],
-        "hex": "#b8f8ec"
-      },
-      "$description": "Engine accent ramp `teal`, step 50: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-100": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.3843,
-          0.8784,
-          0.8039
-        ],
-        "hex": "#62e0cd"
-      },
-      "$description": "Engine accent ramp `teal`, step 100: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-200": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.2353,
-          0.7647,
-          0.6941
-        ],
-        "hex": "#3cc3b1"
-      },
-      "$description": "Engine accent ramp `teal`, step 200: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-300": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1451,
-          0.6588,
-          0.5922
-        ],
-        "hex": "#25a897"
-      },
-      "$description": "Engine accent ramp `teal`, step 300: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-400": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.098,
-          0.5608,
-          0.502
-        ],
-        "hex": "#198f80"
-      },
-      "$description": "Engine accent ramp `teal`, step 400: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-500": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0745,
-          0.4667,
-          0.4196
-        ],
-        "hex": "#13776b"
-      },
-      "$description": "Engine accent ramp `teal`, step 500: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-600": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0667,
-          0.3804,
-          0.3412
-        ],
-        "hex": "#116157"
-      },
-      "$description": "Engine accent ramp `teal`, step 600: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-700": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0667,
-          0.2941,
-          0.2627
-        ],
-        "hex": "#114b43"
-      },
-      "$description": "Engine accent ramp `teal`, step 700: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-800": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0627,
-          0.2039,
-          0.1843
-        ],
-        "hex": "#10342f"
-      },
-      "$description": "Engine accent ramp `teal`, step 800: palette() seeded with the teal accent of the previous system."
-    },
-    "ig-teal-900": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0314,
-          0.0941,
-          0.0824
-        ],
-        "hex": "#081815"
-      },
-      "$description": "Engine accent ramp `teal`, step 900: palette() seeded with the teal accent of the previous system."
-    },
     "color-accent-primary": {
       "$value": "{color.ig-info-seed}",
       "$description": "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white."
@@ -1999,12 +1519,28 @@
       "$description": "Gradient partner to `color-accent-primary` and the AI marker. Never a fill on its own."
     },
     "color-accent-inverse": {
-      "$value": "{color.ig-sky-200}",
-      "$description": "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white. Contrast 8.24:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3176,
+          0.7333,
+          0.9333
+        ],
+        "hex": "#51bbee"
+      },
+      "$description": "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white. Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`."
     },
     "color-accent-inverse-alt": {
-      "$value": "{color.ig-teal-200}",
-      "$description": "On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white. Contrast 8.19:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2353,
+          0.7647,
+          0.6941
+        ],
+        "hex": "#3cc3b1"
+      },
+      "$description": "On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white. Engine step 200 of the teal palette. Contrast 8.19:1 on `color-surface-inverse`."
     },
     "color-action-default": {
       "$value": "{color.ig-primary-seed}",
@@ -2047,8 +1583,16 @@
       "$description": "Utility-row link hover."
     },
     "color-link-inverse": {
-      "$value": "{color.ig-sky-200}",
-      "$description": "Inline links on dark surfaces (`color-surface-inverse`). Contrast 8.24:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3176,
+          0.7333,
+          0.9333
+        ],
+        "hex": "#51bbee"
+      },
+      "$description": "Inline links on dark surfaces (`color-surface-inverse`). Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`."
     },
     "color-link-inverse-hover": {
       "$value": "{color.ig-dark-gray-900}",
@@ -2067,8 +1611,16 @@
       "$description": "Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only. Contrast 5.25:1 on `color-surface-page`."
     },
     "color-focus-inverse": {
-      "$value": "{color.ig-sky-100}",
-      "$description": "Keyboard focus outline inside a `data-on-dark` section. Contrast 11.17:1 on `color-surface-inverse`, 11.17:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.8353,
+          0.9686
+        ],
+        "hex": "#95d5f7"
+      },
+      "$description": "Keyboard focus outline inside a `data-on-dark` section. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-surface-inverse`, 11.17:1 on `color-surface-inverse`."
     },
     "color-text-heading": {
       "$value": "{color.ig-gray-900}",
@@ -2163,8 +1715,16 @@
       "$description": "Footer social icons. Contrast 8.58:1 on `ig-dark-surface-200`."
     },
     "footer-focus": {
-      "$value": "{color.ig-sky-100}",
-      "$description": "Keyboard focus ring inside the footer."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.8353,
+          0.9686
+        ],
+        "hex": "#95d5f7"
+      },
+      "$description": "Keyboard focus ring inside the footer. Engine step 100 of the sky palette."
     },
     "color-border-default": {
       "$value": "{color.ig-gray-200}",
@@ -2243,28 +1803,76 @@
       "$description": "BrowserFrame window dot."
     },
     "fw-angular-color": {
-      "$value": "{color.ig-pink-500}",
-      "$description": "Angular framework base colour. The pill fill and border derive from it."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7686,
+          0.1451,
+          0.4745
+        ],
+        "hex": "#c42579"
+      },
+      "$description": "Angular framework base colour. The pill fill and border derive from it. Engine step 500 of the pink palette."
     },
     "fw-react-color": {
-      "$value": "{color.ig-cyan-500}",
-      "$description": "React framework base colour. The pill fill and border derive from it."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0039,
+          0.4588,
+          0.5373
+        ],
+        "hex": "#017589"
+      },
+      "$description": "React framework base colour. The pill fill and border derive from it. Engine step 500 of the cyan palette."
     },
     "fw-angular-background": {
-      "$value": "{color.ig-pink-50}",
-      "$description": "Angular framework pill fill; holds on hover."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9961,
+          0.902,
+          0.9255
+        ],
+        "hex": "#fee6ec"
+      },
+      "$description": "Angular framework pill fill; holds on hover. Engine step 50 of the pink palette."
     },
     "fw-angular-border": {
-      "$value": "{color.ig-pink-100}",
-      "$description": "Angular framework pill border."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          0.7255,
+          0.8078
+        ],
+        "hex": "#ffb9ce"
+      },
+      "$description": "Angular framework pill border. Engine step 100 of the pink palette."
     },
     "fw-react-background": {
-      "$value": "{color.ig-cyan-50}",
-      "$description": "React framework pill fill."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8275,
+          0.9451,
+          0.9804
+        ],
+        "hex": "#d3f1fa"
+      },
+      "$description": "React framework pill fill. Engine step 50 of the cyan palette."
     },
     "fw-react-border": {
-      "$value": "{color.ig-cyan-100}",
-      "$description": "React framework pill border."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4706,
+          0.8549,
+          0.949
+        ],
+        "hex": "#78daf2"
+      },
+      "$description": "React framework pill border. Engine step 100 of the cyan palette."
     },
     "fw-webcomponents-background": {
       "$value": "{color.ig-primary-50}",
@@ -2307,16 +1915,32 @@
       "$description": "Icon tile fill — Agent Skills on the AI toolchain row."
     },
     "tile-3": {
-      "$value": "{color.ig-pink-400}",
-      "$description": "Icon tile fill — Theming MCP on the AI toolchain row."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8863,
+          0.2314,
+          0.5608
+        ],
+        "hex": "#e23b8f"
+      },
+      "$description": "Icon tile fill — Theming MCP on the AI toolchain row. Engine step 400 of the pink palette."
     },
     "tile-4": {
       "$value": "{color.ig-success-400}",
       "$description": "Icon tile fill — AI Scaffolding on the AI toolchain row."
     },
     "tile-5": {
-      "$value": "{color.ig-cyan-200}",
-      "$description": "Extended icon tile fill for grids longer than four tiles."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2235,
+          0.749,
+          0.8627
+        ],
+        "hex": "#39bfdc"
+      },
+      "$description": "Extended icon tile fill for grids longer than four tiles. Engine step 200 of the cyan palette."
     },
     "tile-6": {
       "$value": "{color.ig-warn-200}",
