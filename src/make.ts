@@ -46,7 +46,7 @@ const rgbOf = (h: string) =>
 const sass = (name: string, source: string) => {
   fs.writeFileSync(`${TMP}/${name}.scss`, source);
   execSync(
-    `npx sass --quiet --load-path=node_modules ${TMP}/${name}.scss ${TMP}/${name}.css`,
+    `npx sass --quiet --no-source-map --load-path=node_modules ${TMP}/${name}.scss ${TMP}/${name}.css`,
   );
   return fs.readFileSync(`${TMP}/${name}.css`, "utf8");
 };
@@ -61,7 +61,7 @@ const typeScss =
   `\n);\n:root { @include typography('x', $scale); }\n`;
 fs.writeFileSync(".cache/sass/type.scss", typeScss);
 execSync(
-  "npx sass --quiet --load-path=node_modules .cache/sass/type.scss .cache/sass/type.css",
+  "npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/type.scss .cache/sass/type.css",
 );
 const type: Named<Named<string>> = {};
 for (const m of fs
@@ -101,14 +101,14 @@ scss +=
   "  --easing-default: #{ease.$out-cubic};\n  @include e.elevations(neutral.$elevations);\n}\n";
 fs.writeFileSync(".cache/sass/layout.scss", scss);
 execSync(
-  "npx sass --quiet --load-path=node_modules .cache/sass/layout.scss .cache/sass/layout.css",
+  "npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/layout.scss .cache/sass/layout.css",
 );
 fs.writeFileSync(
   ".cache/sass/tint.scss",
   `@use 'igniteui-theming/sass/elevations' as e;\n@use 'igniteui-theming/sass/elevations/presets/indigo' as tinted with ($color-1: rgb(${primary600} / 0.26), $color-2: rgb(${primary600} / 0.12), $color-3: rgb(${primary600} / 0.08));\n:root { @include e.elevations(tinted.$elevations); }\n`,
 );
 execSync(
-  "npx sass --quiet --load-path=node_modules .cache/sass/tint.scss .cache/sass/tint.css",
+  "npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/tint.scss .cache/sass/tint.css",
 );
 const layoutCss = fs.readFileSync(".cache/sass/layout.css", "utf8");
 // neutral elevations 0..24
@@ -549,7 +549,7 @@ for (const g of typeGroups)
   }
 
 const tokens: Tokens = {
-  name: "Infragistics Marketing Design System",
+  name: "Infragistics Design System",
   version: 2,
   color: { themes: [{ id: "light", name: "Light" }], tokens: colorTokens },
   type: { fonts: FONTS, families: S.FAMILIES, groups: typeGroups },
@@ -656,7 +656,7 @@ fs.writeFileSync(`${OUT}/tokens.json`, `${JSON.stringify(tokens, null, 2)}\n`);
 // ---------- 5. tokens.css (as the page compiles it) ----------
 const colorVal = (v: string) =>
   /^\{(.+)\}$/.test(v) ? `var(--${v.slice(1, -1)})` : v;
-let css = `/* Infragistics Marketing Design System — generated from tokens.json */\n\n:root, [data-theme="light"] {\n`;
+let css = `/* Infragistics Design System — generated from tokens.json */\n\n:root, [data-theme="light"] {\n`;
 for (const t of colorTokens) css += `  --${t.name}: ${colorVal(t.value)};\n`;
 for (const t of tokens.shadow.tokens) css += `  --${t.name}: ${t.value};\n`;
 css += "}\n\n:root {\n";
@@ -686,7 +686,7 @@ for (const g of typeGroups)
 fs.writeFileSync(`${OUT}/tokens.css`, css);
 
 // ---------- 6. theme.css ----------
-let b = `/* Infragistics Marketing Design System — theme.css
+let b = `/* Infragistics Design System — theme.css
    Loaded after tokens.css. This file is the live layer of the igniteui-theming engine:
    1. the engine's own variables (--ig-*): sizing, spacing, roundness, elevations, typography, contrast;
    2. the tokens that must stay live — spacing, sizes, radii, shadows, gradients, translucent colours —
@@ -697,7 +697,48 @@ let b = `/* Infragistics Marketing Design System — theme.css
 
 /* ===== 1. igniteui-theming engine layer ===== */
 `;
-b += `/* dials: size large, spacing 1, elevation 1 */\n:root {\n  --ig-size: 3;\n  --ig-spacing: 1;\n  --ig-elevation-factor: 1;\n  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */\n}\n`;
+// The compiled layout stylesheet holds one :root, [data-size] rule (sizable() and pad()) and the :root rules (border-radius(), easing, elevations).
+const layoutRules = [...layoutCss.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(
+  (m) => ({
+    selector: m[1].trim(),
+    body: m[2].replace(/^\n+|\s+$/g, ""),
+  }),
+);
+const sized = layoutRules.filter((r) => r.selector !== ":root");
+if (sized.length !== 1 || layoutRules.length < 2)
+  throw new Error(
+    "layout stylesheet: one sized rule and at least one :root rule expected",
+  );
+let typography = "  --ig-font-family: var(--font-body);\n";
+for (const [slot, , fam] of S.TYPE) {
+  const t = type[slot];
+  typography += `  --ig-${slot}-font-family: var(--font-${fam});\n`;
+  for (const p of [
+    "font-size",
+    "font-weight",
+    "font-style",
+    "line-height",
+    "letter-spacing",
+    "text-transform",
+  ])
+    typography += `  --ig-${slot}-${p}: ${t[p]};\n`;
+}
+b += `:root {
+  /* dials: size large, spacing 1, elevation 1 */
+  --ig-size: 3;
+  --ig-spacing: 1;
+  --ig-elevation-factor: 1;
+  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */
+  /* one shadow colour behind every neutral elevation */
+  --color-shadow: oklch(0 0 0);
+  /* roundness, easing and neutral elevations: compiled from the engine's border-radius() and elevations() */
+${layoutRules
+  .filter((r) => r.selector === ":root")
+  .map((r) => r.body)
+  .join("\n")}
+  /* typography: engine slot variables, compiled from the engine's typography() with the type scale in spec.ts */
+${typography}}
+`;
 // The rest of the engine's palette(): every *-contrast variable, and the shades and roles the raw tier above does not list.
 // With them the package declares each custom property the engine's palette() emits, so an Ignite UI component finds its colours.
 const declared = new Set(
@@ -712,25 +753,10 @@ const enginePalette = [
 if (!enginePalette.some((m) => m[1] === "ig-primary-500-contrast"))
   throw new Error("palette(): no contrast variables emitted");
 b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n${adaptiveContrast.map((d) => `  ${d}`).join("\n")}\n}\n/* the rest of the engine's palette(): contrast colours, accent shades, surface shades and seeds */\n:root, [data-ig-scope] {\n${enginePalette.map((m) => `  --${m[1]}: ${m[2]};`).join("\n")}\n}\n`;
-b += `/* sizing, spacing, roundness, easing and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() */\n${layoutCss.replace(/\n{2,}/g, "\n").trim()}\n`;
+b += `/* sizing and spacing: compiled from the engine's sizable() and pad() */\n${sized[0].selector} {\n${sized[0].body}\n}\n`;
 b += `/* elevations tinted with \`action\` (indigo preset, colours configured through its $color-1..3) */\n:root {\n${tintUsed.map((l) => `  --ig-elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
 b +=
-  "/* typography: engine slot variables (create_typography, indigo scale, customScale from the previous styles) */\n:root {\n  --ig-font-family: var(--font-body);\n";
-for (const [slot, , fam] of S.TYPE) {
-  const t = type[slot];
-  b += `  --ig-${slot}-font-family: var(--font-${fam});\n`;
-  for (const p of [
-    "font-size",
-    "font-weight",
-    "font-style",
-    "line-height",
-    "letter-spacing",
-    "text-transform",
-  ])
-    b += `  --ig-${slot}-${p}: ${t[p]};\n`;
-}
-b +=
-  "}\n\n/* ===== 2. live tokens (same names as tokens.json) ===== */\n:root {\n";
+  "\n/* ===== 2. live tokens (same names as tokens.json) ===== */\n:root {\n";
 for (const [n, [liveVal]] of Object.entries(SHADOWS)) {
   if (n === "callout-release-shadow")
     b += `  --${n}: inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring), var(--ig-elevation-tint-13);\n`;
@@ -756,9 +782,8 @@ b +=
 b +=
   "  --container-gutter: clamp(var(--space-md), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n";
 b += "  --nav-backdrop-blur: blur(var(--space-sm));\n";
-b += `}\n\n/* motion */\n:root {\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
-  --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n}\n`;
-b += "\n/* ===== 3. type variables and classes ===== */\n:root {\n";
+b += `}\n\n/* ===== 3. motion, type variables and classes ===== */\n:root {\n  /* motion */\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
+  --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n  /* type */\n`;
 for (const [slot, , _fam] of S.TYPE)
   b += `  --type-${slot}-font-family: var(--ig-${slot}-font-family);\n  --type-${slot}-font-size: var(--ig-${slot}-font-size);\n  --type-${slot}-font-weight: var(--ig-${slot}-font-weight);\n  --type-${slot}-line-height: var(--ig-${slot}-line-height);\n  --type-${slot}-letter-spacing: var(--ig-${slot}-letter-spacing);\n  --type-${slot}-text-transform: var(--ig-${slot}-text-transform);\n`;
 b += "}\n";
@@ -994,10 +1019,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
         /rgba\(0, ?0, ?0, ?([\d.]+)\)/g,
         "hsl(from var(--color-shadow) h s l / $1)",
       ),
-  );
-  b = b.replace(
-    "\n/* ===== 5. derived colour",
-    "\n:root { --color-shadow: oklch(0 0 0); }\n/* ===== 5. derived colour",
   );
   // the live colour tokens and tinted elevations resolve again inside a scope
   const mark = "/* ===== 2. live tokens";
