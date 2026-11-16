@@ -278,13 +278,9 @@ for (const r of ["base", "sunken", "raised", "overlay"])
     P.dark[`surface-${r}`],
     `Engine surface role \`${r}\` (dark variant).`,
   );
-for (const fam of ["pink", "cyan", "sky", "teal"])
-  for (const s of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900])
-    add(
-      `ig-${fam}-${s}`,
-      P[fam][`primary-${s}`],
-      `Engine accent ramp \`${fam}\`, step ${s}: palette() seeded with the ${fam} accent of the previous system.`,
-    );
+// A step of an accent palette (pink, cyan, sky, teal) is built by the engine and not published: the token that uses it carries the colour itself.
+const ACCENT_STEP = /^ig-(pink|cyan|sky|teal)-(\d+)$/;
+const inlined = new Set<string>();
 const aliasUsage = (name: string) => S.ALIAS[name][1];
 // contrast checks that decide which ratio is quoted in a note
 const CHECKS: [fg: string, bg: string, min?: number][] = [
@@ -432,13 +428,18 @@ for (const [i, [fg, bg, min = 4.5]] of CHECKS.entries()) {
   ratioNote[fg] ??= [];
   ratioNote[fg].push(`${r}:1 on \`${bg}\``);
 }
-for (const [name, [eng]] of Object.entries(S.ALIAS))
+for (const [name, [eng]] of Object.entries(S.ALIAS)) {
+  if (ACCENT_STEP.test(eng) && !SNAPSHOT[name]) inlined.add(name);
   add(
     name,
-    SNAPSHOT[name] ?? `{${eng}}`,
+    SNAPSHOT[name] ?? (ACCENT_STEP.test(eng) ? hexOf(eng) : `{${eng}}`),
     aliasUsage(name) +
+      (ACCENT_STEP.test(eng)
+        ? ` Engine step ${eng.replace(ACCENT_STEP, "$2 of the $1 palette")}.`
+        : "") +
       (ratioNote[name] ? ` Contrast ${ratioNote[name].join(", ")}.` : ""),
   );
+}
 for (const [name, [base, op, usage]] of Object.entries(S.ALPHA)) {
   const [r, g, b] = rgbOf(hexOf(base));
   add(
@@ -938,11 +939,16 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
       ...ALIAS.map((d) => d[0]),
       "color-action-text",
     ]);
-    s += "  /* semantic tokens that alias a ramp step */\n";
+    s +=
+      "  /* semantic tokens that alias a ramp step, and the text colours taken from an accent palette */\n";
     for (const m of css.matchAll(
-      /^\s*--([a-z0-9-]+): (var\(--ig-(?!dark-|gray-|surface-)[a-z-]+-(?:\d+|seed)\));/gm,
+      /^\s*--([a-z0-9-]+): (var\(--ig-(?!dark-|gray-|surface-)[a-z-]+-(?:\d+|seed)\)|#[0-9a-f]{6});/gm,
     ))
-      if (!m[1].startsWith("ig-") && !taken.has(m[1])) {
+      if (
+        !m[1].startsWith("ig-") &&
+        !taken.has(m[1]) &&
+        (m[2].startsWith("var(") || inlined.has(m[1]))
+      ) {
         // a token that is text on a light surface keeps its own lightness as a ceiling, so a lighter ramp step set on a scope cannot make it unreadable
         const o = ok(hx(m[1]));
         const isText =
@@ -955,7 +961,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
           const L = Math.ceil(o.l * 1e4) / 1e4;
           s += `  --${m[1]}: ${textExpr(m[2], L)};\n`;
           textSafe.push(m[1]);
-        } else s += `  --${m[1]}: ${m[2]};\n`;
+        } else if (m[2].startsWith("var(")) s += `  --${m[1]}: ${m[2]};\n`;
       }
   }
   s +=

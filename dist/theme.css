@@ -674,11 +674,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 /* ===== 5. derived colour ===== */
 /* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours */
 :root, [data-ig-scope], [data-theme] {
-  /* semantic tokens that alias a ramp step */
+  /* semantic tokens that alias a ramp step, and the text colours taken from an accent palette */
   --igd-color-accent-primary: var(--ig-info-seed);
   --igd-color-accent-secondary: var(--ig-secondary-seed);
-  --igd-color-accent-inverse: var(--ig-sky-200);
-  --igd-color-accent-inverse-alt: var(--ig-teal-200);
   --igd-color-action-default: var(--ig-primary-seed);
   --igd-color-feedback-error-default: oklch(from var(--ig-error-600) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.4767 - 0.6 * max(0, l - 0.4767))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.4767 - 0.6 * max(0, l - 0.4767))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
   --igd-badge-bundle-color: oklch(from var(--ig-secondary-700) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.488 - 0.6 * max(0, l - 0.488))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.488 - 0.6 * max(0, l - 0.488))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
@@ -687,11 +685,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --igd-window-dot-red: var(--ig-error-300);
   --igd-window-dot-amber: var(--ig-warn-200);
   --igd-window-dot-green: var(--ig-success-300);
-  --igd-fw-angular-color: oklch(from var(--ig-pink-500) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5516 - 0.6 * max(0, l - 0.5516))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5516 - 0.6 * max(0, l - 0.5516))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
-  --igd-fw-react-color: oklch(from var(--ig-cyan-500) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5178 - 0.6 * max(0, l - 0.5178))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5178 - 0.6 * max(0, l - 0.5178))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
-  --igd-tile-3: var(--ig-pink-400);
+  --igd-fw-angular-color: oklch(from #c42579 calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5516 - 0.6 * max(0, l - 0.5516))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5516 - 0.6 * max(0, l - 0.5516))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
+  --igd-fw-react-color: oklch(from #017589 calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5178 - 0.6 * max(0, l - 0.5178))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5178 - 0.6 * max(0, l - 0.5178))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
   --igd-tile-4: var(--ig-success-400);
-  --igd-tile-5: var(--ig-cyan-200);
   --igd-tile-6: var(--ig-warn-200);
   /* state tokens: derived from their base. Override a base and its states follow. */
   --igd-color-action-text: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5466 - 0.6 * max(0, l - 0.5466))) + var(--igd-theme-dark) * max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) calc(c * ((1 - var(--igd-theme-dark)) * min(l, max(0.35, 0.5466 - 0.6 * max(0, l - 0.5466))) / max(l, 0.0001) + var(--igd-theme-dark) * min(1, (1 - max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))) / max(1 - l, 0.0001)))) h);
