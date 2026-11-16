@@ -8,6 +8,9 @@ Guidance for an agent working in this repository. Read the README first; this fi
 npm ci
 npx playwright install chromium   # the two browser gates measure rendered colours
 npm test                          # type check, lint, build, unit tests, every check
+npm run test:unit                 # Vitest only: src/*.test.ts and checks/*.test.ts
+npm run lint                      # Biome: format and lint rules, writes nothing
+npm run format                    # Biome: writes the format and the safe fixes
 npm run palettes                  # only after a seed or a scale changes
 ```
 
@@ -30,7 +33,7 @@ Why: an Ignite UI component on the same page reads the `--ig-*` names, so the pa
 
 ### 2. The accent palettes and the dark palette are built, not published
 
-- `src/palette-sets.ts` builds four extra palettes with the engine: pink, cyan, sky, teal.
+- `src/palette-sets.ts` builds five extra palettes with the engine: pink, cyan, sky and teal for accent colours, and a dark palette.
 - Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-3: #e23b8f`, not `var(--ig-pink-400)`.
 - The spec still names the step (`"tile-3": ["ig-pink-400", …]`). That name is internal to the build.
 - The dark palette is handled the same way. There is no `--ig-dark-gray-<n>` or `--ig-dark-surface-<n>` in `dist/`.
@@ -82,28 +85,28 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 
 Why: a seed can change, and a token called "blue" would then be another colour.
 
-### 7. A type style is named for its role
+### 7. A type style is named for its role, and the large ones are fluid
 
 - `src/spec.ts` lists 15 type styles. Each has a role name (`display-lg`, `title-sm`, `eyebrow`) and the engine slot that holds it.
-- The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h5-font-size)`.
+- The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h6-font-size)`.
 - The engine has 13 type slots by default, and Ignite UI components read those 13. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
-- Line height is unitless.
 - The six heading slots descend in size: 70, 43, 27, 21, 18, 16px from `h1` to `h6`. Keep them in order when a size changes: an Ignite UI component on the page reads them as a heading scale.
-
-Why: a slot name says nothing about use. `h4` is the stat number and `h6` the card title. A role name tells a developer what the style is for, as a colour token does.
-
-Why unitless: a site may override a font size. A line height given as a length would not follow it.
-
-Considered and not done: the engine lets you register more type slots, through `$ITypeScale` and `$IElementCategories`. `body-xs` and `body-2xs` could be registered and published as `--ig-body-xs-*`. They are not, for three reasons. No Ignite UI component reads a slot beyond the 13. The list can only be configured on the inner module `igniteui-theming/sass/typography/types`, before anything else loads the engine; through the main entry Sass fails with "module already loaded". And a site overrides type through `--igd-type-{role}-*`, which is the same for all 15 styles.
-
+- Line height is unitless.
 - Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
 - The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
+- The type classes are in `theme.css` only.
+
+Why role names: a slot name says nothing about use. `h4` is the stat number and `h6` the card title. A role name tells a developer what the style is for, as a colour token does.
+
+Why unitless: a site may override a font size, and a fluid size changes with the container. A line height given as a length would follow neither.
 
 Why fluid: a 70px heading does not fit a phone, and a component is meant to follow its container, not the page.
 
 Why only five: text at 16px and below is already at a size that reads on a phone. Shrinking it further would hurt.
 
-The minimums (40, 30, 22, 18 and 17px) are a first version chosen by engineering, not by design. Changing one is one number in `TYPE_MIN`.
+Not reviewed yet: the minimums (40, 30, 22, 18 and 17px) and the width range are a first version chosen by engineering, not by design. Changing one is one number in `src/spec.ts`.
+
+Considered and not done: the engine lets you register more type slots, through `$ITypeScale` and `$IElementCategories`. `body-xs` and `body-2xs` could be registered and published as `--ig-body-xs-*`. They are not, for three reasons. No Ignite UI component reads a slot beyond the 13. The list can only be configured on the inner module `igniteui-theming/sass/typography/types`, before anything else loads the engine; through the main entry Sass fails with "module already loaded". And a site overrides type through `--igd-type-{role}-*`, which is the same for all 15 styles.
 
 ### 8. Use the engine, not a copy of it
 
@@ -113,8 +116,20 @@ The minimums (40, 30, 22, 18 and 17px) are a first version chosen by engineering
 
 Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(from var(--x) h s l / 0.26)`, so `make.ts` rewrites the shadow colours with a regular expression.
 
+## Open
+
+Nothing below is decided. Ask the owner before acting on one.
+
+- No site consumes the package yet. It is `private`, has no licence and no release process, and its home organisation and public name are not settled.
+- The checks run only in this repository. A consumer needs them as an installed command, compiled to JavaScript: Node does not run a `.ts` file from `node_modules`.
+- The fluid type minimums have not been reviewed by design or seen on a real page.
+- CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
+- Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
+- A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
+
 ## Working here
 
 - One PR at a time against `main`. PRs are squash-merged, and a stacked PR breaks when its base is squashed.
 - The PR description must follow `.github/PULL_REQUEST_TEMPLATE.md`; a CI check enforces it.
-- A change that moves no token should prove it: compare `dist/` and `reports/` with `main`.
+- A change that moves no token should prove it: compare `dist/` and `reports/` with `main`, or measure the rendered result in a browser before and after.
+- Verify a statement about the engine by running it against the installed version before writing it here. Two statements in this file had to be corrected because they were written from reading alone.
