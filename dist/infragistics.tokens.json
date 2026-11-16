@@ -5935,7 +5935,25 @@
         },
         "lineHeight": 1.12
       },
-      "$description": "Homepage hero only, in `color-text-heading`. (was `display-h1`; engine slot `h1`)"
+      "$description": "Homepage hero only, in `color-text-heading`. (was `display-h1`; engine slot `h1`)",
+      "$extensions": {
+        "com.infragistics.css": {
+          "fluid": {
+            "minFontSize": {
+              "value": 2.5,
+              "unit": "rem"
+            },
+            "fromWidth": {
+              "value": 360,
+              "unit": "px"
+            },
+            "toWidth": {
+              "value": 1280,
+              "unit": "px"
+            }
+          }
+        }
+      }
     },
     "type-display-md": {
       "$value": {
@@ -5951,7 +5969,25 @@
         },
         "lineHeight": 1.06
       },
-      "$description": "Section heads, in `color-text-heading`. (was `display-h2`; engine slot `h2`)"
+      "$description": "Section heads, in `color-text-heading`. (was `display-h2`; engine slot `h2`)",
+      "$extensions": {
+        "com.infragistics.css": {
+          "fluid": {
+            "minFontSize": {
+              "value": 1.875,
+              "unit": "rem"
+            },
+            "fromWidth": {
+              "value": 360,
+              "unit": "px"
+            },
+            "toWidth": {
+              "value": 1280,
+              "unit": "px"
+            }
+          }
+        }
+      }
     },
     "type-display-sm": {
       "$value": {
@@ -5967,7 +6003,25 @@
         },
         "lineHeight": 1.2
       },
-      "$description": "Sub-section and panel heads; `color-text-inverse` on dark. There is no h7. (was `display-h3`; engine slot `h3`)"
+      "$description": "Sub-section and panel heads; `color-text-inverse` on dark. There is no h7. (was `display-h3`; engine slot `h3`)",
+      "$extensions": {
+        "com.infragistics.css": {
+          "fluid": {
+            "minFontSize": {
+              "value": 1.375,
+              "unit": "rem"
+            },
+            "fromWidth": {
+              "value": 360,
+              "unit": "px"
+            },
+            "toWidth": {
+              "value": 1280,
+              "unit": "px"
+            }
+          }
+        }
+      }
     },
     "type-stat": {
       "$value": {
@@ -6031,7 +6085,25 @@
         },
         "lineHeight": 1.6
       },
-      "$description": "Lead under an h1 or h2, in `color-text-secondary`. (was `body-lead`; engine slot `subtitle-1`)"
+      "$description": "Lead under an h1 or h2, in `color-text-secondary`. (was `body-lead`; engine slot `subtitle-1`)",
+      "$extensions": {
+        "com.infragistics.css": {
+          "fluid": {
+            "minFontSize": {
+              "value": 1.125,
+              "unit": "rem"
+            },
+            "fromWidth": {
+              "value": 360,
+              "unit": "px"
+            },
+            "toWidth": {
+              "value": 1280,
+              "unit": "px"
+            }
+          }
+        }
+      }
     },
     "type-label-lg": {
       "$value": {
@@ -6063,7 +6135,25 @@
         },
         "lineHeight": 1.62
       },
-      "$description": "Running prose, in `color-text-secondary`. (was `body-text`; engine slot `body-1`)"
+      "$description": "Running prose, in `color-text-secondary`. (was `body-text`; engine slot `body-1`)",
+      "$extensions": {
+        "com.infragistics.css": {
+          "fluid": {
+            "minFontSize": {
+              "value": 1.0625,
+              "unit": "rem"
+            },
+            "fromWidth": {
+              "value": 360,
+              "unit": "px"
+            },
+            "toWidth": {
+              "value": 1280,
+              "unit": "px"
+            }
+          }
+        }
+      }
     },
     "type-body-md": {
       "$value": {

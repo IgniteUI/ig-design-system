@@ -813,6 +813,16 @@ export const TYPE: TypeRow[] = [
   ],
 ];
 export type FamilyName = "display" | "body" | "mono";
+// The container widths, in px, between which a fluid type role grows from its minimum to its size in TYPE.
+export const TYPE_FLUID_RANGE = { from: 360, to: 1280 };
+// The size, in px, of a fluid type role in a container TYPE_FLUID_RANGE.from wide. A role that is not listed has one size.
+export const TYPE_MIN: Record<string, number> = {
+  "display-lg": 40,
+  "display-md": 30,
+  "display-sm": 22,
+  lead: 18,
+  "body-lg": 17,
+};
 export const FAMILIES: Record<FamilyName, string> = {
   display: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
   body: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",

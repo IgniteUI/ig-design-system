@@ -196,6 +196,20 @@ export const toDtcg = (T: Tokens, bundle: string) => {
           lineHeight: r4(lh ? lh.value / fs_.value : +st.lineHeight),
         },
         st.usage,
+        // The format holds one font size, so the fluid range travels in $extensions.
+        st.fontSizeMin
+          ? {
+              $extensions: {
+                "com.infragistics.css": {
+                  fluid: {
+                    minFontSize: dim(st.fontSizeMin),
+                    fromWidth: { value: T.type.fluid.from, unit: "px" },
+                    toWidth: { value: T.type.fluid.to, unit: "px" },
+                  },
+                },
+              },
+            }
+          : {},
       );
     }
 

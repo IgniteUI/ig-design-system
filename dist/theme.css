@@ -53,21 +53,21 @@
   /* typography: engine slot variables, compiled from the engine's typography() with the type scale in spec.ts */
   --ig-font-family: var(--igd-font-body);
   --ig-h1-font-family: var(--igd-font-display);
-  --ig-h1-font-size: 4.375rem;
+  --ig-h1-font-size: clamp(2.5rem, 3.2609cqi + 1.7663rem, 4.375rem);
   --ig-h1-font-weight: 900;
   --ig-h1-font-style: normal;
   --ig-h1-line-height: 1.12;
   --ig-h1-letter-spacing: -0.0257em;
   --ig-h1-text-transform: none;
   --ig-h2-font-family: var(--igd-font-display);
-  --ig-h2-font-size: 2.6875rem;
+  --ig-h2-font-size: clamp(1.875rem, 1.413cqi + 1.5571rem, 2.6875rem);
   --ig-h2-font-weight: 800;
   --ig-h2-font-style: normal;
   --ig-h2-line-height: 1.06;
   --ig-h2-letter-spacing: -0.0256em;
   --ig-h2-text-transform: none;
   --ig-h3-font-family: var(--igd-font-display);
-  --ig-h3-font-size: 1.6875rem;
+  --ig-h3-font-size: clamp(1.375rem, 0.5435cqi + 1.2527rem, 1.6875rem);
   --ig-h3-font-weight: 800;
   --ig-h3-font-style: normal;
   --ig-h3-line-height: 1.2;
@@ -95,7 +95,7 @@
   --ig-h6-letter-spacing: 0;
   --ig-h6-text-transform: none;
   --ig-subtitle-1-font-family: var(--igd-font-body);
-  --ig-subtitle-1-font-size: 1.25rem;
+  --ig-subtitle-1-font-size: clamp(1.125rem, 0.2174cqi + 1.0761rem, 1.25rem);
   --ig-subtitle-1-font-weight: 400;
   --ig-subtitle-1-font-style: normal;
   --ig-subtitle-1-line-height: 1.6;
@@ -109,7 +109,7 @@
   --ig-subtitle-2-letter-spacing: 0;
   --ig-subtitle-2-text-transform: none;
   --ig-body-1-font-family: var(--igd-font-body);
-  --ig-body-1-font-size: 1.1875rem;
+  --ig-body-1-font-size: clamp(1.0625rem, 0.2174cqi + 1.0136rem, 1.1875rem);
   --ig-body-1-font-weight: 400;
   --ig-body-1-font-style: normal;
   --ig-body-1-line-height: 1.62;

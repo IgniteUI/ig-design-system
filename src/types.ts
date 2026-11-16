@@ -12,6 +12,7 @@ export type Font = {
 export type TypeStyle = {
   name: string;
   fontSize: string;
+  fontSizeMin?: string;
   lineHeight: string;
   fontWeight: number;
   usage: string;
@@ -31,6 +32,7 @@ export type Tokens = {
   type: {
     fonts: Font[];
     families: Record<FamilyName, string>;
+    fluid: { from: number; to: number };
     groups: TypeGroup[];
   };
   spacing: TokenFamily;

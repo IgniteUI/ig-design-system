@@ -12,6 +12,7 @@ const tokens = (over: Partial<Tokens> = {}): Tokens => ({
   type: {
     fonts: [],
     families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+    fluid: { from: 360, to: 1280 },
     groups: [],
   },
   spacing: { tokens: [] },
@@ -200,6 +201,7 @@ describe("toDtcg", () => {
         type: {
           fonts: [],
           families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+          fluid: { from: 360, to: 1280 },
           groups: [
             {
               name: "Body",
@@ -239,6 +241,7 @@ describe("toDtcg", () => {
         type: {
           fonts: [],
           families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+          fluid: { from: 360, to: 1280 },
           groups: [
             {
               name: "Display",
@@ -263,6 +266,78 @@ describe("toDtcg", () => {
     expect(groups.typography["type-display-lg"]).toMatchObject({
       $value: { lineHeight: 1.12, fontSize: { value: 4.375, unit: "rem" } },
     });
+  });
+
+  it("carries the fluid range of a type style under $extensions and keeps the largest size as the font size", () => {
+    const { groups } = toDtcg(
+      tokens({
+        type: {
+          fonts: [],
+          families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+          fluid: { from: 360, to: 1280 },
+          groups: [
+            {
+              name: "Display",
+              family: "display",
+              styles: [
+                {
+                  name: "type-display-lg",
+                  fontSize: "4.375rem",
+                  fontSizeMin: "2.5rem",
+                  lineHeight: "1.12",
+                  fontWeight: 900,
+                  usage: "",
+                  sample: "",
+                },
+              ],
+            },
+          ],
+        },
+      }),
+      "",
+    );
+    expect(groups.typography["type-display-lg"]).toMatchObject({
+      $value: { fontSize: { value: 4.375, unit: "rem" } },
+      $extensions: {
+        "com.infragistics.css": {
+          fluid: {
+            minFontSize: { value: 2.5, unit: "rem" },
+            fromWidth: { value: 360, unit: "px" },
+            toWidth: { value: 1280, unit: "px" },
+          },
+        },
+      },
+    });
+  });
+
+  it("gives a type style with one size no fluid extension", () => {
+    const { groups } = toDtcg(
+      tokens({
+        type: {
+          fonts: [],
+          families: { display: "'A', sans-serif", body: "'B'", mono: "'C'" },
+          fluid: { from: 360, to: 1280 },
+          groups: [
+            {
+              name: "Body",
+              family: "body",
+              styles: [
+                {
+                  name: "type-body-md",
+                  fontSize: "0.9375rem",
+                  lineHeight: "1.5",
+                  fontWeight: 400,
+                  usage: "",
+                  sample: "",
+                },
+              ],
+            },
+          ],
+        },
+      }),
+      "",
+    );
+    expect(groups.typography["type-body-md"]).not.toHaveProperty("$extensions");
   });
 
   it("reads durations and easings from the theme stylesheet", () => {
