@@ -2726,35 +2726,65 @@
   "shadow": {
     "$type": "shadow",
     "shadow-raised": {
-      "$value": {
-        "color": {
-          "colorSpace": "srgb",
-          "components": [
-            0.1412,
-            0.1451,
-            0.1725
-          ],
-          "alpha": 0.1,
-          "hex": "#24252c"
+      "$value": [
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.08,
+            "hex": "#000000"
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 10,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 30,
+            "unit": "px"
+          },
+          "spread": {
+            "value": -5,
+            "unit": "px"
+          }
         },
-        "offsetX": {
-          "value": 0,
-          "unit": "px"
-        },
-        "offsetY": {
-          "value": 2,
-          "unit": "px"
-        },
-        "blur": {
-          "value": 12,
-          "unit": "px"
-        },
-        "spread": {
-          "value": 0,
-          "unit": "px"
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.04,
+            "hex": "#000000"
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 4,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 10,
+            "unit": "px"
+          },
+          "spread": {
+            "value": -5,
+            "unit": "px"
+          }
         }
-      },
-      "$description": "Card hover: cards lift shadow only, no translate or scale. Engine elevation 4."
+      ],
+      "$description": "Card hover: cards lift shadow only, no translate or scale."
     },
     "shadow-accent-lg": {
       "$value": [
@@ -2935,182 +2965,66 @@
       "$description": "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`."
     },
     "shadow-overlay": {
-      "$value": [
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.26,
-            "hex": "#000000"
-          },
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
-          },
-          "offsetY": {
-            "value": 10,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 14,
-            "unit": "px"
-          },
-          "spread": {
-            "value": -6,
-            "unit": "px"
-          }
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0588,
+            0.0902,
+            0.1647
+          ],
+          "alpha": 0.4,
+          "hex": "#0f172a"
         },
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.12,
-            "hex": "#000000"
-          },
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
-          },
-          "offsetY": {
-            "value": 22,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 35,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 3,
-            "unit": "px"
-          }
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
         },
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.08,
-            "hex": "#000000"
-          },
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
-          },
-          "offsetY": {
-            "value": 8,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 42,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 7,
-            "unit": "px"
-          }
+        "offsetY": {
+          "value": 44,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 90,
+          "unit": "px"
+        },
+        "spread": {
+          "value": -34,
+          "unit": "px"
         }
-      ],
-      "$description": "Screenshots inside a BrowserFrame. Engine elevation 22."
+      },
+      "$description": "Screenshots inside a BrowserFrame."
     },
     "shadow-floating": {
-      "$value": [
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.26,
-            "hex": "#000000"
-          },
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
-          },
-          "offsetY": {
-            "value": 8,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 10,
-            "unit": "px"
-          },
-          "spread": {
-            "value": -5,
-            "unit": "px"
-          }
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0588,
+            0.0902,
+            0.1647
+          ],
+          "alpha": 0.4,
+          "hex": "#0f172a"
         },
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.12,
-            "hex": "#000000"
-          },
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
-          },
-          "offsetY": {
-            "value": 16,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 24,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 2,
-            "unit": "px"
-          }
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
         },
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.08,
-            "hex": "#000000"
-          },
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
-          },
-          "offsetY": {
-            "value": 6,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 30,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 5,
-            "unit": "px"
-          }
+        "offsetY": {
+          "value": 16,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 32,
+          "unit": "px"
+        },
+        "spread": {
+          "value": -12,
+          "unit": "px"
         }
-      ],
-      "$description": "Floating stat badges. Engine elevation 16."
+      },
+      "$description": "Floating stat badges."
     },
     "shadow-accent-md": {
       "$value": [

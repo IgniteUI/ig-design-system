@@ -524,6 +524,22 @@ export const RADIUS: Record<string, RadiusEntry> = {
   "radius-sm": [8, "Small elements and the monogram badge.", 2, 12],
   "radius-xs": [6, "OSS tag and checkbox.", 2, 8],
 };
+// The neutral shadows, as www.infragistics.com ships them. Each layer is [y, blur, spread, tint, alpha]; the tint is a token name.
+export type ShadowLayer = [
+  y: number,
+  blur: number,
+  spread: number,
+  tint: "color-shadow" | "color-surface-inverse",
+  alpha: number,
+];
+export const SHADOW: Record<string, ShadowLayer[]> = {
+  "shadow-raised": [
+    [10, 30, -5, "color-shadow", 0.08],
+    [4, 10, -5, "color-shadow", 0.04],
+  ],
+  "shadow-overlay": [[44, 90, -34, "color-surface-inverse", 0.4]],
+  "shadow-floating": [[16, 32, -12, "color-surface-inverse", 0.4]],
+};
 export type OpacityEntry = [value: number, usage: string];
 export const OPACITY = {
   "opacity-faint": [0.04, "Barely-there tint."],
