@@ -86,12 +86,14 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 
 - `src/spec.ts` lists 15 type styles. Each has a role name (`display-lg`, `title-sm`, `eyebrow`) and the engine slot that holds it.
 - The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h5-font-size)`.
-- The engine has 13 type slots. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
+- The engine has 13 type slots by default, and Ignite UI components read those 13. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
 - Line height is unitless.
 
 Why: the slot names say nothing about use, and they are not even a hierarchy here. `h5` is the 16px card title and `h6` the 18px product name. A role name tells a developer what the style is for, as a colour token does.
 
 Why unitless: a site may override a font size. A line height given as a length would not follow it.
+
+Considered and not done: the engine lets you register more type slots, through `$ITypeScale` and `$IElementCategories`. `body-xs` and `body-2xs` could be registered and published as `--ig-body-xs-*`. They are not, for three reasons. No Ignite UI component reads a slot beyond the 13. The list can only be configured on the inner module `igniteui-theming/sass/typography/types`, before anything else loads the engine; through the main entry Sass fails with "module already loaded". And a site overrides type through `--igd-type-{role}-*`, which is the same for all 15 styles.
 
 Not decided yet:
 - The sizes are fixed. `display-lg` is 70px on a phone. Fluid sizes need minimum sizes from design.
