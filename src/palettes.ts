@@ -36,7 +36,7 @@ const flat: Record<string, Record<string, string>> = {};
 for (const [k, expr] of Object.entries(sets)) {
   fs.writeFileSync(`.cache/sass/${k}.scss`, rawShades(expr));
   execSync(
-    `npx sass --quiet --load-path=node_modules .cache/sass/${k}.scss .cache/sass/${k}.css`,
+    `npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/${k}.scss .cache/sass/${k}.css`,
   );
   flat[k] = {};
   for (const m of fs

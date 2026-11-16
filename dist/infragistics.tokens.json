@@ -1,5 +1,5 @@
 {
-  "$description": "Infragistics Marketing Design System, version 2. Generated from tokens.json; do not edit by hand.",
+  "$description": "Infragistics Design System, version 2. Generated from tokens.json; do not edit by hand.",
   "color": {
     "$type": "color",
     "ig-primary-50": {

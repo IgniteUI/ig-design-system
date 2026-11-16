@@ -1,4 +1,4 @@
-/* Infragistics Marketing Design System — theme.css
+/* Infragistics Design System — theme.css
    Loaded after tokens.css. This file is the live layer of the igniteui-theming engine:
    1. the engine's own variables (--ig-*): sizing, spacing, roundness, elevations, typography, contrast;
    2. the tokens that must stay live — spacing, sizes, radii, shadows, gradients, translucent colours —
@@ -8,12 +8,155 @@
    Nothing in a component may carry a literal colour, length, font size, shadow or radius: it reads a token. */
 
 /* ===== 1. igniteui-theming engine layer ===== */
-/* dials: size large, spacing 1, elevation 1 */
 :root {
+  /* dials: size large, spacing 1, elevation 1 */
   --ig-size: 3;
   --ig-spacing: 1;
   --ig-elevation-factor: 1;
   /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */
+  /* one shadow colour behind every neutral elevation */
+  --igd-color-shadow: oklch(0 0 0);
+  /* roundness, easing and neutral elevations: compiled from the engine's border-radius() and elevations() */
+  --igd-radius-full: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 2rem), 2rem);
+  --igd-nav-panel-radius: clamp(0rem, calc(var(--ig-radius-factor, 1) * 1.875rem), 1.875rem);
+  --igd-radius-xl: clamp(0.25rem, calc(var(--ig-radius-factor, 0.6428571429) * 1.75rem), 1.75rem);
+  --igd-radius-lg: clamp(0rem, calc(var(--ig-radius-factor, 0.6666666667) * 1.5rem), 1.5rem);
+  --igd-radius-md: clamp(0.25rem, calc(var(--ig-radius-factor, 0.75) * 1rem), 1rem);
+  --igd-radius-sm: clamp(0.125rem, calc(var(--ig-radius-factor, 0.6666666667) * 0.75rem), 0.75rem);
+  --igd-radius-xs: clamp(0.125rem, calc(var(--ig-radius-factor, 0.75) * 0.5rem), 0.5rem);
+  --igd-easing-default: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ig-elevation-0: none;
+  --ig-elevation-1: 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 3px) 0 hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 1px) 0 hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * -1px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-2: 0 calc(var(--ig-elevation-factor, 1) * 3px) calc(var(--ig-elevation-factor, 1) * 6px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
+  --ig-elevation-3: 0 calc(var(--ig-elevation-factor, 1) * 3px) calc(var(--ig-elevation-factor, 1) * 6px) 0 rgba(36, 37, 44, 0.2);
+  --ig-elevation-4: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 12px) 0 rgba(36, 37, 44, 0.1);
+  --ig-elevation-5: 0 0 calc(var(--ig-elevation-factor, 1) * 12px) 0 rgba(36, 37, 44, 0.2);
+  --ig-elevation-6: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 12px) 0 rgba(36, 37, 44, 0.2);
+  --ig-elevation-7: 0 0 calc(var(--ig-elevation-factor, 1) * 12px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
+  --ig-elevation-8: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 2px) 0 rgba(36, 37, 44, 0.2);
+  --ig-elevation-9: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 2px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
+  --ig-elevation-10: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 6px) 0 rgba(36, 37, 44, 0.4);
+  --ig-elevation-11: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 6px) 0 hsl(from var(--igd-color-shadow) h s l / 0.4);
+  --ig-elevation-12: 0 0 calc(var(--ig-elevation-factor, 1) * 16px) 0 rgba(36, 37, 44, 0.4);
+  --ig-elevation-13: 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * -4px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * 19px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 5px) calc(var(--ig-elevation-factor, 1) * 24px) calc(var(--ig-elevation-factor, 1) * 4px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-14: 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * -4px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 14px) calc(var(--ig-elevation-factor, 1) * 21px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 5px) calc(var(--ig-elevation-factor, 1) * 26px) calc(var(--ig-elevation-factor, 1) * 4px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-15: 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 15px) calc(var(--ig-elevation-factor, 1) * 22px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 6px) calc(var(--ig-elevation-factor, 1) * 28px) calc(var(--ig-elevation-factor, 1) * 5px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-16: 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 16px) calc(var(--ig-elevation-factor, 1) * 24px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 6px) calc(var(--ig-elevation-factor, 1) * 30px) calc(var(--ig-elevation-factor, 1) * 5px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-17: 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 11px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 17px) calc(var(--ig-elevation-factor, 1) * 26px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 6px) calc(var(--ig-elevation-factor, 1) * 32px) calc(var(--ig-elevation-factor, 1) * 5px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-18: 0 calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * 11px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 18px) calc(var(--ig-elevation-factor, 1) * 28px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 34px) calc(var(--ig-elevation-factor, 1) * 6px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-19: 0 calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * 12px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 19px) calc(var(--ig-elevation-factor, 1) * 29px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 36px) calc(var(--ig-elevation-factor, 1) * 6px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-20: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 20px) calc(var(--ig-elevation-factor, 1) * 31px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 38px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-21: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 21px) calc(var(--ig-elevation-factor, 1) * 33px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 40px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-22: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 14px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 22px) calc(var(--ig-elevation-factor, 1) * 35px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 42px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-shadow) h s l / 0.08);
+  --ig-elevation-23: 0 0 calc(var(--ig-elevation-factor, 1) * 16px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
+  --ig-elevation-24: 0 0 calc(var(--ig-elevation-factor, 1) * 16px) 0 rgba(36, 37, 44, 0.4);
+  /* typography: engine slot variables, compiled from the engine's typography() with the type scale in spec.ts */
+  --ig-font-family: var(--igd-font-body);
+  --ig-h1-font-family: var(--igd-font-display);
+  --ig-h1-font-size: 4.375rem;
+  --ig-h1-font-weight: 900;
+  --ig-h1-font-style: normal;
+  --ig-h1-line-height: 4.9rem;
+  --ig-h1-letter-spacing: -0.0257em;
+  --ig-h1-text-transform: none;
+  --ig-h2-font-family: var(--igd-font-display);
+  --ig-h2-font-size: 2.6875rem;
+  --ig-h2-font-weight: 800;
+  --ig-h2-font-style: normal;
+  --ig-h2-line-height: 2.84875rem;
+  --ig-h2-letter-spacing: -0.0256em;
+  --ig-h2-text-transform: none;
+  --ig-h3-font-family: var(--igd-font-display);
+  --ig-h3-font-size: 1.6875rem;
+  --ig-h3-font-weight: 800;
+  --ig-h3-font-style: normal;
+  --ig-h3-line-height: 2.025rem;
+  --ig-h3-letter-spacing: -0.0222em;
+  --ig-h3-text-transform: none;
+  --ig-h4-font-family: var(--igd-font-display);
+  --ig-h4-font-size: 1.3125rem;
+  --ig-h4-font-weight: 800;
+  --ig-h4-font-style: normal;
+  --ig-h4-line-height: 1.44375rem;
+  --ig-h4-letter-spacing: 0;
+  --ig-h4-text-transform: none;
+  --ig-h5-font-family: var(--igd-font-body);
+  --ig-h5-font-size: 1rem;
+  --ig-h5-font-weight: 600;
+  --ig-h5-font-style: normal;
+  --ig-h5-line-height: 1.4rem;
+  --ig-h5-letter-spacing: 0;
+  --ig-h5-text-transform: none;
+  --ig-h6-font-family: var(--igd-font-display);
+  --ig-h6-font-size: 1.125rem;
+  --ig-h6-font-weight: 800;
+  --ig-h6-font-style: normal;
+  --ig-h6-line-height: 1.4625rem;
+  --ig-h6-letter-spacing: -0.0167em;
+  --ig-h6-text-transform: none;
+  --ig-subtitle-1-font-family: var(--igd-font-body);
+  --ig-subtitle-1-font-size: 1.25rem;
+  --ig-subtitle-1-font-weight: 400;
+  --ig-subtitle-1-font-style: normal;
+  --ig-subtitle-1-line-height: 2rem;
+  --ig-subtitle-1-letter-spacing: 0;
+  --ig-subtitle-1-text-transform: none;
+  --ig-subtitle-2-font-family: var(--igd-font-body);
+  --ig-subtitle-2-font-size: 1.0625rem;
+  --ig-subtitle-2-font-weight: 700;
+  --ig-subtitle-2-font-style: normal;
+  --ig-subtitle-2-line-height: 1.59375rem;
+  --ig-subtitle-2-letter-spacing: 0;
+  --ig-subtitle-2-text-transform: none;
+  --ig-body-1-font-family: var(--igd-font-body);
+  --ig-body-1-font-size: 1.1875rem;
+  --ig-body-1-font-weight: 400;
+  --ig-body-1-font-style: normal;
+  --ig-body-1-line-height: 1.92375rem;
+  --ig-body-1-letter-spacing: 0;
+  --ig-body-1-text-transform: none;
+  --ig-body-2-font-family: var(--igd-font-body);
+  --ig-body-2-font-size: 0.9375rem;
+  --ig-body-2-font-weight: 400;
+  --ig-body-2-font-style: normal;
+  --ig-body-2-line-height: 1.40625rem;
+  --ig-body-2-letter-spacing: 0;
+  --ig-body-2-text-transform: none;
+  --ig-button-font-family: var(--igd-font-body);
+  --ig-button-font-size: 0.9375rem;
+  --ig-button-font-weight: 600;
+  --ig-button-font-style: normal;
+  --ig-button-line-height: 1.40625rem;
+  --ig-button-letter-spacing: 0;
+  --ig-button-text-transform: none;
+  --ig-caption-font-family: var(--igd-font-body);
+  --ig-caption-font-size: 0.875rem;
+  --ig-caption-font-weight: 400;
+  --ig-caption-font-style: normal;
+  --ig-caption-line-height: 1.35625rem;
+  --ig-caption-letter-spacing: 0;
+  --ig-caption-text-transform: none;
+  --ig-overline-font-family: var(--igd-font-body);
+  --ig-overline-font-size: 0.75rem;
+  --ig-overline-font-weight: 600;
+  --ig-overline-font-style: normal;
+  --ig-overline-line-height: 1.125rem;
+  --ig-overline-letter-spacing: 0.16em;
+  --ig-overline-text-transform: uppercase;
+  --ig-detail-1-font-family: var(--igd-font-body);
+  --ig-detail-1-font-size: 0.8125rem;
+  --ig-detail-1-font-weight: 400;
+  --ig-detail-1-font-style: normal;
+  --ig-detail-1-line-height: 1.21875rem;
+  --ig-detail-1-letter-spacing: 0;
+  --ig-detail-1-text-transform: none;
+  --ig-detail-2-font-family: var(--igd-font-body);
+  --ig-detail-2-font-size: 0.6875rem;
+  --ig-detail-2-font-weight: 400;
+  --ig-detail-2-font-style: normal;
+  --ig-detail-2-line-height: 0.9625rem;
+  --ig-detail-2-letter-spacing: 0;
+  --ig-detail-2-text-transform: none;
 }
 /* contrast colours, exactly as the engine's palette() emits them */
 :root, [data-theme] {
@@ -168,7 +311,7 @@
   --ig-error-A400-contrast: hsla(from color(from var(--ig-error-A400) var(--y-contrast)) h 0 l/1);
   --ig-error-A700-contrast: hsla(from color(from var(--ig-error-A700) var(--y-contrast)) h 0 l/1);
 }
-/* sizing, spacing, roundness, easing and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() */
+/* sizing and spacing: compiled from the engine's sizable() and pad() */
 :root, [data-size] {
   --ig-size-small: 1;
   --ig-size-medium: 2;
@@ -263,44 +406,6 @@
   --igd-container-prose-max-width: max(var(--is-large, 1) * 55rem, var(--is-medium, 1) * 48.125rem, var(--is-small, 1) * 41.25rem);
   --igd-catalog-card-min-width: max(var(--is-large, 1) * 21.25rem, var(--is-medium, 1) * 18.59375rem, var(--is-small, 1) * 15.9375rem);
 }
-:root {
-  --igd-radius-full: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 2rem), 2rem);
-  --igd-nav-panel-radius: clamp(0rem, calc(var(--ig-radius-factor, 1) * 1.875rem), 1.875rem);
-  --igd-radius-xl: clamp(0.25rem, calc(var(--ig-radius-factor, 0.6428571429) * 1.75rem), 1.75rem);
-  --igd-radius-lg: clamp(0rem, calc(var(--ig-radius-factor, 0.6666666667) * 1.5rem), 1.5rem);
-  --igd-radius-md: clamp(0.25rem, calc(var(--ig-radius-factor, 0.75) * 1rem), 1rem);
-  --igd-radius-sm: clamp(0.125rem, calc(var(--ig-radius-factor, 0.6666666667) * 0.75rem), 0.75rem);
-  --igd-radius-xs: clamp(0.125rem, calc(var(--ig-radius-factor, 0.75) * 0.5rem), 0.5rem);
-  --igd-easing-default: cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-:root {
-  --ig-elevation-0: none;
-  --ig-elevation-1: 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 3px) 0 hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 1px) 0 hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * -1px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-2: 0 calc(var(--ig-elevation-factor, 1) * 3px) calc(var(--ig-elevation-factor, 1) * 6px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
-  --ig-elevation-3: 0 calc(var(--ig-elevation-factor, 1) * 3px) calc(var(--ig-elevation-factor, 1) * 6px) 0 rgba(36, 37, 44, 0.2);
-  --ig-elevation-4: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 12px) 0 rgba(36, 37, 44, 0.1);
-  --ig-elevation-5: 0 0 calc(var(--ig-elevation-factor, 1) * 12px) 0 rgba(36, 37, 44, 0.2);
-  --ig-elevation-6: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 12px) 0 rgba(36, 37, 44, 0.2);
-  --ig-elevation-7: 0 0 calc(var(--ig-elevation-factor, 1) * 12px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
-  --ig-elevation-8: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 2px) 0 rgba(36, 37, 44, 0.2);
-  --ig-elevation-9: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 2px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
-  --ig-elevation-10: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 6px) 0 rgba(36, 37, 44, 0.4);
-  --ig-elevation-11: 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 6px) 0 hsl(from var(--igd-color-shadow) h s l / 0.4);
-  --ig-elevation-12: 0 0 calc(var(--ig-elevation-factor, 1) * 16px) 0 rgba(36, 37, 44, 0.4);
-  --ig-elevation-13: 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * -4px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * 19px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 5px) calc(var(--ig-elevation-factor, 1) * 24px) calc(var(--ig-elevation-factor, 1) * 4px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-14: 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * -4px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 14px) calc(var(--ig-elevation-factor, 1) * 21px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 5px) calc(var(--ig-elevation-factor, 1) * 26px) calc(var(--ig-elevation-factor, 1) * 4px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-15: 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 15px) calc(var(--ig-elevation-factor, 1) * 22px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 6px) calc(var(--ig-elevation-factor, 1) * 28px) calc(var(--ig-elevation-factor, 1) * 5px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-16: 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 16px) calc(var(--ig-elevation-factor, 1) * 24px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 6px) calc(var(--ig-elevation-factor, 1) * 30px) calc(var(--ig-elevation-factor, 1) * 5px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-17: 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 11px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 17px) calc(var(--ig-elevation-factor, 1) * 26px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 6px) calc(var(--ig-elevation-factor, 1) * 32px) calc(var(--ig-elevation-factor, 1) * 5px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-18: 0 calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * 11px) calc(var(--ig-elevation-factor, 1) * -5px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 18px) calc(var(--ig-elevation-factor, 1) * 28px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 34px) calc(var(--ig-elevation-factor, 1) * 6px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-19: 0 calc(var(--ig-elevation-factor, 1) * 9px) calc(var(--ig-elevation-factor, 1) * 12px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 19px) calc(var(--ig-elevation-factor, 1) * 29px) calc(var(--ig-elevation-factor, 1) * 2px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 7px) calc(var(--ig-elevation-factor, 1) * 36px) calc(var(--ig-elevation-factor, 1) * 6px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-20: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 20px) calc(var(--ig-elevation-factor, 1) * 31px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 38px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-21: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 21px) calc(var(--ig-elevation-factor, 1) * 33px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 40px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-22: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 14px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 22px) calc(var(--ig-elevation-factor, 1) * 35px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 42px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-shadow) h s l / 0.08);
-  --ig-elevation-23: 0 0 calc(var(--ig-elevation-factor, 1) * 16px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
-  --ig-elevation-24: 0 0 calc(var(--ig-elevation-factor, 1) * 16px) 0 rgba(36, 37, 44, 0.4);
-}
-/*# sourceMappingURL=layout.css.map */
 /* elevations tinted with `action` (indigo preset, colours configured through its $color-1..3) */
 :root, [data-ig-scope], [data-theme] {
   --ig-elevation-tint-1: 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 3px) 0 hsl(from var(--igd-color-action-default) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 1px) 0 hsl(from var(--igd-color-action-default) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * -1px) hsl(from var(--igd-color-action-default) h s l / 0.08);
@@ -314,115 +419,6 @@
   --ig-elevation-tint-20: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-action-default) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 20px) calc(var(--ig-elevation-factor, 1) * 31px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-action-default) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 38px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-action-default) h s l / 0.08);
   --ig-elevation-tint-21: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 13px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-action-default) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 21px) calc(var(--ig-elevation-factor, 1) * 33px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-action-default) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 40px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-action-default) h s l / 0.08);
   --ig-elevation-tint-22: 0 calc(var(--ig-elevation-factor, 1) * 10px) calc(var(--ig-elevation-factor, 1) * 14px) calc(var(--ig-elevation-factor, 1) * -6px) hsl(from var(--igd-color-action-default) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 22px) calc(var(--ig-elevation-factor, 1) * 35px) calc(var(--ig-elevation-factor, 1) * 3px) hsl(from var(--igd-color-action-default) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 8px) calc(var(--ig-elevation-factor, 1) * 42px) calc(var(--ig-elevation-factor, 1) * 7px) hsl(from var(--igd-color-action-default) h s l / 0.08);
-}
-/* typography: engine slot variables (create_typography, indigo scale, customScale from the previous styles) */
-:root {
-  --ig-font-family: var(--igd-font-body);
-  --ig-h1-font-family: var(--igd-font-display);
-  --ig-h1-font-size: 4.375rem;
-  --ig-h1-font-weight: 900;
-  --ig-h1-font-style: normal;
-  --ig-h1-line-height: 4.9rem;
-  --ig-h1-letter-spacing: -0.0257em;
-  --ig-h1-text-transform: none;
-  --ig-h2-font-family: var(--igd-font-display);
-  --ig-h2-font-size: 2.6875rem;
-  --ig-h2-font-weight: 800;
-  --ig-h2-font-style: normal;
-  --ig-h2-line-height: 2.84875rem;
-  --ig-h2-letter-spacing: -0.0256em;
-  --ig-h2-text-transform: none;
-  --ig-h3-font-family: var(--igd-font-display);
-  --ig-h3-font-size: 1.6875rem;
-  --ig-h3-font-weight: 800;
-  --ig-h3-font-style: normal;
-  --ig-h3-line-height: 2.025rem;
-  --ig-h3-letter-spacing: -0.0222em;
-  --ig-h3-text-transform: none;
-  --ig-h4-font-family: var(--igd-font-display);
-  --ig-h4-font-size: 1.3125rem;
-  --ig-h4-font-weight: 800;
-  --ig-h4-font-style: normal;
-  --ig-h4-line-height: 1.44375rem;
-  --ig-h4-letter-spacing: 0;
-  --ig-h4-text-transform: none;
-  --ig-h5-font-family: var(--igd-font-body);
-  --ig-h5-font-size: 1rem;
-  --ig-h5-font-weight: 600;
-  --ig-h5-font-style: normal;
-  --ig-h5-line-height: 1.4rem;
-  --ig-h5-letter-spacing: 0;
-  --ig-h5-text-transform: none;
-  --ig-h6-font-family: var(--igd-font-display);
-  --ig-h6-font-size: 1.125rem;
-  --ig-h6-font-weight: 800;
-  --ig-h6-font-style: normal;
-  --ig-h6-line-height: 1.4625rem;
-  --ig-h6-letter-spacing: -0.0167em;
-  --ig-h6-text-transform: none;
-  --ig-subtitle-1-font-family: var(--igd-font-body);
-  --ig-subtitle-1-font-size: 1.25rem;
-  --ig-subtitle-1-font-weight: 400;
-  --ig-subtitle-1-font-style: normal;
-  --ig-subtitle-1-line-height: 2rem;
-  --ig-subtitle-1-letter-spacing: 0;
-  --ig-subtitle-1-text-transform: none;
-  --ig-subtitle-2-font-family: var(--igd-font-body);
-  --ig-subtitle-2-font-size: 1.0625rem;
-  --ig-subtitle-2-font-weight: 700;
-  --ig-subtitle-2-font-style: normal;
-  --ig-subtitle-2-line-height: 1.59375rem;
-  --ig-subtitle-2-letter-spacing: 0;
-  --ig-subtitle-2-text-transform: none;
-  --ig-body-1-font-family: var(--igd-font-body);
-  --ig-body-1-font-size: 1.1875rem;
-  --ig-body-1-font-weight: 400;
-  --ig-body-1-font-style: normal;
-  --ig-body-1-line-height: 1.92375rem;
-  --ig-body-1-letter-spacing: 0;
-  --ig-body-1-text-transform: none;
-  --ig-body-2-font-family: var(--igd-font-body);
-  --ig-body-2-font-size: 0.9375rem;
-  --ig-body-2-font-weight: 400;
-  --ig-body-2-font-style: normal;
-  --ig-body-2-line-height: 1.40625rem;
-  --ig-body-2-letter-spacing: 0;
-  --ig-body-2-text-transform: none;
-  --ig-button-font-family: var(--igd-font-body);
-  --ig-button-font-size: 0.9375rem;
-  --ig-button-font-weight: 600;
-  --ig-button-font-style: normal;
-  --ig-button-line-height: 1.40625rem;
-  --ig-button-letter-spacing: 0;
-  --ig-button-text-transform: none;
-  --ig-caption-font-family: var(--igd-font-body);
-  --ig-caption-font-size: 0.875rem;
-  --ig-caption-font-weight: 400;
-  --ig-caption-font-style: normal;
-  --ig-caption-line-height: 1.35625rem;
-  --ig-caption-letter-spacing: 0;
-  --ig-caption-text-transform: none;
-  --ig-overline-font-family: var(--igd-font-body);
-  --ig-overline-font-size: 0.75rem;
-  --ig-overline-font-weight: 600;
-  --ig-overline-font-style: normal;
-  --ig-overline-line-height: 1.125rem;
-  --ig-overline-letter-spacing: 0.16em;
-  --ig-overline-text-transform: uppercase;
-  --ig-detail-1-font-family: var(--igd-font-body);
-  --ig-detail-1-font-size: 0.8125rem;
-  --ig-detail-1-font-weight: 400;
-  --ig-detail-1-font-style: normal;
-  --ig-detail-1-line-height: 1.21875rem;
-  --ig-detail-1-letter-spacing: 0;
-  --ig-detail-1-text-transform: none;
-  --ig-detail-2-font-family: var(--igd-font-body);
-  --ig-detail-2-font-size: 0.6875rem;
-  --ig-detail-2-font-weight: 400;
-  --ig-detail-2-font-style: normal;
-  --ig-detail-2-line-height: 0.9625rem;
-  --ig-detail-2-letter-spacing: 0;
-  --ig-detail-2-text-transform: none;
 }
 
 /* ===== 2. live tokens (same names as tokens.json) ===== */
@@ -506,8 +502,9 @@
   --igd-nav-backdrop-blur: blur(var(--igd-space-sm));
 }
 
-/* motion */
+/* ===== 3. motion, type variables and classes ===== */
 :root {
+  /* motion */
   --igd-duration-chip: 140ms;
   --igd-duration-fast: 160ms;
   --igd-duration-button: 180ms;
@@ -516,10 +513,7 @@
   --igd-duration-spin: 800ms;
   --igd-easing-linear: linear;
   --igd-transition-default: all var(--igd-duration-fast) var(--igd-easing-default);
-}
-
-/* ===== 3. type variables and classes ===== */
-:root {
+  /* type */
   --igd-type-h1-font-family: var(--ig-h1-font-family);
   --igd-type-h1-font-size: var(--ig-h1-font-size);
   --igd-type-h1-font-weight: var(--ig-h1-font-weight);
@@ -677,7 +671,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .igd-hide-below-md { }
 @media (max-width: 768px) { .igd-hide-below-md { display: none !important; } }
 
-:root { --igd-color-shadow: oklch(0 0 0); }
 /* ===== 5. derived colour ===== */
 /* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours */
 :root, [data-ig-scope], [data-theme] {
