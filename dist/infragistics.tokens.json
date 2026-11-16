@@ -5999,7 +5999,7 @@
         },
         "lineHeight": 1.3
       },
-      "$description": "Product names in a catalog card, in `color-text-heading`. (was `product-name`; engine slot `h6`)"
+      "$description": "Product names in a catalog card, in `color-text-heading`. (was `product-name`; engine slot `h5`)"
     },
     "type-title-sm": {
       "$value": {
@@ -6015,7 +6015,7 @@
         },
         "lineHeight": 1.4
       },
-      "$description": "Card titles, sentence case, in `color-text-heading` — body face, not the display face. (was `card-title`; engine slot `h5`)"
+      "$description": "Card titles, sentence case, in `color-text-heading` — body face, not the display face. (was `card-title`; engine slot `h6`)"
     },
     "type-lead": {
       "$value": {
