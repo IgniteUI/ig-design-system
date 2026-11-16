@@ -28,19 +28,25 @@ Do not reverse one of these without asking the owner.
 
 Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name the generator makes up under `--ig-`, such as the former `--ig-elevation-tint-<n>`, looks like engine API and is not.
 
-Known exception, not decided yet: `--ig-dark-gray-<n>` and `--ig-dark-surface-<n>` are our names for the dark palette's ramps.
-
-### 2. The accent palettes are built, not published
+### 2. The accent palettes and the dark palette are built, not published
 
 - `src/palette-sets.ts` builds four extra palettes with the engine: pink, cyan, sky, teal.
 - Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-3: #e23b8f`, not `var(--ig-pink-400)`.
 - The spec still names the step (`"tile-3": ["ig-pink-400", …]`). That name is internal to the build.
+- The dark palette is handled the same way. There is no `--ig-dark-gray-<n>` or `--ig-dark-surface-<n>` in `dist/`.
+  - The dark theme sets the engine's own names: `[data-theme="dark"] { --ig-gray-500: #bcc1c9; }`. The engine does the same for a dark palette.
+  - A token for an area that is dark in both themes carries the colour: `--igd-color-surface-inverse: #0f172a`. The spec names the step as `ig-dark-surface-500`.
+- A dark area uses the three inverse surface levels, not a component's own colour: `color-surface-inverse-raised`, `color-surface-inverse`, `color-surface-inverse-sunken`. `footer-background` points at the last one.
 
-Why: the theme reads 6 colours from those 4 palettes, so 40 published variables were not worth their size. The names were not the problem: `--ig-pink-400` follows the pattern the engine uses for a custom family.
+Why: the theme reads 6 colours from the 4 accent palettes, so 40 published variables were not worth their size. The names were not the problem there: `--ig-pink-400` follows the pattern the engine uses for a custom family.
+
+Why, for the dark palette: `--ig-dark-gray-<n>` was a name of ours. The engine emits a dark palette under the same names as a light one, `--ig-gray-<n>`, and a theme decides which values they hold.
 
 Why the palettes are still built: none of the colours in use is a seed. Each is a step the engine solved for contrast. Pink `#ec4899` as text on white is about 3.5:1; step 500 (`#c42579`) clears 4.5:1. Typing in one colour per accent would drop that solving.
 
 Considered and not done:
+- The dark palette also has the engine's surface roles (`raised`, `sunken`, `overlay`). They are within a shade or two of the numeric steps the inverse surfaces use. Pointing the inverse surfaces at the roles would shift the footer's colours slightly, so it needs a design decision.
+- The dark theme swaps the gray and surface ramps only. The engine's dark palette also re-solves the brand ramps against the dark surface; using those would change dark-theme colours.
 - The engine's `shades($name, $color, $shades, $surface, $generator, $scale)` builds one family from a seed with any list of steps, two at least. With the ten steps `50` to `900` it gives the same 40 colours as the four full palettes. The owner decided to keep the `palette()` build.
 - A shorter list of steps changes the colours. `shades()` places a step by its position in the list, not by the number in its name: `('400', '500')` returns the two ends of the ramp, `#fee6ec` and `#290a18` for the pink seed.
 

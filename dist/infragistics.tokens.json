@@ -1214,294 +1214,6 @@
       },
       "$description": "Engine surface role `overlay` (light variant)."
     },
-    "ig-dark-gray-50": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1216,
-          0.1294,
-          0.1412
-        ],
-        "hex": "#1f2124"
-      },
-      "$description": "Engine gray step 50, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-100": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.2431,
-          0.2588,
-          0.2824
-        ],
-        "hex": "#3e4248"
-      },
-      "$description": "Engine gray step 100, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-200": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.3608,
-          0.3922,
-          0.4275
-        ],
-        "hex": "#5c646d"
-      },
-      "$description": "Engine gray step 200, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-300": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.4863,
-          0.5216,
-          0.5647
-        ],
-        "hex": "#7c8590"
-      },
-      "$description": "Engine gray step 300, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-400": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.6157,
-          0.6471,
-          0.6863
-        ],
-        "hex": "#9da5af"
-      },
-      "$description": "Engine gray step 400, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-500": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.7373,
-          0.7569,
-          0.7882
-        ],
-        "hex": "#bcc1c9"
-      },
-      "$description": "Engine gray step 500, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-600": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.8431,
-          0.8549,
-          0.8706
-        ],
-        "hex": "#d7dade"
-      },
-      "$description": "Engine gray step 600, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-700": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.9176,
-          0.9255,
-          0.9333
-        ],
-        "hex": "#eaecee"
-      },
-      "$description": "Engine gray step 700, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-800": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.9647,
-          0.9686,
-          0.9725
-        ],
-        "hex": "#f6f7f8"
-      },
-      "$description": "Engine gray step 800, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-gray-900": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.9843,
-          0.9843,
-          0.9843
-        ],
-        "hex": "#fbfbfb"
-      },
-      "$description": "Engine gray step 900, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-50": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0824,
-          0.1529,
-          0.3137
-        ],
-        "hex": "#152750"
-      },
-      "$description": "Engine surface step 50, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-100": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1137,
-          0.1569,
-          0.2549
-        ],
-        "hex": "#1d2841"
-      },
-      "$description": "Engine surface step 100, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-200": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1098,
-          0.1412,
-          0.2078
-        ],
-        "hex": "#1c2435"
-      },
-      "$description": "Engine surface step 200, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-300": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0863,
-          0.1137,
-          0.1804
-        ],
-        "hex": "#161d2e"
-      },
-      "$description": "Engine surface step 300, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-400": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0706,
-          0.102,
-          0.1725
-        ],
-        "hex": "#121a2c"
-      },
-      "$description": "Engine surface step 400, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-500": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0588,
-          0.0902,
-          0.1647
-        ],
-        "hex": "#0f172a"
-      },
-      "$description": "Engine surface step 500, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-600": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0392,
-          0.0745,
-          0.1608
-        ],
-        "hex": "#0a1329"
-      },
-      "$description": "Engine surface step 600, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-700": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0353,
-          0.0667,
-          0.1451
-        ],
-        "hex": "#091125"
-      },
-      "$description": "Engine surface step 700, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-800": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0314,
-          0.0627,
-          0.1294
-        ],
-        "hex": "#081021"
-      },
-      "$description": "Engine surface step 800, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-900": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0275,
-          0.0549,
-          0.1137
-        ],
-        "hex": "#070e1d"
-      },
-      "$description": "Engine surface step 900, dark variant (surface seed from the previous `surface-dark`). Only for the fixed dark treatments (footer, stat badges, table header)."
-    },
-    "ig-dark-surface-base": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0588,
-          0.0902,
-          0.1647
-        ],
-        "hex": "#0f172a"
-      },
-      "$description": "Engine surface role `base` (dark variant)."
-    },
-    "ig-dark-surface-sunken": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0314,
-          0.0588,
-          0.1294
-        ],
-        "hex": "#080f21"
-      },
-      "$description": "Engine surface role `sunken` (dark variant)."
-    },
-    "ig-dark-surface-raised": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.0863,
-          0.1216,
-          0.1961
-        ],
-        "hex": "#161f32"
-      },
-      "$description": "Engine surface role `raised` (dark variant)."
-    },
-    "ig-dark-surface-overlay": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.1137,
-          0.149,
-          0.2275
-        ],
-        "hex": "#1d263a"
-      },
-      "$description": "Engine surface role `overlay` (dark variant)."
-    },
     "color-accent-primary": {
       "$value": "{color.ig-info-seed}",
       "$description": "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white."
@@ -1595,16 +1307,40 @@
       "$description": "Inline links on dark surfaces (`color-surface-inverse`). Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`."
     },
     "color-link-inverse-hover": {
-      "$value": "{color.ig-dark-gray-900}",
-      "$description": "Hover of `color-link-inverse`: colour shift only."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.9843,
+          0.9843
+        ],
+        "hex": "#fbfbfb"
+      },
+      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp."
     },
     "footer-link": {
-      "$value": "{color.ig-dark-gray-600}",
-      "$description": "Footer column links on the footer gradient. Contrast 11.07:1 on `ig-dark-surface-200`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8431,
+          0.8549,
+          0.8706
+        ],
+        "hex": "#d7dade"
+      },
+      "$description": "Footer column links on the footer gradient. Engine step 600 of the dark palette's gray ramp. Contrast 11.07:1 on `color-surface-inverse-raised`."
     },
     "footer-link-hover": {
-      "$value": "{color.ig-dark-gray-900}",
-      "$description": "Footer link hover."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.9843,
+          0.9843
+        ],
+        "hex": "#fbfbfb"
+      },
+      "$description": "Footer link hover. Engine step 900 of the dark palette's gray ramp."
     },
     "color-focus-default": {
       "$value": "{color.color-action-text}",
@@ -1643,12 +1379,28 @@
       "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.7:1 on `color-surface-subtle`, 4.94:1 on `color-surface-page`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`, 4.94:1 on `color-surface-page`."
     },
     "color-text-inverse": {
-      "$value": "{color.ig-dark-gray-900}",
-      "$description": "Text on `color-surface-inverse`. Contrast 17.25:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.9843,
+          0.9843
+        ],
+        "hex": "#fbfbfb"
+      },
+      "$description": "Text on `color-surface-inverse`. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`."
     },
     "color-text-inverse-muted": {
-      "$value": "{color.ig-dark-gray-400}",
-      "$description": "Stat-badge labels and muted copy on `color-surface-inverse`. Contrast 7.17:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6157,
+          0.6471,
+          0.6863
+        ],
+        "hex": "#9da5af"
+      },
+      "$description": "Stat-badge labels and muted copy on `color-surface-inverse`. Engine step 400 of the dark palette's gray ramp. Contrast 7.17:1 on `color-surface-inverse`."
     },
     "color-icon-subtle": {
       "$value": "{color.ig-gray-400}",
@@ -1660,7 +1412,7 @@
     },
     "color-feedback-error-inverse": {
       "$value": "{color.ig-error-300}",
-      "$description": "Validation text and border on the dark footer. Contrast 5.28:1 on `ig-dark-surface-200`."
+      "$description": "Validation text and border on the dark footer. Contrast 5.28:1 on `color-surface-inverse-raised`."
     },
     "color-surface-page": {
       "$value": "{color.ig-surface-base}",
@@ -1682,9 +1434,41 @@
       "$value": "{color.ig-primary-50}",
       "$description": "Soft blue fill: tinted chips, callouts, the catalog band, release strip at rest and monogram badges."
     },
+    "color-surface-inverse-raised": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1098,
+          0.1412,
+          0.2078
+        ],
+        "hex": "#1c2435"
+      },
+      "$description": "The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient. Engine step 200 of the dark palette's surface ramp."
+    },
+    "color-surface-inverse-sunken": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0275,
+          0.0549,
+          0.1137
+        ],
+        "hex": "#070e1d"
+      },
+      "$description": "The darkest dark surface: the deepest part of a dark area, such as the end of the footer gradient. Engine step 900 of the dark palette's surface ramp."
+    },
     "color-surface-inverse": {
-      "$value": "{color.ig-dark-surface-500}",
-      "$description": "The one dark treatment: stat badges, table header and dark stat panels (the engine dark-variant surface)."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0588,
+          0.0902,
+          0.1647
+        ],
+        "hex": "#0f172a"
+      },
+      "$description": "The one dark treatment: stat badges, table header and dark stat panels (the engine dark-variant surface). Engine step 500 of the dark palette's surface ramp."
     },
     "color-surface-tint-strong": {
       "$value": "{color.ig-primary-100}",
@@ -1695,24 +1479,56 @@
       "$description": "\"Coming soon\" pill fill."
     },
     "footer-background": {
-      "$value": "{color.ig-dark-surface-900}",
+      "$value": "{color.color-surface-inverse-sunken}",
       "$description": "Footer gradient end; flat fallback for `footer-background-gradient`."
     },
     "footer-text": {
-      "$value": "{color.ig-dark-gray-500}",
-      "$description": "Footer body copy, legal links and social glyphs. Contrast 8.58:1 on `ig-dark-surface-200`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7373,
+          0.7569,
+          0.7882
+        ],
+        "hex": "#bcc1c9"
+      },
+      "$description": "Footer body copy, legal links and social glyphs. Engine step 500 of the dark palette's gray ramp. Contrast 8.58:1 on `color-surface-inverse-raised`."
     },
     "footer-strong": {
-      "$value": "{color.ig-dark-gray-800}",
-      "$description": "Footer sub-group labels (Web, Desktop, Bundles) and legal-link emphasis. Contrast 14.47:1 on `ig-dark-surface-200`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9647,
+          0.9686,
+          0.9725
+        ],
+        "hex": "#f6f7f8"
+      },
+      "$description": "Footer sub-group labels (Web, Desktop, Bundles) and legal-link emphasis. Engine step 800 of the dark palette's gray ramp. Contrast 14.47:1 on `color-surface-inverse-raised`."
     },
     "footer-heading": {
-      "$value": "{color.ig-dark-gray-400}",
-      "$description": "Footer 12px uppercase group labels, placeholder and copyright. Contrast 6.23:1 on `ig-dark-surface-200`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6157,
+          0.6471,
+          0.6863
+        ],
+        "hex": "#9da5af"
+      },
+      "$description": "Footer 12px uppercase group labels, placeholder and copyright. Engine step 400 of the dark palette's gray ramp. Contrast 6.23:1 on `color-surface-inverse-raised`."
     },
     "footer-icon": {
-      "$value": "{color.ig-dark-gray-500}",
-      "$description": "Footer social icons. Contrast 8.58:1 on `ig-dark-surface-200`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7373,
+          0.7569,
+          0.7882
+        ],
+        "hex": "#bcc1c9"
+      },
+      "$description": "Footer social icons. Engine step 500 of the dark palette's gray ramp. Contrast 8.58:1 on `color-surface-inverse-raised`."
     },
     "footer-focus": {
       "$value": {
@@ -1779,16 +1595,32 @@
       "$description": "Comparison table \"No\" mark glyph. Contrast 6.74:1 on `table-mark-no-background`."
     },
     "table-header-sub-color": {
-      "$value": "{color.ig-dark-gray-400}",
-      "$description": "Sub-label under a comparison column name, on `color-surface-inverse`. Contrast 7.17:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6157,
+          0.6471,
+          0.6863
+        ],
+        "hex": "#9da5af"
+      },
+      "$description": "Sub-label under a comparison column name, on `color-surface-inverse`. Engine step 400 of the dark palette's gray ramp. Contrast 7.17:1 on `color-surface-inverse`."
     },
     "table-header-sub-highlight-color": {
       "$value": "{color.color-action-on}",
       "$description": "Sub-label on the highlighted column header (`color-action-default` fill). Contrast 5.25:1 on `color-action-default`."
     },
     "table-header-detail-color": {
-      "$value": "{color.ig-dark-gray-600}",
-      "$description": "The \"Detail\" column header on `color-surface-inverse`. Contrast 12.73:1 on `color-surface-inverse`."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8431,
+          0.8549,
+          0.8706
+        ],
+        "hex": "#d7dade"
+      },
+      "$description": "The \"Detail\" column header on `color-surface-inverse`. Engine step 600 of the dark palette's gray ramp. Contrast 12.73:1 on `color-surface-inverse`."
     },
     "window-dot-red": {
       "$value": "{color.ig-error-300}",
@@ -1951,8 +1783,16 @@
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
     "tile-8": {
-      "$value": "{color.ig-dark-surface-500}",
-      "$description": "Extended icon tile fill for grids longer than four tiles."
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0588,
+          0.0902,
+          0.1647
+        ],
+        "hex": "#0f172a"
+      },
+      "$description": "Extended icon tile fill for grids longer than four tiles. Engine step 500 of the dark palette's surface ramp."
     },
     "color-action-subtle": {
       "$value": {

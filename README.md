@@ -43,7 +43,7 @@ Every token the design system defines is published as `--igd-*`, so it cannot co
 
 Token names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS.
 
-**Accent palettes.** Four more palettes are built with the engine for accent colours: pink, cyan, sky and teal. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from them, so publishing 40 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
+**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark theme and for the areas that stay dark in both themes. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from the four accent palettes and 9 steps of the dark ramps outside the dark theme, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
 
 The classes and keyframes the package defines follow the same rule: `.igd-type-h1` … `.igd-type-detail-2` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
@@ -72,7 +72,9 @@ Set a dial on the root, or on any element, and every token below it follows.
 
 **Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. The action colour used as text or as an outline is adjusted in lightness where it would be too light (or, in the dark theme, too dark) to read. Fills keep the exact colour with a black or white label.
 
-**Dark theme.** Built from the engine's dark palette. The grey and surface ramps are swapped; every semantic name keeps its meaning.
+**Dark theme.** Built from the engine's dark palette. `[data-theme="dark"]` gives the engine's gray shades and surface roles their dark-palette values; every semantic name keeps its meaning.
+
+**Dark areas.** An area that is dark in both themes uses the inverse surfaces: `color-surface-inverse-raised` (lightest), `color-surface-inverse` and `color-surface-inverse-sunken` (darkest), with `color-text-inverse` on top.
 
 ## Checks
 
