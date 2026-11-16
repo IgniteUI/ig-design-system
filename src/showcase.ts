@@ -274,6 +274,7 @@ export const showcase = (T: Tokens) => {
   document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
 })();
 </script>
+<link rel="stylesheet" href="../dist/fonts.css">
 <link rel="stylesheet" href="../dist/tokens.css">
 <link rel="stylesheet" href="../dist/theme.css">
 <link rel="stylesheet" href="../dist/base.css">

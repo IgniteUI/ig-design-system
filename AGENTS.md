@@ -129,6 +129,7 @@ Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(
 
 - `tokens.css` and `theme.css` hold custom properties, the type classes, keyframes and one utility class. They contain no rule for `body`, headings, links or focus.
 - `base.css` holds those element rules. It is optional and loads last.
+- `fonts.css` holds the `@font-face` rules. It is optional. Why: the marketing site loads the same three families from Google Fonts, and with the rules inside `tokens.css` every page fetched each face twice and the header and footer it exports to other sites carried the font files.
 - The package does not set `--ig-size`, `--ig-spacing`, `--ig-elevation-factor` or `--ig-radius-factor`. Each token falls back to its design value.
 - A link in `base.css` is `color-action-text`, not `color-action-default`. The fill colour is not safe as text: it was about 3.4:1 on the dark page.
 

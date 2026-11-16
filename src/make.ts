@@ -784,11 +784,13 @@ for (const fam of [
     css += `  --${t.name}: ${colorVal(String(t.value))};\n`;
 for (const [k, v] of Object.entries(S.FAMILIES))
   css += `  --font-${k}: ${v};\n`;
-css += "}\n\n";
-for (const f of FONTS)
-  css += `@font-face { font-family: '${f.family}'; src: url('fonts/${f.file}') format('woff2'); font-weight: ${f.weight}; font-style: ${f.style}; font-display: swap; }\n`;
-css += "\n";
+css += "}\n";
 fs.writeFileSync(`${OUT}/tokens.css`, css);
+// fonts.css: the three faces, self-hosted. Optional; a site that loads the same families another way leaves it out.
+fs.writeFileSync(
+  `${OUT}/fonts.css`,
+  `/* Infragistics Design System — fonts.css\n   Optional. Loads the faces --igd-font-display, --igd-font-body and --igd-font-mono name, from dist/fonts/.\n   A site that already loads Plus Jakarta Sans, DM Sans and JetBrains Mono leaves it out. */\n\n${FONTS.map((f) => `@font-face { font-family: '${f.family}'; src: url('fonts/${f.file}') format('woff2'); font-weight: ${f.weight}; font-style: ${f.style}; font-display: swap; }`).join("\n")}\n`,
+);
 
 // ---------- 6. theme.css ----------
 let b = `/* Infragistics Design System — theme.css
