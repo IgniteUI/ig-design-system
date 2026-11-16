@@ -43,7 +43,7 @@ Every token the design system defines is published as `--igd-*`, so it cannot co
 
 Token names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS.
 
-**Accent palettes.** Four more palettes are built with the engine for accent colours: pink, cyan, sky and teal. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from them, so publishing 40 variables under names the engine does not have was not worth it. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
+**Accent palettes.** Four more palettes are built with the engine for accent colours: pink, cyan, sky and teal. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from them, so publishing 40 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
 
 The classes and keyframes the package defines follow the same rule: `.igd-type-h1` … `.igd-type-detail-2` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 

@@ -22,10 +22,11 @@ Do not reverse one of these without asking the owner.
 ### 1. `--ig-*` is the engine's namespace, `--igd-*` is ours
 
 - A custom property is `--ig-*` only when `igniteui-theming` itself emits that exact name: the palette (`--ig-primary-500`, `--ig-primary-A100`, `--ig-primary-500-contrast`), the dials (`--ig-size`, `--ig-spacing`, `--ig-radius-factor`, `--ig-elevation-factor`), `--ig-elevation-<n>` and the type slot variables.
+- The engine also emits `--ig-<name>-<step>` for a custom family built with its `shades()` function and passed to the `palette()` mixin. That is engine output too. The package publishes no custom family today.
 - Everything the design system defines is `--igd-*`, in the semantic tier and in the component tier. The same goes for classes and keyframes: `.igd-type-h1`, `igd-float`.
 - The generator works in bare names. `src/namespace.ts` adds `--igd-` as the last build step.
 
-Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name we invent under `--ig-` looks like engine API and is not.
+Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name the generator makes up under `--ig-`, such as the former `--ig-elevation-tint-<n>`, looks like engine API and is not.
 
 Known exception, not decided yet: `--ig-dark-gray-<n>` and `--ig-dark-surface-<n>` are our names for the dark palette's ramps.
 
@@ -35,9 +36,13 @@ Known exception, not decided yet: `--ig-dark-gray-<n>` and `--ig-dark-surface-<n
 - Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-3: #e23b8f`, not `var(--ig-pink-400)`.
 - The spec still names the step (`"tile-3": ["ig-pink-400", …]`). That name is internal to the build.
 
-Why: the theme reads 6 colours from those 4 palettes, and publishing 40 variables for them put 40 invented names under `--ig-`.
+Why: the theme reads 6 colours from those 4 palettes, so 40 published variables were not worth their size. The names were not the problem: `--ig-pink-400` follows the pattern the engine uses for a custom family.
 
 Why the palettes are still built: none of the colours in use is a seed. Each is a step the engine solved for contrast. Pink `#ec4899` as text on white is about 3.5:1; step 500 (`#c42579`) clears 4.5:1. Typing in one colour per accent would drop that solving.
+
+Considered and not done:
+- The engine's `shades($name, $color, $shades, $surface, $generator, $scale)` builds one family from a seed with any list of steps, two at least. With the ten steps `50` to `900` it gives the same 40 colours as the four full palettes. The owner decided to keep the `palette()` build.
+- A shorter list of steps changes the colours. `shades()` places a step by its position in the list, not by the number in its name: `('400', '500')` returns the two ends of the ramp, `#fee6ec` and `#290a18` for the pink seed.
 
 To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palettes`, add the family to `ACCENT_STEP` and to `engineHex()` in `src/make.ts`, then alias a step in `src/spec.ts`.
 
@@ -75,7 +80,7 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 
 - Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()`, type from `typography()`.
 - The build starts no MCP server and no browser. Only the two gates use a browser.
-- `theme.css` declares every custom property the engine's `palette()` emits for the light palette.
+- The main palette is built with `palette()` in full, and `theme.css` declares every custom property it emits for the light palette. Ignite UI components depend on every shade of the built-in families: primary, secondary, gray, surface, info, success, warn and error. Do not trim it.
 
 Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(from var(--x) h s l / 0.26)`, so `make.ts` rewrites the shadow colours with a regular expression.
 
