@@ -694,7 +694,8 @@ let b = `/* Infragistics Design System — theme.css
    2. the tokens that must stay live — spacing, sizes, radii, shadows, gradients, translucent colours —
       declared again with the same names as tokens.json, so --ig-size, --ig-spacing, --ig-radius-factor,
       --ig-elevation-factor and palette edits cascade. At the default knob values they equal tokens.json;
-   3. the semantic type variables and classes (.igd-type-<slot>), motion, and base element styles.
+   3. the semantic type variables and classes (.igd-type-<role>), motion and keyframes.
+   Element styles (body, headings, links, focus) are in base.css.
    Nothing in a component may carry a literal colour, length, font size, shadow or radius: it reads a token. */
 
 /* ===== 1. igniteui-theming engine layer ===== */
@@ -727,11 +728,7 @@ for (const [slot, , , fam] of S.TYPE) {
     typography += `  --ig-${slot}-${p}: ${t[p]};\n`;
 }
 b += `:root {
-  /* dials: size large, spacing 1, elevation 1 */
-  --ig-size: 3;
-  --ig-spacing: 1;
-  --ig-elevation-factor: 1;
-  /* --ig-radius-factor is left unset: each radius role then takes its own design value. Set it from 0 (each role's minimum) to 1 (each role's maximum). */
+  /* The dials are left unset, so a site sets them for itself. Unset, the tokens resolve at their design values: --ig-size large, --ig-spacing 1, --ig-elevation-factor 1, and each radius role at its own value (--ig-radius-factor from 0, each role's minimum, to 1, its maximum). */
   /* one shadow colour behind every neutral elevation */
   --color-shadow: oklch(0 0 0);
   /* roundness, easing and neutral elevations: compiled from the engine's border-radius() and elevations() */
@@ -803,15 +800,7 @@ b += "}\n";
 for (const [, name] of S.TYPE)
   b += `.igd-type-${name} { ${TYPE_PROPS.map((p) => `${p}: var(--type-${name}-${p});`).join(" ")} }\n`;
 b += `
-/* ===== 4. motion keyframes and base styles ===== */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* ===== 4. keyframes and utility classes ===== */
 @keyframes igd-float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(calc(-1 * var(--space-xs))); }
@@ -819,34 +808,6 @@ b += `
 @keyframes igd-app-shimmer {
   0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-primary) h s l / var(--opacity-heavy))); opacity: 1; }
   50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-inverse) h s l / var(--opacity-heavy))); opacity: 1; }
-}
-
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--color-surface-page);
-  font-family: var(--font-body);
-  font-size: var(--type-body-md-font-size);
-  line-height: var(--type-body-md-line-height);
-  color: var(--color-text-primary);
-  text-wrap: pretty;
-}
-a { color: var(--color-action-default); text-decoration: none; }
-a:hover { color: var(--color-action-hover); }
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-heading); margin: 0; }
-code, pre { font-family: var(--font-mono); }
-
-/* Keyboard focus. Mouse users never see this; keyboard users always do.
-   Add data-on-dark to any dark section so the ring stays visible. */
-:focus { outline: none; }
-a:focus-visible, button:focus-visible, [tabindex]:focus-visible,
-input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-default);
-  outline-offset: var(--focus-ring-offset);
-}
-[data-on-dark] a:focus-visible, [data-on-dark] button:focus-visible,
-[data-on-dark] [tabindex]:focus-visible {
-  outline-color: var(--color-focus-inverse);
 }
 
 /* Breakpoints (media queries cannot read custom properties; generated from tokens.json breakpoint family) */
@@ -1089,6 +1050,48 @@ const bpSub = (t: string) =>
   );
 // theme.css is the package: tokens, live layers and base styles. The reference components keep their own stylesheet.
 fs.writeFileSync(`${OUT}/theme.css`, b);
+// base.css: element styles for a site that has none of its own. Optional; loaded after theme.css.
+const base = `/* Infragistics Design System — base.css
+   Optional. Element styles built on the tokens: the page, headings, links, code and keyboard focus.
+   Load it after theme.css on a site that has no element styles of its own. A site with its own, such as a docs site, leaves it out. */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--color-surface-page);
+  font-family: var(--font-body);
+  font-size: var(--type-body-md-font-size);
+  line-height: var(--type-body-md-line-height);
+  color: var(--color-text-primary);
+  text-wrap: pretty;
+}
+a { color: var(--color-action-text); text-decoration: none; }
+a:hover { color: var(--color-action-hover); }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-heading); margin: 0; }
+code, pre { font-family: var(--font-mono); }
+
+/* Keyboard focus. Mouse users never see this; keyboard users always do.
+   Add data-on-dark to any dark section so the ring stays visible. */
+:focus { outline: none; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-default);
+  outline-offset: var(--focus-ring-offset);
+}
+[data-on-dark] a:focus-visible, [data-on-dark] button:focus-visible,
+[data-on-dark] [tabindex]:focus-visible {
+  outline-color: var(--color-focus-inverse);
+}
+`;
+fs.writeFileSync(`${OUT}/base.css`, base);
 fs.writeFileSync(
   ".cache/components.css",
   bpSub(fs.readFileSync("reference/components.css", "utf8")),

@@ -1,0 +1,39 @@
+/* Infragistics Design System — base.css
+   Optional. Element styles built on the tokens: the page, headings, links, code and keyboard focus.
+   Load it after theme.css on a site that has no element styles of its own. A site with its own, such as a docs site, leaves it out. */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--igd-color-surface-page);
+  font-family: var(--igd-font-body);
+  font-size: var(--igd-type-body-md-font-size);
+  line-height: var(--igd-type-body-md-line-height);
+  color: var(--igd-color-text-primary);
+  text-wrap: pretty;
+}
+a { color: var(--igd-color-action-text); text-decoration: none; }
+a:hover { color: var(--igd-color-action-hover); }
+h1, h2, h3, h4, h5, h6 { font-family: var(--igd-font-display); color: var(--igd-color-text-heading); margin: 0; }
+code, pre { font-family: var(--igd-font-mono); }
+
+/* Keyboard focus. Mouse users never see this; keyboard users always do.
+   Add data-on-dark to any dark section so the ring stays visible. */
+:focus { outline: none; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+  outline-offset: var(--igd-focus-ring-offset);
+}
+[data-on-dark] a:focus-visible, [data-on-dark] button:focus-visible,
+[data-on-dark] [tabindex]:focus-visible {
+  outline-color: var(--igd-color-focus-inverse);
+}

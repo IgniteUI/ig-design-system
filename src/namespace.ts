@@ -30,7 +30,7 @@ export const cssVar = (name: string) =>
 
 if (isMain(import.meta.url)) {
   let n = 0;
-  for (const f of ["dist/tokens.css", "dist/theme.css"]) {
+  for (const f of ["dist/tokens.css", "dist/theme.css", "dist/base.css"]) {
     const t = fs.readFileSync(f, "utf8");
     const u = ns(t);
     if (u !== t) {

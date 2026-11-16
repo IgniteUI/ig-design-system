@@ -116,6 +116,17 @@ Considered and not done: the engine lets you register more type slots, through `
 
 Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(from var(--x) h s l / 0.26)`, so `make.ts` rewrites the shadow colours with a regular expression.
 
+### 9. Tokens and element styles ship apart, and the dials are not set
+
+- `tokens.css` and `theme.css` hold custom properties, the type classes, keyframes and one utility class. They contain no rule for `body`, headings, links or focus.
+- `base.css` holds those element rules. It is optional and loads last.
+- The package does not set `--ig-size`, `--ig-spacing`, `--ig-elevation-factor` or `--ig-radius-factor`. Each token falls back to its design value.
+- A link in `base.css` is `color-action-text`, not `color-action-default`. The fill colour is not safe as text: it was about 3.4:1 on the dark page.
+
+Why apart: a docs site has its own element styles. Loaded on top of it, the element rules reset heading margins, removed link underlines and changed the body size. That was seen in the `igniteui-astro-components` playground.
+
+Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew (an input from 40px to 48px). The owner decided each site sets the dials for itself.
+
 ## Open
 
 Nothing below is decided. Ask the owner before acting on one.
