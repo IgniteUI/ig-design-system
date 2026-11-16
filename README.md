@@ -103,6 +103,8 @@ The `docs` set is not fluid. `src/spec.ts` holds every value, in `TYPE_SETS`.
 - `space-stack-{size}` for vertical margins
 - `space-gap-{size}` for gaps and inline margins
 
+`space-section` is the vertical padding of a page section. It is fluid: `space-5xl` (64px) in a 360px container, `space-6xl` (96px) in a 1280px one.
+
 ## Theming
 
 Set a dial on the root, or on any element, and every token below it follows. The package sets none of them: a site chooses. Unset, every token is at its design value.
