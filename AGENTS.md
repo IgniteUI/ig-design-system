@@ -59,6 +59,7 @@ To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palett
 
 - The seeds live in `src/palette-sets.ts`. Changing one means `npm run palettes` and `npm run build`.
 - There is no runtime seed change and no `seed.js`.
+- The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-alt`.
 - A primary seed below 3:1 against the page stops the build. A seed that does not clear 4.5:1 as text is darkened for text, and `tokens.css` publishes the darkened colour.
 
 Why: the engine solves each shade for contrast when Sass compiles. A ramp shifted in the browser is an approximation of that, and it cost a third of `theme.css`.
