@@ -80,19 +80,19 @@
   --ig-h4-line-height: 1.1;
   --ig-h4-letter-spacing: 0;
   --ig-h4-text-transform: none;
-  --ig-h5-font-family: var(--igd-font-body);
-  --ig-h5-font-size: 1rem;
-  --ig-h5-font-weight: 600;
+  --ig-h5-font-family: var(--igd-font-display);
+  --ig-h5-font-size: 1.125rem;
+  --ig-h5-font-weight: 800;
   --ig-h5-font-style: normal;
-  --ig-h5-line-height: 1.4;
-  --ig-h5-letter-spacing: 0;
+  --ig-h5-line-height: 1.3;
+  --ig-h5-letter-spacing: -0.0167em;
   --ig-h5-text-transform: none;
-  --ig-h6-font-family: var(--igd-font-display);
-  --ig-h6-font-size: 1.125rem;
-  --ig-h6-font-weight: 800;
+  --ig-h6-font-family: var(--igd-font-body);
+  --ig-h6-font-size: 1rem;
+  --ig-h6-font-weight: 600;
   --ig-h6-font-style: normal;
-  --ig-h6-line-height: 1.3;
-  --ig-h6-letter-spacing: -0.0167em;
+  --ig-h6-line-height: 1.4;
+  --ig-h6-letter-spacing: 0;
   --ig-h6-text-transform: none;
   --ig-subtitle-1-font-family: var(--igd-font-body);
   --ig-subtitle-1-font-size: 1.25rem;
@@ -513,18 +513,18 @@
   --igd-type-stat-line-height: var(--ig-h4-line-height);
   --igd-type-stat-letter-spacing: var(--ig-h4-letter-spacing);
   --igd-type-stat-text-transform: var(--ig-h4-text-transform);
-  --igd-type-title-sm-font-family: var(--ig-h5-font-family);
-  --igd-type-title-sm-font-size: var(--ig-h5-font-size);
-  --igd-type-title-sm-font-weight: var(--ig-h5-font-weight);
-  --igd-type-title-sm-line-height: var(--ig-h5-line-height);
-  --igd-type-title-sm-letter-spacing: var(--ig-h5-letter-spacing);
-  --igd-type-title-sm-text-transform: var(--ig-h5-text-transform);
-  --igd-type-title-md-font-family: var(--ig-h6-font-family);
-  --igd-type-title-md-font-size: var(--ig-h6-font-size);
-  --igd-type-title-md-font-weight: var(--ig-h6-font-weight);
-  --igd-type-title-md-line-height: var(--ig-h6-line-height);
-  --igd-type-title-md-letter-spacing: var(--ig-h6-letter-spacing);
-  --igd-type-title-md-text-transform: var(--ig-h6-text-transform);
+  --igd-type-title-md-font-family: var(--ig-h5-font-family);
+  --igd-type-title-md-font-size: var(--ig-h5-font-size);
+  --igd-type-title-md-font-weight: var(--ig-h5-font-weight);
+  --igd-type-title-md-line-height: var(--ig-h5-line-height);
+  --igd-type-title-md-letter-spacing: var(--ig-h5-letter-spacing);
+  --igd-type-title-md-text-transform: var(--ig-h5-text-transform);
+  --igd-type-title-sm-font-family: var(--ig-h6-font-family);
+  --igd-type-title-sm-font-size: var(--ig-h6-font-size);
+  --igd-type-title-sm-font-weight: var(--ig-h6-font-weight);
+  --igd-type-title-sm-line-height: var(--ig-h6-line-height);
+  --igd-type-title-sm-letter-spacing: var(--ig-h6-letter-spacing);
+  --igd-type-title-sm-text-transform: var(--ig-h6-text-transform);
   --igd-type-lead-font-family: var(--ig-subtitle-1-font-family);
   --igd-type-lead-font-size: var(--ig-subtitle-1-font-size);
   --igd-type-lead-font-weight: var(--ig-subtitle-1-font-weight);
@@ -584,8 +584,8 @@
 .igd-type-display-md { font-family: var(--igd-type-display-md-font-family); font-size: var(--igd-type-display-md-font-size); font-weight: var(--igd-type-display-md-font-weight); line-height: var(--igd-type-display-md-line-height); letter-spacing: var(--igd-type-display-md-letter-spacing); text-transform: var(--igd-type-display-md-text-transform); }
 .igd-type-display-sm { font-family: var(--igd-type-display-sm-font-family); font-size: var(--igd-type-display-sm-font-size); font-weight: var(--igd-type-display-sm-font-weight); line-height: var(--igd-type-display-sm-line-height); letter-spacing: var(--igd-type-display-sm-letter-spacing); text-transform: var(--igd-type-display-sm-text-transform); }
 .igd-type-stat { font-family: var(--igd-type-stat-font-family); font-size: var(--igd-type-stat-font-size); font-weight: var(--igd-type-stat-font-weight); line-height: var(--igd-type-stat-line-height); letter-spacing: var(--igd-type-stat-letter-spacing); text-transform: var(--igd-type-stat-text-transform); }
-.igd-type-title-sm { font-family: var(--igd-type-title-sm-font-family); font-size: var(--igd-type-title-sm-font-size); font-weight: var(--igd-type-title-sm-font-weight); line-height: var(--igd-type-title-sm-line-height); letter-spacing: var(--igd-type-title-sm-letter-spacing); text-transform: var(--igd-type-title-sm-text-transform); }
 .igd-type-title-md { font-family: var(--igd-type-title-md-font-family); font-size: var(--igd-type-title-md-font-size); font-weight: var(--igd-type-title-md-font-weight); line-height: var(--igd-type-title-md-line-height); letter-spacing: var(--igd-type-title-md-letter-spacing); text-transform: var(--igd-type-title-md-text-transform); }
+.igd-type-title-sm { font-family: var(--igd-type-title-sm-font-family); font-size: var(--igd-type-title-sm-font-size); font-weight: var(--igd-type-title-sm-font-weight); line-height: var(--igd-type-title-sm-line-height); letter-spacing: var(--igd-type-title-sm-letter-spacing); text-transform: var(--igd-type-title-sm-text-transform); }
 .igd-type-lead { font-family: var(--igd-type-lead-font-family); font-size: var(--igd-type-lead-font-size); font-weight: var(--igd-type-lead-font-weight); line-height: var(--igd-type-lead-line-height); letter-spacing: var(--igd-type-lead-letter-spacing); text-transform: var(--igd-type-lead-text-transform); }
 .igd-type-label-lg { font-family: var(--igd-type-label-lg-font-family); font-size: var(--igd-type-label-lg-font-size); font-weight: var(--igd-type-label-lg-font-weight); line-height: var(--igd-type-label-lg-line-height); letter-spacing: var(--igd-type-label-lg-letter-spacing); text-transform: var(--igd-type-label-lg-text-transform); }
 .igd-type-body-lg { font-family: var(--igd-type-body-lg-font-family); font-size: var(--igd-type-body-lg-font-size); font-weight: var(--igd-type-body-lg-font-weight); line-height: var(--igd-type-body-lg-line-height); letter-spacing: var(--igd-type-body-lg-letter-spacing); text-transform: var(--igd-type-body-lg-text-transform); }

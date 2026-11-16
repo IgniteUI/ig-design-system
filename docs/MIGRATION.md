@@ -252,8 +252,8 @@ A type style is named for its role. The class is `.igd-type-{role}` and its vari
 | `display-h2` | `.igd-type-display-md` | `h2` |
 | `display-h3` | `.igd-type-display-sm` | `h3` |
 | `display-stat` | `.igd-type-stat` | `h4` |
-| `card-title` | `.igd-type-title-sm` | `h5` |
-| `product-name` | `.igd-type-title-md` | `h6` |
+| `product-name` | `.igd-type-title-md` | `h5` |
+| `card-title` | `.igd-type-title-sm` | `h6` |
 | `body-lead` | `.igd-type-lead` | `subtitle-1` |
 | `callout-title` | `.igd-type-label-lg` | `subtitle-2` |
 | `body-text` | `.igd-type-body-lg` | `body-1` |

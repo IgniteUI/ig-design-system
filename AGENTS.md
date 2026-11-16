@@ -88,8 +88,9 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 - The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h5-font-size)`.
 - The engine has 13 type slots by default, and Ignite UI components read those 13. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
 - Line height is unitless.
+- The six heading slots descend in size: 70, 43, 27, 21, 18, 16px from `h1` to `h6`. Keep them in order when a size changes: an Ignite UI component on the page reads them as a heading scale.
 
-Why: the slot names say nothing about use, and they are not even a hierarchy here. `h5` is the 16px card title and `h6` the 18px product name. A role name tells a developer what the style is for, as a colour token does.
+Why: a slot name says nothing about use. `h4` is the stat number and `h6` the card title. A role name tells a developer what the style is for, as a colour token does.
 
 Why unitless: a site may override a font size. A line height given as a length would not follow it.
 
@@ -97,7 +98,6 @@ Considered and not done: the engine lets you register more type slots, through `
 
 Not decided yet:
 - The sizes are fixed. `display-lg` is 70px on a phone. Fluid sizes need minimum sizes from design.
-- An Ignite UI component on the page reads the engine slots. One that uses `h6` for a dialog title gets the product-name style, and `h6` is larger than `h5`. Keeping the slots a true hierarchy would move the odd styles (`stat`, `title-md`) to values of our own.
 
 ### 8. Use the engine, not a copy of it
 
