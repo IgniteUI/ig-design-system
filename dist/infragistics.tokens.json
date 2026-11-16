@@ -1407,8 +1407,16 @@
       "$description": "The caret in the nav row (decorative, below the 3:1 icon floor, kept as in the source). Contrast 2.59:1 on `color-surface-page`."
     },
     "color-feedback-error-default": {
-      "$value": "{color.ig-error-600}",
-      "$description": "Validation text and border on light surfaces. Contrast 7.33:1 on `color-surface-page`, 6.97:1 on `color-surface-subtle`."
+      "$value": "{color.ig-error-500}",
+      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`."
+    },
+    "color-feedback-info-default": {
+      "$value": "{color.ig-primary-700}",
+      "$description": "Informational text and icons on light surfaces: a note, a tip. Contrast 7.03:1 on `color-surface-page`, 6.47:1 on `color-surface-tint`."
+    },
+    "color-feedback-success-inverse": {
+      "$value": "{color.ig-success-300}",
+      "$description": "Success icons on dark surfaces, such as a code block. Contrast 6.07:1 on `color-surface-inverse`."
     },
     "color-feedback-success-default": {
       "$value": "{color.ig-success-600}",
@@ -2017,16 +2025,29 @@
       },
       "$description": "Premium status badge border. Live: `badge-premium-color` at `opacity-strong`."
     },
+    "color-feedback-info-surface": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0863,
+          0.3059,
+          0.7961
+        ],
+        "alpha": 0.12,
+        "hex": "#164ecb"
+      },
+      "$description": "Tinted fill behind `color-feedback-info-default` text. Live: `color-feedback-info-default` at `opacity-soft`."
+    },
     "color-feedback-error-surface": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.6745,
-          0.0588,
-          0.1882
+          0.8118,
+          0.1059,
+          0.2431
         ],
         "alpha": 0.12,
-        "hex": "#ac0f30"
+        "hex": "#cf1b3e"
       },
       "$description": "Tinted fill behind `color-feedback-error-default` text. Live: `color-feedback-error-default` at `opacity-soft`."
     },

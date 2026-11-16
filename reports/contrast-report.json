@@ -280,6 +280,27 @@
   "ok": true
  },
  {
+  "fg": "color-feedback-info-default",
+  "bg": "color-surface-page",
+  "ratio": 7.03,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "color-feedback-info-default",
+  "bg": "color-surface-tint",
+  "ratio": 6.47,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "color-feedback-success-inverse",
+  "bg": "color-surface-inverse",
+  "ratio": 6.07,
+  "min": 3,
+  "ok": true
+ },
+ {
   "fg": "color-feedback-warning-default",
   "bg": "color-surface-page",
   "ratio": 5.41,
@@ -359,14 +380,14 @@
  {
   "fg": "color-feedback-error-default",
   "bg": "color-surface-page",
-  "ratio": 7.33,
+  "ratio": 5.41,
   "min": 4.5,
   "ok": true
  },
  {
   "fg": "color-feedback-error-default",
   "bg": "color-surface-subtle",
-  "ratio": 6.97,
+  "ratio": 5.14,
   "min": 4.5,
   "ok": true
  },

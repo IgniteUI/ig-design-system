@@ -114,8 +114,16 @@ export const ALIAS: Record<string, AliasEntry> = {
     "The caret in the nav row (decorative, below the 3:1 icon floor, kept as in the source).",
   ],
   "color-feedback-error-default": [
-    "ig-error-600",
+    "ig-error-500",
     "Validation text and border on light surfaces.",
+  ],
+  "color-feedback-info-default": [
+    "ig-primary-700",
+    "Informational text and icons on light surfaces: a note, a tip.",
+  ],
+  "color-feedback-success-inverse": [
+    "ig-success-300",
+    "Success icons on dark surfaces, such as a code block.",
   ],
   "color-feedback-success-default": [
     "ig-success-600",
@@ -400,6 +408,11 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "badge-premium-color",
     "opacity-strong",
     "Premium status badge border.",
+  ],
+  "color-feedback-info-surface": [
+    "color-feedback-info-default",
+    "opacity-soft",
+    "Tinted fill behind `color-feedback-info-default` text.",
   ],
   "color-feedback-error-surface": [
     "color-feedback-error-default",
