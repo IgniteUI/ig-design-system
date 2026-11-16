@@ -2546,7 +2546,7 @@
         "value": 21.25,
         "unit": "rem"
       },
-      "$description": "Min card width in the catalog grid: repeat(auto-fill, minmax(var(--catalog-card-min-width), 1fr))."
+      "$description": "Min card width in the catalog grid: repeat(auto-fill, minmax(var(--igd-catalog-card-min-width), 1fr))."
     }
   },
   "letterSpacing": {

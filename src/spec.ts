@@ -483,7 +483,7 @@ export const SIZE: Record<string, SizeEntry> = {
   "container-prose-max-width": [880, "Max width of prose."],
   "catalog-card-min-width": [
     340,
-    "Min card width in the catalog grid: repeat(auto-fill, minmax(var(--catalog-card-min-width), 1fr)).",
+    "Min card width in the catalog grid: repeat(auto-fill, minmax(var(--igd-catalog-card-min-width), 1fr)).",
   ],
 };
 export type TrackingEntry = [em: string, usage: string];

@@ -138,6 +138,8 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - A new kind of token gets a section there. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets.
 - `check-vars` reads the page, so a `var()` in it that names no token fails `npm test`.
 - The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
+- Every token on the page is an element with `data-token="<name>"`. The filter, and any later tool that edits a token, finds it by that attribute.
+- A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
 
 Why here: `igniteui-astro-components` had its own Colors and Typography pages for its own palette and type scale. The owner decided the foundations are documented with the tokens, and that the pages about Markdown content (lists, tables, code, images, badges) stay in that repository.
 
@@ -150,6 +152,7 @@ Nothing below is decided. Ask the owner before acting on one.
 - The fluid type minimums have not been reviewed by design or seen on a real page.
 - CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
+- The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
 
 ## Working here
