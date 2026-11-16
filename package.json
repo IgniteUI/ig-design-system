@@ -14,6 +14,7 @@
     "./tokens.css": "./dist/tokens.css",
     "./theme.css": "./dist/theme.css",
     "./base.css": "./dist/base.css",
+    "./fonts.css": "./dist/fonts.css",
     "./tokens.json": "./dist/tokens.json",
     "./tokens.dtcg.json": "./dist/infragistics.tokens.json"
   },

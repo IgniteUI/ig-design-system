@@ -13,11 +13,13 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 | `dist/tokens.css` | Every token as a CSS custom property, with its default value. Load it first. |
 | `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark theme and the type classes. Load it second. |
 | `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
+| `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin). |
 
 ```html
+<link rel="stylesheet" href="dist/fonts.css">   <!-- optional -->
 <link rel="stylesheet" href="dist/tokens.css">
 <link rel="stylesheet" href="dist/theme.css">
 <link rel="stylesheet" href="dist/base.css">   <!-- optional -->
