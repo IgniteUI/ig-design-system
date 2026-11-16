@@ -11,7 +11,8 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 | File | What it is |
 |---|---|
 | `dist/tokens.css` | Every token as a CSS custom property, with its default value. Load it first. |
-| `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark theme, type classes and base styles. Load it second. |
+| `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark theme and the type classes. Load it second. |
+| `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin). |
@@ -19,6 +20,7 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 ```html
 <link rel="stylesheet" href="dist/tokens.css">
 <link rel="stylesheet" href="dist/theme.css">
+<link rel="stylesheet" href="dist/base.css">   <!-- optional -->
 ```
 
 ```css
@@ -81,11 +83,13 @@ Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body
 
 ## Theming
 
-Set a dial on the root, or on any element, and every token below it follows.
+Set a dial on the root, or on any element, and every token below it follows. The package sets none of them: a site chooses. Unset, every token is at its design value.
+
+The dials are the engine's, so an Ignite UI component reads them too. `--ig-size: 2` on the root makes the Ignite UI controls medium and also shrinks the design system's spacing and sizes (`--igd-space-md` goes from 16px to 14px). To change only the controls, set the dial on them.
 
 | Dial | Values |
 |---|---|
-| `--ig-size` | 1 small, 2 medium, 3 large (default) |
+| `--ig-size` | 1 small, 2 medium, 3 large. Unset, the tokens resolve at large |
 | `--ig-spacing` | multiplier, default 1 |
 | `--ig-radius-factor` | unset by default (each role takes its design value); 0 is each role's minimum, 1 its maximum |
 | `--ig-elevation-factor` | multiplier, default 1 |

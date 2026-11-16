@@ -1,5 +1,5 @@
 // Gate: every var() points at a token that exists.
-// node checks/check-vars.ts <tokens.css> <theme.css> <dir> [...]
+// node checks/check-vars.ts <tokens.css> <theme.css> <dir or file> [...]
 import fs from "node:fs";
 import path from "node:path";
 import { isMain } from "../src/main.ts";
@@ -34,7 +34,10 @@ if (isMain(import.meta.url)) {
       else if (/\.(jsx|html|css|mjs)$/.test(f)) files.push(p);
     }
   };
-  dirs.forEach(walk);
+  for (const d of dirs) {
+    if (fs.statSync(d).isDirectory()) walk(d);
+    else files.push(d);
+  }
   files.push(css2);
   const bad: Record<string, Set<string>> = {};
   for (const f of files)
