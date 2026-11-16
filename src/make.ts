@@ -143,12 +143,12 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     "Card hover: cards lift shadow only, no translate or scale. Engine elevation 4.",
   ],
   "shadow-accent-lg": [
-    "var(--ig-elevation-tint-16)",
+    "var(--elevation-tint-16)",
     resolveShadow(tintVars[16]),
     "Primary CTA and its hover (no shadow change on hover). Engine elevation 16 tinted with `color-action-default`.",
   ],
   "shadow-accent-sm": [
-    "var(--ig-elevation-tint-1)",
+    "var(--elevation-tint-1)",
     resolveShadow(tintVars[1]),
     "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`.",
   ],
@@ -163,12 +163,12 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     "Floating stat badges. Engine elevation 16.",
   ],
   "shadow-accent-md": [
-    "var(--ig-elevation-tint-13)",
+    "var(--elevation-tint-13)",
     resolveShadow(tintVars[13]),
     "Bundle cards with the gradient border. Engine elevation 13 tinted with `color-action-default`.",
   ],
   "callout-release-shadow": [
-    "var(--ig-elevation-tint-13)",
+    "var(--elevation-tint-13)",
     `inset 0 0 0 1px ${(() => {
       const [r, g, b] = rgbOf(hexOf("color-accent-primary"));
       return `rgba(${r},${g},${b},${S.OPACITY["opacity-soft"][0]})`;
@@ -176,7 +176,7 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     "Release strip at rest. Engine elevation 13 tinted with `color-action-default`.",
   ],
   "callout-release-shadow-hover": [
-    "var(--ig-elevation-tint-16)",
+    "var(--elevation-tint-16)",
     `inset 0 0 0 1px ${(() => {
       const [r, g, b] = rgbOf(hexOf("color-accent-primary"));
       return `rgba(${r},${g},${b},${S.OPACITY["opacity-strong"][0]})`;
@@ -754,20 +754,18 @@ if (!enginePalette.some((m) => m[1] === "ig-primary-500-contrast"))
   throw new Error("palette(): no contrast variables emitted");
 b += `/* contrast colours, exactly as the engine's palette() emits them */\n:root, [data-theme] {\n${adaptiveContrast.map((d) => `  ${d}`).join("\n")}\n}\n/* the rest of the engine's palette(): contrast colours, accent shades, surface shades and seeds */\n:root, [data-ig-scope] {\n${enginePalette.map((m) => `  --${m[1]}: ${m[2]};`).join("\n")}\n}\n`;
 b += `/* sizing and spacing: compiled from the engine's sizable() and pad() */\n${sized[0].selector} {\n${sized[0].body}\n}\n`;
-b += `/* elevations tinted with \`action\` (indigo preset, colours configured through its $color-1..3) */\n:root {\n${tintUsed.map((l) => `  --ig-elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
+b += `/* elevations tinted with the action colour: the engine's indigo preset compiled with its $color-1..3, published under the design system's own names */\n:root {\n${tintUsed.map((l) => `  --elevation-tint-${l}: ${tintVars[l]};`).join("\n")}\n}\n`;
 b +=
   "\n/* ===== 2. live tokens (same names as tokens.json) ===== */\n:root {\n";
 for (const [n, [liveVal]] of Object.entries(SHADOWS)) {
   if (n === "callout-release-shadow")
-    b += `  --${n}: inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring), var(--ig-elevation-tint-13);\n`;
+    b += `  --${n}: inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring), var(--elevation-tint-13);\n`;
   else if (n === "callout-release-shadow-hover")
-    b += `  --${n}: inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring-hover), var(--ig-elevation-tint-16);\n`;
+    b += `  --${n}: inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring-hover), var(--elevation-tint-16);\n`;
   else b += `  --${n}: ${liveVal};\n`;
 }
 for (const l of Object.keys(elevNeutral))
   b += `  --elevation-${l}: var(--ig-elevation-${l});\n`;
-for (const l of tintUsed)
-  b += `  --elevation-tint-${l}: var(--ig-elevation-tint-${l});\n`;
 for (const [n, [, lv]] of Object.entries(GRAD)) b += `  --${n}: ${lv};\n`;
 for (const [n, [base, op, stop]] of Object.entries(GLOWS))
   b += `  --${n}: ${glow(base, op, stop)[1]};\n`;
@@ -1022,11 +1020,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   );
   // the live colour tokens and tinted elevations resolve again inside a scope
   const mark = "/* ===== 2. live tokens";
-  if (!b.includes(mark) || !b.includes("\n:root {\n  --ig-elevation-tint-1:"))
+  if (!b.includes(mark) || !b.includes("\n:root {\n  --elevation-tint-1:"))
     throw new Error("scope anchors moved");
   b = b.replace(
-    "\n:root {\n  --ig-elevation-tint-1:",
-    "\n:root, [data-ig-scope] {\n  --ig-elevation-tint-1:",
+    "\n:root {\n  --elevation-tint-1:",
+    "\n:root, [data-ig-scope] {\n  --elevation-tint-1:",
   );
   const i = b.indexOf(mark);
   const j = b.indexOf("\n:root {", i);
@@ -1035,7 +1033,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     "\n:root, [data-ig-scope] {" +
     b.slice(j + "\n:root {".length);
   // tinted elevations carry the action colour, not a fixed rgb
-  b = b.replace(/(--ig-elevation-tint-\d+: [^;]+;)/g, (l) =>
+  b = b.replace(/(--elevation-tint-\d+: [^;]+;)/g, (l) =>
     l.replace(
       new RegExp(
         `rgba\\(${rgbOf(hexOf("ig-primary-600")).join(", ")}, ([\\d.]+)\\)`,
