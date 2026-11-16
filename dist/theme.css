@@ -485,7 +485,9 @@
   --igd-duration-spin: 800ms;
   --igd-easing-linear: linear;
   --igd-transition-default: all var(--igd-duration-fast) var(--igd-easing-default);
-  /* type */
+}
+/* type roles, declared again on a region that picks a type set */
+:root, [data-igd-type] {
   --igd-type-display-lg-font-family: var(--ig-h1-font-family);
   --igd-type-display-lg-font-size: var(--ig-h1-font-size);
   --igd-type-display-lg-font-weight: var(--ig-h1-font-weight);
@@ -592,6 +594,84 @@
 .igd-type-eyebrow { font-family: var(--igd-type-eyebrow-font-family); font-size: var(--igd-type-eyebrow-font-size); font-weight: var(--igd-type-eyebrow-font-weight); line-height: var(--igd-type-eyebrow-line-height); letter-spacing: var(--igd-type-eyebrow-letter-spacing); text-transform: var(--igd-type-eyebrow-text-transform); }
 .igd-type-body-xs { font-family: var(--igd-type-body-xs-font-family); font-size: var(--igd-type-body-xs-font-size); font-weight: var(--igd-type-body-xs-font-weight); line-height: var(--igd-type-body-xs-line-height); letter-spacing: var(--igd-type-body-xs-letter-spacing); text-transform: var(--igd-type-body-xs-text-transform); }
 .igd-type-body-2xs { font-family: var(--igd-type-body-2xs-font-family); font-size: var(--igd-type-body-2xs-font-size); font-weight: var(--igd-type-body-2xs-font-weight); line-height: var(--igd-type-body-2xs-line-height); letter-spacing: var(--igd-type-body-2xs-letter-spacing); text-transform: var(--igd-type-body-2xs-text-transform); }
+/* type set "docs": the same roles at other sizes. Put data-igd-type="docs" on the page, or on a region. */
+[data-igd-type="docs"] {
+  --ig-h1-font-size: 2.25rem;
+  --ig-h1-font-weight: 700;
+  --ig-h1-line-height: 1.1111;
+  --ig-h1-letter-spacing: 0;
+  --ig-h1-text-transform: none;
+  --ig-h2-font-size: 1.5rem;
+  --ig-h2-font-weight: 700;
+  --ig-h2-line-height: 1.3333;
+  --ig-h2-letter-spacing: 0;
+  --ig-h2-text-transform: none;
+  --ig-h3-font-size: 1.25rem;
+  --ig-h3-font-weight: 700;
+  --ig-h3-line-height: 1.4;
+  --ig-h3-letter-spacing: 0;
+  --ig-h3-text-transform: none;
+  --ig-h4-font-size: 1.125rem;
+  --ig-h4-font-weight: 700;
+  --ig-h4-line-height: 1.5556;
+  --ig-h4-letter-spacing: 0;
+  --ig-h4-text-transform: none;
+  --ig-h5-font-size: 1rem;
+  --ig-h5-font-weight: 700;
+  --ig-h5-line-height: 1.5;
+  --ig-h5-letter-spacing: 0;
+  --ig-h5-text-transform: none;
+  --ig-h6-font-size: 0.875rem;
+  --ig-h6-font-weight: 600;
+  --ig-h6-line-height: 1.4286;
+  --ig-h6-letter-spacing: 0;
+  --ig-h6-text-transform: none;
+  --ig-subtitle-1-font-size: 1rem;
+  --ig-subtitle-1-font-weight: 500;
+  --ig-subtitle-1-line-height: 1.5;
+  --ig-subtitle-1-letter-spacing: 0.0094em;
+  --ig-subtitle-1-text-transform: none;
+  --ig-subtitle-2-font-size: 0.875rem;
+  --ig-subtitle-2-font-weight: 600;
+  --ig-subtitle-2-line-height: 1.7143;
+  --ig-subtitle-2-letter-spacing: 0.0071em;
+  --ig-subtitle-2-text-transform: none;
+  --ig-body-1-font-size: 1rem;
+  --ig-body-1-font-weight: 400;
+  --ig-body-1-line-height: 1.75;
+  --ig-body-1-letter-spacing: 0;
+  --ig-body-1-text-transform: none;
+  --ig-body-2-font-size: 0.875rem;
+  --ig-body-2-font-weight: 500;
+  --ig-body-2-line-height: 1.4286;
+  --ig-body-2-letter-spacing: 0;
+  --ig-body-2-text-transform: none;
+  --ig-button-font-size: 1rem;
+  --ig-button-font-weight: 400;
+  --ig-button-line-height: 1.5;
+  --ig-button-letter-spacing: 0;
+  --ig-button-text-transform: none;
+  --ig-caption-font-size: 0.75rem;
+  --ig-caption-font-weight: 500;
+  --ig-caption-line-height: 1.5;
+  --ig-caption-letter-spacing: 0;
+  --ig-caption-text-transform: none;
+  --ig-overline-font-size: 0.625rem;
+  --ig-overline-font-weight: 400;
+  --ig-overline-line-height: 2;
+  --ig-overline-letter-spacing: 0.15em;
+  --ig-overline-text-transform: uppercase;
+  --igd-type-body-xs-font-size: 0.8125rem;
+  --igd-type-body-xs-font-weight: 400;
+  --igd-type-body-xs-line-height: 1.5385;
+  --igd-type-body-xs-letter-spacing: 0.0231em;
+  --igd-type-body-xs-text-transform: none;
+  --igd-type-body-2xs-font-size: 0.8125rem;
+  --igd-type-body-2xs-font-weight: 600;
+  --igd-type-body-2xs-line-height: 1.2308;
+  --igd-type-body-2xs-letter-spacing: 0.0115em;
+  --igd-type-body-2xs-text-transform: none;
+}
 
 /* ===== 4. keyframes and utility classes ===== */
 @keyframes igd-float {

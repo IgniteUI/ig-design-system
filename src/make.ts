@@ -58,28 +58,72 @@ for (const name of Object.keys(S.TYPE_MIN))
     throw new Error(
       `TYPE_MIN names "${name}", which is not a type role. The roles are: ${S.TYPE.map((r) => r[1]).join(", ")}.`,
     );
-const typeScss =
-  `@use 'igniteui-theming' as *;\n$scale: (\n` +
-  S.TYPE.map(
-    ([slot, name, , , px, line, weight, track, transform]) =>
-      `  '${slot}': type-style($font-size: ${S.TYPE_MIN[name] ? fluid(S.TYPE_MIN[name], px, S.TYPE_FLUID_RANGE.from, S.TYPE_FLUID_RANGE.to) : `rem(${px}px)`}, $font-weight: ${weight}, $line-height: ${line}, $letter-spacing: ${track === "0" ? "0" : track}, $text-transform: ${transform})`,
-  ).join(",\n") +
-  `\n);\n:root { @include typography('x', $scale); }\n`;
-fs.writeFileSync(".cache/sass/type.scss", typeScss);
-execSync(
-  "npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/type.scss .cache/sass/type.css",
-);
-const type: Named<Named<string>> = {};
-for (const m of fs
-  .readFileSync(".cache/sass/type.css", "utf8")
-  .matchAll(
+// Compiles one scale with the engine's typography() and returns each slot's properties.
+type ScaleRow = {
+  slot: string;
+  size: string;
+  weight: number;
+  line: number;
+  track: string;
+  transform: string;
+};
+const engineType = (file: string, rows: ScaleRow[]) => {
+  const css = sass(
+    file,
+    `@use 'igniteui-theming' as *;\n$scale: (\n${rows.map((r) => `  '${r.slot}': type-style($font-size: ${r.size}, $font-weight: ${r.weight}, $line-height: ${r.line}, $letter-spacing: ${r.track}, $text-transform: ${r.transform})`).join(",\n")}\n);\n:root { @include typography('x', $scale); }\n`,
+  );
+  const out: Named<Named<string>> = {};
+  for (const m of css.matchAll(
     /--ig-([a-z0-9-]+?)-(font-size|font-weight|font-style|line-height|letter-spacing|text-transform): ([^;]+);/g,
   )) {
-  type[m[1]] ??= {};
-  type[m[1]][m[2]] = m[3];
+    out[m[1]] ??= {};
+    out[m[1]][m[2]] = m[3];
+  }
+  for (const r of rows)
+    if (!out[r.slot])
+      throw new Error(`slot missing in engine output: ${r.slot}`);
+  return out;
+};
+const type = engineType(
+  "type",
+  S.TYPE.map(([slot, name, , , px, line, weight, track, transform]) => ({
+    slot,
+    size: S.TYPE_MIN[name]
+      ? fluid(
+          S.TYPE_MIN[name],
+          px,
+          S.TYPE_FLUID_RANGE.from,
+          S.TYPE_FLUID_RANGE.to,
+        )
+      : `rem(${px}px)`,
+    weight,
+    line,
+    track,
+    transform,
+  })),
+);
+// A type set has an entry for every role, so a page that picks one gets a complete scale.
+const typeSets: Named<Named<Named<string>>> = {};
+for (const [set, entries] of Object.entries(S.TYPE_SETS)) {
+  const roles = S.TYPE.map((r) => r[1]);
+  const unknown = Object.keys(entries).filter((n) => !roles.includes(n));
+  const missing = roles.filter((n) => !entries[n]);
+  if (unknown.length || missing.length)
+    throw new Error(
+      `TYPE_SETS.${set} must list each type role once.${unknown.length ? ` Not a role: ${unknown.join(", ")}.` : ""}${missing.length ? ` Missing: ${missing.join(", ")}.` : ""} The roles are: ${roles.join(", ")}.`,
+    );
+  typeSets[set] = engineType(
+    `type-${set}`,
+    S.TYPE.map(([slot, name, , , , , , , transform]) => ({
+      slot,
+      size: `rem(${entries[name].sizePx}px)`,
+      weight: entries[name].weight,
+      line: entries[name].line,
+      track: entries[name].tracking ?? "0",
+      transform: entries[name].transform ?? transform,
+    })),
+  );
 }
-for (const [slot] of S.TYPE)
-  if (!type[slot]) throw new Error(`slot missing in engine output: ${slot}`);
 
 // ---------- 2. Sass: layout knobs + tinted elevations ----------
 const primary600 = rgbOf(hexOf("ig-primary-600")).join(" ");
@@ -558,6 +602,23 @@ const tokens: Tokens = {
     fonts: FONTS,
     families: S.FAMILIES,
     fluid: S.TYPE_FLUID_RANGE,
+    sets: Object.fromEntries(
+      Object.entries(typeSets).map(([set, slots]) => [
+        set,
+        S.TYPE.map(([slot, name]) => ({
+          name: `type-${name}`,
+          fontSize: slots[slot]["font-size"],
+          lineHeight: slots[slot]["line-height"],
+          fontWeight: +slots[slot]["font-weight"],
+          ...(slots[slot]["letter-spacing"] !== "0"
+            ? { letterSpacing: slots[slot]["letter-spacing"] }
+            : {}),
+          ...(slots[slot]["text-transform"] !== "none"
+            ? { textTransform: slots[slot]["text-transform"] }
+            : {}),
+        })),
+      ]),
+    ),
     groups: typeGroups,
   },
   spacing: {
@@ -781,7 +842,7 @@ b +=
   "  --container-gutter: clamp(var(--space-md), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n";
 b += "  --nav-backdrop-blur: blur(var(--space-sm));\n";
 b += `}\n\n/* ===== 3. motion, type variables and classes ===== */\n:root {\n  /* motion */\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
-  --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n  /* type */\n`;
+  --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n}\n/* type roles, declared again on a region that picks a type set */\n:root, [data-igd-type] {\n`;
 const TYPE_PROPS = [
   "font-family",
   "font-size",
@@ -799,6 +860,14 @@ for (const [slot, name, , fam] of S.TYPE)
 b += "}\n";
 for (const [, name] of S.TYPE)
   b += `.igd-type-${name} { ${TYPE_PROPS.map((p) => `${p}: var(--type-${name}-${p});`).join(" ")} }\n`;
+const SET_PROPS = TYPE_PROPS.filter((p) => p !== "font-family");
+for (const [set, slots] of Object.entries(typeSets)) {
+  b += `/* type set "${set}": the same roles at other sizes. Put data-igd-type="${set}" on the page, or on a region. */\n[data-igd-type="${set}"] {\n`;
+  for (const [slot, name] of S.TYPE)
+    for (const p of SET_PROPS)
+      b += `  --${S.ENGINE_TYPE_SLOTS.includes(slot) ? `ig-${slot}` : `type-${name}`}-${p}: ${slots[slot][p]};\n`;
+  b += "}\n";
+}
 b += `
 /* ===== 4. keyframes and utility classes ===== */
 @keyframes igd-float {

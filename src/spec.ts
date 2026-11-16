@@ -823,6 +823,40 @@ export const TYPE_MIN: Record<string, number> = {
   lead: 18,
   "body-lg": 17,
 };
+// A type set gives the roles other values for one kind of site. The face of each role stays the one in TYPE.
+export type TypeSetEntry = {
+  sizePx: number;
+  line: number;
+  weight: number;
+  tracking?: string;
+  transform?: "none" | "uppercase";
+};
+// docs: the sizes of the documentation, API reference and blog pages, taken from igniteui-astro-components.
+export const TYPE_SETS: Record<string, Record<string, TypeSetEntry>> = {
+  docs: {
+    "display-lg": { sizePx: 36, line: 1.1111, weight: 700 },
+    "display-md": { sizePx: 24, line: 1.3333, weight: 700 },
+    "display-sm": { sizePx: 20, line: 1.4, weight: 700 },
+    stat: { sizePx: 18, line: 1.5556, weight: 700 },
+    "title-md": { sizePx: 16, line: 1.5, weight: 700 },
+    "title-sm": { sizePx: 14, line: 1.4286, weight: 600 },
+    lead: { sizePx: 16, line: 1.5, weight: 500, tracking: "0.0094em" },
+    "label-lg": { sizePx: 14, line: 1.7143, weight: 600, tracking: "0.0071em" },
+    "body-lg": { sizePx: 16, line: 1.75, weight: 400 },
+    "body-md": { sizePx: 14, line: 1.4286, weight: 500 },
+    "label-md": { sizePx: 16, line: 1.5, weight: 400 },
+    "body-sm": { sizePx: 12, line: 1.5, weight: 500 },
+    eyebrow: {
+      sizePx: 10,
+      line: 2,
+      weight: 400,
+      tracking: "0.15em",
+      transform: "uppercase",
+    },
+    "body-xs": { sizePx: 13, line: 1.5385, weight: 400, tracking: "0.0231em" },
+    "body-2xs": { sizePx: 13, line: 1.2308, weight: 600, tracking: "0.0115em" },
+  },
+};
 export const FAMILIES: Record<FamilyName, string> = {
   display: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
   body: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",

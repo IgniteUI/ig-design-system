@@ -20,6 +20,14 @@ export type TypeStyle = {
   letterSpacing?: string;
   family?: FamilyName;
 };
+export type TypeSetStyle = {
+  name: string;
+  fontSize: string;
+  lineHeight: string;
+  fontWeight: number;
+  letterSpacing?: string;
+  textTransform?: string;
+};
 export type TypeGroup = {
   name: string;
   family: FamilyName;
@@ -33,6 +41,7 @@ export type Tokens = {
     fonts: Font[];
     families: Record<FamilyName, string>;
     fluid: { from: number; to: number };
+    sets: Record<string, TypeSetStyle[]>;
     groups: TypeGroup[];
   };
   spacing: TokenFamily;

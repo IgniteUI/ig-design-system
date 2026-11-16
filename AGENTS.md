@@ -95,6 +95,7 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 - Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body-lg`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
 - The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
 - The type classes are in `theme.css` only.
+- The sizes in `TYPE` are the marketing site's. `TYPE_SETS` holds a second set, `docs`, with a value for every role. `data-igd-type="docs"` on the page or on a region selects it. A set changes size, line height, weight, letter spacing and case; the face of a role does not change.
 
 Why role names: a slot name says nothing about use. `h4` is the stat number and `h6` the card title. A role name tells a developer what the style is for, as a colour token does.
 
@@ -103,6 +104,10 @@ Why unitless: a site may override a font size, and a fluid size changes with the
 Why fluid: a 70px heading does not fit a phone, and a component is meant to follow its container, not the page.
 
 Why only five: text at 16px and below is already at a size that reads on a phone. Shrinking it further would hurt.
+
+Why a set in the package: a docs page cannot take a 70px heading, and Blog, Docs and API docs would otherwise each repeat the same overrides and drift apart. The owner chose one shipped set per kind of site over per-site overrides. The `docs` values are the type scale `igniteui-astro-components` had. The set is not fluid: its largest size is 36px.
+
+A new kind of site gets a new set in `TYPE_SETS`. The build stops when a set does not list each role once.
 
 Not reviewed yet: the minimums (40, 30, 22, 18 and 17px) and the width range are a first version chosen by engineering, not by design. Changing one is one number in `src/spec.ts`.
 

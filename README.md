@@ -75,6 +75,18 @@ Five roles are fluid: `display-lg`, `display-md`, `display-sm`, `lead` and `body
 | `lead` | 18px | 20px |
 | `body-lg` | 17px | 19px |
 
+**Type sets.** The sizes above are the marketing site's. A documentation page needs the same roles smaller, so the package ships a second set, `docs`. Put `data-igd-type="docs"` on the page, or on a region, and every role takes its docs value. The faces stay the same.
+
+| Role | Default | `docs` |
+|---|---|---|
+| `display-lg` | 70px (40px on a phone) | 36px |
+| `display-md` | 43px (30px) | 24px |
+| `display-sm` | 27px (22px) | 20px |
+| `title-md`, `title-sm` | 18px, 16px | 16px, 14px |
+| `body-lg`, `body-md`, `body-sm` | 19px (17px), 15px, 14px | 16px, 14px, 12px |
+
+The `docs` set is not fluid. `src/spec.ts` holds every value, in `TYPE_SETS`.
+
 **Spacing** has two tiers. The steps are `space-3xs` … `space-6xl`; the name is a size, not a pixel value, because the live value follows the spacing and size dials. On top of them sit three roles, and these are what components use:
 
 - `space-inset-{size}` for padding
@@ -95,6 +107,7 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 | `--ig-elevation-factor` | multiplier, default 1 |
 | `data-theme="dark"` | the dark theme, on the page or on one region |
 | `data-ig-scope` | a region that carries its own base colours |
+| `data-igd-type="docs"` | the type roles at documentation sizes, on the page or on one region |
 
 **Brand colours.** The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action colour used as text keeps the seed while the seed clears 4.5:1 on the light surfaces, and is darkened to the first primary step that does otherwise. `tokens.css` publishes that darkened colour. The label on the action fill is black or white, whichever reads on the seed. A primary seed below 3:1 against the page stops the build with a message, because a filled control would not stand out.
 
