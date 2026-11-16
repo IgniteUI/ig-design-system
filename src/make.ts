@@ -257,12 +257,25 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     })()}, ${resolveShadow(tintVars[16])}`,
     "Release strip on hover. Engine elevation 16 tinted with `color-action-default`.",
   ],
+  "shadow-popover": [
+    soft["shadow-popover"],
+    resolveShadow(soft["shadow-popover"]),
+    "Dropdown menus and popovers.",
+  ],
   "shadow-panel": [
-    "var(--ig-elevation-20)",
-    resolveShadow(elevNeutral[20]),
-    "Open nav panel. Engine elevation 20.",
+    soft["shadow-panel"],
+    resolveShadow(soft["shadow-panel"]),
+    "Open nav panel.",
   ],
 };
+
+// Section padding grows in a straight line between two spacing steps, so both ends follow the spacing dials.
+const sectionSpace = (() => {
+  const { min, max, from, to } = S.SECTION_SPACE;
+  const slope = (S.SPACE[max] - S.SPACE[min]) / (to - from);
+  const base = S.SPACE[min] - slope * from;
+  return `clamp(var(--space-${min}), calc(${f4(slope * 100)}cqi + ${f4(base / 16)}rem), var(--space-${max}))`;
+})();
 
 const dropOf = (raw: string) =>
   raw.split(/, (?=0 )/).map((l) => {
@@ -285,7 +298,6 @@ SHADOWS["shadow-popover-filter"] = [
   panelLayers.map((l) => `drop-shadow(0 ${l.yn}px ${l.bn}px ${l.c})`).join(" "),
   "Open nav panel — the flared panel outline needs a `filter`, so this is engine elevation 20 expressed as drop-shadow() layers (spread dropped).",
 ];
-delete SHADOWS["shadow-panel"];
 
 // ---------- 4. tokens.json ----------
 const FONTS = [
@@ -862,8 +874,7 @@ b +=
   "  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-primary) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-inverse) h s l / var(--opacity-faint)));\n";
 b +=
   "  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);\n";
-b +=
-  "  --container-gutter: clamp(var(--space-lg), 4vw, var(--space-4xl)); /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n";
+b += `  --container-gutter: clamp(var(--space-lg), 4vw, var(--space-4xl)); /* @kind spacing */\n  --space-section: ${sectionSpace}; /* @kind spacing */\n  --layout-split: 0.95fr 1.05fr; /* @kind other */\n`;
 b += "  --nav-backdrop-blur: blur(var(--space-sm));\n";
 b += `}\n\n/* ===== 3. motion, type variables and classes ===== */\n:root {\n  /* motion */\n  --duration-chip: 140ms;\n  --duration-fast: 160ms;\n  --duration-button: 180ms;\n  --duration-slow: 320ms;
   --duration-float: 5000ms;\n  --duration-spin: 800ms;\n  --easing-linear: linear;\n  --transition-default: all var(--duration-fast) var(--easing-default);\n}\n/* type roles, declared again on a region that picks a type set */\n:root, [data-igd-type] {\n`;

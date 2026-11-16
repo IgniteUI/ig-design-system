@@ -539,7 +539,20 @@ export const SHADOW: Record<string, ShadowLayer[]> = {
   ],
   "shadow-overlay": [[44, 90, -34, "color-surface-inverse", 0.4]],
   "shadow-floating": [[16, 32, -12, "color-surface-inverse", 0.4]],
+  "shadow-popover": [[26, 50, -22, "color-surface-inverse", 0.22]],
+  "shadow-panel": [
+    [-2, 8, 0, "color-surface-inverse", 0.04],
+    [18, 40, -12, "color-surface-inverse", 0.28],
+    [40, 80, -24, "color-surface-inverse", 0.3],
+  ],
 };
+// Vertical padding of a page section: the two spacing steps it runs between, and the container widths it grows across.
+export const SECTION_SPACE = {
+  min: "5xl",
+  max: "6xl",
+  from: 360,
+  to: 1280,
+} satisfies { min: SpaceStep; max: SpaceStep; from: number; to: number };
 export type OpacityEntry = [value: number, usage: string];
 export const OPACITY = {
   "opacity-faint": [0.04, "Barely-there tint."],
