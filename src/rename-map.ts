@@ -201,7 +201,7 @@ export const SPACEMAP = {
   52: 48,
   56: 64,
   64: 64,
-  104: 104,
+  104: 96,
 };
-export const NEWSPACE = [2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 104];
+export const NEWSPACE = [2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 96];
 export const ALL = { ...COLOR, ...SIZEMAP, ...OTHER };

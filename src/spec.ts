@@ -406,7 +406,7 @@ export const SPACE = {
   "3xl": 40,
   "4xl": 48,
   "5xl": 64,
-  "6xl": 104,
+  "6xl": 96,
 } satisfies Record<string, number>;
 export type SpaceStep = keyof typeof SPACE;
 // Semantic spacing: what the space is for. Components use these for padding, margins and gaps; each role can be retuned on its own.
@@ -502,14 +502,14 @@ export type RadiusEntry = [
 // The engine's border-radius() clamps between min and max.
 export const RADIUS: Record<string, RadiusEntry> = {
   "radius-full": [
-    32,
-    "Pills: every action, chip and framework selector. Fully round on controls up to 64px tall; never sharper than 4px.",
+    9999,
+    "Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px.",
     4,
-    32,
+    9999,
   ],
   "nav-panel-radius": [30, "Flared top corners of an open nav panel.", 0, 30],
   "radius-xl": [
-    18,
+    24,
     "Emphasis and catalog cards. Never a circle: capped at 28px.",
     4,
     28,

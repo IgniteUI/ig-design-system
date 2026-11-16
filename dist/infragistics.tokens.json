@@ -2097,10 +2097,10 @@
     },
     "space-6xl": {
       "$value": {
-        "value": 6.5,
+        "value": 6,
         "unit": "rem"
       },
-      "$description": "Raw spacing step. 104px at the default density."
+      "$description": "Raw spacing step. 96px at the default density."
     },
     "space-inset-3xs": {
       "$value": "{spacing.space-3xs}",
@@ -2239,10 +2239,10 @@
     "$type": "dimension",
     "radius-full": {
       "$value": {
-        "value": 2,
+        "value": 624.9375,
         "unit": "rem"
       },
-      "$description": "Pills: every action, chip and framework selector. Fully round on controls up to 64px tall; never sharper than 4px. Range 4px to 32px."
+      "$description": "Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px. Range 4px to 9999px."
     },
     "nav-panel-radius": {
       "$value": {
@@ -2253,7 +2253,7 @@
     },
     "radius-xl": {
       "$value": {
-        "value": 1.125,
+        "value": 1.5,
         "unit": "rem"
       },
       "$description": "Emphasis and catalog cards. Never a circle: capped at 28px. Range 4px to 28px."
