@@ -98,6 +98,28 @@ describe("checks/resolve.ts", () => {
     expect(r.out).toContain("--igd-color-text-primary resolves to nothing");
   }, 60000);
 
+  it("fails a token that resolves to nothing in the dark theme only", () => {
+    const dir = brokenDist(
+      (t) =>
+        `${t}\n[data-theme="dark"] { --igd-color-text-primary: var(--igd-missing); }\n`,
+    );
+    const r = run("resolve.ts", dir);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain(
+      "UNRESOLVED dark: --igd-color-text-primary resolves to nothing",
+    );
+    expect(r.out).not.toContain("UNRESOLVED light");
+  }, 60000);
+
+  it("fails a radius token whose value is not a length", () => {
+    const dir = brokenDist(
+      (t) => `${t}\n:root, [data-ig-scope] { --igd-radius-md: red; }\n`,
+    );
+    const r = run("resolve.ts", dir);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("--igd-radius-md is not a valid length");
+  }, 60000);
+
   it("fails a spacing token whose live value differs from tokens.json", () => {
     const dir = brokenDist(
       (t) => `${t}\n:root, [data-ig-scope] { --igd-space-md: 2rem; }\n`,
