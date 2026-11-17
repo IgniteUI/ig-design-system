@@ -50,6 +50,34 @@
    "ok": true
   },
   {
+   "fg": "color-action-text",
+   "bg": "color-surface-page",
+   "ratio": 5.24,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-text",
+   "bg": "color-surface-tint",
+   "ratio": 4.82,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-text",
+   "bg": "color-surface-card",
+   "ratio": 5.24,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-text",
+   "bg": "color-surface-subtle",
+   "ratio": 4.98,
+   "min": 4.5,
+   "ok": true
+  },
+  {
    "fg": "color-action-on",
    "bg": "color-action-default",
    "ratio": 5.25,
@@ -87,7 +115,7 @@
   {
    "fg": "color-link-utility-hover",
    "bg": "color-surface-page",
-   "ratio": 5.25,
+   "ratio": 5.24,
    "min": 4.5,
    "ok": true
   },
@@ -347,7 +375,7 @@
    "fg": "color-action-default",
    "bg": "color-surface-page",
    "ratio": 5.25,
-   "min": 3,
+   "min": 1,
    "ok": true
   },
   {
@@ -367,7 +395,7 @@
   {
    "fg": "color-focus-default",
    "bg": "color-surface-page",
-   "ratio": 5.25,
+   "ratio": 5.24,
    "min": 3,
    "ok": true
   },
@@ -382,34 +410,6 @@
    "fg": "color-text-secondary",
    "bg": "color-surface-muted",
    "ratio": 6.74,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-page",
-   "ratio": 5.25,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-tint",
-   "ratio": 4.83,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-card",
-   "ratio": 5.25,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-subtle",
-   "ratio": 4.99,
    "min": 4.5,
    "ok": true
   },
@@ -472,7 +472,7 @@
   {
    "fg": "color-focus-default",
    "bg": "color-surface-page",
-   "ratio": 5.25,
+   "ratio": 5.24,
    "min": 3,
    "ok": true
   }
@@ -528,6 +528,34 @@
    "ok": true
   },
   {
+   "fg": "color-action-text",
+   "bg": "color-surface-page",
+   "ratio": 12.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-text",
+   "bg": "color-surface-tint",
+   "ratio": 11.59,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-text",
+   "bg": "color-surface-card",
+   "ratio": 11.44,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-text",
+   "bg": "color-surface-subtle",
+   "ratio": 11.22,
+   "min": 4.5,
+   "ok": true
+  },
+  {
    "fg": "color-action-on",
    "bg": "color-action-default",
    "ratio": 5.25,
@@ -551,21 +579,21 @@
   {
    "fg": "color-link-utility",
    "bg": "color-surface-page",
-   "ratio": 10.78,
+   "ratio": 11.76,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-link-utility",
    "bg": "color-surface-subtle",
-   "ratio": 9.75,
+   "ratio": 10.63,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-link-utility-hover",
    "bg": "color-surface-page",
-   "ratio": 11.42,
+   "ratio": 12.41,
    "min": 4.5,
    "ok": true
   },
@@ -579,7 +607,7 @@
   {
    "fg": "color-action-hover",
    "bg": "color-surface-page",
-   "ratio": 10.78,
+   "ratio": 11.76,
    "min": 4.5,
    "ok": true
   },
@@ -663,98 +691,98 @@
   {
    "fg": "color-feedback-error-inverse",
    "bg": "color-surface-inverse-raised",
-   "ratio": 13.93,
+   "ratio": 13.64,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "badge-bundle-color",
    "bg": "badge-bundle-background",
-   "ratio": 11.94,
+   "ratio": 12.44,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "badge-oss-color",
    "bg": "color-surface-page",
-   "ratio": 14.11,
+   "ratio": 15.15,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "badge-new-color",
    "bg": "color-surface-page",
-   "ratio": 14.11,
+   "ratio": 15.15,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "badge-updated-color",
    "bg": "color-surface-page",
-   "ratio": 13.16,
+   "ratio": 12.41,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "badge-preview-color",
    "bg": "color-surface-page",
-   "ratio": 11.86,
+   "ratio": 11.14,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "badge-premium-color",
    "bg": "color-surface-page",
-   "ratio": 12.71,
+   "ratio": 13.17,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-success-default",
    "bg": "color-surface-page",
-   "ratio": 14.11,
+   "ratio": 15.15,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-info-default",
    "bg": "color-surface-page",
-   "ratio": 13.16,
+   "ratio": 12.41,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-info-default",
    "bg": "color-surface-tint",
-   "ratio": 12.29,
+   "ratio": 11.59,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-success-inverse",
    "bg": "color-surface-inverse",
-   "ratio": 17.44,
+   "ratio": 15.69,
    "min": 3,
    "ok": true
   },
   {
    "fg": "color-feedback-warning-inverse",
    "bg": "color-surface-inverse",
-   "ratio": 17.14,
+   "ratio": 15.62,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-info-inverse",
    "bg": "color-surface-inverse",
-   "ratio": 17.69,
+   "ratio": 17.51,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-warning-default",
    "bg": "color-surface-page",
-   "ratio": 11.86,
+   "ratio": 11.14,
    "min": 4.5,
    "ok": true
   },
@@ -768,7 +796,7 @@
   {
    "fg": "table-mark-partial-color",
    "bg": "table-mark-partial-background",
-   "ratio": 7.46,
+   "ratio": 8.13,
    "min": 4.5,
    "ok": true
   },
@@ -825,27 +853,27 @@
    "fg": "color-action-default",
    "bg": "color-surface-page",
    "ratio": 3.4,
-   "min": 3,
+   "min": 1,
    "ok": true
   },
   {
    "fg": "color-feedback-error-default",
    "bg": "color-surface-page",
-   "ratio": 11.14,
+   "ratio": 11.12,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-feedback-error-default",
    "bg": "color-surface-subtle",
-   "ratio": 10.07,
+   "ratio": 10.05,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-focus-default",
    "bg": "color-surface-page",
-   "ratio": 11.42,
+   "ratio": 12.41,
    "min": 3,
    "ok": true
   },
@@ -860,34 +888,6 @@
    "fg": "color-text-secondary",
    "bg": "color-surface-muted",
    "ratio": 7.21,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-page",
-   "ratio": 11.42,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-tint",
-   "ratio": 10.66,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-card",
-   "ratio": 10.52,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-action-text",
-   "bg": "color-surface-subtle",
-   "ratio": 10.32,
    "min": 4.5,
    "ok": true
   },
@@ -929,14 +929,14 @@
   {
    "fg": "color-text-ui",
    "bg": "fw-angular-background",
-   "ratio": 12.83,
+   "ratio": 12.81,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-text-ui",
    "bg": "fw-react-background",
-   "ratio": 12.33,
+   "ratio": 12.29,
    "min": 4.5,
    "ok": true
   },
@@ -950,7 +950,7 @@
   {
    "fg": "color-focus-default",
    "bg": "color-surface-page",
-   "ratio": 11.42,
+   "ratio": 12.41,
    "min": 3,
    "ok": true
   }

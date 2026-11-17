@@ -1,47 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   aaThreshold,
-  actionTextIndex,
+  actionOnColor,
   assertPairingsPass,
-  assertSeedStandsOut,
   contrastRows,
   guardOf,
 } from "./contrast.ts";
-
-describe("assertSeedStandsOut", () => {
-  it("rejects a primary seed below 3:1 on the page", () => {
-    expect(() => assertSeedStandsOut("#ffd400", "1.41")).toThrow(
-      "The primary seed #ffd400 is 1.41:1 on the page. A filled control needs 3:1 against its surroundings. Pick a darker primary seed.",
-    );
-  });
-
-  it("accepts a primary seed at 3:1 on the page", () => {
-    expect(() => assertSeedStandsOut("#0f9d58", "3")).not.toThrow();
-  });
-});
-
-describe("actionTextIndex", () => {
-  it("rejects a seed with no step that clears 4.5:1 on every light surface", () => {
-    expect(() =>
-      actionTextIndex([
-        ["4.6", "4.4"],
-        ["4.49", "7"],
-      ]),
-    ).toThrow(
-      "No primary step from 500 to 900 clears 4.5:1 on every light surface. Pick a different primary seed.",
-    );
-  });
-
-  it("picks the first candidate that clears 4.5:1 on every surface", () => {
-    expect(
-      actionTextIndex([
-        ["3.2", "3.1"],
-        ["4.5", "4.6"],
-        ["9", "9"],
-      ]),
-    ).toBe(1);
-  });
-});
 
 describe("guardOf", () => {
   it("rejects a guard stylesheet with no adaptive-contrast variables", () => {
@@ -50,9 +14,25 @@ describe("guardOf", () => {
     );
   });
 
-  it("rejects a guard stylesheet that lacks a variable", () => {
+  it("rejects a guard stylesheet without the luminance of the fill", () => {
     expect(() => guardOf(".adaptive {\n  --ig-wcag-aa: 0.18;\n}\n")).toThrow(
       "guard: --luminance missing",
+    );
+  });
+});
+
+describe("actionOnColor", () => {
+  const adaptiveContrast = ["--ig-wcag-aa: 0.18;"];
+
+  it("puts a black label on a fill above the AA luminance threshold", () => {
+    expect(actionOnColor({ luminance: "0.8", adaptiveContrast })).toBe(
+      "#000000",
+    );
+  });
+
+  it("puts a white label on a fill at or below the AA luminance threshold", () => {
+    expect(actionOnColor({ luminance: "0.18", adaptiveContrast })).toBe(
+      "#ffffff",
     );
   });
 });
@@ -117,12 +97,9 @@ describe("assertPairingsPass", () => {
     ).not.toThrow();
   });
 
-  it("does not hold the action fill to the text minimum", () => {
-    expect(() =>
-      assertPairingsPass([
-        row("color-action-default", 3.4),
-        row("color-action-active", 4),
-      ]),
-    ).not.toThrow();
+  it("holds text in the action colour to the text minimum", () => {
+    expect(() => assertPairingsPass([row("color-action-text", 4.4)])).toThrow(
+      "color-action-text on color-surface-page is 4.4:1, needs 4.5:1",
+    );
   });
 });

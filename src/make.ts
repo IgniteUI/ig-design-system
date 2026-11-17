@@ -3,11 +3,11 @@
 import fs from "node:fs";
 import { hexToRgb } from "./color.ts";
 import {
+  actionOnColor,
   assertPairingsPass,
   compiledGuard,
   failingPairings,
   measuredContrast,
-  publishedActionColors,
   ratioNotes,
   themePairs,
 } from "./contrast.ts";
@@ -25,7 +25,6 @@ import {
 } from "./stylesheets.ts";
 import { restOfPalette, themeCss } from "./theme.ts";
 import {
-  accentStepTokens,
   aliasTokens,
   alphaTokens,
   FONTS,
@@ -74,7 +73,8 @@ const shadows = semanticShadows(siteShadows(), tinted, layout.elevations[20]);
 copyFonts();
 
 const guard = compiledGuard();
-const { published, actionTextSource } = publishedActionColors(guard);
+// The colours the build computes in place of the alias in the spec.
+const published = { "color-action-on": actionOnColor(guard) };
 const colorOf = (name: string) => hexOf(name, published);
 const contrast = measuredContrast(colorOf);
 const gradientTable = gradients(colorOf);
@@ -100,11 +100,7 @@ fs.writeFileSync(`${DIST}/tokens.css`, tokensText);
 fs.writeFileSync(`${DIST}/fonts.css`, fontsCss(FONTS));
 
 const allDeclarations = [...declarations.themed, ...declarations.root];
-const derived = derivedColors(
-  allDeclarations,
-  accentStepTokens(published),
-  colorOf(actionTextSource),
-);
+const derived = derivedColors(allDeclarations);
 fs.writeFileSync(
   `${REPORTS}/derived-states.json`,
   JSON.stringify(derived.record, null, 2),
