@@ -17,4 +17,4 @@ jobs:
       - name: Build the tokens and run every check
         run: npm test
       - name: Generated files are committed and up to date
-        run: git diff --exit-code -- dist docs
+        run: git diff --exit-code -- dist docs llms.txt llms-full.txt

@@ -18,6 +18,7 @@ Everything a site needs is in `dist/`. The package has no dependencies. There is
 | `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark theme and the type classes. Load it second. |
 | `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
 | `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
+| `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use. Generated on every build. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin), each with its SIL Open Font License. |
@@ -213,6 +214,10 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 ## Open items
 
 - A reduced-motion, focus and target-size check (it exists for the reference components; `docs/showcase.html` is a page it could run on)
+
+## Adopting it in a site
+
+`docs/ADOPTING.md` is the step-by-step guide, written from moving the marketing site and `igniteui-astro-components` onto the package.
 
 ## Releases
 
