@@ -51,6 +51,8 @@ const tokens: Tokens = {
   },
 };
 
+const text_ = () => llmsTxt(tokens, pkg);
+
 describe("llmsTxt", () => {
   const text = llmsTxt(tokens, pkg);
 
@@ -72,6 +74,15 @@ describe("llmsTxt", () => {
     for (const [, file] of text.matchAll(/\]\(([^)]+)\)/g))
       if (file !== "llms-full.txt")
         expect(fs.existsSync(file), file).toBe(true);
+  });
+});
+
+describe("the example component", () => {
+  it("is quoted in llms.txt when one is given", () => {
+    const withExample = llmsTxt(tokens, pkg, "<article data-ig-scope />\n");
+    expect(withExample).toContain("## Example: a component");
+    expect(withExample).toContain("```astro\n<article data-ig-scope />\n```");
+    expect(text_()).not.toContain("## Example");
   });
 });
 

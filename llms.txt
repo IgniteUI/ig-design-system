@@ -47,6 +47,61 @@ A documentation site puts `data-igd-type="docs"` on `<html>` for the smaller typ
 - Layer: 8 tokens
 - Type: 15 roles (`--igd-type-<role>-font-family`, `-font-size`, `-font-weight`, `-line-height`, `-letter-spacing`, `-text-transform`) and the classes `.igd-type-<role>`
 
+## Example: a component
+
+`docs/examples/Card.astro` is a card written to these rules. `npm test` checks it, so it stays true.
+
+```astro
+---
+// A card built on the design system. Copy it to start a component.
+interface Props {
+  title: string;
+  href?: string;
+}
+const { title, href } = Astro.props;
+---
+
+<!-- data-ig-scope on the root: a dial set on any ancestor reaches this card. -->
+<article class="card" data-ig-scope>
+  <h3 class="card__title igd-type-title-sm">{title}</h3>
+  <div class="card__body igd-type-body-md"><slot /></div>
+  {href && <a class="card__link igd-type-label-md" href={href}>Read more</a>}
+</article>
+
+<style>
+  .card {
+    display: grid;
+    /* Widths, heights and offsets are not tokens. */
+    max-width: 24rem;
+    /* Roles, not raw steps: inset for padding, gap for gaps, stack for vertical margins. */
+    gap: var(--igd-space-gap-sm);
+    padding: var(--igd-space-inset-lg);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-lg);
+    background: var(--igd-color-surface-card);
+    color: var(--igd-color-text-primary);
+  }
+
+  .card:hover {
+    box-shadow: var(--igd-shadow-raised);
+  }
+
+  .card__title {
+    margin: 0;
+    color: var(--igd-color-text-heading);
+  }
+
+  /* Text in the action colour reads color-action-text; its hover is a token too. */
+  .card__link {
+    color: var(--igd-color-action-text);
+  }
+
+  .card__link:hover {
+    color: var(--igd-color-action-hover);
+  }
+</style>
+```
+
 ## Read next
 
 - [llms-full.txt](llms-full.txt): every token with its value and what it is for
@@ -54,5 +109,6 @@ A documentation site puts `data-igd-type="docs"` on `<html>` for the smaller typ
 - [AGENTS.md](AGENTS.md): how to work in this repository, and the reason behind every decision
 - [CHANGELOG.md](CHANGELOG.md): what each version changes
 - [dist/tokens.json](dist/tokens.json): the tokens as data
+- [docs/examples/Card.astro](docs/examples/Card.astro): a component written to the rules
 - [docs/ADOPTING.md](docs/ADOPTING.md): moving an existing site onto the design system
 - [docs/MIGRATION.md](docs/MIGRATION.md): old token names and their replacements

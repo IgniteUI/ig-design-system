@@ -203,7 +203,8 @@ checks/      the checks listed above
 dist/        the generated package (committed, so a site can use it without building)
 reports/     the contrast pairings and derived-colour data the gates read, and the contrast report of the last check run
 reference/   React reference components and their stylesheet. They prove the tokens and feed the checks; they are not part of the package
-docs/        ADOPTING.md: moving a site onto the package; MIGRATION.md: old token names to new ones; showcase.html: every token, rendered
+docs/        ADOPTING.md: moving a site onto the package; MIGRATION.md: old token names to new ones; showcase.html: every token, rendered;
+             examples/Card.astro: one component written to the rules, quoted in llms.txt and checked by npm test
 AGENTS.md    the decisions behind the code and the reason for each
 ```
 

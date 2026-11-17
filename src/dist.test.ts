@@ -134,6 +134,29 @@ describe("the token inventory", () => {
   });
 });
 
+describe("docs/examples/Card.astro", () => {
+  const card = fs.readFileSync("docs/examples/Card.astro", "utf8");
+
+  it("marks its root element with data-ig-scope", () => {
+    expect(card).toMatch(/<article class="card" data-ig-scope>/);
+  });
+
+  it("uses only type classes theme.css declares", () => {
+    const classes = [...card.matchAll(/\bigd-type-[\w-]+/g)].map((m) => m[0]);
+    expect(classes.length).toBeGreaterThan(0);
+    for (const c of classes)
+      expect(theme, c).toMatch(new RegExp(`\\.${c}\\s*[{,]`));
+  });
+
+  it("reads only custom properties the stylesheets declare", () => {
+    expect(undefinedVars(card, defined)).toEqual([]);
+  });
+
+  it("is quoted whole in llms.txt", () => {
+    expect(fs.readFileSync("llms.txt", "utf8")).toContain(card.trim());
+  });
+});
+
 describe("dist/fonts.css", () => {
   it("points every @font-face at a file that ships in dist/fonts", () => {
     const urls = [...fonts.matchAll(/url\('([^']+)'\)/g)].map((m) => m[1]);

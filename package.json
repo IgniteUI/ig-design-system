@@ -31,6 +31,7 @@
     "AGENTS.md",
     "CHANGELOG.md",
     "docs/ADOPTING.md",
+    "docs/examples",
     "docs/MIGRATION.md"
   ],
   "bin": {
@@ -53,7 +54,7 @@
     "lint": "biome check",
     "format": "biome check --fix",
     "test:unit": "vitest run",
-    "check": "node checks/lint.ts reference/components && node checks/check-vars.ts dist/tokens.css dist/theme.css dist/base.css docs/showcase.html reference && node checks/spacing-roles.ts reference && node checks/gates-derived.ts && node checks/gates-themes.ts && node checks/resolve.ts && node dist/cli/checks/cli.js check reference/components.css",
+    "check": "node checks/lint.ts reference/components && node checks/check-vars.ts dist/tokens.css dist/theme.css dist/base.css docs/showcase.html reference && node checks/spacing-roles.ts reference && node checks/gates-derived.ts && node checks/gates-themes.ts && node checks/resolve.ts && node dist/cli/checks/cli.js check reference/components.css && node dist/cli/checks/cli.js check docs/examples",
     "test": "npm run typecheck && npm run lint && npm run build && npm run test:unit && npm run check",
     "palettes": "node src/palettes.ts",
     "compare": "node checks/compare.ts"
