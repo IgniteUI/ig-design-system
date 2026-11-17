@@ -152,13 +152,21 @@ Why here: `igniteui-astro-components` had its own Colors and Typography pages fo
 
 Nothing below is decided. Ask the owner before acting on one.
 
-- No site consumes the package yet. It is `private`, has no licence and no release process, and its home organisation and public name are not settled.
+- No site installs the package yet. The marketing site and `igniteui-astro-components` carry a copy of `dist/` until the first release.
 - The checks run only in this repository. A consumer needs them as an installed command, compiled to JavaScript: Node does not run a `.ts` file from `node_modules`.
 - The fluid type width range has not been reviewed by design.
 - CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
 - The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
+
+## Releasing
+
+- The package is `ig-design-system` on npm, public, MIT, in the IgniteUI organisation. The owner decided this on 2026-11-17: it is for Infragistics' own sites, and nothing in it needs to be private.
+- A GitHub Release with the tag `X.Y.Z` runs `.github/workflows/release.yml`, which runs `npm test` and publishes. Do not run `npm publish` and do not edit `version` in `package.json` for a release: the workflow sets it from the tag.
+- Add the release's entry to `CHANGELOG.md` in the pull request that makes the change.
+- The package has no dependencies. `igniteui-theming` and the font packages are build inputs, so they are `devDependencies`. A test fails when a dependency is added.
+- The fonts in `dist/fonts/` are copied from the `@fontsource-variable` packages at build time, each with its SIL Open Font License. Do not add a font file by hand.
 
 ## Working here
 

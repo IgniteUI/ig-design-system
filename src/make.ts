@@ -320,6 +320,14 @@ const FONTS = [
     style: "normal",
   },
 ];
+// Each face is copied from its @fontsource-variable package, with the licence it is distributed under.
+fs.mkdirSync(`${OUT}/fonts`, { recursive: true });
+for (const f of FONTS) {
+  const name = f.file.replace(/-latin-wght-normal\.woff2$/, "");
+  const pkg = `node_modules/@fontsource-variable/${name}`;
+  fs.copyFileSync(`${pkg}/files/${f.file}`, `${OUT}/fonts/${f.file}`);
+  fs.copyFileSync(`${pkg}/LICENSE`, `${OUT}/fonts/${name}-LICENSE.txt`);
+}
 const colorTokens: Token[] = [];
 const add = (name: string, value: string, usage: string) =>
   colorTokens.push({ name, value, usage });
