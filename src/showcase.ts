@@ -2,6 +2,7 @@
 // Writes the token showcase: one static page that lists every token with its rendered value,
 // in the light and the dark theme and in each type set. A filter and a section list make a token quick to find.
 import fs from "node:fs";
+import { PALETTE_FAMILIES } from "./engine-colors.ts";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";
 import type { Token, Tokens } from "./types.ts";
@@ -22,16 +23,6 @@ export const lead = (s: string): [first: string, rest: string] => {
   return m ? [m[1], m[2]] : [s, ""];
 };
 
-const RAW_FAMILIES = [
-  "primary",
-  "secondary",
-  "gray",
-  "surface",
-  "info",
-  "success",
-  "warn",
-  "error",
-];
 const COLOR_GROUPS: [key: string, title: string][] = [
   ["action", "Action"],
   ["text", "Text"],
@@ -120,7 +111,7 @@ export const showcase = (T: Tokens) => {
   const shadows = T.shadow.tokens.filter(
     (t) => /^shadow-/.test(t.name) && !t.name.endsWith("-filter"),
   );
-  const families = RAW_FAMILIES.filter((f) => steps(f).length);
+  const families = PALETTE_FAMILIES.filter((f) => steps(f).length);
   const bp = (n: string) =>
     T.breakpoint.tokens.find((t) => t.name === n)?.value ?? "1024px";
 

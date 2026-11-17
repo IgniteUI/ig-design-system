@@ -3,33 +3,38 @@
 import fs from "node:fs";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";
+import {
+  type Tokens as FullTokens,
+  TOKEN_FAMILIES,
+  type Token,
+  type TokenFamily,
+  type TokenFamilyName,
+} from "./types.ts";
 
-type Token = { name: string; value: string; usage: string };
-type Family = { note?: string; tokens: Token[] };
 export type Tokens = Record<string, unknown>;
 
-// The token families of tokens.json, in reading order, with the heading each gets.
-const FAMILIES: [key: string, title: string][] = [
-  ["color", "Colour"],
-  ["spacing", "Spacing"],
-  ["radius", "Radius"],
-  ["size", "Size"],
-  ["shadow", "Shadow"],
-  ["opacity", "Opacity"],
-  ["weight", "Font weight"],
-  ["gradient", "Gradient"],
-  ["breakpoint", "Breakpoint"],
-  ["zIndex", "Layer"],
-];
+// The heading each token family gets.
+const FAMILIES: Record<TokenFamilyName, string> = {
+  color: "Colour",
+  spacing: "Spacing",
+  radius: "Radius",
+  size: "Size",
+  shadow: "Shadow",
+  opacity: "Opacity",
+  weight: "Font weight",
+  gradient: "Gradient",
+  breakpoint: "Breakpoint",
+  zIndex: "Layer",
+};
 
 const families = (tokens: Tokens) =>
-  FAMILIES.map(([key, title]) => {
-    const family = tokens[key] as Family | undefined;
+  TOKEN_FAMILIES.map((key) => {
+    const family = tokens[key] as TokenFamily | undefined;
     if (!family?.tokens)
       throw new Error(
         `llms: tokens.json has no "${key}" family. Update FAMILIES in src/llms.ts to match it.`,
       );
-    return { key, title, family };
+    return { key, title: FAMILIES[key], family };
   });
 
 const isEngine = (t: Token) => t.name.startsWith("ig-");
@@ -106,19 +111,7 @@ export const llmsFullTxt = (tokens: Tokens, pkg: { name: string }) => {
       return `## ${title}\n\n${family.note ? `${family.note}\n\n` : ""}${lines}`;
     })
     .join("\n\n");
-  const type = tokens.type as {
-    groups: {
-      styles: {
-        name: string;
-        fontSize: string;
-        fontSizeMin?: string;
-        lineHeight: string;
-        fontWeight: number;
-        usage: string;
-      }[];
-    }[];
-    sets: Record<string, { name: string; fontSize: string }[]>;
-  };
+  const type = tokens.type as FullTokens["type"];
   const docs = new Map((type.sets.docs ?? []).map((s) => [s.name, s.fontSize]));
   const roles = type.groups
     .flatMap((g) => g.styles)

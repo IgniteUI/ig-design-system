@@ -1,8 +1,9 @@
 // The seed colours and scales of every palette. A brand colour change starts here.
 import fs from "node:fs";
+import { fromRoot } from "./paths.ts";
 
 const scales: Record<string, { range: number[]; curve: number[] }> = JSON.parse(
-  fs.readFileSync("src/scales.json", "utf8"),
+  fs.readFileSync(fromRoot("src/scales.json"), "utf8"),
 );
 const sc = Object.entries(scales)
   .map(
@@ -10,9 +11,12 @@ const sc = Object.entries(scales)
       `'${k}': (range: (${v.range.join(", ")}), curve: (${v.curve.join(", ")}))`,
   )
   .join(", ");
-// Reads a brand seed from the environment: IGD_SEED_PRIMARY or IGD_SEED_SECONDARY replaces it for one build.
-const seed = (name: string, fallback: string) => {
-  const value = process.env[name];
+/** The seed to build with: `value` when it is set, `fallback` otherwise. Throws when `value` is not a six-digit hex colour. */
+export const brandSeed = (
+  name: string,
+  value: string | undefined,
+  fallback: string,
+) => {
   if (value === undefined || value === "") return fallback;
   if (!/^#[0-9a-fA-F]{6}$/.test(value))
     throw new Error(
@@ -20,6 +24,9 @@ const seed = (name: string, fallback: string) => {
     );
   return value;
 };
+// IGD_SEED_PRIMARY and IGD_SEED_SECONDARY replace a brand seed for one build.
+const seed = (name: string, fallback: string) =>
+  brandSeed(name, process.env[name], fallback);
 const seeds = `$primary: ${seed("IGD_SEED_PRIMARY", "#155dfc")}, $secondary: ${seed("IGD_SEED_SECONDARY", "#9810fa")}, $info: #0099ff, $success: #028a54, $warn: #f59e0b`;
 /** The engine palette() call of each palette the design system builds. */
 export const sets = {

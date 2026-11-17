@@ -58,6 +58,7 @@ const REP = path.join(import.meta.dirname, "../reports/");
         k.fillRect(0, 0, 1, 1);
         return [...k.getImageData(0, 0, 1, 1).data].slice(0, 3);
       };
+      // Mirrors srgbToLinear() in src/color.ts.
       const lum = (a: number[]) => {
         const f = (v: number) => {
           const x = v / 255;

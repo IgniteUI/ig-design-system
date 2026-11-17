@@ -10,7 +10,7 @@ const theme = read("theme.css");
 const base = read("base.css");
 const fonts = read("fonts.css");
 const defined = definedVars(tokens + theme);
-const roles = TYPE.map((row) => row[1]);
+const roles = TYPE.map((row) => row.name);
 
 describe("dist/tokens.css", () => {
   it("holds custom properties only, with no @font-face", () => {

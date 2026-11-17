@@ -1,8 +1,10 @@
-// Compiles the engine's palette() Sass function and stores the raw colour of every shade as hex.
-
-import { execSync } from "node:child_process";
+// Compiles the engine's palette() for each palette set and writes the raw colour of every shade, as hex, to src/palettes.json.
+// Usage: node src/palettes.ts
 import fs from "node:fs";
+import { hexByte, rgbToHex } from "./color.ts";
 import { sets } from "./palette-sets.ts";
+import { fromRoot } from "./paths.ts";
+import { compile } from "./sass.ts";
 
 // Every shade carries its plain colour under <shade>-raw; the plain key can hold a CSS expression.
 // A raw colour outside sRGB is clipped, as a browser paints it.
@@ -24,27 +26,19 @@ $p: ${palette};
 }
 `;
 
-const hex = (v: number) => Math.round(v).toString(16).padStart(2, "0");
 /** Turns the `r g b a` channels the stylesheet prints into `#rrggbb`, or `#rrggbbaa` below full alpha. */
 const toHex = (channels: string) => {
   const [r, g, b, a] = channels.split(" ").map(Number);
-  return `#${hex(r)}${hex(g)}${hex(b)}${a < 1 ? hex(a * 255) : ""}`;
+  return `${rgbToHex([r, g, b])}${a < 1 ? hexByte(a * 255) : ""}`;
 };
 
-fs.mkdirSync(".cache/sass", { recursive: true });
 const flat: Record<string, Record<string, string>> = {};
 for (const [k, expr] of Object.entries(sets)) {
-  fs.writeFileSync(`.cache/sass/${k}.scss`, rawShades(expr));
-  execSync(
-    `npx sass --quiet --no-source-map --load-path=node_modules .cache/sass/${k}.scss .cache/sass/${k}.css`,
-  );
   flat[k] = {};
-  for (const m of fs
-    .readFileSync(`.cache/sass/${k}.css`, "utf8")
-    .matchAll(/--([\w-]+): ([^;]+);/g))
+  for (const m of compile(rawShades(expr)).matchAll(/--([\w-]+): ([^;]+);/g))
     flat[k][m[1]] = toHex(m[2]);
 }
-fs.writeFileSync("src/palettes.json", JSON.stringify(flat, null, 1));
+fs.writeFileSync(fromRoot("src/palettes.json"), JSON.stringify(flat, null, 1));
 for (const k of Object.keys(flat))
   console.log(
     k,

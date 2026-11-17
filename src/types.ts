@@ -1,5 +1,20 @@
-// The shape of dist/tokens.json, written by make.ts and read by dtcg.ts.
+// The shape of dist/tokens.json.
 import type { FamilyName } from "./spec.ts";
+
+/** The token families of tokens.json, in reading order. */
+export const TOKEN_FAMILIES = [
+  "color",
+  "spacing",
+  "radius",
+  "size",
+  "shadow",
+  "opacity",
+  "weight",
+  "gradient",
+  "breakpoint",
+  "zIndex",
+] as const;
+export type TokenFamilyName = (typeof TOKEN_FAMILIES)[number];
 
 export type Token = { name: string; value: string; usage: string };
 export type TokenFamily = { note?: string; tokens: Token[] };

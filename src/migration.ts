@@ -62,7 +62,7 @@ In a component, pick the role for the property: padding → \`--igd-space-inset-
 `;
 for (const [t, rows] of groups)
   md += `### ${t}\n\n${tbl(rows, "Before", "Now")}\n`;
-md += `### Type styles\n\nA type style is named for its role. The class is \`.igd-type-{role}\` and its variables are \`--igd-type-{role}-{font-family|font-size|font-weight|line-height|letter-spacing|text-transform}\`. Line height is a unitless multiple of the font size.\n\n| Before | Now | Engine slot |\n|---|---|---|\n${TYPE.map(([slot, name, was]) => `| \`${was}\` | \`.igd-type-${name}\` | ${ENGINE_TYPE_SLOTS.includes(slot) ? `\`${slot}\`` : "none"} |`).join("\n")}
+md += `### Type styles\n\nA type style is named for its role. The class is \`.igd-type-{role}\` and its variables are \`--igd-type-{role}-{font-family|font-size|font-weight|line-height|letter-spacing|text-transform}\`. Line height is a unitless multiple of the font size.\n\n| Before | Now | Engine slot |\n|---|---|---|\n${TYPE.map(({ slot, name, was }) => `| \`${was}\` | \`.igd-type-${name}\` | ${ENGINE_TYPE_SLOTS.includes(slot) ? `\`${slot}\`` : "none"} |`).join("\n")}
 
 ## 5. Component API changes
 
