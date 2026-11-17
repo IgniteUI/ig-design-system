@@ -6,7 +6,11 @@ One source for the look of infragistics.com: colours, type, spacing, roundness a
 
 ## What is in the package
 
-Everything a site needs is in `dist/`. There is no framework code in it, so any site can use it, whatever it is built with.
+```sh
+npm install ig-design-system
+```
+
+Everything a site needs is in `dist/`. The package has no dependencies. There is no framework code in it, so any site can use it, whatever it is built with.
 
 | File | What it is |
 |---|---|
@@ -16,7 +20,7 @@ Everything a site needs is in `dist/`. There is no framework code in it, so any 
 | `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
-| `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin). |
+| `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin), each with its SIL Open Font License. |
 
 ```html
 <link rel="stylesheet" href="dist/fonts.css">   <!-- optional -->
@@ -180,6 +184,13 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Open items
 
-- Home organisation, licence and public package name
 - The checks as one installable command for consuming repositories
 - A reduced-motion, focus and target-size check (it exists for the reference components; `docs/showcase.html` is a page it could run on)
+
+## Releases
+
+A version is a GitHub Release with the tag `X.Y.Z`. The release workflow runs every check and publishes the package to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes. A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` take a major version.
+
+## Licence
+
+MIT, see `LICENSE`. The fonts in `dist/fonts/` are under the SIL Open Font License 1.1; each has its licence beside it.
