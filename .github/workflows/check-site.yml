@@ -3,6 +3,7 @@
 #   jobs:
 #     design-system:
 #       uses: IgniteUI/ig-design-system/.github/workflows/check-site.yml@1.0.0
+# The tag 1.0.0 does not exist yet, and the owner in the path changes when the repository moves.
 #       with:
 #         paths: src
 name: Check a site

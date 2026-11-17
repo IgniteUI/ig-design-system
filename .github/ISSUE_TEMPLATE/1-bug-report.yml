@@ -14,8 +14,8 @@ body:
       label: What happened?
       description: What you did, what you got, and what you expected instead. Name the token or the check, and give the values.
       placeholder: |
-        `--color-action-text` resolves to `oklch(0.82 0.12 95)` after `IgSeed.setSeed('#ffd400')` in the light theme.
-        It measures 1.9:1 on `--color-surface-default`. I expected it to be adjusted to at least 4.5:1.
+        `--igd-color-action-text` resolves to `oklch(0.82 0.12 95)` in the light theme, in a build with `IGD_SEED_PRIMARY=#ffd400`.
+        It measures 1.9:1 on `--igd-color-surface-page`. I expected it to be adjusted to at least 4.5:1.
     validations:
       required: true
 
@@ -26,7 +26,7 @@ body:
       description: The smallest CSS, HTML or command that shows it.
       placeholder: |
         1. Load `dist/tokens.css` and `dist/theme.css`
-        2. Run `IgSeed.setSeed('#ffd400')`
+        2. Build with `IGD_SEED_PRIMARY=#ffd400 npm run palettes && npm run build`
         3. Inspect a link
     validations:
       required: true
@@ -40,8 +40,8 @@ body:
         - Token value (colour)
         - Token value (spacing, size, radius, shadow, type)
         - Dark theme
-        - Seed / runtime theming (seed.js, data-ig-scope)
-        - Theming dials (--igd-size, --igd-spacing, --igd-radius-factor, --igd-elevation-factor)
+        - Brand seed (a build input) or data-ig-scope
+        - Theming dials (--ig-size, --ig-spacing, --ig-radius-factor, --ig-elevation-factor)
         - DTCG export (infragistics.tokens.json)
         - tokens.json
         - Check reports a false failure
@@ -85,7 +85,7 @@ body:
     attributes:
       label: Package version
       description: Optional. Output of `npm ls ig-design-system`, or a commit SHA.
-      placeholder: '0.1.0'
+      placeholder: '1.0.0'
 
   - type: textarea
     id: environment

@@ -21,7 +21,7 @@ const HEADER = `/* Infragistics Design System — theme.css
    1. the engine's own variables (--ig-*): sizing, spacing, roundness, elevations, typography, contrast;
    2. the tokens that must stay live — spacing, sizes, radii, shadows, gradients, translucent colours —
       declared again with the same names as tokens.json, so --ig-size, --ig-spacing, --ig-radius-factor,
-      --ig-elevation-factor and palette edits cascade. At the default knob values they equal tokens.json;
+      --ig-elevation-factor and palette edits cascade. At the default dial values they equal tokens.json;
    3. the semantic type variables and classes (.igd-type-<role>), motion and keyframes.
    Element styles (body, headings, links, focus) are in base.css.
    Nothing in a component may carry a literal colour, length, font size, shadow or radius: it reads a token. */

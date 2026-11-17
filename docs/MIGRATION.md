@@ -1,21 +1,8 @@
 # Migration guide
 
-This release is a clean break. The system now sits on the **igniteui-theming** engine, token names follow a three-tier convention, and nothing from the previous names is kept: no aliases, no deprecated files. This page lists every rename so a consumer can migrate with search-and-replace.
+Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see `docs/ADOPTING.md`. Nothing from the old names is kept: no aliases, no deprecated files.
 
-## 1. What changed
-
-| Area | Before | Now |
-|---|---|---|
-| Palette, type, spacing, size, radius, elevation | Hand-picked literals | Engine output (`palette()`, `typography()`, `pad()`, `sizable()`, `border-radius()`, indigo elevations) |
-| Token names | `--ig-blue`, `--text-muted`, `--space-6`, `--ig-t-…` | `--igd-color-{role}-{variant}-{state}`, `--igd-space-{size}`, `--igd-radius-{step}`, `--igd-shadow-{role}`, `--igd-type-{role}-…` |
-| Component styling | Inline literals and JS hover state | Tokens only; hover, focus, disabled, invalid and loading are CSS |
-| Icons | An inline `<svg>` per component | One `Icon` component with stroke and size tokens |
-| Forms | A bespoke input and checkbox inside the footer | `TextField` and `Checkbox` components |
-| Entry points | `styles.css` importing `tokens/*.css` | `tokens.css` + `theme.css` |
-
-Re-theming: set `--ig-size` (1 small, 2 medium, 3 large), `--ig-spacing`, `--ig-radius-factor` or `--ig-elevation-factor` on the root and every token follows.
-
-## 2. Naming convention
+## 1. Naming convention
 
 Three tiers, role-based names, no colour words in semantic names.
 
@@ -25,9 +12,9 @@ Three tiers, role-based names, no colour words in semantic names.
 
 Colour roles read `color-{role}-{variant}-{state}`: `color-action-default`, `color-action-hover`, `color-text-muted`, `color-surface-tint`, `color-border-control`, `color-feedback-error-default`.
 
-## 3. Spacing scale
+## 2. Spacing scale
 
-The 25-step scale collapsed to 12 engine steps, and the steps are now named by size (`3xs` to `6xl`), not by pixel value, because the live value follows `--ig-spacing` and `--ig-size`. Steps that sat one or two pixels apart merged into their nearest neighbour. Components do not use the steps directly for padding, margins and gaps: they use the roles `--space-inset-*`, `--space-stack-*` and `--space-gap-*`.
+The 25-step scale collapsed to 12 engine steps, and the steps are now named by size (`3xs` to `6xl`), not by pixel value, because the live value follows `--ig-spacing` and `--ig-size`. Steps that sat one or two pixels apart merged into their nearest neighbour. Components do not use the steps directly for padding, margins and gaps: they use the roles `--igd-space-inset-*`, `--igd-space-stack-*` and `--igd-space-gap-*`.
 
 | Before | Now |
 |---|---|
@@ -59,7 +46,7 @@ The 25-step scale collapsed to 12 engine steps, and the steps are now named by s
 
 In a component, pick the role for the property: padding → `--igd-space-inset-{size}`, vertical margins → `--igd-space-stack-{size}`, gap and inline margins → `--igd-space-gap-{size}`.
 
-## 4. Token renames
+## 3. Token renames
 
 ### Colour
 
@@ -263,36 +250,3 @@ A type style is named for its role. The class is `.igd-type-{role}` and its vari
 | `eyebrow` | `.igd-type-eyebrow` | `overline` |
 | `body-micro` | `.igd-type-body-xs` | none |
 | `body-nano` | `.igd-type-body-2xs` | none |
-
-## 5. Component API changes
-
-| Component | Change |
-|---|---|
-| `Button` | New `loading` prop. `disabled` is now a documented state (`aria-disabled`, no hover response). Hover and focus are CSS. |
-| `ArrowLink` | `color` (a CSS string) became `tone`: `action` \| `heading` \| `inverse`. `size` is `sm` \| `md` \| `lg` (engine type slots), not a number. |
-| `IconTile` | `size` is a name (`tile`, `sm`, `md`, `lg`, `xl`), not a number. Numeric sizes were removed. |
-| `FeatureCard` | `iconFill` was removed (it did nothing). Hover lift is CSS and also fires on keyboard focus. |
-| `StatBadge` | `duration` still sets seconds and now overrides `--duration-float`. |
-| `NavBar` | `panelWidth` is a CSS length (default `var(--igd-nav-panel-max-width)`), not a number. |
-| `CalloutStrip`, `PlatformChip`, `FrameworkPill`, `NavLink` | Hover and focus moved to CSS; no prop changes. |
-| `SiteFooter` | The newsletter block is built from `TextField`, `Button` and `Checkbox`. Props unchanged. |
-| New | `Icon`, `TextField`, `Checkbox` |
-
-## 6. Removed
-
-These no longer exist and have no replacement file:
-
-- `styles.css` and `tokens/{base,colors,effects,fonts,spacing,typography}.css` (use `tokens.css` and `theme.css`)
-- `ui_kits/`, `templates/` (site navigation, marketing page, blog header), `guidelines/`, `*.card.html`
-- The standalone and single-file HTML exports, `archived/`, `migration-map.json`, `_ds_manifest.json`, `_ds_bundle.js`
-- `assets/asset-remap.js` and `assets/notes/`
-- Per-group prompt files and per-component `.d.ts`: props live in `components/index.d.ts`, guidance in `components/<Name>/README.md`
-- The old W3C-format token export: `tokens.json` is the single token source
-
-## 7. Checklist
-
-1. Replace names using the tables above (longest names first).
-2. Replace `styles.css` with `tokens.css` then `theme.css`.
-3. Replace numeric `IconTile` and `ArrowLink` sizes; drop `iconFill`.
-4. Drop any local hover state you layered on a component: the CSS covers it.
-5. Search for hard-coded hex, px and ms in your own code; map each to a token or ask for one.

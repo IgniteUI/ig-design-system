@@ -15,7 +15,7 @@ Delete the sections that do not apply.
 
 <!--
 One bullet per change, stated as the resulting rule:
-"`space-inset-2xl` resolves to 32px at the large size and follows `--igd-spacing`."
+"`space-inset-2xl` resolves to 32px at the large size and follows `--ig-spacing`."
 Say what stays the same and how that was checked.
 -->
 
@@ -41,12 +41,12 @@ List light and dark when they differ.
 
 | Token | Before | After |
 |---|---|---|
-| `--color-…` | | |
+| `--igd-color-…` | | |
 
 ## Consumer impact
 
 <!--
-The marketing site, Astro components, Blog, Docs and API docs load this package.
+The marketing site and Astro components carry a copy of `dist/`; Blog, Docs and API docs get it through Astro components.
 Say what each must change after upgrading, or "None".
 A rename or removal needs its row in docs/MIGRATION.md.
 -->
@@ -55,7 +55,7 @@ A rename or removal needs its row in docs/MIGRATION.md.
 
 <!--
 The exact commands and their result, e.g.
-`npm test`: literal lint clean, 58 pairings x 2 themes pass AA.
+`npm test`: literal lint clean, 68 pairings x 2 themes pass AA.
 For a fix: the check or test that fails without it.
 -->
 
@@ -67,7 +67,7 @@ For a fix: the check or test that fails without it.
 
 - [ ] The change is in `src/` (or `checks/`, `reference/`), not hand-edited in `dist/`.
 - [ ] `npm test` passes locally.
-- [ ] `dist/` and `docs/` are rebuilt and committed; `git diff --exit-code -- dist docs` is clean after the build.
+- [ ] `dist/` and `docs/` are rebuilt and committed; `git status --porcelain -- dist docs reports llms.txt llms-full.txt src/palettes.json` is empty after `npm run palettes && npm run build`.
 - [ ] New and changed tokens are semantic: the name says what the value is for, not what it is.
 - [ ] Reference components use system tokens only, with no hand-typed colour, size, spacing, shadow or radius.
 - [ ] Every new text or outline colour pairing is measured by `checks/gates-themes.ts` in both themes.

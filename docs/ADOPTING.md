@@ -4,6 +4,8 @@ What was learned moving the marketing site and `igniteui-astro-components` onto 
 
 ## 1. Install and load
 
+The package is not on npm yet. Until the first release, copy `dist/` from this repository. After it:
+
 ```sh
 npm install ig-design-system
 ```
