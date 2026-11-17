@@ -1,5 +1,10 @@
 // Builds the text of theme.css: the engine layer, the live tokens, the type roles, the keyframes and the themes.
-import { DARK_PALETTE, SURFACE_ROLES } from "./engine-colors.ts";
+import {
+  DARK_PALETTE,
+  hexOf,
+  isUnpublishedStep,
+  SURFACE_ROLES,
+} from "./engine-colors.ts";
 import { type Rule, sectionSpace } from "./layout.ts";
 import { sets } from "./palette-sets.ts";
 import { compile } from "./sass.ts";
@@ -9,7 +14,7 @@ import {
   withActionColorToken,
   withShadowColorToken,
 } from "./shadows.ts";
-import { ALIAS, ALPHA, BREAKPOINT, TYPE } from "./spec.ts";
+import { ALIAS, ALPHA, BREAKPOINT, DARK_STEP, TYPE } from "./spec.ts";
 import type { GradientEntry } from "./tokens-json.ts";
 import { isEngineSlot, type TypeScale } from "./typography.ts";
 
@@ -220,7 +225,7 @@ const KEYFRAMES_AND_UTILITIES = `
 
 const GRAY_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
 
-/** The light and dark themes. The dark theme sets the gray ramp and the surface roles to the dark palette's values. */
+/** The light and dark themes. The dark theme sets the gray ramp and the surface roles to the dark palette's values, and each text token in DARK_STEP to its dark step. */
 const themes = () => {
   const neutralRoles = Object.entries(ALIAS).filter(
     ([name, [step]]) =>
@@ -234,7 +239,7 @@ ${SCOPED} {
 ${neutralRoles.map(([name, [step]]) => `  --${name}: var(--${step});`).join("\n")}
 }
 /* dark: the light grey and surface ramps are swapped for the engine's dark palette (palette() with a dark surface and a light grey).
-   Every semantic name keeps its meaning. Brand fills keep the seed; text, outlines, tints and hairlines switch through --theme-dark. */
+   Every semantic name keeps its meaning. Brand fills keep the seed; text in a brand or status colour reads a lighter engine step; tints and hairlines switch through --theme-dark. */
 [data-theme="dark"] {
   --theme-dark: 1; color-scheme: dark;
 ${[
@@ -243,6 +248,11 @@ ${[
   ),
   ...SURFACE_ROLES.map(
     (role) => `  --ig-surface-${role}: ${DARK_PALETTE[`surface-${role}`]};`,
+  ),
+  // A step of an unpublished palette is written as its colour.
+  ...Object.entries(DARK_STEP).map(
+    ([name, step]) =>
+      `  --${name}: ${isUnpublishedStep(step) ? hexOf(step) : `var(--${step})`};`,
   ),
 ].join("\n")}
 }

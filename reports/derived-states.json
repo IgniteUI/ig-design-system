@@ -1,8 +1,4 @@
 {
-  "color-action-text": {
-    "base": "color-action-default",
-    "maxL": 0.5466
-  },
   "color-action-fill-hover": {
     "base": "color-action-default",
     "dl": -0.0719,
@@ -17,14 +13,14 @@
   },
   "color-action-hover": {
     "base": "color-action-text",
-    "dl": -0.0225,
-    "kc": 0.5758,
+    "dl": -0.0191,
+    "kc": 0.6566,
     "dh": -13.81
   },
   "color-link-utility": {
     "base": "color-action-text",
-    "dl": -0.0225,
-    "kc": 0.5758,
+    "dl": -0.0191,
+    "kc": 0.6566,
     "dh": -13.81
   },
   "color-surface-tint": {

@@ -112,7 +112,7 @@
   --igd-color-action-hover: var(--ig-info-500);
   --igd-color-action-fill-hover: var(--ig-primary-700);
   --igd-color-action-active: var(--ig-primary-800);
-  --igd-color-action-text: var(--ig-primary-seed);
+  --igd-color-action-text: var(--ig-primary-600);
   --igd-color-action-on: #ffffff;
   --igd-color-link-utility: var(--ig-info-500);
   --igd-color-link-utility-hover: var(--igd-color-action-text);

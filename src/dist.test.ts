@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
 import { definedVars, undefinedVars } from "../checks/check-vars.ts";
-import { SPACE, SPACE_ROLES, TYPE, TYPE_SETS } from "./spec.ts";
+import { DARK_STEP, SPACE, SPACE_ROLES, TYPE, TYPE_SETS } from "./spec.ts";
 
 const read = (f: string) => fs.readFileSync(`dist/${f}`, "utf8");
 const tokens = read("tokens.css");
@@ -66,6 +66,14 @@ describe("dist/theme.css", () => {
     expect(dark).toContain("color-scheme: dark");
     expect(dark).toMatch(/--ig-gray-900:/);
     expect(dark).toMatch(/--ig-surface-base:/);
+  });
+
+  it("declares each dark step under the dark theme only, so a scope inherits the value of its theme", () => {
+    const dark = theme.match(/\[data-theme="dark"\]\s*\{([^}]*)\}/)?.[1] ?? "";
+    for (const name of Object.keys(DARK_STEP)) {
+      expect(dark, name).toContain(`--igd-${name}:`);
+      expect(theme.split(`--igd-${name}:`), name).toHaveLength(2);
+    }
   });
 
   it("reads only custom properties that are declared", () => {

@@ -1,7 +1,6 @@
 // Builds the content of dist/tokens.json: every token with its default value and its usage note.
 import { hexToRgb } from "./color.ts";
 import {
-  isAccentStep,
   isUnpublishedStep,
   LIGHT_PALETTE,
   SEED_FAMILIES,
@@ -80,14 +79,6 @@ export const aliasTokens = (
       unpublishedStepNote(step) +
       (ratioNotes[name] ? ` Contrast ${ratioNotes[name].join(", ")}.` : ""),
   }));
-
-/** The tokens that carry the colour of an accent palette step. */
-export const accentStepTokens = (published: Record<string, string>) =>
-  new Set(
-    Object.entries(spec.ALIAS)
-      .filter(([name, [step]]) => isAccentStep(step) && !published[name])
-      .map(([name]) => name),
-  );
 
 const rgba = (colorOf: ColorOf, base: string, opacity: spec.OpacityName) => {
   const [r, g, b] = hexToRgb(colorOf(base));

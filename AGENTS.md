@@ -20,7 +20,7 @@ Node 22.18 or newer runs the `.ts` files directly. Do not add `tsx`: it rewrites
 
 Run one check after `npm run build`: `node checks/gates-themes.ts`, `node checks/resolve.ts`, or any other file under `checks/`.
 
-Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there when it is a text or outline colour, run `npm test`, and commit the source with the generated files.
+Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there when it is a text or outline colour and its dark-theme step to `DARK_STEP` when it is text in a brand or status colour, run `npm test`, and commit the source with the generated files.
 
 ## Generator layout
 
@@ -28,13 +28,13 @@ Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there
 
 | File | What it does |
 |---|---|
-| `src/spec.ts` | The vocabulary: token names, the engine step each aliases, scales, type rows, contrast pairings. Start here to add or change a token. |
+| `src/spec.ts` | The vocabulary: token names, the engine step each aliases, the step a text token reads in the dark theme, scales, type rows, contrast pairings. Start here to add or change a token. |
 | `src/palette-sets.ts`, `src/palettes.ts` | The seeds and the `palette()` call of each palette; `npm run palettes` compiles them to `src/palettes.json`. |
 | `src/make.ts` | The entry point. Calls the modules below and writes `dist/tokens.json`, `tokens.css`, `theme.css`, `base.css`, `fonts.css`, `dist/fonts/` and `reports/`. |
 | `src/typography.ts` | Compiles the type scale and the type sets with the engine's `typography()`. |
 | `src/layout.ts` | Spacing, sizes, radius and elevations through `pad()`, `sizable()`, `border-radius()` and `elevations()`. |
 | `src/shadows.ts` | The site shadows, the tinted elevations and the semantic shadow table. |
-| `src/contrast.ts` | The seed guard, the action colour as text, the measured ratios and the pairings check. |
+| `src/contrast.ts` | The label colour on the action fill, the measured ratios and the pairings check. |
 | `src/engine-colors.ts` | Looks a token or an engine step up in `src/palettes.json`. |
 | `src/tokens-json.ts` | Builds the `tokens.json` object. |
 | `src/stylesheets.ts` | The text of `tokens.css`, `fonts.css` and `base.css`. |
@@ -85,7 +85,9 @@ To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palett
 - The seeds live in `src/palette-sets.ts`. Changing one means `npm run palettes` and `npm run build`.
 - There is no runtime seed change and no `seed.js`.
 - The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-alt`.
-- A primary seed below 3:1 against the page stops the build. A seed that does not clear 4.5:1 as text is darkened for text, and `tokens.css` publishes the darkened colour.
+- Text in the action colour, `color-action-text`, reads an engine step: `ig-primary-600` in the light theme and `ig-primary-200` in the dark one. Why: the engine solves each step to a fixed contrast against the surface for any seed, about 5.2:1 on white for step 600, so a step is safe as text and a seed is not.
+- The action fill, `color-action-default`, is the seed, and its label is the engine's contrast colour (decision 5). The fill is held to no contrast against the page: a `#ffee00` seed builds, with a black label on the fill and step 600 as text.
+- `compile()` in `src/sass.ts` stops the build when the engine warns, for example that a hue cannot reach the contrast a step asks for. Sass deprecation notices are ignored.
 
 Why: the engine solves each shade for contrast when Sass compiles. A ramp shifted in the browser is an approximation of that.
 
@@ -93,7 +95,8 @@ Why: the engine solves each shade for contrast when Sass compiles. A ramp shifte
 
 - Hover, active, tint, border and shadow colours are computed from a base with `oklch(from var(--base) …)`. The deltas are measured at build time between two engine values, so the default equals the engine's colour.
 - Override a base, on the page or on a `data-ig-scope` region, and its states follow.
-- The darkening formula for text exists twice: `textFormula()` in `src/derived.ts` for `theme.css`, and `as-text()` in `guardSass()` in `src/contrast.ts` for the published value. Change both.
+- A text token that aliases a brand, status or accent step is not derived. It reads one engine step per theme: the alias in `ALIAS`, and a lighter step of the same family in `DARK_STEP` in `src/spec.ts`, which `theme.css` declares under `[data-theme="dark"]`. Why: a step has a known contrast, and a formula in the browser is an approximation of it.
+- A token in `DARK_STEP` is declared on the themes only, not on `[data-ig-scope]`, so a scope inherits the value of the theme it is in. Its state tokens are declared on the scope and follow it.
 
 Why: nobody picks a state colour by hand, and a region can carry its own colours.
 
@@ -101,7 +104,7 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 
 - `color-action-on`, `tile-on` and `table-header-sub-highlight-color` use it.
 - Do not switch to native CSS `contrast-color()` yet. It is Baseline only since April 2026 (Chrome 147, Firefox 146, Safari 26.0); Safari on iOS 18 does not have it, and there the label would fall back to the inherited text colour. Revisit in late 2027.
-- It does not apply to a brand colour used as text on a surface. That needs a darker version of the colour, not black or white.
+- It does not apply to a brand colour used as text on a surface. That reads an engine step (decision 3), not black or white.
 
 ### 6. Names carry a role, never a hue
 

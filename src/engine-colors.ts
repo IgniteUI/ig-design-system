@@ -70,8 +70,6 @@ export const hexOf = (
   return hex;
 };
 
-export const isAccentStep = (step: string) => ACCENT_STEP.test(step);
-
 /** True for a step of an accent palette or of the dark palette: the token that uses it carries the colour itself. */
 export const isUnpublishedStep = (step: string) =>
   ACCENT_STEP.test(step) || DARK_STEP.test(step);

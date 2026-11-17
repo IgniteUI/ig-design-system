@@ -31,7 +31,7 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "color-action-default": [
     "ig-primary-seed",
-    "The engine\u2019s primary seed itself (--ig-primary-seed), not a fitted shade. Every action: primary CTA fill (label `color-action-on`), in-page links and eyebrows on `color-surface-page` and `color-surface-tint`.",
+    "The engine\u2019s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`.",
   ],
   "color-action-hover": [
     "ig-info-500",
@@ -46,8 +46,8 @@ export const ALIAS: Record<string, AliasEntry> = {
     "Inline link press state on light surfaces.",
   ],
   "color-action-text": [
-    "ig-primary-seed",
-    "The action colour when it is text, an icon or a thin line on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. Equal to `color-action-default` by default. A lighter seed is darkened until it reads on `color-surface-page` (AA).",
+    "ig-primary-600",
+    "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed.",
   ],
   "color-action-on": [
     "ig-surface-base",
@@ -344,6 +344,25 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-dark-surface-500",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
+};
+
+// ---- dark theme: text token -> the engine step it reads under [data-theme="dark"] ---------------
+// Each is a lighter step of the family its alias in ALIAS names.
+export const DARK_STEP: Record<string, string> = {
+  "color-action-text": "ig-primary-200",
+  "color-feedback-error-default": "ig-error-100",
+  "color-feedback-success-default": "ig-success-50",
+  "color-feedback-warning-default": "ig-warn-100",
+  "color-feedback-info-default": "ig-primary-200",
+  "badge-bundle-color": "ig-secondary-200",
+  "badge-new-color": "ig-success-50",
+  "badge-updated-color": "ig-primary-200",
+  "badge-preview-color": "ig-warn-100",
+  "badge-premium-color": "ig-secondary-200",
+  "badge-oss-color": "ig-success-50",
+  "table-mark-partial-color": "ig-warn-50",
+  "fw-angular-color": "ig-pink-100",
+  "fw-react-color": "ig-cyan-50",
 };
 
 // ---- translucent colours: live = hsl(from <base> h s l / <opacity token>) ----------------------
@@ -1027,8 +1046,10 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-text-ui", "color-surface-page"],
   ["color-text-muted", "color-surface-page"],
   ["color-text-muted", "color-surface-subtle"],
-  ["color-action-default", "color-surface-page"],
-  ["color-action-default", "color-surface-tint"],
+  ["color-action-text", "color-surface-page"],
+  ["color-action-text", "color-surface-tint"],
+  ["color-action-text", "color-surface-card"],
+  ["color-action-text", "color-surface-subtle"],
   ["color-action-on", "color-action-default"],
   ["color-text-muted", "color-surface-card"],
   ["color-text-muted", "color-surface-tint"],
@@ -1037,7 +1058,6 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-link-utility-hover", "color-surface-page"],
   ["color-link-inverse-hover", "color-surface-inverse"],
   ["color-action-hover", "color-surface-page"],
-  ["color-action-active", "color-surface-page"],
   ["color-text-inverse", "color-surface-inverse"],
   ["color-text-inverse-muted", "color-surface-inverse"],
   ["color-accent-inverse", "color-surface-inverse"],
@@ -1072,7 +1092,7 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-icon-subtle", "color-surface-page", 1],
   ["color-border-control", "color-surface-page", 3],
   ["color-focus-inverse", "color-surface-inverse", 3],
-  ["color-action-default", "color-surface-page", 3],
+  ["color-action-default", "color-surface-page", 1],
   ["color-feedback-error-default", "color-surface-page"],
   ["color-feedback-error-default", "color-surface-subtle"],
   ["color-focus-default", "color-surface-page", 3],

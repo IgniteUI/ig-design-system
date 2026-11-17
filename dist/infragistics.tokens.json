@@ -1256,7 +1256,7 @@
     },
     "color-action-default": {
       "$value": "{color.ig-primary-seed}",
-      "$description": "The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. Every action: primary CTA fill (label `color-action-on`), in-page links and eyebrows on `color-surface-page` and `color-surface-tint`. Contrast 5.25:1 on `color-surface-page`, 4.83:1 on `color-surface-tint`, 5.25:1 on `color-surface-page`."
+      "$description": "The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`. Contrast 5.25:1 on `color-surface-page`."
     },
     "color-action-hover": {
       "$value": "{color.ig-info-500}",
@@ -1268,11 +1268,11 @@
     },
     "color-action-active": {
       "$value": "{color.ig-primary-800}",
-      "$description": "Inline link press state on light surfaces. Contrast 8.8:1 on `color-surface-page`."
+      "$description": "Inline link press state on light surfaces."
     },
     "color-action-text": {
-      "$value": "{color.ig-primary-seed}",
-      "$description": "The action colour when it is text, an icon or a thin line on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. Equal to `color-action-default` by default. A lighter seed is darkened until it reads on `color-surface-page` (AA)."
+      "$value": "{color.ig-primary-600}",
+      "$description": "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.98:1 on `color-surface-subtle`."
     },
     "color-action-on": {
       "$value": {
@@ -1292,7 +1292,7 @@
     },
     "color-link-utility-hover": {
       "$value": "{color.color-action-text}",
-      "$description": "Utility-row link hover. Contrast 5.25:1 on `color-surface-page`."
+      "$description": "Utility-row link hover. Contrast 5.24:1 on `color-surface-page`."
     },
     "color-link-inverse": {
       "$value": {
@@ -1344,7 +1344,7 @@
     },
     "color-focus-default": {
       "$value": "{color.color-action-text}",
-      "$description": "Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only. Contrast 5.25:1 on `color-surface-page`."
+      "$description": "Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only. Contrast 5.24:1 on `color-surface-page`."
     },
     "color-focus-inverse": {
       "$value": {

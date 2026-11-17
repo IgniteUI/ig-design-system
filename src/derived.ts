@@ -1,5 +1,6 @@
 // Builds the derived-colour section of theme.css: each state colour as a formula on its base token.
 import { hexToOklch } from "./color.ts";
+import { DARK_STEP } from "./spec.ts";
 import type { Declaration } from "./stylesheets.ts";
 import { SCOPED } from "./theme.ts";
 
@@ -57,25 +58,8 @@ const SAME_AS: [token: string, base: string][] = [
 const DARK = "var(--theme-dark)";
 // A colour with less OKLCH chroma than this is a grey: it has no hue to carry over.
 const GREY_CHROMA = 0.005;
-// A text colour lighter than this OKLCH lightness is not given a ceiling.
-const TEXT_MAX_LIGHTNESS = 0.6;
 // A background, surface or border lighter than this OKLCH lightness keeps its own lightness.
 const LIGHT_FILL_MIN_LIGHTNESS = 0.8;
-
-/** An OKLCH lightness rounded up to four decimals. */
-const ceiling = (lightness: number) => Math.ceil(lightness * 1e4) / 1e4;
-
-/**
- * The colour `from` as text in both themes: no lighter than `maxLightness` in the light theme, no darker than 0.74 in the dark one.
- * Mirrored by as-text() in guardSass() in src/contrast.ts, which computes the published value.
- */
-export const textFormula = (from: string, maxLightness: number) => {
-  // Light theme: 0.6 darker for each unit of lightness above the ceiling, 0.35 at the lowest.
-  const light = `min(l, max(0.35, ${maxLightness} - 0.6 * max(0, l - ${maxLightness})))`;
-  // Dark theme: 0.74 at least, 0.6 lighter for each unit of lightness below it, 0.92 at the highest.
-  const dark = "max(l, min(0.92, 0.74 + 0.6 * max(0, 0.74 - l)))";
-  return `oklch(from ${from} calc((1 - ${DARK}) * ${light} + ${DARK} * ${dark}) calc(c * ((1 - ${DARK}) * ${light} / max(l, 0.0001) + ${DARK} * min(1, (1 - ${dark}) / max(1 - l, 0.0001)))) h)`;
-};
 
 /** The formula that turns the colour `baseHex` into `tokenHex`, as CSS on var(--base) and as a record for the report. */
 export const stateFormula = (
@@ -132,11 +116,6 @@ export const assertSameColor = (
 const VAR_ONLY = /^var\(--([a-z0-9-]+)\)$/;
 // A reference to a brand ramp step or a seed, not to the gray, surface or dark ramps.
 const BRAND_STEP = /^var\(--ig-(?!dark-|gray-|surface-)[a-z-]+-(?:\d+|seed)\)$/;
-const HEX = /^#[0-9a-f]{6}$/;
-// A token that is drawn as text: a text or link colour, a component's -color, or a feedback colour.
-const TEXT_TOKEN =
-  /^(color-text|color-link)|-color$|^color-feedback-[a-z]+-default$/;
-
 /** The value a token has in tokens.css, following var() references to the end. Throws when a name is not declared. */
 export const resolvedValue = (
   declared: Map<string, string>,
@@ -150,14 +129,9 @@ export const resolvedValue = (
 
 /**
  * The derived-colour section and the record of each formula for reports/derived-states.json.
- * `declarations` are those of tokens.css, `accentStepTokens` the tokens that carry an accent palette colour,
- * `actionTextHex` the colour whose lightness is the ceiling of the action colour as text.
+ * `declarations` are those of tokens.css.
  */
-export const derivedColors = (
-  declarations: Declaration[],
-  accentStepTokens: Set<string>,
-  actionTextHex: string,
-) => {
+export const derivedColors = (declarations: Declaration[]) => {
   const declared = new Map<string, string>();
   for (const [name, value] of declarations)
     if (!declared.has(name)) declared.set(name, value);
@@ -165,44 +139,25 @@ export const derivedColors = (
   const record: Record<string, object> = {};
   const lines: string[] = [];
 
-  lines.push(
-    "  /* semantic tokens that alias a ramp step, and the text colours taken from an accent palette */",
-  );
-  const derivedElsewhere = new Set([
+  lines.push("  /* semantic tokens that alias a ramp step */");
+  // A token with a dark step is declared by the themes, so a region inherits the value of its theme.
+  const declaredElsewhere = new Set([
     ...DERIVED.map(([token]) => token),
     ...SAME_AS.map(([token]) => token),
-    "color-action-text",
+    ...Object.keys(DARK_STEP),
   ]);
-  for (const [name, value] of declarations) {
-    const isStep = BRAND_STEP.test(value);
+  for (const [name, value] of declarations)
     if (
-      !/^[a-z0-9-]+$/.test(name) ||
-      name.startsWith("ig-") ||
-      derivedElsewhere.has(name) ||
-      !(isStep || (HEX.test(value) && accentStepTokens.has(name)))
+      /^[a-z0-9-]+$/.test(name) &&
+      !name.startsWith("ig-") &&
+      !declaredElsewhere.has(name) &&
+      BRAND_STEP.test(value)
     )
-      continue;
-    const own = hexToOklch(hexOfToken(name));
-    const isText =
-      TEXT_TOKEN.test(name) &&
-      own.l < TEXT_MAX_LIGHTNESS &&
-      own.c > GREY_CHROMA;
-    if (isText)
-      lines.push(`  --${name}: ${textFormula(value, ceiling(own.l))};`);
-    else if (isStep) lines.push(`  --${name}: ${value};`);
-  }
+      lines.push(`  --${name}: ${value};`);
 
   lines.push(
     "  /* state tokens: derived from their base. Override a base and its states follow. */",
   );
-  const actionTextMax = ceiling(hexToOklch(actionTextHex).l);
-  lines.push(
-    `  --color-action-text: ${textFormula("var(--color-action-default)", actionTextMax)};`,
-  );
-  record["color-action-text"] = {
-    base: "color-action-default",
-    maxL: actionTextMax,
-  };
   for (const [token, base] of DERIVED) {
     const formula = stateFormula(
       token,
