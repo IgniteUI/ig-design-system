@@ -1,7 +1,7 @@
 {
  "stateTokens": 25,
- "derivedTokens": 42,
- "pairGroups": 17,
+ "derivedTokens": 44,
+ "pairGroups": 19,
  "rows": [
   [
    "callout-release-shadow-hover",
@@ -159,6 +159,20 @@
    2,
    [
     "color-feedback-error-default"
+   ]
+  ],
+  [
+   "color-feedback-info",
+   2,
+   [
+    "color-feedback-info-default"
+   ]
+  ],
+  [
+   "color-feedback-warning",
+   2,
+   [
+    "color-feedback-warning-default"
    ]
   ],
   [

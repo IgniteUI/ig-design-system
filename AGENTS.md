@@ -148,12 +148,20 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 
 Why here: `igniteui-astro-components` had its own Colors and Typography pages for its own palette and type scale. The owner decided the foundations are documented with the tokens, and that the pages about Markdown content (lists, tables, code, images, badges) stay in that repository.
 
+### 11. What stays outside the design system
+
+- Widths, heights and offsets. The owner decided they are layout, not design tokens. The site command does not check them.
+- A site's own layout breakpoints. The four `breakpoint-*` values (640, 768, 1024, 1280px) are the system's; the docs layout also switches at 1100px and 1999px for its three columns, and that belongs to the docs. A custom property cannot be used in a media query, so a breakpoint token is a documented number, not a live value.
+- The marketing site's `--ig-cta-tint`. It is three bare RGB channels a page sets to repaint a button's halo, a mechanism of that site's button, not a colour.
+- `shadow-popover-filter` stays on engine elevation 20 and is not derived from `shadow-panel`. Measured in a browser against the panel's box shadow, the engine filter is the closest of four candidates (summed error 83; 109, 117 and 209 for filters built from the panel's own layers), because `drop-shadow()` has no spread.
+
 ## Open
 
 Nothing below is decided. Ask the owner before acting on one.
 
 - No site installs the package yet. The marketing site and `igniteui-astro-components` carry a copy of `dist/` until the first release.
-- The fluid type width range has not been reviewed by design.
+- Not reviewed by design: the width range type and section spacing grow across (360px to 1280px), the status badge colours, and `color-feedback-error-default` at `error-500`.
+- The dark theme has not been reviewed. Nobody is working on it and no site has a switch for it yet.
 - CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
 - The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.

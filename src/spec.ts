@@ -121,6 +121,14 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-primary-700",
     "Informational text and icons on light surfaces: a note, a tip.",
   ],
+  "color-feedback-warning-inverse": [
+    "ig-warn-200",
+    "Warning text and icons on dark surfaces.",
+  ],
+  "color-feedback-info-inverse": [
+    "ig-primary-300",
+    "Informational text and icons on dark surfaces.",
+  ],
   "color-feedback-success-inverse": [
     "ig-success-300",
     "Success icons on dark surfaces, such as a code block.",
@@ -409,6 +417,21 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "opacity-strong",
     "Premium status badge border.",
   ],
+  "color-surface-tint-secondary": [
+    "color-accent-secondary",
+    "opacity-subtle",
+    "Soft fill in the secondary accent: a second category beside `color-surface-tint`.",
+  ],
+  "color-surface-tint-alt": [
+    "color-accent-inverse-alt",
+    "opacity-subtle",
+    "Soft fill in the alternative accent: a third category beside `color-surface-tint`.",
+  ],
+  "color-surface-inverse-glass": [
+    "color-surface-inverse",
+    "opacity-glass",
+    "Translucent dark chip that floats over a screenshot.",
+  ],
   "color-feedback-info-surface": [
     "color-feedback-info-default",
     "opacity-soft",
@@ -634,6 +657,7 @@ export const SHADOW: Record<string, ShadowLayer[]> = {
   "shadow-overlay": [[44, 90, -34, "color-surface-inverse", 0.4]],
   "shadow-floating": [[16, 32, -12, "color-surface-inverse", 0.4]],
   "shadow-popover": [[26, 50, -22, "color-surface-inverse", 0.22]],
+  "shadow-glass": [[24, 50, -12, "color-shadow", 0.6]],
   "shadow-panel": [
     [-2, 8, 0, "color-surface-inverse", 0.04],
     [18, 40, -12, "color-surface-inverse", 0.28],
@@ -656,6 +680,7 @@ export const OPACITY = {
   "opacity-strong": [0.25, "Capsule borders and scrims."],
   "opacity-heavy": [0.4, "Emphasis borders and strong glows."],
   "opacity-field": [0.6, "Input fill on the dark footer."],
+  "opacity-glass": [0.82, "Dark chips over a screenshot."],
   "opacity-nav": [0.96, "Sticky nav background."],
   "opacity-disabled": [0.45, "Disabled controls."],
 } satisfies Record<string, OpacityEntry>;

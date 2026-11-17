@@ -301,6 +301,20 @@
   "ok": true
  },
  {
+  "fg": "color-feedback-warning-inverse",
+  "bg": "color-surface-inverse",
+  "ratio": 8.23,
+  "min": 4.5,
+  "ok": true
+ },
+ {
+  "fg": "color-feedback-info-inverse",
+  "bg": "color-surface-inverse",
+  "ratio": 9.59,
+  "min": 4.5,
+  "ok": true
+ },
+ {
   "fg": "color-feedback-warning-default",
   "bg": "color-surface-page",
   "ratio": 5.41,
