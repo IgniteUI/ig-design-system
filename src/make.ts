@@ -107,7 +107,7 @@ fs.writeFileSync(
 );
 const themeText = themeCss({
   rootDeclarations: layout.root,
-  sized: layout.sized,
+  dialed: layout.dialed,
   typeScale,
   typeSets,
   adaptiveContrast: guard.adaptiveContrast,

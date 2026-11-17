@@ -15,7 +15,10 @@ import { round4 } from "./units.ts";
 const bySize = (px: number) =>
   `rem(${round4(px * SIZE_RATIO.small)}px), rem(${round4(px * SIZE_RATIO.medium)}px), rem(${round4(px)}px)`;
 
-/** The Sass source of the layout stylesheet: one sized rule, then one :root rule. */
+/** The selector of the rule that reads the dials: the root and every scope. */
+export const DIALED = ":root, [data-ig-scope]";
+
+/** The Sass source of the layout stylesheet: one dialed rule, then one :root rule. */
 export const layoutSass = () => {
   const spaceSteps = Object.entries(SPACE).map(
     ([name, px]) => `  --space-${name}: #{pad(${bySize(px)})};\n`,
@@ -30,7 +33,7 @@ export const layoutSass = () => {
     ([name, [px, , min = 0, max = px]]) =>
       `  --${name}: #{border-radius(rem(${px}px), rem(${min}px), rem(${max}px))};\n`,
   );
-  return `@use 'sass:math';\n@use 'igniteui-theming' as *;\n@use 'igniteui-theming/sass/animations/easings' as ease;\n@use 'igniteui-theming/sass/elevations' as e;\n@use 'igniteui-theming/sass/elevations/presets/indigo' as neutral;\n:root, [data-size] {\n  --ig-size-small: 1; --ig-size-medium: 2; --ig-size-large: 3;\n  --component-size: var(--ig-size, var(--ig-size-large));\n  @include sizable();\n${[...spaceSteps, ...spaceRoles, ...sizes].join("")}}\n:root {\n${radii.join("")}  --easing-default: #{ease.$out-cubic};\n  @include e.elevations(neutral.$elevations);\n}\n`;
+  return `@use 'sass:math';\n@use 'igniteui-theming' as *;\n@use 'igniteui-theming/sass/animations/easings' as ease;\n@use 'igniteui-theming/sass/elevations' as e;\n@use 'igniteui-theming/sass/elevations/presets/indigo' as neutral;\n${DIALED} {\n  --ig-size-small: 1; --ig-size-medium: 2; --ig-size-large: 3;\n  --component-size: var(--ig-size, var(--ig-size-large));\n  @include sizable();\n${[...spaceSteps, ...spaceRoles, ...sizes, ...radii].join("")}  @include e.elevations(neutral.$elevations);\n}\n:root {\n  --easing-default: #{ease.$out-cubic};\n}\n`;
 };
 
 export type Rule = { selector: string; body: string };
@@ -38,23 +41,24 @@ export type Rule = { selector: string; body: string };
 // One CSS rule without nesting: selector { declarations }
 const RULE = /([^{}]+)\{([^{}]*)\}/g;
 
-/** Splits the compiled layout stylesheet into its sized rule and the joined declarations of its :root rules. */
+/** Splits the compiled layout stylesheet into its dialed rule and the joined declarations of its :root rules. */
 export const layoutRules = (css: string) => {
   const rules: Rule[] = [...css.matchAll(RULE)].map((m) => ({
     selector: m[1].trim(),
     body: m[2].replace(/^\n+|\s+$/g, ""),
   }));
-  const sized = rules.filter((r) => r.selector !== ":root");
-  if (sized.length !== 1 || rules.length < 2)
+  const dialed = rules.filter((r) => r.selector !== ":root");
+  const root = rules.filter((r) => r.selector === ":root");
+  if (new Set(dialed.map((r) => r.selector)).size !== 1 || !root.length)
     throw new Error(
-      "layout stylesheet: one sized rule and at least one :root rule expected",
+      "layout stylesheet: rules of one dialed selector and at least one :root rule expected",
     );
   return {
-    sized: sized[0],
-    root: rules
-      .filter((r) => r.selector === ":root")
-      .map((r) => r.body)
-      .join("\n"),
+    dialed: {
+      selector: dialed[0].selector,
+      body: dialed.map((r) => r.body).join("\n"),
+    },
+    root: root.map((r) => r.body).join("\n"),
   };
 };
 
@@ -69,7 +73,7 @@ export const elevationsOf = (css: string) => {
   return levels;
 };
 
-/** The compiled layout: the sized rule, the :root declarations and the neutral elevations 0 to 24. */
+/** The compiled layout: the dialed rule, the :root declarations and the neutral elevations 0 to 24. */
 export const compiledLayout = () => {
   const css = compile(layoutSass());
   return { ...layoutRules(css), elevations: elevationsOf(css) };

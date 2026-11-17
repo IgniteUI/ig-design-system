@@ -82,10 +82,10 @@ export const restOfPalette = (declared: Set<string>) => {
 };
 
 type EngineLayer = {
-  /** The declarations of the compiled :root rules: radii, easing and the neutral elevations. */
+  /** The declarations of the compiled :root rules: the easing. */
   rootDeclarations: string;
-  /** The compiled rule that holds sizable() and pad(). */
-  sized: Rule;
+  /** The compiled rule that reads the dials: sizable(), pad(), border-radius() and the neutral elevations. */
+  dialed: Rule;
   typeScale: TypeScale;
   /** The declarations adaptive-contrast('aa') emits. */
   adaptiveContrast: string[];
@@ -101,8 +101,8 @@ const engineLayer = (layer: EngineLayer) => `
   /* The dials are left unset, so a site sets them for itself. Unset, the tokens resolve at their design values: --ig-size large, --ig-spacing 1, --ig-elevation-factor 1, and each radius role at its own value (--ig-radius-factor from 0, each role's minimum, to 1, its maximum). */
   /* one shadow colour behind every neutral elevation */
   --color-shadow: oklch(0 0 0);
-  /* roundness, easing and neutral elevations: compiled from the engine's border-radius() and elevations() */
-${withShadowColorToken(layer.rootDeclarations)}
+  /* easing: compiled from the engine's easings */
+${layer.rootDeclarations}
   /* typography: engine slot variables, compiled from the engine's typography() with the type scale in spec.ts */
   --ig-font-family: var(--font-body);
 ${slotVariables(layer.typeScale)}}
@@ -114,9 +114,9 @@ ${layer.adaptiveContrast.map((d) => `  ${d}`).join("\n")}
 ${SCOPED} {
 ${layer.palette.map((d) => `  --${d.name}: ${d.value};`).join("\n")}
 }
-/* sizing and spacing: compiled from the engine's sizable() and pad() */
-${layer.sized.selector} {
-${layer.sized.body}
+/* sizing, spacing, roundness and neutral elevations: compiled from the engine's sizable(), pad(), border-radius() and elevations() */
+${layer.dialed.selector} {
+${withShadowColorToken(layer.dialed.body)}
 }
 /* elevations tinted with the action colour: the engine's indigo preset compiled with its $color-1..3, published under the design system's own names */
 ${SCOPED} {
@@ -234,6 +234,7 @@ const themes = () => {
   return `
 /* ===== 6. themes ===== */
 :root, [data-theme="light"] { --theme-dark: 0; }
+[data-theme="light"] { color-scheme: light; }
 /* neutral roles, declared again so a themed region or a scope resolves them against its own grey and surface ramps */
 ${SCOPED} {
 ${neutralRoles.map(([name, [step]]) => `  --${name}: var(--${step});`).join("\n")}

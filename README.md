@@ -118,9 +118,15 @@ The `docs` set is not fluid. `src/spec.ts` holds every value, in `TYPE_SETS`.
 
 ## Theming
 
-Set a dial on the root, or on any element, and every token below it follows. The package sets none of them: a site chooses. Unset, every token is at its design value.
+Set a dial on the root, or on an element with `data-ig-scope`, and every token below it follows. The package sets none of them: a site chooses. Unset, every token is at its design value.
 
-The dials are the engine's, so an Ignite UI component reads them too. `--ig-size: 2` on the root makes the Ignite UI controls medium and also shrinks the design system's spacing and sizes (`--igd-space-md` goes from 16px to 14px). To change only the controls, set the dial on them.
+The dials are the engine's, so an Ignite UI component reads them too. `--ig-size: 2` on the root makes the Ignite UI controls medium and also shrinks the design system's spacing and sizes (`--igd-space-md` goes from 16px to 14px).
+
+A token is calculated where it is declared: on the root and on each `data-ig-scope`. So:
+
+- A component puts `data-ig-scope` on its root element. A dial set on any ancestor then reaches it, as it reaches an Ignite UI component, which calculates on its own host.
+- A dial on an element without `data-ig-scope` changes the Ignite UI components inside it and no design system token. Add the attribute to that element to change both.
+- Change a dial, not a step. A step set on an element, such as `--igd-space-md: 20px`, is calculated again from the dials on the next `data-ig-scope` below it.
 
 | Dial | Values |
 |---|---|
@@ -129,7 +135,7 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 | `--ig-radius-factor` | unset by default (each role takes its design value); 0 is each role's minimum, 1 its maximum |
 | `--ig-elevation-factor` | multiplier, default 1 |
 | `data-theme="dark"` | the dark theme, on the page or on one region |
-| `data-ig-scope` | a region that carries its own base colours |
+| `data-ig-scope` | a component root, or a region that carries its own dials or base colours |
 | `data-igd-type="docs"` | the type roles at documentation sizes, on the page or on one region |
 
 **Brand colours.** `IGD_SEED_PRIMARY` and `IGD_SEED_SECONDARY` replace a seed for one build; CI builds the system with two other brand colours on every pull request and runs every gate on the result. The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action fill, `color-action-default`, is the seed, and its label is the engine's contrast colour: black or white, whichever reads on the seed. Text in the action colour, `color-action-text`, reads primary step 600, because the engine solves each step to a fixed contrast for any seed (about 5.2:1 on white for step 600). The build stops when the engine warns that a seed or a scale cannot give a step its contrast.

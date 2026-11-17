@@ -28,6 +28,7 @@ A documentation site puts `data-igd-type="docs"` on `<html>` for the smaller typ
 - Padding uses `--igd-space-inset-*`, vertical margins `--igd-space-stack-*`, gaps and inline margins `--igd-space-gap-*`. Not the raw step `--igd-space-md`.
 - A colour has one value per theme. Do not write `light-dark()` pairs of palette steps; the token already switches.
 - Hover, active and focus colours are derived from their base token. Override the base on a scope and the states follow.
+- A component puts `data-ig-scope` on its root element, so a dial (`--ig-size`, `--ig-spacing`, `--ig-radius-factor`, `--ig-elevation-factor`) set on any ancestor reaches it. Set a dial on the root or on a `data-ig-scope` element. Never set a spacing, size or radius step on an element.
 - Widths, heights and offsets are not tokens. Type them.
 - When no token fits, do not invent a value that looks like one. Say which token is missing.
 - Check a site with `npx ig-design-system check src`. It reports an unknown token, a raw palette step and a raw spacing step.
