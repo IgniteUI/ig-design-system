@@ -13,6 +13,8 @@ describe("role", () => {
     expect(role("row-gap")).toBe("gap");
     expect(role("marginLeft")).toBe("gap");
     expect(role("margin-inline")).toBe("gap");
+    expect(role("margin-inline-start")).toBe("gap");
+    expect(role("marginInlineEnd")).toBe("gap");
   });
 
   it("maps the other margins to stack", () => {

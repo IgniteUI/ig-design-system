@@ -15,6 +15,8 @@ export const role = (prop) => {
         "marginleft",
         "marginright",
         "margininline",
+        "margininlinestart",
+        "margininlineend",
     ].includes(p))
         return "gap";
     if (p.startsWith("margin"))
@@ -36,6 +38,7 @@ export const rawSteps = (text) => {
                 prop,
                 value: m[0],
                 fix: `var(--igd-space-${r}-${m[1]})`,
+                fixName: `--igd-space-${r}-${m[1]}`,
                 index: m.index,
             });
     }

@@ -16,6 +16,8 @@ export const role = (prop: string) => {
       "marginleft",
       "marginright",
       "margininline",
+      "margininlinestart",
+      "margininlineend",
     ].includes(p)
   )
     return "gap";
@@ -27,6 +29,8 @@ export type RawStep = {
   prop: string;
   value: string;
   fix: string;
+  /** The custom property `fix` reads. */
+  fixName: string;
   index: number;
 };
 
@@ -49,6 +53,7 @@ export const rawSteps = (text: string): RawStep[] => {
         prop,
         value: m[0],
         fix: `var(--igd-space-${r}-${m[1]})`,
+        fixName: `--igd-space-${r}-${m[1]}`,
         index: m.index,
       });
   }
