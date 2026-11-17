@@ -8,7 +8,8 @@ import { chromium } from "playwright";
 type Derived = { base: string };
 type Named<T> = Record<string, T>;
 const ROOT = path.join(import.meta.dirname, "..");
-const OUT = path.join(ROOT, "dist/");
+// node checks/gates-derived.ts [dist directory]
+const OUT = path.join(process.argv[2] ?? path.join(ROOT, "dist"), "/");
 const REP = path.join(ROOT, "reports/");
 const BASES = [
   "color-action-default",

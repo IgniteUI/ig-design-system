@@ -1,11 +1,15 @@
 // Gate: the contrast pairings are measured in a browser, on the live tokens, in both themes. Fails on any pairing below its minimum.
+// node checks/gates-themes.ts [dist directory]
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
 type Pair = [fg: string, bg: string, min?: number];
 type Row = { fg: string; bg: string; ratio: number; min: number; ok: boolean };
-const OUT = path.join(import.meta.dirname, "../dist/");
+const OUT = path.join(
+  process.argv[2] ?? path.join(import.meta.dirname, "../dist"),
+  "/",
+);
 const REP = path.join(import.meta.dirname, "../reports/");
 (async () => {
   const pairs: Pair[] = JSON.parse(
