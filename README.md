@@ -145,11 +145,39 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 | `checks/check-vars.ts` | A `var()` that points at a token that does not exist |
 | `checks/spacing-roles.ts` | A raw spacing step used for padding, a margin or a gap |
 | `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
-| `checks/gates-themes.ts` | Any of 58 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
+| `checks/gates-themes.ts` | Any of 67 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
 
 The rules of the three source checks and the functions of the generator have unit tests in `src/*.test.ts` and `checks/*.test.ts`. Each script exports its functions and does its file work only when it is the script Node was started with.
 
-Today the checks run against the reference components in this repository. Packaging them as one command that any consuming repository can run on its own code is the next step.
+### Checking a site
+
+A site that installs the package gets the `ig-design-system` command. It checks the site's own source:
+
+```sh
+npx ig-design-system check src
+npx ig-design-system check src --ignore src/vendor --strict
+```
+
+| Rule | What it stops |
+|---|---|
+| `unknown-token` | A `var(--igd-*)` that neither the design system nor the site declares. A `var()` with a fallback is a hook a page may set, and is skipped. |
+| `raw-palette` | Site code that reads a palette step, such as `var(--ig-gray-700)`. A site reads semantic tokens. |
+| `palette-override` | Site code that declares a palette step, such as `--ig-primary-500`, which replaces the colour under every token built on it. |
+| `spacing-role` | Padding, a margin or a gap that uses a raw step, not `space-inset-*`, `space-stack-*` or `space-gap-*`. |
+| `colour-literal` | A hex colour typed in as a value. Only with `--strict`. |
+
+Widths, heights and offsets are not checked: they are not part of the design system. The command exits non-zero when it finds something.
+
+In CI, a site calls the reusable workflow:
+
+```yaml
+jobs:
+  design-system:
+    uses: IgniteUI/ig-design-system/.github/workflows/check-site.yml@1.0.0
+    with:
+      paths: src
+```
+
 
 ## Repository layout
 
@@ -184,7 +212,6 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Open items
 
-- The checks as one installable command for consuming repositories
 - A reduced-motion, focus and target-size check (it exists for the reference components; `docs/showcase.html` is a page it could run on)
 
 ## Releases

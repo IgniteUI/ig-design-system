@@ -1,0 +1,61 @@
+# Reusable workflow: checks a site's source against the design system it installs.
+# Usage, in a site's workflow:
+#   jobs:
+#     design-system:
+#       uses: IgniteUI/ig-design-system/.github/workflows/check-site.yml@1.0.0
+#       with:
+#         paths: src
+name: Check a site
+
+on:
+  workflow_call:
+    inputs:
+      paths:
+        description: Directories or files to check, separated by spaces.
+        type: string
+        default: src
+      ignore:
+        description: Paths to skip, separated by spaces. A path is skipped when it contains one of them.
+        type: string
+        default: ''
+      strict:
+        description: Also report hex colours typed in by hand.
+        type: boolean
+        default: false
+      working-directory:
+        description: The directory that holds the site's package.json.
+        type: string
+        default: .
+      node-version:
+        description: The Node.js version to run on.
+        type: string
+        default: '22'
+
+jobs:
+  check:
+    name: Design system
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - run: npm ci --ignore-scripts
+
+      - name: Check the site against ig-design-system
+        env:
+          PATHS: ${{ inputs.paths }}
+          IGNORE: ${{ inputs.ignore }}
+          STRICT: ${{ inputs.strict }}
+        run: |
+          args=()
+          for p in $IGNORE; do args+=(--ignore "$p"); done
+          if [ "$STRICT" = "true" ]; then args+=(--strict); fi
+          npx --no-install ig-design-system check $PATHS "${args[@]}"
