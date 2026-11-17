@@ -18,3 +18,22 @@ jobs:
         run: npm test
       - name: Generated files are committed and up to date
         run: git diff --exit-code -- dist docs llms.txt llms-full.txt
+
+  other-brand-colours:
+    name: Builds with other brand colours
+    runs-on: ubuntu-latest
+    env:
+      IGD_SEED_PRIMARY: '#0f9d58'
+      IGD_SEED_SECONDARY: '#e6447a'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Rebuild the palettes and the tokens from the other seeds
+        run: npm run palettes && npm run build
+      - name: Every gate still passes
+        run: npm run check
