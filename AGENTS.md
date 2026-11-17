@@ -6,7 +6,7 @@ Guidance for an agent working in this repository. Read the README first; this fi
 
 ```sh
 npm ci
-npx playwright install chromium   # the two browser gates measure rendered colours
+npx playwright install chromium   # three gates measure the tokens in a browser
 npm test                          # type check, lint, build, unit tests, every check
 npm run test:unit                 # Vitest only: src/*.test.ts and checks/*.test.ts
 npm run lint                      # Biome: format and lint rules, writes nothing
@@ -16,7 +16,32 @@ npm run palettes                  # only after a seed or a scale changes
 
 Node 22.18 or newer runs the `.ts` files directly. Do not add `tsx`: it rewrites the functions passed to Playwright's `page.evaluate` and the gates crash with `__name is not defined`.
 
-`dist/`, `docs/` and `reports/` are generated and committed. Change `src/`, rebuild, commit the result. CI fails when `dist/` or `docs/` differ from a fresh build.
+`dist/`, `reports/`, `docs/MIGRATION.md`, `docs/showcase.html`, `llms.txt`, `llms-full.txt` and `src/palettes.json` are generated and committed. `docs/ADOPTING.md` is written by hand. Change `src/`, rebuild, commit the result. CI fails when a generated file differs from a fresh build.
+
+Run one check after `npm run build`: `node checks/gates-themes.ts`, `node checks/resolve.ts`, or any other file under `checks/`.
+
+Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there when it is a text or outline colour, run `npm test`, and commit the source with the generated files.
+
+## Generator layout
+
+`npm run build` runs these in order. Each writes the files named.
+
+| File | What it does |
+|---|---|
+| `src/spec.ts` | The vocabulary: token names, the engine step each aliases, scales, type rows, contrast pairings. Start here to add or change a token. |
+| `src/palette-sets.ts`, `src/palettes.ts` | The seeds and the `palette()` call of each palette; `npm run palettes` compiles them to `src/palettes.json`. |
+| `src/make.ts` | The entry point. Calls the modules below and writes `dist/tokens.json`, `tokens.css`, `theme.css`, `base.css`, `fonts.css`, `dist/fonts/` and `reports/`. |
+| `src/typography.ts` | Compiles the type scale and the type sets with the engine's `typography()`. |
+| `src/layout.ts` | Spacing, sizes, radius and elevations through `pad()`, `sizable()`, `border-radius()` and `elevations()`. |
+| `src/shadows.ts` | The site shadows, the tinted elevations and the semantic shadow table. |
+| `src/contrast.ts` | The seed guard, the action colour as text, the measured ratios and the pairings check. |
+| `src/engine-colors.ts` | Looks a token or an engine step up in `src/palettes.json`. |
+| `src/tokens-json.ts` | Builds the `tokens.json` object. |
+| `src/stylesheets.ts` | The text of `tokens.css`, `fonts.css` and `base.css`. |
+| `src/theme.ts`, `src/derived.ts` | The text of `theme.css`; `derived.ts` is its derived-colour section. |
+| `src/namespace.ts` | Adds `--igd-` to every custom property in `dist/*.css` that is not engine output. |
+| `src/migration.ts`, `src/dtcg.ts`, `src/showcase.ts`, `src/llms.ts` | Write `docs/MIGRATION.md`, `dist/infragistics.tokens.json`, `docs/showcase.html`, and the two llms files. |
+| `checks/cli.ts`, `checks/site.ts` | The site command, compiled to `dist/cli/` by `tsc -p tsconfig.cli.json`. |
 
 ## Decisions
 
@@ -29,7 +54,7 @@ Do not reverse one of these without asking the owner.
 - Everything the design system defines is `--igd-*`, in the semantic tier and in the component tier. The same goes for classes and keyframes: `.igd-type-display-lg`, `igd-float`.
 - The generator works in bare names. `src/namespace.ts` adds `--igd-` as the last build step.
 
-Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name the generator makes up under `--ig-`, such as the former `--ig-elevation-tint-<n>`, looks like engine API and is not.
+Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name the generator makes up under `--ig-`, such as `--ig-elevation-tint-<n>`, looks like engine API and is not.
 
 ### 2. The accent palettes and the dark palette are built, not published
 
@@ -41,7 +66,7 @@ Why: an Ignite UI component on the same page reads the `--ig-*` names, so the pa
   - A token for an area that is dark in both themes carries the colour: `--igd-color-surface-inverse: #0f172a`. The spec names the step as `ig-dark-surface-500`.
 - A dark area uses the three inverse surface levels, not a component's own colour: `color-surface-inverse-raised`, `color-surface-inverse`, `color-surface-inverse-sunken`. `footer-background` points at the last one.
 
-Why: the theme reads 6 colours from the 4 accent palettes, so 40 published variables were not worth their size. The names were not the problem there: `--ig-pink-400` follows the pattern the engine uses for a custom family.
+Why: the theme reads 11 steps of the 4 accent palettes, so publishing the full ramps is not worth their size. The names were not the problem there: `--ig-pink-400` follows the pattern the engine uses for a custom family.
 
 Why, for the dark palette: `--ig-dark-gray-<n>` was a name of ours. The engine emits a dark palette under the same names as a light one, `--ig-gray-<n>`, and a theme decides which values they hold.
 
@@ -53,7 +78,7 @@ Considered and not done:
 - The engine's `shades($name, $color, $shades, $surface, $generator, $scale)` builds one family from a seed with any list of steps, two at least. With the ten steps `50` to `900` it gives the same 40 colours as the four full palettes. The owner decided to keep the `palette()` build.
 - A shorter list of steps changes the colours. `shades()` places a step by its position in the list, not by the number in its name: `('400', '500')` returns the two ends of the ramp, `#fee6ec` and `#290a18` for the pink seed.
 
-To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palettes`, add the family to `ACCENT_STEP` and to `engineHex()` in `src/make.ts`, then alias a step in `src/spec.ts`.
+To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palettes`, add the family to the `ACCENT_STEP` pattern in `src/engine-colors.ts`, then alias a step in `src/spec.ts`.
 
 ### 3. Brand seeds are a build input
 
@@ -62,20 +87,20 @@ To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palett
 - The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-alt`.
 - A primary seed below 3:1 against the page stops the build. A seed that does not clear 4.5:1 as text is darkened for text, and `tokens.css` publishes the darkened colour.
 
-Why: the engine solves each shade for contrast when Sass compiles. A ramp shifted in the browser is an approximation of that, and it cost a third of `theme.css`.
+Why: the engine solves each shade for contrast when Sass compiles. A ramp shifted in the browser is an approximation of that.
 
 ### 4. State colours are derived from their base token
 
 - Hover, active, tint, border and shadow colours are computed from a base with `oklch(from var(--base) …)`. The deltas are measured at build time between two engine values, so the default equals the engine's colour.
 - Override a base, on the page or on a `data-ig-scope` region, and its states follow.
-- The darkening formula for text exists twice: `textExpr()` in `src/make.ts` for `theme.css`, and `as-text()` in the guard stylesheet for the published value. Change both.
+- The darkening formula for text exists twice: `textFormula()` in `src/derived.ts` for `theme.css`, and `as-text()` in `guardSass()` in `src/contrast.ts` for the published value. Change both.
 
 Why: nobody picks a state colour by hand, and a region can carry its own colours.
 
 ### 5. A label on a fill is black or white, by the engine's `adaptive-contrast()`
 
 - `color-action-on`, `tile-on` and `table-header-sub-highlight-color` use it.
-- Do not switch to native CSS `contrast-color()` yet. It is Baseline only since April 2026; Safari on iOS 18 does not have it, and there the label would fall back to the inherited text colour. Revisit in late 2027.
+- Do not switch to native CSS `contrast-color()` yet. It is Baseline only since April 2026 (Chrome 147, Firefox 146, Safari 26.0); Safari on iOS 18 does not have it, and there the label would fall back to the inherited text colour. Revisit in late 2027.
 - It does not apply to a brand colour used as text on a surface. That needs a darker version of the colour, not black or white.
 
 ### 6. Names carry a role, never a hue
@@ -91,7 +116,7 @@ Why: a seed can change, and a token called "blue" would then be another colour.
 - `src/spec.ts` lists 15 type styles. Each has a role name (`display-lg`, `title-sm`, `eyebrow`) and the engine slot that holds it.
 - The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h6-font-size)`.
 - The engine has 13 type slots by default, and Ignite UI components read those 13. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
-- The six heading slots descend in size: 70, 43, 27, 21, 18, 16px from `h1` to `h6`. Keep them in order when a size changes: an Ignite UI component on the page reads them as a heading scale.
+- The heading slots are 52, 43, 23, 26, 18 and 16px from `h1` to `h6` in the default set, and 36, 24, 20, 18, 16, 14px in the `docs` set. In the default set `h4`, the stat number, is larger than `h3`, so an Ignite UI component that reads the slots as a heading scale gets those two out of order. The docs set, which is where Ignite UI components render today, descends.
 - Line height is unitless.
 - Four roles are fluid: `display-lg`, `display-md`, `display-sm` and `lead`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
 - The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
@@ -110,7 +135,7 @@ Why a set in the package: a docs page cannot take a 52px heading, and Blog, Docs
 
 A new kind of site gets a new set in `TYPE_SETS`. The build stops when a set does not list each role once.
 
-Why these sizes: the default set is the type www.infragistics.com ships (`src/styles/design-system/tokens.css` in the website repository). The full sizes are its desktop values and the minimums (36, 30, 20 and 17px) are the values it steps to below 900px. The earlier defaults (70px hero, 19px body) came from a design draft that never shipped, and loading them moved every page of the site. The owner chose the live site as the source.
+Why these sizes: the default set is the type www.infragistics.com ships (`src/styles/design-system/tokens.css` in the website repository). The full sizes are its desktop values and the minimums (36, 30, 20 and 17px) are the values it steps to below 900px.
 
 Not reviewed yet: the width range (360px to 1280px). The site steps once at 900px, so between the two ends a fluid size differs from the site by a few pixels.
 
@@ -119,11 +144,11 @@ Considered and not done: the engine lets you register more type slots, through `
 ### 8. Use the engine, not a copy of it
 
 - Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()` and `box-shadow()`, type from `typography()`.
-- `shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. `shadow-popover` and `shadow-panel` are listed and compiled the same way. Why not an elevation level: the engine's levels are Material shadows at 26% black, far heavier than the site's, and loading them changed every card and screenshot. The tinted shadows, `shadow-popover-filter` and the raw `elevation-*` tokens are still engine levels. `shadow-popover-filter` is not the filter form of `shadow-panel`: `drop-shadow()` has no spread, and the panel's layers depend on a negative spread.
-- The build starts no MCP server and no browser. Only the two gates use a browser.
+- `shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. `shadow-popover` and `shadow-panel` are listed and compiled the same way. Why not an elevation level: the engine's indigo elevation levels are far heavier than the site's shadows, and loading them changed every card and screenshot. The tinted shadows, `shadow-popover-filter` and the raw `elevation-*` tokens are still engine levels. `shadow-popover-filter` is not the filter form of `shadow-panel`: `drop-shadow()` has no spread, and the panel's layers depend on a negative spread.
+- The build starts no MCP server and no browser. Three gates use one: `gates-derived.ts`, `gates-themes.ts` and `resolve.ts`.
 - The main palette is built with `palette()` in full, and `theme.css` declares every custom property it emits for the light palette. Ignite UI components depend on every shade of the built-in families: primary, secondary, gray, surface, info, success, warn and error. Do not trim it.
 
-Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(from var(--x) h s l / 0.26)`, so `make.ts` rewrites the shadow colours with a regular expression.
+Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(from var(--x) h s l / 0.26)`, so `withShadowColorToken()` and `withActionColorToken()` in `src/shadows.ts` rewrite the shadow colours with a regular expression.
 
 ### 9. Tokens and element styles ship apart, and the dials are not set
 
@@ -135,7 +160,7 @@ Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(
 
 Why apart: a docs site has its own element styles. Loaded on top of it, the element rules reset heading margins, removed link underlines and changed the body size. That was seen in the `igniteui-astro-components` playground.
 
-Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew (an input from 40px to 48px). The owner decided each site sets the dials for itself.
+Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew. The owner decided each site sets the dials for itself.
 
 ### 10. The showcase is generated, and it is where the tokens are documented
 
@@ -170,12 +195,12 @@ Nothing below is decided. Ask the owner before acting on one.
 
 - `checks/resolve.ts` loads `tokens.css` and `theme.css` in a browser and fails when a custom property resolves to nothing, or a colour, spacing, radius or size token is not a valid value, in either theme. A property declared only on a component selector is left out.
 - CI builds the system a second time with `IGD_SEED_PRIMARY=#0f9d58` and `IGD_SEED_SECONDARY=#e6447a` and runs every gate. Why: a rebrand is a promise of decision 3, and with one seed in CI nothing proved it.
-- `npm run compare -- <before url> <after url> [path@width ...]` compares two renderings element by element. Both site adoptions were verified with it; use it before claiming a change moves nothing.
-- `.github/workflows/pages.yml` publishes `docs/showcase.html` to GitHub Pages on every push to `main`. Pages has to be enabled once in the repository settings.
+- `npm run compare -- <before url> <after url> [path@width ...]` compares two renderings element by element. Use it before claiming a change moves nothing.
+- `.github/workflows/pages.yml` publishes the showcase to GitHub Pages after CI passes on `main`. Pages is not enabled yet, so nothing is published.
 
 ## Files for agents
 
-- `llms.txt` and `llms-full.txt` are generated by `src/llms.ts` from `dist/tokens.json` and `package.json`, as the last build step, and are published with the package. Do not edit them; change the generator. A test fails when they differ from what the generator writes.
+- `llms.txt` and `llms-full.txt` are generated by `src/llms.ts` from `dist/tokens.json` and `package.json`, as the last build step, and are published with the package. Do not edit them; change the generator. CI fails when they differ from what the build writes.
 - `llms.txt` holds the rules for code that uses the tokens. When a rule in this file changes what a site may write, change the text in `src/llms.ts` in the same pull request.
 
 ## The site command
@@ -188,7 +213,7 @@ Nothing below is decided. Ask the owner before acting on one.
 
 ## Releasing
 
-- The package is `ig-design-system` on npm, public, MIT, in the IgniteUI organisation. The owner decided this on 2026-11-17: it is for Infragistics' own sites, and nothing in it needs to be private.
+- The package is not published. It is MIT and will be public on npm as `ig-design-system`: it is for Infragistics' own sites, and nothing in it needs to be private. Publishing is on hold until the repository moves from `IgniteUI/ig-design-system` to another organisation. Do not create a release before that. After the move, update the organisation in `package.json`, `README.md`, this file and `.github/workflows/check-site.yml`.
 - A GitHub Release with the tag `X.Y.Z` runs `.github/workflows/release.yml`, which runs `npm test` and publishes. Do not run `npm publish` and do not edit `version` in `package.json` for a release: the workflow sets it from the tag.
 - Add the release's entry to `CHANGELOG.md` in the pull request that makes the change.
 - The package has no dependencies. `igniteui-theming` and the font packages are build inputs, so they are `devDependencies`. A test fails when a dependency is added.
@@ -199,4 +224,4 @@ Nothing below is decided. Ask the owner before acting on one.
 - One PR at a time against `main`. PRs are squash-merged, and a stacked PR breaks when its base is squashed.
 - The PR description must follow `.github/PULL_REQUEST_TEMPLATE.md`; a CI check enforces it.
 - A change that moves no token should prove it: compare `dist/` and `reports/` with `main`, or measure the rendered result in a browser before and after.
-- Verify a statement about the engine by running it against the installed version before writing it here. Two statements in this file had to be corrected because they were written from reading alone.
+- Verify a statement about the engine by running it against the installed version before writing it here.

@@ -2,15 +2,17 @@
 
 One source for the look of infragistics.com: colours, type, spacing, roundness and elevation as design tokens, plus the automatic checks that keep every site consistent. The tokens are generated with [igniteui-theming](https://github.com/IgniteUI/igniteui-theming), the same engine Ignite UI customers use.
 
-> **Status: proof of concept.** This repository is a temporary home while its final organisation is decided. The package is marked `private` and has no licence yet. Names and structure may still change.
+> **Status: not released.** The package is not on npm and the repository is internal. Publishing waits until the repository moves to its final GitHub organisation. Names and structure may still change.
 
 ## What is in the package
+
+The package is not on npm yet. Until the first release, copy `dist/` from this repository. After it:
 
 ```sh
 npm install ig-design-system
 ```
 
-Everything a site needs is in `dist/`. The package has no dependencies. There is no framework code in it, so any site can use it, whatever it is built with.
+The stylesheets and the token data a site loads are in `dist/`. The package has no dependencies. There is no framework code in it, so any site can use it, whatever it is built with.
 
 | File | What it is |
 |---|---|
@@ -19,6 +21,8 @@ Everything a site needs is in `dist/`. The package has no dependencies. There is
 | `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
 | `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
 | `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use. Generated on every build. |
+| `AGENTS.md`, `CHANGELOG.md`, `docs/ADOPTING.md`, `docs/MIGRATION.md` | Shipped beside `dist/`, because `llms.txt` links to them. |
+| `dist/cli/` | The compiled `ig-design-system` command. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin), each with its SIL Open Font License. |
@@ -63,7 +67,7 @@ Every token the design system defines is published as `--igd-*`, so it cannot co
 
 Token names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS.
 
-**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark theme and for the areas that stay dark in both themes. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 6 colours from the four accent palettes and 9 steps of the dark ramps outside the dark theme, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
+**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark theme and for the areas that stay dark in both themes. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 11 steps of the four accent palettes and 8 steps of the dark ramps outside the dark theme, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
 
 The classes and keyframes the package defines follow the same rule: `.igd-type-display-lg` … `.igd-type-body-2xs` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
@@ -146,14 +150,14 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 | `checks/check-vars.ts` | A `var()` that points at a token that does not exist |
 | `checks/spacing-roles.ts` | A raw spacing step used for padding, a margin or a gap |
 | `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
-| `checks/gates-themes.ts` | Any of 69 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
+| `checks/gates-themes.ts` | A colour pairing below WCAG AA, measured in a browser in the light and the dark theme. `reports/contrast-pairs.json` lists the pairings |
 | `checks/resolve.ts` | A token that resolves to nothing, or to an invalid colour or length, when a page loads the package, in the light and the dark theme |
 
-The rules of the three source checks and the functions of the generator have unit tests in `src/*.test.ts` and `checks/*.test.ts`. Each script exports its functions and does its file work only when it is the script Node was started with.
+The rules of the three source checks and the functions of the generator have unit tests in `src/*.test.ts` and `checks/*.test.ts`. `lint.ts`, `check-vars.ts`, `spacing-roles.ts` and `compare.ts` export their functions and do their file work only when they are the script Node was started with. The three browser gates are scripts.
 
 ### Checking a site
 
-A site that installs the package gets the `ig-design-system` command. It checks the site's own source:
+The package ships the `ig-design-system` command, which checks a site's own source. Until the first release, run it from a checkout of this repository with `node dist/cli/checks/cli.js check <path>`:
 
 ```sh
 npx ig-design-system check src
@@ -180,24 +184,28 @@ jobs:
       paths: src
 ```
 
+The tag `1.0.0` does not exist yet, and the owner in the path changes when the repository moves.
+
 
 ## Repository layout
 
 ```
-src/         the generator: spec.ts (the vocabulary), make.ts (builds dist/), namespace.ts (applies the --igd- prefix), dtcg.ts, types.ts (the shape of tokens.json)
+src/         the generator: spec.ts (the vocabulary), palette-sets.ts (the seeds), make.ts (the entry point), then one module per part of the output:
+             typography.ts, layout.ts, shadows.ts, contrast.ts, derived.ts, engine-colors.ts, tokens-json.ts, stylesheets.ts, theme.ts.
+             namespace.ts applies the --igd- prefix; dtcg.ts, showcase.ts, llms.ts and migration.ts write the other files
 checks/      the checks listed above
 dist/        the generated package (committed, so a site can use it without building)
-reports/     contrast and derived-colour reports from the last build
+reports/     the contrast pairings and derived-colour data the gates read, and the contrast report of the last check run
 reference/   React reference components and their stylesheet. They prove the tokens and feed the checks; they are not part of the package
-docs/        MIGRATION.md: old token names to new ones; showcase.html: every token, rendered
+docs/        ADOPTING.md: moving a site onto the package; MIGRATION.md: old token names to new ones; showcase.html: every token, rendered
 AGENTS.md    the decisions behind the code and the reason for each
 ```
 
-To change a token, edit `src/spec.ts` (or the generator) and rebuild. The tables in `spec.ts` are typed, so a value in the wrong slot or an unknown opacity name fails `npm run typecheck`. Never edit `dist/` by hand; CI fails if `dist/` does not match the source.
+To change a token, edit `src/spec.ts` (or the generator) and rebuild. The tables in `spec.ts` are typed, so a value in the wrong slot or an unknown opacity name fails `npm run typecheck`. Never edit a generated file by hand; CI fails when `dist/`, `docs/`, `reports/`, the two llms files or `src/palettes.json` differ from what the build writes.
 
 ## Build
 
-Requires Node 22.18 or newer. The generator and the checks are TypeScript and Node runs them directly, with no build step. The sources use erasable syntax only (no `enum`, no `namespace`, no parameter properties) and import each other with the `.ts` extension.
+Building the package requires Node 22.18 or newer. A site that only runs the compiled `ig-design-system` command needs Node 20 or newer. The generator and the checks are TypeScript and Node runs them directly, with no build step. The sources use erasable syntax only (no `enum`, no `namespace`, no parameter properties) and import each other with the `.ts` extension.
 
 ```sh
 npm ci
@@ -214,8 +222,7 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Open items
 
-- A design review of the dark theme, the status badge colours and the width range type and section spacing grow across
-- A reduced-motion, focus and target-size check (it exists for the reference components; `docs/showcase.html` is a page it could run on)
+`AGENTS.md` lists what is not decided, under "Open".
 
 ## Adopting it in a site
 
@@ -223,7 +230,7 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Releases
 
-A version is a GitHub Release with the tag `X.Y.Z`. The release workflow runs every check and publishes the package to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes. A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` take a major version.
+No release exists yet. A version will be a GitHub Release with the tag `X.Y.Z`: `.github/workflows/release.yml` then runs `npm test` and publishes to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes. A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` take a major version.
 
 ## Licence
 
