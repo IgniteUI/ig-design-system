@@ -99,6 +99,30 @@ describe("a base colour set on an element", () => {
   });
 });
 
+describe("data-ig-scope on the host of an Ignite UI component", () => {
+  it("leaves the size the component sets on its host", async () => {
+    const p = await browser.newPage();
+    await p.setContent(`<style>${css}</style><x-sized id="host" data-ig-scope></x-sized>
+      <script>customElements.define("x-sized", class extends HTMLElement {
+        connectedCallback() {
+          this.attachShadow({ mode: "open" }).innerHTML =
+            "<style>:host { --component-size: 2; --is-medium: 1; }</style>";
+        }
+      });</script>`);
+    const read = (name: string) =>
+      p.evaluate(
+        (name) =>
+          getComputedStyle(document.getElementById("host")!)
+            .getPropertyValue(name)
+            .trim(),
+        name,
+      );
+    expect(await read("--component-size")).toBe("2");
+    expect(await read("--is-medium")).toBe("1");
+    await p.close();
+  });
+});
+
 describe("docs/examples/card.html", () => {
   it("follows the two dials its section sets", async () => {
     const example = await browser.newPage();
