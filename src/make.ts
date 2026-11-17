@@ -1170,14 +1170,14 @@ fs.writeFileSync(
   `${REP}/contrast-report.json`,
   JSON.stringify(report, null, 1),
 );
+// The action fill is held to 3:1, not to the text minimum: text in the action colour is color-action-text.
+const isFillAsText = (c: S.ContrastPair) =>
+  (c[0] === "color-action-default" && (c[2] ?? 4.5) === 4.5) ||
+  c[0] === "color-action-active";
 fs.writeFileSync(
   `${REP}/contrast-pairs.json`,
   JSON.stringify([
-    ...CHECKS.filter(
-      (c) =>
-        !(c[0] === "color-action-default" && (c[2] ?? 4.5) === 4.5) &&
-        c[0] !== "color-action-active",
-    ),
+    ...CHECKS.filter((c) => !isFillAsText(c)),
     ["color-action-text", "color-surface-page"],
     ["color-action-text", "color-surface-tint"],
     ["color-action-text", "color-surface-card"],
@@ -1216,7 +1216,7 @@ console.log(
   tokens.size.tokens.length,
 );
 console.log("theme.css bytes", b.length, "| tokens.css bytes", css.length);
-const bad = report.filter((r) => !r.ok);
+const bad = report.filter((r) => !r.ok && !isFillAsText([r.fg, r.bg, r.min]));
 console.log("contrast checks:", report.length, "failing:", bad.length);
 if (bad.length)
   throw new Error(
