@@ -19,10 +19,19 @@ describe("ns", () => {
     expect(ns(text)).toBe("--igd-color: var(--ig-primary-500); --ig-size: 3;");
   });
 
-  it("leaves the custom properties the engine emits without a prefix alone", () => {
-    const text =
-      "--component-size: var(--ig-size); --is-large: 1; --y: 0; --y-contrast: xyz-d65 var(--y) var(--y) var(--y);";
+  it("leaves the custom properties adaptive-contrast() emits without a prefix alone", () => {
+    const text = "--y: 0; --y-contrast: xyz-d65 var(--y) var(--y) var(--y);";
     expect(ns(text)).toBe(text);
+  });
+
+  it("prefixes the size flags of sizable(), which an Ignite UI component sets on its own host", () => {
+    expect(
+      ns(
+        "--component-size: var(--ig-size); --is-large: var(--component-size);",
+      ),
+    ).toBe(
+      "--igd-component-size: var(--ig-size); --igd-is-large: var(--igd-component-size);",
+    );
   });
 
   it("prefixes a name that only starts like a bare engine name", () => {

@@ -377,6 +377,13 @@ Fonts, motion, layout and the theme switch. They are custom properties of `token
 - `--igd-font-mono`: `'JetBrains Mono', ui-monospace, monospace`
 - `--igd-color-shadow`: `oklch(0 0 0)`
 - `--igd-easing-default`: `cubic-bezier(0.215, 0.61, 0.355, 1)`
+- `--igd-component-size`: `var(--ig-size, var(--ig-size-large))`
+- `--igd-is-large`: `clamp(0, (var(--igd-component-size, 1) + 1) - var(--ig-size-large, 3), 1)`
+- `--igd-is-medium`: `min(
+      clamp(0, (var(--igd-component-size, 1) + 1) - var(--ig-size-medium, 2), 1),
+      clamp(0, var(--ig-size-large, 3) - var(--igd-component-size, 1), 1)
+  )`
+- `--igd-is-small`: `clamp(0, var(--ig-size-medium, 2) - var(--igd-component-size, 1), 1)`
 - `--igd-gradient-border-bundle`: `linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) padding-box, linear-gradient(135deg, var(--igd-color-accent-primary), var(--igd-color-accent-secondary)) border-box`
 - `--igd-gradient-emphasis`: `linear-gradient(180deg, hsl(from var(--igd-color-accent-primary) h s l / var(--igd-opacity-subtle)), hsl(from var(--igd-color-accent-inverse) h s l / var(--igd-opacity-faint)))`
 - `--igd-footer-card-background`: `linear-gradient(180deg, hsl(from var(--igd-color-text-inverse) h s l / var(--igd-opacity-faint)), transparent)`

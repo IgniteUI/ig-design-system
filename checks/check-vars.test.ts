@@ -37,12 +37,7 @@ describe("undefinedVars", () => {
   });
 
   it("skips the custom properties the engine emits without a prefix", () => {
-    expect(
-      undefinedVars(
-        "var(--y) var(--y-contrast) var(--component-size)",
-        defined,
-      ),
-    ).toEqual([]);
+    expect(undefinedVars("var(--y) var(--y-contrast)", defined)).toEqual([]);
   });
 
   it("skips a name that is completed at runtime", () => {

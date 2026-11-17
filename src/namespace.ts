@@ -5,15 +5,8 @@ import { isMain } from "./main.ts";
 
 export const ENGINE = "ig";
 export const PUBLISHED = "igd";
-// Mirrors the custom properties the engine emits without its prefix: sizable() and adaptive-contrast().
-export const ENGINE_BARE = [
-  "component-size",
-  "is-large",
-  "is-medium",
-  "is-small",
-  "y",
-  "y-contrast",
-];
+// Mirrors the custom properties the engine's adaptive-contrast() emits without its prefix.
+export const ENGINE_BARE = ["y", "y-contrast"];
 const own = new RegExp(
   `(?<![\\w-])--(?!${ENGINE}-|${PUBLISHED}-|(?:${ENGINE_BARE.join("|")})(?![\\w-]))(?=[a-z])`,
   "g",
