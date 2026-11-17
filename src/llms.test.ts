@@ -99,17 +99,8 @@ describe("llmsFullTxt", () => {
   });
 });
 
-describe("the committed llms files", () => {
-  it("match what the generator writes from dist/tokens.json", () => {
-    const built = JSON.parse(fs.readFileSync("dist/tokens.json", "utf8"));
-    const real = JSON.parse(fs.readFileSync("package.json", "utf8"));
-    expect(fs.readFileSync("llms.txt", "utf8")).toBe(llmsTxt(built, real));
-    expect(fs.readFileSync("llms-full.txt", "utf8")).toBe(
-      llmsFullTxt(built, real),
-    );
-  });
-
-  it("stop the build when tokens.json loses a family", () => {
+describe("the generator", () => {
+  it("stops the build when tokens.json loses a family", () => {
     expect(() => llmsTxt({ type: tokens.type }, pkg)).toThrow(
       /has no "color" family/,
     );

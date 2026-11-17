@@ -14,10 +14,19 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Compile the palettes from the seeds
+        run: npm run palettes
       - name: Build the tokens and run every check
         run: npm test
       - name: Generated files are committed and up to date
-        run: git diff --exit-code -- dist docs llms.txt llms-full.txt
+        run: |
+          changed=$(git status --porcelain -- dist docs reports llms.txt llms-full.txt src/palettes.json)
+          if [ -n "$changed" ]; then
+            echo "::error::These generated files differ from what the build writes. Run npm run palettes and npm run build, and commit the result."
+            echo "$changed"
+            git diff --stat
+            exit 1
+          fi
 
   other-brand-colours:
     name: Builds with other brand colours

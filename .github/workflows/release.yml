@@ -33,11 +33,14 @@ jobs:
 
       - run: npx playwright install --with-deps chromium
 
+      - name: Compile the palettes from the seeds
+        run: npm run palettes
+
       - name: Build, test and run every check
         run: npm test
 
-      - name: dist/ is up to date
-        run: git diff --exit-code -- dist docs llms.txt llms-full.txt
+      - name: Generated files are committed and up to date
+        run: test -z "$(git status --porcelain -- dist docs reports llms.txt llms-full.txt src/palettes.json)"
 
       - name: Set version from release tag
         env:

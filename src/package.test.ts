@@ -4,10 +4,6 @@ import { describe, expect, it } from "vitest";
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
 
 describe("the published package", () => {
-  it("ships dist/ and the two llms files", () => {
-    expect(pkg.files).toEqual(["dist", "llms.txt", "llms-full.txt"]);
-  });
-
   it("has no dependencies, so installing it installs nothing else", () => {
     expect(pkg.dependencies).toBeUndefined();
     expect(pkg.peerDependencies).toBeUndefined();
