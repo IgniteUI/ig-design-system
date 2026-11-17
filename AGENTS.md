@@ -160,7 +160,7 @@ Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(
 - `fonts.css` holds the `@font-face` rules. It is optional. Why: the marketing site loads the same three families from Google Fonts, and with the rules inside `tokens.css` every page fetched each face twice and the header and footer it exports to other sites carried the font files.
 - The package does not set `--ig-size`, `--ig-spacing`, `--ig-elevation-factor` or `--ig-radius-factor`. Each token falls back to its design value.
 - Every token that reads a dial (spacing, sizes, radii, the neutral elevations) is declared on `:root, [data-ig-scope]`. A dial takes effect on the root and on a `data-ig-scope` element, nowhere else.
-- A component puts `data-ig-scope` on its root element.
+- A component puts `data-ig-scope` on its root element. `docs/examples/Card.astro` shows a whole component written to the rules; `llms.txt` quotes it and `npm test` checks it. Change the example when a rule for components changes.
 - A link in `base.css` is `color-action-text`, not `color-action-default`. The fill colour is not safe as text: it was about 3.4:1 on the dark page.
 
 Why apart: a docs site has its own element styles. Loaded on top of it, the element rules reset heading margins, removed link underlines and changed the body size. That was seen in the `igniteui-astro-components` playground.

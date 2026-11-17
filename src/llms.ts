@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";
+import { fromRoot } from "./paths.ts";
 import {
   type Tokens as FullTokens,
   TOKEN_FAMILIES,
@@ -12,6 +13,9 @@ import {
 } from "./types.ts";
 
 export type Tokens = Record<string, unknown>;
+
+/** The example component llms.txt quotes. */
+export const EXAMPLE = "docs/examples/Card.astro";
 
 // The heading each token family gets.
 const FAMILIES: Record<TokenFamilyName, string> = {
@@ -43,6 +47,7 @@ const isEngine = (t: Token) => t.name.startsWith("ig-");
 export const llmsTxt = (
   tokens: Tokens,
   pkg: { name: string; description: string },
+  example = "",
 ) => {
   const counts = families(tokens)
     .map(({ title, family }) => {
@@ -90,7 +95,7 @@ A documentation site puts \`data-igd-type="docs"\` on \`<html>\` for the smaller
 
 ${counts}
 - Type: 15 roles (\`--igd-type-<role>-font-family\`, \`-font-size\`, \`-font-weight\`, \`-line-height\`, \`-letter-spacing\`, \`-text-transform\`) and the classes \`.igd-type-<role>\`
-
+${example ? `\n## Example: a component\n\n\`${EXAMPLE}\` is a card written to these rules. \`npm test\` checks it, so it stays true.\n\n\`\`\`astro\n${example.trim()}\n\`\`\`\n` : ""}
 ## Read next
 
 - [llms-full.txt](llms-full.txt): every token with its value and what it is for
@@ -98,6 +103,7 @@ ${counts}
 - [AGENTS.md](AGENTS.md): how to work in this repository, and the reason behind every decision
 - [CHANGELOG.md](CHANGELOG.md): what each version changes
 - [dist/tokens.json](dist/tokens.json): the tokens as data
+- [docs/examples/Card.astro](docs/examples/Card.astro): a component written to the rules
 - [docs/ADOPTING.md](docs/ADOPTING.md): moving an existing site onto the design system
 - [docs/MIGRATION.md](docs/MIGRATION.md): old token names and their replacements
 `;
@@ -168,7 +174,10 @@ if (isMain(import.meta.url)) {
   const [tokensFile, pkgFile, short, full, ...cssFiles] = process.argv.slice(2);
   const tokens = JSON.parse(fs.readFileSync(tokensFile, "utf8"));
   const pkg = JSON.parse(fs.readFileSync(pkgFile, "utf8"));
-  fs.writeFileSync(short, llmsTxt(tokens, pkg));
+  fs.writeFileSync(
+    short,
+    llmsTxt(tokens, pkg, fs.readFileSync(fromRoot(EXAMPLE), "utf8")),
+  );
   fs.writeFileSync(
     full,
     llmsFullTxt(

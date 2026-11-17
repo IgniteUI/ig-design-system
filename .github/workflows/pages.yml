@@ -34,6 +34,7 @@ jobs:
           cp docs/showcase.html site/docs/showcase.html
           cp llms.txt llms-full.txt README.md AGENTS.md CHANGELOG.md site/
           cp docs/ADOPTING.md docs/MIGRATION.md site/docs/
+          cp -r docs/examples site/docs/examples
           printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=docs/showcase.html"><title>ig-design-system</title><a href="docs/showcase.html">Token showcase</a>\n' > site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
