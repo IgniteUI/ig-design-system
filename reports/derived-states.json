@@ -93,6 +93,18 @@
     "kc": 1.4955,
     "dh": -0.33
   },
+  "color-feedback-warning-inverse": {
+    "base": "color-feedback-warning-default",
+    "dl": 0.2338,
+    "kc": 1.2097,
+    "dh": -0.37
+  },
+  "color-feedback-info-inverse": {
+    "base": "color-feedback-info-default",
+    "dl": 0.3293,
+    "kc": 0.4856,
+    "dh": 7.74
+  },
   "badge-bundle-background": {
     "base": "badge-bundle-color",
     "l": 0.9755,

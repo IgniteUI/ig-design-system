@@ -257,6 +257,11 @@ const SHADOWS: Named<[live: string, snapshot: string, usage: string]> = {
     })()}, ${resolveShadow(tintVars[16])}`,
     "Release strip on hover. Engine elevation 16 tinted with `color-action-default`.",
   ],
+  "shadow-glass": [
+    soft["shadow-glass"],
+    resolveShadow(soft["shadow-glass"]),
+    "Dark glass chips over a screenshot, with `color-surface-inverse-glass`.",
+  ],
   "shadow-popover": [
     soft["shadow-popover"],
     resolveShadow(soft["shadow-popover"]),
@@ -417,6 +422,8 @@ const CHECKS: [fg: string, bg: string, min?: number][] = [
   ["color-feedback-info-default", "color-surface-page"],
   ["color-feedback-info-default", "color-surface-tint"],
   ["color-feedback-success-inverse", "color-surface-inverse", 3],
+  ["color-feedback-warning-inverse", "color-surface-inverse"],
+  ["color-feedback-info-inverse", "color-surface-inverse"],
   ["color-feedback-warning-default", "color-surface-page"],
   ["table-mark-yes-color", "table-mark-yes-background"],
   ["table-mark-partial-color", "table-mark-partial-background"],
@@ -989,6 +996,8 @@ b += `
     ["footer-link-hover", "footer-link"],
     ["color-feedback-error-inverse", "color-feedback-error-default"],
     ["color-feedback-success-inverse", "color-feedback-success-default"],
+    ["color-feedback-warning-inverse", "color-feedback-warning-default"],
+    ["color-feedback-info-inverse", "color-feedback-info-default"],
     ["badge-bundle-background", "badge-bundle-color"],
     // pairs that belong together share one base
     ["fw-angular-background", "fw-angular-color"],
@@ -1116,7 +1125,7 @@ b += `
   b += s;
   // one shadow colour behind every neutral elevation
   b = b.replace(
-    /(--ig-elevation-\d+: [^;]+;|--shadow-(?:popover-filter|raised): [^;]+;)/g,
+    /(--ig-elevation-\d+: [^;]+;|--shadow-(?:popover-filter|raised|glass): [^;]+;)/g,
     (l) =>
       l.replace(
         /rgba\(0, ?0, ?0, ?([\d.]+)\)/g,
