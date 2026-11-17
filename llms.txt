@@ -47,27 +47,25 @@ A documentation site puts `data-igd-type="docs"` on `<html>` for the smaller typ
 - Layer: 8 tokens
 - Type: 15 roles (`--igd-type-<role>-font-family`, `-font-size`, `-font-weight`, `-line-height`, `-letter-spacing`, `-text-transform`) and the classes `.igd-type-<role>`
 
-## Example: a component
+## Writing a component
 
-`docs/examples/Card.astro` is a card written to these rules. `npm test` checks it, so it stays true.
+The same in every framework and every repository: plain HTML, Astro, React, Angular, a web component. It applies to every component built on the design system, not only to Ignite UI components.
 
-```astro
----
-// A card built on the design system. Copy it to start a component.
-interface Props {
-  title: string;
-  href?: string;
-}
-const { title, href } = Astro.props;
----
+1. Put `data-ig-scope` on the root element of the component. The design system calculates its tokens on the root of the page and on each `data-ig-scope` element. With the attribute, a dial set on any ancestor reaches the component, as it reaches an Ignite UI component. Without it, the component keeps the values of the page.
+2. A component with shadow DOM puts the attribute on its host element. The stylesheet of the page does not reach inside a shadow root.
+3. Style the component with the rules above: spacing roles, semantic colours, type classes, typed widths and heights.
+4. Do not set a dial or a spacing, size or radius step inside the component. The page sets dials.
 
-<!-- data-ig-scope on the root: a dial set on any ancestor reaches this card. -->
-<article class="card" data-ig-scope>
-  <h3 class="card__title igd-type-title-sm">{title}</h3>
-  <div class="card__body igd-type-body-md"><slot /></div>
-  {href && <a class="card__link igd-type-label-md" href={href}>Read more</a>}
-</article>
+`docs/examples/card.html` is a card written this way, in plain HTML and CSS. Its second card sits in a section that sets two dials. `npm test` opens the page in a browser and checks that card follows them.
 
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Card: a component on the design system</title>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/theme.css">
 <style>
   .card {
     display: grid;
@@ -100,6 +98,27 @@ const { title, href } = Astro.props;
     color: var(--igd-color-action-hover);
   }
 </style>
+</head>
+<body>
+
+<!-- The root element of the component carries data-ig-scope. -->
+<article class="card" data-ig-scope id="default">
+  <h3 class="card__title igd-type-title-sm">Design values</h3>
+  <p class="igd-type-body-md">No dial is set above this card.</p>
+  <a class="card__link igd-type-label-md" href="#default">Read more</a>
+</article>
+
+<!-- A dial on any ancestor reaches the card, because the card's root is a scope. -->
+<section style="--ig-spacing: 0.5; --ig-radius-factor: 0">
+  <article class="card" data-ig-scope id="compact">
+    <h3 class="card__title igd-type-title-sm">Half the spacing, the smallest radius</h3>
+    <p class="igd-type-body-md">The section sets two dials. The card follows them.</p>
+    <a class="card__link igd-type-label-md" href="#compact">Read more</a>
+  </article>
+</section>
+
+</body>
+</html>
 ```
 
 ## Read next
@@ -109,6 +128,6 @@ const { title, href } = Astro.props;
 - [AGENTS.md](AGENTS.md): how to work in this repository, and the reason behind every decision
 - [CHANGELOG.md](CHANGELOG.md): what each version changes
 - [dist/tokens.json](dist/tokens.json): the tokens as data
-- [docs/examples/Card.astro](docs/examples/Card.astro): a component written to the rules
+- [docs/examples/card.html](docs/examples/card.html): a component written to the rules, in plain HTML and CSS
 - [docs/ADOPTING.md](docs/ADOPTING.md): moving an existing site onto the design system
 - [docs/MIGRATION.md](docs/MIGRATION.md): old token names and their replacements

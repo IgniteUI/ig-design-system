@@ -124,7 +124,7 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 
 A token is calculated where it is declared: on the root and on each `data-ig-scope`. So:
 
-- A component puts `data-ig-scope` on its root element. A dial set on any ancestor then reaches it, as it reaches an Ignite UI component, which calculates on its own host.
+- Every component built on the design system puts `data-ig-scope` on its root element, in any framework. A component with shadow DOM puts it on its host element. A dial set on any ancestor then reaches it, as it reaches an Ignite UI component, which calculates on its own host. `docs/examples/card.html` is a component written this way.
 - A dial on an element without `data-ig-scope` changes the Ignite UI components inside it and no design system token. Add the attribute to that element to change both.
 - Change a dial, not a step. A step set on an element, such as `--igd-space-md: 20px`, is calculated again from the dials on the next `data-ig-scope` below it.
 
@@ -204,7 +204,7 @@ dist/        the generated package (committed, so a site can use it without buil
 reports/     the contrast pairings and derived-colour data the gates read, and the contrast report of the last check run
 reference/   React reference components and their stylesheet. They prove the tokens and feed the checks; they are not part of the package
 docs/        ADOPTING.md: moving a site onto the package; MIGRATION.md: old token names to new ones; showcase.html: every token, rendered;
-             examples/Card.astro: one component written to the rules, quoted in llms.txt and checked by npm test
+             examples/card.html: one component written to the rules in plain HTML and CSS, quoted in llms.txt and checked by npm test
 AGENTS.md    the decisions behind the code and the reason for each
 ```
 
