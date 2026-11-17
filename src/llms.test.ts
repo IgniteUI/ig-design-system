@@ -105,4 +105,11 @@ describe("the generator", () => {
       /has no "color" family/,
     );
   });
+
+  it("rejects a tokens.json that lacks a token family", () => {
+    const { shadow: _shadow, ...withoutShadow } = tokens;
+    expect(() => llmsTxt(withoutShadow, pkg)).toThrow(
+      'llms: tokens.json has no "shadow" family. Update FAMILIES in src/llms.ts to match it.',
+    );
+  });
 });
