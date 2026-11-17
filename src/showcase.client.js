@@ -24,7 +24,7 @@
   theme.addEventListener("click", function () {
     var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
-    // Stored only while it differs from the system, so choosing the system's scheme again follows the system.
+    // Stores the theme only while it differs from the system's.
     try {
       if ((next === "dark") === matchMedia("(prefers-color-scheme: dark)").matches) localStorage.removeItem("igd-showcase-theme");
       else localStorage.setItem("igd-showcase-theme", next);
@@ -47,7 +47,7 @@
     var words = filter.value.toLowerCase().split(/\s+/).filter(Boolean), shown = 0;
     items.forEach(function (el, i) { var keep = words.every(function (w) { return haystack[i].indexOf(w) > -1; }); el.hidden = !keep; if (keep) shown++; });
     document.querySelectorAll(".group, main > section").forEach(function (box) { box.hidden = !box.querySelector("[data-token]:not([hidden])"); });
-    // A folded group opens while a filter is on, so a match inside it is seen.
+    // Opens folded groups while a filter is on.
     document.querySelectorAll("details.fold").forEach(function (d) { if (words.length) d.open = true; });
     document.querySelectorAll(".sections a").forEach(function (a) { a.parentElement.hidden = document.querySelector(a.getAttribute("href")).hidden; });
     empty.hidden = shown > 0;
@@ -63,7 +63,7 @@
   var toast = document.getElementById("toast"), timer, last = "";
   function report(message) {
     clearTimeout(timer);
-    // VoiceOver skips a message equal to the previous one; a no-break space makes it differ.
+    // Appends a no-break space to a message equal to the previous one.
     if (message === last) message += "\u00A0";
     last = message;
     toast.textContent = message; toast.setAttribute("data-shown", "");
@@ -83,7 +83,7 @@
   function mark(current) { links.forEach(function (a) { a.setAttribute("aria-current", String(a === current)); }); }
   if (CSS.supports("scroll-target-group: auto")) {
     var settle = function () { mark(document.querySelector(".sections a:target-current")); };
-    // The pseudo-class updates a frame after the scroll ends, so the link is read a moment later.
+    // Reads the current-section link a frame after the scroll ends.
     var wait, later = function () { clearTimeout(wait); wait = setTimeout(settle, 150); };
     later(); document.addEventListener("scroll", later, { passive: true }); document.addEventListener("scrollend", later);
   } else {
@@ -96,6 +96,13 @@
     document.querySelectorAll("main > section").forEach(function (s) { observer.observe(s); });
   }
 
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+    var stored = null;
+    try { stored = localStorage.getItem("igd-showcase-theme"); } catch (_) {}
+    if (stored) return;
+    root.setAttribute("data-theme", e.matches ? "dark" : "light");
+    sync();
+  });
   addEventListener("resize", read);
   addEventListener("storage", function (e) {
     if (e.key !== "igd-showcase-theme") return;

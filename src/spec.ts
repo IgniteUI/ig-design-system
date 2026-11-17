@@ -951,7 +951,7 @@ export const TYPE: TypeRow[] = [
     weight: 600,
     tracking: "0.16em",
     transform: "uppercase",
-    usage: "Eyebrows: ALL CAPS, in `color-action-default`.",
+    usage: "Eyebrows: ALL CAPS, in `color-action-text`.",
     sample: "DEVELOPER TOOLS",
   },
   {

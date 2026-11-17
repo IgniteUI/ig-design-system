@@ -236,7 +236,7 @@ export const tokensJson = (parts: TokenParts): Tokens => ({
     ],
   },
   shadow: {
-    note: "`shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
+    note: "`shadow-raised`, `shadow-overlay`, `shadow-floating`, `shadow-popover`, `shadow-panel` and `shadow-glass` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
     tokens: [
       ...Object.entries(parts.shadows).map(([name, { snapshot, usage }]) => ({
         name,

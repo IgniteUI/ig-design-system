@@ -1,4 +1,4 @@
-# Publishes the token showcase to GitHub Pages after CI passes on main.
+# Publishes the token showcase of the commit CI passed on, on main, to GitHub Pages.
 name: Showcase
 
 on:
@@ -6,7 +6,6 @@ on:
     workflows: [CI]
     types: [completed]
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,19 +18,22 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Collect the showcase and the files it loads
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Collect the showcase, the files it loads and the files llms.txt links to
         run: |
           mkdir -p site/docs
           cp -r dist site/dist
           cp docs/showcase.html site/docs/showcase.html
-          cp llms.txt llms-full.txt site/
+          cp llms.txt llms-full.txt README.md AGENTS.md CHANGELOG.md site/
+          cp docs/ADOPTING.md docs/MIGRATION.md site/docs/
           printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=docs/showcase.html"><title>ig-design-system</title><a href="docs/showcase.html">Token showcase</a>\n' > site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

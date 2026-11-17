@@ -29,7 +29,7 @@ Old token names from the first design system prototype and their replacements. A
 
 ## 1. Naming convention
 
-Three tiers, role-based names, no colour words in semantic names.
+Three tiers, role-based names, no colour words in semantic names (the three \`window-dot-*\` tokens are the exception).
 
 1. **Raw** (\`--ig-*\`): engine steps, for example \`--ig-primary-600\`, \`--ig-gray-200\`. Only the semantic tier points at them.
 2. **Semantic** (\`--igd-color-*\`, \`--igd-space-*\`, \`--igd-radius-*\`, \`--igd-size-*\`, \`--igd-shadow-*\`, \`--igd-font-weight-*\`, \`--igd-opacity-*\`, \`--igd-z-index-*\`, \`--igd-breakpoint-*\`): what a value is for. Use these in product code.

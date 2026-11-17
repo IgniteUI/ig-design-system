@@ -7,7 +7,7 @@ export const compile = (source: string) => {
   const warnings: string[] = [];
   const { css } = sass.compileString(source, {
     loadPaths: [fromRoot("node_modules")],
-    // Verbose, so Sass reports each deprecation as one and adds no summary warning.
+    // Reports each deprecation on its own, without a summary warning.
     verbose: true,
     logger: {
       warn: (message, { deprecation }) => {

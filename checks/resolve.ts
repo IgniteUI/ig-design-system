@@ -16,7 +16,7 @@ const read = (f: string) =>
   fs.readFileSync(path.join(DIST, f.replace(/^dist\//, "")), "utf8");
 
 const tokens: Tokens = JSON.parse(read("dist/tokens.json"));
-// The property a token of each family is tried on. Both are inherited, so an invalid value shows the parent's sentinel.
+// The inherited property a token of each family is tried on. An invalid value shows the parent's sentinel.
 const KIND: Partial<Record<TokenFamilyName, "color" | "letterSpacing">> = {
   color: "color",
   spacing: "letterSpacing",

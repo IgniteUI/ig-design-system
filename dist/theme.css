@@ -10,7 +10,7 @@
 
 /* ===== 1. igniteui-theming engine layer ===== */
 :root {
-  /* The dials are left unset, so a site sets them for itself. Unset, the tokens resolve at their design values: --ig-size large, --ig-spacing 1, --ig-elevation-factor 1, and each radius role at its own value (--ig-radius-factor from 0, each role's minimum, to 1, its maximum). */
+  /* The dials are unset. Unset, the tokens resolve at their design values: --ig-size large, --ig-spacing 1, --ig-elevation-factor 1, and each radius role at its own value (--ig-radius-factor from 0, each role's minimum, to 1, its maximum). */
   /* one shadow colour behind every neutral elevation */
   --igd-color-shadow: oklch(0 0 0);
   /* easing: compiled from the engine's easings */
@@ -699,7 +699,7 @@
 @media (max-width: 768px) { .igd-hide-below-md { display: none !important; } }
 
 /* ===== 5. derived colour ===== */
-/* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours */
+/* derived colours, declared again on each scope and theme */
 :root, [data-ig-scope], [data-theme] {
   /* semantic tokens that alias a ramp step */
   --igd-color-accent-primary: var(--ig-info-seed);
@@ -763,7 +763,7 @@
 /* ===== 6. themes ===== */
 :root, [data-theme="light"] { --igd-theme-dark: 0; }
 [data-theme="light"] { color-scheme: light; }
-/* neutral roles, declared again so a themed region or a scope resolves them against its own grey and surface ramps */
+/* neutral roles, declared again on each scope and theme */
 :root, [data-ig-scope], [data-theme] {
   --igd-color-text-heading: var(--ig-gray-900);
   --igd-color-text-primary: var(--ig-gray-800);

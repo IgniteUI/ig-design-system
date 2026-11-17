@@ -200,7 +200,7 @@ describe("the full message of each rule", () => {
     expect(
       unknownTokens("a { color: var(--igd-nope); }", known)[0].message,
     ).toBe(
-      "--igd-nope is not a design system token and this site does not declare it. Check the name against tokens.json.",
+      "--igd-nope is not a design system token and this site does not declare it. Check the name in llms-full.txt.",
     );
   });
 
