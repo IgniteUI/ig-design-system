@@ -30,44 +30,41 @@ const packageCss = () => {
     }
     throw new Error("tokens.css and theme.css were not found beside the command. Reinstall ig-design-system.");
 };
+const fail = (message) => {
+    console.error(message);
+    process.exit(1);
+};
 const [command, ...rest] = process.argv.slice(2);
-if (command !== "check" || rest.includes("--help")) {
+if (!command || command === "--help" || rest.includes("--help")) {
     console.log(HELP);
-    process.exit(command === "check" || !command ? 0 : 1);
+    process.exit(0);
 }
+if (command !== "check")
+    fail(`Unknown command "${command}". The only command is check.\n\n${HELP}`);
 const ignore = [];
 const targets = [];
 let strict = false;
 for (let i = 0; i < rest.length; i++) {
-    if (rest[i] === "--strict")
+    const arg = rest[i];
+    if (arg === "--strict")
         strict = true;
-    else if (rest[i] === "--ignore") {
-        const text = rest[++i];
-        if (!text) {
-            console.error("--ignore needs a value, for example --ignore src/vendor.");
-            process.exit(1);
-        }
+    else if (arg === "--ignore" || arg.startsWith("--ignore=")) {
+        const text = arg === "--ignore" ? rest[++i] : arg.slice("--ignore=".length);
+        if (!text || text.startsWith("--"))
+            fail("--ignore needs a value, for example --ignore src/vendor.");
         ignore.push(text);
     }
-    else if (rest[i].startsWith("--")) {
-        console.error(`Unknown option ${rest[i]}. Valid options: --ignore, --strict, --help.`);
-        process.exit(1);
-    }
+    else if (arg.startsWith("--"))
+        fail(`Unknown option ${arg}. Valid options: --ignore, --strict, --help.`);
     else
-        targets.push(rest[i]);
+        targets.push(arg);
 }
-if (!targets.length) {
-    console.error("Nothing to check. Pass a directory or a file, for example: ig-design-system check src.");
-    process.exit(1);
-}
+if (!targets.length)
+    fail("Nothing to check. Pass a directory or a file, for example: ig-design-system check src.");
 const files = [];
 const walk = (p) => {
     if (ignore.some((text) => p.includes(text)))
         return;
-    if (!fs.existsSync(p)) {
-        console.error(`${p} does not exist.`);
-        process.exit(1);
-    }
     if (fs.statSync(p).isDirectory()) {
         for (const f of fs.readdirSync(p))
             if (!SKIPPED.has(f))
@@ -76,8 +73,16 @@ const walk = (p) => {
     else if (SOURCES.test(p))
         files.push(p);
 };
-for (const t of targets)
+for (const t of targets) {
+    if (!fs.existsSync(t))
+        fail(`${t} does not exist.`);
     walk(t);
+}
+if (!files.length)
+    fail(`No source file to check under ${targets.join(", ")}. Check the path and the --ignore values; the command reads ${SOURCES.source
+        .replace(/^\\\.\(|\)\$$/g, "")
+        .split("|")
+        .join(", ")} files.`);
 const texts = new Map(files.map((f) => [f, fs.readFileSync(f, "utf8")]));
 const known = declaredNames(packageCss());
 for (const text of texts.values())

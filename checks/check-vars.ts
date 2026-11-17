@@ -47,9 +47,9 @@ if (isMain(import.meta.url)) {
     }
   for (const [k, v] of Object.entries(bad))
     console.log(`UNDEFINED --${k}`, [...v].slice(0, 3).join(","));
+  const count = Object.keys(bad).length;
   console.log(
-    Object.keys(bad).length
-      ? `undefined vars: ${Object.keys(bad).length}`
-      : "all var() references defined",
+    count ? `undefined vars: ${count}` : "all var() references defined",
   );
+  process.exit(count ? 1 : 0);
 }

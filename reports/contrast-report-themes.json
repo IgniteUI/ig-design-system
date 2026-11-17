@@ -50,23 +50,9 @@
    "ok": true
   },
   {
-   "fg": "color-text-secondary",
-   "bg": "color-surface-page",
-   "ratio": 7.53,
-   "min": 4.5,
-   "ok": true
-  },
-  {
    "fg": "color-action-on",
    "bg": "color-action-default",
    "ratio": 5.25,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-muted",
-   "bg": "color-surface-page",
-   "ratio": 4.94,
    "min": 4.5,
    "ok": true
   },
@@ -85,13 +71,6 @@
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-page",
-   "ratio": 4.94,
-   "min": 4.5,
-   "ok": true
-  },
-  {
    "fg": "color-link-utility",
    "bg": "color-surface-page",
    "ratio": 5.41,
@@ -102,6 +81,20 @@
    "fg": "color-link-utility",
    "bg": "color-surface-subtle",
    "ratio": 5.14,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-link-utility-hover",
+   "bg": "color-surface-page",
+   "ratio": 5.25,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-link-inverse-hover",
+   "bg": "color-surface-inverse",
+   "ratio": 17.25,
    "min": 4.5,
    "ok": true
   },
@@ -535,23 +528,9 @@
    "ok": true
   },
   {
-   "fg": "color-text-secondary",
-   "bg": "color-surface-page",
-   "ratio": 12.73,
-   "min": 4.5,
-   "ok": true
-  },
-  {
    "fg": "color-action-on",
    "bg": "color-action-default",
    "ratio": 5.25,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-muted",
-   "bg": "color-surface-page",
-   "ratio": 9.87,
    "min": 4.5,
    "ok": true
   },
@@ -570,13 +549,6 @@
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-page",
-   "ratio": 9.87,
-   "min": 4.5,
-   "ok": true
-  },
-  {
    "fg": "color-link-utility",
    "bg": "color-surface-page",
    "ratio": 10.78,
@@ -587,6 +559,20 @@
    "fg": "color-link-utility",
    "bg": "color-surface-subtle",
    "ratio": 9.75,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-link-utility-hover",
+   "bg": "color-surface-page",
+   "ratio": 11.42,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-link-inverse-hover",
+   "bg": "color-surface-inverse",
+   "ratio": 17.25,
    "min": 4.5,
    "ok": true
   },

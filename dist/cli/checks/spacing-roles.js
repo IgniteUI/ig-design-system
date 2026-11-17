@@ -24,7 +24,7 @@ export const role = (prop) => {
 /** Lists the raw spacing steps used in a spacing property. The property is the nearest name before the var(), within 400 characters. */
 export const rawSteps = (text) => {
     const found = [];
-    for (const m of text.matchAll(/var\(--igd-space-((?:\d?x[sl]|sm|md|lg))\)/g)) {
+    for (const m of text.matchAll(/var\(\s*--igd-space-((?:\d?x[sl]|sm|md|lg))\s*(?:,[^()]*)?\)/g)) {
         const before = text.slice(Math.max(0, m.index - 400), m.index);
         const props = [
             ...before.matchAll(/(?:[{,;]\s*|\b(?:const|let)\s+)([a-zA-Z-]+)\s*[:=](?!=)/g),
@@ -32,7 +32,12 @@ export const rawSteps = (text) => {
         const prop = props.at(-1);
         const r = prop ? role(prop) : null;
         if (prop && r)
-            found.push({ prop, value: m[0], fix: `var(--igd-space-${r}-${m[1]})` });
+            found.push({
+                prop,
+                value: m[0],
+                fix: `var(--igd-space-${r}-${m[1]})`,
+                index: m.index,
+            });
     }
     return found;
 };

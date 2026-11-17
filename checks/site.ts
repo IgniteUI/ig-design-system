@@ -19,10 +19,10 @@ const withoutComments = (text: string) =>
       (c, lead: string) => lead + " ".repeat(c.length - lead.length),
     );
 
-/** Names of the custom properties a text declares, with the leading `--`. */
+/** Names of the custom properties a text declares, in a stylesheet or as the key of a style object, with the leading `--`. */
 export const declaredNames = (text: string) =>
   new Set(
-    [...withoutComments(text).matchAll(/(?<![\w-])(--[\w-]+)\s*:/g)].map(
+    [...withoutComments(text).matchAll(/(?<![\w-])(--[\w-]+)["']?\s*:/g)].map(
       (m) => m[1],
     ),
   );
@@ -62,21 +62,12 @@ export const paletteOverrides = (text: string): Finding[] =>
   }));
 
 /** A raw spacing step used for padding, a margin or a gap. */
-export const spacingRoles = (text: string): Finding[] => {
-  const clean = withoutComments(text);
-  const found: Finding[] = [];
-  let from = 0;
-  for (const s of rawSteps(clean)) {
-    const index = clean.indexOf(s.value, from);
-    from = index + s.value.length;
-    found.push({
-      line: lineOf(text, index),
-      rule: "spacing-role",
-      message: `${s.prop} uses ${s.value}; use ${s.fix}.`,
-    });
-  }
-  return found;
-};
+export const spacingRoles = (text: string): Finding[] =>
+  rawSteps(withoutComments(text)).map((s) => ({
+    line: lineOf(text, s.index),
+    rule: "spacing-role",
+    message: `${s.prop} uses ${s.value}; use ${s.fix}.`,
+  }));
 
 /** A colour typed in by hand, as the value of a property. Reported only in strict mode. */
 export const colourLiterals = (text: string): Finding[] => {
