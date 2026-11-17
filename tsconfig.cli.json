@@ -5,10 +5,9 @@
     "allowImportingTsExtensions": false,
     "rewriteRelativeImportExtensions": true,
     "rootDir": ".",
-    "outDir": "dist/cli",
-    "declaration": false,
-    "sourceMap": false,
-    "removeComments": false
+    "outDir": "dist/cli"
   },
-  "include": ["checks/cli.ts"]
+  "include": [
+    "checks/cli.ts"
+  ]
 }

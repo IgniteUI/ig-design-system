@@ -1,8 +1,8 @@
 // Gate: padding, margins and gaps in a component use the spacing roles (--igd-space-inset-*, --igd-space-stack-*, --igd-space-gap-*), never a raw step.
 // node checks/spacing-roles.ts <dir-or-file> [...]
 import fs from "node:fs";
-import path from "node:path";
 import { isMain } from "../src/main.js";
+import { walk } from "./walk.js";
 /** The spacing role a property takes, or null when the property is not a spacing property. */
 export const role = (prop) => {
     const p = prop.replace(/-/g, "").toLowerCase();
@@ -42,16 +42,7 @@ export const rawSteps = (text) => {
     return found;
 };
 if (isMain(import.meta.url)) {
-    const files = [];
-    const walk = (p) => {
-        if (fs.statSync(p).isDirectory())
-            for (const f of fs.readdirSync(p))
-                walk(path.join(p, f));
-        else if (/\.(jsx|css)$/.test(p))
-            files.push(p);
-    };
-    for (const p of process.argv.slice(2))
-        walk(p);
+    const files = process.argv.slice(2).flatMap((p) => walk(p, /\.(jsx|css)$/));
     let bad = 0;
     for (const f of files) {
         for (const s of rawSteps(fs.readFileSync(f, "utf8"))) {

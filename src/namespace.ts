@@ -1,7 +1,5 @@
-// node src/namespace.ts
-// Publishes every token the design system defines as --igd-*. The engine's own output keeps the engine's names
-// (--ig-primary-500, --ig-size, …), so an Ignite UI component on the page follows the same palette and dials.
-// The generator works in bare names; this step is the single place where the published prefix is applied.
+// Adds the --igd- prefix to every custom property in dist/*.css that is not engine output.
+// Usage: node src/namespace.ts
 import fs from "node:fs";
 import { isMain } from "./main.ts";
 

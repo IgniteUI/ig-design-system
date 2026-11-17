@@ -1,6 +1,4 @@
-// Gate: every colour a component uses in a state (hover, focus, active, disabled, invalid, checked…) is either a base
-// token or derived from one. Overriding a base must move every state colour that belongs to it, and at the default
-// every derived token must still equal the engine's own value.
+// Gate: every state colour of a component is a base token or follows one, and equals the engine's value at the default.
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
@@ -197,21 +195,6 @@ const BASES = [
     rows.push([n, kind, used[n].length]);
   }
   console.log(rows.map((r) => r[0].padEnd(34) + r[1]).join("\n"));
-  fs.writeFileSync(
-    `${REP}derived-gate.json`,
-    JSON.stringify(
-      {
-        stateTokens: rows.length,
-        derivedTokens: Object.keys(derived).length,
-        pairGroups: pairs.length,
-        rows,
-        pairs,
-        fail,
-      },
-      null,
-      1,
-    ),
-  );
   console.log(
     fail
       ? `derived-state gate: ${fail} FAILING`

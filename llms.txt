@@ -36,7 +36,7 @@ A documentation site puts `data-igd-type="docs"` on `<html>` for the smaller typ
 - Spacing: 45 tokens
 - Radius: 7 tokens
 - Size: 40 tokens
-- Shadow: 49 tokens
+- Shadow: 41 tokens
 - Opacity: 10 tokens
 - Font weight: 6 tokens
 - Gradient: 8 tokens

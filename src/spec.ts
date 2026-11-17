@@ -1,8 +1,7 @@
-// Single spec for every non-engine decision: which engine step each semantic token aliases, and the
-// scale of spacing / sizes / radii / type slots. Values only ever come from engine output or from this map.
+// The vocabulary of the design system: the engine step each semantic token aliases, and the spacing, size, radius, shadow and type scales.
 
 // ---- semantic colour tokens: name -> engine token (alias) ---------------------------------------
-// Each entry: [engineToken, usage]. Usage sentences are carried from the previous system, contrast numbers are recomputed by make.ts.
+// Each entry: [engineToken, usage]. make.ts appends the measured contrast ratios to the usage.
 export type AliasEntry = [engineToken: string, usage: string];
 export const ALIAS: Record<string, AliasEntry> = {
   // brand + action
@@ -730,9 +729,8 @@ export const ZINDEX: Record<string, ZIndexEntry> = {
   "z-index-overlay": [100, "Anything modal."],
 };
 
-// ---- type: old role -> engine slot, with the values handed to the engine as customScale -------
-// px values are the current system's; the engine returns them as rem. family: which face the slot uses.
-// line is unitless, a multiple of the size; role is the old style name.
+// ---- type: the roles, the engine slot each uses and the values passed to the engine's typography() ----
+// Sizes are in px and the engine returns them in rem. line is a unitless multiple of the size.
 // The 13 type slots igniteui-theming has. Mirrors $ITypeScale in the engine.
 export const ENGINE_TYPE_SLOTS = [
   "h1",
@@ -749,7 +747,7 @@ export const ENGINE_TYPE_SLOTS = [
   "caption",
   "overline",
 ];
-// name is the published role; slot is the engine slot that holds it, or a build-only key when the engine has none; was is the old style name.
+// name is the published role; slot is the engine slot that holds it, or a build-only key when the engine has none; was is the name docs/MIGRATION.md maps from.
 export type TypeRow = [
   slot: string,
   name: string,

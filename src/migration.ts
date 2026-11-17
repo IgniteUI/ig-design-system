@@ -1,4 +1,5 @@
-// node src/migration.ts <out.md> — the old → new tables come from rename-map.ts, so they cannot drift from the build.
+// Writes docs/MIGRATION.md from the old-to-new tables in rename-map.ts.
+// Usage: node src/migration.ts <out.md>
 import fs from "node:fs";
 import * as M from "./rename-map.ts";
 import { ENGINE_TYPE_SLOTS, SPACE, TYPE } from "./spec.ts";

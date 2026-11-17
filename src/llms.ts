@@ -1,5 +1,5 @@
-// node src/llms.ts <tokens.json> <package.json> <llms.txt> <llms-full.txt>
-// Writes the two files an AI agent reads first: llms.txt, the rules and where things are, and llms-full.txt, every token.
+// Writes llms.txt, the rules for code that uses the tokens, and llms-full.txt, every token.
+// Usage: node src/llms.ts <tokens.json> <package.json> <llms.txt> <llms-full.txt>
 import fs from "node:fs";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";

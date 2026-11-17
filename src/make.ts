@@ -170,7 +170,8 @@ for (const m of fs
   .readFileSync(".cache/sass/tint.css", "utf8")
   .matchAll(/--ig-elevation-(\d+): ([^;]+);/g))
   tintVars[m[1]] = m[2];
-const tintUsed = [1, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+// The tinted elevation levels a semantic shadow reads.
+const tintUsed = [1, 13, 16];
 // The neutral semantic shadows go through the engine's box-shadow(), so they follow --ig-elevation-factor.
 const SHADOW_TINT: Named<string> = {
   "color-shadow": "0, 0, 0",
@@ -346,7 +347,7 @@ const FAM = {
   gray: "gray",
 };
 const note = (fam: string, variant: string) =>
-  `Engine palette step \`${fam}\`, ${variant}. Seeded from the previous system; each step is solved for contrast by igniteui-theming.`;
+  `Engine palette step \`${fam}\`, ${variant}. Each step is solved for contrast by igniteui-theming.`;
 for (const fam of Object.keys(FAM))
   for (const [n, v] of Object.entries(P.light))
     if (new RegExp(`^${fam}-A?\\d+$`).test(n))
@@ -561,7 +562,7 @@ const typeGroups: TypeGroup[] = [
 for (const [
   slot,
   name,
-  was,
+  _was,
   fam,
   px,
   _line,
@@ -578,7 +579,9 @@ for (const [
     ...(S.TYPE_MIN[name] ? { fontSizeMin: rem(S.TYPE_MIN[name]) } : {}),
     lineHeight: t["line-height"],
     fontWeight: weight,
-    usage: `${usage} (was \`${was}\`${S.ENGINE_TYPE_SLOTS.includes(slot) ? `; engine slot \`${slot}\`` : ""})`,
+    usage: S.ENGINE_TYPE_SLOTS.includes(slot)
+      ? `${usage} Engine slot \`${slot}\`.`
+      : usage,
     sample,
   };
   if (track !== "0") st.letterSpacing = t["letter-spacing"];
@@ -665,7 +668,7 @@ const tokens: Tokens = {
     tokens: [
       ...Object.entries(SHADOWS).map(([name, [, snap, usage]]) => ({
         name,
-        value: snap === "none" ? "none" : snap,
+        value: snap,
         usage,
       })),
       ...Object.keys(elevNeutral).map((l) => ({
@@ -878,7 +881,6 @@ b += `
 }
 
 /* Breakpoints (media queries cannot read custom properties; generated from tokens.json breakpoint family) */
-.igd-hide-below-md { }
 @media (max-width: ${S.BREAKPOINT["breakpoint-md"][0]}px) { .igd-hide-below-md { display: none !important; } }
 `;
 // ---------- 7. derived colour: every state follows its base token ----------
@@ -1166,10 +1168,6 @@ fs.writeFileSync(
   ".cache/components.css",
   bpSub(fs.readFileSync("reference/components.css", "utf8")),
 );
-fs.writeFileSync(
-  `${REP}/contrast-report.json`,
-  JSON.stringify(report, null, 1),
-);
 // The action fill is held to 3:1, not to the text minimum: text in the action colour is color-action-text.
 const isFillAsText = (c: S.ContrastPair) =>
   (c[0] === "color-action-default" && (c[2] ?? 4.5) === 4.5) ||
@@ -1192,18 +1190,6 @@ fs.writeFileSync(
     ["color-text-ui", "fw-blazor-background"],
     ["color-focus-default", "color-surface-page", 3],
   ]),
-);
-fs.writeFileSync(
-  `${REP}/engine-snapshot.json`,
-  JSON.stringify(
-    {
-      type,
-      elevNeutral,
-      tintVars,
-    },
-    null,
-    1,
-  ),
 );
 console.log(
   "tokens: colors",
