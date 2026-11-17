@@ -48,14 +48,18 @@ const REP = path.join(import.meta.dirname, "../reports/");
         .createElement("canvas")
         .getContext("2d", { willReadFrequently: true })!;
       k.canvas.width = k.canvas.height = 1;
-      const rgb = (n: string) => {
+      const css = (n: string) => {
         e.style.color = `var(--${n.startsWith("ig-") ? n : `igd-${n}`})`;
-        const c = getComputedStyle(e).color;
+        return getComputedStyle(e).color;
+      };
+      const page = css("color-surface-page");
+      // Paints the colours in order on one pixel, so a translucent one is seen over those below it.
+      const rgb = (...layers: string[]) => {
         k.clearRect(0, 0, 1, 1);
-        k.fillStyle = "#fff";
-        k.fillRect(0, 0, 1, 1);
-        k.fillStyle = c;
-        k.fillRect(0, 0, 1, 1);
+        for (const c of layers) {
+          k.fillStyle = c;
+          k.fillRect(0, 0, 1, 1);
+        }
         return [...k.getImageData(0, 0, 1, 1).data].slice(0, 3);
       };
       // Mirrors srgbToLinear() in src/color.ts.
@@ -67,8 +71,8 @@ const REP = path.join(import.meta.dirname, "../reports/");
         return 0.2126 * f(a[0]) + 0.7152 * f(a[1]) + 0.0722 * f(a[2]);
       };
       return pairs.map(([fg, bg, min = 4.5]) => {
-        const x = lum(rgb(fg));
-        const y = lum(rgb(bg));
+        const x = lum(rgb(page, css(bg), css(fg)));
+        const y = lum(rgb(page, css(bg)));
         const r = (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
         return { fg, bg, ratio: +r.toFixed(2), min, ok: r >= min };
       });

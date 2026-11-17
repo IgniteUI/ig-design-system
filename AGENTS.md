@@ -34,7 +34,7 @@ Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there
 | `src/typography.ts` | Compiles the type scale and the type sets with the engine's `typography()`. |
 | `src/layout.ts` | Spacing, sizes, radius and elevations through `pad()`, `sizable()`, `border-radius()` and `elevations()`. |
 | `src/shadows.ts` | The site shadows, the tinted elevations and the semantic shadow table. |
-| `src/contrast.ts` | The label colour on the action fill, the measured ratios and the pairings check. |
+| `src/contrast.ts` | The label colour on the action fill, the step its hover fill takes, the measured ratios and the pairings check. |
 | `src/engine-colors.ts` | Looks a token or an engine step up in `src/palettes.json`. |
 | `src/tokens-json.ts` | Builds the `tokens.json` object. |
 | `src/stylesheets.ts` | The text of `tokens.css`, `fonts.css` and `base.css`. |
