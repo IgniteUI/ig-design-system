@@ -48,11 +48,12 @@ const published = (["spacing", "radius", "size"] as const).flatMap((family) =>
     .map((t) => [cssVar(t.name), Number.parseFloat(t.value) * 16] as const),
 );
 
+const THEMES = ["light", "dark"];
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
   let fail = 0;
-  for (const theme of ["light", "dark"]) {
+  for (const theme of THEMES) {
     await page.setContent(
       `<style>${css}</style><body><div id="scope" data-theme="${theme}" style="color: rgb(1, 2, 3); letter-spacing: 1.337px"><i id="probe"></i></div>`,
     );
@@ -94,7 +95,7 @@ const published = (["spacing", "radius", "size"] as const).flatMap((family) =>
   console.log(
     fail
       ? `resolve gate: ${fail} FAILING`
-      : `resolve gate: pass (${declared.length} custom properties, ${typed.length} typed, ${published.length} equal to tokens.json, × 2 themes)`,
+      : `resolve gate: pass (${declared.length} custom properties, ${typed.length} typed, ${published.length} equal to tokens.json, × ${THEMES.length} themes)`,
   );
   process.exit(fail ? 1 : 0);
 })();

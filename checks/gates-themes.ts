@@ -11,6 +11,7 @@ const OUT = path.join(
   "/",
 );
 const REP = path.join(import.meta.dirname, "../reports/");
+const THEMES = ["light", "dark"];
 (async () => {
   const pairs: Pair[] = JSON.parse(
     fs.readFileSync(`${REP}contrast-pairs.json`, "utf8"),
@@ -38,7 +39,7 @@ const REP = path.join(import.meta.dirname, "../reports/");
   const p = await b.newPage();
   let fail = 0;
   const report: Record<string, Row[]> = {};
-  for (const theme of ["light", "dark"]) {
+  for (const theme of THEMES) {
     await p.setContent(
       `<style>${css}</style><body><div id="t" data-theme="${theme}"><i id="pr"></i></div>`,
     );
@@ -93,7 +94,7 @@ const REP = path.join(import.meta.dirname, "../reports/");
   console.log(
     fail
       ? `theme contrast gate: ${fail} FAILING`
-      : `theme contrast gate: pass (${pairs.length} pairings × 2 themes, AA)`,
+      : `theme contrast gate: pass (${pairs.length} pairings × ${THEMES.length} themes, AA)`,
   );
   await b.close();
   process.exit(fail ? 1 : 0);

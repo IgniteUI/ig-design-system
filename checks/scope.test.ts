@@ -28,12 +28,16 @@ beforeAll(async () => {
   page = await browser.newPage();
   await page.setContent(`<style>${css}
     .box { padding: var(--igd-space-inset-md); margin-left: var(--igd-size-control-md);
-      border-radius: var(--igd-radius-lg); box-shadow: var(--igd-elevation-8); }</style>
+      border-radius: var(--igd-radius-lg); box-shadow: var(--igd-elevation-8); }
+    .fill { background: var(--igd-color-action-fill-hover); }</style>
     <div id="default" class="box"></div>
     <div style="${DIALS}"><div id="plain" class="box"></div></div>
     <div style="${DIALS}"><div id="host" class="box" data-ig-scope></div></div>
     <div data-ig-scope style="${DIALS}"><div id="region" class="box"></div>
       <div data-ig-scope style="--ig-spacing: 1"><div id="nested" class="box"></div></div></div>
+    <div style="--igd-color-action-default: #b91c1c"><div id="plain-colour" class="fill"></div></div>
+    <div data-ig-scope style="--igd-color-action-default: #b91c1c"><div id="scope-colour" class="fill"></div></div>
+    <div id="default-colour" class="fill"></div>
     <div data-theme="dark"><div id="dark"></div><div data-theme="light" id="light"></div></div>`);
 }, 60000);
 
@@ -74,6 +78,22 @@ describe("a dial", () => {
     expect(n.padding).toBe("12px");
     expect(n.radius).toBe(r.radius);
     expect(n.size).toBe(r.size);
+  });
+});
+
+describe("a base colour set on an element", () => {
+  const hover = (id: string) =>
+    page.evaluate(
+      (id) => getComputedStyle(document.getElementById(id)!).backgroundColor,
+      id,
+    );
+
+  it("moves its state colours below a data-ig-scope", async () => {
+    expect(await hover("scope-colour")).not.toBe(await hover("default-colour"));
+  });
+
+  it("leaves the state colours unchanged below an element without data-ig-scope", async () => {
+    expect(await hover("plain-colour")).toBe(await hover("default-colour"));
   });
 });
 
