@@ -29,6 +29,19 @@ beforeAll(() => {
   );
   fs.writeFileSync(path.join(dir, "src/hex.css"), "a { color: #155dfc; }\n");
   fs.writeFileSync(path.join(dir, "empty/notes.txt"), "nothing to read\n");
+  fs.mkdirSync(path.join(dir, "rules"));
+  const rule = (file: string, text: string) =>
+    fs.writeFileSync(path.join(dir, "rules", file), text);
+  rule("unknown.css", "a { color: var(--igd-typo); }\n");
+  rule("read.css", "a { color: var(--ig-gray-700); }\n");
+  rule("override.ts", 'export const style = { "--ig-primary-500": "red" };\n');
+  rule("role.css", "a { margin-inline-start: var(--igd-space-md); }\n");
+  rule("nostep.css", "a { padding: var(--igd-space-6xl); }\n");
+  rule("nextline.css", "a {\n  color:\n    #155dfc;\n}\n");
+  rule(
+    "url.css",
+    "a { background:url(//cdn.test/image); color:var(--igd-typo); }\n",
+  );
 });
 
 afterAll(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -63,6 +76,28 @@ describe("ig-design-system check", () => {
     const r = run("check", "src/hex.css", "--strict");
     expect(r.code).toBe(1);
     expect(r.out).toContain("colour-literal: #155dfc is typed in.");
+  });
+
+  it.each([
+    ["unknown.css", "unknown.css:1  unknown-token: --igd-typo is not"],
+    ["read.css", "read.css:1  raw-palette: --ig-gray-700 is a raw"],
+    ["override.ts", "override.ts:1  palette-override: --ig-primary-500 is"],
+    [
+      "role.css",
+      "role.css:1  spacing-role: margin-inline-start uses var(--igd-space-md); use var(--igd-space-gap-md).",
+    ],
+    ["nostep.css", "--igd-space-inset-6xl does not exist."],
+    ["url.css", "url.css:1  unknown-token: --igd-typo is not"],
+  ])("reports the finding in %s", (file, message) => {
+    const r = run("check", `rules/${file}`);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain(message);
+  });
+
+  it("reports a hex colour on the line after its property, with --strict", () => {
+    const r = run("check", "rules/nextline.css", "--strict");
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("nextline.css:3  colour-literal: #155dfc");
   });
 
   it("fails when no source file is found, so a wrong path cannot pass", () => {
