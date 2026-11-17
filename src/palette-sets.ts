@@ -10,8 +10,17 @@ const sc = Object.entries(scales)
       `'${k}': (range: (${v.range.join(", ")}), curve: (${v.curve.join(", ")}))`,
   )
   .join(", ");
-const seeds =
-  "$primary: #155dfc, $secondary: #9810fa, $info: #0099ff, $success: #028a54, $warn: #f59e0b";
+// IGD_SEED_PRIMARY and IGD_SEED_SECONDARY replace a brand seed for one build. CI uses them to prove the system holds with other brand colours.
+const seed = (name: string, fallback: string) => {
+  const value = process.env[name];
+  if (value === undefined || value === "") return fallback;
+  if (!/^#[0-9a-fA-F]{6}$/.test(value))
+    throw new Error(
+      `${name} is "${value}". A seed is a six-digit hex colour, such as #0f9d58.`,
+    );
+  return value;
+};
+const seeds = `$primary: ${seed("IGD_SEED_PRIMARY", "#155dfc")}, $secondary: ${seed("IGD_SEED_SECONDARY", "#9810fa")}, $info: #0099ff, $success: #028a54, $warn: #f59e0b`;
 /** The engine palette() call of each palette the design system builds. */
 export const sets = {
   light: `palette(${seeds}, $surface: #ffffff, $gray: #64748b, $scales: (${sc}))`,

@@ -128,7 +128,7 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 | `data-ig-scope` | a region that carries its own base colours |
 | `data-igd-type="docs"` | the type roles at documentation sizes, on the page or on one region |
 
-**Brand colours.** The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action colour used as text keeps the seed while the seed clears 4.5:1 on the light surfaces, and is darkened to the first primary step that does otherwise. `tokens.css` publishes that darkened colour. The label on the action fill is black or white, whichever reads on the seed. A primary seed below 3:1 against the page stops the build with a message, because a filled control would not stand out.
+**Brand colours.** `IGD_SEED_PRIMARY` and `IGD_SEED_SECONDARY` replace a seed for one build; CI builds the system with two other brand colours on every pull request and runs every gate on the result. The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action colour used as text keeps the seed while the seed clears 4.5:1 on the light surfaces, and is darkened to the first primary step that does otherwise. `tokens.css` publishes that darkened colour. The label on the action fill is black or white, whichever reads on the seed. A primary seed below 3:1 against the page stops the build with a message, because a filled control would not stand out.
 
 **Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. The action colour used as text or as an outline is adjusted in lightness where it would be too light (or, in the dark theme, too dark) to read. Fills keep the exact colour with a black or white label.
 
@@ -146,7 +146,8 @@ The dials are the engine's, so an Ignite UI component reads them too. `--ig-size
 | `checks/check-vars.ts` | A `var()` that points at a token that does not exist |
 | `checks/spacing-roles.ts` | A raw spacing step used for padding, a margin or a gap |
 | `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
-| `checks/gates-themes.ts` | Any of 67 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
+| `checks/gates-themes.ts` | Any of 69 colour pairings below WCAG AA, measured in a browser in the light and the dark theme |
+| `checks/resolve.ts` | A token that resolves to nothing, or to an invalid colour or length, when a page loads the package, in the light and the dark theme |
 
 The rules of the three source checks and the functions of the generator have unit tests in `src/*.test.ts` and `checks/*.test.ts`. Each script exports its functions and does its file work only when it is the script Node was started with.
 
@@ -213,6 +214,7 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Open items
 
+- A design review of the dark theme, the status badge colours and the width range type and section spacing grow across
 - A reduced-motion, focus and target-size check (it exists for the reference components; `docs/showcase.html` is a page it could run on)
 
 ## Adopting it in a site

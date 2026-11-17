@@ -59,7 +59,13 @@ npx ig-design-system check src
 
 Run it on the site's source and in CI (see the README). It reports a token that does not exist, a raw palette step that is read or declared, and a raw spacing step.
 
-Then compare the pages. A token name that resolves to nothing fails silently, so measure:
+Then compare the pages. A token name that resolves to nothing fails silently, so measure. From a checkout of this repository, with the site running before and after the change on two ports:
+
+```sh
+npm run compare -- http://localhost:4321 http://localhost:4322 /@1440 /@390 /pricing@1440
+```
+
+It reports, per page, the element count, the page height, horizontal overflow, and every difference grouped by property and value. Run it against a production build when you can: a dev server adds its own elements and can report a difference that is not there. Compare:
 
 - before and after each pass, the computed font, size, colours, radius and box size of every element on a set of pages, at a desktop and a phone width;
 - a rename must show no difference at all;

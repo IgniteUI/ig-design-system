@@ -162,10 +162,16 @@ Nothing below is decided. Ask the owner before acting on one.
 - No site installs the package yet. The marketing site and `igniteui-astro-components` carry a copy of `dist/` until the first release.
 - Not reviewed by design: the width range type and section spacing grow across (360px to 1280px), the status badge colours, and `color-feedback-error-default` at `error-500`.
 - The dark theme has not been reviewed. Nobody is working on it and no site has a switch for it yet.
-- CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
 - The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
+
+## Proving a change
+
+- `checks/resolve.ts` loads `tokens.css` and `theme.css` in a browser and fails when a custom property resolves to nothing, or a colour, spacing, radius or size token is not a valid value, in either theme. A property declared only on a component selector is left out.
+- CI builds the system a second time with `IGD_SEED_PRIMARY=#0f9d58` and `IGD_SEED_SECONDARY=#e6447a` and runs every gate. Why: a rebrand is a promise of decision 3, and with one seed in CI nothing proved it.
+- `npm run compare -- <before url> <after url> [path@width ...]` compares two renderings element by element. Both site adoptions were verified with it; use it before claiming a change moves nothing.
+- `.github/workflows/pages.yml` publishes `docs/showcase.html` to GitHub Pages on every push to `main`. Pages has to be enabled once in the repository settings.
 
 ## Files for agents
 

@@ -1,0 +1,38 @@
+# Publishes the token showcase to GitHub Pages on every push to main.
+name: Showcase
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect the showcase and the files it loads
+        run: |
+          mkdir -p site/docs
+          cp -r dist site/dist
+          cp docs/showcase.html site/docs/showcase.html
+          cp llms.txt llms-full.txt site/
+          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=docs/showcase.html"><title>ig-design-system</title><a href="docs/showcase.html">Token showcase</a>\n' > site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
