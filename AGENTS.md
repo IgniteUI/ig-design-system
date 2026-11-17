@@ -159,9 +159,13 @@ Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(
 - `base.css` holds those element rules. It is optional and loads last.
 - `fonts.css` holds the `@font-face` rules. It is optional. Why: the marketing site loads the same three families from Google Fonts, and with the rules inside `tokens.css` every page fetched each face twice and the header and footer it exports to other sites carried the font files.
 - The package does not set `--ig-size`, `--ig-spacing`, `--ig-elevation-factor` or `--ig-radius-factor`. Each token falls back to its design value.
+- Every token that reads a dial (spacing, sizes, radii, the neutral elevations) is declared on `:root, [data-ig-scope]`. A dial takes effect on the root and on a `data-ig-scope` element, nowhere else.
+- A component puts `data-ig-scope` on its root element.
 - A link in `base.css` is `color-action-text`, not `color-action-default`. The fill colour is not safe as text: it was about 3.4:1 on the dark page.
 
 Why apart: a docs site has its own element styles. Loaded on top of it, the element rules reset heading margins, removed link underlines and changed the body size. That was seen in the `igniteui-astro-components` playground.
+
+Why the scope: a custom property is calculated on the element that declares it, and elements below inherit the result, not the formula. An Ignite UI component calculates on its host, so it follows a dial set on any ancestor. A token has no host, so the component root is marked. Without the mark, a dial on a section shrank the Ignite UI buttons in it and left the cards next to them unchanged.
 
 Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew. The owner decided each site sets the dials for itself.
 

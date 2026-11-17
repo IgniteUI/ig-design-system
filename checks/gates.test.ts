@@ -69,7 +69,7 @@ describe("checks/resolve.ts", () => {
 
   it("fails a spacing token whose live value differs from tokens.json", () => {
     const dir = brokenDist(
-      (t) => `${t}\n:root, [data-size] { --igd-space-md: 2rem; }\n`,
+      (t) => `${t}\n:root, [data-ig-scope] { --igd-space-md: 2rem; }\n`,
     );
     const r = run("resolve.ts", dir);
     expect(r.code).toBe(1);
