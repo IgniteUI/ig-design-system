@@ -2,6 +2,7 @@
 // Emits the tokens in the Design Tokens Community Group format (Format Module 2025.10) for design tools and native platforms.
 // tokens.json stays the source; this file is generated from it and validated before it is written.
 import fs from "node:fs";
+import { hexToRgb, rgbToHex } from "./color.ts";
 import { isMain } from "./main.ts";
 import type { Tokens } from "./types.ts";
 
@@ -17,25 +18,18 @@ type DtcgGroup = {
   [name: string]: DtcgToken | string | undefined;
 };
 const r4 = (n: number) => Math.round(n * 1e4) / 1e4;
-const hexColor = (hex: string, alpha?: number) => {
-  const c = [1, 3, 5].map((i) =>
-    r4(Number.parseInt(hex.slice(i, i + 2), 16) / 255),
-  );
-  return {
-    colorSpace: "srgb",
-    components: c,
-    ...(alpha !== undefined && alpha !== 1 ? { alpha } : {}),
-    hex: hex.toLowerCase(),
-  };
-};
-const toHex = (r: string, g: string, b: string) =>
-  `#${[r, g, b].map((v) => (+v).toString(16).padStart(2, "0")).join("")}`;
+const hexColor = (hex: string, alpha?: number) => ({
+  colorSpace: "srgb",
+  components: hexToRgb(hex).map((channel) => r4(channel / 255)),
+  ...(alpha !== undefined && alpha !== 1 ? { alpha } : {}),
+  hex: hex.toLowerCase(),
+});
 export const color = (v: string) => {
   if (/^#[0-9a-f]{6}$/i.test(v)) return hexColor(v);
   const m = v.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)$/);
   if (m)
     return hexColor(
-      toHex(m[1], m[2], m[3]),
+      rgbToHex([+m[1], +m[2], +m[3]]),
       m[4] === undefined ? undefined : +m[4],
     );
   return null;

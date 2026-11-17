@@ -1,19 +1,23 @@
 // Gate: every token resolves in a browser, in both themes, when a page loads the package as a site does.
-// node checks/resolve.ts [dist directory]
+// Usage: node checks/resolve.ts [dist directory]
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 import { cssVar } from "../src/namespace.ts";
+import {
+  TOKEN_FAMILIES,
+  type TokenFamilyName,
+  type Tokens,
+} from "../src/types.ts";
 
 const ROOT = path.join(import.meta.dirname, "..");
 const DIST = process.argv[2] ?? path.join(ROOT, "dist");
 const read = (f: string) =>
   fs.readFileSync(path.join(DIST, f.replace(/^dist\//, "")), "utf8");
 
-type Family = { tokens: { name: string; value: string }[] };
-const tokens = JSON.parse(read("dist/tokens.json")) as Record<string, Family>;
+const tokens: Tokens = JSON.parse(read("dist/tokens.json"));
 // The property a token of each family is tried on. Both are inherited, so an invalid value shows the parent's sentinel.
-const KIND: Record<string, "color" | "letterSpacing"> = {
+const KIND: Partial<Record<TokenFamilyName, "color" | "letterSpacing">> = {
   color: "color",
   spacing: "letterSpacing",
   radius: "letterSpacing",
@@ -30,12 +34,15 @@ const declared = [
       ),
   ),
 ];
-const typed = Object.entries(KIND).flatMap(([family, prop]) =>
-  tokens[family].tokens.map((t) => [cssVar(t.name), prop] as const),
-);
+const typed = TOKEN_FAMILIES.flatMap((family) => {
+  const prop = KIND[family];
+  return prop
+    ? tokens[family].tokens.map((t) => [cssVar(t.name), prop] as const)
+    : [];
+});
 
 // The spacing, radius and size tokens published in rem, as [custom property, pixels at the default dials].
-const published = ["spacing", "radius", "size"].flatMap((family) =>
+const published = (["spacing", "radius", "size"] as const).flatMap((family) =>
   tokens[family].tokens
     .filter((t) => /^-?[\d.]+rem$/.test(t.value))
     .map((t) => [cssVar(t.name), Number.parseFloat(t.value) * 16] as const),
