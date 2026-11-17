@@ -1256,7 +1256,7 @@
     },
     "color-action-default": {
       "$value": "{color.ig-primary-seed}",
-      "$description": "The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. Every action: primary CTA fill (label `color-action-on`), in-page links and eyebrows on `color-surface-page` and `color-surface-tint`. Contrast 5.25:1 on `color-surface-page`, 4.83:1 on `color-surface-tint`, 5.25:1 on `color-surface-page`, 4.83:1 on `color-surface-tint`, 5.25:1 on `color-surface-page`."
+      "$description": "The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. Every action: primary CTA fill (label `color-action-on`), in-page links and eyebrows on `color-surface-page` and `color-surface-tint`. Contrast 5.25:1 on `color-surface-page`, 4.83:1 on `color-surface-tint`, 5.25:1 on `color-surface-page`."
     },
     "color-action-hover": {
       "$value": "{color.ig-info-500}",
@@ -1292,7 +1292,7 @@
     },
     "color-link-utility-hover": {
       "$value": "{color.color-action-text}",
-      "$description": "Utility-row link hover."
+      "$description": "Utility-row link hover. Contrast 5.25:1 on `color-surface-page`."
     },
     "color-link-inverse": {
       "$value": {
@@ -1316,7 +1316,7 @@
         ],
         "hex": "#fbfbfb"
       },
-      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp."
+      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`."
     },
     "footer-link": {
       "$value": {
@@ -1368,7 +1368,7 @@
     },
     "color-text-secondary": {
       "$value": "{color.ig-gray-600}",
-      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.16:1 on `color-surface-subtle`, 7.53:1 on `color-surface-page`, 6.74:1 on `color-surface-muted`."
+      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.16:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`."
     },
     "color-text-ui": {
       "$value": "{color.ig-gray-700}",
@@ -1376,7 +1376,7 @@
     },
     "color-text-muted": {
       "$value": "{color.ig-gray-500}",
-      "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.7:1 on `color-surface-subtle`, 4.94:1 on `color-surface-page`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`, 4.94:1 on `color-surface-page`."
+      "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.7:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`."
     },
     "color-text-inverse": {
       "$value": {

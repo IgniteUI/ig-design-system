@@ -12,10 +12,24 @@ const REP = path.join(import.meta.dirname, "../reports/");
     fs.readFileSync(`${REP}contrast-pairs.json`, "utf8"),
   );
   const css =
-    fs
-      .readFileSync(`${OUT}tokens.css`, "utf8")
-      .replace(/@font-face[^}]*}/g, "") +
+    fs.readFileSync(`${OUT}tokens.css`, "utf8") +
     fs.readFileSync(`${OUT}theme.css`, "utf8");
+  const declared = new Set(
+    [...css.matchAll(/(?<![\w-])--([\w-]+)\s*:/g)].map((m) => m[1]),
+  );
+  const missing = [
+    ...new Set(
+      pairs
+        .flatMap(([fg, bg]) => [fg, bg])
+        .filter((n) => !declared.has(n.startsWith("ig-") ? n : `igd-${n}`)),
+    ),
+  ];
+  if (missing.length) {
+    console.log(
+      `theme contrast gate: ${missing.join(", ")} is in a pairing and is not a token. Fix the name in CONTRAST_PAIRS in src/spec.ts.`,
+    );
+    process.exit(1);
+  }
   const b = await chromium.launch();
   const p = await b.newPage();
   let fail = 0;

@@ -377,70 +377,7 @@ const stepNote = (eng: string) =>
       : "";
 const inlined = new Set<string>();
 const aliasUsage = (name: string) => S.ALIAS[name][1];
-// contrast checks that decide which ratio is quoted in a note
-const CHECKS: [fg: string, bg: string, min?: number][] = [
-  ["color-text-heading", "color-surface-page"],
-  ["color-text-primary", "color-surface-page"],
-  ["color-text-secondary", "color-surface-page"],
-  ["color-text-secondary", "color-surface-subtle"],
-  ["color-text-ui", "color-surface-page"],
-  ["color-text-muted", "color-surface-page"],
-  ["color-text-muted", "color-surface-subtle"],
-  ["color-text-secondary", "color-surface-page"],
-  ["color-action-default", "color-surface-page"],
-  ["color-action-default", "color-surface-tint"],
-  ["color-action-default", "color-surface-page"],
-  ["color-action-default", "color-surface-tint"],
-  ["color-action-on", "color-action-default"],
-  ["color-text-muted", "color-surface-page"],
-  ["color-text-muted", "color-surface-card"],
-  ["color-text-muted", "color-surface-tint"],
-  ["color-text-muted", "color-surface-page"],
-  ["color-link-utility", "color-surface-page"],
-  ["color-link-utility", "color-surface-subtle"],
-  ["color-action-hover", "color-surface-page"],
-  ["color-action-active", "color-surface-page"],
-  ["color-text-inverse", "color-surface-inverse"],
-  ["color-text-inverse-muted", "color-surface-inverse"],
-  ["color-accent-inverse", "color-surface-inverse"],
-  ["color-accent-inverse-alt", "color-surface-inverse"],
-  ["color-link-inverse", "color-surface-inverse"],
-  ["color-focus-inverse", "color-surface-inverse"],
-  ["footer-link", "color-surface-inverse-raised"],
-  ["footer-text", "color-surface-inverse-raised"],
-  ["footer-strong", "color-surface-inverse-raised"],
-  ["footer-heading", "color-surface-inverse-raised"],
-  ["footer-icon", "color-surface-inverse-raised"],
-  ["color-feedback-error-inverse", "color-surface-inverse-raised"],
-  ["badge-bundle-color", "badge-bundle-background"],
-  ["badge-oss-color", "color-surface-page"],
-  ["badge-new-color", "color-surface-page"],
-  ["badge-updated-color", "color-surface-page"],
-  ["badge-preview-color", "color-surface-page"],
-  ["badge-premium-color", "color-surface-page"],
-  ["color-feedback-success-default", "color-surface-page"],
-  ["color-feedback-info-default", "color-surface-page"],
-  ["color-feedback-info-default", "color-surface-tint"],
-  ["color-feedback-success-inverse", "color-surface-inverse", 3],
-  ["color-feedback-warning-inverse", "color-surface-inverse"],
-  ["color-feedback-info-inverse", "color-surface-inverse"],
-  ["color-feedback-warning-default", "color-surface-page"],
-  ["table-mark-yes-color", "table-mark-yes-background"],
-  ["table-mark-partial-color", "table-mark-partial-background"],
-  ["table-mark-no-color", "table-mark-no-background"],
-  ["table-header-sub-color", "color-surface-inverse"],
-  ["table-header-sub-highlight-color", "color-action-default"],
-  ["table-header-detail-color", "color-surface-inverse"],
-  ["color-icon-subtle", "color-surface-page", 1],
-  ["color-border-control", "color-surface-page", 3],
-  ["color-focus-inverse", "color-surface-inverse", 3],
-  ["color-action-default", "color-surface-page", 3],
-  ["color-feedback-error-default", "color-surface-page"],
-  ["color-feedback-error-default", "color-surface-subtle"],
-  ["color-focus-default", "color-surface-page", 3],
-  ["color-text-ui", "color-surface-subtle"],
-  ["color-text-secondary", "color-surface-muted"],
-];
+const CHECKS = S.CONTRAST_PAIRS;
 const report: {
   fg: string;
   bg: string;
@@ -1281,5 +1218,7 @@ console.log(
 console.log("theme.css bytes", b.length, "| tokens.css bytes", css.length);
 const bad = report.filter((r) => !r.ok);
 console.log("contrast checks:", report.length, "failing:", bad.length);
-for (const r of bad)
-  console.log("  FAIL", r.fg, "on", r.bg, r.ratio, "<", r.min);
+if (bad.length)
+  throw new Error(
+    `${bad.length} contrast pairing(s) are below their minimum: ${bad.map((r) => `${r.fg} on ${r.bg} is ${r.ratio}:1, needs ${r.min}:1`).join("; ")}. Pick a darker or lighter step for the token in src/spec.ts.`,
+  );

@@ -94,6 +94,22 @@ describe("spacingRoles", () => {
     expect(found[0].message).toContain("var(--igd-space-inset-md)");
   });
 
+  it("reports each raw step on its own line when the same step is used earlier in a non-spacing property", () => {
+    const found = spacingRoles(
+      "a {\n  width: var(--igd-space-md);\n}\nb {\n  padding: var(--igd-space-md);\n}",
+    );
+    expect(found.map((f) => f.line)).toEqual([5]);
+  });
+
+  it("reports a raw step written with spaces or with a fallback", () => {
+    expect(spacingRoles("a { margin: var( --igd-space-md ); }")).toHaveLength(
+      1,
+    );
+    expect(spacingRoles("a { gap: var(--igd-space-sm, 4px); }")).toHaveLength(
+      1,
+    );
+  });
+
   it("accepts a spacing role", () => {
     expect(spacingRoles("a { padding: var(--igd-space-inset-md); }")).toEqual(
       [],
@@ -129,7 +145,37 @@ describe("checkText", () => {
   });
 });
 
+describe("the full message of each rule", () => {
+  it("says what to do about an unknown token", () => {
+    expect(
+      unknownTokens("a { color: var(--igd-nope); }", known)[0].message,
+    ).toBe(
+      "--igd-nope is not a design system token and this site does not declare it. Check the name against tokens.json.",
+    );
+  });
+
+  it("names a semantic token to read in place of a palette step", () => {
+    expect(rawPaletteReads("a { color: var(--ig-gray-700); }")[0].message).toBe(
+      "--ig-gray-700 is a raw palette step. Read a semantic token, such as --igd-color-text-primary or --igd-color-border-default.",
+    );
+  });
+
+  it("says where a palette change belongs", () => {
+    expect(
+      paletteOverrides(":root { --ig-primary-500: red; }")[0].message,
+    ).toBe(
+      "--ig-primary-500 is declared here. The palette belongs to the design system; change a seed there, or override a semantic token on a scope.",
+    );
+  });
+});
+
 describe("declaredNames", () => {
+  it("lists a custom property declared as the key of a style object", () => {
+    expect([
+      ...declaredNames('const style = { "--igd-local": "1px" };'),
+    ]).toEqual(["--igd-local"]);
+  });
+
   it("lists the custom properties a text declares", () => {
     expect([...declaredNames(":root { --igd-a: 1; --ig-b: 2 }")]).toEqual([
       "--igd-a",

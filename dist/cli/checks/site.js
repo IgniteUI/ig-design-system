@@ -8,8 +8,8 @@ const lineOf = (text, index) => text.slice(0, index).split("\n").length;
 const withoutComments = (text) => text
     .replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, " "))
     .replace(/(^|[^:"'])\/\/[^\n]*/g, (c, lead) => lead + " ".repeat(c.length - lead.length));
-/** Names of the custom properties a text declares, with the leading `--`. */
-export const declaredNames = (text) => new Set([...withoutComments(text).matchAll(/(?<![\w-])(--[\w-]+)\s*:/g)].map((m) => m[1]));
+/** Names of the custom properties a text declares, in a stylesheet or as the key of a style object, with the leading `--`. */
+export const declaredNames = (text) => new Set([...withoutComments(text).matchAll(/(?<![\w-])(--[\w-]+)["']?\s*:/g)].map((m) => m[1]));
 /** A `var(--igd-*)` that neither the design system nor the site declares. A var() with a fallback is a hook a page may set, and is skipped. */
 export const unknownTokens = (text, known) => [...withoutComments(text).matchAll(/var\(\s*(--igd-[\w-]+)\s*(?=\))/g)]
     .filter((m) => !known.has(m[1]) && !m[1].endsWith("-"))
@@ -35,21 +35,11 @@ export const paletteOverrides = (text) => [
     message: `${m[1]} is declared here. The palette belongs to the design system; change a seed there, or override a semantic token on a scope.`,
 }));
 /** A raw spacing step used for padding, a margin or a gap. */
-export const spacingRoles = (text) => {
-    const clean = withoutComments(text);
-    const found = [];
-    let from = 0;
-    for (const s of rawSteps(clean)) {
-        const index = clean.indexOf(s.value, from);
-        from = index + s.value.length;
-        found.push({
-            line: lineOf(text, index),
-            rule: "spacing-role",
-            message: `${s.prop} uses ${s.value}; use ${s.fix}.`,
-        });
-    }
-    return found;
-};
+export const spacingRoles = (text) => rawSteps(withoutComments(text)).map((s) => ({
+    line: lineOf(text, s.index),
+    rule: "spacing-role",
+    message: `${s.prop} uses ${s.value}; use ${s.fix}.`,
+}));
 /** A colour typed in by hand, as the value of a property. Reported only in strict mode. */
 export const colourLiterals = (text) => {
     const clean = withoutComments(text);

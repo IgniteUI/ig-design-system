@@ -29,7 +29,7 @@ describe("role", () => {
 
 describe("rawSteps", () => {
   it("reports a raw step used as padding in CSS and names the role token", () => {
-    expect(rawSteps(".a { padding: var(--igd-space-md); }")).toEqual([
+    expect(rawSteps(".a { padding: var(--igd-space-md); }")).toMatchObject([
       {
         prop: "padding",
         value: "var(--igd-space-md)",
@@ -39,7 +39,9 @@ describe("rawSteps", () => {
   });
 
   it("reports a raw step in a JSX style object", () => {
-    expect(rawSteps('style={{ marginTop: "var(--igd-space-2xl)" }}')).toEqual([
+    expect(
+      rawSteps('style={{ marginTop: "var(--igd-space-2xl)" }}'),
+    ).toMatchObject([
       {
         prop: "marginTop",
         value: "var(--igd-space-2xl)",
@@ -51,7 +53,7 @@ describe("rawSteps", () => {
   it("reports each raw step of a gap", () => {
     expect(
       rawSteps(".a { gap: var(--igd-space-xs) var(--igd-space-lg); }"),
-    ).toEqual([
+    ).toMatchObject([
       {
         prop: "gap",
         value: "var(--igd-space-xs)",
