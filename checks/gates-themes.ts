@@ -87,10 +87,12 @@ const THEMES = ["light", "dark"];
         );
       }
   }
-  fs.writeFileSync(
-    `${REP}contrast-report-themes.json`,
-    JSON.stringify(report, null, 1),
-  );
+  // Writes the report for the package's own dist/ only.
+  if (!process.argv[2])
+    fs.writeFileSync(
+      `${REP}contrast-report-themes.json`,
+      JSON.stringify(report, null, 1),
+    );
   console.log(
     fail
       ? `theme contrast gate: ${fail} FAILING`
