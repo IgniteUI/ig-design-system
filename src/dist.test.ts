@@ -134,11 +134,13 @@ describe("the token inventory", () => {
   });
 });
 
-describe("docs/examples/Card.astro", () => {
-  const card = fs.readFileSync("docs/examples/Card.astro", "utf8");
+describe("docs/examples/card.html", () => {
+  const card = fs.readFileSync("docs/examples/card.html", "utf8");
 
-  it("marks its root element with data-ig-scope", () => {
-    expect(card).toMatch(/<article class="card" data-ig-scope>/);
+  it("marks the root element of each card with data-ig-scope", () => {
+    const roots = card.match(/<article [^>]*>/g) ?? [];
+    expect(roots).toHaveLength(2);
+    for (const root of roots) expect(root).toContain("data-ig-scope");
   });
 
   it("uses only type classes theme.css declares", () => {

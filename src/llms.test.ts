@@ -80,9 +80,9 @@ describe("llmsTxt", () => {
 describe("the example component", () => {
   it("is quoted in llms.txt when one is given", () => {
     const withExample = llmsTxt(tokens, pkg, "<article data-ig-scope />\n");
-    expect(withExample).toContain("## Example: a component");
-    expect(withExample).toContain("```astro\n<article data-ig-scope />\n```");
-    expect(text_()).not.toContain("## Example");
+    expect(withExample).toContain("## Writing a component");
+    expect(withExample).toContain("```html\n<article data-ig-scope />\n```");
+    expect(text_()).not.toContain("## Writing a component");
   });
 });
 

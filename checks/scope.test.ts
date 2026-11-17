@@ -1,5 +1,7 @@
 // Rules of the dials and the themes on a nested element, measured in a browser on dist/.
 import fs from "node:fs";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { type Browser, chromium, type Page } from "playwright";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
@@ -94,6 +96,25 @@ describe("a base colour set on an element", () => {
 
   it("leaves the state colours unchanged below an element without data-ig-scope", async () => {
     expect(await hover("plain-colour")).toBe(await hover("default-colour"));
+  });
+});
+
+describe("docs/examples/card.html", () => {
+  it("follows the two dials its section sets", async () => {
+    const example = await browser.newPage();
+    await example.goto(
+      pathToFileURL(path.resolve("docs/examples/card.html")).href,
+    );
+    const card = (id: string) =>
+      example.evaluate((id) => {
+        const s = getComputedStyle(document.getElementById(id)!);
+        return { padding: s.paddingTop, radius: s.borderTopLeftRadius };
+      }, id);
+    expect(await card("default")).toEqual({ padding: "20px", radius: "16px" });
+    const compact = await card("compact");
+    expect(compact.padding).toBe("10px");
+    expect(Number.parseFloat(compact.radius)).toBeLessThan(16);
+    await example.close();
   });
 });
 

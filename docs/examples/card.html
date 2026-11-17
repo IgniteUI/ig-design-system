@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Card: a component on the design system</title>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/theme.css">
+<style>
+  .card {
+    display: grid;
+    /* Widths, heights and offsets are not tokens. */
+    max-width: 24rem;
+    /* Roles, not raw steps: inset for padding, gap for gaps, stack for vertical margins. */
+    gap: var(--igd-space-gap-sm);
+    padding: var(--igd-space-inset-lg);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-lg);
+    background: var(--igd-color-surface-card);
+    color: var(--igd-color-text-primary);
+  }
+
+  .card:hover {
+    box-shadow: var(--igd-shadow-raised);
+  }
+
+  .card__title {
+    margin: 0;
+    color: var(--igd-color-text-heading);
+  }
+
+  /* Text in the action colour reads color-action-text; its hover is a token too. */
+  .card__link {
+    color: var(--igd-color-action-text);
+  }
+
+  .card__link:hover {
+    color: var(--igd-color-action-hover);
+  }
+</style>
+</head>
+<body>
+
+<!-- The root element of the component carries data-ig-scope. -->
+<article class="card" data-ig-scope id="default">
+  <h3 class="card__title igd-type-title-sm">Design values</h3>
+  <p class="igd-type-body-md">No dial is set above this card.</p>
+  <a class="card__link igd-type-label-md" href="#default">Read more</a>
+</article>
+
+<!-- A dial on any ancestor reaches the card, because the card's root is a scope. -->
+<section style="--ig-spacing: 0.5; --ig-radius-factor: 0">
+  <article class="card" data-ig-scope id="compact">
+    <h3 class="card__title igd-type-title-sm">Half the spacing, the smallest radius</h3>
+    <p class="igd-type-body-md">The section sets two dials. The card follows them.</p>
+    <a class="card__link igd-type-label-md" href="#compact">Read more</a>
+  </article>
+</section>
+
+</body>
+</html>

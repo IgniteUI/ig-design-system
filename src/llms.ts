@@ -15,7 +15,7 @@ import {
 export type Tokens = Record<string, unknown>;
 
 /** The example component llms.txt quotes. */
-export const EXAMPLE = "docs/examples/Card.astro";
+export const EXAMPLE = "docs/examples/card.html";
 
 // The heading each token family gets.
 const FAMILIES: Record<TokenFamilyName, string> = {
@@ -95,7 +95,7 @@ A documentation site puts \`data-igd-type="docs"\` on \`<html>\` for the smaller
 
 ${counts}
 - Type: 15 roles (\`--igd-type-<role>-font-family\`, \`-font-size\`, \`-font-weight\`, \`-line-height\`, \`-letter-spacing\`, \`-text-transform\`) and the classes \`.igd-type-<role>\`
-${example ? `\n## Example: a component\n\n\`${EXAMPLE}\` is a card written to these rules. \`npm test\` checks it, so it stays true.\n\n\`\`\`astro\n${example.trim()}\n\`\`\`\n` : ""}
+${example ? `\n## Writing a component\n\nThe same in every framework and every repository: plain HTML, Astro, React, Angular, a web component. It applies to every component built on the design system, not only to Ignite UI components.\n\n1. Put \`data-ig-scope\` on the root element of the component. The design system calculates its tokens on the root of the page and on each \`data-ig-scope\` element. With the attribute, a dial set on any ancestor reaches the component, as it reaches an Ignite UI component. Without it, the component keeps the values of the page.\n2. A component with shadow DOM puts the attribute on its host element. The stylesheet of the page does not reach inside a shadow root.\n3. Style the component with the rules above: spacing roles, semantic colours, type classes, typed widths and heights.\n4. Do not set a dial or a spacing, size or radius step inside the component. The page sets dials.\n\n\`${EXAMPLE}\` is a card written this way, in plain HTML and CSS. Its second card sits in a section that sets two dials. \`npm test\` opens the page in a browser and checks that card follows them.\n\n\`\`\`html\n${example.trim()}\n\`\`\`\n` : ""}
 ## Read next
 
 - [llms-full.txt](llms-full.txt): every token with its value and what it is for
@@ -103,7 +103,7 @@ ${example ? `\n## Example: a component\n\n\`${EXAMPLE}\` is a card written to th
 - [AGENTS.md](AGENTS.md): how to work in this repository, and the reason behind every decision
 - [CHANGELOG.md](CHANGELOG.md): what each version changes
 - [dist/tokens.json](dist/tokens.json): the tokens as data
-- [docs/examples/Card.astro](docs/examples/Card.astro): a component written to the rules
+- [docs/examples/card.html](docs/examples/card.html): a component written to the rules, in plain HTML and CSS
 - [docs/ADOPTING.md](docs/ADOPTING.md): moving an existing site onto the design system
 - [docs/MIGRATION.md](docs/MIGRATION.md): old token names and their replacements
 `;
