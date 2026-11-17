@@ -462,10 +462,10 @@
   --igd-color-surface-tint-secondary: hsl(from var(--igd-color-accent-secondary) h s l / var(--igd-opacity-subtle));
   --igd-color-surface-tint-alt: hsl(from var(--igd-color-accent-inverse-alt) h s l / var(--igd-opacity-subtle));
   --igd-color-surface-inverse-glass: hsl(from var(--igd-color-surface-inverse) h s l / var(--igd-opacity-glass));
-  --igd-color-feedback-info-surface: hsl(from var(--igd-color-feedback-info-default) h s l / var(--igd-opacity-soft));
-  --igd-color-feedback-error-surface: hsl(from var(--igd-color-feedback-error-default) h s l / var(--igd-opacity-soft));
-  --igd-color-feedback-success-surface: hsl(from var(--igd-color-feedback-success-default) h s l / var(--igd-opacity-soft));
-  --igd-color-feedback-warning-surface: hsl(from var(--igd-color-feedback-warning-default) h s l / var(--igd-opacity-soft));
+  --igd-color-feedback-info-surface: hsl(from var(--igd-color-feedback-info-default) h s l / var(--igd-opacity-subtle));
+  --igd-color-feedback-error-surface: hsl(from var(--igd-color-feedback-error-default) h s l / var(--igd-opacity-subtle));
+  --igd-color-feedback-success-surface: hsl(from var(--igd-color-feedback-success-default) h s l / var(--igd-opacity-subtle));
+  --igd-color-feedback-warning-surface: hsl(from var(--igd-color-feedback-warning-default) h s l / var(--igd-opacity-subtle));
   --igd-nav-background: hsl(from var(--igd-color-surface-page) h s l / var(--igd-opacity-nav));
   --igd-color-overlay-scrim: hsl(from var(--igd-color-surface-inverse) h s l / var(--igd-opacity-strong));
   --igd-footer-rule: hsl(from var(--igd-color-text-inverse) h s l / var(--igd-opacity-subtle));

@@ -85,6 +85,13 @@
    "ok": true
   },
   {
+   "fg": "color-action-on",
+   "bg": "color-action-fill-hover",
+   "ratio": 7.03,
+   "min": 4.5,
+   "ok": true
+  },
+  {
    "fg": "color-text-muted",
    "bg": "color-surface-card",
    "ratio": 4.94,
@@ -475,6 +482,34 @@
    "ratio": 5.24,
    "min": 3,
    "ok": true
+  },
+  {
+   "fg": "color-feedback-error-default",
+   "bg": "color-feedback-error-surface",
+   "ratio": 4.76,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-success-default",
+   "bg": "color-feedback-success-surface",
+   "ratio": 6.51,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-warning-default",
+   "bg": "color-feedback-warning-surface",
+   "ratio": 4.86,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-info-default",
+   "bg": "color-feedback-info-surface",
+   "ratio": 6.22,
+   "min": 4.5,
+   "ok": true
   }
  ],
  "dark": [
@@ -559,6 +594,13 @@
    "fg": "color-action-on",
    "bg": "color-action-default",
    "ratio": 5.25,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-action-on",
+   "bg": "color-action-fill-hover",
+   "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
@@ -952,6 +994,34 @@
    "bg": "color-surface-page",
    "ratio": 12.41,
    "min": 3,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-error-default",
+   "bg": "color-feedback-error-surface",
+   "ratio": 9.56,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-success-default",
+   "bg": "color-feedback-success-surface",
+   "ratio": 12.54,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-warning-default",
+   "bg": "color-feedback-warning-surface",
+   "ratio": 9.65,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-feedback-info-default",
+   "bg": "color-feedback-info-surface",
+   "ratio": 10.5,
+   "min": 4.5,
    "ok": true
   }
  ]

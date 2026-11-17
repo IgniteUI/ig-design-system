@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import { hexToRgb } from "./color.ts";
 import {
+  actionFillHoverStep,
   actionOnColor,
   assertPairingsPass,
   compiledGuard,
@@ -74,7 +75,12 @@ copyFonts();
 
 const guard = compiledGuard();
 // The colours the build computes in place of the alias in the spec.
-const published = { "color-action-on": actionOnColor(guard) };
+const actionOn = actionOnColor(guard);
+const hoverStep = actionFillHoverStep(actionOn);
+const published: Record<string, string> = {
+  "color-action-on": actionOn,
+  ...(hoverStep && { "color-action-fill-hover": hexOf(hoverStep) }),
+};
 const colorOf = (name: string) => hexOf(name, published);
 const contrast = measuredContrast(colorOf);
 const gradientTable = gradients(colorOf);

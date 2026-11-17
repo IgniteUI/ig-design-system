@@ -1264,7 +1264,7 @@
     },
     "color-action-fill-hover": {
       "$value": "{color.ig-primary-700}",
-      "$description": "Filled-button hover: the primary fill darkens to this and nothing else changes."
+      "$description": "Filled-button hover: the primary fill moves to this and nothing else changes. A step `color-action-on` reads on: darker under a white label, primary step 400 under a black one."
     },
     "color-action-active": {
       "$value": "{color.ig-primary-800}",
@@ -1284,7 +1284,7 @@
         ],
         "hex": "#ffffff"
       },
-      "$description": "Label and icon colour on `color-action-default` fills: black or white, whichever reads on the fill (the engine’s adaptive contrast). Contrast 5.25:1 on `color-action-default`."
+      "$description": "Label and icon colour on `color-action-default` fills: black or white, whichever reads on the fill (the engine’s adaptive contrast). Contrast 5.25:1 on `color-action-default`, 7.03:1 on `color-action-fill-hover`."
     },
     "color-link-utility": {
       "$value": "{color.ig-info-500}",
@@ -2080,10 +2080,10 @@
           0.3059,
           0.7961
         ],
-        "alpha": 0.12,
+        "alpha": 0.08,
         "hex": "#164ecb"
       },
-      "$description": "Tinted fill behind `color-feedback-info-default` text. Live: `color-feedback-info-default` at `opacity-soft`."
+      "$description": "Tinted fill behind `color-feedback-info-default` text. Live: `color-feedback-info-default` at `opacity-subtle`."
     },
     "color-feedback-error-surface": {
       "$value": {
@@ -2093,10 +2093,10 @@
           0.1059,
           0.2431
         ],
-        "alpha": 0.12,
+        "alpha": 0.08,
         "hex": "#cf1b3e"
       },
-      "$description": "Tinted fill behind `color-feedback-error-default` text. Live: `color-feedback-error-default` at `opacity-soft`."
+      "$description": "Tinted fill behind `color-feedback-error-default` text. Live: `color-feedback-error-default` at `opacity-subtle`."
     },
     "color-feedback-success-surface": {
       "$value": {
@@ -2106,10 +2106,10 @@
           0.3882,
           0.2353
         ],
-        "alpha": 0.12,
+        "alpha": 0.08,
         "hex": "#06633c"
       },
-      "$description": "Tinted fill behind `color-feedback-success-default` text. Live: `color-feedback-success-default` at `opacity-soft`."
+      "$description": "Tinted fill behind `color-feedback-success-default` text. Live: `color-feedback-success-default` at `opacity-subtle`."
     },
     "color-feedback-warning-surface": {
       "$value": {
@@ -2119,10 +2119,10 @@
           0.3686,
           0.0039
         ],
-        "alpha": 0.12,
+        "alpha": 0.08,
         "hex": "#955e01"
       },
-      "$description": "Tinted fill behind `color-feedback-warning-default` text. Live: `color-feedback-warning-default` at `opacity-soft`."
+      "$description": "Tinted fill behind `color-feedback-warning-default` text. Live: `color-feedback-warning-default` at `opacity-subtle`."
     },
     "nav-background": {
       "$value": {

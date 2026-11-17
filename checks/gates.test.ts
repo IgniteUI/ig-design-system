@@ -42,6 +42,37 @@ describe("checks/gates-themes.ts", () => {
     expect(r.code).toBe(1);
     expect(r.out).toContain("color-text-muted");
   }, 60000);
+
+  it("fails a pairing that is below its minimum in the dark theme only", () => {
+    const dir = brokenDist(
+      (t) => `${t}\n[data-theme="dark"] { --igd-color-text-muted: #333333; }\n`,
+    );
+    const r = run("gates-themes.ts", dir);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("dark: color-text-muted");
+    expect(r.out).not.toContain("light: color-text-muted");
+  }, 60000);
+
+  it("fails the action label on a hover fill it does not read on", () => {
+    const dir = brokenDist(
+      (t) =>
+        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-action-fill-hover: #9ec1ff; }\n`,
+    );
+    const r = run("gates-themes.ts", dir);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("color-action-on on color-action-fill-hover");
+  }, 60000);
+
+  it("measures feedback text over its tint, and the tint over the page", () => {
+    const dir = brokenDist(
+      (t) => `${t}\n:root, [data-theme] { --igd-opacity-subtle: 0.3; }\n`,
+    );
+    const r = run("gates-themes.ts", dir);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain(
+      "light: color-feedback-error-default on color-feedback-error-surface",
+    );
+  }, 60000);
 });
 
 describe("checks/gates-derived.ts", () => {

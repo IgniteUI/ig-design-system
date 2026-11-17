@@ -39,7 +39,7 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "color-action-fill-hover": [
     "ig-primary-700",
-    "Filled-button hover: the primary fill darkens to this and nothing else changes.",
+    "Filled-button hover: the primary fill moves to this and nothing else changes. A step `color-action-on` reads on: darker under a white label, primary step 400 under a black one.",
   ],
   "color-action-active": [
     "ig-primary-800",
@@ -452,22 +452,22 @@ export const ALPHA: Record<string, AlphaEntry> = {
   ],
   "color-feedback-info-surface": [
     "color-feedback-info-default",
-    "opacity-soft",
+    "opacity-subtle",
     "Tinted fill behind `color-feedback-info-default` text.",
   ],
   "color-feedback-error-surface": [
     "color-feedback-error-default",
-    "opacity-soft",
+    "opacity-subtle",
     "Tinted fill behind `color-feedback-error-default` text.",
   ],
   "color-feedback-success-surface": [
     "color-feedback-success-default",
-    "opacity-soft",
+    "opacity-subtle",
     "Tinted fill behind `color-feedback-success-default` text.",
   ],
   "color-feedback-warning-surface": [
     "color-feedback-warning-default",
-    "opacity-soft",
+    "opacity-subtle",
     "Tinted fill behind `color-feedback-warning-default` text.",
   ],
   "nav-background": [
@@ -1051,6 +1051,7 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-action-text", "color-surface-card"],
   ["color-action-text", "color-surface-subtle"],
   ["color-action-on", "color-action-default"],
+  ["color-action-on", "color-action-fill-hover"],
   ["color-text-muted", "color-surface-card"],
   ["color-text-muted", "color-surface-tint"],
   ["color-link-utility", "color-surface-page"],

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   aaThreshold,
+  actionFillHoverStep,
   actionOnColor,
   assertPairingsPass,
   contrastRows,
@@ -34,6 +35,16 @@ describe("actionOnColor", () => {
     expect(actionOnColor({ luminance: "0.18", adaptiveContrast })).toBe(
       "#ffffff",
     );
+  });
+});
+
+describe("actionFillHoverStep", () => {
+  it("keeps the step in the spec under a white label", () => {
+    expect(actionFillHoverStep("#ffffff")).toBeUndefined();
+  });
+
+  it("moves the hover fill to primary step 400 under a black label", () => {
+    expect(actionFillHoverStep("#000000")).toBe("ig-primary-400");
   });
 });
 

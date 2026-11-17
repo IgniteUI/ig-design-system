@@ -51,6 +51,10 @@ export const actionOnColor = (guard: Guard) =>
     ? "#000000"
     : "#ffffff";
 
+/** The step the action fill moves to on hover, when it is not the one in the spec: a lighter step under a black label. */
+export const actionFillHoverStep = (label: string) =>
+  label === "#000000" ? "ig-primary-400" : undefined;
+
 export type ContrastRow = {
   fg: string;
   bg: string;
@@ -107,6 +111,10 @@ export const themePairs = (): ContrastPair[] => [
   ["color-text-ui", "fw-react-background"],
   ["color-text-ui", "fw-blazor-background"],
   ["color-focus-default", "color-surface-page", 3],
+  ["color-feedback-error-default", "color-feedback-error-surface"],
+  ["color-feedback-success-default", "color-feedback-success-surface"],
+  ["color-feedback-warning-default", "color-feedback-warning-surface"],
+  ["color-feedback-info-default", "color-feedback-info-surface"],
 ];
 
 /** The measured pairings that are below their minimum. */
