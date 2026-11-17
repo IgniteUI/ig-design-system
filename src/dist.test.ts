@@ -3,6 +3,7 @@ import fs from "node:fs";
 import { describe, expect, it } from "vitest";
 import { definedVars, undefinedVars } from "../checks/check-vars.ts";
 import { DARK_STEP, SPACE, SPACE_ROLES, TYPE, TYPE_SETS } from "./spec.ts";
+import { TOKEN_FAMILIES } from "./types.ts";
 
 const read = (f: string) => fs.readFileSync(`dist/${f}`, "utf8");
 const tokens = read("tokens.css");
@@ -102,6 +103,34 @@ describe("dist/base.css", () => {
     expect(base).not.toMatch(
       /\ba\s*\{[^}]*color:\s*var\(--igd-color-action-default\)/,
     );
+  });
+});
+
+describe("the token inventory", () => {
+  const json = JSON.parse(read("tokens.json"));
+  const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
+    json[f].tokens.map((t: { name: string }) => t.name),
+  );
+
+  it("shows every semantic and component token of tokens.json in the showcase", () => {
+    const showcase = fs.readFileSync("docs/showcase.html", "utf8");
+    const shown = new Set(
+      [...showcase.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
+    );
+    expect(listed.filter((n) => !n.startsWith("ig-") && !shown.has(n))).toEqual(
+      [],
+    );
+  });
+
+  it("lists every --igd-* property the stylesheets declare in llms-full.txt", () => {
+    const full = fs.readFileSync("llms-full.txt", "utf8");
+    const missing = [...defined].filter(
+      (n) =>
+        n.startsWith("igd-") &&
+        !n.startsWith("igd-type-") &&
+        !full.includes(`\`--${n}\``),
+    );
+    expect(missing).toEqual([]);
   });
 });
 

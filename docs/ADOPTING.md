@@ -18,7 +18,7 @@ Import the stylesheets before every stylesheet of the site, in this order:
 @import 'ig-design-system/theme.css';
 ```
 
-- **Order matters.** A site stylesheet loaded before `theme.css` loses to it; one loaded after wins.
+- **Order matters.** A site stylesheet loaded before `theme.css` loses to it. One loaded after wins when its selector is at least as specific: `theme.css` declares on `:root`, so override on `:root`, not on `html`.
 - **`fonts.css`** loads Plus Jakarta Sans, DM Sans and JetBrains Mono from the package. Leave it out when the site already loads those families, for example from Google Fonts. Loading both fetches each face twice.
 - **`base.css`** sets `body`, headings, links and focus. Load it only on a site with no element styles of its own.
 - **A documentation site** puts `data-igd-type="docs"` on `<html>`. The default type set is the marketing site's.

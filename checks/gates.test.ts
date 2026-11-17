@@ -1,4 +1,4 @@
-// Each browser gate fails on a broken copy of dist/. A gate that only ever passes proves nothing.
+// Each browser gate fails on a broken copy of dist/.
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";

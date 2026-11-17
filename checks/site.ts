@@ -34,7 +34,7 @@ export const unknownTokens = (text: string, known: Set<string>): Finding[] =>
     .map((m) => ({
       line: lineOf(text, m.index),
       rule: "unknown-token",
-      message: `${m[1]} is not a design system token and this site does not declare it. Check the name against tokens.json.`,
+      message: `${m[1]} is not a design system token and this site does not declare it. Check the name in llms-full.txt.`,
     }));
 
 /** A raw palette step read by site code. */

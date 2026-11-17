@@ -5808,7 +5808,7 @@
         },
         "lineHeight": 1.5
       },
-      "$description": "Eyebrows: ALL CAPS, in `color-action-default`. Engine slot `overline`."
+      "$description": "Eyebrows: ALL CAPS, in `color-action-text`. Engine slot `overline`."
     },
     "type-body-xs": {
       "$value": {

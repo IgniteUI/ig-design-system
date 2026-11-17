@@ -98,7 +98,7 @@ type EngineLayer = {
 const engineLayer = (layer: EngineLayer) => `
 /* ===== 1. igniteui-theming engine layer ===== */
 :root {
-  /* The dials are left unset, so a site sets them for itself. Unset, the tokens resolve at their design values: --ig-size large, --ig-spacing 1, --ig-elevation-factor 1, and each radius role at its own value (--ig-radius-factor from 0, each role's minimum, to 1, its maximum). */
+  /* The dials are unset. Unset, the tokens resolve at their design values: --ig-size large, --ig-spacing 1, --ig-elevation-factor 1, and each radius role at its own value (--ig-radius-factor from 0, each role's minimum, to 1, its maximum). */
   /* one shadow colour behind every neutral elevation */
   --color-shadow: oklch(0 0 0);
   /* easing: compiled from the engine's easings */
@@ -235,7 +235,7 @@ const themes = () => {
 /* ===== 6. themes ===== */
 :root, [data-theme="light"] { --theme-dark: 0; }
 [data-theme="light"] { color-scheme: light; }
-/* neutral roles, declared again so a themed region or a scope resolves them against its own grey and surface ramps */
+/* neutral roles, declared again on each scope and theme */
 ${SCOPED} {
 ${neutralRoles.map(([name, [step]]) => `  --${name}: var(--${step});`).join("\n")}
 }

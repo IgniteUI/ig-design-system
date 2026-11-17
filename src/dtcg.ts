@@ -59,7 +59,7 @@ export const toDtcg = (T: Tokens, bundle: string) => {
   });
   const out: Record<string, DtcgGroup> = {};
 
-  // colour: engine steps and semantic names in one group, so an alias is {color.<name>}
+  // colour: engine steps and semantic names in one group; an alias is {color.<name>}
   out.color = { $type: "color" };
   for (const t of T.color.tokens) {
     const a = String(t.value).match(/^\{(.+)\}$/);
@@ -142,7 +142,7 @@ export const toDtcg = (T: Tokens, bundle: string) => {
     else out.shadow[t.name] = tok(ls.length === 1 ? ls[0] : ls, t.usage);
   }
 
-  // gradients: the format holds colour stops only, so the angle travels in $extensions; radial glows are CSS only
+  // gradients: colour stops in the token, the angle in $extensions; radial glows are CSS only
   out.gradient = { $type: "gradient" };
   for (const t of T.gradient.tokens) {
     const m = String(t.value).match(/^linear-gradient\(([\d.]+)deg,\s*(.+)\)$/);
@@ -190,7 +190,7 @@ export const toDtcg = (T: Tokens, bundle: string) => {
           lineHeight: r4(lh ? lh.value / fs_.value : +st.lineHeight),
         },
         st.usage,
-        // The format holds one font size, so the fluid range travels in $extensions.
+        // Stores the fluid range in $extensions.
         st.fontSizeMin
           ? {
               $extensions: {

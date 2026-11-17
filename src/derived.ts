@@ -140,7 +140,7 @@ export const derivedColors = (declarations: Declaration[]) => {
   const lines: string[] = [];
 
   lines.push("  /* semantic tokens that alias a ramp step */");
-  // A token with a dark step is declared by the themes, so a region inherits the value of its theme.
+  // A token in DARK_STEP is declared by the themes and inherited by a scope.
   const declaredElsewhere = new Set([
     ...DERIVED.map(([token]) => token),
     ...SAME_AS.map(([token]) => token),
@@ -179,7 +179,7 @@ export const derivedColors = (declarations: Declaration[]) => {
   );
   const css = `
 /* ===== 5. derived colour ===== */
-/* everything below is re-declared on [data-ig-scope], so a region can carry its own base colours */
+/* derived colours, declared again on each scope and theme */
 ${SCOPED} {
 ${lines.join("\n")}
 }

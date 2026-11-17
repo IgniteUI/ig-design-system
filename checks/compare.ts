@@ -49,7 +49,7 @@ const snapshot = async (page: Page, url: string, width: number) => {
   await page.setViewportSize({ width, height: 900 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(url, { waitUntil: "load" });
-  // Fonts and late scripts change sizes and add elements, so the page is given time to settle.
+  // Waits for fonts and late scripts.
   await page
     .waitForLoadState("networkidle", { timeout: 10000 })
     .catch(() => {});

@@ -66,7 +66,7 @@ export const groupColors = (tokens: Token[]) => {
   return { raw, semantic, component };
 };
 
-// The name of a token is a button: it copies var(--name). The published prefix is dimmed so the eye lands on the name.
+// The name of a token as a button that copies var(--name), with the prefix dimmed.
 const name = (token: string) => {
   const v = cssVar(token);
   const prefix = v.match(/^--igd?-/)?.[0] ?? "--";
@@ -117,9 +117,8 @@ export const showcase = (T: Tokens) => {
   const spaceSteps = T.spacing.tokens.filter((t) =>
     /^space-\d?[a-z]+$/.test(t.name),
   );
-  const shadows = T.shadow.tokens.filter(
-    (t) => /^shadow-/.test(t.name) && !t.name.endsWith("-filter"),
-  );
+  const spaceRoles = T.spacing.tokens.filter((t) => !spaceSteps.includes(t));
+  const shadows = T.shadow.tokens;
   const families = PALETTE_FAMILIES.filter((f) => steps(f).length);
   const bp = (n: string) =>
     T.breakpoint.tokens.find((t) => t.name === n)?.value ?? "1024px";
@@ -175,7 +174,7 @@ export const showcase = (T: Tokens) => {
     {
       id: "spacing",
       title: "Spacing",
-      count: spaceSteps.length,
+      count: T.spacing.tokens.length,
       html:
         `<p class="intro">The raw steps. A component uses the roles built on them: <code>space-inset-*</code> for padding, <code>space-stack-*</code> for vertical margins, <code>space-gap-*</code> for gaps.</p>` +
         table(
@@ -185,6 +184,15 @@ export const showcase = (T: Tokens) => {
             .map(
               (t) =>
                 `<tr data-token="${t.name}"><th scope="row">${name(t.name)}</th><td class="value"><output data-length="${cssVar(t.name)}"></output></td><td><span class="bar" style="inline-size: var(${cssVar(t.name)})"></span></td></tr>`,
+            )
+            .join(""),
+        ) +
+        table(
+          "spacing",
+          ["Role", "Value", "Use"],
+          spaceRoles
+            .map((t) =>
+              row(t, `<output data-length="${cssVar(t.name)}"></output>`),
             )
             .join(""),
         ),
@@ -204,10 +212,10 @@ export const showcase = (T: Tokens) => {
       id: "shadow",
       title: "Shadow",
       count: shadows.length,
-      html: `<p class="intro">Built from the engine's elevations. The accent shadows take the action colour.</p><ul class="tokens roomy">${shadows
+      html: `<p class="intro">Built from the engine's elevations. The accent shadows and the tinted elevations take the action colour.</p><ul class="tokens roomy">${shadows
         .map(
           (t) =>
-            `<li class="token" data-token="${t.name}"><span class="preview lifted" style="box-shadow: var(${cssVar(t.name)})" aria-hidden="true"></span>${name(t.name)}${note(t.usage)}</li>`,
+            `<li class="token" data-token="${t.name}"><span class="preview lifted" style="${t.name.endsWith("-filter") ? "filter" : "box-shadow"}: var(${cssVar(t.name)})" aria-hidden="true"></span>${name(t.name)}${note(t.usage)}</li>`,
         )
         .join("")}</ul>`,
     },

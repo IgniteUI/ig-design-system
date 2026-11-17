@@ -99,6 +99,25 @@ describe("llmsFullTxt", () => {
   });
 });
 
+describe("the custom properties only the stylesheets declare", () => {
+  const css =
+    ":root { --igd-color-text-primary: #2a2d33; --igd-duration-fast: 160ms; --igd-type-lead-font-size: 1rem; }\n[data-theme] { --igd-duration-fast: 200ms; --ig-size: 2; }";
+
+  it("are listed with their first value, without the tokens in tokens.json, the type roles and the engine names", () => {
+    const text = llmsFullTxt(tokens, pkg, css);
+    expect(text).toContain("## Declared in the stylesheets only");
+    expect(text).toContain("- `--igd-duration-fast`: `160ms`");
+    expect(text).not.toContain("200ms");
+    expect(text).not.toContain("--igd-type-lead-font-size");
+    expect(text).not.toContain("--ig-size");
+    expect(text.split("--igd-color-text-primary")).toHaveLength(2);
+  });
+
+  it("have no section when there is none", () => {
+    expect(llmsFullTxt(tokens, pkg)).not.toContain("stylesheets only");
+  });
+});
+
 describe("the generator", () => {
   it("stops the build when tokens.json loses a family", () => {
     expect(() => llmsTxt({ type: tokens.type }, pkg)).toThrow(
