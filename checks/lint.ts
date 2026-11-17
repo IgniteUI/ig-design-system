@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isMain } from "../src/main.ts";
+import { walk } from "./walk.ts";
 
 const PROPS =
   "width|height|minWidth|maxWidth|minHeight|maxHeight|padding\\w*|margin\\w*|gap|rowGap|columnGap|fontSize|lineHeight|letterSpacing|borderRadius|border\\w*|top|left|right|bottom|inset|zIndex|fontWeight|opacity|flexBasis|boxShadow|transition\\w*|animation\\w*|outline\\w*|verticalAlign|fontFamily";
@@ -47,15 +48,9 @@ export const findLiterals = (line: string): Literal[] => {
 };
 
 if (isMain(import.meta.url)) {
-  const files: string[] = [];
-  const walk = (d: string): void => {
-    for (const f of fs.readdirSync(d)) {
-      const p = path.join(d, f);
-      if (fs.statSync(p).isDirectory()) walk(p);
-      else if (/\.(jsx|js)$/.test(f) && !/bundle\.js$/.test(f)) files.push(p);
-    }
-  };
-  walk(process.argv[2]);
+  const files = walk(process.argv[2], /\.(jsx|js)$/, (p) =>
+    p.endsWith("bundle.js"),
+  );
   let n = 0;
   for (const f of files) {
     fs.readFileSync(f, "utf8")

@@ -22,12 +22,16 @@
   ],
   "type": "module",
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=20"
   },
   "files": [
     "dist",
     "llms.txt",
-    "llms-full.txt"
+    "llms-full.txt",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "docs/ADOPTING.md",
+    "docs/MIGRATION.md"
   ],
   "bin": {
     "ig-design-system": "./dist/cli/checks/cli.js"

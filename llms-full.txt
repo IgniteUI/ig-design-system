@@ -287,15 +287,7 @@ Live values are produced by the engine's sizable() in theme.css and step down fo
 - `--igd-elevation-24`: `0 0 16px 0 rgba(36,37,44,0.4)`. Engine elevation 24, indigo preset.
 - `--igd-elevation-tint-1`: `0 1px 3px 0 rgba(36,98,234,0.26), 0 1px 1px 0 rgba(36,98,234,0.12), 0 2px 1px -1px rgba(36,98,234,0.08)`. Engine elevation 1, indigo preset, tinted with `action`.
 - `--igd-elevation-tint-13`: `0 7px 8px -4px rgba(36,98,234,0.26), 0 13px 19px 2px rgba(36,98,234,0.12), 0 5px 24px 4px rgba(36,98,234,0.08)`. Engine elevation 13, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-14`: `0 7px 9px -4px rgba(36,98,234,0.26), 0 14px 21px 2px rgba(36,98,234,0.12), 0 5px 26px 4px rgba(36,98,234,0.08)`. Engine elevation 14, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-15`: `0 8px 9px -5px rgba(36,98,234,0.26), 0 15px 22px 2px rgba(36,98,234,0.12), 0 6px 28px 5px rgba(36,98,234,0.08)`. Engine elevation 15, indigo preset, tinted with `action`.
 - `--igd-elevation-tint-16`: `0 8px 10px -5px rgba(36,98,234,0.26), 0 16px 24px 2px rgba(36,98,234,0.12), 0 6px 30px 5px rgba(36,98,234,0.08)`. Engine elevation 16, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-17`: `0 8px 11px -5px rgba(36,98,234,0.26), 0 17px 26px 2px rgba(36,98,234,0.12), 0 6px 32px 5px rgba(36,98,234,0.08)`. Engine elevation 17, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-18`: `0 9px 11px -5px rgba(36,98,234,0.26), 0 18px 28px 2px rgba(36,98,234,0.12), 0 7px 34px 6px rgba(36,98,234,0.08)`. Engine elevation 18, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-19`: `0 9px 12px -6px rgba(36,98,234,0.26), 0 19px 29px 2px rgba(36,98,234,0.12), 0 7px 36px 6px rgba(36,98,234,0.08)`. Engine elevation 19, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-20`: `0 10px 13px -6px rgba(36,98,234,0.26), 0 20px 31px 3px rgba(36,98,234,0.12), 0 8px 38px 7px rgba(36,98,234,0.08)`. Engine elevation 20, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-21`: `0 10px 13px -6px rgba(36,98,234,0.26), 0 21px 33px 3px rgba(36,98,234,0.12), 0 8px 40px 7px rgba(36,98,234,0.08)`. Engine elevation 21, indigo preset, tinted with `action`.
-- `--igd-elevation-tint-22`: `0 10px 14px -6px rgba(36,98,234,0.26), 0 22px 35px 3px rgba(36,98,234,0.12), 0 8px 42px 7px rgba(36,98,234,0.08)`. Engine elevation 22, indigo preset, tinted with `action`.
 
 ## Opacity
 
@@ -360,18 +352,18 @@ Eight named layers — never write a raw z-index.
 
 Each role has `--igd-type-<role>-font-family`, `-font-size`, `-font-weight`, `-line-height`, `-letter-spacing` and `-text-transform`, and the class `.igd-type-<role>`.
 
-- `display-lg`: 3.25rem, fluid from 2.25rem, line height 1.12, weight 900; 2.25rem in the docs set. Homepage hero only, in `color-text-heading`. (was `display-h1`; engine slot `h1`)
-- `display-md`: 2.6875rem, fluid from 1.875rem, line height 1.06, weight 800; 1.5rem in the docs set. Section heads, in `color-text-heading`. (was `display-h2`; engine slot `h2`)
-- `display-sm`: 1.4375rem, fluid from 1.25rem, line height 1.2, weight 800; 1.25rem in the docs set. Sub-section and panel heads; `color-text-inverse` on dark. There is no h7. (was `display-h3`; engine slot `h3`)
-- `stat`: 1.625rem, line height 1.1, weight 800; 1.125rem in the docs set. Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. (was `display-stat`; engine slot `h4`)
-- `title-md`: 1.125rem, line height 1.3, weight 800; 1rem in the docs set. Product names in a catalog card, in `color-text-heading`. (was `product-name`; engine slot `h5`)
-- `title-sm`: 1rem, line height 1.4, weight 600; 0.875rem in the docs set. Card titles, sentence case, in `color-text-heading` — body face, not the display face. (was `card-title`; engine slot `h6`)
-- `lead`: 1.1875rem, fluid from 1.0625rem, line height 1.6, weight 400; 1rem in the docs set. Lead under an h1 or h2, in `color-text-secondary`. (was `body-lead`; engine slot `subtitle-1`)
-- `label-lg`: 1.0625rem, line height 1.5, weight 700; 0.875rem in the docs set. Hero button label and callout titles. (was `callout-title`; engine slot `subtitle-2`)
-- `body-lg`: 1rem, line height 1.62, weight 400; 1rem in the docs set. Running prose, in `color-text-secondary`. (was `body-text`; engine slot `body-1`)
-- `body-md`: 0.9375rem, line height 1.5, weight 400; 0.875rem in the docs set. Nav, buttons and list rows, in `color-text-ui`. (was `body-ui`; engine slot `body-2`)
-- `label-md`: 0.9375rem, line height 1.5, weight 600; 1rem in the docs set. Button and CTA labels. (was `button`; engine slot `button`)
-- `body-sm`: 0.875rem, line height 1.55, weight 400; 0.75rem in the docs set. Captions, card descriptions and table detail copy. (was `body-caption`; engine slot `caption`)
-- `eyebrow`: 0.75rem, line height 1.5, weight 600; 0.625rem in the docs set. Eyebrows: ALL CAPS, in `color-action-default`. (was `eyebrow`; engine slot `overline`)
-- `body-xs`: 0.8125rem, line height 1.5, weight 400; 0.8125rem in the docs set. Micro text: utility bar, legal copy, chips. (was `body-micro`)
-- `body-2xs`: 0.6875rem, line height 1.4, weight 400; 0.8125rem in the docs set. Badge sublabels and nano meta labels (`color-text-muted`). (was `body-nano`)
+- `display-lg`: 3.25rem, fluid from 2.25rem, line height 1.12, weight 900; 2.25rem in the docs set. Homepage hero only, in `color-text-heading`. Engine slot `h1`.
+- `display-md`: 2.6875rem, fluid from 1.875rem, line height 1.06, weight 800; 1.5rem in the docs set. Section heads, in `color-text-heading`. Engine slot `h2`.
+- `display-sm`: 1.4375rem, fluid from 1.25rem, line height 1.2, weight 800; 1.25rem in the docs set. Sub-section and panel heads; `color-text-inverse` on dark. There is no h7. Engine slot `h3`.
+- `stat`: 1.625rem, line height 1.1, weight 800; 1.125rem in the docs set. Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. Engine slot `h4`.
+- `title-md`: 1.125rem, line height 1.3, weight 800; 1rem in the docs set. Product names in a catalog card, in `color-text-heading`. Engine slot `h5`.
+- `title-sm`: 1rem, line height 1.4, weight 600; 0.875rem in the docs set. Card titles, sentence case, in `color-text-heading` — body face, not the display face. Engine slot `h6`.
+- `lead`: 1.1875rem, fluid from 1.0625rem, line height 1.6, weight 400; 1rem in the docs set. Lead under an h1 or h2, in `color-text-secondary`. Engine slot `subtitle-1`.
+- `label-lg`: 1.0625rem, line height 1.5, weight 700; 0.875rem in the docs set. Hero button label and callout titles. Engine slot `subtitle-2`.
+- `body-lg`: 1rem, line height 1.62, weight 400; 1rem in the docs set. Running prose, in `color-text-secondary`. Engine slot `body-1`.
+- `body-md`: 0.9375rem, line height 1.5, weight 400; 0.875rem in the docs set. Nav, buttons and list rows, in `color-text-ui`. Engine slot `body-2`.
+- `label-md`: 0.9375rem, line height 1.5, weight 600; 1rem in the docs set. Button and CTA labels. Engine slot `button`.
+- `body-sm`: 0.875rem, line height 1.55, weight 400; 0.75rem in the docs set. Captions, card descriptions and table detail copy. Engine slot `caption`.
+- `eyebrow`: 0.75rem, line height 1.5, weight 600; 0.625rem in the docs set. Eyebrows: ALL CAPS, in `color-action-default`. Engine slot `overline`.
+- `body-xs`: 0.8125rem, line height 1.5, weight 400; 0.8125rem in the docs set. Micro text: utility bar, legal copy, chips.
+- `body-2xs`: 0.6875rem, line height 1.4, weight 400; 0.8125rem in the docs set. Badge sublabels and nano meta labels (`color-text-muted`).

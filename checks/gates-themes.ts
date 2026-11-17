@@ -24,7 +24,7 @@ const REP = path.join(import.meta.dirname, "../reports/");
   const missing = [
     ...new Set(
       pairs
-        .flatMap(([fg, bg]) => [fg, bg])
+        .flatMap((pair) => [pair[0], pair[1]])
         .filter((n) => !declared.has(n.startsWith("ig-") ? n : `igd-${n}`)),
     ),
   ];

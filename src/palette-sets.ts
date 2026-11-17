@@ -10,7 +10,7 @@ const sc = Object.entries(scales)
       `'${k}': (range: (${v.range.join(", ")}), curve: (${v.curve.join(", ")}))`,
   )
   .join(", ");
-// IGD_SEED_PRIMARY and IGD_SEED_SECONDARY replace a brand seed for one build. CI uses them to prove the system holds with other brand colours.
+// Reads a brand seed from the environment: IGD_SEED_PRIMARY or IGD_SEED_SECONDARY replaces it for one build.
 const seed = (name: string, fallback: string) => {
   const value = process.env[name];
   if (value === undefined || value === "") return fallback;

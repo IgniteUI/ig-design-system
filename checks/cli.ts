@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkText, declaredNames } from "./site.ts";
+import { walk } from "./walk.ts";
 
 const SOURCES =
   /\.(css|scss|sass|astro|jsx|tsx|ts|js|mjs|html|vue|svelte|mdx)$/;
@@ -70,18 +71,12 @@ if (!targets.length)
     "Nothing to check. Pass a directory or a file, for example: ig-design-system check src.",
   );
 
-const files: string[] = [];
-const walk = (p: string): void => {
-  if (ignore.some((text) => p.includes(text))) return;
-  if (fs.statSync(p).isDirectory()) {
-    for (const f of fs.readdirSync(p))
-      if (!SKIPPED.has(f)) walk(path.join(p, f));
-  } else if (SOURCES.test(p)) files.push(p);
-};
-for (const t of targets) {
+const skipped = (p: string) =>
+  SKIPPED.has(path.basename(p)) || ignore.some((text) => p.includes(text));
+const files = targets.flatMap((t) => {
   if (!fs.existsSync(t)) fail(`${t} does not exist.`);
-  walk(t);
-}
+  return walk(t, SOURCES, skipped);
+});
 if (!files.length)
   fail(
     `No source file to check under ${targets.join(", ")}. Check the path and the --ignore values; the command reads ${SOURCES.source

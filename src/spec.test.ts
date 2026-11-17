@@ -14,7 +14,7 @@ describe("CONTRAST_PAIRS", () => {
     const css =
       fs.readFileSync("dist/tokens.css", "utf8") +
       fs.readFileSync("dist/theme.css", "utf8");
-    const missing = CONTRAST_PAIRS.flatMap(([fg, bg]) => [fg, bg]).filter(
+    const missing = CONTRAST_PAIRS.flatMap((pair) => [pair[0], pair[1]]).filter(
       (n) => !css.includes(`--igd-${n}:`),
     );
     expect(missing).toEqual([]);

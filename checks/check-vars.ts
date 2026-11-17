@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { isMain } from "../src/main.ts";
 import { ENGINE_BARE } from "../src/namespace.ts";
+import { walk } from "./walk.ts";
 
 /** Names of the custom properties a stylesheet declares, without the leading `--`. */
 export const definedVars = (css: string) =>
@@ -26,19 +27,12 @@ if (isMain(import.meta.url)) {
   const defd = definedVars(
     fs.readFileSync(css1, "utf8") + fs.readFileSync(css2, "utf8"),
   );
-  const files: string[] = [];
-  const walk = (d: string): void => {
-    for (const f of fs.readdirSync(d)) {
-      const p = path.join(d, f);
-      if (fs.statSync(p).isDirectory()) walk(p);
-      else if (/\.(jsx|html|css|mjs)$/.test(f)) files.push(p);
-    }
-  };
-  for (const d of dirs) {
-    if (fs.statSync(d).isDirectory()) walk(d);
-    else files.push(d);
-  }
-  files.push(css2);
+  const files = [
+    ...dirs.flatMap((d) =>
+      fs.statSync(d).isDirectory() ? walk(d, /\.(jsx|html|css|mjs)$/) : [d],
+    ),
+    css2,
+  ];
   const bad: Record<string, Set<string>> = {};
   for (const f of files)
     for (const n of undefinedVars(fs.readFileSync(f, "utf8"), defd)) {
