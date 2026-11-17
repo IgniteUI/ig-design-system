@@ -26,6 +26,15 @@ describe("the published package", () => {
       expect(exported, f).toContain(`./dist/${f}`);
   });
 
+  it("ships the compiled command its bin entry names", () => {
+    for (const [name, file] of Object.entries<string>(pkg.bin)) {
+      expect(fs.existsSync(file), name).toBe(true);
+      expect(
+        fs.readFileSync(file, "utf8").startsWith("#!/usr/bin/env node"),
+      ).toBe(true);
+    }
+  });
+
   it("ships a licence beside every font file", () => {
     const fonts = fs.readdirSync("dist/fonts");
     for (const f of fonts.filter((n) => n.endsWith(".woff2")))

@@ -153,12 +153,19 @@ Why here: `igniteui-astro-components` had its own Colors and Typography pages fo
 Nothing below is decided. Ask the owner before acting on one.
 
 - No site installs the package yet. The marketing site and `igniteui-astro-components` carry a copy of `dist/` until the first release.
-- The checks run only in this repository. A consumer needs them as an installed command, compiled to JavaScript: Node does not run a `.ts` file from `node_modules`.
 - The fluid type width range has not been reviewed by design.
 - CI builds the default seed only. Another primary seed was tried by hand once (`#0f9d58`).
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
 - The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
+
+## The site command
+
+- `checks/cli.ts` is the `ig-design-system` command a site runs on its own source; its rules are in `checks/site.ts`. `tsc -p tsconfig.cli.json` compiles them to `dist/cli/`, because Node does not run a `.ts` file from `node_modules`. The compiled files are committed with the rest of `dist/`.
+- The rules a site is held to: no unknown `--igd-*` token, no raw palette step read or declared, spacing roles for padding, margins and gaps. A `var()` with a fallback is not reported: a component uses it as a hook a page may set.
+- Widths, heights and offsets are not checked. The owner decided they are not part of the design system.
+- `.github/workflows/check-site.yml` is the reusable workflow a site calls. A site pins it to a release tag.
+- `checks/lint.ts`, `check-vars.ts` and `spacing-roles.ts` stay as the stricter checks on this repository's reference components.
 
 ## Releasing
 
