@@ -934,3 +934,66 @@ describe("a code sample of a document", () => {
     await page.close();
   });
 });
+
+describe("the focus ring", () => {
+  it.each(
+    ROUTES.flatMap((route) => [
+      [route, 1280],
+      [route, 390],
+    ]) as [string, number][],
+  )(
+    "/%s at %ipx is not cut by a box that clips its content",
+    async (route, width) => {
+      const { page } = await open(route, width);
+      const cut = await page.evaluate(() => {
+        const probe = document.createElement("i");
+        probe.style.cssText =
+          "position:absolute;inline-size:calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset))";
+        document.body.appendChild(probe);
+        const ring = probe.getBoundingClientRect().width;
+        probe.remove();
+        const found: string[] = [];
+        const controls = document.querySelectorAll<HTMLElement>(
+          "a[href], button, summary, input, [tabindex='0']",
+        );
+        for (const control of controls) {
+          if (!control.getClientRects().length) continue;
+          const box = control.getBoundingClientRect();
+          for (
+            let a = control.parentElement;
+            a && a !== document.documentElement;
+            a = a.parentElement
+          ) {
+            const style = getComputedStyle(a);
+            if (style.overflowX === "visible" && style.overflowY === "visible")
+              continue;
+            // The padding box clips. A side that scrolls shows the ring once scrolled, so only its start counts.
+            const outer = a.getBoundingClientRect();
+            const left = outer.left + Number.parseFloat(style.borderLeftWidth);
+            const right =
+              outer.right - Number.parseFloat(style.borderRightWidth);
+            const top = outer.top + Number.parseFloat(style.borderTopWidth);
+            const bottom =
+              outer.bottom - Number.parseFloat(style.borderBottomWidth);
+            const scrollsX = a.scrollWidth > a.clientWidth;
+            const scrollsY = a.scrollHeight > a.clientHeight;
+            const clipped =
+              box.left - ring < left - 0.5 ||
+              box.top - ring < top - 0.5 ||
+              (!scrollsX && box.right + ring > right + 0.5) ||
+              (!scrollsY && box.bottom + ring > bottom + 0.5);
+            if (clipped) {
+              found.push(
+                `${control.tagName.toLowerCase()} "${(control.getAttribute("aria-label") ?? control.textContent ?? "").trim().slice(0, 30)}" in ${a.tagName.toLowerCase()}.${a.className}`,
+              );
+              break;
+            }
+          }
+        }
+        return found;
+      });
+      expect(cut).toEqual([]);
+      await page.close();
+    },
+  );
+});

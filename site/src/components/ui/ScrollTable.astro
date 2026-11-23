@@ -44,6 +44,10 @@ const { label, head } = Astro.props;
   /* A soft edge shows on the side that has more of the table to scroll to. */
   .table {
     overflow: auto;
+    /* Room inside the scrolling box for the focus ring of the controls at its edges; a name button reaches a little past its cell. */
+    padding: calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)) calc(calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)) + var(--igd-space-inset-2xs));
+    margin-inline: calc(-1 * (calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)) + var(--igd-space-inset-2xs)));
+    margin-block-start: calc(-1 * calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)));
     margin-block-end: var(--igd-space-stack-lg);
     background:
       linear-gradient(90deg, var(--igd-color-surface-page) 30%, transparent) left / var(--igd-space-2xl) 100% no-repeat local,

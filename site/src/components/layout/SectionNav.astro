@@ -57,6 +57,9 @@ const { sections, back, pages } = Astro.props;
     align-self: start;
     max-block-size: calc(100dvb - var(--igd-nav-height) - var(--igd-space-stack-xl) * 2);
     overflow-y: auto;
+    /* Room inside the scrolling box for the focus ring of the controls at its edges. */
+    padding: calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset));
+    margin: calc(-1 * calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)));
     scroll-target-group: auto;
   }
 
@@ -131,7 +134,7 @@ const { sections, back, pages } = Astro.props;
       gap: var(--igd-space-gap-xs);
       max-block-size: none;
       overflow: visible;
-      margin-inline: calc(-1 * var(--igd-container-gutter));
+      margin: 0 calc(-1 * var(--igd-container-gutter));
       padding: var(--igd-space-inset-xs) var(--igd-container-gutter);
       background: var(--igd-color-surface-page);
       border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
@@ -158,6 +161,9 @@ const { sections, back, pages } = Astro.props;
     .sections {
       grid-column: 1 / -1;
       min-inline-size: 0;
+      /* Room inside the scrolling row for the focus ring of its links. */
+      padding: calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset));
+      margin: calc(-1 * calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)));
       display: flex;
       gap: var(--igd-space-gap-2xs);
       overflow-x: auto;

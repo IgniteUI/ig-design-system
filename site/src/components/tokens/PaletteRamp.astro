@@ -64,7 +64,21 @@ const { family, steps } = Astro.props;
     grid-auto-columns: minmax(0, 1fr);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-sm);
-    overflow: hidden;
+  }
+
+  /* The ends of the row are rounded on the steps themselves, so nothing clips a focus ring. */
+  ol li:first-child button {
+    border-start-start-radius: var(--igd-radius-sm);
+    border-end-start-radius: var(--igd-radius-sm);
+  }
+
+  ol li:last-child button {
+    border-start-end-radius: var(--igd-radius-sm);
+    border-end-end-radius: var(--igd-radius-sm);
+  }
+
+  button:focus-visible {
+    position: relative;
   }
 
   button {
