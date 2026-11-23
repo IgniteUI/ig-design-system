@@ -6,9 +6,11 @@ import type { TypeStyle } from "@/lib/design-system.ts";
 
 interface Props {
   style: TypeStyle;
+  /** A plain use, shown in place of the role's own note. */
+  use?: string;
 }
 
-const { style } = Astro.props;
+const { style, use } = Astro.props;
 const className = `igd-${style.name}`;
 ---
 
@@ -19,7 +21,7 @@ const className = `igd-${style.name}`;
   </div>
   <div>
     <p class:list={["sample", className]} data-type-sample={className}>{style.sample}</p>
-    <Note text={style.usage} />
+    {use ? <p class="use">{use}</p> : <Note text={style.usage} about={style.name} />}
   </div>
 </li>
 
@@ -38,6 +40,11 @@ const className = `igd-${style.name}`;
 
   output {
     display: block;
+  }
+
+  .use {
+    margin: 0;
+    color: var(--igd-color-text-secondary);
   }
 
   .sample {

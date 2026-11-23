@@ -16,6 +16,9 @@ export const tokens = tokensJson as unknown as Tokens;
 /** The name of the npm package. */
 export const packageName: string = manifest.name;
 
+/** The version of the npm package. */
+export const packageVersion: string = manifest.version;
+
 /** The URL of the repository, without the git+ prefix and the .git suffix. */
 export const repository: string = manifest.repository.url
   .replace(/^git\+/, "")

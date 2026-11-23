@@ -2,14 +2,16 @@
 // A code sample with a button that copies it.
 interface Props {
   code: string;
+  /** What the code is, for the name of its copy button, such as "the card's stylesheet". */
+  label: string;
 }
 
-const { code } = Astro.props;
+const { code, label } = Astro.props;
 ---
 
 <div class="code" data-on-dark>
   <pre><code>{code}</code></pre>
-  <button type="button" data-copy={code}>Copy</button>
+  <button type="button" data-copy={code} data-copy-label="the code" aria-label={`Copy the code: ${label}`}>Copy</button>
 </div>
 
 <script>
@@ -21,6 +23,7 @@ const { code } = Astro.props;
     position: relative;
     max-inline-size: var(--igd-container-prose-max-width);
     margin-block-end: var(--igd-space-stack-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-md);
     background: var(--igd-color-surface-inverse);
     color: var(--igd-color-text-inverse);
@@ -41,6 +44,7 @@ const { code } = Astro.props;
     position: absolute;
     inset-block-start: var(--igd-space-xs);
     inset-inline-end: var(--igd-space-xs);
+    min-block-size: var(--igd-space-xl);
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-text-inverse-muted);
     border-radius: var(--igd-radius-full);

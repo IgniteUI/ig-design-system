@@ -7,14 +7,19 @@ code, output { font-family: var(--igd-font-mono); font-size: var(--igd-type-body
 output { color: var(--igd-color-text-secondary); }
 [hidden] { display: none !important; }
 
+/* The parts the browser draws take the theme too: form controls, scrollbars, the selection and the caret. */
+:root { color-scheme: light; accent-color: var(--igd-color-action-default); caret-color: var(--igd-color-action-default); }
+[data-theme="dark"] { color-scheme: dark; }
+::selection { background: var(--igd-color-action-default); color: var(--igd-color-action-on); }
+
 main { container-type: inline-size; min-inline-size: 0; }
-main h1 { font-size: var(--igd-type-display-md-font-size); line-height: var(--igd-type-display-md-line-height); font-weight: var(--igd-type-display-md-font-weight); }
-main h2 { font-size: var(--igd-type-display-sm-font-size); line-height: var(--igd-type-display-sm-line-height); font-weight: var(--igd-type-display-sm-font-weight); }
+main h1 { font-size: var(--igd-type-display-lg-font-size); line-height: var(--igd-type-display-lg-line-height); font-weight: var(--igd-type-display-lg-font-weight); text-wrap: balance; }
+main h2 { font-size: var(--igd-type-display-md-font-size); line-height: var(--igd-type-display-md-line-height); font-weight: var(--igd-type-display-md-font-weight); text-wrap: balance; }
 main h3 { font-family: var(--igd-font-body); font-size: var(--igd-type-eyebrow-font-size); letter-spacing: var(--igd-type-eyebrow-letter-spacing); text-transform: uppercase; color: var(--igd-color-text-muted); font-weight: var(--igd-font-weight-semibold); }
 main h3.plain { margin-block: var(--igd-space-stack-2xl) var(--igd-space-stack-sm); font-size: var(--igd-type-title-sm-font-size); letter-spacing: normal; text-transform: none; color: var(--igd-color-text-heading); }
 
-.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: var(--igd-container-prose-max-width); font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
-.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: var(--igd-container-prose-max-width); color: var(--igd-color-text-secondary); }
+.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: 65ch; font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
+.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: 65ch; color: var(--igd-color-text-secondary); }
 .more { margin-block: var(--igd-space-stack-lg) 0; font-weight: var(--igd-font-weight-semibold); }
 .group { margin-block-end: var(--igd-space-stack-2xl); }
 .group > h3 { margin-block-end: var(--igd-space-stack-sm); }

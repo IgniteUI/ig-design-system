@@ -1,30 +1,71 @@
 ---
-// A rule as a pair of examples: what to write, what not to, and why.
+// A rule in detail: its number and plain title, why, and a pair of examples as evidence.
 import { prose } from "@/lib/text.ts";
 
 interface Props {
+  id: string;
+  number: number;
+  title: string;
+  why: string;
   good: string;
   bad: string;
-  why: string;
 }
 
-const { good, bad, why } = Astro.props;
+const { id, number, title, why, good, bad } = Astro.props;
 ---
 
-<li>
-  <div class="do"><span class="verdict">Do</span><code>{good}</code></div>
-  <div class="dont"><span class="verdict dont">Don't</span><code>{bad}</code></div>
+<li id={id} tabindex="-1">
+  <h3><span class="number">{number}</span>{title}</h3>
   <p set:html={prose(why)} />
+  <div class="pair">
+    <div class="do"><span class="verdict">Do</span><code>{good}</code></div>
+    <div class="dont"><span class="verdict dont">Don't</span><code>{bad}</code></div>
+  </div>
 </li>
 
 <style>
   li {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--igd-space-gap-xs) var(--igd-space-gap-md);
+    gap: var(--igd-space-gap-xs);
   }
 
-  div {
+  li:focus {
+    outline: none;
+  }
+
+  h3 {
+    display: flex;
+    align-items: baseline;
+    gap: var(--igd-space-gap-sm);
+    font-family: var(--igd-font-display);
+    font-size: var(--igd-type-title-md-font-size);
+    line-height: var(--igd-type-title-md-line-height);
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--igd-color-text-heading);
+  }
+
+  .number {
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    color: var(--igd-color-action-text);
+  }
+
+  p {
+    margin: 0;
+    max-inline-size: 65ch;
+    color: var(--igd-color-text-secondary);
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--igd-space-gap-md);
+    margin-block-start: var(--igd-space-stack-2xs);
+  }
+
+  .pair > div {
     display: grid;
     align-content: start;
     gap: var(--igd-space-gap-2xs);
@@ -34,7 +75,7 @@ const { good, bad, why } = Astro.props;
     background: var(--igd-color-feedback-success-surface);
   }
 
-  div.dont {
+  .pair > .dont {
     background: var(--igd-color-feedback-error-surface);
   }
 
@@ -43,16 +84,10 @@ const { good, bad, why } = Astro.props;
     font-size: var(--igd-type-body-sm-font-size);
   }
 
-  p {
-    grid-column: 1 / -1;
-    margin: 0;
-    max-inline-size: var(--igd-container-prose-max-width);
-    color: var(--igd-color-text-secondary);
-  }
-
   @container (inline-size < 40rem) {
-    li {
+    .pair {
       grid-template-columns: minmax(0, 1fr);
+      gap: var(--igd-space-gap-xs);
     }
   }
 </style>

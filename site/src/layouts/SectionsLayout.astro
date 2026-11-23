@@ -22,7 +22,7 @@ const { title, current, sections, back } = Astro.props;
   <slot name="before" />
   <div class="layout">
     <SectionNav sections={sections} back={back}><slot name="nav" /></SectionNav>
-    <main>
+    <main id="content" tabindex="-1">
       <slot />
     </main>
   </div>
@@ -38,11 +38,16 @@ const { title, current, sections, back } = Astro.props;
     padding: var(--igd-space-inset-xl) var(--igd-container-gutter) var(--igd-space-inset-5xl);
   }
 
+  main:focus {
+    outline: none;
+  }
+
   /* breakpoint-lg */
   @media (max-width: 1024px) {
     .layout {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--igd-space-gap-lg);
+      padding-block-start: 0;
     }
   }
 </style>

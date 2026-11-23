@@ -173,31 +173,62 @@ describe("the hero of the guide", () => {
     await page.close();
   });
 
-  it("puts its picture beside the text on a wide screen and under it on a phone", async () => {
-    const boxes = async (width: number) => {
+  it("shows its picture beside the rules on a wide screen and leaves it out on a phone", async () => {
+    const picture = async (width: number) => {
       const { page } = await open("", width);
       const result = await page.evaluate(() => {
-        const text = document
-          .querySelector(".hero h1")
+        const rules = document
+          .querySelector(".hero ol")
           ?.getBoundingClientRect();
-        const picture = document
-          .querySelector(".hero svg")
-          ?.getBoundingClientRect();
-        if (!text || !picture) throw new Error("no hero text or picture");
+        const svg = document.querySelector(".hero svg");
+        if (!rules || !svg) throw new Error("no hero rules or picture");
+        const box = svg.getBoundingClientRect();
         return {
-          textBottom: text.bottom,
-          pictureTop: picture.top,
-          pictureLeft: picture.left,
+          shown: box.width > 0,
+          beside: box.left > rules.right && box.top < rules.bottom,
         };
       });
       await page.close();
       return result;
     };
-    const wide = await boxes(1280);
-    expect(wide.pictureTop).toBeLessThan(wide.textBottom);
-    expect(wide.pictureLeft).toBeGreaterThan(0);
-    const phone = await boxes(390);
-    expect(phone.pictureTop).toBeGreaterThan(phone.textBottom);
+    expect(await picture(1280)).toEqual({ shown: true, beside: true });
+    expect((await picture(390)).shown).toBe(false);
+  });
+
+  it("links each rule to its examples and moves focus there", async () => {
+    const { page } = await open("");
+    const links = await page.$$eval(".hero ol a", (all) =>
+      all.map((a) => a.getAttribute("href")),
+    );
+    expect(links).toEqual([
+      "#rule-1",
+      "#rule-2",
+      "#rule-3",
+      "#rule-4",
+      "#rule-5",
+      "#rule-6",
+    ]);
+    const title = await page.textContent(".hero ol li:nth-child(3) a");
+    await page.click(".hero ol li:nth-child(3) a");
+    const rule = await page.textContent("#rule-3");
+    expect(rule).toContain(title?.replace(/^\s*3\s*/, "").trim());
+    expect(rule).toContain("color: #1a5fff;");
+    await page.close();
+  });
+});
+
+describe("the skip link", () => {
+  it("is the first Tab stop and moves focus to the content", async () => {
+    const { page } = await open("");
+    await page.keyboard.press("Tab");
+    expect(await page.evaluate(() => document.activeElement?.textContent)).toBe(
+      "Skip to the content",
+    );
+    await page.keyboard.press("Enter");
+    expect(await page.evaluate(() => document.activeElement?.id)).toBe(
+      "content",
+    );
+    await page.close();
   });
 });
 
@@ -234,6 +265,54 @@ describe("the section list", () => {
     ]);
     expect(rows.find((r) => r.hash === "#spacing")?.current).toBe("true");
     expect(rows.every((r) => r.border === "0px")).toBe(true);
+    await page.close();
+  });
+});
+
+describe("the section list on a phone", () => {
+  it("stays under the top bar as one row and keeps the section in view visible in it", async () => {
+    const { page } = await open("", 390);
+    await page.evaluate(() => {
+      document.documentElement.style.scrollBehavior = "auto";
+      document.getElementById("rules")?.scrollIntoView();
+    });
+    await page.waitForFunction(
+      () =>
+        document
+          .querySelector('[data-section-nav] a[aria-current="true"]')
+          ?.getAttribute("href") === "#rules",
+    );
+    const result = await page.evaluate(() => {
+      const nav = document.querySelector("[data-section-nav]");
+      const header = document.querySelector("header");
+      const current = nav?.querySelector('a[aria-current="true"]');
+      const list = current?.closest("ul");
+      if (!nav || !header || !current || !list)
+        throw new Error("no section list");
+      const row = list.getBoundingClientRect();
+      const link = current.getBoundingClientRect();
+      const tops = [...list.querySelectorAll("a")].map(
+        (a) => a.getBoundingClientRect().top,
+      );
+      return {
+        underBar:
+          Math.abs(
+            nav.getBoundingClientRect().top -
+              header.getBoundingClientRect().bottom,
+          ) <= 1,
+        oneRow: new Set(tops).size === 1,
+        scrolls: list.scrollWidth > list.clientWidth,
+        inView: link.left >= row.left && link.right <= row.right,
+        sideways: document.documentElement.scrollWidth - window.innerWidth,
+      };
+    });
+    expect(result).toEqual({
+      underBar: true,
+      oneRow: true,
+      scrolls: true,
+      inView: true,
+      sideways: 0,
+    });
     await page.close();
   });
 });
@@ -293,6 +372,24 @@ describe("the dials of the guide", () => {
     await page.click('button[data-dial="--ig-spacing"][data-value=""]');
     expect((await cardStyle(page)).padding).toBe("20px");
     expect(await page.getAttribute("#dial-stage .card", "style")).toBeNull();
+    await page.close();
+  });
+
+  it("returns every dial to the design value with the reset button", async () => {
+    const { page } = await open("");
+    await page.click('button[data-dial="--ig-spacing"][data-value="0.5"]');
+    await page.click('button[data-dial="--ig-radius-factor"][data-value="0"]');
+    await page.click("button[data-dial-reset]");
+    expect(await cardStyle(page)).toMatchObject({
+      padding: "20px",
+      radius: "16px",
+    });
+    expect(await page.getAttribute("#dial-stage", "style")).toBeFalsy();
+    expect(
+      await page.$$eval('button[data-dial][aria-pressed="true"]', (all) =>
+        all.map((b) => b.getAttribute("data-value")),
+      ),
+    ).toEqual(["", "", "", ""]);
     await page.close();
   });
 
@@ -415,5 +512,35 @@ describe("a copy button", () => {
       "Copied var(--igd-color-text-muted)",
     );
     await context.close();
+  });
+  it("copies the bare name when Alt is held, and says what a click copies", async () => {
+    const context = await browser.newContext({
+      permissions: ["clipboard-read", "clipboard-write"],
+    });
+    const page = await context.newPage();
+    await page.goto(`${site.origin}/`);
+    const button = '[data-token="color-text-muted"] button[data-copy]';
+    expect(await page.getAttribute(button, "aria-label")).toBe(
+      "Copy var(--igd-color-text-muted)",
+    );
+    await page.click(button, { modifiers: ["Alt"] });
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "--igd-color-text-muted",
+    );
+    await context.close();
+  });
+
+  it("says what to do when the copy fails", async () => {
+    const { page } = await open("");
+    await page.evaluate(() => {
+      Object.defineProperty(navigator, "clipboard", {
+        value: { writeText: () => Promise.reject(new Error("denied")) },
+      });
+    });
+    await page.click('[data-token="color-text-muted"] button[data-copy]');
+    expect(await page.textContent("[data-toast]")).toBe(
+      "Could not copy var(--igd-color-text-muted). Select the text and copy it by hand.",
+    );
+    await page.close();
   });
 });

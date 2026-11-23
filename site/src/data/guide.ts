@@ -1,101 +1,181 @@
-// What the guide shows: the tokens it features, the dials of the live card, the steps and the rules.
+// What the guide shows: the tokens it features with a plain use each, and the dials of the live card.
 import type { Preview } from "@/lib/tokens.ts";
 
+/** A featured colour: the token, the plain use the guide prints, and how it is previewed. */
 type ColourPick = {
+  token: string;
+  use: string;
+  /** How this colour is previewed, when it differs from its group. */
+  preview?: Preview;
+  /** The token of the surface a text colour is shown on. */
+  on?: string;
+};
+
+type ColourGroup = {
+  id: string;
   title: string;
   lead: string;
   preview: Preview;
-  /** Each token with the plain use the guide prints in place of its technical note. */
-  names: [token: string, use: string][];
+  picks: ColourPick[];
 };
 
 /** The colours the guide shows, by what a reader wants to colour. Every other colour is on the Tokens page. */
-export const COLOUR_PICKS: ColourPick[] = [
+export const COLOUR_PICKS: ColourGroup[] = [
   {
+    id: "colour-text",
     title: "Text",
     lead: "Four strengths of text. Body copy never goes lighter than muted.",
     preview: "text",
-    names: [
-      ["color-text-heading", "Headlines."],
-      ["color-text-primary", "Strong text and the default text of a page."],
-      ["color-text-secondary", "Body copy and the paragraph under a heading."],
-      ["color-text-muted", "Captions, card descriptions and small labels."],
+    picks: [
+      { token: "color-text-heading", use: "Headlines." },
+      {
+        token: "color-text-primary",
+        use: "Strong text and the default text of a page.",
+      },
+      {
+        token: "color-text-secondary",
+        use: "Body copy and the paragraph under a heading.",
+      },
+      {
+        token: "color-text-muted",
+        use: "Captions, card descriptions and small labels.",
+      },
     ],
   },
   {
+    id: "colour-backgrounds",
     title: "Backgrounds",
     lead: "The page, a band that alternates with it, a card, a soft tint and the one dark surface.",
     preview: "fill",
-    names: [
-      ["color-surface-page", "The page background."],
-      ["color-surface-subtle", "A section band that alternates with the page."],
-      ["color-surface-card", "The fill of a card."],
-      ["color-surface-tint", "A soft tint behind a chip or a callout."],
-      [
-        "color-surface-inverse",
-        "The one dark surface, such as a table header.",
-      ],
+    picks: [
+      { token: "color-surface-page", use: "The page background." },
+      {
+        token: "color-surface-subtle",
+        use: "A section band that alternates with the page.",
+      },
+      { token: "color-surface-card", use: "The fill of a card." },
+      {
+        token: "color-surface-tint",
+        use: "A soft tint behind a chip or a callout.",
+      },
+      {
+        token: "color-surface-inverse",
+        use: "The one dark surface, such as a table header.",
+      },
     ],
   },
   {
+    id: "colour-actions",
     title: "Buttons and links",
     lead: "One action colour. A filled button uses the fill and its label; a link or an outline uses the text colour.",
     preview: "fill",
-    names: [
-      ["color-action-default", "The fill of the main button."],
-      ["color-action-on", "The label on that fill."],
-      ["color-action-text", "A link, an outline button label, an eyebrow."],
-      [
-        "color-action-fill-hover",
-        "The fill of the main button under the pointer.",
-      ],
+    picks: [
+      { token: "color-action-default", use: "The fill of the main button." },
+      {
+        token: "color-action-on",
+        use: "The label on that fill.",
+        preview: "text",
+        on: "color-action-default",
+      },
+      {
+        token: "color-action-text",
+        use: "A link, an outline button label, a short label in the action colour.",
+        preview: "text",
+      },
+      {
+        token: "color-action-fill-hover",
+        use: "The fill of the main button under the pointer.",
+      },
     ],
   },
   {
+    id: "colour-lines",
     title: "Lines",
     lead: "Borders of cards, dividers and form fields.",
     preview: "outline",
-    names: [
-      ["color-border-default", "The border of a card or a chip."],
-      ["color-border-subtle", "A quiet divider."],
-      ["color-border-control", "The border of a form field."],
+    picks: [
+      { token: "color-border-default", use: "The border of a card or a chip." },
+      { token: "color-border-subtle", use: "A quiet divider." },
+      { token: "color-border-control", use: "The border of a form field." },
     ],
   },
   {
+    id: "colour-messages",
     title: "Messages",
-    lead: "Error, success, warning and information. Each has a text colour and a tinted background.",
-    preview: "fill",
-    names: [
-      ["color-feedback-error-default", "An error message."],
-      ["color-feedback-success-default", "A confirmation."],
-      ["color-feedback-warning-default", "A warning."],
-      ["color-feedback-info-default", "A note or a tip."],
+    lead: "Error, success, warning and information. Each is a text colour shown here on its own tinted background.",
+    preview: "text",
+    picks: [
+      {
+        token: "color-feedback-error-default",
+        use: "An error message.",
+        on: "color-feedback-error-surface",
+      },
+      {
+        token: "color-feedback-success-default",
+        use: "A confirmation.",
+        on: "color-feedback-success-surface",
+      },
+      {
+        token: "color-feedback-warning-default",
+        use: "A warning.",
+        on: "color-feedback-warning-surface",
+      },
+      {
+        token: "color-feedback-info-default",
+        use: "A note or a tip.",
+        on: "color-feedback-info-surface",
+      },
     ],
   },
 ];
 
-/** The radius and shadow roles the guide shows. */
-export const SHAPE_PICKS = {
+/** The plain use of each type role. A role of tokens.json that is missing here stops the build. */
+export const TYPE_USES: Record<string, string> = {
+  "type-display-lg": "The one headline at the top of the home page.",
+  "type-display-md": "The heading of a section.",
+  "type-display-sm": "The heading of a sub-section or a panel.",
+  "type-stat": "A big number, such as 100K+.",
+  "type-title-md": "A product name on a card.",
+  "type-title-sm": "The title of a card.",
+  "type-lead": "The paragraph under a heading.",
+  "type-label-lg": "The label of a large button, or the title of a callout.",
+  "type-body-lg": "Running text.",
+  "type-body-md": "Text in the interface: menus, buttons, rows of a list.",
+  "type-label-md": "The label of a button.",
+  "type-body-sm": "A caption, a card description, a detail in a table.",
+  "type-eyebrow": "A short uppercase label.",
+  "type-body-xs": "Small print: legal copy, a chip.",
+  "type-body-2xs": "The smallest label, such as the line under a badge.",
+};
+
+/** The radius and shadow roles the guide shows, each with its plain use. */
+export const SHAPE_PICKS: Record<
+  "radius" | "shadow",
+  { token: string; use: string }[]
+> = {
   radius: [
-    "radius-xs",
-    "radius-sm",
-    "radius-md",
-    "radius-lg",
-    "radius-xl",
-    "radius-full",
+    { token: "radius-xs", use: "A checkbox or a small tag." },
+    { token: "radius-sm", use: "A small element, such as a badge." },
+    { token: "radius-md", use: "An icon tile or a row in a menu." },
+    { token: "radius-lg", use: "A card or a picture frame." },
+    { token: "radius-xl", use: "A large card that stands out." },
+    {
+      token: "radius-full",
+      use: "A button, a chip, anything shaped like a pill.",
+    },
   ],
   shadow: [
-    "shadow-raised",
-    "shadow-floating",
-    "shadow-popover",
-    "shadow-panel",
+    { token: "shadow-raised", use: "A card under the pointer." },
+    { token: "shadow-floating", use: "A badge that floats over a picture." },
+    { token: "shadow-popover", use: "A dropdown menu." },
+    { token: "shadow-panel", use: "An open navigation panel." },
   ],
 };
 
 /** The sizes of the spacing scale the guide draws. */
 export const SPACE_PICKS = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
-/** The dials of the live card: the property, its label and the values a button sets. An empty value clears the dial. */
+/** The dials of the live card: the property, its plain label and the values a button sets. An empty value is the design value and clears the dial. */
 export const DIALS: {
   property: string;
   label: string;
@@ -107,7 +187,7 @@ export const DIALS: {
     values: [
       ["Small", "1"],
       ["Medium", "2"],
-      ["Large", ""],
+      ["Design", ""],
     ],
   },
   {

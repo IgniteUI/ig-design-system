@@ -1,5 +1,6 @@
 ---
 // A token as a card: its preview, its name as a copy button, its rendered value and its note.
+// With a plain use, the card reads job first: the use, then the name, then the value.
 import CopyName from "@/components/ui/CopyName.astro";
 import Note from "@/components/ui/Note.astro";
 import Readout from "@/components/ui/Readout.astro";
@@ -7,27 +8,31 @@ import { cssVar, prefixOf, type Token } from "@/lib/design-system.ts";
 
 interface Props {
   token: Token;
-  /** How the preview is drawn: a fill, sample text, an outline, or a card lifted off the page. */
-  preview: "fill" | "text" | "outline" | "lifted";
+  /** How the preview is drawn: a fill, sample text, an outline, a shape that shows a corner, or a card lifted off the page. */
+  preview: "fill" | "text" | "outline" | "shape" | "lifted";
   /** The CSS property of the preview that takes the token. */
   property: string;
-  /** The rendered value shown under the name. */
+  /** The rendered value shown with the name. */
   readout?: "colour" | "length";
-  /** A plain use, shown in place of the token's own note. */
+  /** A plain use, shown first and in place of the token's own note. */
   use?: string;
+  /** The token of the surface a text preview sits on. */
+  on?: string;
 }
 
-const { token, preview, property, readout, use } = Astro.props;
+const { token, preview, property, readout, use, on } = Astro.props;
 const custom = cssVar(token.name);
+const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
 
 <li data-token={token.name}>
-  <span class:list={["preview", preview]} style={`${property}: var(${custom})`} aria-hidden="true">
+  <span class:list={["preview", preview]} style={style} aria-hidden="true">
     {preview === "text" && "Aa"}
   </span>
+  {use && <p class="use">{use}</p>}
   <CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} />
   {readout && <Readout token={token.name} kind={readout} />}
-  <Note text={use ?? token.usage} short={Boolean(use)} />
+  {!use && <Note text={token.usage} about={token.name} />}
 </li>
 
 <style>
@@ -43,6 +48,12 @@ const custom = cssVar(token.name);
 
   li > :global(output) {
     display: block;
+  }
+
+  .use {
+    margin: 0;
+    color: var(--igd-color-text-primary);
+    font-weight: var(--igd-font-weight-semibold);
   }
 
   .preview {
@@ -67,8 +78,13 @@ const custom = cssVar(token.name);
     border-width: var(--igd-focus-ring-width);
   }
 
+  .shape {
+    background: var(--igd-color-surface-tint);
+    border: var(--igd-border-width-strong) solid var(--igd-color-border-control);
+  }
+
   .lifted {
-    border-color: transparent;
+    border-color: var(--igd-color-border-subtle);
     background: var(--igd-color-surface-card);
     margin: var(--igd-space-stack-sm) var(--igd-space-gap-sm) var(--igd-space-stack-lg);
   }

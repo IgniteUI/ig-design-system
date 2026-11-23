@@ -26,6 +26,7 @@ const { target } = Astro.props;
       </div>
     ))
   }
+  <button type="button" class="reset" data-dial-reset>Reset the dials</button>
 </div>
 
 <script>
@@ -50,6 +51,22 @@ const { target } = Astro.props;
     min-inline-size: var(--igd-newsletter-min-width);
     color: var(--igd-color-text-ui);
     font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .reset {
+    justify-self: start;
+    min-block-size: var(--igd-space-xl);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--igd-color-action-text);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    cursor: pointer;
+  }
+
+  .reset:hover {
+    color: var(--igd-color-action-hover);
   }
 
   code {

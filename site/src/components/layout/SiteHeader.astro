@@ -2,6 +2,7 @@
 // The top bar: the logo, the pages, a slot for the page's own control and the theme switch.
 import darkLogo from "@/assets/logos/ig-logo-dark.svg";
 import logo from "@/assets/logos/ig-logo.svg";
+import mark from "@/assets/logos/ig-logomark.svg";
 import ThemeToggle from "@/components/layout/ThemeToggle.astro";
 import { PAGES, type PageId } from "@/data/navigation.ts";
 import { href } from "@/lib/paths.ts";
@@ -17,6 +18,7 @@ const { current } = Astro.props;
   <a class="brand" href={href()} aria-label="Infragistics design system">
     <img class="logo light" src={logo.src} width={logo.width} height={logo.height} alt="" />
     <img class="logo dark" src={darkLogo.src} width={darkLogo.width} height={darkLogo.height} alt="" />
+    <img class="logo mark" src={mark.src} width={mark.width} height={mark.height} alt="" />
     <span>Design system</span>
   </a>
   <nav aria-label="Pages">
@@ -75,6 +77,7 @@ const { current } = Astro.props;
   }
 
   .logo.dark,
+  .logo.mark,
   :global([data-theme="dark"]) .logo.light {
     display: none;
   }
@@ -118,5 +121,23 @@ const { current } = Astro.props;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--igd-space-gap-xs);
+  }
+
+  /* breakpoint-sm: one row, with the symbol standing for the logo and the name. */
+  @media (max-width: 640px) {
+    .top {
+      flex-wrap: nowrap;
+      gap: var(--igd-space-gap-sm);
+    }
+
+    .brand span,
+    .logo.light,
+    :global([data-theme="dark"]) .logo.dark {
+      display: none;
+    }
+
+    .logo.mark {
+      display: block;
+    }
   }
 </style>

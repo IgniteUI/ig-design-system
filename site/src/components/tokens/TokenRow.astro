@@ -19,6 +19,6 @@ const custom = cssVar(token.name);
   <th scope="row"><CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} /></th>
   <td class="value">{value === "length" ? <Readout token={token.name} kind="length" /> : token.value}</td>
   <td>
-    <slot><Note text={token.usage} /></slot>
+    <slot><Note text={token.usage} about={token.name} /></slot>
   </td>
 </tr>

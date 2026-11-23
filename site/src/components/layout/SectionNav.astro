@@ -80,21 +80,37 @@ const { sections, back } = Astro.props;
     color: inherit;
   }
 
-  /* breakpoint-lg */
+  /* breakpoint-lg: one row under the top bar that stays in view and scrolls sideways. */
   @media (max-width: 1024px) {
     nav {
-      position: static;
+      inset-block-start: var(--igd-nav-height);
+      z-index: var(--igd-z-index-sticky);
+      margin-inline: calc(-1 * var(--igd-container-gutter));
+      padding: var(--igd-space-inset-xs) var(--igd-container-gutter);
+      background: var(--igd-nav-background);
+      backdrop-filter: var(--igd-nav-backdrop-blur);
+      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    }
+
+    .back {
+      display: none;
     }
 
     ul {
       display: flex;
-      flex-wrap: wrap;
       gap: var(--igd-space-gap-2xs);
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
     li a {
       border: var(--igd-border-width-default) solid var(--igd-color-border-default);
       border-radius: var(--igd-radius-full);
+      white-space: nowrap;
+    }
+
+    li a:is(:target-current, .target-current) {
+      border-color: var(--igd-color-action-default);
     }
   }
 </style>

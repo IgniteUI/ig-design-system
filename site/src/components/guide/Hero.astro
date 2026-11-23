@@ -1,99 +1,109 @@
 ---
-// The opening band of the guide: what the design system is, two ways in, and four counts from tokens.json.
+// The opening band of the guide: the rules of the design system in plain words, each linked to its examples, beside the drawing.
 import ActionLink from "@/components/guide/ActionLink.astro";
 import HeroArt from "@/components/guide/HeroArt.astro";
-import { tokens } from "@/lib/design-system.ts";
+import { RULES, ruleId } from "@/data/rules.ts";
 import { href } from "@/lib/paths.ts";
 
-const facts: [count: number, label: string][] = [
-  [tokens.color.tokens.filter((t) => !t.name.startsWith("ig-")).length, "colours"],
-  [tokens.type.groups.flatMap((g) => g.styles).length, "type roles"],
-  [tokens.spacing.tokens.length, "spacing tokens"],
-  [tokens.radius.tokens.length + tokens.shadow.tokens.length, "corners and shadows"],
-];
+const WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+const count = WORDS[RULES.length] ?? String(RULES.length);
 ---
 
 <div class="hero">
   <div class="inner">
-    <p class="igd-type-eyebrow">Design system</p>
-    <h1 class="igd-type-display-lg">One look for every <span>Infragistics site</span></h1>
-    <p class="igd-type-lead">
-      Colours, type, spacing, corners and shadows, each with a name that says what it is for. Use the names
-      and every page stays consistent, in the light and the dark theme.
-    </p>
-    <div class="actions">
-      <ActionLink href="#idea">Start here</ActionLink>
-      <ActionLink href={href("tokens/")} quiet>Browse every token</ActionLink>
+    <div class="text">
+      <h1 class="igd-type-display-lg">{count} rules keep every Infragistics page consistent</h1>
+      <p class="igd-type-lead">
+        The design system names every colour, size and space by what it is for. Follow these rules and a page
+        looks right in the light and the dark theme.
+      </p>
+      <ol>
+        {
+          RULES.map((rule, i) => (
+            <li>
+              <a href={`#${ruleId(i)}`}>
+                <span class="number">{i + 1}</span>
+                {rule.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="actions">
+        <ActionLink href="#idea">Start with the idea</ActionLink>
+        <ActionLink href={href("tokens/")} quiet>Browse every token</ActionLink>
+      </div>
     </div>
-    <dl>
-      {
-        facts.map(([count, label]) => (
-          <div>
-            <dt>{label}</dt>
-            <dd class="igd-type-stat">{count}</dd>
-          </div>
-        ))
-      }
-    </dl>
+    <div class="art"><HeroArt /></div>
   </div>
-  <div class="art"><HeroArt /></div>
 </div>
 
 <style>
   .hero {
-    position: relative;
-    overflow: clip;
     background: var(--igd-color-surface-page);
-    color: var(--igd-color-text-primary);
     border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
   }
 
-  /* The drawing fills the right of the band, at the full height of the band. */
-  .art {
-    position: absolute;
-    inset-block: var(--igd-space-md);
-    inset-inline-end: var(--igd-container-gutter);
-    inline-size: 52%;
-    display: grid;
-    place-items: center;
-  }
-
-  .art :global(svg) {
-    max-inline-size: 100%;
-    max-block-size: 100%;
-  }
-
   .inner {
-    position: relative;
     display: grid;
-    gap: var(--igd-space-gap-lg);
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+    align-items: center;
+    gap: var(--igd-space-gap-4xl);
     max-inline-size: var(--igd-container-max-width);
     margin-inline: auto;
-    padding: var(--igd-space-section) var(--igd-container-gutter);
+    padding: var(--igd-space-inset-5xl) var(--igd-container-gutter);
     container-type: inline-size;
   }
 
-  .igd-type-eyebrow {
-    margin: 0;
-    color: var(--igd-color-action-text);
+  .text {
+    display: grid;
+    gap: var(--igd-space-gap-lg);
   }
 
   h1 {
-    max-inline-size: 16ch;
+    max-inline-size: 18ch;
     text-wrap: balance;
-  }
-
-  h1 span {
-    background: var(--igd-gradient-brand);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
   }
 
   .igd-type-lead {
     margin: 0;
-    max-inline-size: 26rem;
+    max-inline-size: 34rem;
     color: var(--igd-color-text-secondary);
+  }
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    max-inline-size: 34rem;
+    border-block-start: var(--igd-border-width-default) solid var(--igd-color-border-default);
+  }
+
+  li {
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
+  }
+
+  li a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--igd-space-gap-md);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-xs);
+    color: var(--igd-color-text-heading);
+    font-size: var(--igd-type-body-lg-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    transition: background-color var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  li a:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-action-text);
+  }
+
+  .number {
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-sm-font-size);
+    color: var(--igd-color-action-text);
   }
 
   .actions {
@@ -102,38 +112,20 @@ const facts: [count: number, label: string][] = [
     gap: var(--igd-space-gap-sm);
   }
 
-  dl {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--igd-space-gap-lg) var(--igd-space-gap-4xl);
-    margin: var(--igd-space-stack-md) 0 0;
+  .art :global(svg) {
+    inline-size: 100%;
+    block-size: auto;
   }
 
-  dl div {
-    display: grid;
-  }
-
-  dt {
-    order: 2;
-    color: var(--igd-color-text-muted);
-    font-size: var(--igd-type-body-sm-font-size);
-  }
-
-  dd {
-    margin: 0;
-    color: var(--igd-color-text-heading);
-  }
-
-  /* breakpoint-lg: the drawing moves under the text. */
+  /* breakpoint-lg: the drawing is decoration, so a small screen leaves it out and keeps the rules. */
   @media (max-width: 1024px) {
-    .art {
-      position: static;
-      inline-size: 100%;
-      padding: 0 var(--igd-container-gutter) var(--igd-space-inset-xl);
+    .inner {
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: var(--igd-space-inset-3xl);
     }
 
-    .inner {
-      padding-block-end: var(--igd-space-inset-lg);
+    .art {
+      display: none;
     }
   }
 </style>

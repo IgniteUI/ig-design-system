@@ -5,6 +5,7 @@ import "@root/dist/tokens.css";
 import "@root/dist/theme.css";
 import "@root/dist/base.css";
 import "@/styles/global.css";
+import SiteFooter from "@/components/layout/SiteFooter.astro";
 import SiteHeader from "@/components/layout/SiteHeader.astro";
 import Toast from "@/components/ui/Toast.astro";
 import type { PageId } from "@/data/navigation.ts";
@@ -38,11 +39,33 @@ const SITE = "Infragistics design system";
     </script>
   </head>
   <body>
+    <a class="skip" href="#content">Skip to the content</a>
     <SiteHeader current={current}>
       <slot name="bar" slot="bar" />
       <slot name="switches" slot="switches" />
     </SiteHeader>
     <slot />
+    <SiteFooter />
     <Toast />
   </body>
 </html>
+
+<style>
+  /* Off screen until it takes keyboard focus. */
+  .skip {
+    position: absolute;
+    inset-block-start: var(--igd-space-xs);
+    inset-inline-start: var(--igd-space-xs);
+    z-index: var(--igd-z-index-overlay);
+    padding: var(--igd-space-inset-xs) var(--igd-space-inset-md);
+    border-radius: var(--igd-radius-full);
+    background: var(--igd-color-action-default);
+    color: var(--igd-color-action-on);
+    font-weight: var(--igd-font-weight-semibold);
+    transform: translateY(-200%);
+  }
+
+  .skip:focus-visible {
+    transform: none;
+  }
+</style>

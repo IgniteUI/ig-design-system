@@ -1,4 +1,4 @@
-// Copies the data-copy value of a button, and reports it in the toast, which is also the live region.
+// Copies the data-copy value of a button, or its data-copy-alt value when Alt is held, and reports it in the toast, which is also the live region.
 
 const toast = document.querySelector<HTMLElement>("[data-toast]");
 let timer: ReturnType<typeof setTimeout> | undefined;
@@ -15,20 +15,24 @@ const report = (message: string) => {
   timer = setTimeout(() => {
     toast.removeAttribute("data-shown");
     toast.textContent = "";
-  }, 2000);
+  }, 2500);
 };
 
 document.addEventListener("click", (e) => {
   const button = (e.target as Element).closest<HTMLElement>(
     "button[data-copy]",
   );
-  const text = button?.dataset.copy;
+  if (!button) return;
+  const text = (e.altKey && button.dataset.copyAlt) || button.dataset.copy;
   if (!text) return;
+  // A long value, such as a code sample, is reported by its label, not printed in the toast.
+  const what = button.dataset.copyLabel ?? text;
   (navigator.clipboard
     ? navigator.clipboard.writeText(text)
     : Promise.reject(new Error("no clipboard"))
   ).then(
-    () => report(`Copied ${text}`),
-    () => report(`Copy failed: ${text}`),
+    () => report(`Copied ${what}`),
+    () =>
+      report(`Could not copy ${what}. Select the text and copy it by hand.`),
   );
 });

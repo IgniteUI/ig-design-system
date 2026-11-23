@@ -19,9 +19,9 @@ import Readout from "@/components/ui/Readout.astro";
 import ScrollTable from "@/components/ui/ScrollTable.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import { CARD_MARKUP, CARD_RULE } from "@/data/card.ts";
-import { COLOUR_PICKS, SHAPE_PICKS, SPACE_PICKS } from "@/data/guide.ts";
+import { COLOUR_PICKS, SHAPE_PICKS, SPACE_PICKS, TYPE_USES } from "@/data/guide.ts";
 import { DOCUMENTS } from "@/data/navigation.ts";
-import { RULES } from "@/data/rules.ts";
+import { RULES, ruleId } from "@/data/rules.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
 import {
   checkCommand,
@@ -44,7 +44,7 @@ const sections = {
   shape: { id: "shape", title: "Shape" },
   themes: { id: "themes", title: "Themes and dials" },
   component: { id: "component", title: "Build a component" },
-  rules: { id: "rules", title: "Do and don't" },
+  rules: { id: "rules", title: "The rules in detail" },
   setup: { id: "setup", title: "Set up a site" },
   help: { id: "help", title: "Something missing?" },
 };
@@ -61,6 +61,12 @@ const spacing = SPACE_PICKS.map((size) => {
   return { size, inset, stack, gap };
 });
 const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
+const missing = styles.filter((style) => !TYPE_USES[style.name]).map((style) => style.name);
+if (missing.length)
+  throw new Error(
+    `The guide has no plain use for ${missing.join(", ")}. Add one to TYPE_USES in site/src/data/guide.ts.`,
+  );
+const property = { fill: "background", text: "color", outline: "border-color" };
 ---
 
 <SectionsLayout current="guide" sections={Object.values(sections)}>
@@ -93,13 +99,13 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
       items={[
         {
           href: "#colour",
-          title: "I choose colours, type or spacing",
-          text: "Read Colour, Type, Spacing and Shape. Click a name to copy it.",
+          title: "I brief or design a page",
+          text: "Read Colour, Type, Spacing and Shape. Each name says what it is for.",
         },
         {
           href: "#component",
           title: "I build a page or a component",
-          text: "Read Build a component and Do and don't.",
+          text: "Read Build a component and The rules in detail.",
         },
         {
           href: "#setup",
@@ -111,11 +117,6 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
           title: "I am looking for one token",
           text: "The Tokens page lists every token and filters by name or use.",
         },
-        {
-          href: href("logo/"),
-          title: "I need the logo",
-          text: "The files, the colours, and what to do and not to do with it.",
-        },
       ]}
     />
   </Section>
@@ -126,21 +127,21 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
       never by the nearest shade. Each one has a value for the light theme and one for the dark theme, and
       switches by itself.
     </p>
+    <p class="lead">
+      Click a name to copy it for CSS. Hold Alt and click to copy the name alone, for a design file or a brief.
+    </p>
     {
       COLOUR_PICKS.map((group) => (
         <div class="group">
-          <h3>{group.title}</h3>
+          <h3 id={group.id}>{group.title}</h3>
           <p class="lead">{group.lead}</p>
           <TokenGrid>
-            {pick(colours, group.names.map(([name]) => name), "colour").map((token, i) => (
-              <TokenCard
-                token={token}
-                preview={group.preview}
-                property={group.preview === "text" ? "color" : group.preview === "outline" ? "border-color" : "background"}
-                readout="colour"
-                use={group.names[i][1]}
-              />
-            ))}
+            {pick(colours, group.picks.map((p) => p.token), "colour").map((token, i) => {
+              const { use, on, preview = group.preview } = group.picks[i];
+              return (
+                <TokenCard token={token} preview={preview} property={property[preview]} readout="colour" use={use} on={on} />
+              );
+            })}
           </TokenGrid>
         </div>
       ))
@@ -150,15 +151,15 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
 
   <Section {...sections.type}>
     <p class="intro">
-      {styles.length} text styles, each named for its role on the page. Put the class on the element and the
+      {styles.length} type roles, each named for its job on the page. Put the class on the element and the
       font, size, weight and line height come with it. The numbers show the size on this screen right now.
     </p>
-    <p class="switches"><TypeSetToggle target="type-specimens" /></p>
     <p class="lead">
       The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set:
       press the button to see it.
     </p>
-    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
+    <p class="switches"><TypeSetToggle target="type-specimens" /></p>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} />)}</ul>
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
@@ -200,21 +201,25 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
       pill.
     </p>
     <div class="group">
-      <h3>Corners</h3>
+      <h3 id="shape-corners">Corners</h3>
       <TokenGrid>
         {
-          pick(tokens.radius.tokens, SHAPE_PICKS.radius, "radius").map((token) => (
-            <TokenCard token={token} preview="outline" property="border-radius" readout="length" />
+          pick(tokens.radius.tokens, SHAPE_PICKS.radius.map((p) => p.token), "radius").map((token, i) => (
+            <TokenCard token={token} preview="shape" property="border-radius" readout="length" use={SHAPE_PICKS.radius[i].use} />
           ))
         }
       </TokenGrid>
     </div>
     <div class="group">
-      <h3>Shadows</h3>
+      <h3 id="shape-shadows">Shadows</h3>
+      <p class="lead">
+        A shadow lifts a surface off the page. In the dark theme surfaces separate by tone, so a shadow adds
+        little there.
+      </p>
       <TokenGrid roomy>
         {
-          pick(tokens.shadow.tokens, SHAPE_PICKS.shadow, "shadow").map((token) => (
-            <TokenCard token={token} preview="lifted" property="box-shadow" />
+          pick(tokens.shadow.tokens, SHAPE_PICKS.shadow.map((p) => p.token), "shadow").map((token, i) => (
+            <TokenCard token={token} preview="lifted" property="box-shadow" use={SHAPE_PICKS.shadow[i].use} />
           ))
         }
       </TokenGrid>
@@ -230,22 +235,22 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
       reads tokens. Nothing in it is written twice.
     </p>
     <div class="group">
-      <h3>Light and dark</h3>
+      <h3 id="themes-light-dark">Light and dark</h3>
       <p class="lead">
         The button at the top of this page switches the whole page. A region can also carry its own theme:
         these two cards are the same markup.
       </p>
       <div class="themes">
-        <Stage data-theme="light" label='data-theme="light"'>
+        <Stage data-theme="light" label="Light theme">
           <DemoCard title="Light theme">Every colour takes its light value.</DemoCard>
         </Stage>
-        <Stage data-theme="dark" label='data-theme="dark"'>
+        <Stage data-theme="dark" label="Dark theme">
           <DemoCard title="Dark theme">The same names, the dark values.</DemoCard>
         </Stage>
       </div>
     </div>
     <div class="group">
-      <h3>Dials</h3>
+      <h3 id="themes-dials">Dials</h3>
       <p class="lead">
         Four dials change every token below them at once. Press a value and watch the card: its padding,
         corners and shadow follow, and no rule of the card changes.
@@ -279,23 +284,22 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
         >, a gap <code>space-gap-*</code>.
       </li>
       <li>
-        <strong>Set text with a class.</strong>
+        <strong>Set text with a class.</strong>{" "}
         <code>igd-type-title-sm</code> on a card title, <code>igd-type-body-md</code> on its text.
       </li>
     </Steps>
     <p class="lead">This is the whole stylesheet of the card used on this page:</p>
-    <CodeBlock code={CARD_RULE} />
-    <CodeBlock code={CARD_MARKUP} />
+    <CodeBlock code={CARD_RULE} label="the card's stylesheet" />
+    <CodeBlock code={CARD_MARKUP} label="the card's markup" />
     <p class="more"><a href={href("docs/examples/card.html")}>Open the example card</a></p>
   </Section>
 
   <Section {...sections.rules}>
     <p class="intro">
-      Six rules cover almost every case. The check command reports the first three; the third with <code
-        >--strict</code
-      >.
+      Each rule with an example of what to write and what not to. The check command reports rules 1 to 3; rule
+      3 with <code>--strict</code>.
     </p>
-    <ul class="rules">{RULES.map((rule) => <RulePair {...rule} />)}</ul>
+    <ol class="rules">{RULES.map((rule, i) => <RulePair {...rule} id={ruleId(i)} number={i + 1} />)}</ol>
   </Section>
 
   <Section {...sections.setup}>
@@ -306,17 +310,17 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
     <Steps>
       <li>
         <strong>Install the package.</strong>
-        <CodeBlock code={installCommand(packageName)} />
+        <CodeBlock code={installCommand(packageName)} label="the install command" />
       </li>
       <li>
         <strong>Load the stylesheets before the site's own styles, in this order.</strong>{" "}
         {optional.map((file, i) => [i > 0 && " and ", <code>{file}</code>])} are optional.
-        <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} />
+        <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} label="the imports" />
       </li>
       <li>
         <strong>Check the site.</strong> The command reports an unknown token, a palette step and a raw spacing
         step, and fails the build when it finds one.
-        <CodeBlock code={checkCommand(packageName)} />
+        <CodeBlock code={checkCommand(packageName)} label="the check command" />
       </li>
     </Steps>
     <LinkCards
@@ -387,7 +391,7 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
 
   .rules {
     display: grid;
-    gap: var(--igd-space-gap-lg);
+    gap: var(--igd-space-gap-3xl);
   }
 
   .themes {

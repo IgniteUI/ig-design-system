@@ -53,6 +53,23 @@ describe("every page", () => {
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
     expect(page("logo/")).toMatch(/aria-current="page"[^>]*>\s*Logo/);
   });
+  it.each(ROUTES)(
+    "/%s ends with the footer, which names the package and its version",
+    (route) => {
+      const footer = page(route).match(/<footer.*?<\/footer>/s)?.[0] ?? "";
+      expect(footer).toContain(pkg.name);
+      expect(footer).toContain(pkg.version);
+    },
+  );
+
+  it.each(ROUTES)(
+    "/%s starts with a link that skips to the content",
+    (route) => {
+      const html = page(route);
+      expect(html).toMatch(/<body[^>]*>\s*<a[^>]*href="#content"/);
+      expect(html).toContain(' id="content"');
+    },
+  );
 });
 
 describe("the Tokens page", () => {
@@ -114,6 +131,28 @@ describe("the guide", () => {
     expect(html).toMatch(
       /data-token="color-action-default".*?The fill of the main button\./s,
     );
+  });
+  it("titles each rule in plain words, with the code under it", () => {
+    const rule = html.match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
+    expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
+    expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
+      rule.indexOf("color: var(--igd-color-text-muted);"),
+    );
+  });
+
+  it("shows a featured token as its use, then its name", () => {
+    const card = html.match(/data-token="radius-lg".*?<\/button>/s)?.[0] ?? "";
+    expect(card.indexOf("A card or a picture frame.")).toBeGreaterThan(-1);
+    expect(card.indexOf("A card or a picture frame.")).toBeLessThan(
+      card.indexOf("data-copy="),
+    );
+  });
+
+  it("marks a card that leaves the site", () => {
+    const cards =
+      html.match(/<a href="https:[^"]*"[^>]*>\s*<strong.*?<\/strong>/gs) ?? [];
+    expect(cards.length).toBeGreaterThan(0);
+    for (const card of cards) expect(card).toContain("(leaves this site)");
   });
 });
 

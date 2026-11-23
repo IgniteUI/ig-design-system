@@ -53,7 +53,7 @@ const sections = {
     {
       groups.map(([key, title]) => (
         <div class="group" data-filter-group>
-          <h3>{title}</h3>
+          <h3 id={`colour-${key}`}>{title}</h3>
           <TokenGrid>
             {semantic[key].map((token) => (
               <TokenCard token={token} preview={previewOf(key)} property={property[previewOf(key)]} readout="colour" />
@@ -112,7 +112,7 @@ const sections = {
     <TokenGrid>
       {
         tokens.radius.tokens.map((token) => (
-          <TokenCard token={token} preview="outline" property="border-radius" readout="length" />
+          <TokenCard token={token} preview="shape" property="border-radius" readout="length" />
         ))
       }
     </TokenGrid>
