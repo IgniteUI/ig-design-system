@@ -1,4 +1,5 @@
 // The token filter: a token stays when every word typed is in its name, its value or its note.
+import { READ } from "./events.ts";
 
 const input = document.querySelector<HTMLInputElement>("[data-filter]");
 const matches = document.querySelector<HTMLElement>("[data-filter-matches]");
@@ -16,7 +17,12 @@ if (input) {
   const text = (el: Element | null) => (el?.textContent ?? "").toLowerCase();
 
   const apply = () => {
-    const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    // A pasted var(--name) is searched as the name.
+    const words = input.value
+      .toLowerCase()
+      .replace(/var\(|\)/g, " ")
+      .split(/\s+/)
+      .filter(Boolean);
     const on = words.length > 0;
     if (on && !opened) opened = new Set(folds.filter((d) => d.open));
     let shown = 0;
@@ -43,6 +49,11 @@ if (input) {
         box.open = on || Boolean(opened?.has(box));
     }
     if (!on) opened = undefined;
+    // What is not a token steps aside while a filter is on, so the matches come first.
+    for (const rest of document.querySelectorAll<HTMLElement>(
+      "[data-filter-rest], [data-filter-scope] > :not([data-filter-group], h1)",
+    ))
+      rest.hidden = on;
     // Counts the tokens left in each section, in its heading and in its link.
     for (const count of document.querySelectorAll<HTMLElement>(
       "[data-count]",
@@ -95,16 +106,21 @@ if (input) {
       e.preventDefault();
       input.focus();
     }
-    if (e.key === "Escape" && document.activeElement === input) {
+    if (e.key === "Escape" && input.value) {
       input.value = "";
       apply();
       store();
     }
   });
 
+  // Values are written after the page loads and again on a theme or type set change, so a filter is applied again then.
+  document.addEventListener(READ, () => {
+    if (input.value) apply();
+  });
+
   const asked = new URL(location.href).searchParams.get("q");
   if (asked) {
     input.value = asked;
-    document.fonts.ready.then(() => requestAnimationFrame(apply));
+    apply();
   }
 }

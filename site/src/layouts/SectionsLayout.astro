@@ -9,7 +9,7 @@ interface Props {
   /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
   current?: PageId;
   /** The sections of the page, in order. Each id is the id of an element on the page. */
-  sections: { id: string; title: string; count?: number; sub?: boolean }[];
+  sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean }[];
   /** A link above the section list, back to the page this one belongs to. */
   back?: { href: string; title: string };
   /** The pages this one belongs with, listed above the sections. */
@@ -22,7 +22,6 @@ const { title, current, sections, back, pages } = Astro.props;
 <BaseLayout title={title} current={current}>
   <slot name="bar" slot="bar" />
   <slot name="switches" slot="switches" />
-  <slot name="before" />
   <div class="layout">
     <SectionNav sections={sections} back={back} pages={pages}><slot name="nav" /></SectionNav>
     <main id="content" tabindex="-1">

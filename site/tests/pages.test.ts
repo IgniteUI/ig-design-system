@@ -51,7 +51,9 @@ describe("every page", () => {
   it("marks the open page in the top bar", () => {
     expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Guide/);
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
-    expect(page("logo/")).toMatch(/aria-current="page"[^>]*>\s*Logo/);
+    expect(page("logo/")).toMatch(
+      /aria-current="page"[^>]*>\s*Brand book\s*<span[^>]*>Beta<\/span>/,
+    );
   });
   it.each(ROUTES)(
     "/%s ends with the footer, which names the package and its version",
@@ -337,5 +339,23 @@ describe("the backgrounds of the logo page", () => {
         m[1].replace("&#39;", "'"),
       ),
     ).toEqual(["Do", "Don't"]);
+  });
+});
+
+describe("the anatomy of the logo page", () => {
+  it("states the width of the symbol and the gap after it as the file has them", () => {
+    const svg = source("site/src/assets/logos/ig-logo.svg");
+    const height = Number(
+      svg.match(/viewBox="[\d.-]+ [\d.-]+ [\d.]+ ([\d.]+)"/)?.[1],
+    );
+    const symbol = Number(
+      svg.match(/<rect[^>]*fill="#0099FF"[^>]*width="([\d.]+)"/)?.[1],
+    );
+    const start = Number(svg.match(/d="M([\d.]+),/)?.[1]);
+    const round = (n: number) => Math.round(n * 100) / 100;
+    const html = page("logo/");
+    expect(html).toContain(`${round(symbol / height)} of the height`);
+    expect(html).toContain(`${round((start - symbol) / height)} of the height`);
+    expect(html).not.toContain("As wide as the logo is tall");
   });
 });

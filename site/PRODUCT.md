@@ -58,7 +58,6 @@ The site is built from the design system it documents. Every value on it is read
 - `../dist/tokens.json`: every token with its value and usage note.
 - `../docs/ADOPTING.md`, `../docs/MIGRATION.md`, `../CHANGELOG.md`: the documents.
 - `src/assets/logos/`: the three logo files, copied from the marketing site.
-- `src/components/guide/HeroArt.astro`: the drawing of the guide's hero, an SVG coloured with tokens.
 - `../reports/`: the measured contrast of every text and outline colour, in both themes.
 - There are no testimonials, usage numbers or case studies. Do not write any.
 

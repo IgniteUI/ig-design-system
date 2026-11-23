@@ -125,98 +125,6 @@ describe("the theme button", () => {
   });
 });
 
-describe("the hero of the guide", () => {
-  it("draws its picture in the tokens of the theme, so it follows the page into the dark theme", async () => {
-    const { page } = await open("");
-    const colours = () =>
-      page.evaluate(() => {
-        const token = (name: string) => {
-          const probe = document.createElement("i");
-          probe.style.color = `var(${name})`;
-          document.body.appendChild(probe);
-          const colour = getComputedStyle(probe).color;
-          probe.remove();
-          return colour;
-        };
-        const panel = document.querySelector(".hero svg .panel");
-        const action = document.querySelector(".hero svg .action");
-        if (!panel || !action) throw new Error("no drawing in the hero");
-        return {
-          panel: getComputedStyle(panel).fill,
-          action: getComputedStyle(action).fill,
-          panelToken: token("--igd-color-surface-card"),
-          actionToken: token("--igd-color-action-default"),
-        };
-      });
-    const light = await colours();
-    expect(light.panel).toBe(light.panelToken);
-    expect(light.action).toBe(light.actionToken);
-    await page.click("[data-theme-toggle]");
-    const dark = await colours();
-    expect(dark.panel).toBe(dark.panelToken);
-    expect(dark.panel).not.toBe(light.panel);
-    await page.close();
-  });
-
-  it("types no colour in its picture", async () => {
-    const { page } = await open("");
-    const typed = await page.evaluate(
-      () =>
-        [...document.querySelectorAll(".hero svg *")].filter(
-          (el) =>
-            el.hasAttribute("fill") ||
-            el.hasAttribute("stroke") ||
-            el.hasAttribute("style"),
-        ).length,
-    );
-    expect(typed).toBe(0);
-    await page.close();
-  });
-
-  it("shows its picture beside the rules on a wide screen and leaves it out on a phone", async () => {
-    const picture = async (width: number) => {
-      const { page } = await open("", width);
-      const result = await page.evaluate(() => {
-        const rules = document
-          .querySelector(".hero ol")
-          ?.getBoundingClientRect();
-        const svg = document.querySelector(".hero svg");
-        if (!rules || !svg) throw new Error("no hero rules or picture");
-        const box = svg.getBoundingClientRect();
-        return {
-          shown: box.width > 0,
-          beside: box.left > rules.right && box.top < rules.bottom,
-        };
-      });
-      await page.close();
-      return result;
-    };
-    expect(await picture(1280)).toEqual({ shown: true, beside: true });
-    expect((await picture(390)).shown).toBe(false);
-  });
-
-  it("links each rule to its examples and moves focus there", async () => {
-    const { page } = await open("");
-    const links = await page.$$eval(".hero ol a", (all) =>
-      all.map((a) => a.getAttribute("href")),
-    );
-    expect(links).toEqual([
-      "#rule-1",
-      "#rule-2",
-      "#rule-3",
-      "#rule-4",
-      "#rule-5",
-      "#rule-6",
-    ]);
-    const title = await page.textContent(".hero ol li:nth-child(3) a");
-    await page.click(".hero ol li:nth-child(3) a");
-    const rule = await page.textContent("#rule-3");
-    expect(rule).toContain(title?.replace(/^\s*3\s*/, "").trim());
-    expect(rule).toContain("color: #1a5fff;");
-    await page.close();
-  });
-});
-
 describe("the skip link", () => {
   it("is the first Tab stop and moves focus to the content", async () => {
     const { page } = await open("");
@@ -996,4 +904,343 @@ describe("the focus ring", () => {
       await page.close();
     },
   );
+});
+
+describe("the guide, without a hero", () => {
+  it("opens with its title and one line of text, as the other pages do", async () => {
+    const { page } = await open("");
+    expect(await page.locator("main h1").count()).toBe(1);
+    expect(await page.locator("h1").count()).toBe(1);
+    expect(await page.locator("main > h1 + p.intro").count()).toBe(1);
+    expect(await page.locator(".hero").count()).toBe(0);
+    await page.close();
+  });
+
+  it("draws the buttons of its example cards as pictures, not as links", async () => {
+    const { page } = await open("");
+    expect(
+      await page.locator("article.card a, article.card button").count(),
+    ).toBe(0);
+    await page.close();
+  });
+
+  it("does not scroll sideways at 320px", async () => {
+    const { page } = await open("", 320);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth - innerWidth,
+      ),
+    ).toBe(0);
+    await page.close();
+  });
+
+  it("names each kind of space beside its token when the spacing table is stacked", async () => {
+    const { page } = await open("", 390);
+    const result = await page.evaluate(() => {
+      const row = document.querySelector("#spacing tbody tr");
+      const region = document.querySelector("#spacing [data-scroll-region]");
+      if (!row || !region) throw new Error("no spacing table");
+      return {
+        labels: [...row.querySelectorAll("td[data-label]")].map((cell) =>
+          getComputedStyle(cell, "::before").content.replaceAll('"', ""),
+        ),
+        scrolls: region.scrollWidth > region.clientWidth,
+      };
+    });
+    expect(result).toEqual({
+      labels: ["Padding", "Vertical margin", "Gap", "Now"],
+      scrolls: false,
+    });
+    await page.close();
+  });
+});
+
+describe("the section being read", () => {
+  it.each([
+    ["", "rules", 1280],
+    ["", "rules", 390],
+    ["tokens/", "shadow", 1280],
+  ])(
+    "on /%s is #%s while its content fills the screen, not the section after it",
+    async (route, id, width) => {
+      const { page } = await open(route, width);
+      await page.evaluate((id) => {
+        document.documentElement.style.scrollBehavior = "auto";
+        const section = document.getElementById(id);
+        if (!section) throw new Error(`no #${id}`);
+        // The middle of the section: the next heading is well below the top of the screen.
+        scrollTo(
+          0,
+          section.offsetTop +
+            Math.min(
+              section.offsetHeight / 2,
+              section.offsetHeight - innerHeight,
+            ),
+        );
+      }, id);
+      await page.waitForFunction(
+        () =>
+          document.querySelector(
+            '[data-section-list] a[aria-current="true"]',
+          ) !== null,
+      );
+      expect(
+        await page.getAttribute(
+          '[data-section-list] a[aria-current="true"]',
+          "href",
+        ),
+      ).toBe(`#${id}`);
+      await page.close();
+    },
+  );
+
+  it("is in view in the section row when a document opens on a phone", async () => {
+    const { page } = await open("adopting/#5-check-it", 390);
+    await page.waitForFunction(
+      () =>
+        document.querySelector('[data-section-list] a[aria-current="true"]') !==
+        null,
+    );
+    expect(
+      await page
+        .locator('[data-section-list] a[aria-current="true"]')
+        .evaluate((link) => {
+          const list = link.closest("ul");
+          if (!list) throw new Error("no list");
+          const row = list.getBoundingClientRect();
+          const box = link.getBoundingClientRect();
+          return box.left >= row.left && box.left < row.right;
+        }),
+    ).toBe(true);
+    await page.close();
+  });
+});
+
+describe("the Copy as switch", () => {
+  it("makes a click copy the name alone, on this page and the next, and names the button for it", async () => {
+    const context = await browser.newContext({
+      permissions: ["clipboard-read", "clipboard-write"],
+    });
+    const page = await context.newPage();
+    await page.goto(`${site.origin}/`);
+    const button = '[data-token="color-text-muted"] button[data-copy]';
+    await page.click('button[data-copy-format="name"]');
+    expect(await page.getAttribute(button, "aria-label")).toBe(
+      "Copy --igd-color-text-muted",
+    );
+    await page.click(button);
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "--igd-color-text-muted",
+    );
+    await page.goto(`${site.origin}/tokens/`);
+    expect(
+      await page.getAttribute(
+        'button[data-copy-format="name"]',
+        "aria-pressed",
+      ),
+    ).toBe("true");
+    await page.click(button);
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "--igd-color-text-muted",
+    );
+    await page.click(button, { modifiers: ["Alt"] });
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "var(--igd-color-text-muted)",
+    );
+    await context.close();
+  });
+
+  it("is on every page that has name buttons", async () => {
+    for (const route of ["", "tokens/", "migration/"]) {
+      const { page } = await open(route);
+      expect(await page.locator("button[data-copy-format]").count()).toBe(2);
+      await page.close();
+    }
+  });
+});
+
+describe("a filter, where the result shows", () => {
+  it("finds a value from the address, once the values are written", async () => {
+    const { page } = await open("tokens/?q=%23155dfc");
+    await page.waitForFunction(() =>
+      /^\d+ match/.test(
+        document.querySelector("[data-filter-matches]")?.textContent ?? "",
+      ),
+    );
+    expect(
+      await page.locator('[data-token="color-action-default"]').isVisible(),
+    ).toBe(true);
+    expect(await page.locator("[data-filter-empty]").isVisible()).toBe(false);
+    await page.close();
+  });
+
+  it("follows the theme: a value of the dark theme is found after the switch", async () => {
+    const { page } = await open("tokens/");
+    await page.click("[data-theme-toggle]");
+    const dark =
+      (
+        await page.textContent('[data-token="color-action-hover"] output')
+      )?.trim() ?? "";
+    await page.click("[data-theme-toggle]");
+    await page.fill("[data-filter]", dark);
+    const light = await page
+      .locator('[data-token="color-action-hover"]')
+      .isVisible();
+    await page.click("[data-theme-toggle]");
+    await page.waitForFunction(
+      () =>
+        !document.querySelector<HTMLElement>(
+          '[data-token="color-action-hover"]',
+        )?.hidden,
+    );
+    expect(light).toBe(false);
+    await page.close();
+  });
+
+  it.each([
+    ["tokens/", "gap", "[data-token]:not([hidden])"],
+    ["migration/", "radius", "article tbody tr:not([hidden])"],
+  ])(
+    "on /%s at 390px puts the first match on the first screen",
+    async (route, word, match) => {
+      const { page } = await open(route, 390);
+      await page.fill("[data-filter]", word);
+      await page.waitForTimeout(100);
+      const top = await page
+        .locator(match)
+        .first()
+        .evaluate((el) => el.getBoundingClientRect().top);
+      expect(top).toBeGreaterThanOrEqual(0);
+      expect(top).toBeLessThan(900);
+      await page.close();
+    },
+  );
+
+  it("finds a name pasted as var(--name) in the migration guide", async () => {
+    const { page } = await open("migration/");
+    await page.fill("[data-filter]", "var(--igd-radius-full)");
+    expect(await page.locator("article tbody tr:visible").count()).toBe(1);
+    await page.close();
+  });
+
+  it("clears with Escape wherever the focus is", async () => {
+    const { page } = await open("tokens/");
+    await page.fill("[data-filter]", "radius-full");
+    await page.focus('[data-token="radius-full"] button[data-copy]');
+    await page.keyboard.press("Escape");
+    expect(await page.inputValue("[data-filter]")).toBe("");
+    expect(await page.textContent("[data-filter-matches]")).toBe("");
+    await page.close();
+  });
+});
+
+describe("the drawings of the logo page", () => {
+  it.each([320, 390, 1280])(
+    "at %ipx keep the clear space at half the height the logo is drawn at",
+    async (width) => {
+      const { page } = await open("logo/", width);
+      const result = await page.evaluate(() => {
+        const zone = document.querySelector(".clear .zone");
+        const logo = zone?.querySelector("img");
+        const measure = document.querySelector(".clear .measure");
+        if (!zone || !logo || !measure)
+          throw new Error("no clear-space drawing");
+        const height = logo.getBoundingClientRect().height;
+        return {
+          padding:
+            Number.parseFloat(getComputedStyle(zone).paddingTop) / height,
+          line: measure.getBoundingClientRect().height / height,
+        };
+      });
+      expect(result.padding).toBeCloseTo(0.5, 1);
+      expect(result.line).toBeCloseTo(1, 1);
+      await page.close();
+    },
+  );
+
+  it.each([320, 390, 768, 1280])(
+    "at %ipx show no logo under the smallest size in a picture that is right",
+    async (width) => {
+      const { page } = await open("logo/", width);
+      const heights = await page.evaluate(() =>
+        [
+          ...document.querySelectorAll<HTMLImageElement>(
+            "#rules .picture:not(.wrong) img, #backgrounds img",
+          ),
+        ].map((img) => img.getBoundingClientRect().height),
+      );
+      expect(heights.length).toBeGreaterThan(8);
+      expect(Math.min(...heights)).toBeGreaterThanOrEqual(15.95);
+      await page.close();
+    },
+  );
+
+  it("puts the bracket of the symbol under the symbol, and starts the wordmark's where the wordmark starts", async () => {
+    const { page } = await open("logo/");
+    const result = await page.evaluate(async () => {
+      const img = document.querySelector<HTMLImageElement>(".anatomy img");
+      const parts = [...document.querySelectorAll(".anatomy .part")];
+      if (!img || parts.length !== 2) throw new Error("no anatomy drawing");
+      const svg = await (await fetch(img.src)).text();
+      const view =
+        svg
+          .match(/viewBox="([^"]+)"/)?.[1]
+          .split(/\s+/)
+          .map(Number) ?? [];
+      const symbol = Math.max(
+        ...[...svg.matchAll(/<rect[^>]*\bwidth="([\d.]+)"/g)].map((m) =>
+          Number(m[1]),
+        ),
+      );
+      const scale = img.getBoundingClientRect().width / view[2];
+      const left = img.getBoundingClientRect().left;
+      return {
+        symbolEnd:
+          parts[0].getBoundingClientRect().right - left - symbol * scale,
+        wordStart:
+          parts[1].getBoundingClientRect().left - left - 66.482 * scale,
+      };
+    });
+    expect(Math.abs(result.symbolEnd)).toBeLessThan(1.5);
+    expect(Math.abs(result.wordStart)).toBeLessThan(1.5);
+    await page.close();
+  });
+});
+
+describe("a document on a narrow screen", () => {
+  it("lists the three documents above its text and marks itself", async () => {
+    const { page } = await open("adopting/", 390);
+    const links = page.locator("nav.documents a");
+    expect(await links.count()).toBe(3);
+    expect(await links.first().isVisible()).toBe(true);
+    expect(
+      await page.locator('nav.documents a[aria-current="page"]').textContent(),
+    ).toContain("Moving a site onto the design system");
+    await page.close();
+  });
+
+  it("keeps the Copy button of a code sample off its code", async () => {
+    const { page } = await open("adopting/", 390);
+    const overlaps = await page.evaluate(
+      () =>
+        [...document.querySelectorAll("article .code")].filter((frame) => {
+          const button = frame.querySelector("button")?.getBoundingClientRect();
+          const line = frame.querySelector(".line")?.getBoundingClientRect();
+          return button && line && line.top < button.bottom;
+        }).length,
+    );
+    expect(overlaps).toBe(0);
+    await page.close();
+  });
+
+  it("underlines a link in its text", async () => {
+    const { page } = await open("migration/");
+    expect(
+      await page
+        .locator("article p a")
+        .first()
+        .evaluate((a) => getComputedStyle(a).textDecorationLine),
+    ).toBe("underline");
+    await page.close();
+  });
 });

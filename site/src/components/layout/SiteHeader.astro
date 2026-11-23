@@ -27,6 +27,7 @@ const { current } = Astro.props;
       PAGES.map((page) => (
         <a href={href(page.path)} aria-current={page.id === current ? "page" : undefined}>
           {page.title}
+          {page.beta && <span class="beta">Beta</span>}
         </a>
       ))
     }
@@ -100,6 +101,24 @@ const { current } = Astro.props;
     font-weight: var(--igd-font-weight-semibold);
   }
 
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--igd-space-gap-2xs);
+    white-space: nowrap;
+  }
+
+  .beta {
+    padding: 0 var(--igd-space-inset-2xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-full);
+    color: var(--igd-color-text-secondary);
+    font-size: var(--igd-type-body-2xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    letter-spacing: var(--igd-letter-spacing-label);
+    text-transform: uppercase;
+  }
+
   nav a:hover {
     background: var(--igd-color-surface-subtle);
     color: var(--igd-color-text-heading);
@@ -133,12 +152,19 @@ const { current } = Astro.props;
     }
   }
 
-  /* breakpoint-sm: one row that scrolls away with the page, with the symbol standing for the logo and the name. */
+  /* breakpoint-sm: a bar that scrolls away with the page, with the symbol standing for the logo and the name. It wraps on the narrowest screen. */
   @media (max-width: 640px) {
     .top {
       position: static;
-      flex-wrap: nowrap;
-      gap: var(--igd-space-gap-sm);
+      gap: var(--igd-space-gap-2xs) var(--igd-space-gap-sm);
+    }
+
+    .bar {
+      display: none;
+    }
+
+    .switches {
+      margin-inline-start: auto;
     }
 
     .brand span,
@@ -149,6 +175,14 @@ const { current } = Astro.props;
 
     .logo.mark {
       display: block;
+    }
+
+    nav {
+      gap: 0;
+    }
+
+    nav a {
+      padding-inline: var(--igd-space-inset-xs);
     }
   }
 </style>

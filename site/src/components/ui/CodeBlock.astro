@@ -59,4 +59,18 @@ const { code, lang, label } = Astro.props;
     font-size: var(--igd-type-body-xs-font-size);
     cursor: copy;
   }
+
+  @media (pointer: coarse) {
+    button {
+      min-block-size: var(--igd-size-control-lg);
+    }
+  }
+
+  /* breakpoint-sm: the button gets a line of its own above the code, so it covers none of it. */
+  @media (max-width: 640px) {
+    .code :global(pre) {
+      padding-block-start: var(--igd-space-inset-4xl);
+      padding-inline-end: var(--igd-space-inset-lg);
+    }
+  }
 </style>

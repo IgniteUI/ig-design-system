@@ -33,12 +33,16 @@ output { color: var(--igd-color-text-secondary); }
 
 main { container-type: inline-size; min-inline-size: 0; }
 main h1 { font-size: var(--igd-type-display-lg-font-size); line-height: var(--igd-type-display-lg-line-height); font-weight: var(--igd-type-display-lg-font-weight); text-wrap: balance; }
+main > h1 { margin-block-end: var(--igd-space-stack-xs); }
 main h2 { font-size: var(--igd-type-display-md-font-size); line-height: var(--igd-type-display-md-line-height); font-weight: var(--igd-type-display-md-font-weight); text-wrap: balance; }
 main h3 { font-family: var(--igd-font-body); font-size: var(--igd-type-eyebrow-font-size); letter-spacing: var(--igd-type-eyebrow-letter-spacing); text-transform: uppercase; color: var(--igd-color-text-muted); font-weight: var(--igd-font-weight-semibold); }
 main h3.plain { margin-block: var(--igd-space-stack-2xl) var(--igd-space-stack-sm); font-size: var(--igd-type-title-sm-font-size); letter-spacing: normal; text-transform: none; color: var(--igd-color-text-heading); }
 
-.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: 65ch; font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
-.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: 65ch; color: var(--igd-color-text-secondary); }
+/* A measure of about 70 characters at each text size. */
+.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: 38rem; font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
+.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: 33rem; color: var(--igd-color-text-secondary); }
+/* A link inside running text is underlined, so it is not told apart by colour alone. */
+:is(.intro, .lead, .prose :is(p, li)) a { text-decoration: underline; text-underline-offset: 0.15em; }
 .more { margin-block: var(--igd-space-stack-lg) 0; font-weight: var(--igd-font-weight-semibold); }
 .group { margin-block-end: var(--igd-space-stack-2xl); }
 .group > h3 { margin-block-end: var(--igd-space-stack-sm); }

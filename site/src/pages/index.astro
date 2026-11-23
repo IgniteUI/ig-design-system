@@ -2,7 +2,6 @@
 // The guide: the design system in plain words, with live examples built on the tokens.
 import DemoCard from "@/components/guide/DemoCard.astro";
 import Dials from "@/components/guide/Dials.astro";
-import Hero from "@/components/guide/Hero.astro";
 import RulePair from "@/components/guide/RulePair.astro";
 import SpacingAnatomy from "@/components/guide/SpacingAnatomy.astro";
 import Stage from "@/components/guide/Stage.astro";
@@ -12,6 +11,7 @@ import TokenCard from "@/components/tokens/TokenCard.astro";
 import TokenGrid from "@/components/tokens/TokenGrid.astro";
 import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
 import CodeBlock from "@/components/ui/CodeBlock.astro";
+import CopyFormat from "@/components/ui/CopyFormat.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
@@ -70,8 +70,13 @@ const property = { fill: "background", text: "color", outline: "border-color" };
 ---
 
 <SectionsLayout current="guide" sections={Object.values(sections)}>
-  <Hero slot="before" />
   <style is:inline set:html={CARD_RULE}></style>
+
+  <h1>The Infragistics design system</h1>
+  <p class="intro">
+    Every colour, size and space of the Infragistics sites has a name that says what it is for. This guide shows the
+    names, the rules for using them, and how to set up a site.
+  </p>
 
   <Section {...sections.idea}>
     <p class="intro">
@@ -128,8 +133,10 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       switches by itself.
     </p>
     <p class="lead">
-      Click a name to copy it for CSS. Hold Alt and click to copy the name alone, for a design file or a brief.
+      Click a name to copy it. Choose CSS for a stylesheet, or Name for a design file or a brief; the choice holds
+      for every name on the site.
     </p>
+    <CopyFormat />
     {
       COLOUR_PICKS.map((group) => (
         <div class="group">
@@ -176,8 +183,8 @@ const property = { fill: "background", text: "color", outline: "border-color" };
         spacing.map(({ size, inset, stack, gap }) => (
           <tr>
             <th scope="row">{size}</th>
-            {[inset, stack, gap].map((token) => (
-              <td>
+            {[inset, stack, gap].map((token, i) => (
+              <td data-label={["Padding", "Vertical margin", "Gap"][i]}>
                 <CopyName
                   name={cssVar(token.name)}
                   prefix={prefixOf(cssVar(token.name))}
@@ -185,7 +192,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
                 />
               </td>
             ))}
-            <td class="value"><Readout token={inset.name} kind="length" /></td>
+            <td class="value" data-label="Now"><Readout token={inset.name} kind="length" /></td>
             <td><span class="bar" style={`inline-size: var(${cssVar(inset.name)})`} /></td>
           </tr>
         ))
@@ -291,7 +298,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
     <p class="lead">This is the whole stylesheet of the card used on this page:</p>
     <CodeBlock code={CARD_RULE} lang="css" label="the card's stylesheet" />
     <CodeBlock code={CARD_MARKUP} lang="html" label="the card's markup" />
-    <p class="more"><a href={href("docs/examples/card.html")}>Open the example card</a></p>
+    <p class="more"><a href={href("docs/examples/card.html")}>Open another card as one HTML file</a>, written to the same rules. Use the Back button of the browser to return.</p>
   </Section>
 
   <Section {...sections.rules}>

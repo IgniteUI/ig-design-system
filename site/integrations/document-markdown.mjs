@@ -46,7 +46,8 @@ export const documentMarkdown = ({ documents, base }) => {
         filter: ["pre"],
         visit(node, ctx) {
           ctx.setProperty(node, "role", "region");
-          ctx.setProperty(node, "ariaLabel", "Code sample");
+          const language = node.properties.dataLanguage;
+          ctx.setProperty(node, "ariaLabel", language ? `Code sample, ${language}` : "Code sample");
           ctx.wrapNode(
             node,
             el("div", { className: ["code"], dataOnDark: "" }, [

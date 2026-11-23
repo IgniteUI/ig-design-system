@@ -4,9 +4,11 @@ interface Props {
   id: string;
   title: string;
   count?: number;
+  /** What the count counts, for assistive technology. */
+  unit?: string;
 }
 
-const { id, title, count } = Astro.props;
+const { id, title, count, unit = "tokens" } = Astro.props;
 ---
 
 <section id={id} tabindex="-1" aria-labelledby={`${id}-title`}>
@@ -16,7 +18,7 @@ const { id, title, count } = Astro.props;
       count !== undefined && (
         <span class="count" data-count={count}>
           {count}
-          <span class="sr"> tokens</span>
+          <span class="sr"> {unit}</span>
         </span>
       )
     }

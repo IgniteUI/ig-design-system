@@ -1,11 +1,16 @@
 // The pages of the site and the documents it publishes.
 
-/** The pages the top bar lists, in order. `path` is from the site root. */
-export const PAGES = [
+/** The pages the top bar lists, in order. `path` is from the site root. A page with `beta` carries a Beta label. */
+export const PAGES: readonly {
+  id: "guide" | "tokens" | "logo";
+  path: string;
+  title: string;
+  beta?: boolean;
+}[] = [
   { id: "guide", path: "", title: "Guide" },
   { id: "tokens", path: "tokens/", title: "Tokens" },
-  { id: "logo", path: "logo/", title: "Logo" },
-] as const;
+  { id: "logo", path: "logo/", title: "Brand book", beta: true },
+];
 export type PageId = (typeof PAGES)[number]["id"];
 
 /**

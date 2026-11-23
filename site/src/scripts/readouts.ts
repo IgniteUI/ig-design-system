@@ -1,5 +1,5 @@
 // Writes the rendered value of a token into its readout: a colour, a length, a type role or a contrast ratio.
-import { CHANGE } from "./events.ts";
+import { CHANGE, READ } from "./events.ts";
 
 const root = document.documentElement;
 const canvas = document.createElement("canvas").getContext("2d", {
@@ -80,6 +80,7 @@ const read = () => {
     o.textContent = `${round(ratio, 1)}:1`;
     o.toggleAttribute("data-low", ratio < Number(o.dataset.min ?? 0));
   }
+  document.dispatchEvent(new CustomEvent(READ));
 };
 
 document.addEventListener(CHANGE, read);
