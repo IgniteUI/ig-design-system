@@ -355,6 +355,23 @@ describe("the type set button", () => {
   );
 });
 
+describe("the guide", () => {
+  it("prints the card rule the page itself uses", async () => {
+    const { page } = await open("");
+    const { rule, printed } = await page.evaluate(() => ({
+      rule: [...document.querySelectorAll("style")]
+        .map((style) => style.textContent ?? "")
+        .find((css) => css.startsWith(".card {")),
+      printed: [...document.querySelectorAll("pre code")]
+        .map((code) => code.textContent ?? "")
+        .find((code) => code.startsWith(".card {")),
+    }));
+    expect(rule).toBeDefined();
+    expect(printed).toBe(rule);
+    await page.close();
+  });
+});
+
 describe("the dials of the guide", () => {
   it("move the card and its readout, and no dial is set on the card", async () => {
     const { page } = await open("");

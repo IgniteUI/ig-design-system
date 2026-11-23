@@ -107,15 +107,6 @@ describe("the Tokens page", () => {
 describe("the guide", () => {
   const html = page("");
 
-  it("prints the card rule the page itself uses", () => {
-    const rule = html.match(/<style>(\.card \{[^}]+\})<\/style>/)?.[1];
-    expect(rule).toBeDefined();
-    const printed = [...html.matchAll(/<pre[^>]*><code[^>]*>(.*?)<\/code>/gs)]
-      .map((m) => m[1].replace(/<[^>]+>/g, ""))
-      .find((code) => code.startsWith(".card {"));
-    expect(printed).toBe(rule);
-  });
-
   it("prints the install and check commands with the package's name", () => {
     expect(html).toContain(`npm install ${pkg.name}`);
     expect(html).toContain(`npx ${pkg.name} check src`);
@@ -287,9 +278,7 @@ describe("the Tokens page, by tier", () => {
   it("says which tokens to use, which belong to one component and which not to use", () => {
     const legend = html.match(/<dl.*?<\/dl>/s)?.[0] ?? "";
     expect(
-      legend
-        .match(/<dt[^>]*>(.*?)<\/dt>/g)
-        ?.map((t) => t.replace(/<[^>]+>/g, "")),
+      [...legend.matchAll(/<dt[^>]*>([^<]*)<\/dt>/g)].map((m) => m[1].trim()),
     ).toEqual(["Use these", "One component only", "Do not use"]);
   });
 
