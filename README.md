@@ -48,7 +48,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 |---|---|
 | Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the two themes and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. |
 | Tokens (`/tokens/`) | Every token in `tokens.json` with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
-| Logo (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes and a do and don't list. The last three are proposals until the brand owner approves them, and the page says so. |
+| Logo (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes and a do and don't list. |
 | `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files as they are. |
 
 Nothing the site shows is typed twice. The pages read `dist/tokens.json`, the Markdown files and `package.json` at build time, and nothing the build writes is committed. Change a token, a document or a rule in one place and the next build shows it.

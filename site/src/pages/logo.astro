@@ -47,10 +47,6 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
 <SectionsLayout title="Logo" current="logo" sections={Object.values(sections)}>
   <h1>The Infragistics logo</h1>
   <p class="intro">Which file to use, on what, how large, and what never to do with it.</p>
-  <p class="draft">
-    <strong>Draft.</strong> The colours and the proportion are read from the logo files. The clear space, the smallest
-    sizes and the do and don't list are proposals and wait for the approval of the brand owner.
-  </p>
 
   <Section {...sections.files}>
     <p class="intro">
@@ -222,19 +218,6 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
 </SectionsLayout>
 
 <style>
-  .draft {
-    max-inline-size: var(--igd-container-prose-max-width);
-    margin-block: 0 var(--igd-space-stack-3xl);
-    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
-    border-radius: var(--igd-radius-md);
-    background: var(--igd-color-feedback-warning-surface);
-    color: var(--igd-color-text-primary);
-  }
-
-  .draft strong {
-    color: var(--igd-color-feedback-warning-default);
-  }
-
   .grid {
     list-style: none;
     margin: 0;

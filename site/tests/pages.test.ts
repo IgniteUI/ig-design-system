@@ -138,8 +138,14 @@ describe("the logo page", () => {
     expect(html).toMatch(/data-contrast="#A8A8AA" data-min="3"/);
   });
 
-  it("carries the draft notice", () => {
-    expect(html).toMatch(/<strong[^>]*>Draft\.<\/strong>/);
+  it("states the clear space and the smallest sizes as rules", () => {
+    expect(html).toMatch(
+      /Clear space<\/th><td class="value"[^>]*>half the height<\/td>/,
+    );
+    expect(html).toMatch(
+      /Smallest logo<\/th><td class="value"[^>]*>16px tall<\/td>/,
+    );
+    expect(html).not.toMatch(/draft|proposal/i);
   });
 });
 

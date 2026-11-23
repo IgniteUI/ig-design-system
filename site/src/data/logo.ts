@@ -66,7 +66,7 @@ export const SURFACES: [token: string, theme: "light" | "dark"][] = [
 /** The lowest contrast the wordmark may have against its surface: the WCAG 1.4.11 minimum for a graphic. */
 export const MIN_CONTRAST = 3;
 
-/** The smallest height of the logo and of the logomark, in pixels. A proposal until the brand owner approves it. */
+/** The smallest height of the logo and of the logomark, in pixels. */
 export const SMALLEST = { logo: 16, mark: 16 };
 
 /** The usage pictures: the treatment the picture applies, whether it is right, and the rule. */
