@@ -8,7 +8,8 @@ import { PAGES, type PageId } from "@/data/navigation.ts";
 import { href } from "@/lib/paths.ts";
 
 interface Props {
-  current: PageId;
+  /** The page marked as open. A page the bar does not list leaves it out. */
+  current?: PageId;
 }
 
 const { current } = Astro.props;
@@ -123,9 +124,19 @@ const { current } = Astro.props;
     gap: var(--igd-space-gap-xs);
   }
 
-  /* breakpoint-sm: one row, with the symbol standing for the logo and the name. */
+  @media (pointer: coarse) {
+    nav a,
+    .brand {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--igd-size-control-lg);
+    }
+  }
+
+  /* breakpoint-sm: one row that scrolls away with the page, with the symbol standing for the logo and the name. */
   @media (max-width: 640px) {
     .top {
+      position: static;
       flex-wrap: nowrap;
       gap: var(--igd-space-gap-sm);
     }

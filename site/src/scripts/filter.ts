@@ -1,4 +1,4 @@
-// The token filter: a token stays when every word typed is in its name or its note.
+// The token filter: a token stays when every word typed is in its name, its value or its note.
 
 const input = document.querySelector<HTMLInputElement>("[data-filter]");
 const matches = document.querySelector<HTMLElement>("[data-filter-matches]");
@@ -6,44 +6,90 @@ const empty = document.querySelector<HTMLElement>("[data-filter-empty]");
 
 if (input) {
   const items = [...document.querySelectorAll<HTMLElement>("[data-token]")];
-  const haystack = items.map((el) =>
-    `${el.dataset.token} ${el.textContent}`.toLowerCase(),
-  );
+  const folds = [
+    ...document.querySelectorAll<HTMLDetailsElement>(
+      "details[data-filter-group], [data-token] details",
+    ),
+  ];
+  // The folds the reader opened, kept while a filter opens the others.
+  let opened: Set<HTMLDetailsElement> | undefined;
+  const text = (el: Element | null) => (el?.textContent ?? "").toLowerCase();
 
   const apply = () => {
     const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    const on = words.length > 0;
+    if (on && !opened) opened = new Set(folds.filter((d) => d.open));
     let shown = 0;
-    items.forEach((el, i) => {
-      const keep = words.every((w) => haystack[i].includes(w));
+    for (const el of items) {
+      // Read on every pass, because the readouts write the values after the page loads.
+      const tip = el.querySelector<HTMLElement>("[title]")?.title ?? "";
+      const all = `${el.dataset.token} ${text(el)} ${tip}`.toLowerCase();
+      const keep = words.every((w) => all.includes(w));
       el.hidden = !keep;
-      if (keep) shown++;
-    });
+      if (!keep) continue;
+      shown++;
+      // Opens the rest of a note when a word is found only there.
+      for (const rest of el.querySelectorAll<HTMLDetailsElement>("details"))
+        rest.open = on
+          ? words.some((w) => text(rest).includes(w))
+          : Boolean(opened?.has(rest));
+    }
     for (const box of document.querySelectorAll<HTMLElement>(
       "[data-filter-group], main section",
-    ))
-      box.hidden = !box.querySelector("[data-token]:not([hidden])");
-    // Opens folded groups while a filter is on.
-    if (words.length)
-      for (const d of document.querySelectorAll<HTMLDetailsElement>(
-        "details[data-filter-group]",
-      ))
-        d.open = true;
-    for (const a of document.querySelectorAll<HTMLAnchorElement>(
-      "[data-section-nav] a",
     )) {
-      const section = document.getElementById(a.hash.slice(1));
-      if (a.parentElement) a.parentElement.hidden = Boolean(section?.hidden);
+      const left = box.querySelectorAll("[data-token]:not([hidden])").length;
+      box.hidden = left === 0;
+      if (box instanceof HTMLDetailsElement)
+        box.open = on || Boolean(opened?.has(box));
+    }
+    if (!on) opened = undefined;
+    // Counts the tokens left in each section, in its heading and in its link.
+    for (const count of document.querySelectorAll<HTMLElement>(
+      "[data-count]",
+    )) {
+      const link = count.closest<HTMLAnchorElement>("a");
+      const section = link
+        ? document.getElementById(link.hash.slice(1))
+        : count.closest("section");
+      const number = count.firstChild;
+      if (!section || !number) continue;
+      number.textContent = on
+        ? String(section.querySelectorAll("[data-token]:not([hidden])").length)
+        : (count.dataset.count ?? "");
+    }
+    for (const a of document.querySelectorAll<HTMLAnchorElement>(
+      "[data-section-list] a",
+    )) {
+      const target = document.getElementById(a.hash.slice(1));
+      const box = target?.closest<HTMLElement>("[data-filter-group], section");
+      if (a.parentElement)
+        a.parentElement.hidden = Boolean(target?.hidden || box?.hidden);
     }
     if (empty) empty.hidden = shown > 0;
     if (matches)
-      matches.textContent = words.length
+      matches.textContent = on
         ? shown === 1
           ? "1 match"
           : `${shown} matches`
         : "";
   };
 
-  input.addEventListener("input", apply);
+  // Keeps the filter in the address, so a result can be shared.
+  const store = () => {
+    const url = new URL(location.href);
+    if (input.value) url.searchParams.set("q", input.value);
+    else url.searchParams.delete("q");
+    history.replaceState(null, "", url);
+  };
+
+  input.addEventListener("input", () => {
+    apply();
+    store();
+    // Shows the first match when the reader filters from further down the page.
+    const top = document.getElementById("content");
+    if (top && top.getBoundingClientRect().top < 0)
+      top.scrollIntoView({ behavior: "instant" });
+  });
   addEventListener("keydown", (e) => {
     if (e.key === "/" && document.activeElement !== input) {
       e.preventDefault();
@@ -52,6 +98,13 @@ if (input) {
     if (e.key === "Escape" && document.activeElement === input) {
       input.value = "";
       apply();
+      store();
     }
   });
+
+  const asked = new URL(location.href).searchParams.get("q");
+  if (asked) {
+    input.value = asked;
+    document.fonts.ready.then(() => requestAnimationFrame(apply));
+  }
 }

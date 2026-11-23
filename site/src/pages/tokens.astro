@@ -28,6 +28,10 @@ const other = [
   ...tokens.breakpoint.tokens,
 ];
 const property = { fill: "background", text: "color", outline: "border-color" };
+// A colour of a label is shown as text on the fill it labels.
+const LABELS: Record<string, string> = { "color-action-on": "color-action-default" };
+// A text colour made for a dark surface is shown on one.
+const surfaceOf = (name: string) => (name.includes("-inverse") ? "color-surface-inverse" : undefined);
 
 const sections = {
   colour: { id: "colour", title: "Colour", count: Object.values(semantic).flat().length + component.length },
@@ -46,7 +50,28 @@ const sections = {
   <TokenFilter slot="nav" />
 
   <h1>Tokens</h1>
-  <p class="intro">Every token, with the value it has on this page right now. Click a name to copy it.</p>
+  <p class="intro">Every token, with what it is for and the value it has on this page right now.</p>
+  <dl class="tiers">
+    <div>
+      <dt>Use these</dt>
+      <dd>
+        Colour, Type, Spacing, Radius, Shadow, Gradient and Size. Each name says what the value is for, and a
+        page or a component reads it.
+      </dd>
+    </div>
+    <div>
+      <dt>One component only</dt>
+      <dd>Component colours. Each belongs to one part of the site, such as the footer or a badge.</dd>
+    </div>
+    <div>
+      <dt>Do not use</dt>
+      <dd>The engine palette. The design system builds the other colours from it, and the check reports it in a site.</dd>
+    </div>
+  </dl>
+  <p class="lead">
+    Click a name to copy it for CSS. Hold Alt and click, or press Alt and Enter, to copy the name alone, for a
+    design file or a brief. Press <kbd>/</kbd> to filter by name, value or use, and <kbd>Esc</kbd> to clear.
+  </p>
 
   <Section {...sections.colour}>
     <p class="intro">Site code uses these. A name says what the colour is for.</p>
@@ -56,14 +81,26 @@ const sections = {
           <h3 id={`colour-${key}`}>{title}</h3>
           <TokenGrid>
             {semantic[key].map((token) => (
-              <TokenCard token={token} preview={previewOf(key)} property={property[previewOf(key)]} readout="colour" />
+              <TokenCard
+                token={token}
+                preview={LABELS[token.name] ? "text" : previewOf(key)}
+                property={property[LABELS[token.name] ? "text" : previewOf(key)]}
+                readout="colour"
+                on={LABELS[token.name] ?? (previewOf(key) === "text" ? surfaceOf(token.name) : undefined)}
+              />
             ))}
           </TokenGrid>
         </div>
       ))
     }
-    <details class="group" data-filter-group>
-      <summary><h3>Component colours</h3><span class="count">{component.length}</span></summary>
+    <h3 id="colour-component">Component colours</h3>
+    <p class="lead">Each belongs to one part of the site. A page does not reuse it elsewhere.</p>
+    <details class="group fold" data-filter-group>
+      <summary>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5l4.5 4.5L6 12.5"></path></svg>
+        <span class="closed">Show the {component.length} component colours</span>
+        <span class="open">Hide the {component.length} component colours</span>
+      </summary>
       <TokenGrid>
         {component.map((token) => <TokenCard token={token} preview="fill" property="background" readout="colour" />)}
       </TokenGrid>
@@ -82,6 +119,10 @@ const sections = {
     <p class="intro">
       {styles.length} roles. The readout is the size, line height and weight as rendered right now: resize the
       window or switch the type set.
+    </p>
+    <p class="lead">
+      The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set: press
+      the button to see it.
     </p>
     <p class="switches"><TypeSetToggle target="type-specimens" /></p>
     <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
@@ -120,12 +161,18 @@ const sections = {
 
   <Section {...sections.shadow}>
     <p class="intro">
-      Built from the engine's elevations. The accent shadows and the tinted elevations take the action colour.
+      Built from the engine's elevations. The accent shadows and the tinted elevations take the action colour. In
+      the dark theme surfaces separate by tone, so a shadow adds little there.
     </p>
     <TokenGrid roomy>
       {
         tokens.shadow.tokens.map((token) => (
-          <TokenCard token={token} preview="lifted" property={token.name.endsWith("-filter") ? "filter" : "box-shadow"} />
+          <TokenCard
+            token={token}
+            preview="lifted"
+            property={token.name.endsWith("-filter") ? "filter" : "box-shadow"}
+            written
+          />
         ))
       }
     </TokenGrid>
@@ -134,35 +181,113 @@ const sections = {
   <Section {...sections.gradient}>
     <p class="intro">Three uses only: clipped headline text, the hero wash and glows, and the footer.</p>
     <TokenGrid>
-      {tokens.gradient.tokens.map((token) => <TokenCard token={token} preview="fill" property="background" />)}
+      {tokens.gradient.tokens.map((token) => <TokenCard token={token} preview="fill" property="background" written />)}
     </TokenGrid>
   </Section>
 
   <Section {...sections.size}>
-    <p class="intro">Control heights, icon sizes, widths and letter spacing.</p>
+    <p class="intro">
+      Control heights, icon sizes, widths and letter spacing. A length is shown in pixels at the default text
+      size, with the value as written beside it.
+    </p>
     <ScrollTable label="Size tokens" head={["Token", "Value", "Use"]}>
       {tokens.size.tokens.map((token) => <TokenRow token={token} value="written" />)}
     </ScrollTable>
   </Section>
 
   <Section {...sections.other}>
+    <p class="intro">
+      Four small scales: how see-through a layer is, how heavy text is, which layer sits on top, and the widths
+      at which a layout changes.
+    </p>
     <ScrollTable label="Opacity, weight, layer and breakpoint tokens" head={["Token", "Value", "Use"]}>
       {other.map((token) => <TokenRow token={token} value="written" />)}
     </ScrollTable>
   </Section>
 
   <p class="empty" hidden data-filter-empty>
-    No token matches. Try a shorter word, such as <code>hover</code> or <code>inset</code>.
+    No token matches. Try a shorter word, such as <code>hover</code> or <code>inset</code>, or a value, such as
+    <code>#155dfc</code> or <code>16px</code>.
   </p>
 </SectionsLayout>
 
 <style>
-  summary {
-    display: flex;
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--igd-field-min-width), 1fr));
+    gap: var(--igd-space-gap-xl);
+    margin-block: 0 var(--igd-space-stack-lg);
+    padding-block: var(--igd-space-inset-md);
+    border-block: var(--igd-border-width-default) solid var(--igd-color-border-default);
+  }
+
+  .tiers dt {
+    color: var(--igd-color-text-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .tiers dd {
+    margin: 0;
+    color: var(--igd-color-text-secondary);
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+  }
+
+  .tiers + .lead {
+    margin-block-end: var(--igd-space-stack-3xl);
+  }
+
+  kbd {
+    padding: 0 var(--igd-space-inset-2xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-xs);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .fold summary {
+    display: inline-flex;
     align-items: center;
-    gap: var(--igd-space-gap-sm);
+    gap: var(--igd-space-gap-xs);
+    min-block-size: var(--igd-size-control-lg);
     margin-block-end: var(--igd-space-stack-sm);
+    padding-inline: var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-full);
+    color: var(--igd-color-text-ui);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
     cursor: pointer;
+    list-style: none;
+  }
+
+  .fold summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fold summary:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  .fold svg {
+    inline-size: var(--igd-size-icon-sm);
+    block-size: var(--igd-size-icon-sm);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: rotate var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  .fold[open] svg {
+    rotate: 90deg;
+  }
+
+  .fold[open] .closed,
+  .fold:not([open]) .open {
+    display: none;
   }
 
   .switches {

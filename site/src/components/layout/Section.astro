@@ -12,7 +12,14 @@ const { id, title, count } = Astro.props;
 <section id={id} tabindex="-1" aria-labelledby={`${id}-title`}>
   <h2 id={`${id}-title`}>
     {title}
-    {count !== undefined && <span class="count">{count}</span>}
+    {
+      count !== undefined && (
+        <span class="count" data-count={count}>
+          {count}
+          <span class="sr"> tokens</span>
+        </span>
+      )
+    }
   </h2>
   <slot />
 </section>

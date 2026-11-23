@@ -1,16 +1,17 @@
 ---
-// The field that filters the tokens of the page by name or use, and the count of matches.
+// The field that filters the tokens of the page by name, value or use, and the count of matches.
+interface Props {
+  /** The hint in the empty field. */
+  placeholder?: string;
+  /** The name of the field, for assistive technology. */
+  label?: string;
+}
+
+const { placeholder = "Filter tokens, e.g. border", label = "Filter tokens by name, value or use" } = Astro.props;
 ---
 
 <div class="filter">
-  <input
-    type="search"
-    placeholder="Filter tokens, e.g. border"
-    aria-label="Filter tokens by name or use"
-    autocomplete="off"
-    spellcheck="false"
-    data-filter
-  />
+  <input type="search" placeholder={placeholder} aria-label={label} autocomplete="off" spellcheck="false" data-filter />
   <span role="status" data-filter-matches></span>
 </div>
 
@@ -40,5 +41,18 @@
     padding-inline: var(--igd-space-inset-sm);
     color: var(--igd-color-text-muted);
     font-size: var(--igd-type-body-sm-font-size);
+  }
+
+  span:empty {
+    display: none;
+  }
+
+  /* breakpoint-lg: one line in the sticky row, with the count beside the field. */
+  @media (max-width: 1024px) {
+    .filter {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      margin-block-end: 0;
+    }
   }
 </style>

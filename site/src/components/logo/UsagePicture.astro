@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { treatment, ok, rule } = Astro.props;
+// The height of a logo that has text beside it: the logo-height token, or less in a narrow picture, so the pair always fits.
+const beside = "min(var(--igd-logo-height), 6cqi)";
 ---
 
 <li>
@@ -17,8 +19,8 @@ const { treatment, ok, rule } = Astro.props;
     {treatment === "on-dark" && <span class="plate" data-theme="dark"><LogoImage logo="dark" decorative /></span>}
     {treatment === "wrong-dark" && <span class="plate" data-theme="dark"><LogoImage logo="logo" decorative /></span>}
     {treatment === "busy" && <span class="plate busy"><LogoImage logo="logo" decorative /></span>}
-    {treatment === "lockup" && <span class="lockup"><LogoImage logo="logo" decorative /><span>Design system</span></span>}
-    {treatment === "crowd" && <span class="crowd"><LogoImage logo="logo" decorative /><span>Ignite UI</span></span>}
+    {treatment === "lockup" && <span class="lockup"><LogoImage logo="logo" height={beside} decorative /><span>Design system</span></span>}
+    {treatment === "crowd" && <span class="crowd"><LogoImage logo="logo" height={beside} decorative /><span>Ignite UI</span></span>}
     {treatment === "retype" && <span class="retype"><LogoImage logo="mark" decorative /><span>INFRAGISTICS</span></span>}
     {
       ["plain", "stretch", "recolour", "rotate", "effect", "crop"].includes(treatment) && (
@@ -49,6 +51,7 @@ const { treatment, ok, rule } = Astro.props;
     min-block-size: var(--igd-space-6xl);
     padding: var(--igd-space-inset-lg);
     overflow: clip;
+    container-type: inline-size;
     border: var(--igd-border-width-strong) solid var(--igd-color-feedback-success-default);
     border-radius: var(--igd-radius-lg);
     background: var(--igd-color-surface-page);
@@ -79,6 +82,15 @@ const { treatment, ok, rule } = Astro.props;
     font-weight: var(--igd-font-weight-bold);
     color: var(--igd-color-text-heading);
     white-space: nowrap;
+  }
+
+  .lockup,
+  .crowd {
+    font-size: min(var(--igd-type-title-md-font-size), 4.5cqi);
+  }
+
+  :is(.lockup, .crowd, .retype) :global(img) {
+    flex: none;
   }
 
   .lockup {

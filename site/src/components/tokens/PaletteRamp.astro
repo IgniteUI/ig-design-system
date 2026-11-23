@@ -1,5 +1,5 @@
 ---
-// A family of the engine palette as one row: each step is a button that copies it, labelled in its contrast colour.
+// A family of the engine palette as one row: each step is a button that copies it, labelled in its contrast colour, with its value in its tooltip.
 import { cssVar, type Token } from "@/lib/design-system.ts";
 
 interface Props {
@@ -10,17 +10,19 @@ interface Props {
 const { family, steps } = Astro.props;
 ---
 
-<li data-token={`ig-${family}`}>
+<li class="family-row" data-filter-group>
   <span class="family"><span>--ig-</span>{family}</span>
   <ol>
     {
       steps.map((step) => (
-        <li>
+        <li data-token={step.name}>
           <button
             type="button"
             style={`background: var(${cssVar(step.name)}); color: var(${cssVar(`${step.name}-contrast`)})`}
             data-copy={`var(${cssVar(step.name)})`}
-            aria-label={cssVar(step.name)}
+            data-copy-alt={cssVar(step.name)}
+            data-colour-title={cssVar(step.name)}
+            aria-label={`Copy var(${cssVar(step.name)})`}
           >
             {step.name.split("-").pop()}
           </button>
@@ -32,17 +34,19 @@ const { family, steps } = Astro.props;
 
 <script>
   import "@/scripts/copy.ts";
+  import "@/scripts/readouts.ts";
 </script>
 
 <style>
-  li[data-token] {
+  .family-row {
     display: grid;
-    grid-template-columns: var(--igd-space-6xl) minmax(0, 1fr);
+    grid-template-columns: var(--igd-field-min-width) minmax(0, 1fr);
     align-items: center;
     gap: var(--igd-space-gap-md);
   }
 
   .family {
+    white-space: nowrap;
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-xs-font-size);
   }
@@ -73,7 +77,7 @@ const { family, steps } = Astro.props;
   }
 
   @container (inline-size < 40rem) {
-    li[data-token] {
+    .family-row {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--igd-space-gap-xs);
     }

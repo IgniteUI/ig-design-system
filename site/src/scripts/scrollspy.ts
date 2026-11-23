@@ -1,7 +1,7 @@
-// Marks the link of the section in view. The browser tracks it where it can; elsewhere an observer does.
+// Marks the link of the section in view, and stops a jump below the sticky rows. The browser tracks the section where it can; elsewhere an observer does.
 
 const links = [
-  ...document.querySelectorAll<HTMLAnchorElement>("[data-section-nav] a"),
+  ...document.querySelectorAll<HTMLAnchorElement>("[data-section-list] a"),
 ];
 
 // Brings a link into view when its list scrolls sideways, without moving the page.
@@ -23,7 +23,7 @@ if (CSS.supports("scroll-target-group: auto")) {
   const settle = () =>
     mark(
       document.querySelector<HTMLAnchorElement>(
-        "[data-section-nav] a:target-current",
+        "[data-section-list] a:target-current",
       ),
     );
   // Reads the current link a moment after the scroll ends.
@@ -53,4 +53,30 @@ if (CSS.supports("scroll-target-group: auto")) {
     const target = document.getElementById(a.hash.slice(1));
     if (target) observer.observe(target);
   }
+}
+
+// Stops a jump below the sticky rows: the top bar where it sticks, and the section list where it is a row.
+const nav = document.querySelector<HTMLElement>("[data-section-nav]");
+const header = document.querySelector<HTMLElement>("header");
+const row = matchMedia("(max-width: 1024px)");
+const offset = () => {
+  if (!nav || !row.matches) {
+    document.documentElement.style.removeProperty("scroll-padding-block-start");
+    return;
+  }
+  const bar =
+    header && getComputedStyle(header).position === "sticky"
+      ? header.offsetHeight
+      : 0;
+  const gap = Number.parseFloat(getComputedStyle(nav).paddingBlockStart);
+  document.documentElement.style.setProperty(
+    "scroll-padding-block-start",
+    `${bar + nav.offsetHeight + gap}px`,
+  );
+};
+if (nav) {
+  new ResizeObserver(offset).observe(nav);
+  row.addEventListener("change", offset);
+  addEventListener("resize", offset);
+  offset();
 }

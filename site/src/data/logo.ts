@@ -51,17 +51,28 @@ export const LOGO_COLOURS = {
   darkWordmark: dark.fills[0],
 };
 
-/** The surfaces the page shows a logo on: the token, and the theme whose logo sits on it. */
-export const SURFACES: [token: string, theme: "light" | "dark"][] = [
-  ["color-surface-page", "light"],
-  ["color-surface-subtle", "light"],
-  ["color-surface-card", "light"],
-  ["color-surface-tint", "light"],
-  ["color-surface-page", "dark"],
-  ["color-surface-subtle", "dark"],
-  ["color-surface-card", "dark"],
-  ["color-surface-inverse", "dark"],
+/** The surfaces the page shows a logo on: the token, its plain name, and the theme whose logo sits on it. */
+export const SURFACES: {
+  token: string;
+  title: string;
+  theme: "light" | "dark";
+}[] = [
+  { token: "color-surface-page", title: "The page", theme: "light" },
+  { token: "color-surface-subtle", title: "A section band", theme: "light" },
+  { token: "color-surface-card", title: "A card", theme: "light" },
+  { token: "color-surface-tint", title: "A tinted area", theme: "light" },
+  { token: "color-surface-page", title: "The page", theme: "dark" },
+  { token: "color-surface-subtle", title: "A section band", theme: "dark" },
+  { token: "color-surface-card", title: "A card", theme: "dark" },
+  {
+    token: "color-surface-inverse",
+    title: "A dark area on a light page",
+    theme: "dark",
+  },
 ];
+
+/** How far the wordmark starts from the left edge of the logo file, in logo heights. The symbol is one height wide. */
+export const WORDMARK_START = 1.27;
 
 /** The lowest contrast the wordmark may have against its surface: the WCAG 1.4.11 minimum for a graphic. */
 export const MIN_CONTRAST = 3;

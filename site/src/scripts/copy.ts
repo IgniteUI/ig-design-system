@@ -1,4 +1,4 @@
-// Copies the data-copy value of a button, or its data-copy-alt value when Alt is held, and reports it in the toast, which is also the live region.
+// Copies the data-copy value of a button, or its data-copy-alt value when Alt is held with a click or with Enter, and reports it in the toast, which is also the live region.
 
 const toast = document.querySelector<HTMLElement>("[data-toast]");
 let timer: ReturnType<typeof setTimeout> | undefined;
@@ -18,12 +18,8 @@ const report = (message: string) => {
   }, 2500);
 };
 
-document.addEventListener("click", (e) => {
-  const button = (e.target as Element).closest<HTMLElement>(
-    "button[data-copy]",
-  );
-  if (!button) return;
-  const text = (e.altKey && button.dataset.copyAlt) || button.dataset.copy;
+const copy = (button: HTMLElement, alt: boolean) => {
+  const text = (alt && button.dataset.copyAlt) || button.dataset.copy;
   if (!text) return;
   // A long value, such as a code sample, is reported by its label, not printed in the toast.
   const what = button.dataset.copyLabel ?? text;
@@ -35,4 +31,22 @@ document.addEventListener("click", (e) => {
     () =>
       report(`Could not copy ${what}. Select the text and copy it by hand.`),
   );
+};
+
+document.addEventListener("click", (e) => {
+  const button = (e.target as Element).closest<HTMLElement>(
+    "button[data-copy]",
+  );
+  if (button) copy(button, e.altKey);
+});
+
+// Alt and Enter on a focused button; the click the browser would send carries no Alt.
+document.addEventListener("keydown", (e) => {
+  if (!e.altKey || e.key !== "Enter") return;
+  const button = (e.target as Element).closest<HTMLElement>(
+    "button[data-copy]",
+  );
+  if (!button) return;
+  e.preventDefault();
+  copy(button, true);
 });

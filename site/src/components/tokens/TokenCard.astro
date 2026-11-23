@@ -1,6 +1,6 @@
 ---
-// A token as a card: its preview, its name as a copy button, its rendered value and its note.
-// With a plain use, the card reads job first: the use, then the name, then the value.
+// A token as a card, job first: its preview, what it is for, its name as a copy button, then its value.
+// A plain use stands in for the token's own note.
 import CopyName from "@/components/ui/CopyName.astro";
 import Note from "@/components/ui/Note.astro";
 import Readout from "@/components/ui/Readout.astro";
@@ -18,9 +18,11 @@ interface Props {
   use?: string;
   /** The token of the surface a text preview sits on. */
   on?: string;
+  /** Show the value as it is written, for a token with no single rendered value, such as a shadow. */
+  written?: boolean;
 }
 
-const { token, preview, property, readout, use, on } = Astro.props;
+const { token, preview, property, readout, use, on, written = false } = Astro.props;
 const custom = cssVar(token.name);
 const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
@@ -29,10 +31,10 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
   <span class:list={["preview", preview]} style={style} aria-hidden="true">
     {preview === "text" && "Aa"}
   </span>
-  {use && <p class="use">{use}</p>}
+  {use ? <p class="use">{use}</p> : <Note text={token.usage} about={token.name} />}
   <CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} />
   {readout && <Readout token={token.name} kind={readout} />}
-  {!use && <Note text={token.usage} about={token.name} />}
+  {written && <code class="written">{token.value}</code>}
 </li>
 
 <style>
@@ -54,6 +56,11 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
     margin: 0;
     color: var(--igd-color-text-primary);
     font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .written {
+    color: var(--igd-color-text-secondary);
+    overflow-wrap: anywhere;
   }
 
   .preview {

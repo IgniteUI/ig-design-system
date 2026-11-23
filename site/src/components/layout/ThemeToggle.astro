@@ -48,6 +48,13 @@
     stroke-linejoin: round;
   }
 
+  @media (pointer: coarse) {
+    button {
+      inline-size: var(--igd-size-control-lg);
+      block-size: var(--igd-size-control-lg);
+    }
+  }
+
   .sun,
   :global([data-theme="dark"]) .moon {
     display: none;

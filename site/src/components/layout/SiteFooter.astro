@@ -4,7 +4,6 @@ import { DOCUMENTS, PAGES } from "@/data/navigation.ts";
 import { packageName, packageVersion, repository } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
 
-const changelog = DOCUMENTS.find((d) => d.slug === "changelog");
 ---
 
 <footer>
@@ -15,7 +14,7 @@ const changelog = DOCUMENTS.find((d) => d.slug === "changelog");
     </p>
     <nav aria-label="Footer">
       {PAGES.map((page) => <a href={href(page.path)}>{page.title}</a>)}
-      {changelog && <a href={href(`${changelog.slug}/`)}>{changelog.title}</a>}
+      {DOCUMENTS.map((document) => <a href={href(`${document.slug}/`)}>{document.title}</a>)}
       <a href={repository}>Repository on GitHub</a>
     </nav>
   </div>
@@ -61,5 +60,13 @@ const changelog = DOCUMENTS.find((d) => d.slug === "changelog");
     gap: var(--igd-space-gap-xs) var(--igd-space-gap-xl);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
+  }
+
+  @media (pointer: coarse) {
+    nav a {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--igd-size-control-lg);
+    }
   }
 </style>

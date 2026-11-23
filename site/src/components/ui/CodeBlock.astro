@@ -1,16 +1,20 @@
 ---
-// A code sample with a button that copies it.
+// A code sample, coloured by Astro's Code component, with a button that copies it.
+import { Code } from "astro:components";
+
 interface Props {
   code: string;
+  /** The language of the code, for its colours. */
+  lang: "css" | "html" | "sh";
   /** What the code is, for the name of its copy button, such as "the card's stylesheet". */
   label: string;
 }
 
-const { code, label } = Astro.props;
+const { code, lang, label } = Astro.props;
 ---
 
 <div class="code" data-on-dark>
-  <pre><code>{code}</code></pre>
+  <Code code={code} lang={lang} theme="css-variables" />
   <button type="button" data-copy={code} data-copy-label="the code" aria-label={`Copy the code: ${label}`}>Copy</button>
 </div>
 
@@ -29,13 +33,15 @@ const { code, label } = Astro.props;
     color: var(--igd-color-text-inverse);
   }
 
-  pre {
+  .code :global(pre) {
     margin: 0;
     padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
+    padding-inline-end: var(--igd-space-inset-5xl);
+    border-radius: inherit;
     overflow: auto;
   }
 
-  code {
+  .code :global(code) {
     font-size: var(--igd-type-body-sm-font-size);
     line-height: var(--igd-type-body-sm-line-height);
   }

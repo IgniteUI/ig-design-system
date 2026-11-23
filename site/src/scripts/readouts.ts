@@ -48,6 +48,14 @@ const read = () => {
     probe.style.backgroundColor = `var(${o.dataset.colour})`;
     o.textContent = hex(getComputedStyle(probe).backgroundColor);
   }
+  // The value of a swatch that has no room for a readout, as its tooltip.
+  for (const el of document.querySelectorAll<HTMLElement>(
+    "[data-colour-title]",
+  )) {
+    place(el);
+    probe.style.backgroundColor = `var(${el.dataset.colourTitle})`;
+    el.title = hex(getComputedStyle(probe).backgroundColor);
+  }
   for (const o of outputs("data-length")) {
     place(o);
     probe.style.inlineSize = `var(${o.dataset.length})`;

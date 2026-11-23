@@ -289,8 +289,8 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       </li>
     </Steps>
     <p class="lead">This is the whole stylesheet of the card used on this page:</p>
-    <CodeBlock code={CARD_RULE} label="the card's stylesheet" />
-    <CodeBlock code={CARD_MARKUP} label="the card's markup" />
+    <CodeBlock code={CARD_RULE} lang="css" label="the card's stylesheet" />
+    <CodeBlock code={CARD_MARKUP} lang="html" label="the card's markup" />
     <p class="more"><a href={href("docs/examples/card.html")}>Open the example card</a></p>
   </Section>
 
@@ -310,17 +310,17 @@ const property = { fill: "background", text: "color", outline: "border-color" };
     <Steps>
       <li>
         <strong>Install the package.</strong>
-        <CodeBlock code={installCommand(packageName)} label="the install command" />
+        <CodeBlock code={installCommand(packageName)} lang="sh" label="the install command" />
       </li>
       <li>
         <strong>Load the stylesheets before the site's own styles, in this order.</strong>{" "}
         {optional.map((file, i) => [i > 0 && " and ", <code>{file}</code>])} are optional.
-        <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} label="the imports" />
+        <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} lang="css" label="the imports" />
       </li>
       <li>
         <strong>Check the site.</strong> The command reports an unknown token, a palette step and a raw spacing
         step, and fails the build when it finds one.
-        <CodeBlock code={checkCommand(packageName)} label="the check command" />
+        <CodeBlock code={checkCommand(packageName)} lang="sh" label="the check command" />
       </li>
     </Steps>
     <LinkCards

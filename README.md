@@ -49,7 +49,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 | Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the two themes and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. |
 | Tokens (`/tokens/`) | Every token in `tokens.json` with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
 | Logo (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes and a do and don't list. |
-| `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files as they are. |
+| `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files. `site/integrations/document-markdown.mjs`, a plugin of Astro's Markdown processor, links the documents to each other as pages, adds a copy button to a code sample, and makes a new name in a table a copy button. |
 
 Nothing the site shows is typed twice. The pages read `dist/tokens.json`, the Markdown files and `package.json` at build time, and nothing the build writes is committed. Change a token, a document or a rule in one place and the next build shows it.
 
@@ -159,7 +159,7 @@ A token is calculated where it is declared: on the root and on each `data-ig-sco
 | Check | What it stops |
 |---|---|
 | `checks/lint.ts` | A hand-typed colour, size, duration or easing in a component source |
-| `checks/check-vars.ts` | A `var()` that points at a token that does not exist |
+| `checks/check-vars.ts` | A `var()` that points at a token that does not exist. A custom property that a checked stylesheet declares itself counts as defined. |
 | `checks/spacing-roles.ts` | A raw spacing step used for padding, a margin or a gap |
 | `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
 | `checks/gates-themes.ts` | A colour pairing below WCAG AA, measured in a browser in the light and the dark theme. A translucent colour is measured over what is below it: the background over the page colour, the text over the background. `reports/contrast-pairs.json` lists the pairings |

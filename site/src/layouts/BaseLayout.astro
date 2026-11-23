@@ -13,8 +13,8 @@ import type { PageId } from "@/data/navigation.ts";
 interface Props {
   /** The title of the page, without the name of the site. */
   title?: string;
-  /** The page the top bar marks as open. */
-  current: PageId;
+  /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
+  current?: PageId;
 }
 
 const { title, current } = Astro.props;

@@ -16,9 +16,10 @@ import {
   SMALLEST,
   SURFACES,
   USAGES,
+  WORDMARK_START,
 } from "@/data/logo.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
-import { cssVar, tokens } from "@/lib/design-system.ts";
+import { cssVar, repository, tokens } from "@/lib/design-system.ts";
 import { rgb } from "@/lib/logo.ts";
 import { href } from "@/lib/paths.ts";
 import { pick } from "@/lib/tokens.ts";
@@ -40,7 +41,14 @@ const colours: [hex: string, title: string, use: string][] = [
   [LOGO_COLOURS.darkWordmark, "Light gray", "The wordmark on a dark surface."],
 ];
 // Stops the build on a surface that is not a colour token.
-pick(tokens.color.tokens, SURFACES.map(([token]) => token), "colour");
+pick(tokens.color.tokens, SURFACES.map((s) => s.token), "colour");
+const themes = [
+  { theme: "light", title: "Light surfaces" },
+  { theme: "dark", title: "Dark surfaces" },
+] as const;
+// Where the symbol ends and the wordmark starts, as a share of the width of the logo.
+const symbolEnd = 100 / PROPORTION;
+const wordStart = (100 * WORDMARK_START) / PROPORTION;
 const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
 ---
 
@@ -53,7 +61,7 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
       The Infragistics logo is a blue symbol and the name beside it. It comes in three files. Always use a
       file; never rebuild the logo.
     </p>
-    <ul class="grid">
+    <ul class="grid files">
       {
         Object.entries(LOGOS).map(([key, logo]) => (
           <li>
@@ -67,6 +75,7 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
             <h3 class="plain">{logo.title}</h3>
             <p class="note">{logo.use}</p>
             <a class="download" href={logo.image.src} download={logo.file}>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8M4.5 7.5L8 11l3.5-3.5M3 13.5h10"></path></svg>
               Download {logo.file}
             </a>
           </li>
@@ -77,10 +86,12 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
 
   <Section {...sections.anatomy}>
     <p class="intro">Two parts with fixed sizes and a fixed distance. They scale together and never move.</p>
-    <div class="anatomy" data-theme="light">
-      <span class="part symbol">Symbol</span>
-      <span class="part word">Wordmark</span>
-      <LogoImage logo="logo" height="var(--igd-space-5xl)" decorative />
+    <div class="anatomy" data-theme="light" aria-hidden="true">
+      <div class="drawing">
+        <LogoImage logo="logo" height="var(--igd-space-5xl)" decorative />
+        <span class="part" style={`inline-size: ${symbolEnd}%`}>Symbol</span>
+        <span class="part" style={`inset-inline-start: ${wordStart}%; inline-size: ${100 - wordStart}%`}>Wordmark</span>
+      </div>
     </div>
     <ScrollTable label="Proportions of the logo">
       <tr>
@@ -89,14 +100,14 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
         <td>The logo is {PROPORTION} times as wide as it is tall. Set the height and let the width follow.</td>
       </tr>
       <tr>
-        <th scope="row">On the website</th>
-        <td class="value"><Readout token="logo-height" kind="length" /></td>
-        <td>The height of the logo in the header, from the token <code>logo-height</code>.</td>
-      </tr>
-      <tr>
         <th scope="row">Symbol</th>
         <td class="value">square, blue</td>
-        <td>It also stands alone, as the logomark.</td>
+        <td>As wide as the logo is tall. It also stands alone, as the logomark.</td>
+      </tr>
+      <tr>
+        <th scope="row">Distance</th>
+        <td class="value">{Math.round((WORDMARK_START - 1) * 100) / 100} of the height</td>
+        <td>The gap between the symbol and the wordmark. It is part of the file.</td>
       </tr>
       <tr>
         <th scope="row">Wordmark</th>
@@ -111,15 +122,15 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
       The logo has four colours. These values are read from the logo files, so this list cannot differ from
       the logo.
     </p>
-    <ul class="grid">
+    <ul class="grid four">
       {
         colours.map(([hex, title, use]) => (
           <li class="colour">
             <span class="swatch" style={`background: ${hex}`} aria-hidden="true" />
             <strong>{title}</strong>
-            <CopyName name={hex} />
-            <output>RGB {rgb(hex)}</output>
             <p class="note">{use}</p>
+            <CopyName name={hex} />
+            <CopyName name={`rgb(${rgb(hex)})`} />
           </li>
         ))
       }
@@ -133,22 +144,44 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
   <Section {...sections.backgrounds}>
     <p class="intro">
       The logo sits on a plain surface of the design system. Light surfaces take the logo; dark surfaces take
-      the logo for dark surfaces. The numbers are the contrast of each part against the surface, measured on
-      this page.
+      the logo for dark surfaces.
     </p>
-    <ul class="grid">{SURFACES.map(([token, theme]) => <SurfaceSample token={token} theme={theme} />)}</ul>
+    <p class="lead">
+      The numbers are the contrast of each part against the surface, measured on this page. The wordmark needs
+      at least {MIN_CONTRAST}:1 to be read, and one below it is marked. The blue square is a solid shape that
+      is recognised by its form, so its number is for reference only.
+    </p>
+    {
+      themes.map(({ theme, title }) => (
+        <div class="group">
+          <h3>{title}</h3>
+          <ul class="grid four">
+            {SURFACES.filter((s) => s.theme === theme).map((surface) => (
+              <SurfaceSample {...surface} />
+            ))}
+          </ul>
+        </div>
+      ))
+    }
     <p class="lead after">
-      The wordmark needs a contrast of at least {MIN_CONTRAST}:1 to be read, and one below it is marked. The
-      blue square is a solid shape; its number is shown for reference. On a photo, a gradient or a colour that
-      is not on this list, put the logo on a plain panel first.
+      On a photo, a gradient or a colour that is not on this list, put the logo on a plain panel first.
     </p>
   </Section>
 
   <Section {...sections.space}>
     <p class="intro">Give the logo room, and keep it large enough to read.</p>
     <div class="clear" data-theme="light" aria-hidden="true">
-      <div class="zone"><LogoImage logo="logo" decorative /></div>
+      <span class="measure">x</span>
+      <div class="zone">
+        <span class="half top">½x</span>
+        <span class="half side">½x</span>
+        <LogoImage logo="logo" height="var(--igd-space-5xl)" decorative />
+      </div>
+      <span class="neighbour">The nearest text, picture or edge starts here.</span>
     </div>
+    <p class="lead">
+      In the drawing, x is the height of the logo. The dashed line is the clear space: half of x on every side.
+    </p>
     <ScrollTable label="Clear space and smallest sizes">
       <tr>
         <th scope="row">Clear space</th>
@@ -157,6 +190,11 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
           Keep an empty margin of half the logo's height on every side. No text, picture or edge enters it.
           For a 24px logo that is 12px.
         </td>
+      </tr>
+      <tr>
+        <th scope="row">On the website</th>
+        <td class="value"><Readout token="logo-height" kind="length" /></td>
+        <td>The height of the logo in the top bar, from the token <code>logo-height</code>.</td>
       </tr>
       <tr>
         <th scope="row">Smallest logo</th>
@@ -190,7 +228,18 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
       The logo is used as it is drawn. Each picture below is the real file; the wrong ones are changed on
       purpose.
     </p>
-    <ul class="grid">{USAGES.map((usage) => <UsagePicture {...usage} />)}</ul>
+    <div class="group">
+      <h3>Do</h3>
+      <ul class="grid usage">{USAGES.filter((u) => u.ok).map((usage) => <UsagePicture {...usage} />)}</ul>
+    </div>
+    <div class="group">
+      <h3>Don't</h3>
+      <ul class="grid usage">{USAGES.filter((u) => !u.ok).map((usage) => <UsagePicture {...usage} />)}</ul>
+    </div>
+    <p class="lead after">
+      A case these rules do not cover, such as a partner logo beside it or a photo behind it? Ask before it is
+      published: <a href={`${repository}/issues/new`}>open an issue</a> and say where the logo goes.
+    </p>
   </Section>
 
   <Section {...sections.type}>
@@ -257,9 +306,62 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
     border-radius: var(--igd-radius-lg);
   }
 
+  /* The three cards share their rows, so the downloads line up. */
+  .files > li {
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+  }
+
   .download {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    gap: var(--igd-space-gap-xs);
+    min-block-size: var(--igd-size-control-md);
+    margin-block-start: var(--igd-space-stack-xs);
+    padding-inline: var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-full);
+    color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .download:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  .download svg {
+    inline-size: var(--igd-size-icon-md);
+    block-size: var(--igd-size-icon-md);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (pointer: coarse) {
+    .download {
+      min-block-size: var(--igd-size-control-lg);
+    }
+  }
+
+  /* Wide enough for a logo with a name beside it. */
+  .usage {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+
+  /* Four of a kind sit in one row, or two by two. */
+  .four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @container (inline-size < 48rem) {
+    .four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .colour {
@@ -282,47 +384,105 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
     border-radius: var(--igd-radius-sm);
   }
 
-  .anatomy {
-    position: relative;
-    display: inline-grid;
+  .anatomy,
+  .clear {
     max-inline-size: 100%;
     margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-lg);
-    padding: var(--igd-space-inset-2xl) var(--igd-space-inset-xl) var(--igd-space-inset-xl);
+    padding: var(--igd-space-inset-xl);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
     border-radius: var(--igd-radius-lg);
-    background: var(--igd-color-surface-subtle);
+    background: var(--igd-color-surface-page);
   }
 
+  .anatomy {
+    display: inline-grid;
+  }
+
+  .drawing {
+    position: relative;
+    padding-block-end: var(--igd-space-inset-3xl);
+  }
+
+  /* A bracket under one part of the logo, with its name. */
   .part {
     position: absolute;
-    inset-block-start: var(--igd-space-xs);
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    block-size: var(--igd-space-2xl);
+    padding-block-start: var(--igd-space-inset-xs);
+    border: var(--igd-border-width-strong) solid var(--igd-color-border-control);
+    border-block-start: 0;
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-2xs-font-size);
-    color: var(--igd-color-action-text);
-  }
-
-  .symbol {
-    inset-inline-start: var(--igd-space-xl);
-  }
-
-  /* The wordmark starts 1.27 logo heights from the left edge of the file. */
-  .word {
-    inset-inline-start: calc(var(--igd-space-xl) + var(--igd-space-5xl) * 1.27);
+    line-height: 1;
+    text-align: center;
+    color: var(--igd-color-text-secondary);
+    white-space: nowrap;
   }
 
   .clear {
     display: inline-grid;
-    max-inline-size: 100%;
-    margin-block-end: var(--igd-space-stack-lg);
-    padding: var(--igd-space-inset-xl);
-    border-radius: var(--igd-radius-lg);
-    background: var(--igd-color-surface-subtle);
+    grid-template-columns: auto auto minmax(0, auto);
+    align-items: center;
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-2xs-font-size);
+    color: var(--igd-color-text-secondary);
   }
 
-  /* Half the logo's height, the clear space. */
+  /* The height of the logo, x: a line as tall as the logo. */
+  .measure {
+    display: grid;
+    place-items: center;
+    align-self: center;
+    block-size: var(--igd-space-5xl);
+    margin-inline-end: var(--igd-space-gap-sm);
+    padding-inline-end: var(--igd-space-inset-xs);
+    border-inline-end: var(--igd-border-width-strong) solid var(--igd-color-border-control);
+  }
+
+  /* Half the logo's height on every side, the clear space. */
   .zone {
-    padding: calc(var(--igd-logo-height) / 2);
-    border: var(--igd-border-width-strong) dashed var(--igd-color-border-accent);
+    position: relative;
+    padding: calc(var(--igd-space-inset-5xl) / 2);
+    border: var(--igd-border-width-strong) dashed var(--igd-color-border-control);
     background: var(--igd-color-surface-tint);
+  }
+
+  .half {
+    position: absolute;
+    display: grid;
+    place-items: center;
+  }
+
+  .half.top {
+    inset: 0 0 auto;
+    block-size: calc(var(--igd-space-5xl) / 2);
+  }
+
+  .half.side {
+    inset: 0 auto 0 0;
+    inline-size: calc(var(--igd-space-5xl) / 2);
+  }
+
+  .neighbour {
+    max-inline-size: 14ch;
+    padding-inline-start: var(--igd-space-inset-xs);
+    font-family: var(--igd-font-body);
+    font-size: var(--igd-type-body-sm-font-size);
+    color: var(--igd-color-text-heading);
+  }
+
+  /* A narrow page puts the neighbour under the clear space. */
+  @container (inline-size < 44rem) {
+    .clear {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .neighbour {
+      grid-column: 2;
+      max-inline-size: none;
+      padding: var(--igd-space-inset-2xs) 0 0;
+    }
   }
 
   .sizes {

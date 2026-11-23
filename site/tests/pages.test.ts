@@ -110,9 +110,9 @@ describe("the guide", () => {
   it("prints the card rule the page itself uses", () => {
     const rule = html.match(/<style>(\.card \{[^}]+\})<\/style>/)?.[1];
     expect(rule).toBeDefined();
-    const printed = html.match(
-      /<pre[^>]*><code[^>]*>(\.card \{[^<]+)<\/code>/,
-    )?.[1];
+    const printed = [...html.matchAll(/<pre[^>]*><code[^>]*>(.*?)<\/code>/gs)]
+      .map((m) => m[1].replace(/<[^>]+>/g, ""))
+      .find((code) => code.startsWith(".card {"));
     expect(printed).toBe(rule);
   });
 
@@ -195,5 +195,158 @@ describe("the files llms.txt links to", () => {
       .filter((l) => !/^https?:/.test(l));
     expect(links.length).toBeGreaterThan(0);
     expect(links.filter((l) => !fs.existsSync(path.join(DIST, l)))).toEqual([]);
+  });
+});
+
+describe("the documents", () => {
+  const documents = [
+    ["adopting/", "docs/ADOPTING.md"],
+    ["migration/", "docs/MIGRATION.md"],
+    ["changelog/", "CHANGELOG.md"],
+  ] as const;
+  const titleOf = (file: string) => source(file).match(/^# (.+)$/m)?.[1] ?? "";
+
+  it.each(ROUTES)(
+    "/%s links each document from the footer under the title of its file",
+    (route) => {
+      const footer = page(route).match(/<footer.*?<\/footer>/s)?.[0] ?? "";
+      for (const [slug, file] of documents)
+        expect(footer).toMatch(
+          new RegExp(`href="/${slug}"[^>]*>\\s*${titleOf(file)}\\s*<`),
+        );
+    },
+  );
+
+  it.each(documents)(
+    "/%s lists the three documents beside its sections and marks itself",
+    (slug, file) => {
+      const list =
+        page(slug).match(/<ul[^>]*aria-label="Documents".*?<\/ul>/s)?.[0] ?? "";
+      expect(list.match(/<a /g)).toHaveLength(3);
+      expect(list).toMatch(
+        new RegExp(`aria-current="page"[^>]*>\\s*${titleOf(file)}\\s*<`),
+      );
+    },
+  );
+
+  it.each(documents)("/%s marks no page of the top bar as open", (slug) => {
+    const header = page(slug).match(/<header.*?<\/header>/s)?.[0] ?? "";
+    expect(header).not.toContain("aria-current");
+  });
+
+  it.each(documents)(
+    "/%s ends with links to the other documents and to the Tokens page",
+    (slug) => {
+      const next = page(slug).match(/<aside.*?<\/aside>/s)?.[0] ?? "";
+      for (const [other] of documents)
+        if (other !== slug) expect(next).toContain(`href="/${other}"`);
+      expect(next).not.toContain(`href="/${slug}"`);
+      expect(next).toContain('href="/tokens/"');
+    },
+  );
+
+  it("links one document to another as a page, not as a file", () => {
+    const article =
+      page("migration/").match(/<article.*?<\/article>/s)?.[0] ?? "";
+    expect(article).toMatch(
+      /<a href="\/adopting\/"[^>]*>Moving a site onto the design system<\/a>/,
+    );
+    expect(article).not.toMatch(/href="[^"]*\.md"/);
+  });
+
+  it("makes every new name of the migration guide a button that copies it", () => {
+    const article =
+      page("migration/").match(/<article.*?<\/article>/s)?.[0] ?? "";
+    const rows =
+      source("docs/MIGRATION.md").match(/^\| `[^|]+\| `(--igd?-|\.igd-)/gm) ??
+      [];
+    expect(rows.length).toBeGreaterThan(200);
+    expect(article.match(/class="copy-name"/g)).toHaveLength(rows.length);
+  });
+
+  it("splits the renames that are not colours into tables by kind", () => {
+    const headings = [
+      ...source("docs/MIGRATION.md").matchAll(/^### (.+)$/gm),
+    ].map((m) => m[1]);
+    expect(headings).toEqual([
+      "Colour",
+      "Size and layout",
+      "Radius",
+      "Weight and letter spacing",
+      "Motion",
+      "Layers",
+      "Shadow and effects",
+      "Type styles",
+    ]);
+  });
+});
+
+describe("the Tokens page, by tier", () => {
+  const html = page("tokens/");
+
+  it("says which tokens to use, which belong to one component and which not to use", () => {
+    const legend = html.match(/<dl.*?<\/dl>/s)?.[0] ?? "";
+    expect(
+      legend
+        .match(/<dt[^>]*>(.*?)<\/dt>/g)
+        ?.map((t) => t.replace(/<[^>]+>/g, "")),
+    ).toEqual(["Use these", "One component only", "Do not use"]);
+  });
+
+  it("shows what a token is for before its name", () => {
+    const card =
+      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+    expect(card.indexOf("<p")).toBeGreaterThan(-1);
+    expect(card.indexOf("<p")).toBeLessThan(card.indexOf("data-copy="));
+  });
+
+  it("prints the value of a shadow and of a gradient as it is written", () => {
+    for (const family of [tokens.shadow.tokens, tokens.gradient.tokens]) {
+      const token = family.find((t: { value: string }) =>
+        t.value.includes("("),
+      );
+      const card =
+        html.match(
+          new RegExp(`<li[^>]*data-token="${token.name}".*?</li>`, "s"),
+        )?.[0] ?? "";
+      expect(card.replaceAll("&#39;", "'")).toContain(token.value);
+    }
+  });
+
+  it("shows a size written in rem in pixels too", () => {
+    const row =
+      html.match(/<tr[^>]*data-token="border-width-default".*?<\/tr>/s)?.[0] ??
+      "";
+    expect(row).toContain("1px (0.0625rem)");
+  });
+
+  it("makes each step of the engine palette findable and copyable by its bare name", () => {
+    expect(html).toMatch(
+      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy-alt="--ig-primary-500"/,
+    );
+  });
+});
+
+describe("the backgrounds of the logo page", () => {
+  const html = page("logo/");
+
+  it("names each surface in plain words and says which logo it takes, before its token", () => {
+    const samples = html.match(/<li[^>]*data-sample.*?<\/li>/gs) ?? [];
+    expect(samples).toHaveLength(8);
+    for (const sample of samples) {
+      const use = sample.search(/Use the logo( for dark surfaces)?\./);
+      expect(use).toBeGreaterThan(-1);
+      expect(use).toBeLessThan(sample.indexOf("<code"));
+    }
+  });
+
+  it("groups the usage pictures into what to do and what not to do", () => {
+    const rules =
+      html.match(/<section[^>]*id="rules".*?<\/section>/s)?.[0] ?? "";
+    expect(
+      [...rules.matchAll(/<h3[^>]*>(.*?)<\/h3>/g)].map((m) =>
+        m[1].replace("&#39;", "'"),
+      ),
+    ).toEqual(["Do", "Don't"]);
   });
 });
