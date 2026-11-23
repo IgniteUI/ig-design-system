@@ -2,7 +2,7 @@
 // Writes the token showcase: one static page that lists every token with its rendered value,
 // in the light and the dark theme and in each type set. A filter and a section list make a token quick to find.
 import fs from "node:fs";
-import { PALETTE_FAMILIES } from "./engine-colors.ts";
+import { PALETTE_FAMILIES, SURFACE_ROLES } from "./engine-colors.ts";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";
 import { esc, page } from "./page.ts";
@@ -102,8 +102,16 @@ type Section = { id: string; title: string; count: number; html: string };
 /** Builds the page from tokens.json. */
 export const showcase = (T: Tokens) => {
   const { raw, semantic, component } = groupColors(T.color.tokens);
-  const steps = (family: string) =>
-    (raw[family] ?? []).filter((t) => /-(\d+)$/.test(t.name));
+  // The numbered shades of a family, or its roles when tokens.json lists it by role, as it does the surface.
+  const steps = (family: string) => {
+    const tokens = raw[family] ?? [];
+    const shades = tokens.filter((t) => /-(\d+)$/.test(t.name));
+    return shades.length
+      ? shades
+      : tokens.filter((t) =>
+          SURFACE_ROLES.includes(t.name.split("-").pop() ?? ""),
+        );
+  };
   const groups = COLOR_GROUPS.concat([["other", "Other"]]).filter(
     ([key]) => semantic[key],
   );
@@ -141,7 +149,7 @@ export const showcase = (T: Tokens) => {
       title: "Engine palette",
       count: families.reduce((n, f) => n + steps(f).length, 0),
       html:
-        `<p class="intro">The raw tier, under the engine's names. Only the design system reaches in here. Each step is labelled in its contrast colour.</p>` +
+        `<p class="intro">The raw tier, under the engine's names: the shades of each family and the roles of the surface. Only the design system reaches in here. Each step is labelled in its contrast colour.</p>` +
         `<ul class="ramps">${families
           .map(
             (f) =>

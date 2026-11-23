@@ -1,5 +1,6 @@
+import fs from "node:fs";
 import { describe, expect, it } from "vitest";
-import { groupColors, lead, prose } from "./showcase.ts";
+import { groupColors, lead, prose, showcase } from "./showcase.ts";
 import type { Token } from "./types.ts";
 
 const t = (name: string): Token => ({ name, value: "#000000", usage: "" });
@@ -63,5 +64,23 @@ describe("groupColors", () => {
 
   it("puts every other colour in the component tier", () => {
     expect(component.map((x) => x.name)).toEqual(["footer-link"]);
+  });
+});
+
+describe("showcase", () => {
+  const html = showcase(
+    JSON.parse(fs.readFileSync("dist/tokens.json", "utf8")),
+  );
+
+  it("lists the surface in the engine palette by its four roles", () => {
+    const row = html.match(/<li data-token="ig-surface">.*?<\/ol><\/li>/s)?.[0];
+    expect(row).toBeDefined();
+    for (const role of ["base", "sunken", "raised", "overlay"])
+      expect(row).toContain(`data-copy="var(--ig-surface-${role})"`);
+  });
+
+  it("lists a shaded family by its ten numbered shades", () => {
+    const row = html.match(/<li data-token="ig-gray">.*?<\/ol><\/li>/s)?.[0];
+    expect(row?.match(/data-copy=/g)).toHaveLength(10);
   });
 });

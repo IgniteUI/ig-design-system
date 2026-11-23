@@ -61,7 +61,7 @@ output { display: block; color: var(--igd-color-text-secondary); }
 /* ramps */
 .ramps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--igd-space-gap-sm); }
 .ramps > li { display: grid; grid-template-columns: var(--igd-space-6xl) minmax(0, 1fr); align-items: center; gap: var(--igd-space-gap-md); }
-.ramp { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, 1fr); border-radius: var(--igd-radius-sm); overflow: hidden; }
+.ramp { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border: var(--igd-border-width-default) solid var(--igd-color-border-default); border-radius: var(--igd-radius-sm); overflow: hidden; }
 .step { inline-size: 100%; min-block-size: var(--igd-size-control-lg); border: 0; font-family: var(--igd-font-mono); font-size: var(--igd-type-body-2xs-font-size); cursor: copy; }
 
 /* type */
