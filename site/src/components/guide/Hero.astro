@@ -1,10 +1,7 @@
 ---
 // The opening band of the guide: what the design system is, two ways in, and four counts from tokens.json.
-// It has one picture for the light theme and one for the dark theme.
-import { getImage } from "astro:assets";
-import darkPicture from "@/assets/hero-dark.png";
-import lightPicture from "@/assets/hero-light.png";
 import ActionLink from "@/components/guide/ActionLink.astro";
+import HeroArt from "@/components/guide/HeroArt.astro";
 import { tokens } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
 
@@ -14,9 +11,6 @@ const facts: [count: number, label: string][] = [
   [tokens.spacing.tokens.length, "spacing tokens"],
   [tokens.radius.tokens.length + tokens.shadow.tokens.length, "corners and shadows"],
 ];
-const [light, dark] = await Promise.all(
-  [lightPicture, darkPicture].map((src) => getImage({ src, format: "webp", width: 1600, quality: 70 })),
-);
 ---
 
 <div class="hero">
@@ -42,8 +36,7 @@ const [light, dark] = await Promise.all(
       }
     </dl>
   </div>
-  <div class="picture light" style={`background-image: url(${light.src})`} aria-hidden="true"></div>
-  <div class="picture dark" style={`background-image: url(${dark.src})`} aria-hidden="true"></div>
+  <div class="art"><HeroArt /></div>
 </div>
 
 <style>
@@ -55,31 +48,19 @@ const [light, dark] = await Promise.all(
     border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
   }
 
-  /* The picture fills the right of the band and fades into the page colour towards the text. */
-  .picture {
+  /* The drawing fills the right of the band, at the full height of the band. */
+  .art {
     position: absolute;
-    inset-block: 0;
-    inset-inline-end: 0;
-    inline-size: 62%;
-    background-position: right center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    mask-image: linear-gradient(90deg, transparent, black 30%);
+    inset-block: var(--igd-space-md);
+    inset-inline-end: var(--igd-container-gutter);
+    inline-size: 52%;
+    display: grid;
+    place-items: center;
   }
 
-  /* The light picture has a transparent ground and soft edges of its own, so it needs no fade. */
-  .picture.light {
-    background-position: center;
-    mask-image: none;
-  }
-
-  .picture.dark,
-  :global([data-theme="dark"]) .picture.light {
-    display: none;
-  }
-
-  :global([data-theme="dark"]) .picture.dark {
-    display: block;
+  .art :global(svg) {
+    max-inline-size: 100%;
+    max-block-size: 100%;
   }
 
   .inner {
@@ -143,17 +124,16 @@ const [light, dark] = await Promise.all(
     color: var(--igd-color-text-heading);
   }
 
-  /* breakpoint-lg: the picture moves under the text, at its own proportion. */
+  /* breakpoint-lg: the drawing moves under the text. */
   @media (max-width: 1024px) {
-    .picture {
+    .art {
       position: static;
       inline-size: 100%;
-      aspect-ratio: 16 / 9;
-      mask-image: none;
+      padding: 0 var(--igd-container-gutter) var(--igd-space-inset-xl);
     }
 
     .inner {
-      padding-block-end: var(--igd-space-inset-xl);
+      padding-block-end: var(--igd-space-inset-lg);
     }
   }
 </style>

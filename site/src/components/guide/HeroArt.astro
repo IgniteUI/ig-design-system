@@ -1,0 +1,251 @@
+---
+// The drawing of the guide's hero: three stacked panels of interface parts on a sheet of construction lines.
+// Every colour is a token, so the drawing follows the theme.
+
+// One panel plane: x runs right and slightly up, y runs down and slightly left.
+const PLANE = "matrix(1 -0.1 -0.22 0.95 0 0)";
+const DOTS = ["info", "success", "warning", "error", "second"];
+---
+
+<svg viewBox="0 0 720 660" aria-hidden="true" focusable="false">
+  <g class="guides">
+    <circle cx="400" cy="330" r="286" class="dashed"></circle>
+    <circle cx="400" cy="330" r="214" class="dashed faint"></circle>
+    <path d="M150 40V640M40 470H700M610 30V600M90 170H520"></path>
+    <g class="nodes">
+      <circle cx="150" cy="170" r="4"></circle>
+      <circle cx="150" cy="470" r="4"></circle>
+      <circle cx="610" cy="470" r="4"></circle>
+      <circle cx="610" cy="170" r="4"></circle>
+      <circle cx="114" cy="330" r="4"></circle>
+    </g>
+  </g>
+
+  <g transform={`translate(150 500) ${PLANE}`}>
+    <rect class="edge" y="9" width="480" height="120" rx="16"></rect>
+    <rect class="panel" width="480" height="120" rx="16"></rect>
+    <rect class="tile" x="16" y="14" width="150" height="26" rx="8"></rect>
+    <circle class="stroke-ink" cx="30" cy="27" r="5"></circle>
+    <rect class="bar" x="44" y="24" width="70" height="6" rx="3"></rect>
+    <rect class="tile" x="16" y="48" width="150" height="26" rx="8"></rect>
+    <rect class="stroke-action" x="24" y="54" width="14" height="14" rx="3"></rect>
+    <path class="stroke-action" d="M27 61l3 3 6-6"></path>
+    <rect class="bar" x="46" y="58" width="80" height="6" rx="3"></rect>
+    <rect class="tile" x="16" y="82" width="150" height="24" rx="10"></rect>
+    <rect class="action soft" x="28" y="91" width="90" height="6" rx="3"></rect>
+    <path class="action softer" d="M240 26l44 18-44 18-44-18z"></path>
+    <path class="action soft" d="M240 42l44 18-44 18-44-18z"></path>
+    <path class="action" d="M240 58l44 18-44 18-44-18z"></path>
+    <rect class="tile" x="310" y="14" width="154" height="92" rx="10"></rect>
+    <polyline class="stroke-action thick" points="324,84 348,70 370,78 398,54 424,62 450,36"></polyline>
+    <g class="points">
+      <circle cx="324" cy="84" r="3.5"></circle>
+      <circle cx="370" cy="78" r="3.5"></circle>
+      <circle cx="398" cy="54" r="3.5"></circle>
+      <circle cx="450" cy="36" r="3.5"></circle>
+    </g>
+  </g>
+
+  <g transform={`translate(175 392) ${PLANE}`}>
+    <rect class="edge" y="9" width="470" height="78" rx="16"></rect>
+    <rect class="panel" width="470" height="78" rx="16"></rect>
+    <rect class="tile" x="16" y="14" width="290" height="50" rx="25"></rect>
+    {
+      DOTS.map((name, i) => (
+        <g class={name}>
+          <circle class="halo" cx={52 + i * 52} cy="39" r="17" />
+          <circle cx={52 + i * 52} cy="39" r="7" />
+        </g>
+      ))
+    }
+    <rect class="tile" x="322" y="18" width="132" height="42" rx="14"></rect>
+    <rect class="bar" x="342" y="36" width="92" height="6" rx="3"></rect>
+  </g>
+
+  <g transform={`translate(250 100) ${PLANE}`}>
+    <rect class="edge" y="10" width="440" height="270" rx="18"></rect>
+    <rect class="panel" width="440" height="270" rx="18"></rect>
+    <g class="dots">
+      <circle cx="22" cy="20" r="5"></circle>
+      <circle cx="40" cy="20" r="5"></circle>
+      <circle cx="58" cy="20" r="5"></circle>
+    </g>
+    <rect class="bar" x="90" y="17" width="120" height="6" rx="3"></rect>
+
+    <rect class="tile" x="14" y="40" width="62" height="216" rx="12"></rect>
+    <path class="ink" d="M45 62l16 7-16 7-16-7z"></path>
+    <path class="stroke-ink" d="M29 77l16 7 16-7M29 85l16 7 16-7"></path>
+    <path class="stroke-ink" d="M45 116l14 7v15l-14 7-14-7v-15zM31 123l14 7 14-7M45 130v15"></path>
+    <path class="stroke-ink" d="M30 170h30M30 181h30M30 192h30"></path>
+    <g class="knobs">
+      <circle cx="50" cy="170" r="3.5"></circle>
+      <circle cx="38" cy="181" r="3.5"></circle>
+      <circle cx="46" cy="192" r="3.5"></circle>
+    </g>
+    <rect class="stroke-line" x="30" y="212" width="30" height="30" rx="7"></rect>
+
+    <rect class="action" x="92" y="48" width="80" height="26" rx="9"></rect>
+    <rect class="on" x="108" y="58" width="48" height="6" rx="3"></rect>
+    <rect class="tile" x="180" y="48" width="80" height="26" rx="9"></rect>
+    <rect class="bar" x="196" y="58" width="48" height="6" rx="3"></rect>
+    <rect class="tile" x="268" y="48" width="80" height="26" rx="9"></rect>
+    <rect class="bar" x="284" y="58" width="48" height="6" rx="3"></rect>
+
+    <rect class="tile" x="92" y="88" width="120" height="96" rx="10"></rect>
+    <text x="152" y="153" text-anchor="middle">Aa</text>
+    <rect class="tile" x="222" y="88" width="126" height="96" rx="10"></rect>
+    <circle class="action soft" cx="318" cy="114" r="9"></circle>
+    <path class="action soft" d="M240 168l32-44 18 24 14-14 28 34z"></path>
+
+    <rect class="second" x="92" y="198" width="150" height="34" rx="12"></rect>
+    <rect class="on" x="116" y="212" width="102" height="6" rx="3"></rect>
+    <rect class="tile" x="252" y="198" width="96" height="34" rx="12"></rect>
+    <rect class="bar" x="268" y="212" width="64" height="6" rx="3"></rect>
+
+    <rect class="tile" x="360" y="40" width="66" height="216" rx="12"></rect>
+    <rect class="bar strong" x="370" y="58" width="46" height="6" rx="3"></rect>
+    <rect class="bar" x="370" y="80" width="46" height="6" rx="3"></rect>
+    <rect class="action" x="370" y="106" width="46" height="22" rx="11"></rect>
+    <circle class="on" cx="405" cy="117" r="8"></circle>
+    <rect class="bar" x="370" y="152" width="46" height="4" rx="2"></rect>
+    <rect class="action" x="370" y="152" width="28" height="4" rx="2"></rect>
+    <circle class="knob" cx="398" cy="154" r="6"></circle>
+    <rect class="bar" x="370" y="182" width="46" height="6" rx="3"></rect>
+    <rect class="bar" x="370" y="204" width="30" height="6" rx="3"></rect>
+  </g>
+</svg>
+
+<style>
+  svg {
+    display: block;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .guides {
+    stroke: var(--igd-color-border-default);
+    stroke-width: var(--igd-border-width-default);
+  }
+
+  .dashed {
+    stroke-dasharray: 6 7;
+  }
+
+  .faint {
+    opacity: var(--igd-opacity-heavy);
+  }
+
+  .nodes circle {
+    fill: var(--igd-color-surface-page);
+  }
+
+  .panel {
+    fill: var(--igd-color-surface-card);
+    stroke: var(--igd-color-border-control);
+    stroke-width: var(--igd-border-width-strong);
+  }
+
+  .edge {
+    fill: var(--igd-color-surface-muted);
+    stroke: var(--igd-color-border-control);
+    stroke-width: var(--igd-border-width-default);
+  }
+
+  .tile {
+    fill: var(--igd-color-surface-subtle);
+    stroke: var(--igd-color-border-default);
+    stroke-width: var(--igd-border-width-default);
+  }
+
+  .bar,
+  .dots circle {
+    fill: var(--igd-color-border-control);
+  }
+
+  .bar.strong,
+  .ink {
+    fill: var(--igd-color-text-secondary);
+  }
+
+  .stroke-ink {
+    stroke: var(--igd-color-text-secondary);
+    stroke-width: var(--igd-size-icon-stroke);
+  }
+
+  .stroke-line {
+    stroke: var(--igd-color-border-control);
+    stroke-width: var(--igd-border-width-default);
+  }
+
+  .knobs circle {
+    fill: var(--igd-color-surface-subtle);
+    stroke: var(--igd-color-text-secondary);
+    stroke-width: var(--igd-size-icon-stroke);
+  }
+
+  .action {
+    fill: var(--igd-color-action-default);
+  }
+
+  .on {
+    fill: var(--igd-color-action-on);
+  }
+
+  .second,
+  .second circle {
+    fill: var(--igd-color-accent-secondary);
+  }
+
+  .soft {
+    fill-opacity: var(--igd-opacity-heavy);
+  }
+
+  .softer {
+    fill-opacity: var(--igd-opacity-muted);
+  }
+
+  .stroke-action {
+    stroke: var(--igd-color-action-default);
+    stroke-width: var(--igd-size-icon-stroke);
+  }
+
+  .thick {
+    stroke-width: var(--igd-size-icon-stroke-strong);
+  }
+
+  .points circle,
+  .knob {
+    fill: var(--igd-color-surface-card);
+    stroke: var(--igd-color-action-default);
+    stroke-width: var(--igd-size-icon-stroke);
+  }
+
+  .info circle {
+    fill: var(--igd-color-feedback-info-default);
+  }
+
+  .success circle {
+    fill: var(--igd-color-feedback-success-default);
+  }
+
+  .warning circle {
+    fill: var(--igd-color-feedback-warning-default);
+  }
+
+  .error circle {
+    fill: var(--igd-color-feedback-error-default);
+  }
+
+  .halo {
+    fill-opacity: var(--igd-opacity-muted);
+  }
+
+  text {
+    fill: var(--igd-color-text-heading);
+    font-family: var(--igd-font-display);
+    font-size: var(--igd-type-display-md-font-size);
+    font-style: italic;
+    font-weight: var(--igd-font-weight-bold);
+  }
+</style>

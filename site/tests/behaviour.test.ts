@@ -126,32 +126,50 @@ describe("the theme button", () => {
 });
 
 describe("the hero of the guide", () => {
-  it("shows the picture of the theme, and follows the page into the dark theme", async () => {
+  it("draws its picture in the tokens of the theme, so it follows the page into the dark theme", async () => {
     const { page } = await open("");
-    const state = () =>
+    const colours = () =>
       page.evaluate(() => {
-        const hero = document.querySelector(".hero");
-        if (!hero) throw new Error("no hero");
-        const shown = [...hero.querySelectorAll<HTMLElement>(".picture")]
-          .filter(
-            (picture) =>
-              picture.offsetParent !== null ||
-              getComputedStyle(picture).display !== "none",
-          )
-          .map((picture) => picture.className.match(/light|dark/)?.[0]);
+        const token = (name: string) => {
+          const probe = document.createElement("i");
+          probe.style.color = `var(${name})`;
+          document.body.appendChild(probe);
+          const colour = getComputedStyle(probe).color;
+          probe.remove();
+          return colour;
+        };
+        const panel = document.querySelector(".hero svg .panel");
+        const action = document.querySelector(".hero svg .action");
+        if (!panel || !action) throw new Error("no drawing in the hero");
         return {
-          shown,
-          fill: getComputedStyle(hero).backgroundColor,
-          page: getComputedStyle(document.body).backgroundColor,
+          panel: getComputedStyle(panel).fill,
+          action: getComputedStyle(action).fill,
+          panelToken: token("--igd-color-surface-card"),
+          actionToken: token("--igd-color-action-default"),
         };
       });
-    const light = await state();
-    expect(light.shown).toEqual(["light"]);
+    const light = await colours();
+    expect(light.panel).toBe(light.panelToken);
+    expect(light.action).toBe(light.actionToken);
     await page.click("[data-theme-toggle]");
-    const dark = await state();
-    expect(dark.shown).toEqual(["dark"]);
-    expect(dark.fill).toBe(dark.page);
-    expect(dark.fill).not.toBe(light.fill);
+    const dark = await colours();
+    expect(dark.panel).toBe(dark.panelToken);
+    expect(dark.panel).not.toBe(light.panel);
+    await page.close();
+  });
+
+  it("types no colour in its picture", async () => {
+    const { page } = await open("");
+    const typed = await page.evaluate(
+      () =>
+        [...document.querySelectorAll(".hero svg *")].filter(
+          (el) =>
+            el.hasAttribute("fill") ||
+            el.hasAttribute("stroke") ||
+            el.hasAttribute("style"),
+        ).length,
+    );
+    expect(typed).toBe(0);
     await page.close();
   });
 
@@ -163,7 +181,7 @@ describe("the hero of the guide", () => {
           .querySelector(".hero h1")
           ?.getBoundingClientRect();
         const picture = document
-          .querySelector(".hero .picture")
+          .querySelector(".hero svg")
           ?.getBoundingClientRect();
         if (!text || !picture) throw new Error("no hero text or picture");
         return {
@@ -284,7 +302,7 @@ describe("the dials of the guide", () => {
     const fills = await page.evaluate(() =>
       [
         ...document.querySelectorAll(
-          '[data-theme="light"] .card, [data-theme="dark"] .card',
+          '[data-theme="light"] article.card, [data-theme="dark"] article.card',
         ),
       ].map((card) => getComputedStyle(card).backgroundColor),
     );
