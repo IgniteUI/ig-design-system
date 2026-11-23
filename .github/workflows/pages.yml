@@ -1,4 +1,4 @@
-# Publishes the token showcase of the commit CI passed on, on main, to GitHub Pages.
+# Publishes the guide and the token showcase of the commit CI passed on, on main, to GitHub Pages.
 name: Showcase
 
 on:
@@ -27,15 +27,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
-      - name: Collect the showcase, the files it loads and the files llms.txt links to
+      - name: Collect the two pages, the files they load and the files llms.txt links to
         run: |
           mkdir -p site/docs
           cp -r dist site/dist
-          cp docs/showcase.html site/docs/showcase.html
+          cp docs/index.html docs/showcase.html site/docs/
           cp llms.txt llms-full.txt README.md AGENTS.md CHANGELOG.md site/
           cp docs/ADOPTING.md docs/MIGRATION.md site/docs/
           cp -r docs/examples site/docs/examples
-          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=docs/showcase.html"><title>ig-design-system</title><a href="docs/showcase.html">Token showcase</a>\n' > site/index.html
+          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=docs/"><title>ig-design-system</title><a href="docs/">Infragistics design system</a>\n' > site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

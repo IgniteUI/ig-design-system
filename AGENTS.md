@@ -16,7 +16,7 @@ npm run palettes                  # only after a seed or a scale changes
 
 Node 22.18 or newer runs the `.ts` files directly. Do not add `tsx`: it rewrites the functions passed to Playwright's `page.evaluate` and the gates crash with `__name is not defined`.
 
-`dist/`, `reports/`, `docs/MIGRATION.md`, `docs/showcase.html`, `llms.txt`, `llms-full.txt` and `src/palettes.json` are generated and committed. `docs/ADOPTING.md` is written by hand. Change `src/`, rebuild, commit the result. CI fails when a generated file differs from a fresh build.
+`dist/`, `reports/`, `docs/MIGRATION.md`, `docs/index.html`, `docs/showcase.html`, `llms.txt`, `llms-full.txt` and `src/palettes.json` are generated and committed. `docs/ADOPTING.md` is written by hand. Change `src/`, rebuild, commit the result. CI fails when a generated file differs from a fresh build.
 
 Run one check after `npm run build`: `node checks/gates-themes.ts`, `node checks/resolve.ts`, or any other file under `checks/`.
 
@@ -40,7 +40,7 @@ Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there
 | `src/stylesheets.ts` | The text of `tokens.css`, `fonts.css` and `base.css`. |
 | `src/theme.ts`, `src/derived.ts` | The text of `theme.css`; `derived.ts` is its derived-colour section. |
 | `src/namespace.ts` | Adds `--igd-` to every custom property in `dist/*.css` that is not engine output. |
-| `src/migration.ts`, `src/dtcg.ts`, `src/showcase.ts`, `src/llms.ts` | Write `docs/MIGRATION.md`, `dist/infragistics.tokens.json`, `docs/showcase.html`, and the two llms files. |
+| `src/migration.ts`, `src/dtcg.ts`, `src/showcase.ts`, `src/guide.ts`, `src/llms.ts` | Write `docs/MIGRATION.md`, `dist/infragistics.tokens.json`, `docs/showcase.html`, `docs/index.html`, and the two llms files. `src/page.ts` is the document the two pages share. |
 | `checks/cli.ts`, `checks/site.ts` | The site command, compiled to `dist/cli/` by `tsc -p tsconfig.cli.json`. |
 
 ## Decisions
@@ -178,6 +178,11 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
 - Every token in `tokens.json` is on the page as an element with `data-token="<name>"`. A palette family is one element, `data-token="ig-<family>"`, that holds its steps. The filter, and any later tool that edits a token, finds it by that attribute.
 - A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
+- `src/guide.ts` writes `docs/index.html`, the guide for a reader who does not read the code. It shows a chosen few tokens with a plain use each, and links to the showcase for the rest. A name in its lists that `tokens.json` does not have stops the build.
+- The guide and the showcase share `src/page.ts`, `src/showcase.css` and `src/showcase.client.js`; `src/guide.css` adds the guide's own styles. Change the top bar, the theme switch or copying there, once.
+- The logo in the top bar is `src/assets/ig-logo.svg` in the light theme and `src/assets/ig-logo-dark.svg` in the dark theme. Both are copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes.
+- The guide prints bad examples on purpose, in "Do and don't", so the site command is not run on it. `check-vars` is: every `var()` on it, the bad examples included, names a real custom property.
+- When a rule in `src/llms.ts` changes, change the same rule in the guide.
 
 Why here: `igniteui-astro-components` had its own Colors and Typography pages for its own palette and type scale. The owner decided the foundations are documented with the tokens, and that the pages about Markdown content (lists, tables, code, images, badges) stay in that repository.
 
@@ -204,7 +209,7 @@ Nothing below is decided. Ask the owner before acting on one.
 - `checks/resolve.ts` loads `tokens.css` and `theme.css` in a browser and fails when a custom property resolves to nothing, or a colour, spacing, radius or size token is not a valid value, in either theme. A property declared only on a component selector is left out.
 - CI builds the system a second time with `IGD_SEED_PRIMARY=#0f9d58` and `IGD_SEED_SECONDARY=#e6447a` and runs every gate. Why: a rebrand is a promise of decision 3, and with one seed in CI nothing proved it.
 - `npm run compare -- <before url> <after url> [path@width ...]` compares two renderings element by element. Use it before claiming a change moves nothing.
-- `.github/workflows/pages.yml` publishes the showcase of the commit CI passed on, on `main`, to GitHub Pages, with the files `llms.txt` links to. Pages is not enabled yet, so nothing is published.
+- `.github/workflows/pages.yml` publishes the guide and the showcase of the commit CI passed on, on `main`, to GitHub Pages, with the files `llms.txt` links to. Pages is not enabled yet, so nothing is published.
 
 ## Files for agents
 
