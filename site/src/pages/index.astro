@@ -50,6 +50,16 @@ const sections = {
 };
 
 const colours = tokens.color.tokens.filter((t) => !t.name.startsWith("ig-"));
+// The token "The idea" uses as its example, and the raw token its value points at.
+const [example] = pick(colours, ["color-text-muted"], "colour");
+const rawOf = (token: { name: string; value: string }) => {
+  const raw = token.value.match(/^\{([\w-]+)\}$/)?.[1];
+  if (!raw)
+    throw new Error(
+      `The guide shows "${token.name}" as a name that points at a raw token, but its value is "${token.value}". Pick an example in site/src/pages/index.astro whose value is one raw token.`,
+    );
+  return cssVar(raw);
+};
 const styles = tokens.type.groups.flatMap((g) => g.styles);
 const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
 const spacing = SPACE_PICKS.map((size) => {
@@ -87,7 +97,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       items={[
         {
           title: "A name, not a value",
-          html: `You write <code>${cssVar("color-text-muted")}</code>, the colour of captions and small labels. You never write its value, which is <output data-colour="${cssVar("color-text-muted")}"></output> on this page right now and another one in the dark variant. The name stays right when the value changes.`,
+          html: `You write <code>${cssVar(example.name)}</code>, the colour of captions and small labels. You never write the raw value behind it, <output data-colour="${cssVar(example.name)}"></output> in this variant of the theme, and never the raw token, <code>${rawOf(example)}</code>. Both are forbidden: only the name stays right when the value changes.`,
         },
         {
           title: "One source",
@@ -95,7 +105,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
         },
         {
           title: "Checked for you",
-          html: "Every text colour is measured against its background in both variants of the theme, light and dark. A command reports a value typed by hand.",
+          html: "Every text colour is measured against its background in both variants of the theme, light and dark. A raw value or a raw token typed by hand is caught early by a check, so it never reaches a site.",
         },
       ]}
     />
