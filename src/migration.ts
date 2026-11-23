@@ -9,12 +9,29 @@ const tbl = (rows: string[][], a: string, b: string) =>
   `| ${a} | ${b} |\n|---|---|\n` +
   rows.map(([x, y]) => `| \`--${x}\` | \`--igd-${y}\` |`).join("\n") +
   "\n";
+// The tables of the renames that are not colours, by the first word of the old name.
+const KINDS: [title: string, words: string[]][] = [
+  ["Size and layout", ["size", "container", "catalog", "gutter", "grid", "bp"]],
+  ["Radius", ["radius"]],
+  ["Weight and letter spacing", ["weight", "tracking"]],
+  ["Motion", ["dur", "ease", "transition"]],
+  ["Layers", ["z"]],
+  ["Shadow and effects", ["shadow", "blur", "emphasis", "border"]],
+];
+const rest = [...Object.entries(M.SIZEMAP), ...Object.entries(M.OTHER)];
+const kindOf = (old: string) =>
+  KINDS.find(([, words]) => words.includes(old.split("-")[0]));
+const loose = rest.filter(([old]) => !kindOf(old)).map(([old]) => old);
+if (loose.length)
+  throw new Error(
+    `No table of the migration guide takes ${loose.join(", ")}. Add the first word of the name to a kind in KINDS in src/migration.ts.`,
+  );
 const groups: [string, string[][]][] = [
   ["Colour", Object.entries(M.COLOR)],
-  [
-    "Size, radius, border, typography, motion and everything else",
-    [...Object.entries(M.SIZEMAP), ...Object.entries(M.OTHER)],
-  ],
+  ...KINDS.map(([title]): [string, string[][]] => [
+    title,
+    rest.filter(([old]) => kindOf(old)?.[0] === title),
+  ]),
 ];
 const NAME: Record<number, string> = Object.fromEntries(
   Object.entries(SPACE).map(([k, v]) => [v, k]),
@@ -25,7 +42,7 @@ const sp = Object.entries(M.SPACEMAP).map(([o, n]) => [
 ]);
 let md = `# Migration guide
 
-Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see \`docs/ADOPTING.md\`. Nothing from the old names is kept: no aliases, no deprecated files.
+Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see [Moving a site onto the design system](ADOPTING.md). Nothing from the old names is kept: no aliases, no deprecated files.
 
 ## 1. Naming convention
 

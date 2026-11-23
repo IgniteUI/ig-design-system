@@ -1,6 +1,6 @@
 # Migration guide
 
-Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see `docs/ADOPTING.md`. Nothing from the old names is kept: no aliases, no deprecated files.
+Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see [Moving a site onto the design system](ADOPTING.md). Nothing from the old names is kept: no aliases, no deprecated files.
 
 ## 1. Naming convention
 
@@ -141,7 +141,7 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--fw-blazor-bg` | `--igd-fw-blazor-background` |
 | `--fw-wpf-bg` | `--igd-fw-wpf-background` |
 
-### Size, radius, border, typography, motion and everything else
+### Size and layout
 
 | Before | Now |
 |---|---|
@@ -173,6 +173,17 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--container-hero` | `--igd-container-hero-max-width` |
 | `--container-prose` | `--igd-container-prose-max-width` |
 | `--catalog-min` | `--igd-catalog-card-min-width` |
+| `--bp-sm` | `--igd-breakpoint-sm` |
+| `--bp-md` | `--igd-breakpoint-md` |
+| `--bp-lg` | `--igd-breakpoint-lg` |
+| `--bp-xl` | `--igd-breakpoint-xl` |
+| `--gutter` | `--igd-container-gutter` |
+| `--grid-split` | `--igd-layout-split` |
+
+### Radius
+
+| Before | Now |
+|---|---|
 | `--radius-pill` | `--igd-radius-full` |
 | `--radius-flare` | `--igd-nav-panel-radius` |
 | `--radius-lg` | `--igd-radius-xl` |
@@ -183,6 +194,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--radius-mono` | `--igd-radius-sm` |
 | `--radius-badge` | `--igd-radius-xs` |
 | `--radius-check` | `--igd-radius-xs` |
+
+### Weight and letter spacing
+
+| Before | Now |
+|---|---|
 | `--weight-regular` | `--igd-font-weight-regular` |
 | `--weight-medium` | `--igd-font-weight-medium` |
 | `--weight-semibold` | `--igd-font-weight-semibold` |
@@ -192,6 +208,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--tracking-label` | `--igd-letter-spacing-label` |
 | `--tracking-badge` | `--igd-letter-spacing-badge` |
 | `--tracking-mono` | `--igd-letter-spacing-mono` |
+
+### Motion
+
+| Before | Now |
+|---|---|
 | `--dur-chip` | `--igd-duration-chip` |
 | `--dur-fast` | `--igd-duration-fast` |
 | `--dur-button` | `--igd-duration-button` |
@@ -199,6 +220,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--dur-float` | `--igd-duration-float` |
 | `--ease` | `--igd-easing-default` |
 | `--transition` | `--igd-transition-default` |
+
+### Layers
+
+| Before | Now |
+|---|---|
 | `--z-base` | `--igd-z-index-base` |
 | `--z-raised` | `--igd-z-index-raised` |
 | `--z-media` | `--igd-z-index-media` |
@@ -207,13 +233,12 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--z-nav` | `--igd-z-index-nav` |
 | `--z-panel` | `--igd-z-index-panel` |
 | `--z-overlay` | `--igd-z-index-overlay` |
-| `--bp-sm` | `--igd-breakpoint-sm` |
-| `--bp-md` | `--igd-breakpoint-md` |
-| `--bp-lg` | `--igd-breakpoint-lg` |
-| `--bp-xl` | `--igd-breakpoint-xl` |
+
+### Shadow and effects
+
+| Before | Now |
+|---|---|
 | `--blur-nav` | `--igd-nav-backdrop-blur` |
-| `--gutter` | `--igd-container-gutter` |
-| `--grid-split` | `--igd-layout-split` |
 | `--emphasis-fill` | `--igd-gradient-emphasis` |
 | `--border-gradient-bundle` | `--igd-gradient-border-bundle` |
 | `--shadow-card` | `--igd-shadow-none` |
