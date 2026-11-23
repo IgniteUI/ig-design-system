@@ -23,7 +23,7 @@ export const LOGOS = {
     image: darkFile,
     title: "Logo for dark surfaces",
     alt: "Infragistics",
-    use: "The same drawing with a lighter wordmark. On the dark theme and on a dark area.",
+    use: "The same drawing with a lighter wordmark. On the dark variant of the theme and on a dark area.",
     theme: "dark",
   },
   mark: {

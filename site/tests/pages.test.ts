@@ -38,7 +38,7 @@ describe("every page", () => {
   });
 
   it.each(ROUTES)(
-    "/%s carries the logo of each theme in the top bar, under one accessible name",
+    "/%s carries the logo of each variant of the theme in the top bar, under one accessible name",
     (route) => {
       const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
       expect(header).toContain('aria-label="Infragistics design system"');

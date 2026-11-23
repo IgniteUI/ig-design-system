@@ -14,7 +14,7 @@ const apply = (dark: boolean) => {
 button?.addEventListener("click", () => {
   const dark = root.getAttribute("data-theme") !== "dark";
   try {
-    // Stores only the dark theme: light is the default.
+    // Stores only the dark variant: light is the default.
     if (dark) localStorage.setItem(KEY, "dark");
     else localStorage.removeItem(KEY);
   } catch {}

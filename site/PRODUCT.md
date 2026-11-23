@@ -40,7 +40,7 @@ The site is built from the design system it documents. Every value on it is read
 - Pages: the guide, Tokens, Logo, and one page per Markdown document (`ADOPTING.md`, `MIGRATION.md`, `CHANGELOG.md`).
 - Built with Astro as a static site. Nothing the build writes is committed.
 - Nothing the site shows is typed twice. Tokens come from `dist/tokens.json`, documents from their Markdown files, the package name and repository from `package.json`.
-- The site is light by default, whatever the system colour scheme. A switch in the top bar turns on the dark theme.
+- The site is light by default, whatever the system colour scheme. A switch in the top bar turns on the dark variant of the theme.
 - The site has no components of its own to publish. The design system ships tokens, not components.
 - Terms: a token is a name for a design decision; a role is what a spacing or type token is for; a dial is one of the four engine properties that move every token below it; a scope is an element marked `data-ig-scope`.
 - Undecided: whether the Tokens page becomes editable, so that a non-developer changes a value and gets a pull request.
@@ -58,7 +58,7 @@ The site is built from the design system it documents. Every value on it is read
 - `../dist/tokens.json`: every token with its value and usage note.
 - `../docs/ADOPTING.md`, `../docs/MIGRATION.md`, `../CHANGELOG.md`: the documents.
 - `src/assets/logos/`: the three logo files, copied from the marketing site.
-- `../reports/`: the measured contrast of every text and outline colour, in both themes.
+- `../reports/`: the measured contrast of every text and outline colour, in both variants of the theme.
 - There are no testimonials, usage numbers or case studies. Do not write any.
 
 ## Product Principles

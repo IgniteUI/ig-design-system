@@ -74,7 +74,7 @@ describe("every page in a browser", () => {
 });
 
 describe("the theme button", () => {
-  it("switches the page to the dark theme and shows the logo for dark surfaces", async () => {
+  it("switches the page to the dark variant and shows the logo for dark surfaces", async () => {
     const { page } = await open("");
     const shown = () =>
       page.evaluate(() =>
@@ -92,10 +92,12 @@ describe("the theme button", () => {
     await page.close();
   });
 
-  it("is an icon button named for the theme it turns on", async () => {
+  it("is an icon button named for the variant of the theme it turns on", async () => {
     const { page } = await open("");
     const toggle = page.locator("[data-theme-toggle]");
-    expect(await toggle.getAttribute("aria-label")).toBe("Dark theme");
+    expect(await toggle.getAttribute("aria-label")).toBe(
+      "Dark variant of the theme",
+    );
     expect((await toggle.textContent())?.trim()).toBe("");
     expect(await toggle.locator("svg:visible").getAttribute("class")).toContain(
       "moon",
@@ -107,13 +109,13 @@ describe("the theme button", () => {
     await page.close();
   });
 
-  it("starts in the light theme even when the system is dark", async () => {
+  it("starts in the light variant even when the system is dark", async () => {
     const { page } = await open("", 1280, "dark");
     expect(await page.getAttribute("html", "data-theme")).toBe("light");
     await page.close();
   });
 
-  it("keeps the dark theme on the next page once it is chosen, and returns to light when switched back", async () => {
+  it("keeps the dark variant on the next page once it is chosen, and returns to light when switched back", async () => {
     const { page } = await open("");
     await page.click("[data-theme-toggle]");
     await page.goto(`${site.origin}/tokens/`);
@@ -1074,7 +1076,7 @@ describe("a filter, where the result shows", () => {
     await page.close();
   });
 
-  it("follows the theme: a value of the dark theme is found after the switch", async () => {
+  it("follows the theme: a value of the dark variant is found after the switch", async () => {
     const { page } = await open("tokens/");
     await page.click("[data-theme-toggle]");
     const dark =

@@ -26,8 +26,8 @@ export const RULES: {
     bad: "color: #1a5fff;",
   },
   {
-    title: "Use one name for both themes.",
-    why: "A colour already has a light and a dark value and switches by itself. Do not write the two themes by hand.",
+    title: "Use one name for both variants of the theme.",
+    why: "A colour already has a light and a dark value and switches by itself. Do not write the light and the dark variant by hand.",
     good: "background: var(--igd-color-surface-card);",
     bad: "background: light-dark(#fff, #1c1c1c);",
   },
