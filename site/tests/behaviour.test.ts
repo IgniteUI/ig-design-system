@@ -1,6 +1,6 @@
 import { type Browser, chromium, type Page } from "playwright";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { ROUTES } from "./built.ts";
+import { ROUTES, source } from "./built.ts";
 import { serve } from "./server.ts";
 
 let browser: Browser;
@@ -168,6 +168,37 @@ describe("the filter of the Tokens page", () => {
     );
     await page.close();
   });
+});
+
+describe("a document page", () => {
+  it.each([
+    ["adopting/", "docs/ADOPTING.md"],
+    ["migration/", "docs/MIGRATION.md"],
+    ["changelog/", "CHANGELOG.md"],
+  ])(
+    "/%s has every heading of %s, in order, and lists its sections",
+    async (route, file) => {
+      const headings = [...source(file).matchAll(/^(#{1,2}) (.+)$/gm)].map(
+        ([, level, text]) => ({
+          level: level.length,
+          text: text.replaceAll("`", ""),
+        }),
+      );
+      expect(headings.length).toBeGreaterThan(1);
+      const { page } = await open(route);
+      const plain = (texts: string[]) =>
+        texts.map((t) => t.trim().replaceAll("’", "'"));
+      expect(
+        plain(await page.locator("article :is(h1, h2)").allTextContents()),
+      ).toEqual(plain(headings.map((h) => h.text)));
+      expect(
+        plain(await page.locator("[data-section-nav] li").allTextContents()),
+      ).toEqual(
+        plain(headings.filter((h) => h.level === 2).map((h) => h.text)),
+      );
+      await page.close();
+    },
+  );
 });
 
 describe("the logo page", () => {

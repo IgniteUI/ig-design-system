@@ -117,25 +117,6 @@ describe("the guide", () => {
   });
 });
 
-describe("the document pages", () => {
-  it.each([
-    ["adopting/", "docs/ADOPTING.md"],
-    ["migration/", "docs/MIGRATION.md"],
-    ["changelog/", "CHANGELOG.md"],
-  ])("/%s has every heading of %s, and lists its sections", (route, file) => {
-    const html = page(route);
-    const text = html.replace(/<[^>]+>/g, "").replace(/&#39;|&#x27;|’/g, "'");
-    const headings = [...source(file).matchAll(/^(#{1,2}) (.+)$/gm)];
-    expect(headings.length).toBeGreaterThan(1);
-    for (const [, , heading] of headings)
-      expect(text).toContain(heading.replace(/`/g, "").replace(/’/g, "'"));
-    const sections = headings.filter(([, level]) => level === "##").length;
-    expect(
-      html.match(/<nav[^>]*data-section-nav.*?<\/nav>/s)?.[0].match(/<li/g),
-    ).toHaveLength(sections);
-  });
-});
-
 describe("the logo page", () => {
   const html = page("logo/");
 
