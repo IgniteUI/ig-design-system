@@ -2,11 +2,7 @@
 
 One source for the look of infragistics.com: colours, type, spacing, roundness and elevation as design tokens, plus the automatic checks that keep every site consistent. The tokens are generated with [igniteui-theming](https://github.com/IgniteUI/igniteui-theming), the same engine Ignite UI customers use.
 
-> **Status: not released.** The package is not on npm and the repository is internal. Publishing waits until the repository moves to its final GitHub organisation. Names and structure may still change.
-
 ## What is in the package
-
-The package is not on npm yet. Until the first release, copy `dist/` from this repository. After it:
 
 ```sh
 npm install ig-design-system
@@ -163,7 +159,7 @@ The rules of the three source checks and the functions of the generator have uni
 
 ### Checking a site
 
-The package ships the `ig-design-system` command, which checks a site's own source. Until the first release, run it from a checkout of this repository with `node dist/cli/checks/cli.js check <path>`:
+The package ships the `ig-design-system` command, which checks a site's own source:
 
 ```sh
 npx ig-design-system check src
@@ -189,8 +185,6 @@ jobs:
     with:
       paths: src
 ```
-
-The tag `1.0.0` does not exist yet, and the owner in the path changes when the repository moves.
 
 
 ## Repository layout
