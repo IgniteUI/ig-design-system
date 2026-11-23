@@ -186,7 +186,7 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - When a rule in `src/llms.ts` changes, change the same rule in `site/src/data/rules.ts`.
 - The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
 - The clear space, the smallest sizes and the do and don't list on the Logo page are proposals. The page carries a draft notice until the brand owner approves them. Remove the notice only when the owner says so.
-- The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
+- The site is light by default, whatever the system colour scheme. The theme switch in the top bar is an icon button; it stores the dark theme once chosen and removes it when switched back.
 - Astro removes the whitespace between two inline elements. Write `{" "}` where a space must stay.
 
 Why Astro: the pages were strings built by TypeScript generators, and their HTML was committed. Every change rewrote the generated files, and a Markdown document needed patching to become a page. The owner decided on 2026-11-23 to move the site to Astro, the tool the other documentation sites use.

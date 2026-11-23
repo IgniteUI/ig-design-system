@@ -1,0 +1,59 @@
+---
+// The theme switch: an icon button that turns the dark theme on and off. It shows a moon in the light theme and a sun in the dark one.
+---
+
+<button type="button" aria-label="Dark theme" aria-pressed="false" title="Switch theme" data-theme-toggle>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+  </svg>
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+  </svg>
+</button>
+
+<script>
+  import "@/scripts/theme.ts";
+</script>
+
+<style>
+  button {
+    display: grid;
+    place-items: center;
+    inline-size: var(--igd-size-control-sm);
+    block-size: var(--igd-size-control-sm);
+    padding: 0;
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-full);
+    background: transparent;
+    color: var(--igd-color-text-ui);
+    cursor: pointer;
+    transition:
+      background-color var(--igd-duration-fast) var(--igd-easing-default),
+      color var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  button:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  svg {
+    inline-size: var(--igd-size-icon-lg);
+    block-size: var(--igd-size-icon-lg);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sun,
+  :global([data-theme="dark"]) .moon {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .sun {
+    display: block;
+  }
+</style>

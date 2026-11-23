@@ -42,12 +42,12 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 ## Documentation site
 
-`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
+`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark theme. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
 
 | Page | What it is |
 |---|---|
 | Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the two themes and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. |
-| Tokens (`/tokens/`) | Every token in `tokens.json` with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. Two buttons turn on the dark theme and the `docs` type set. |
+| Tokens (`/tokens/`) | Every token in `tokens.json` with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
 | Logo (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes and a do and don't list. The last three are proposals until the brand owner approves them, and the page says so. |
 | `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files as they are. |
 

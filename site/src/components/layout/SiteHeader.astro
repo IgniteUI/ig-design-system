@@ -1,8 +1,8 @@
 ---
-// The top bar: the logo, the pages, a slot for the page's own control and the theme button.
+// The top bar: the logo, the pages, a slot for the page's own control and the theme switch.
 import darkLogo from "@/assets/logos/ig-logo-dark.svg";
 import logo from "@/assets/logos/ig-logo.svg";
-import ToggleButton from "@/components/ui/ToggleButton.astro";
+import ThemeToggle from "@/components/layout/ThemeToggle.astro";
 import { PAGES, type PageId } from "@/data/navigation.ts";
 import { href } from "@/lib/paths.ts";
 
@@ -30,14 +30,10 @@ const { current } = Astro.props;
   </nav>
   <div class="bar"><slot name="bar" /></div>
   <div class="switches">
-    <ToggleButton data-theme-toggle>Dark theme</ToggleButton>
     <slot name="switches" />
+    <ThemeToggle />
   </div>
 </header>
-
-<script>
-  import "@/scripts/theme.ts";
-</script>
 
 <style>
   .top {
@@ -120,6 +116,7 @@ const { current } = Astro.props;
   .switches {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--igd-space-gap-xs);
   }
 </style>

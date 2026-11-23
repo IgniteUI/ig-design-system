@@ -92,9 +92,35 @@ describe("the theme button", () => {
     await page.close();
   });
 
-  it("starts in the dark theme when the system is dark", async () => {
+  it("is an icon button named for the theme it turns on", async () => {
+    const { page } = await open("");
+    const toggle = page.locator("[data-theme-toggle]");
+    expect(await toggle.getAttribute("aria-label")).toBe("Dark theme");
+    expect((await toggle.textContent())?.trim()).toBe("");
+    expect(await toggle.locator("svg:visible").getAttribute("class")).toContain(
+      "moon",
+    );
+    await toggle.click();
+    expect(await toggle.locator("svg:visible").getAttribute("class")).toContain(
+      "sun",
+    );
+    await page.close();
+  });
+
+  it("starts in the light theme even when the system is dark", async () => {
     const { page } = await open("", 1280, "dark");
+    expect(await page.getAttribute("html", "data-theme")).toBe("light");
+    await page.close();
+  });
+
+  it("keeps the dark theme on the next page once it is chosen, and returns to light when switched back", async () => {
+    const { page } = await open("");
+    await page.click("[data-theme-toggle]");
+    await page.goto(`${site.origin}/tokens/`);
     expect(await page.getAttribute("html", "data-theme")).toBe("dark");
+    await page.click("[data-theme-toggle]");
+    await page.reload();
+    expect(await page.getAttribute("html", "data-theme")).toBe("light");
     await page.close();
   });
 });
@@ -126,7 +152,8 @@ describe("the dials of the guide", () => {
   });
 
   it("keeps the card of a light region light when the page is dark", async () => {
-    const { page } = await open("", 1280, "dark");
+    const { page } = await open("");
+    await page.click("[data-theme-toggle]");
     const fills = await page.evaluate(() =>
       [
         ...document.querySelectorAll(
