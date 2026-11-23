@@ -1,7 +1,13 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["src/**/*.ts", "checks/**/*.ts"]
+    "includes": [
+      "src/**/*.ts",
+      "checks/**/*.ts",
+      "site/src/**/*.ts",
+      "site/tests/**/*.ts",
+      "site/*.ts"
+    ]
   },
   "vcs": {
     "clientKind": "git",

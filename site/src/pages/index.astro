@@ -1,0 +1,405 @@
+---
+// The guide: the design system in plain words, with live examples built on the tokens.
+import DemoCard from "@/components/guide/DemoCard.astro";
+import Dials from "@/components/guide/Dials.astro";
+import Hero from "@/components/guide/Hero.astro";
+import RulePair from "@/components/guide/RulePair.astro";
+import SpacingAnatomy from "@/components/guide/SpacingAnatomy.astro";
+import Stage from "@/components/guide/Stage.astro";
+import Steps from "@/components/guide/Steps.astro";
+import Section from "@/components/layout/Section.astro";
+import TokenCard from "@/components/tokens/TokenCard.astro";
+import TokenGrid from "@/components/tokens/TokenGrid.astro";
+import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
+import CodeBlock from "@/components/ui/CodeBlock.astro";
+import CopyName from "@/components/ui/CopyName.astro";
+import InfoCards from "@/components/ui/InfoCards.astro";
+import LinkCards from "@/components/ui/LinkCards.astro";
+import Readout from "@/components/ui/Readout.astro";
+import ScrollTable from "@/components/ui/ScrollTable.astro";
+import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
+import { CARD_MARKUP, CARD_RULE } from "@/data/card.ts";
+import { COLOUR_PICKS, SHAPE_PICKS, SPACE_PICKS } from "@/data/guide.ts";
+import { DOCUMENTS } from "@/data/navigation.ts";
+import { RULES } from "@/data/rules.ts";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import {
+  checkCommand,
+  cssVar,
+  installCommand,
+  packageName,
+  prefixOf,
+  repository,
+  STYLESHEETS,
+  tokens,
+} from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+import { pick } from "@/lib/tokens.ts";
+
+const sections = {
+  idea: { id: "idea", title: "The idea" },
+  colour: { id: "colour", title: "Colour" },
+  type: { id: "type", title: "Type" },
+  spacing: { id: "spacing", title: "Spacing" },
+  shape: { id: "shape", title: "Shape" },
+  themes: { id: "themes", title: "Themes and dials" },
+  component: { id: "component", title: "Build a component" },
+  rules: { id: "rules", title: "Do and don't" },
+  setup: { id: "setup", title: "Set up a site" },
+  help: { id: "help", title: "Something missing?" },
+};
+
+const colours = tokens.color.tokens.filter((t) => !t.name.startsWith("ig-"));
+const styles = tokens.type.groups.flatMap((g) => g.styles);
+const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
+const spacing = SPACE_PICKS.map((size) => {
+  const [inset, stack, gap] = pick(
+    tokens.spacing.tokens,
+    ["inset", "stack", "gap"].map((role) => `space-${role}-${size}`),
+    "spacing",
+  );
+  return { size, inset, stack, gap };
+});
+const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
+---
+
+<SectionsLayout current="guide" sections={Object.values(sections)}>
+  <Hero slot="before" />
+  <style is:inline set:html={CARD_RULE}></style>
+
+  <Section {...sections.idea}>
+    <p class="intro">
+      A design token is a name for a design decision. The name says what the value is for, and the design
+      system holds the value.
+    </p>
+    <InfoCards
+      items={[
+        {
+          title: "A name, not a value",
+          html: "You pick “the muted text colour”, not <code>#6e6e6e</code>. The name stays right when the colour changes.",
+        },
+        {
+          title: "One source",
+          html: "The website, the docs and the blog read the same tokens. A change made here reaches each of them with the next version.",
+        },
+        {
+          title: "Checked for you",
+          html: "Every text colour is measured against its background in both themes. A command reports a value typed by hand.",
+        },
+      ]}
+    />
+    <h3 class="plain">What do you need?</h3>
+    <LinkCards
+      items={[
+        {
+          href: "#colour",
+          title: "I choose colours, type or spacing",
+          text: "Read Colour, Type, Spacing and Shape. Click a name to copy it.",
+        },
+        {
+          href: "#component",
+          title: "I build a page or a component",
+          text: "Read Build a component and Do and don't.",
+        },
+        {
+          href: "#setup",
+          title: "I set up a site",
+          text: "Install the package, load the stylesheets, run the check.",
+        },
+        {
+          href: href("tokens/"),
+          title: "I am looking for one token",
+          text: "The Tokens page lists every token and filters by name or use.",
+        },
+        {
+          href: href("logo/"),
+          title: "I need the logo",
+          text: "The files, the colours, and what to do and not to do with it.",
+        },
+      ]}
+    />
+  </Section>
+
+  <Section {...sections.colour}>
+    <p class="intro">
+      A colour is named for its job: text, a background, an action, a line or a message. Choose by the job,
+      never by the nearest shade. Each one has a value for the light theme and one for the dark theme, and
+      switches by itself.
+    </p>
+    {
+      COLOUR_PICKS.map((group) => (
+        <div class="group">
+          <h3>{group.title}</h3>
+          <p class="lead">{group.lead}</p>
+          <TokenGrid>
+            {pick(colours, group.names.map(([name]) => name), "colour").map((token, i) => (
+              <TokenCard
+                token={token}
+                preview={group.preview}
+                property={group.preview === "text" ? "color" : group.preview === "outline" ? "border-color" : "background"}
+                readout="colour"
+                use={group.names[i][1]}
+              />
+            ))}
+          </TokenGrid>
+        </div>
+      ))
+    }
+    <p class="more"><a href={href("tokens/#colour")}>All {colours.length} colours</a></p>
+  </Section>
+
+  <Section {...sections.type}>
+    <p class="intro">
+      {styles.length} text styles, each named for its role on the page. Put the class on the element and the
+      font, size, weight and line height come with it. The numbers show the size on this screen right now.
+    </p>
+    <p class="switches"><TypeSetToggle /></p>
+    <p class="lead">
+      The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set:
+      press the button to see it.
+    </p>
+    <ul class="specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
+    <p class="lead">
+      Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
+    </p>
+  </Section>
+
+  <Section {...sections.spacing}>
+    <p class="intro">
+      Space comes from one scale, from <code>xs</code> to <code>5xl</code>. You choose a size and say what the
+      space is: padding inside a box, a vertical margin between blocks, or a gap between items.
+    </p>
+    <SpacingAnatomy />
+    <ScrollTable label="Spacing sizes" head={["Size", "Padding", "Vertical margin", "Gap", "Now", ""]}>
+      {
+        spacing.map(({ size, inset, stack, gap }) => (
+          <tr>
+            <th scope="row">{size}</th>
+            {[inset, stack, gap].map((token) => (
+              <td>
+                <CopyName
+                  name={cssVar(token.name)}
+                  prefix={prefixOf(cssVar(token.name))}
+                  copy={`var(${cssVar(token.name)})`}
+                />
+              </td>
+            ))}
+            <td class="value"><Readout token={inset.name} kind="length" /></td>
+            <td><span class="bar" style={`inline-size: var(${cssVar(inset.name)})`} /></td>
+          </tr>
+        ))
+      }
+    </ScrollTable>
+    <p class="lead">Widths, heights and offsets are not tokens. Type those as the layout needs them.</p>
+    <p class="more"><a href={href("tokens/#spacing")}>All {tokens.spacing.tokens.length} spacing tokens</a></p>
+  </Section>
+
+  <Section {...sections.shape}>
+    <p class="intro">
+      Corners and shadows are named by what they sit on. A card takes the card radius; a button is always a
+      pill.
+    </p>
+    <div class="group">
+      <h3>Corners</h3>
+      <TokenGrid>
+        {
+          pick(tokens.radius.tokens, SHAPE_PICKS.radius, "radius").map((token) => (
+            <TokenCard token={token} preview="outline" property="border-radius" readout="length" />
+          ))
+        }
+      </TokenGrid>
+    </div>
+    <div class="group">
+      <h3>Shadows</h3>
+      <TokenGrid roomy>
+        {
+          pick(tokens.shadow.tokens, SHAPE_PICKS.shadow, "shadow").map((token) => (
+            <TokenCard token={token} preview="lifted" property="box-shadow" />
+          ))
+        }
+      </TokenGrid>
+    </div>
+    <p class="more">
+      <a href={href("tokens/#radius")}>All corners</a> · <a href={href("tokens/#shadow")}>All shadows</a>
+    </p>
+  </Section>
+
+  <Section {...sections.themes}>
+    <p class="intro">
+      The same component looks right in the light theme, in the dark theme and at any density, because it
+      reads tokens. Nothing in it is written twice.
+    </p>
+    <div class="group">
+      <h3>Light and dark</h3>
+      <p class="lead">
+        The button at the top of this page switches the whole page. A region can also carry its own theme:
+        these two cards are the same markup.
+      </p>
+      <div class="themes">
+        <Stage data-theme="light" label='data-theme="light"'>
+          <DemoCard title="Light theme">Every colour takes its light value.</DemoCard>
+        </Stage>
+        <Stage data-theme="dark" label='data-theme="dark"'>
+          <DemoCard title="Dark theme">The same names, the dark values.</DemoCard>
+        </Stage>
+      </div>
+    </div>
+    <div class="group">
+      <h3>Dials</h3>
+      <p class="lead">
+        Four dials change every token below them at once. Press a value and watch the card: its padding,
+        corners and shadow follow, and no rule of the card changes.
+      </p>
+      <Dials target="dial-stage" />
+      <Stage id="dial-stage" data-ig-scope>
+        <DemoCard title="One card, four dials">
+          Padding now: <Readout token="space-inset-lg" kind="length" />, corner:{" "}
+          <Readout token="radius-lg" kind="length" />
+        </DemoCard>
+      </Stage>
+      <p class="lead after">A site sets a dial once, on the page or on one region. A component never sets one.</p>
+    </div>
+  </Section>
+
+  <Section {...sections.component}>
+    <p class="intro">The same four steps in plain HTML, Astro, React, Angular or a web component.</p>
+    <Steps>
+      <li>
+        <strong>Mark the root.</strong> Put <code>data-ig-scope</code> on the outermost element of the component.
+        A dial set anywhere above it then reaches it.
+      </li>
+      <li>
+        <strong>Colour by job.</strong> Text reads a <code>color-text-*</code> token, a background a <code
+          >color-surface-*</code
+        > token, a line a <code>color-border-*</code> token.
+      </li>
+      <li>
+        <strong>Space by role.</strong> Padding is <code>space-inset-*</code>, a vertical margin <code
+          >space-stack-*</code
+        >, a gap <code>space-gap-*</code>.
+      </li>
+      <li>
+        <strong>Set text with a class.</strong>
+        <code>igd-type-title-sm</code> on a card title, <code>igd-type-body-md</code> on its text.
+      </li>
+    </Steps>
+    <p class="lead">This is the whole stylesheet of the card used on this page:</p>
+    <CodeBlock code={CARD_RULE} />
+    <CodeBlock code={CARD_MARKUP} />
+    <p class="more"><a href={href("docs/examples/card.html")}>Open the example card</a></p>
+  </Section>
+
+  <Section {...sections.rules}>
+    <p class="intro">
+      Six rules cover almost every case. The check command reports the first three; the third with <code
+        >--strict</code
+      >.
+    </p>
+    <ul class="rules">{RULES.map((rule) => <RulePair {...rule} />)}</ul>
+  </Section>
+
+  <Section {...sections.setup}>
+    <p class="intro">
+      For the developer who adds the design system to a site. It is CSS only: no framework code and no
+      dependencies.
+    </p>
+    <Steps>
+      <li>
+        <strong>Install the package.</strong>
+        <CodeBlock code={installCommand(packageName)} />
+      </li>
+      <li>
+        <strong>Load the stylesheets before the site's own styles, in this order.</strong>{" "}
+        {optional.map((file, i) => [i > 0 && " and ", <code>{file}</code>])} are optional.
+        <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} />
+      </li>
+      <li>
+        <strong>Check the site.</strong> The command reports an unknown token, a palette step and a raw spacing
+        step, and fails the build when it finds one.
+        <CodeBlock code={checkCommand(packageName)} />
+      </li>
+    </Steps>
+    <LinkCards
+      items={[
+        ...DOCUMENTS.map((d) => ({ href: href(`${d.slug}/`), title: d.title, text: d.summary })),
+        {
+          href: href("llms.txt"),
+          title: "For AI agents",
+          text: "`llms.txt` holds the rules; `llms-full.txt` every token.",
+        },
+      ]}
+    />
+  </Section>
+
+  <Section {...sections.help}>
+    <p class="intro">
+      If no token fits what you need, do not pick the closest one. Ask: the answer is either a token you
+      missed or a new one for everybody.
+    </p>
+    <LinkCards
+      items={[
+        {
+          href: href("tokens/"),
+          title: "Search the tokens first",
+          text: "The filter matches a token's name and its use, so `hover` or `card` work.",
+        },
+        {
+          href: `${repository}/issues/new/choose`,
+          title: "Open an issue",
+          text: "Say what you are styling and which token is missing.",
+        },
+        {
+          href: repository,
+          title: "The repository",
+          text: "For developers: the source and the reason behind every decision.",
+        },
+      ]}
+    />
+  </Section>
+</SectionsLayout>
+
+<style>
+  .group > .lead {
+    margin-block-start: calc(-1 * var(--igd-space-stack-2xs));
+  }
+
+  .lead.after {
+    margin-block-start: var(--igd-space-stack-md);
+  }
+
+  .switches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-xs);
+    margin-block: 0 var(--igd-space-stack-md);
+  }
+
+  .specimens,
+  .rules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .specimens {
+    margin-block-end: var(--igd-space-stack-md);
+  }
+
+  .rules {
+    display: grid;
+    gap: var(--igd-space-gap-lg);
+  }
+
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--igd-field-min-width), 1fr));
+    gap: var(--igd-space-gap-md);
+  }
+
+  .bar {
+    display: block;
+    block-size: var(--igd-space-sm);
+    background: var(--igd-color-action-default);
+    border-radius: var(--igd-radius-xs);
+  }
+</style>

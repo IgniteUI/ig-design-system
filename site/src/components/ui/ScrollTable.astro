@@ -1,0 +1,65 @@
+---
+// A table that scrolls sideways inside its own region when it is wider than the page.
+interface Props {
+  /** The name of the region, for assistive technology. */
+  label: string;
+  /** The column headings. Leave it out for a table of row headings only. */
+  head?: string[];
+}
+
+const { label, head } = Astro.props;
+---
+
+<div class="table" tabindex="0" role="region" aria-label={label}>
+  <table>
+    {
+      head && (
+        <thead>
+          <tr>
+            {head.map((h) => (
+              <th scope="col">{h}</th>
+            ))}
+          </tr>
+        </thead>
+      )
+    }
+    <tbody><slot /></tbody>
+  </table>
+</div>
+
+<style>
+  .table {
+    overflow: auto;
+    margin-block-end: var(--igd-space-stack-lg);
+  }
+
+  table {
+    border-collapse: collapse;
+    inline-size: 100%;
+  }
+
+  thead th {
+    font-size: var(--igd-type-body-xs-font-size);
+    color: var(--igd-color-text-muted);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  table :global(:is(th, td)) {
+    text-align: start;
+    vertical-align: top;
+    padding: var(--igd-space-inset-xs) var(--igd-space-inset-md) var(--igd-space-inset-xs) 0;
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    font-weight: var(--igd-font-weight-regular);
+  }
+
+  table :global(td.value) {
+    white-space: nowrap;
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+    color: var(--igd-color-text-secondary);
+  }
+
+  table :global(td button) {
+    white-space: nowrap;
+  }
+</style>

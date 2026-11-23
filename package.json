@@ -49,15 +49,18 @@
     "./tokens.dtcg.json": "./dist/infragistics.tokens.json"
   },
   "scripts": {
-    "build": "node src/make.ts && node src/migration.ts docs/MIGRATION.md && node src/namespace.ts && node src/dtcg.ts dist/tokens.json dist/theme.css dist/infragistics.tokens.json && node src/showcase.ts dist/tokens.json docs/showcase.html && node src/guide.ts dist/tokens.json package.json docs/index.html && tsc -p tsconfig.cli.json && node src/llms.ts dist/tokens.json package.json llms.txt llms-full.txt dist/tokens.css dist/theme.css",
+    "build": "node src/make.ts && node src/migration.ts docs/MIGRATION.md && node src/namespace.ts && node src/dtcg.ts dist/tokens.json dist/theme.css dist/infragistics.tokens.json && tsc -p tsconfig.cli.json && node src/llms.ts dist/tokens.json package.json llms.txt llms-full.txt dist/tokens.css dist/theme.css",
     "typecheck": "tsc",
     "lint": "biome check",
     "format": "biome check --fix",
     "test:unit": "vitest run",
-    "check": "node checks/lint.ts reference/components && node checks/check-vars.ts dist/tokens.css dist/theme.css dist/base.css docs/showcase.html docs/index.html reference && node checks/spacing-roles.ts reference && node checks/gates-derived.ts && node checks/gates-themes.ts && node checks/resolve.ts && node dist/cli/checks/cli.js check reference/components.css && node dist/cli/checks/cli.js check docs/examples",
+    "check": "node checks/lint.ts reference/components && node checks/check-vars.ts dist/tokens.css dist/theme.css dist/base.css reference && node checks/spacing-roles.ts reference && node checks/gates-derived.ts && node checks/gates-themes.ts && node checks/resolve.ts && node dist/cli/checks/cli.js check reference/components.css && node dist/cli/checks/cli.js check docs/examples",
     "test": "npm run typecheck && npm run lint && npm run build && npm run test:unit && npm run check",
     "palettes": "node src/palettes.ts",
-    "compare": "node checks/compare.ts"
+    "compare": "node checks/compare.ts",
+    "site:install": "npm ci --prefix site",
+    "site:dev": "npm run dev --prefix site",
+    "site:verify": "npm run verify --prefix site"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.7",

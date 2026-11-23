@@ -1,0 +1,81 @@
+---
+// A family of the engine palette as one row: each step is a button that copies it, labelled in its contrast colour.
+import { cssVar, type Token } from "@/lib/design-system.ts";
+
+interface Props {
+  family: string;
+  steps: Token[];
+}
+
+const { family, steps } = Astro.props;
+---
+
+<li data-token={`ig-${family}`}>
+  <span class="family"><span>--ig-</span>{family}</span>
+  <ol>
+    {
+      steps.map((step) => (
+        <li>
+          <button
+            type="button"
+            style={`background: var(${cssVar(step.name)}); color: var(${cssVar(`${step.name}-contrast`)})`}
+            data-copy={`var(${cssVar(step.name)})`}
+            aria-label={cssVar(step.name)}
+          >
+            {step.name.split("-").pop()}
+          </button>
+        </li>
+      ))
+    }
+  </ol>
+</li>
+
+<script>
+  import "@/scripts/copy.ts";
+</script>
+
+<style>
+  li[data-token] {
+    display: grid;
+    grid-template-columns: var(--igd-space-6xl) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--igd-space-gap-md);
+  }
+
+  .family {
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .family span {
+    color: var(--igd-color-text-muted);
+  }
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-sm);
+    overflow: hidden;
+  }
+
+  button {
+    inline-size: 100%;
+    min-block-size: var(--igd-size-control-lg);
+    border: 0;
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-2xs-font-size);
+    cursor: copy;
+  }
+
+  @container (inline-size < 40rem) {
+    li[data-token] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--igd-space-gap-xs);
+    }
+  }
+</style>

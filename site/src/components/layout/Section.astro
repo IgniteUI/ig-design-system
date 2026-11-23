@@ -1,0 +1,35 @@
+---
+// One section of a page: the heading the section list links to, and the content.
+interface Props {
+  id: string;
+  title: string;
+  count?: number;
+}
+
+const { id, title, count } = Astro.props;
+---
+
+<section id={id} tabindex="-1" aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>
+    {title}
+    {count !== undefined && <span class="count">{count}</span>}
+  </h2>
+  <slot />
+</section>
+
+<style>
+  section {
+    margin-block-end: var(--igd-space-stack-5xl);
+  }
+
+  section:focus {
+    outline: none;
+  }
+
+  h2 {
+    display: flex;
+    align-items: baseline;
+    gap: var(--igd-space-gap-sm);
+    margin-block-end: var(--igd-space-stack-sm);
+  }
+</style>

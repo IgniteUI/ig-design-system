@@ -1,0 +1,62 @@
+---
+// The card the guide uses as its example component. The page that uses it adds CARD_RULE, the rule of its root, which the guide also prints.
+import ActionLink from "@/components/guide/ActionLink.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<article class="card" data-ig-scope>
+  <span class="badge">New</span>
+  <h3 class="igd-type-title-sm">{title}</h3>
+  <p class="igd-type-body-md"><slot /></p>
+  <div class="actions">
+    <ActionLink href="#themes">Start free trial</ActionLink>
+    <ActionLink href="#themes" quiet>Read more</ActionLink>
+  </div>
+</article>
+
+<style>
+  .card {
+    inline-size: 100%;
+    max-inline-size: 24rem;
+  }
+
+  .badge {
+    justify-self: start;
+    padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
+    border: var(--igd-border-width-default) solid var(--igd-badge-new-border);
+    border-radius: var(--igd-radius-full);
+    background: var(--igd-badge-new-background);
+    color: var(--igd-badge-new-color);
+    font-size: var(--igd-type-body-2xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    letter-spacing: var(--igd-letter-spacing-badge);
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--igd-font-body);
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--igd-color-text-heading);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  p :global(output) {
+    color: var(--igd-color-text-heading);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-sm);
+  }
+</style>

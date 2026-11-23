@@ -1,0 +1,55 @@
+---
+// A type role as a row: its class as a copy button, its rendered size, and a sample set in it.
+import CopyName from "@/components/ui/CopyName.astro";
+import Note from "@/components/ui/Note.astro";
+import type { TypeStyle } from "@/lib/design-system.ts";
+
+interface Props {
+  style: TypeStyle;
+}
+
+const { style } = Astro.props;
+const className = `igd-${style.name}`;
+---
+
+<li data-token={style.name}>
+  <div class="spec">
+    <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
+    <output data-type={className}></output>
+  </div>
+  <div>
+    <p class:list={["sample", className]} data-type-sample={className}>{style.sample}</p>
+    <Note text={style.usage} />
+  </div>
+</li>
+
+<script>
+  import "@/scripts/readouts.ts";
+</script>
+
+<style>
+  li {
+    display: grid;
+    grid-template-columns: var(--igd-field-min-width) minmax(0, 1fr);
+    gap: var(--igd-space-gap-xl);
+    padding-block: var(--igd-space-inset-lg);
+    border-block-start: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+  }
+
+  output {
+    display: block;
+  }
+
+  .sample {
+    margin: 0 0 var(--igd-space-stack-xs);
+    color: var(--igd-color-text-heading);
+    overflow-wrap: anywhere;
+  }
+
+  @container (inline-size < 40rem) {
+    li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--igd-space-gap-xs);
+    }
+  }
+</style>

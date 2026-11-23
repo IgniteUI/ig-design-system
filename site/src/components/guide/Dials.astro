@@ -1,0 +1,60 @@
+---
+// The buttons that set the dials on one element of the page.
+import ToggleButton from "@/components/ui/ToggleButton.astro";
+import { DIALS } from "@/data/guide.ts";
+
+interface Props {
+  /** The id of the element the dials are set on. */
+  target: string;
+}
+
+const { target } = Astro.props;
+---
+
+<div class="dials" data-dials={target}>
+  {
+    DIALS.map((dial) => (
+      <div class="dial" role="group" aria-label={dial.label}>
+        <span>
+          {dial.label} <code>{dial.property}</code>
+        </span>
+        {dial.values.map(([label, value]) => (
+          <ToggleButton data-dial={dial.property} data-value={value} aria-pressed={value === "" ? "true" : "false"}>
+            {label}
+          </ToggleButton>
+        ))}
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  import "@/scripts/dials.ts";
+</script>
+
+<style>
+  .dials {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+    margin-block-end: var(--igd-space-stack-md);
+  }
+
+  .dial {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-xs);
+  }
+
+  span {
+    min-inline-size: var(--igd-newsletter-min-width);
+    color: var(--igd-color-text-ui);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  code {
+    margin-inline-start: var(--igd-space-gap-2xs);
+    color: var(--igd-color-text-muted);
+    font-weight: var(--igd-font-weight-regular);
+  }
+</style>

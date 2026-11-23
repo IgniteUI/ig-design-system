@@ -1,0 +1,23 @@
+/* What every page shares: element defaults and the few text styles used in more than one component. */
+
+html { scroll-padding-block-start: calc(var(--igd-nav-height) + var(--igd-space-stack-md)); }
+button { font: inherit; color: inherit; }
+code, output { font-family: var(--igd-font-mono); font-size: var(--igd-type-body-xs-font-size); }
+output { color: var(--igd-color-text-secondary); }
+[hidden] { display: none !important; }
+
+main { container-type: inline-size; min-inline-size: 0; }
+main h1 { font-size: var(--igd-type-display-md-font-size); line-height: var(--igd-type-display-md-line-height); font-weight: var(--igd-type-display-md-font-weight); }
+main h2 { font-size: var(--igd-type-display-sm-font-size); line-height: var(--igd-type-display-sm-line-height); font-weight: var(--igd-type-display-sm-font-weight); }
+main h3 { font-family: var(--igd-font-body); font-size: var(--igd-type-eyebrow-font-size); letter-spacing: var(--igd-type-eyebrow-letter-spacing); text-transform: uppercase; color: var(--igd-color-text-muted); font-weight: var(--igd-font-weight-semibold); }
+main h3.plain { margin-block: var(--igd-space-stack-2xl) var(--igd-space-stack-sm); font-size: var(--igd-type-title-sm-font-size); letter-spacing: normal; text-transform: none; color: var(--igd-color-text-heading); }
+
+.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: var(--igd-container-prose-max-width); font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
+.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: var(--igd-container-prose-max-width); color: var(--igd-color-text-secondary); }
+.more { margin-block: var(--igd-space-stack-lg) 0; font-weight: var(--igd-font-weight-semibold); }
+.group { margin-block-end: var(--igd-space-stack-2xl); }
+.group > h3 { margin-block-end: var(--igd-space-stack-sm); }
+.tag { font-family: var(--igd-font-mono); font-size: var(--igd-type-body-2xs-font-size); color: var(--igd-color-text-muted); }
+.count { color: var(--igd-color-text-muted); font-family: var(--igd-font-mono); font-size: var(--igd-type-body-2xs-font-size); font-weight: var(--igd-font-weight-regular); }
+.verdict { font-size: var(--igd-type-body-2xs-font-size); font-weight: var(--igd-font-weight-bold); letter-spacing: var(--igd-letter-spacing-label); text-transform: uppercase; color: var(--igd-color-feedback-success-default); }
+.verdict.dont { color: var(--igd-color-feedback-error-default); }

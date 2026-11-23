@@ -16,7 +16,7 @@ npm run palettes                  # only after a seed or a scale changes
 
 Node 22.18 or newer runs the `.ts` files directly. Do not add `tsx`: it rewrites the functions passed to Playwright's `page.evaluate` and the gates crash with `__name is not defined`.
 
-`dist/`, `reports/`, `docs/MIGRATION.md`, `docs/index.html`, `docs/showcase.html`, `llms.txt`, `llms-full.txt` and `src/palettes.json` are generated and committed. `docs/ADOPTING.md` is written by hand. Change `src/`, rebuild, commit the result. CI fails when a generated file differs from a fresh build.
+`dist/`, `reports/`, `docs/MIGRATION.md`, `llms.txt`, `llms-full.txt` and `src/palettes.json` are generated and committed. `docs/ADOPTING.md` is written by hand. Change `src/`, rebuild, commit the result. CI fails when a generated file differs from a fresh build.
 
 Run one check after `npm run build`: `node checks/gates-themes.ts`, `node checks/resolve.ts`, or any other file under `checks/`.
 
@@ -40,7 +40,9 @@ Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there
 | `src/stylesheets.ts` | The text of `tokens.css`, `fonts.css` and `base.css`. |
 | `src/theme.ts`, `src/derived.ts` | The text of `theme.css`; `derived.ts` is its derived-colour section. |
 | `src/namespace.ts` | Adds `--igd-` to every custom property in `dist/*.css` that is not engine output. |
-| `src/migration.ts`, `src/dtcg.ts`, `src/showcase.ts`, `src/guide.ts`, `src/llms.ts` | Write `docs/MIGRATION.md`, `dist/infragistics.tokens.json`, `docs/showcase.html`, `docs/index.html`, and the two llms files. `src/page.ts` is the document the two pages share. |
+| `src/migration.ts`, `src/dtcg.ts`, `src/llms.ts` | Write `docs/MIGRATION.md`, `dist/infragistics.tokens.json` and the two llms files. |
+| `src/usage.ts` | The stylesheets in load order and the install and check commands. `llms.txt` and the site print them from here. |
+| `site/` | The documentation site, an Astro project with its own `package.json`. It reads `dist/tokens.json`, the Markdown documents and `package.json`. |
 | `checks/cli.ts`, `checks/site.ts` | The site command, compiled to `dist/cli/` by `tsc -p tsconfig.cli.json`. |
 
 ## Decisions
@@ -52,7 +54,7 @@ Do not reverse one of these without asking the owner.
 - A custom property is `--ig-*` only when `igniteui-theming` itself emits that exact name: the palette (`--ig-primary-500`, `--ig-primary-A100`, `--ig-primary-500-contrast`), the dials (`--ig-size`, `--ig-spacing`, `--ig-radius-factor`, `--ig-elevation-factor`), `--ig-elevation-<n>` and the type slot variables.
 - The engine also emits `--ig-<name>-<step>` for a custom family built with its `shades()` function and passed to the `palette()` mixin. That is engine output too. The package publishes no custom family today.
 - Everything the design system defines is `--igd-*`, in the semantic tier and in the component tier. The same goes for classes and keyframes: `.igd-type-display-lg`, `igd-float`.
-- The generator works in bare names. `src/namespace.ts` adds `--igd-` once the stylesheets are written, before the exports, the showcase and the llms files are generated.
+- The generator works in bare names. `src/namespace.ts` adds `--igd-` once the stylesheets are written, before the exports and the llms files are generated.
 
 Why: an Ignite UI component on the same page reads the `--ig-*` names, so the page has one palette and one set of dials. A name the generator makes up under `--ig-`, such as `--ig-elevation-tint-<n>`, looks like engine API and is not.
 
@@ -170,19 +172,24 @@ Why the scope: a custom property is calculated on the element that declares it, 
 
 Why no dials: they are the engine's, so an Ignite UI component reads them. With `--ig-size: 3` set by the package, every Ignite UI control on a docs page grew. The owner decided each site sets the dials for itself.
 
-### 10. The showcase is generated, and it is where the tokens are documented
+### 10. The documentation is an Astro site, and nothing it shows is typed twice
 
-- `src/showcase.ts` writes `docs/showcase.html` from `dist/tokens.json` on every build. Do not edit the HTML.
-- A new kind of token gets a section there. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets.
-- `check-vars` reads the page, so a `var()` in it that names no token fails `npm test`.
-- The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
-- Every token in `tokens.json` is on the page as an element with `data-token="<name>"`. A palette family is one element, `data-token="ig-<family>"`, that holds its steps. The filter, and any later tool that edits a token, finds it by that attribute.
+- `site/` is an Astro project. It is not part of the npm package and has its own `package.json`, lockfile and tests. The package keeps no dependencies.
+- The site reads its facts where they live: tokens from `dist/tokens.json`, the documents from `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, the package name and repository from `package.json`, the stylesheet order and the commands from `src/usage.ts`. `site/src/lib/design-system.ts` is the one module that imports from outside `site/`.
+- Nothing the site builds is committed. `site/dist/` is ignored; the Pages workflow builds it.
+- A new kind of token gets a section on the Tokens page. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets. A test fails when a token of `tokens.json` is not on the page.
+- Every token on the Tokens page is an element with `data-token="<name>"`. A palette family is one element, `data-token="ig-<family>"`, that holds its steps. The filter, and any later tool that edits a token, finds it by that attribute.
 - A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
-- `src/guide.ts` writes `docs/index.html`, the guide for a reader who does not read the code. It shows a chosen few tokens with a plain use each, and links to the showcase for the rest. A name in its lists that `tokens.json` does not have stops the build.
-- The guide and the showcase share `src/page.ts`, `src/showcase.css` and `src/showcase.client.js`; `src/guide.css` adds the guide's own styles. Change the top bar, the theme switch or copying there, once.
-- The logo in the top bar is `src/assets/ig-logo.svg` in the light theme and `src/assets/ig-logo-dark.svg` in the dark theme. Both are copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes.
-- The guide prints bad examples on purpose, in "Do and don't", so the site command is not run on it. `check-vars` is: every `var()` on it, the bad examples included, names a real custom property.
-- When a rule in `src/llms.ts` changes, change the same rule in the guide.
+- The guide shows a chosen few tokens with a plain use each, listed in `site/src/data/guide.ts`. A name there that `tokens.json` does not have stops the build.
+- A Markdown document becomes a page by a line in `DOCUMENTS` in `site/src/data/navigation.ts`. Do not link a reader of the site to a Markdown file on GitHub: a test fails on such a link.
+- The guide prints bad examples on purpose, in `site/src/data/rules.ts`, so the site command skips that one file. It runs on the rest of `site/src`, and `check-vars` runs on the built pages.
+- When a rule in `src/llms.ts` changes, change the same rule in `site/src/data/rules.ts`.
+- The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
+- The clear space, the smallest sizes and the do and don't list on the Logo page are proposals. The page carries a draft notice until the brand owner approves them. Remove the notice only when the owner says so.
+- The page follows the system colour scheme until the theme button is used, and stores a choice only while it differs from the system.
+- Astro removes the whitespace between two inline elements. Write `{" "}` where a space must stay.
+
+Why Astro: the pages were strings built by TypeScript generators, and their HTML was committed. Every change rewrote the generated files, and a Markdown document needed patching to become a page. The owner decided on 2026-11-23 to move the site to Astro, the tool the other documentation sites use.
 
 Why here: `igniteui-astro-components` had its own Colors and Typography pages for its own palette and type scale. The owner decided the foundations are documented with the tokens, and that the pages about Markdown content (lists, tables, code, images, badges) stay in that repository.
 
@@ -201,7 +208,7 @@ Nothing below is decided. Ask the owner before acting on one.
 - Not reviewed by design: the width range type and section spacing grow across (360px to 1280px), the status badge colours, and `color-feedback-error-default` at `error-500`.
 - The dark theme has not been reviewed. Nobody is working on it and no site has a switch for it yet.
 - Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
-- The owner wants the showcase to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
+- The owner wants the Tokens page to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
 
 ## Proving a change
@@ -209,7 +216,8 @@ Nothing below is decided. Ask the owner before acting on one.
 - `checks/resolve.ts` loads `tokens.css` and `theme.css` in a browser and fails when a custom property resolves to nothing, or a colour, spacing, radius or size token is not a valid value, in either theme. A property declared only on a component selector is left out.
 - CI builds the system a second time with `IGD_SEED_PRIMARY=#0f9d58` and `IGD_SEED_SECONDARY=#e6447a` and runs every gate. Why: a rebrand is a promise of decision 3, and with one seed in CI nothing proved it.
 - `npm run compare -- <before url> <after url> [path@width ...]` compares two renderings element by element. Use it before claiming a change moves nothing.
-- `.github/workflows/pages.yml` publishes the guide and the showcase of the commit CI passed on, on `main`, to GitHub Pages, with the files `llms.txt` links to. Pages is not enabled yet, so nothing is published.
+- `.github/workflows/pages.yml` builds `site/` from the commit CI passed on, on `main`, and publishes it to GitHub Pages, with the files `llms.txt` links to. It needs Pages set to the source "GitHub Actions" in the repository settings.
+- CI has a job for the site: it type-checks and builds it, runs `check-vars` and the site command on it, opens every built page in a browser, and builds it once more under a base path.
 
 ## Files for agents
 

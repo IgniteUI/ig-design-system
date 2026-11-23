@@ -1,0 +1,45 @@
+---
+// A name as a button that copies a value, with the prefix of the name dimmed.
+interface Props {
+  /** The text shown. */
+  name: string;
+  /** The part at the start of `name` to dim, such as "--igd-". */
+  prefix?: string;
+  /** The text copied. Defaults to the name. */
+  copy?: string;
+}
+
+const { name, prefix = "", copy = name } = Astro.props;
+---
+
+<button type="button" data-copy={copy}><span>{prefix}</span>{name.slice(prefix.length)}</button>
+
+<script>
+  import "@/scripts/copy.ts";
+</script>
+
+<style>
+  button {
+    justify-self: start;
+    max-inline-size: 100%;
+    padding: var(--igd-space-inset-3xs) var(--igd-space-inset-2xs);
+    margin-inline-start: calc(-1 * var(--igd-space-inset-2xs));
+    border: 0;
+    border-radius: var(--igd-radius-xs);
+    background: transparent;
+    color: var(--igd-color-text-heading);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+    text-align: start;
+    overflow-wrap: anywhere;
+    cursor: copy;
+  }
+
+  button:hover {
+    background: var(--igd-color-surface-tint);
+  }
+
+  span {
+    color: var(--igd-color-text-muted);
+  }
+</style>

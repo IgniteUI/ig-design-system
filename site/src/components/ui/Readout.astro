@@ -1,0 +1,19 @@
+---
+// The rendered value of a token, measured in the browser where the readout sits: a colour as hex, or a length in pixels.
+import { cssVar } from "@/lib/design-system.ts";
+
+interface Props {
+  /** The name of the token, without its prefix. */
+  token: string;
+  kind: "colour" | "length";
+}
+
+const { token, kind } = Astro.props;
+const attribute = { [`data-${kind}`]: cssVar(token) };
+---
+
+<output {...attribute}></output>
+
+<script>
+  import "@/scripts/readouts.ts";
+</script>

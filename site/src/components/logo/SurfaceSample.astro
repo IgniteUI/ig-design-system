@@ -1,0 +1,68 @@
+---
+// A logo on one surface token, with the measured contrast of its wordmark and of its blue square.
+import LogoImage from "@/components/logo/LogoImage.astro";
+import { LOGO_COLOURS, MIN_CONTRAST } from "@/data/logo.ts";
+import { cssVar } from "@/lib/design-system.ts";
+
+interface Props {
+  token: string;
+  theme: "light" | "dark";
+}
+
+const { token, theme } = Astro.props;
+const wordmark = theme === "dark" ? LOGO_COLOURS.darkWordmark : LOGO_COLOURS.wordmark;
+---
+
+<li data-sample>
+  <div class="surface" data-surface data-theme={theme} style={`background: var(${cssVar(token)})`}>
+    <LogoImage logo={theme === "dark" ? "dark" : "logo"} decorative />
+  </div>
+  <p class="name"><code>{token}</code> <span class="tag">{theme} theme</span></p>
+  <p class="contrast">
+    Wordmark <output data-contrast={wordmark} data-min={MIN_CONTRAST}></output> · Blue <output
+      data-contrast={LOGO_COLOURS.blue}></output>
+  </p>
+</li>
+
+<script>
+  import "@/scripts/readouts.ts";
+</script>
+
+<style>
+  li {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-2xs);
+  }
+
+  .surface {
+    display: grid;
+    place-items: center;
+    min-block-size: var(--igd-space-6xl);
+    padding: var(--igd-space-inset-xl);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    border-radius: var(--igd-radius-lg);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .name {
+    margin-block-start: var(--igd-space-stack-xs);
+  }
+
+  .contrast {
+    font-size: var(--igd-type-body-sm-font-size);
+    color: var(--igd-color-text-muted);
+  }
+
+  output[data-low] {
+    color: var(--igd-color-feedback-error-default);
+    font-weight: var(--igd-font-weight-bold);
+  }
+
+  output[data-low]::after {
+    content: " too low";
+  }
+</style>

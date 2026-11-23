@@ -1,0 +1,63 @@
+---
+// A grid of links, each a card with a title and one line of text. Backticks in the text become code.
+import { prose } from "@/lib/text.ts";
+
+interface Props {
+  items: { href: string; title: string; text: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul>
+  {
+    items.map((item) => (
+      <li>
+        <a href={item.href}>
+          <strong>{item.title}</strong>
+          <span set:html={prose(item.text)} />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--igd-field-min-width), 1fr));
+    gap: var(--igd-space-gap-md);
+  }
+
+  a {
+    display: grid;
+    gap: var(--igd-space-gap-2xs);
+    block-size: 100%;
+    padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-lg);
+    background: var(--igd-color-surface-card);
+    transition:
+      border-color var(--igd-duration-fast) var(--igd-easing-default),
+      box-shadow var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  a:hover {
+    border-color: var(--igd-color-border-accent);
+    box-shadow: var(--igd-shadow-raised);
+  }
+
+  strong {
+    color: var(--igd-color-text-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  span {
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+  }
+</style>
