@@ -1,6 +1,6 @@
 ---
 // One of the logo files as an image, at a height. The width follows, and a box narrower than it scales the whole logo down.
-import { LOGOS, type LogoKey } from "@/data/logo.ts";
+import { LOGOS, type LogoKey, PROPORTIONS } from "@/data/logo.ts";
 
 interface Props {
   logo: LogoKey;
@@ -12,7 +12,6 @@ interface Props {
 
 const { logo, height = "var(--igd-logo-height)", decorative = false } = Astro.props;
 const { image, alt } = LOGOS[logo];
-const proportion = image.width / image.height;
 ---
 
 <img
@@ -20,7 +19,7 @@ const proportion = image.width / image.height;
   width={image.width}
   height={image.height}
   alt={decorative ? "" : alt}
-  style={`inline-size: calc(${height} * ${proportion})`}
+  style={`inline-size: calc(${height} * ${PROPORTIONS[logo]})`}
 />
 
 <style>

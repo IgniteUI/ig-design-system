@@ -1,6 +1,7 @@
 ---
 // One use of the logo, right or wrong: the real file with a treatment applied, the verdict and the rule.
 import LogoImage from "@/components/logo/LogoImage.astro";
+import { SMALLEST } from "@/data/logo.ts";
 
 interface Props {
   /** The treatment the picture applies to the logo. */
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const { treatment, ok, rule } = Astro.props;
-// The height of a logo that has text beside it: the logo-height token, or less in a narrow picture, so the pair always fits.
-const beside = "min(var(--igd-logo-height), 6cqi)";
+// The height of a logo that has text beside it: the logo-height token, or less in a narrow picture so the pair fits, and never under the smallest logo.
+const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
 ---
 
 <li>
@@ -86,7 +87,7 @@ const beside = "min(var(--igd-logo-height), 6cqi)";
 
   .lockup,
   .crowd {
-    font-size: min(var(--igd-type-title-md-font-size), 4.5cqi);
+    font-size: max(var(--igd-type-body-xs-font-size), min(var(--igd-type-title-md-font-size), 4.5cqi));
   }
 
   :is(.lockup, .crowd, .retype) :global(img) {
@@ -99,7 +100,7 @@ const beside = "min(var(--igd-logo-height), 6cqi)";
 
   .lockup span {
     padding-inline-start: var(--igd-space-inset-sm);
-    border-inline-start: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-inline-start: var(--igd-border-width-default) solid var(--igd-color-border-control);
   }
 
   .crowd {

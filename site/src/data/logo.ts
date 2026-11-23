@@ -5,6 +5,7 @@ import logoSource from "@/assets/logos/ig-logo.svg?raw";
 import darkFile from "@/assets/logos/ig-logo-dark.svg";
 import darkSource from "@/assets/logos/ig-logo-dark.svg?raw";
 import markFile from "@/assets/logos/ig-logomark.svg";
+import markSource from "@/assets/logos/ig-logomark.svg?raw";
 import { readLogo } from "@/lib/logo.ts";
 
 /** The logo files, where each one is used, and the theme of the surface it sits on. */
@@ -38,6 +39,14 @@ export type LogoKey = keyof typeof LOGOS;
 
 const logo = readLogo(logoSource, LOGOS.logo.file);
 const dark = readLogo(darkSource, LOGOS.dark.file);
+const mark = readLogo(markSource, LOGOS.mark.file);
+
+/** The width of each logo file over its height, from its viewBox. */
+export const PROPORTIONS: Record<LogoKey, number> = {
+  logo: logo.width / logo.height,
+  dark: dark.width / dark.height,
+  mark: mark.width / mark.height,
+};
 const [wordmark, blue, white] = logo.fills;
 
 /** The proportion of the logo: its width over its height. */
@@ -71,8 +80,17 @@ export const SURFACES: {
   },
 ];
 
-/** How far the wordmark starts from the left edge of the logo file, in logo heights. The symbol is one height wide. */
-export const WORDMARK_START = 1.27;
+if (!logo.symbol || !logo.wordmark)
+  throw new Error(
+    `${LOGOS.logo.file} needs a rectangle for the symbol and a path right of it for the wordmark. The logo page draws its anatomy from them.`,
+  );
+
+/** The parts of the logo, read from the file, in logo heights: the width of the symbol, the gap after it, and where the wordmark starts. */
+export const ANATOMY = {
+  symbol: logo.symbol / logo.height,
+  gap: (logo.wordmark - logo.symbol) / logo.height,
+  wordmark: logo.wordmark / logo.height,
+};
 
 /** The lowest contrast the wordmark may have against its surface: the WCAG 1.4.11 minimum for a graphic. */
 export const MIN_CONTRAST = 3;
