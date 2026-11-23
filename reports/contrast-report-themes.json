@@ -24,7 +24,7 @@
   {
    "fg": "color-text-secondary",
    "bg": "color-surface-subtle",
-   "ratio": 7.16,
+   "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
@@ -45,7 +45,7 @@
   {
    "fg": "color-text-muted",
    "bg": "color-surface-subtle",
-   "ratio": 4.7,
+   "ratio": 4.62,
    "min": 4.5,
    "ok": true
   },
@@ -73,7 +73,7 @@
   {
    "fg": "color-action-text",
    "bg": "color-surface-subtle",
-   "ratio": 4.98,
+   "ratio": 4.89,
    "min": 4.5,
    "ok": true
   },
@@ -115,7 +115,7 @@
   {
    "fg": "color-link-utility",
    "bg": "color-surface-subtle",
-   "ratio": 5.14,
+   "ratio": 5.05,
    "min": 4.5,
    "ok": true
   },
@@ -395,7 +395,7 @@
   {
    "fg": "color-feedback-error-default",
    "bg": "color-surface-subtle",
-   "ratio": 5.14,
+   "ratio": 5.05,
    "min": 4.5,
    "ok": true
   },
@@ -409,7 +409,7 @@
   {
    "fg": "color-text-ui",
    "bg": "color-surface-subtle",
-   "ratio": 9.92,
+   "ratio": 9.74,
    "min": 4.5,
    "ok": true
   },
@@ -537,7 +537,7 @@
   {
    "fg": "color-text-secondary",
    "bg": "color-surface-subtle",
-   "ratio": 11.51,
+   "ratio": 13.6,
    "min": 4.5,
    "ok": true
   },
@@ -558,7 +558,7 @@
   {
    "fg": "color-text-muted",
    "bg": "color-surface-subtle",
-   "ratio": 8.92,
+   "ratio": 10.55,
    "min": 4.5,
    "ok": true
   },
@@ -586,7 +586,7 @@
   {
    "fg": "color-action-text",
    "bg": "color-surface-subtle",
-   "ratio": 11.22,
+   "ratio": 13.27,
    "min": 4.5,
    "ok": true
   },
@@ -628,7 +628,7 @@
   {
    "fg": "color-link-utility",
    "bg": "color-surface-subtle",
-   "ratio": 10.63,
+   "ratio": 12.57,
    "min": 4.5,
    "ok": true
   },
@@ -908,7 +908,7 @@
   {
    "fg": "color-feedback-error-default",
    "bg": "color-surface-subtle",
-   "ratio": 10.05,
+   "ratio": 11.88,
    "min": 4.5,
    "ok": true
   },
@@ -922,7 +922,7 @@
   {
    "fg": "color-text-ui",
    "bg": "color-surface-subtle",
-   "ratio": 13.63,
+   "ratio": 16.11,
    "min": 4.5,
    "ok": true
   },

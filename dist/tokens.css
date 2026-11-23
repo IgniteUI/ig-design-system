@@ -140,7 +140,7 @@
   --igd-color-feedback-error-inverse: var(--ig-error-300);
   --igd-color-surface-page: var(--ig-surface-base);
   --igd-color-surface-hero: var(--ig-surface-sunken);
-  --igd-color-surface-subtle: var(--ig-gray-50);
+  --igd-color-surface-subtle: var(--ig-surface-sunken);
   --igd-color-surface-card: var(--ig-surface-raised);
   --igd-color-surface-tint: var(--ig-primary-50);
   --igd-color-surface-inverse-raised: #1c2435;

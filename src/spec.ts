@@ -151,7 +151,7 @@ export const ALIAS: Record<string, AliasEntry> = {
     "Top of the hero wash (`gradient-hero`).",
   ],
   "color-surface-subtle": [
-    "ig-gray-50",
+    "ig-surface-sunken",
     "Alternating section bands, BrowserFrame title bar, callout strips and chips at rest.",
   ],
   "color-surface-card": ["ig-surface-raised", "Marketing card fill."],

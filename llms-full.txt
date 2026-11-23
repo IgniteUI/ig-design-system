@@ -14,9 +14,9 @@
 - `--igd-color-action-hover`: `{ig-info-500}`. Link hover on light surfaces (colour shift only, no underline). Contrast 5.41:1 on `color-surface-page`.
 - `--igd-color-action-fill-hover`: `{ig-primary-700}`. Filled-button hover: the primary fill moves to this and nothing else changes. A step `color-action-on` reads on: darker under a white label, primary step 400 under a black one.
 - `--igd-color-action-active`: `{ig-primary-800}`. Inline link press state on light surfaces.
-- `--igd-color-action-text`: `{ig-primary-600}`. The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.98:1 on `color-surface-subtle`.
+- `--igd-color-action-text`: `{ig-primary-600}`. The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.89:1 on `color-surface-subtle`.
 - `--igd-color-action-on`: `#ffffff`. Label and icon colour on `color-action-default` fills: black or white, whichever reads on the fill (the engine’s adaptive contrast). Contrast 5.25:1 on `color-action-default`, 7.03:1 on `color-action-fill-hover`.
-- `--igd-color-link-utility`: `{ig-info-500}`. Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`.
+- `--igd-color-link-utility`: `{ig-info-500}`. Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`.
 - `--igd-color-link-utility-hover`: `{color-action-text}`. Utility-row link hover. Contrast 5.24:1 on `color-surface-page`.
 - `--igd-color-link-inverse`: `#51bbee`. Inline links on dark surfaces (`color-surface-inverse`). Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`.
 - `--igd-color-link-inverse-hover`: `#fbfbfb`. Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`.
@@ -26,13 +26,13 @@
 - `--igd-color-focus-inverse`: `#95d5f7`. Keyboard focus outline inside a `data-on-dark` section. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-surface-inverse`, 11.17:1 on `color-surface-inverse`.
 - `--igd-color-text-heading`: `{ig-gray-900}`. Headlines h1–h6 on `color-surface-page` and the catalog band. Contrast 17.79:1 on `color-surface-page`.
 - `--igd-color-text-primary`: `{ig-gray-800}`. Strong text and secondary-button labels on `color-surface-page`; the body default in base styles. Contrast 13.8:1 on `color-surface-page`.
-- `--igd-color-text-secondary`: `{ig-gray-600}`. Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.16:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`.
-- `--igd-color-text-ui`: `{ig-gray-700}`. UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.92:1 on `color-surface-subtle`.
-- `--igd-color-text-muted`: `{ig-gray-500}`. Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.7:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`.
+- `--igd-color-text-secondary`: `{ig-gray-600}`. Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`.
+- `--igd-color-text-ui`: `{ig-gray-700}`. UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.74:1 on `color-surface-subtle`.
+- `--igd-color-text-muted`: `{ig-gray-500}`. Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.62:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`.
 - `--igd-color-text-inverse`: `#fbfbfb`. Text on `color-surface-inverse`. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`.
 - `--igd-color-text-inverse-muted`: `#9da5af`. Stat-badge labels and muted copy on `color-surface-inverse`. Engine step 400 of the dark palette's gray ramp. Contrast 7.17:1 on `color-surface-inverse`.
 - `--igd-color-icon-subtle`: `{ig-gray-400}`. The caret in the nav row (decorative, below the 3:1 icon floor, kept as in the source). Contrast 2.59:1 on `color-surface-page`.
-- `--igd-color-feedback-error-default`: `{ig-error-500}`. Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`.
+- `--igd-color-feedback-error-default`: `{ig-error-500}`. Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`.
 - `--igd-color-feedback-info-default`: `{ig-primary-700}`. Informational text and icons on light surfaces: a note, a tip. Contrast 7.03:1 on `color-surface-page`, 6.47:1 on `color-surface-tint`.
 - `--igd-color-feedback-warning-inverse`: `{ig-warn-200}`. Warning text and icons on dark surfaces. Contrast 8.23:1 on `color-surface-inverse`.
 - `--igd-color-feedback-info-inverse`: `{ig-primary-300}`. Informational text and icons on dark surfaces. Contrast 9.59:1 on `color-surface-inverse`.
@@ -42,7 +42,7 @@
 - `--igd-color-feedback-error-inverse`: `{ig-error-300}`. Validation text and border on the dark footer. Contrast 5.28:1 on `color-surface-inverse-raised`.
 - `--igd-color-surface-page`: `{ig-surface-base}`. Page background; flat.
 - `--igd-color-surface-hero`: `{ig-surface-sunken}`. Top of the hero wash (`gradient-hero`).
-- `--igd-color-surface-subtle`: `{ig-gray-50}`. Alternating section bands, BrowserFrame title bar, callout strips and chips at rest.
+- `--igd-color-surface-subtle`: `{ig-surface-sunken}`. Alternating section bands, BrowserFrame title bar, callout strips and chips at rest.
 - `--igd-color-surface-card`: `{ig-surface-raised}`. Marketing card fill.
 - `--igd-color-surface-tint`: `{ig-primary-50}`. Soft blue fill: tinted chips, callouts, the catalog band, release strip at rest and monogram badges.
 - `--igd-color-surface-inverse-raised`: `#1c2435`. The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient. Engine step 200 of the dark palette's surface ramp.

@@ -1272,7 +1272,7 @@
     },
     "color-action-text": {
       "$value": "{color.ig-primary-600}",
-      "$description": "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.98:1 on `color-surface-subtle`."
+      "$description": "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.89:1 on `color-surface-subtle`."
     },
     "color-action-on": {
       "$value": {
@@ -1288,7 +1288,7 @@
     },
     "color-link-utility": {
       "$value": "{color.ig-info-500}",
-      "$description": "Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`."
+      "$description": "Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`."
     },
     "color-link-utility-hover": {
       "$value": "{color.color-action-text}",
@@ -1368,15 +1368,15 @@
     },
     "color-text-secondary": {
       "$value": "{color.ig-gray-600}",
-      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.16:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`."
+      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`."
     },
     "color-text-ui": {
       "$value": "{color.ig-gray-700}",
-      "$description": "UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.92:1 on `color-surface-subtle`."
+      "$description": "UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.74:1 on `color-surface-subtle`."
     },
     "color-text-muted": {
       "$value": "{color.ig-gray-500}",
-      "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.7:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`."
+      "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.62:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`."
     },
     "color-text-inverse": {
       "$value": {
@@ -1408,7 +1408,7 @@
     },
     "color-feedback-error-default": {
       "$value": "{color.ig-error-500}",
-      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`."
+      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`."
     },
     "color-feedback-info-default": {
       "$value": "{color.ig-primary-700}",
@@ -1447,7 +1447,7 @@
       "$description": "Top of the hero wash (`gradient-hero`)."
     },
     "color-surface-subtle": {
-      "$value": "{color.ig-gray-50}",
+      "$value": "{color.ig-surface-sunken}",
       "$description": "Alternating section bands, BrowserFrame title bar, callout strips and chips at rest."
     },
     "color-surface-card": {
