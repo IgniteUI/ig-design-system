@@ -126,19 +126,32 @@ describe("the theme button", () => {
 });
 
 describe("the hero of the guide", () => {
-  it("stays light when the page is dark, because its picture is light", async () => {
+  it("shows the picture of the theme, and follows the page into the dark theme", async () => {
     const { page } = await open("");
+    const state = () =>
+      page.evaluate(() => {
+        const hero = document.querySelector(".hero");
+        if (!hero) throw new Error("no hero");
+        const shown = [...hero.querySelectorAll<HTMLElement>(".picture")]
+          .filter(
+            (picture) =>
+              picture.offsetParent !== null ||
+              getComputedStyle(picture).display !== "none",
+          )
+          .map((picture) => picture.className.match(/light|dark/)?.[0]);
+        return {
+          shown,
+          fill: getComputedStyle(hero).backgroundColor,
+          page: getComputedStyle(document.body).backgroundColor,
+        };
+      });
+    const light = await state();
+    expect(light.shown).toEqual(["light"]);
     await page.click("[data-theme-toggle]");
-    const colours = await page.evaluate(() => {
-      const hero = document.querySelector(".hero");
-      if (!hero) throw new Error("no hero");
-      return [
-        getComputedStyle(hero).backgroundColor,
-        getComputedStyle(document.body).backgroundColor,
-      ];
-    });
-    expect(colours[0]).toBe("rgb(255, 255, 255)");
-    expect(colours[1]).not.toBe("rgb(255, 255, 255)");
+    const dark = await state();
+    expect(dark.shown).toEqual(["dark"]);
+    expect(dark.fill).toBe(dark.page);
+    expect(dark.fill).not.toBe(light.fill);
     await page.close();
   });
 

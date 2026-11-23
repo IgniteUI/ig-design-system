@@ -58,7 +58,7 @@ The site is built from the design system it documents. Every value on it is read
 - `../dist/tokens.json`: every token with its value and usage note.
 - `../docs/ADOPTING.md`, `../docs/MIGRATION.md`, `../CHANGELOG.md`: the documents.
 - `src/assets/logos/`: the three logo files, copied from the marketing site.
-- `src/assets/hero.png`: the picture of the guide's hero. There is no dark version of it.
+- `src/assets/hero-light.png` and `src/assets/hero-dark.png`: the pictures of the guide's hero, one per theme.
 - `../reports/`: the measured contrast of every text and outline colour, in both themes.
 - There are no testimonials, usage numbers or case studies. Do not write any.
 

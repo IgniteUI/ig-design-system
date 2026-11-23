@@ -1,8 +1,9 @@
 ---
 // The opening band of the guide: what the design system is, two ways in, and four counts from tokens.json.
-// It is light in both themes, because its picture is.
+// It has one picture for the light theme and one for the dark theme.
 import { getImage } from "astro:assets";
-import picture from "@/assets/hero.png";
+import darkPicture from "@/assets/hero-dark.png";
+import lightPicture from "@/assets/hero-light.png";
 import ActionLink from "@/components/guide/ActionLink.astro";
 import { tokens } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
@@ -13,10 +14,12 @@ const facts: [count: number, label: string][] = [
   [tokens.spacing.tokens.length, "spacing tokens"],
   [tokens.radius.tokens.length + tokens.shadow.tokens.length, "corners and shadows"],
 ];
-const background = await getImage({ src: picture, format: "webp", width: 1920 });
+const [light, dark] = await Promise.all(
+  [lightPicture, darkPicture].map((src) => getImage({ src, format: "webp", width: 1920 })),
+);
 ---
 
-<div class="hero" data-theme="light">
+<div class="hero">
   <div class="inner">
     <p class="igd-type-eyebrow">Design system</p>
     <h1 class="igd-type-display-lg">One look for every <span>Infragistics site</span></h1>
@@ -39,7 +42,8 @@ const background = await getImage({ src: picture, format: "webp", width: 1920 })
       }
     </dl>
   </div>
-  <div class="picture" style={`background-image: url(${background.src})`} aria-hidden="true"></div>
+  <div class="picture light" style={`background-image: url(${light.src})`} aria-hidden="true"></div>
+  <div class="picture dark" style={`background-image: url(${dark.src})`} aria-hidden="true"></div>
 </div>
 
 <style>
@@ -61,6 +65,15 @@ const background = await getImage({ src: picture, format: "webp", width: 1920 })
     background-size: cover;
     background-repeat: no-repeat;
     mask-image: linear-gradient(90deg, transparent, black 30%);
+  }
+
+  .picture.dark,
+  :global([data-theme="dark"]) .picture.light {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .picture.dark {
+    display: block;
   }
 
   .inner {
