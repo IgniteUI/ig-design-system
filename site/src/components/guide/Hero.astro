@@ -1,5 +1,8 @@
 ---
 // The opening band of the guide: what the design system is, two ways in, and four counts from tokens.json.
+// It is light in both themes, because its picture is.
+import { getImage } from "astro:assets";
+import picture from "@/assets/hero.png";
 import ActionLink from "@/components/guide/ActionLink.astro";
 import { tokens } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
@@ -10,9 +13,10 @@ const facts: [count: number, label: string][] = [
   [tokens.spacing.tokens.length, "spacing tokens"],
   [tokens.radius.tokens.length + tokens.shadow.tokens.length, "corners and shadows"],
 ];
+const background = await getImage({ src: picture, format: "webp", width: 1920 });
 ---
 
-<div class="hero">
+<div class="hero" data-theme="light">
   <div class="inner">
     <p class="igd-type-eyebrow">Design system</p>
     <h1 class="igd-type-display-lg">One look for every <span>Infragistics site</span></h1>
@@ -35,40 +39,32 @@ const facts: [count: number, label: string][] = [
       }
     </dl>
   </div>
+  <div class="picture" style={`background-image: url(${background.src})`} aria-hidden="true"></div>
 </div>
 
 <style>
   .hero {
     position: relative;
     overflow: clip;
-    background: var(--igd-gradient-hero);
+    background: var(--igd-color-surface-page);
+    color: var(--igd-color-text-primary);
     border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
   }
 
-  .hero::before,
-  .hero::after {
-    content: "";
+  /* The picture fills the right of the band and fades into the page colour towards the text. */
+  .picture {
     position: absolute;
-    inline-size: var(--igd-glow-size-md);
-    aspect-ratio: 1;
-    pointer-events: none;
-  }
-
-  .hero::before {
-    inset-block-start: -40%;
-    inset-inline-end: -10%;
-    background: var(--igd-glow-primary);
-  }
-
-  .hero::after {
-    inset-block-end: -60%;
-    inset-inline-start: -15%;
-    background: var(--igd-glow-secondary);
+    inset-block: 0;
+    inset-inline-end: 0;
+    inline-size: 62%;
+    background-position: right center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    mask-image: linear-gradient(90deg, transparent, black 30%);
   }
 
   .inner {
     position: relative;
-    z-index: var(--igd-z-index-raised);
     display: grid;
     gap: var(--igd-space-gap-lg);
     max-inline-size: var(--igd-container-max-width);
@@ -96,7 +92,7 @@ const facts: [count: number, label: string][] = [
 
   .igd-type-lead {
     margin: 0;
-    max-inline-size: var(--igd-container-prose-max-width);
+    max-inline-size: 26rem;
     color: var(--igd-color-text-secondary);
   }
 
@@ -126,5 +122,19 @@ const facts: [count: number, label: string][] = [
   dd {
     margin: 0;
     color: var(--igd-color-text-heading);
+  }
+
+  /* breakpoint-lg: the picture moves under the text, at its own proportion. */
+  @media (max-width: 1024px) {
+    .picture {
+      position: static;
+      inline-size: 100%;
+      aspect-ratio: 16 / 9;
+      mask-image: none;
+    }
+
+    .inner {
+      padding-block-end: var(--igd-space-inset-xl);
+    }
   }
 </style>

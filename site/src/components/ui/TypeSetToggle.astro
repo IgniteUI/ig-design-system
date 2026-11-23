@@ -1,10 +1,23 @@
 ---
-// One button per type set other than the default. Each switches the page to its set.
+// One button per type set other than the default. Each switches one region of the page to its set.
 import { tokens } from "@/lib/design-system.ts";
 import ToggleButton from "./ToggleButton.astro";
+
+interface Props {
+  /** The id of the element whose type roles the buttons switch. */
+  target: string;
+}
+
+const { target } = Astro.props;
 ---
 
-{Object.keys(tokens.type.sets).map((set) => <ToggleButton data-type-set={set}>Type set: {set}</ToggleButton>)}
+{
+  Object.keys(tokens.type.sets).map((set) => (
+    <ToggleButton data-type-set={set} data-type-set-target={target}>
+      Type set: {set}
+    </ToggleButton>
+  ))
+}
 
 <script>
   import "@/scripts/type-set.ts";

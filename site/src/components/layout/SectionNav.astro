@@ -1,5 +1,5 @@
 ---
-// The section list of a page. It marks the section in view.
+// The section list of a page. It marks the section in view, and takes a control above the list through its slot.
 interface Props {
   sections: { id: string; title: string; count?: number }[];
   back?: { href: string; title: string };
@@ -10,6 +10,7 @@ const { sections, back } = Astro.props;
 
 <nav aria-label="Sections" data-section-nav>
   {back && <a class="back" href={back.href}>{back.title}</a>}
+  <slot />
   <ul>
     {
       sections.map((section) => (
@@ -57,7 +58,6 @@ const { sections, back } = Astro.props;
     justify-content: space-between;
     gap: var(--igd-space-gap-sm);
     padding: var(--igd-space-inset-xs) var(--igd-space-inset-sm);
-    border-inline-start: var(--igd-focus-ring-width) solid transparent;
     border-radius: var(--igd-radius-xs);
     color: var(--igd-color-text-secondary);
     font-size: var(--igd-type-body-sm-font-size);
@@ -65,15 +65,19 @@ const { sections, back } = Astro.props;
 
   li a:hover {
     color: var(--igd-color-text-heading);
-    background: var(--igd-color-surface-subtle);
+    background: var(--igd-color-surface-muted);
   }
 
-  /* :is() keeps the rule valid where :target-current is unknown. */
-  li a:is(:target-current, .target-current) {
-    color: var(--igd-color-text-heading);
+  /* The selected row of the docs site's sidebar: the action fill under its label. :is() keeps the rule valid where :target-current is unknown. */
+  li a:is(:target-current, .target-current),
+  li a:is(:target-current, .target-current):hover {
+    background: var(--igd-color-action-default);
+    color: var(--igd-color-action-on);
     font-weight: var(--igd-font-weight-semibold);
-    border-inline-start-color: var(--igd-color-action-default);
-    background: var(--igd-color-surface-subtle);
+  }
+
+  li a:is(:target-current, .target-current) .count {
+    color: inherit;
   }
 
   /* breakpoint-lg */

@@ -125,6 +125,120 @@ describe("the theme button", () => {
   });
 });
 
+describe("the hero of the guide", () => {
+  it("stays light when the page is dark, because its picture is light", async () => {
+    const { page } = await open("");
+    await page.click("[data-theme-toggle]");
+    const colours = await page.evaluate(() => {
+      const hero = document.querySelector(".hero");
+      if (!hero) throw new Error("no hero");
+      return [
+        getComputedStyle(hero).backgroundColor,
+        getComputedStyle(document.body).backgroundColor,
+      ];
+    });
+    expect(colours[0]).toBe("rgb(255, 255, 255)");
+    expect(colours[1]).not.toBe("rgb(255, 255, 255)");
+    await page.close();
+  });
+
+  it("puts its picture beside the text on a wide screen and under it on a phone", async () => {
+    const boxes = async (width: number) => {
+      const { page } = await open("", width);
+      const result = await page.evaluate(() => {
+        const text = document
+          .querySelector(".hero h1")
+          ?.getBoundingClientRect();
+        const picture = document
+          .querySelector(".hero .picture")
+          ?.getBoundingClientRect();
+        if (!text || !picture) throw new Error("no hero text or picture");
+        return {
+          textBottom: text.bottom,
+          pictureTop: picture.top,
+          pictureLeft: picture.left,
+        };
+      });
+      await page.close();
+      return result;
+    };
+    const wide = await boxes(1280);
+    expect(wide.pictureTop).toBeLessThan(wide.textBottom);
+    expect(wide.pictureLeft).toBeGreaterThan(0);
+    const phone = await boxes(390);
+    expect(phone.pictureTop).toBeGreaterThan(phone.textBottom);
+  });
+});
+
+describe("the section list", () => {
+  it("fills the row of the section in view with the action colour", async () => {
+    const { page } = await open("tokens/");
+    await page.click('[data-section-nav] a[href="#spacing"]');
+    // The jump scrolls smoothly, and the row is marked once the scroll ends.
+    await page.waitForSelector(
+      '[data-section-nav] a[href="#spacing"][aria-current="true"]',
+    );
+    const rows = await page.evaluate(() =>
+      [
+        ...document.querySelectorAll<HTMLAnchorElement>(
+          "[data-section-nav] li a",
+        ),
+      ].map((a) => ({
+        hash: a.hash,
+        fill: getComputedStyle(a).backgroundColor,
+        border: getComputedStyle(a).borderInlineStartWidth,
+        current: a.getAttribute("aria-current"),
+      })),
+    );
+    const action = await page.evaluate(() => {
+      const probe = document.createElement("i");
+      probe.style.backgroundColor = "var(--igd-color-action-default)";
+      document.body.appendChild(probe);
+      const colour = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return colour;
+    });
+    expect(rows.filter((r) => r.fill === action).map((r) => r.hash)).toEqual([
+      "#spacing",
+    ]);
+    expect(rows.find((r) => r.hash === "#spacing")?.current).toBe("true");
+    expect(rows.every((r) => r.border === "0px")).toBe(true);
+    await page.close();
+  });
+});
+
+describe("the type set button", () => {
+  it.each(["", "tokens/"])(
+    "on /%s changes the type list only, not the rest of the page",
+    async (route) => {
+      const { page } = await open(route);
+      const sizes = () =>
+        page.evaluate(() => {
+          const sample = document.querySelector(
+            '[data-type-sample="igd-type-display-lg"]',
+          );
+          const heading = document.querySelector("main h2");
+          if (!sample || !heading) throw new Error("no sample or heading");
+          return {
+            sample: getComputedStyle(sample).fontSize,
+            heading: getComputedStyle(heading).fontSize,
+          };
+        });
+      const before = await sizes();
+      await page.click("button[data-type-set]");
+      const after = await sizes();
+      expect(after.sample).toBe("36px");
+      expect(after.sample).not.toBe(before.sample);
+      expect(after.heading).toBe(before.heading);
+      expect(await page.getAttribute("html", "data-igd-type")).toBeNull();
+      expect(
+        await page.textContent('output[data-type="igd-type-display-lg"]'),
+      ).toMatch(/^36px/);
+      await page.close();
+    },
+  );
+});
+
 describe("the dials of the guide", () => {
   it("move the card and its readout, and no dial is set on the card", async () => {
     const { page } = await open("");
@@ -168,6 +282,15 @@ describe("the dials of the guide", () => {
 });
 
 describe("the filter of the Tokens page", () => {
+  it("sits above the section list, not in the top bar", async () => {
+    const { page } = await open("tokens/");
+    expect(await page.locator("[data-section-nav] [data-filter]").count()).toBe(
+      1,
+    );
+    expect(await page.locator("header [data-filter]").count()).toBe(0);
+    await page.close();
+  });
+
   it("keeps the tokens whose name or note has the word, and counts them", async () => {
     const { page } = await open("tokens/");
     const all = await page.locator("[data-token]:visible").count();

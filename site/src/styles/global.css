@@ -1,6 +1,7 @@
 /* What every page shares: element defaults and the few text styles used in more than one component. */
 
-html { scroll-padding-block-start: calc(var(--igd-nav-height) + var(--igd-space-stack-md)); }
+/* A jump to a section scrolls smoothly; base.css turns it off for a reader who asks for reduced motion. */
+html { scroll-behavior: smooth; scroll-padding-block-start: calc(var(--igd-nav-height) + var(--igd-space-stack-md)); }
 button { font: inherit; color: inherit; }
 code, output { font-family: var(--igd-font-mono); font-size: var(--igd-type-body-xs-font-size); }
 output { color: var(--igd-color-text-secondary); }

@@ -187,6 +187,9 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
 - The clear space (half the logo's height), the smallest sizes (16px) and the do and don't list on the Logo page are the rules for the logo. The owner approved them on 2026-11-23. The sizes are in `site/src/data/logo.ts`.
 - The site is light by default, whatever the system colour scheme. The theme switch in the top bar is an icon button; it stores the dark theme once chosen and removes it when switched back.
+- The hero of the guide is light in both themes, because its picture, `site/src/assets/hero.png`, is light. Astro compresses the picture at build time.
+- The selected row of the section list is filled with the action colour, as the selected row of the docs site's sidebar is. The filter of the Tokens page sits above that list.
+- A type set button switches one element, the type list beside it, never the page.
 - Astro removes the whitespace between two inline elements. Write `{" "}` where a space must stay.
 
 Why Astro: the pages were strings built by TypeScript generators, and their HTML was committed. Every change rewrote the generated files, and a Markdown document needed patching to become a page. The owner decided on 2026-11-23 to move the site to Astro, the tool the other documentation sites use.

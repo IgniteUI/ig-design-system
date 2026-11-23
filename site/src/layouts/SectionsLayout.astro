@@ -21,7 +21,7 @@ const { title, current, sections, back } = Astro.props;
   <slot name="switches" slot="switches" />
   <slot name="before" />
   <div class="layout">
-    <SectionNav sections={sections} back={back} />
+    <SectionNav sections={sections} back={back}><slot name="nav" /></SectionNav>
     <main>
       <slot />
     </main>

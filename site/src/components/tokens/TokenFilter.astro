@@ -2,25 +2,31 @@
 // The field that filters the tokens of the page by name or use, and the count of matches.
 ---
 
-<input
-  type="search"
-  placeholder="Filter tokens, e.g. border"
-  aria-label="Filter tokens by name or use"
-  autocomplete="off"
-  spellcheck="false"
-  data-filter
-/>
-<span role="status" data-filter-matches></span>
+<div class="filter">
+  <input
+    type="search"
+    placeholder="Filter tokens, e.g. border"
+    aria-label="Filter tokens by name or use"
+    autocomplete="off"
+    spellcheck="false"
+    data-filter
+  />
+  <span role="status" data-filter-matches></span>
+</div>
 
 <script>
   import "@/scripts/filter.ts";
 </script>
 
 <style>
+  .filter {
+    display: grid;
+    gap: var(--igd-space-gap-2xs);
+    margin-block-end: var(--igd-space-stack-md);
+  }
+
   input {
-    flex: 1;
-    min-inline-size: var(--igd-field-min-width);
-    max-inline-size: var(--igd-newsletter-min-width);
+    inline-size: 100%;
     min-block-size: var(--igd-size-control-md);
     padding: var(--igd-space-inset-2xs) var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
@@ -31,6 +37,7 @@
   }
 
   span {
+    padding-inline: var(--igd-space-inset-sm);
     color: var(--igd-color-text-muted);
     font-size: var(--igd-type-body-sm-font-size);
   }

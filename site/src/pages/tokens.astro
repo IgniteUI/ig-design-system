@@ -43,8 +43,7 @@ const sections = {
 ---
 
 <SectionsLayout title="Tokens" current="tokens" sections={Object.values(sections)}>
-  <TokenFilter slot="bar" />
-  <TypeSetToggle slot="switches" />
+  <TokenFilter slot="nav" />
 
   <h1>Tokens</h1>
   <p class="intro">Every token, with the value it has on this page right now. Click a name to copy it.</p>
@@ -84,7 +83,8 @@ const sections = {
       {styles.length} roles. The readout is the size, line height and weight as rendered right now: resize the
       window or switch the type set.
     </p>
-    <ul class="specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
+    <p class="switches"><TypeSetToggle target="type-specimens" /></p>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
   </Section>
 
   <Section {...sections.spacing}>
@@ -163,6 +163,13 @@ const sections = {
     gap: var(--igd-space-gap-sm);
     margin-block-end: var(--igd-space-stack-sm);
     cursor: pointer;
+  }
+
+  .switches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-xs);
+    margin-block: 0 var(--igd-space-stack-md);
   }
 
   .ramps,

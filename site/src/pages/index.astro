@@ -153,12 +153,12 @@ const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
       {styles.length} text styles, each named for its role on the page. Put the class on the element and the
       font, size, weight and line height come with it. The numbers show the size on this screen right now.
     </p>
-    <p class="switches"><TypeSetToggle /></p>
+    <p class="switches"><TypeSetToggle target="type-specimens" /></p>
     <p class="lead">
       The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set:
       press the button to see it.
     </p>
-    <ul class="specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
