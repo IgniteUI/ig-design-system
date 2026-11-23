@@ -77,13 +77,13 @@ code, pre { font-family: var(--font-mono); }
 /* Keyboard focus. Mouse users never see this; keyboard users always do.
    Add data-on-dark to any dark section so the ring stays visible. */
 :focus { outline: none; }
-a:focus-visible, button:focus-visible, [tabindex]:focus-visible,
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible,
 input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: var(--focus-ring-width) solid var(--color-focus-default);
   outline-offset: var(--focus-ring-offset);
 }
 [data-on-dark] a:focus-visible, [data-on-dark] button:focus-visible,
-[data-on-dark] [tabindex]:focus-visible {
+[data-on-dark] summary:focus-visible, [data-on-dark] [tabindex]:focus-visible {
   outline-color: var(--color-focus-inverse);
 }
 `;

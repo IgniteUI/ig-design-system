@@ -105,6 +105,40 @@ describe("dist/base.css", () => {
   });
 });
 
+describe("the focus ring of dist/base.css", () => {
+  const ring =
+    base.match(
+      /([^{}]+)\{[^}]*outline:\s*var\(--igd-focus-ring-width\)/,
+    )?.[1] ?? "";
+  const onDark =
+    base.match(
+      /([^{}]+)\{[^}]*outline-color:\s*var\(--igd-color-focus-inverse\)/,
+    )?.[1] ?? "";
+
+  it.each([
+    "a",
+    "button",
+    "summary",
+    "[tabindex]",
+    "input",
+    "select",
+    "textarea",
+  ])("is drawn on a focused %s", (control) => {
+    expect(ring.split(",").map((s) => s.trim())).toContain(
+      `${control}:focus-visible`,
+    );
+  });
+
+  it.each(["a", "button", "summary", "[tabindex]"])(
+    "takes the inverse colour on a focused %s inside data-on-dark",
+    (control) => {
+      expect(onDark.split(",").map((s) => s.trim())).toContain(
+        `[data-on-dark] ${control}:focus-visible`,
+      );
+    },
+  );
+});
+
 describe("the token inventory", () => {
   it("lists every --igd-* property the stylesheets declare in llms-full.txt", () => {
     const full = fs.readFileSync("llms-full.txt", "utf8");
