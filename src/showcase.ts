@@ -5,23 +5,9 @@ import fs from "node:fs";
 import { PALETTE_FAMILIES } from "./engine-colors.ts";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";
-import { fromRoot } from "./paths.ts";
-import type { Token, Tokens } from "./types.ts";
+import { esc, page } from "./page.ts";
+import type { Token, Tokens, TypeStyle } from "./types.ts";
 
-// The page's own stylesheet; {{breakpoint-lg}} stands for the breakpoint-lg token.
-const PAGE_CSS = fs.readFileSync(fromRoot("src/showcase.css"), "utf8");
-// The script the page runs: the filter, copying, the theme and type set buttons.
-const CLIENT_SCRIPT = fs.readFileSync(
-  fromRoot("src/showcase.client.js"),
-  "utf8",
-);
-
-const esc = (s: string) =>
-  s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 /** Escapes a usage note and turns its backticked names into <code>. */
 export const prose = (s: string) =>
   esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
@@ -66,21 +52,22 @@ export const groupColors = (tokens: Token[]) => {
   return { raw, semantic, component };
 };
 
-// The name of a token as a button that copies var(--name), with the prefix dimmed.
-const name = (token: string) => {
+/** The name of a token as a button that copies var(--name), with the prefix dimmed. */
+export const name = (token: string) => {
   const v = cssVar(token);
   const prefix = v.match(/^--igd?-/)?.[0] ?? "--";
   return `<button type="button" class="name" data-copy="var(${v})"><span class="prefix">${prefix}</span>${v.slice(prefix.length)}</button>`;
 };
 
-// The first sentence of a note is always shown; the rest opens on demand.
-const note = (usage: string) => {
+/** A usage note: its first sentence is always shown, the rest opens on demand. */
+export const note = (usage: string) => {
   if (!usage) return "";
   const [first, rest] = lead(usage);
   return `<p class="note">${prose(first)}</p>${rest ? `<details class="more"><summary>More</summary><p class="note">${prose(rest)}</p></details>` : ""}`;
 };
 
-const colorCard = (kind: "fill" | "text" | "outline") => (t: Token) => {
+/** A colour token as a card: its preview, name, rendered value and note. */
+export const colorCard = (kind: "fill" | "text" | "outline") => (t: Token) => {
   const v = `var(${cssVar(t.name)})`;
   const preview =
     kind === "text"
@@ -90,6 +77,19 @@ const colorCard = (kind: "fill" | "text" | "outline") => (t: Token) => {
         : `<span class="preview" style="background: ${v}" aria-hidden="true"></span>`;
   return `<li class="token" data-token="${t.name}" data-kind="color">${preview}${name(t.name)}<output data-color="${cssVar(t.name)}"></output>${note(t.usage)}</li>`;
 };
+
+/** A type role as a row: its class, rendered size and a sample set in it. */
+export const specimen = (st: TypeStyle) =>
+  `<li data-token="${st.name}"><div class="spec"><button type="button" class="name" data-copy="igd-${st.name}"><span class="prefix">.igd-</span>${st.name}</button><output data-type="igd-${st.name}"></output></div><div><p class="sample igd-${st.name}">${esc(st.sample)}</p>${note(st.usage)}</div></li>`;
+
+/** The buttons that switch the page to another type set. */
+export const typeSetButtons = (T: Tokens) =>
+  Object.keys(T.type.sets)
+    .map(
+      (s) =>
+        `<button type="button" data-set="${s}" aria-pressed="false">Type set: ${s}</button>`,
+    )
+    .join("");
 
 const row = (t: Token, value: string, extra = "") =>
   `<tr data-token="${t.name}"><th scope="row">${name(t.name)}</th><td class="value">${value}</td><td>${extra}${note(t.usage)}</td></tr>`;
@@ -120,8 +120,6 @@ export const showcase = (T: Tokens) => {
   const spaceRoles = T.spacing.tokens.filter((t) => !spaceSteps.includes(t));
   const shadows = T.shadow.tokens;
   const families = PALETTE_FAMILIES.filter((f) => steps(f).length);
-  const bp = (n: string) =>
-    T.breakpoint.tokens.find((t) => t.name === n)?.value ?? "1024px";
 
   const sections: Section[] = [
     {
@@ -164,12 +162,7 @@ export const showcase = (T: Tokens) => {
       count: styles.length,
       html:
         `<p class="intro">Fifteen roles. The readout is the size, line height and weight as rendered right now: resize the window or switch the type set.</p>` +
-        `<ul class="specimens">${styles
-          .map(
-            (st) =>
-              `<li data-token="${st.name}"><div class="spec"><button type="button" class="name" data-copy="igd-${st.name}"><span class="prefix">.igd-</span>${st.name}</button><output data-type="igd-${st.name}"></output></div><div><p class="sample igd-${st.name}">${esc(st.sample)}</p>${note(st.usage)}</div></li>`,
-          )
-          .join("")}</ul>`,
+        `<ul class="specimens">${styles.map(specimen).join("")}</ul>`,
     },
     {
       id: "spacing",
@@ -264,60 +257,29 @@ export const showcase = (T: Tokens) => {
       ),
     },
   ];
-  const sets = Object.keys(T.type.sets);
-
-  return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Token showcase</title>
-<!-- Generated by src/showcase.ts from dist/tokens.json. Do not edit by hand. -->
-<script>
-// Applies the stored theme before the first paint; with none stored the page follows the system.
-(function () {
-  var stored = null;
-  try { stored = localStorage.getItem("igd-showcase-theme"); } catch (e) {}
-  var dark = stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-})();
-</script>
-<link rel="stylesheet" href="../dist/fonts.css">
-<link rel="stylesheet" href="../dist/tokens.css">
-<link rel="stylesheet" href="../dist/theme.css">
-<link rel="stylesheet" href="../dist/base.css">
-<style>
-${PAGE_CSS.replace("{{breakpoint-lg}}", bp("breakpoint-lg"))}</style>
-</head>
-<body>
-<header class="top">
-  <h1>Token showcase</h1>
-  <div class="find">
+  return page(T, {
+    current: "tokens",
+    title: "Tokens: Infragistics design system",
+    source: "src/showcase.ts",
+    bar: `<div class="find">
     <input type="search" id="filter" placeholder="Filter tokens, e.g. border" aria-label="Filter tokens by name or use" autocomplete="off" spellcheck="false">
     <span class="matches" id="matches" role="status"></span>
-  </div>
-  <div class="switches">
-    <button type="button" id="theme" aria-pressed="false">Dark theme</button>
-    ${sets.map((s) => `<button type="button" data-set="${s}" aria-pressed="false">Type set: ${s}</button>`).join("")}
-  </div>
-</header>
-<div class="layout">
+  </div>`,
+    switches: typeSetButtons(T),
+    body: `<div class="layout">
 <nav class="sections" aria-label="Sections">
   <ul>
     ${sections.map((s) => `<li><a href="#${s.id}"><span>${s.title}</span><span class="count">${s.count}</span></a></li>`).join("\n    ")}
   </ul>
 </nav>
 <main>
+<h1 class="title">Tokens</h1>
+<p class="intro">Every token, with the value it has on this page right now. Click a name to copy it.</p>
 ${sections.map((s) => `<section id="${s.id}" tabindex="-1" aria-labelledby="${s.id}-title"><h2 id="${s.id}-title">${s.title} <span class="count">${s.count}</span></h2>${s.html.replace(`aria-labelledby="${s.id}"`, `aria-labelledby="${s.id}-title"`)}</section>`).join("\n")}
 <p class="empty" id="empty" hidden>No token matches. Try a shorter word, such as <code>hover</code> or <code>inset</code>.</p>
 </main>
-</div>
-<p class="toast" id="toast" role="status"></p>
-<script>
-${CLIENT_SCRIPT}</script>
-</body>
-</html>
-`;
+</div>`,
+  });
 };
 
 if (isMain(import.meta.url)) {

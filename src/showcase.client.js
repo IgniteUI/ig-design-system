@@ -8,12 +8,15 @@
   }
   // Writes the rendered value of each token next to its name.
   function read() {
-    var el = document.createElement("i"); el.style.position = "absolute"; document.body.appendChild(el);
-    document.querySelectorAll("output[data-color]").forEach(function (o) { el.style.backgroundColor = "var(" + o.dataset.color + ")"; o.textContent = hex(getComputedStyle(el).backgroundColor); });
-    document.querySelectorAll("output[data-length]").forEach(function (o) { el.style.inlineSize = "var(" + o.dataset.length + ")"; o.textContent = Math.round(parseFloat(getComputedStyle(el).inlineSize) * 100) / 100 + "px"; });
+    var el = document.createElement("i"); el.style.position = "absolute";
+    // Measures a token in the scope or theme region its readout sits in.
+    function place(o) { var box = o.closest("[data-ig-scope], [data-theme]"); (box && box !== root ? box : document.body).appendChild(el); }
+    document.querySelectorAll("output[data-color]").forEach(function (o) { place(o); el.style.backgroundColor = "var(" + o.dataset.color + ")"; o.textContent = hex(getComputedStyle(el).backgroundColor); });
+    document.querySelectorAll("output[data-length]").forEach(function (o) { place(o); el.style.inlineSize = "var(" + o.dataset.length + ")"; o.textContent = Math.round(parseFloat(getComputedStyle(el).inlineSize) * 100) / 100 + "px"; });
     el.remove();
     document.querySelectorAll("output[data-type]").forEach(function (o) {
-      var s = getComputedStyle(document.querySelector(".sample." + o.dataset.type));
+      var sample = document.querySelector(".sample." + o.dataset.type); if (!sample) return;
+      var s = getComputedStyle(sample);
       o.textContent = Math.round(parseFloat(s.fontSize) * 10) / 10 + "px / " + Math.round(parseFloat(s.lineHeight) * 10) / 10 + "px, " + s.fontWeight;
     });
   }
@@ -39,6 +42,16 @@
     });
   });
 
+  // dials: a button sets one dial on the element its group names, or clears it
+  document.querySelectorAll("button[data-dial]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var group = b.closest("[data-dials]"), target = document.getElementById(group.dataset.dials);
+      if (b.dataset.value) target.style.setProperty(b.dataset.dial, b.dataset.value); else target.style.removeProperty(b.dataset.dial);
+      group.querySelectorAll('button[data-dial="' + b.dataset.dial + '"]').forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      read();
+    });
+  });
+
   // filter: a token stays when every word is in its name or its note
   var filter = document.getElementById("filter"), matches = document.getElementById("matches"), empty = document.getElementById("empty");
   var items = [].slice.call(document.querySelectorAll("[data-token]"));
@@ -53,11 +66,13 @@
     empty.hidden = shown > 0;
     matches.textContent = words.length ? (shown === 1 ? "1 match" : shown + " matches") : "";
   }
-  filter.addEventListener("input", apply);
-  addEventListener("keydown", function (e) {
-    if (e.key === "/" && document.activeElement !== filter) { e.preventDefault(); filter.focus(); }
-    if (e.key === "Escape" && document.activeElement === filter) { filter.value = ""; apply(); }
-  });
+  if (filter) {
+    filter.addEventListener("input", apply);
+    addEventListener("keydown", function (e) {
+      if (e.key === "/" && document.activeElement !== filter) { e.preventDefault(); filter.focus(); }
+      if (e.key === "Escape" && document.activeElement === filter) { filter.value = ""; apply(); }
+    });
+  }
 
   // copy: one status element is the visible message and the live region
   var toast = document.getElementById("toast"), timer, last = "";
