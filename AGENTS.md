@@ -221,8 +221,9 @@ Nothing below is decided. Ask the owner before acting on one.
 
 ## Releasing
 
-- The package is not published. It is MIT and will be public on npm as `ig-design-system`: it is for Infragistics' own sites, and nothing in it needs to be private. Publishing is on hold until the repository moves from `IgniteUI/ig-design-system` to another organisation. Do not create a release before that. After the move, update the organisation in `package.json`, `README.md`, this file and `.github/workflows/check-site.yml`.
-- A GitHub Release with the tag `X.Y.Z` runs `.github/workflows/release.yml`, which runs every CI job on the tag, the build with other brand colours included, and publishes. Do not run `npm publish` and do not edit `version` in `package.json` for a release: the workflow sets it from the tag.
+- The package is MIT and public on npm as `ig-design-system`: it is for Infragistics' own sites, and nothing in it needs to be private. The repository stays at `IgniteUI/ig-design-system`.
+- A release needs two things outside the code: the repository is public, because `npm publish --provenance` rejects a private or internal source repository, and the `NPM_TOKEN` secret holds an npm token that may publish `ig-design-system`.
+- A GitHub Release with the tag `X.Y.Z` runs `.github/workflows/release.yml`, which runs every CI job on the tag, the build with other brand colours included, and publishes. A tag with a pre-release part, such as `1.1.0-rc.1`, is published under the `next` dist-tag, so `latest` stays on the last full release. Do not run `npm publish` and do not edit `version` in `package.json` for a release: the workflow sets it from the tag.
 - Add the release's entry to `CHANGELOG.md` in the pull request that makes the change.
 - The package has no dependencies. `igniteui-theming` and the font packages are build inputs, so they are `devDependencies`. A test fails when a dependency is added.
 - The fonts in `dist/fonts/` are copied from the `@fontsource-variable` packages at build time, each with its SIL Open Font License. Do not add a font file by hand.

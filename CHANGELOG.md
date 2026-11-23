@@ -4,9 +4,9 @@ Every release of `ig-design-system`. A version is a GitHub Release with the tag 
 
 A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` are breaking and take a major version.
 
-## 1.0.0 (unreleased)
+## 1.0.0
 
-The first version. Not published yet.
+The first version.
 
 - `dist/tokens.css` and `dist/theme.css`: the engine palette under `--ig-*` and every design system token under `--igd-*`: colour, feedback, badges, spacing, radius, size, shadow, type roles, motion, breakpoints and layers, in a light and a dark theme.
 - `dist/base.css`: optional element styles.

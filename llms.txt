@@ -6,8 +6,6 @@ One design system for the Infragistics sites. The marketing site and igniteui-as
 
 ## Using it in a site
 
-The package is not on npm yet. Until the first release, copy `dist/` from this repository. After it:
-
 ```sh
 npm install ig-design-system
 ```
