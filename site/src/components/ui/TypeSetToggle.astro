@@ -1,0 +1,11 @@
+---
+// One button per type set other than the default. Each switches the page to its set.
+import { tokens } from "@/lib/design-system.ts";
+import ToggleButton from "./ToggleButton.astro";
+---
+
+{Object.keys(tokens.type.sets).map((set) => <ToggleButton data-type-set={set}>Type set: {set}</ToggleButton>)}
+
+<script>
+  import "@/scripts/type-set.ts";
+</script>

@@ -1,0 +1,38 @@
+---
+// A usage note: its first sentence is always shown, the rest opens on demand. Backticked names become code.
+import { lead, prose } from "@/lib/text.ts";
+
+interface Props {
+  text: string;
+  /** Show only the first sentence, with no way to open the rest. */
+  short?: boolean;
+}
+
+const { text, short = false } = Astro.props;
+const [first, rest] = lead(text);
+---
+
+{text && <p set:html={prose(first)} />}
+{
+  rest && !short && (
+    <details>
+      <summary>More</summary>
+      <p set:html={prose(rest)} />
+    </details>
+  )
+}
+
+<style>
+  p {
+    margin: 0;
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+    color: var(--igd-color-text-muted);
+  }
+
+  summary {
+    font-size: var(--igd-type-body-xs-font-size);
+    color: var(--igd-color-action-text);
+    cursor: pointer;
+  }
+</style>

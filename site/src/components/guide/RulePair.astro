@@ -1,0 +1,58 @@
+---
+// A rule as a pair of examples: what to write, what not to, and why.
+import { prose } from "@/lib/text.ts";
+
+interface Props {
+  good: string;
+  bad: string;
+  why: string;
+}
+
+const { good, bad, why } = Astro.props;
+---
+
+<li>
+  <div class="do"><span class="verdict">Do</span><code>{good}</code></div>
+  <div class="dont"><span class="verdict dont">Don't</span><code>{bad}</code></div>
+  <p set:html={prose(why)} />
+</li>
+
+<style>
+  li {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--igd-space-gap-xs) var(--igd-space-gap-md);
+  }
+
+  div {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-2xs);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
+    border-radius: var(--igd-radius-md);
+    overflow-wrap: anywhere;
+    background: var(--igd-color-feedback-success-surface);
+  }
+
+  div.dont {
+    background: var(--igd-color-feedback-error-surface);
+  }
+
+  code {
+    color: var(--igd-color-text-heading);
+    font-size: var(--igd-type-body-sm-font-size);
+  }
+
+  p {
+    grid-column: 1 / -1;
+    margin: 0;
+    max-inline-size: var(--igd-container-prose-max-width);
+    color: var(--igd-color-text-secondary);
+  }
+
+  @container (inline-size < 40rem) {
+    li {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

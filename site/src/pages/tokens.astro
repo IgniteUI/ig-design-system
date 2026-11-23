@@ -1,0 +1,191 @@
+---
+// The Tokens page: every token of tokens.json with its rendered value, and a filter to find one.
+import Section from "@/components/layout/Section.astro";
+import PaletteRamp from "@/components/tokens/PaletteRamp.astro";
+import TokenCard from "@/components/tokens/TokenCard.astro";
+import TokenFilter from "@/components/tokens/TokenFilter.astro";
+import TokenGrid from "@/components/tokens/TokenGrid.astro";
+import TokenRow from "@/components/tokens/TokenRow.astro";
+import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
+import ScrollTable from "@/components/ui/ScrollTable.astro";
+import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { cssVar, tokens } from "@/lib/design-system.ts";
+import { COLOUR_GROUPS, groupColours, PALETTE_FAMILIES, previewOf, rampOf } from "@/lib/tokens.ts";
+
+const { raw, semantic, component } = groupColours(tokens.color.tokens);
+const groups = [...COLOUR_GROUPS, ["other", "Other"] as [string, string]].filter(([key]) => semantic[key]);
+const ramps = PALETTE_FAMILIES.map((family) => ({ family, steps: rampOf(raw[family] ?? []) })).filter(
+  (r) => r.steps.length,
+);
+const styles = tokens.type.groups.flatMap((g) => g.styles);
+const steps = tokens.spacing.tokens.filter((t) => /^space-\d?[a-z]+$/.test(t.name));
+const roles = tokens.spacing.tokens.filter((t) => !steps.includes(t));
+const other = [
+  ...tokens.opacity.tokens,
+  ...tokens.weight.tokens,
+  ...tokens.zIndex.tokens,
+  ...tokens.breakpoint.tokens,
+];
+const property = { fill: "background", text: "color", outline: "border-color" };
+
+const sections = {
+  colour: { id: "colour", title: "Colour", count: Object.values(semantic).flat().length + component.length },
+  palette: { id: "palette", title: "Engine palette", count: ramps.reduce((n, r) => n + r.steps.length, 0) },
+  type: { id: "type", title: "Type", count: styles.length },
+  spacing: { id: "spacing", title: "Spacing", count: tokens.spacing.tokens.length },
+  radius: { id: "radius", title: "Radius", count: tokens.radius.tokens.length },
+  shadow: { id: "shadow", title: "Shadow", count: tokens.shadow.tokens.length },
+  gradient: { id: "gradient", title: "Gradient", count: tokens.gradient.tokens.length },
+  size: { id: "size", title: "Size", count: tokens.size.tokens.length },
+  other: { id: "other", title: "Opacity, weight, layers, breakpoints", count: other.length },
+};
+---
+
+<SectionsLayout title="Tokens" current="tokens" sections={Object.values(sections)}>
+  <TokenFilter slot="bar" />
+  <TypeSetToggle slot="switches" />
+
+  <h1>Tokens</h1>
+  <p class="intro">Every token, with the value it has on this page right now. Click a name to copy it.</p>
+
+  <Section {...sections.colour}>
+    <p class="intro">Site code uses these. A name says what the colour is for.</p>
+    {
+      groups.map(([key, title]) => (
+        <div class="group" data-filter-group>
+          <h3>{title}</h3>
+          <TokenGrid>
+            {semantic[key].map((token) => (
+              <TokenCard token={token} preview={previewOf(key)} property={property[previewOf(key)]} readout="colour" />
+            ))}
+          </TokenGrid>
+        </div>
+      ))
+    }
+    <details class="group" data-filter-group>
+      <summary><h3>Component colours</h3><span class="count">{component.length}</span></summary>
+      <TokenGrid>
+        {component.map((token) => <TokenCard token={token} preview="fill" property="background" readout="colour" />)}
+      </TokenGrid>
+    </details>
+  </Section>
+
+  <Section {...sections.palette}>
+    <p class="intro">
+      The raw tier, under the engine's names: the shades of each family and the roles of the surface. Only the
+      design system reaches in here. Each step is labelled in its contrast colour.
+    </p>
+    <ul class="ramps">{ramps.map((ramp) => <PaletteRamp {...ramp} />)}</ul>
+  </Section>
+
+  <Section {...sections.type}>
+    <p class="intro">
+      {styles.length} roles. The readout is the size, line height and weight as rendered right now: resize the
+      window or switch the type set.
+    </p>
+    <ul class="specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
+  </Section>
+
+  <Section {...sections.spacing}>
+    <p class="intro">
+      The raw steps. A component uses the roles built on them: <code>space-inset-*</code> for padding, <code
+        >space-stack-*</code
+      > for vertical margins, <code>space-gap-*</code> for gaps.
+    </p>
+    <ScrollTable label="Spacing steps" head={["Step", "Value", "Size"]}>
+      {
+        steps.map((token) => (
+          <TokenRow token={token} value="length">
+            <span class="bar" style={`inline-size: var(${cssVar(token.name)})`} />
+          </TokenRow>
+        ))
+      }
+    </ScrollTable>
+    <ScrollTable label="Spacing roles" head={["Role", "Value", "Use"]}>
+      {roles.map((token) => <TokenRow token={token} value="length" />)}
+    </ScrollTable>
+  </Section>
+
+  <Section {...sections.radius}>
+    <p class="intro">Each role has a design value and a range it stays within.</p>
+    <TokenGrid>
+      {
+        tokens.radius.tokens.map((token) => (
+          <TokenCard token={token} preview="outline" property="border-radius" readout="length" />
+        ))
+      }
+    </TokenGrid>
+  </Section>
+
+  <Section {...sections.shadow}>
+    <p class="intro">
+      Built from the engine's elevations. The accent shadows and the tinted elevations take the action colour.
+    </p>
+    <TokenGrid roomy>
+      {
+        tokens.shadow.tokens.map((token) => (
+          <TokenCard token={token} preview="lifted" property={token.name.endsWith("-filter") ? "filter" : "box-shadow"} />
+        ))
+      }
+    </TokenGrid>
+  </Section>
+
+  <Section {...sections.gradient}>
+    <p class="intro">Three uses only: clipped headline text, the hero wash and glows, and the footer.</p>
+    <TokenGrid>
+      {tokens.gradient.tokens.map((token) => <TokenCard token={token} preview="fill" property="background" />)}
+    </TokenGrid>
+  </Section>
+
+  <Section {...sections.size}>
+    <p class="intro">Control heights, icon sizes, widths and letter spacing.</p>
+    <ScrollTable label="Size tokens" head={["Token", "Value", "Use"]}>
+      {tokens.size.tokens.map((token) => <TokenRow token={token} value="written" />)}
+    </ScrollTable>
+  </Section>
+
+  <Section {...sections.other}>
+    <ScrollTable label="Opacity, weight, layer and breakpoint tokens" head={["Token", "Value", "Use"]}>
+      {other.map((token) => <TokenRow token={token} value="written" />)}
+    </ScrollTable>
+  </Section>
+
+  <p class="empty" hidden data-filter-empty>
+    No token matches. Try a shorter word, such as <code>hover</code> or <code>inset</code>.
+  </p>
+</SectionsLayout>
+
+<style>
+  summary {
+    display: flex;
+    align-items: center;
+    gap: var(--igd-space-gap-sm);
+    margin-block-end: var(--igd-space-stack-sm);
+    cursor: pointer;
+  }
+
+  .ramps,
+  .specimens {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ramps {
+    display: grid;
+    gap: var(--igd-space-gap-sm);
+  }
+
+  .bar {
+    display: block;
+    block-size: var(--igd-space-sm);
+    background: var(--igd-color-action-default);
+    border-radius: var(--igd-radius-xs);
+  }
+
+  .empty {
+    padding-block: var(--igd-space-inset-3xl);
+    color: var(--igd-color-text-secondary);
+  }
+</style>

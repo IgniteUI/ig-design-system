@@ -1,0 +1,75 @@
+---
+// A token as a card: its preview, its name as a copy button, its rendered value and its note.
+import CopyName from "@/components/ui/CopyName.astro";
+import Note from "@/components/ui/Note.astro";
+import Readout from "@/components/ui/Readout.astro";
+import { cssVar, prefixOf, type Token } from "@/lib/design-system.ts";
+
+interface Props {
+  token: Token;
+  /** How the preview is drawn: a fill, sample text, an outline, or a card lifted off the page. */
+  preview: "fill" | "text" | "outline" | "lifted";
+  /** The CSS property of the preview that takes the token. */
+  property: string;
+  /** The rendered value shown under the name. */
+  readout?: "colour" | "length";
+  /** A plain use, shown in place of the token's own note. */
+  use?: string;
+}
+
+const { token, preview, property, readout, use } = Astro.props;
+const custom = cssVar(token.name);
+---
+
+<li data-token={token.name}>
+  <span class:list={["preview", preview]} style={`${property}: var(${custom})`} aria-hidden="true">
+    {preview === "text" && "Aa"}
+  </span>
+  <CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} />
+  {readout && <Readout token={token.name} kind={readout} />}
+  <Note text={use ?? token.usage} short={Boolean(use)} />
+</li>
+
+<style>
+  li {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-3xs);
+    padding: var(--igd-space-inset-sm);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    border-radius: var(--igd-radius-md);
+    background: var(--igd-color-surface-card);
+  }
+
+  li > :global(output) {
+    display: block;
+  }
+
+  .preview {
+    display: block;
+    block-size: var(--igd-space-5xl);
+    margin-block-end: var(--igd-space-stack-xs);
+    border-radius: var(--igd-radius-sm);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+  }
+
+  .text {
+    display: grid;
+    place-items: center;
+    background: var(--igd-color-surface-page);
+    font-family: var(--igd-font-display);
+    font-size: var(--igd-type-display-sm-font-size);
+    font-weight: var(--igd-font-weight-bold);
+  }
+
+  .outline {
+    background: var(--igd-color-surface-page);
+    border-width: var(--igd-focus-ring-width);
+  }
+
+  .lifted {
+    border-color: transparent;
+    background: var(--igd-color-surface-card);
+    margin: var(--igd-space-stack-sm) var(--igd-space-gap-sm) var(--igd-space-stack-lg);
+  }
+</style>

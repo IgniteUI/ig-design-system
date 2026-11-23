@@ -1,11 +1,13 @@
-# Publishes the guide and the token showcase of the commit CI passed on, on main, to GitHub Pages.
-name: Showcase
+# Builds the documentation site in site/ from the commit CI passed on, on main, and publishes it to GitHub Pages.
+# Pages must be set to the source "GitHub Actions" in the repository settings.
+name: Site
 
 on:
   workflow_run:
     workflows: [CI]
     types: [completed]
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,28 +19,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: npm ci
+        working-directory: site
+      - name: Build the site for the address Pages serves it at
+        run: npm run build
+        working-directory: site
+        env:
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
   deploy:
-    if: github.event.workflow_run.conclusion == 'success'
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-      - name: Collect the two pages, the files they load and the files llms.txt links to
-        run: |
-          mkdir -p site/docs
-          cp -r dist site/dist
-          cp docs/index.html docs/showcase.html site/docs/
-          cp llms.txt llms-full.txt README.md AGENTS.md CHANGELOG.md site/
-          cp docs/ADOPTING.md docs/MIGRATION.md site/docs/
-          cp -r docs/examples site/docs/examples
-          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=docs/"><title>ig-design-system</title><a href="docs/">Infragistics design system</a>\n' > site/index.html
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
       - id: deploy
         uses: actions/deploy-pages@v4

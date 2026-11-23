@@ -1,0 +1,130 @@
+---
+// The opening band of the guide: what the design system is, two ways in, and four counts from tokens.json.
+import ActionLink from "@/components/guide/ActionLink.astro";
+import { tokens } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+
+const facts: [count: number, label: string][] = [
+  [tokens.color.tokens.filter((t) => !t.name.startsWith("ig-")).length, "colours"],
+  [tokens.type.groups.flatMap((g) => g.styles).length, "type roles"],
+  [tokens.spacing.tokens.length, "spacing tokens"],
+  [tokens.radius.tokens.length + tokens.shadow.tokens.length, "corners and shadows"],
+];
+---
+
+<div class="hero">
+  <div class="inner">
+    <p class="igd-type-eyebrow">Design system</p>
+    <h1 class="igd-type-display-lg">One look for every <span>Infragistics site</span></h1>
+    <p class="igd-type-lead">
+      Colours, type, spacing, corners and shadows, each with a name that says what it is for. Use the names
+      and every page stays consistent, in the light and the dark theme.
+    </p>
+    <div class="actions">
+      <ActionLink href="#idea">Start here</ActionLink>
+      <ActionLink href={href("tokens/")} quiet>Browse every token</ActionLink>
+    </div>
+    <dl>
+      {
+        facts.map(([count, label]) => (
+          <div>
+            <dt>{label}</dt>
+            <dd class="igd-type-stat">{count}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</div>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    background: var(--igd-gradient-hero);
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+  }
+
+  .hero::before,
+  .hero::after {
+    content: "";
+    position: absolute;
+    inline-size: var(--igd-glow-size-md);
+    aspect-ratio: 1;
+    pointer-events: none;
+  }
+
+  .hero::before {
+    inset-block-start: -40%;
+    inset-inline-end: -10%;
+    background: var(--igd-glow-primary);
+  }
+
+  .hero::after {
+    inset-block-end: -60%;
+    inset-inline-start: -15%;
+    background: var(--igd-glow-secondary);
+  }
+
+  .inner {
+    position: relative;
+    z-index: var(--igd-z-index-raised);
+    display: grid;
+    gap: var(--igd-space-gap-lg);
+    max-inline-size: var(--igd-container-max-width);
+    margin-inline: auto;
+    padding: var(--igd-space-section) var(--igd-container-gutter);
+    container-type: inline-size;
+  }
+
+  .igd-type-eyebrow {
+    margin: 0;
+    color: var(--igd-color-action-text);
+  }
+
+  h1 {
+    max-inline-size: 16ch;
+    text-wrap: balance;
+  }
+
+  h1 span {
+    background: var(--igd-gradient-brand);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .igd-type-lead {
+    margin: 0;
+    max-inline-size: var(--igd-container-prose-max-width);
+    color: var(--igd-color-text-secondary);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-sm);
+  }
+
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-lg) var(--igd-space-gap-4xl);
+    margin: var(--igd-space-stack-md) 0 0;
+  }
+
+  dl div {
+    display: grid;
+  }
+
+  dt {
+    order: 2;
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-body-sm-font-size);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--igd-color-text-heading);
+  }
+</style>

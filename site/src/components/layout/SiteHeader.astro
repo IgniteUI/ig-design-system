@@ -1,0 +1,122 @@
+---
+// The top bar: the logo, the pages, a slot for the page's own control and the theme switch.
+import darkLogo from "@/assets/logos/ig-logo-dark.svg";
+import logo from "@/assets/logos/ig-logo.svg";
+import ThemeToggle from "@/components/layout/ThemeToggle.astro";
+import { PAGES, type PageId } from "@/data/navigation.ts";
+import { href } from "@/lib/paths.ts";
+
+interface Props {
+  current: PageId;
+}
+
+const { current } = Astro.props;
+---
+
+<header class="top">
+  <a class="brand" href={href()} aria-label="Infragistics design system">
+    <img class="logo light" src={logo.src} width={logo.width} height={logo.height} alt="" />
+    <img class="logo dark" src={darkLogo.src} width={darkLogo.width} height={darkLogo.height} alt="" />
+    <span>Design system</span>
+  </a>
+  <nav aria-label="Pages">
+    {
+      PAGES.map((page) => (
+        <a href={href(page.path)} aria-current={page.id === current ? "page" : undefined}>
+          {page.title}
+        </a>
+      ))
+    }
+  </nav>
+  <div class="bar"><slot name="bar" /></div>
+  <div class="switches">
+    <slot name="switches" />
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .top {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--igd-z-index-sticky);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-sm) var(--igd-space-gap-lg);
+    min-block-size: var(--igd-nav-height);
+    padding: var(--igd-space-inset-xs) var(--igd-container-gutter);
+    background: var(--igd-nav-background);
+    backdrop-filter: var(--igd-nav-backdrop-blur);
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--igd-space-gap-sm);
+    font-family: var(--igd-font-display);
+    font-size: var(--igd-type-title-md-font-size);
+    line-height: var(--igd-type-title-md-line-height);
+    font-weight: var(--igd-type-title-md-font-weight);
+    color: var(--igd-color-text-heading);
+  }
+
+  .brand span {
+    padding-inline-start: var(--igd-space-inset-sm);
+    border-inline-start: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    white-space: nowrap;
+  }
+
+  .logo {
+    display: block;
+    block-size: var(--igd-logo-height);
+    inline-size: auto;
+  }
+
+  .logo.dark,
+  :global([data-theme="dark"]) .logo.light {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .logo.dark {
+    display: block;
+  }
+
+  nav {
+    display: flex;
+    gap: var(--igd-space-gap-2xs);
+  }
+
+  nav a {
+    padding: var(--igd-space-inset-2xs) var(--igd-space-inset-sm);
+    border-radius: var(--igd-radius-full);
+    color: var(--igd-color-text-ui);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  nav a:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  nav a[aria-current="page"] {
+    background: var(--igd-color-surface-tint);
+    color: var(--igd-color-action-text);
+  }
+
+  .bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--igd-space-gap-sm);
+  }
+
+  .switches {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-xs);
+  }
+</style>

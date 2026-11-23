@@ -1,0 +1,34 @@
+---
+// The message shown after a copy. It is also the live region that announces it.
+---
+
+<p class="toast" role="status" data-toast></p>
+
+<script>
+  import "@/scripts/copy.ts";
+</script>
+
+<style>
+  .toast {
+    position: fixed;
+    inset-block-end: var(--igd-space-xl);
+    inset-inline: 0;
+    margin-inline: auto;
+    inline-size: fit-content;
+    max-inline-size: calc(100% - var(--igd-space-4xl));
+    padding: var(--igd-space-inset-xs) var(--igd-space-inset-lg);
+    border-radius: var(--igd-radius-full);
+    background: var(--igd-color-surface-inverse);
+    color: var(--igd-color-text-inverse);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+    box-shadow: var(--igd-shadow-floating);
+    opacity: 0;
+    transition: opacity var(--igd-duration-fast) var(--igd-easing-default);
+    pointer-events: none;
+  }
+
+  .toast[data-shown] {
+    opacity: 1;
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+// A grid of token cards.
+interface Props {
+  /** More room between the cards, for previews that draw outside their box, such as shadows. */
+  roomy?: boolean;
+}
+
+const { roomy = false } = Astro.props;
+---
+
+<ul class:list={{ roomy }}><slot /></ul>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--igd-field-min-width), 1fr));
+    gap: var(--igd-space-gap-md);
+  }
+
+  .roomy {
+    gap: var(--igd-space-gap-xl);
+  }
+</style>

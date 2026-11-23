@@ -1,0 +1,31 @@
+---
+// One of the logo files as an image, at a height. The width follows.
+import { LOGOS, type LogoKey } from "@/data/logo.ts";
+
+interface Props {
+  logo: LogoKey;
+  /** A CSS length. Defaults to the logo-height token. */
+  height?: string;
+  /** Hide the image from assistive technology, for a picture that only illustrates. */
+  decorative?: boolean;
+}
+
+const { logo, height = "var(--igd-logo-height)", decorative = false } = Astro.props;
+const { image, alt } = LOGOS[logo];
+---
+
+<img
+  src={image.src}
+  width={image.width}
+  height={image.height}
+  alt={decorative ? "" : alt}
+  style={`block-size: ${height}`}
+/>
+
+<style>
+  img {
+    display: block;
+    inline-size: auto;
+    max-inline-size: 100%;
+  }
+</style>

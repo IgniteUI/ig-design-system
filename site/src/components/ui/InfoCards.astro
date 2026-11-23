@@ -1,0 +1,51 @@
+---
+// A grid of short statements, each a title and a paragraph. The paragraph may hold markup.
+interface Props {
+  items: { title: string; html: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul>
+  {
+    items.map((item) => (
+      <li>
+        <h3 class="igd-type-title-sm">{item.title}</h3>
+        <p set:html={item.html} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--igd-field-min-width), 1fr));
+    gap: var(--igd-space-gap-md);
+  }
+
+  li {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-xs);
+    padding: var(--igd-space-inset-lg);
+    border-radius: var(--igd-radius-lg);
+    background: var(--igd-color-surface-subtle);
+  }
+
+  h3 {
+    font-family: var(--igd-font-body);
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--igd-color-text-heading);
+  }
+
+  p {
+    margin: 0;
+    color: var(--igd-color-text-secondary);
+  }
+</style>

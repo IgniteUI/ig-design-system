@@ -1,0 +1,48 @@
+---
+// A page of sections: the section list on the left, the content on the right.
+import SectionNav from "@/components/layout/SectionNav.astro";
+import type { PageId } from "@/data/navigation.ts";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title?: string;
+  current: PageId;
+  /** The sections of the page, in order. Each id is the id of an element on the page. */
+  sections: { id: string; title: string; count?: number }[];
+  /** A link above the section list, back to the page this one belongs to. */
+  back?: { href: string; title: string };
+}
+
+const { title, current, sections, back } = Astro.props;
+---
+
+<BaseLayout title={title} current={current}>
+  <slot name="bar" slot="bar" />
+  <slot name="switches" slot="switches" />
+  <slot name="before" />
+  <div class="layout">
+    <SectionNav sections={sections} back={back} />
+    <main>
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: var(--igd-field-min-width) minmax(0, 1fr);
+    gap: var(--igd-space-gap-3xl);
+    max-inline-size: var(--igd-container-max-width);
+    margin-inline: auto;
+    padding: var(--igd-space-inset-xl) var(--igd-container-gutter) var(--igd-space-inset-5xl);
+  }
+
+  /* breakpoint-lg */
+  @media (max-width: 1024px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--igd-space-gap-lg);
+    }
+  }
+</style>

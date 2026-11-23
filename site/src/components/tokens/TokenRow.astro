@@ -1,0 +1,24 @@
+---
+// A token as a table row: its name as a copy button, a value, and a last cell for its note or a slot.
+import CopyName from "@/components/ui/CopyName.astro";
+import Note from "@/components/ui/Note.astro";
+import Readout from "@/components/ui/Readout.astro";
+import { cssVar, prefixOf, type Token } from "@/lib/design-system.ts";
+
+interface Props {
+  token: Token;
+  /** The value shown: the token's own value as written, or its rendered length. */
+  value: "written" | "length";
+}
+
+const { token, value } = Astro.props;
+const custom = cssVar(token.name);
+---
+
+<tr data-token={token.name}>
+  <th scope="row"><CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} /></th>
+  <td class="value">{value === "length" ? <Readout token={token.name} kind="length" /> : token.value}</td>
+  <td>
+    <slot><Note text={token.usage} /></slot>
+  </td>
+</tr>

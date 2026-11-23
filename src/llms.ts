@@ -11,6 +11,7 @@ import {
   type TokenFamily,
   type TokenFamilyName,
 } from "./types.ts";
+import { checkCommand, installCommand, STYLESHEETS } from "./usage.ts";
 
 export type Tokens = Record<string, unknown>;
 
@@ -65,15 +66,12 @@ One design system for the Infragistics sites. The marketing site and igniteui-as
 ## Using it in a site
 
 \`\`\`sh
-npm install ${pkg.name}
+${installCommand(pkg.name)}
 \`\`\`
 
 Load the stylesheets in this order, before the site's own styles:
 
-1. \`${pkg.name}/fonts.css\` — optional. The three faces. Leave it out when the site already loads Plus Jakarta Sans, DM Sans and JetBrains Mono.
-2. \`${pkg.name}/tokens.css\` — every token with its default value.
-3. \`${pkg.name}/theme.css\` — the live layer: dials, derived state colours, the dark theme, type roles.
-4. \`${pkg.name}/base.css\` — optional. Element styles for a site that has none.
+${STYLESHEETS.map((s, i) => `${i + 1}. \`${pkg.name}/${s.file}\` — ${s.optional ? "optional. " : ""}${s.note}`).join("\n")}
 
 A documentation site puts \`data-igd-type="docs"\` on \`<html>\` for the smaller type set. \`data-theme="dark"\` selects the dark theme.
 
@@ -87,7 +85,7 @@ A documentation site puts \`data-igd-type="docs"\` on \`<html>\` for the smaller
 - A component puts \`data-ig-scope\` on its root element, so a dial (\`--ig-size\`, \`--ig-spacing\`, \`--ig-radius-factor\`, \`--ig-elevation-factor\`) set on any ancestor reaches it. Set a dial on the root or on a \`data-ig-scope\` element. Never set a spacing, size or radius step on an element.
 - Widths, heights and offsets are not tokens. Type them.
 - When no token fits, do not invent a value that looks like one. Say which token is missing.
-- Check a site with \`npx ${pkg.name} check src\`. It reports an unknown token, a raw palette step and a raw spacing step.
+- Check a site with \`${checkCommand(pkg.name)}\`. It reports an unknown token, a raw palette step and a raw spacing step.
 
 ## What is in it
 

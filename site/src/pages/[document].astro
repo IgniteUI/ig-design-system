@@ -1,0 +1,119 @@
+---
+// One page per Markdown document of the package. The file is rendered as it is; its second-level headings are the sections.
+import { getCollection, render } from "astro:content";
+import { DOCUMENTS } from "@/data/navigation.ts";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { href } from "@/lib/paths.ts";
+
+export async function getStaticPaths() {
+  const documents = await getCollection("documents");
+  const missing = DOCUMENTS.filter((d) => !documents.some((entry) => entry.id === d.slug));
+  if (missing.length)
+    throw new Error(
+      `No file was found for ${missing.map((d) => d.file).join(", ")}. Check the paths in DOCUMENTS in site/src/data/navigation.ts.`,
+    );
+  return documents.map((entry) => ({ params: { document: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const title = headings.find((h) => h.depth === 1)?.text;
+if (!title)
+  throw new Error(
+    `${entry.filePath} has no first-level heading. The page takes its title from it: start the file with "# Title".`,
+  );
+const sections = headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug, title: h.text }));
+---
+
+<SectionsLayout
+  title={title}
+  current="guide"
+  sections={sections}
+  back={{ href: href("#setup"), title: "Back to the guide" }}
+>
+  <article class="prose"><Content /></article>
+</SectionsLayout>
+
+<style>
+  .prose :global(:is(p, ul, ol)) {
+    max-inline-size: var(--igd-container-prose-max-width);
+    color: var(--igd-color-text-secondary);
+  }
+
+  .prose :global(p) {
+    margin-block: 0 var(--igd-space-stack-md);
+  }
+
+  .prose :global(h1 + p) {
+    margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-2xl);
+    font-size: var(--igd-type-lead-font-size);
+    line-height: var(--igd-type-lead-line-height);
+  }
+
+  .prose :global(h2) {
+    margin-block: var(--igd-space-stack-4xl) var(--igd-space-stack-md);
+  }
+
+  .prose :global(h3) {
+    margin-block: var(--igd-space-stack-xl) var(--igd-space-stack-sm);
+    font-family: var(--igd-font-display);
+    font-size: var(--igd-type-title-md-font-size);
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--igd-color-text-heading);
+  }
+
+  .prose :global(:is(ul, ol)) {
+    margin-block: 0 var(--igd-space-stack-md);
+    padding-inline-start: var(--igd-space-inset-xl);
+  }
+
+  .prose :global(li) {
+    margin-block-end: var(--igd-space-stack-xs);
+  }
+
+  .prose :global(li > :is(ul, ol)) {
+    margin-block: var(--igd-space-stack-xs) 0;
+  }
+
+  .prose :global(strong) {
+    color: var(--igd-color-text-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .prose :global(pre) {
+    max-inline-size: var(--igd-container-prose-max-width);
+    margin-block: 0 var(--igd-space-stack-md);
+    padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
+    border-radius: var(--igd-radius-md);
+    overflow: auto;
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+  }
+
+  /* A table wider than the page scrolls inside itself. */
+  .prose :global(table) {
+    display: block;
+    max-inline-size: 100%;
+    margin-block: 0 var(--igd-space-stack-lg);
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  .prose :global(:is(th, td)) {
+    padding: var(--igd-space-inset-xs) var(--igd-space-inset-md) var(--igd-space-inset-xs) 0;
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .prose :global(th) {
+    font-size: var(--igd-type-body-xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    color: var(--igd-color-text-muted);
+  }
+
+  .prose :global(:is(th, td) code) {
+    white-space: nowrap;
+  }
+</style>
