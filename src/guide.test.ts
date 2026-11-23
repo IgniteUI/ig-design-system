@@ -57,6 +57,19 @@ describe("guide", () => {
     );
   });
 
+  it("carries the logo of each theme in the top bar, under one accessible name", () => {
+    expect(html).toContain(
+      '<a class="brand" href="index.html" aria-label="Infragistics design system">',
+    );
+    expect(
+      html.match(/<svg class="logo logo-light" aria-hidden="true"/g),
+    ).toHaveLength(1);
+    expect(
+      html.match(/<svg class="logo logo-dark" aria-hidden="true"/g),
+    ).toHaveLength(1);
+    expect(html).not.toContain('id="Layer_1"');
+  });
+
   it("marks itself as the current page, and the showcase marks Tokens", () => {
     expect(html).toContain(
       '<a href="index.html" aria-current="page">Guide</a>',

@@ -180,6 +180,7 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
 - `src/guide.ts` writes `docs/index.html`, the guide for a reader who does not read the code. It shows a chosen few tokens with a plain use each, and links to the showcase for the rest. A name in its lists that `tokens.json` does not have stops the build.
 - The guide and the showcase share `src/page.ts`, `src/showcase.css` and `src/showcase.client.js`; `src/guide.css` adds the guide's own styles. Change the top bar, the theme switch or copying there, once.
+- The logo in the top bar is `src/assets/ig-logo.svg` in the light theme and `src/assets/ig-logo-dark.svg` in the dark theme. Both are copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes.
 - The guide prints bad examples on purpose, in "Do and don't", so the site command is not run on it. `check-vars` is: every `var()` on it, the bad examples included, names a real custom property.
 - When a rule in `src/llms.ts` changes, change the same rule in the guide.
 

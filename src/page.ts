@@ -11,6 +11,25 @@ const CLIENT_SCRIPT = fs.readFileSync(
   "utf8",
 );
 
+// The Infragistics logo for the light and for the dark theme, as the marketing site ships them.
+const LOGOS = (["light", "dark"] as const)
+  .map((theme) => {
+    const file = theme === "dark" ? "ig-logo-dark.svg" : "ig-logo.svg";
+    const svg = fs.readFileSync(fromRoot("src/assets", file), "utf8");
+    const start = svg.indexOf("<svg");
+    if (start < 0)
+      throw new Error(
+        `src/assets/${file} holds no <svg> element. Copy the logo again from the marketing site.`,
+      );
+    // Drops the XML prolog and the id both files share, and hides the drawing from assistive technology.
+    return svg
+      .slice(start)
+      .replace(/\sid="[^"]*"/, "")
+      .replace("<svg", `<svg class="logo logo-${theme}" aria-hidden="true"`)
+      .trim();
+  })
+  .join("\n    ");
+
 /** The pages of the site, in the order the top bar lists them. */
 export const PAGES = [
   { id: "guide", href: "index.html", title: "Guide" },
@@ -71,7 +90,10 @@ ${css}</style>
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="index.html">Infragistics design system</a>
+  <a class="brand" href="index.html" aria-label="Infragistics design system">
+    ${LOGOS}
+    <span>Design system</span>
+  </a>
   <nav class="pages" aria-label="Pages">
     ${PAGES.map((x) => `<a href="${x.href}"${x.id === p.current ? ' aria-current="page"' : ""}>${x.title}</a>`).join("\n    ")}
   </nav>

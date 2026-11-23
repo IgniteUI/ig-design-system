@@ -42,7 +42,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 ## Guide and showcase
 
-Two pages document the design system. Both use the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of their own. `.github/workflows/pages.yml` publishes them to GitHub Pages.
+Two pages document the design system. Both use the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of their own. The top bar carries the Infragistics logo, the file for the light theme and the one for the dark theme, from `src/assets/`. `.github/workflows/pages.yml` publishes them to GitHub Pages.
 
 Open `docs/index.html` in a browser for the guide. It is written for someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the two themes and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. `src/guide.ts` generates it from `dist/tokens.json` and `package.json`, so a count, a value or the package name on it cannot go stale.
 
