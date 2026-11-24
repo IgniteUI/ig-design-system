@@ -51,10 +51,12 @@ const count = (step: Token) => readers[step.name]?.length ?? 0;
             <div>
               <dt>{label(step)}</dt>
               <dd>
-                {readers[step.name].map((t, i) => (
+                {readers[step.name].map((t) => (
                   <>
-                    {i > 0 && ", "}
-                    <a href={href(`tokens/?q=${t.name}`)}><code>{cssVar(t.name)}</code></a>
+                    <a href={href(`tokens/?q=${t.name}`)}>
+                      <span class="swatch" style={`background: var(${cssVar(t.name)})`} aria-hidden="true" />
+                      <code>{cssVar(t.name)}</code>
+                    </a>
                   </>
                 ))}
               </dd>
@@ -177,13 +179,35 @@ const count = (step: Token) => readers[step.name]?.length ?? 0;
     color: var(--igd-color-text-muted);
   }
 
+  /* Each reader moves to the next line whole; a name wider than the line breaks after a hyphen. */
   .readers dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-3xs) var(--igd-space-gap-sm);
     margin: 0;
+    min-inline-size: 0;
   }
 
-  /* A name breaks only between names, never inside one. */
+  .readers a {
+    display: inline-flex;
+    align-items: baseline;
+    max-inline-size: 100%;
+  }
+
+  /* Each token that reads the step, in its own colour, which a derived state can shift from the step. */
+  .swatch {
+    display: inline-block;
+    inline-size: var(--igd-size-icon-xs);
+    block-size: var(--igd-size-icon-xs);
+    flex: none;
+    margin-inline-end: var(--igd-space-gap-3xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-control);
+    vertical-align: middle;
+  }
+
   .readers code {
-    white-space: nowrap;
+    min-inline-size: 0;
   }
 
   @container (inline-size < 40rem) {

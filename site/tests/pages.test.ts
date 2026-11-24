@@ -149,8 +149,18 @@ describe("the Engine page", () => {
         /<li[^>]*data-filter-group[^>]*>\s*<span class="family"[^>]*><span[^>]*>--ig-<\/span>gray.*?<\/dl>/s,
       )?.[0] ?? "";
     expect(row).toMatch(
-      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-text-muted"[^>]*><code[^>]*>--igd-color-text-muted<\/code><\/a>/s,
+      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-text-muted"[^>]*>.*?<code[^>]*>--igd-color-text-muted<\/code>\s*<\/a>/s,
     );
+  });
+
+  it("shows each token that reads a step with a swatch in its own colour", () => {
+    expect(html).toMatch(
+      /<a href="\/tokens\/\?q=color-text-muted"[^>]*>\s*<span class="swatch" style="background: var\(--igd-color-text-muted\)"/,
+    );
+  });
+
+  it("says how many steps are read with a space between the numbers and the words", () => {
+    expect(html).toMatch(/\d+ of the \d+ steps are read\./);
   });
 
   it("counts the readers of a step in its label, and says when no token reads it", () => {
