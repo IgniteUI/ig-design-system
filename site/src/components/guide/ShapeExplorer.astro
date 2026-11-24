@@ -1,6 +1,7 @@
 ---
 // Picks a corner or a shadow by what it sits on: a row of options, a drawing that shows the chosen one, and the name of its token.
 // For corners the drawing is a small interface whose parts can be picked too; for shadows it is one card that lifts.
+import ExampleTag from "@/components/guide/ExampleTag.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import { SHAPE_PICKS } from "@/data/guide.ts";
 import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
@@ -36,7 +37,9 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     }
   </div>
 
-  <div class="drawing" aria-hidden="true">
+  <div class="drawing">
+    <ExampleTag />
+    <div class="drawn" aria-hidden="true">
     {
       kind === "radius" ? (
         <div class="large" {...part("radius-xl")}>
@@ -59,6 +62,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
         </div>
       )
     }
+    </div>
   </div>
 
   <div class="info">
@@ -183,10 +187,15 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .drawing {
     display: grid;
-    place-items: center;
-    padding: var(--igd-space-inset-2xl) var(--igd-space-inset-md);
+    gap: var(--igd-space-gap-md);
+    padding: var(--igd-space-inset-md) var(--igd-space-inset-md) var(--igd-space-inset-2xl);
     border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
     border-radius: var(--igd-radius-lg);
+  }
+
+  .drawn {
+    display: grid;
+    place-items: center;
   }
 
   /* The picked part is outlined in the focus colour, so its corner reads against the rest. */

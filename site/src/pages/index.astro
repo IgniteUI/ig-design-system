@@ -4,6 +4,7 @@ import DemoCard from "@/components/guide/DemoCard.astro";
 import DemoForm from "@/components/guide/DemoForm.astro";
 import ColourExplorer from "@/components/guide/ColourExplorer.astro";
 import Dials from "@/components/guide/Dials.astro";
+import ExampleTag from "@/components/guide/ExampleTag.astro";
 import MessageExamples from "@/components/guide/MessageExamples.astro";
 import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
 import DarkNotice from "@/components/layout/DarkNotice.astro";
@@ -208,6 +209,7 @@ if (missing.length)
         these two cards are the same markup.
       </p>
       <DarkNotice inline />
+      <ExampleTag many />
       <div class="themes">
         <Stage data-theme="light" label="Light variant">
           <DemoCard title="Light variant">Every colour takes its light value.</DemoCard>
@@ -225,7 +227,8 @@ if (missing.length)
         sets no dial.
       </p>
       <Dials target="dial-stage">
-        <Stage id="dial-stage" label="Example only: these are not real components">
+        <Stage id="dial-stage">
+          <ExampleTag many />
           <DemoCard title="One card, four dials">Press a dial and watch the padding and the corners.</DemoCard>
           <DemoForm id="dial-form" />
         </Stage>

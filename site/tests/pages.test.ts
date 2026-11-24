@@ -293,10 +293,27 @@ describe("the guide", () => {
     expect(html).toContain("Inverse does not mean the dark variant.");
   });
 
+  it("names the message colour and its tint under each message, not the palette steps behind them", () => {
+    const messages = html.match(/<ul class="messages".*?<\/ul>/s)?.[0] ?? "";
+    expect(messages).toContain(
+      'data-copy-alt="--igd-color-feedback-error-default"',
+    );
+    expect(messages).toContain(
+      'data-copy-alt="--igd-color-feedback-error-surface"',
+    );
+    expect(messages).not.toContain("--ig-error");
+  });
+
+  it("labels every drawn example as an example, not a real component", () => {
+    const labels = html.match(/<p class="example"/g) ?? [];
+    // The colour page, two corner and shadow drawings, the messages, the light and dark cards and the dial preview.
+    expect(labels).toHaveLength(6);
+  });
+
   it("shows each message as an alert with an icon, a title and a text", () => {
     const messages = html.match(/<ul class="messages".*?<\/ul>/s)?.[0] ?? "";
     expect(messages.match(/<li /g)).toHaveLength(4);
-    expect(messages.match(/<svg /g)).toHaveLength(4);
+    expect(messages.match(/<svg viewBox="0 0 24 24"/g)).toHaveLength(4);
     expect(messages).toContain("Payment failed");
   });
 

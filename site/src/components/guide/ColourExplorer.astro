@@ -1,6 +1,7 @@
 ---
 // Picks a colour by its job: a list of colours by group beside a small drawn page, where every part that uses the picked
 // colour is outlined, with its use and the name of its token above the page. A part of the page can be picked too.
+import ExampleTag from "@/components/guide/ExampleTag.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import { COLOUR_PICKS } from "@/data/guide.ts";
 import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
@@ -77,7 +78,9 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     }
   </div>
 
-  <div class="drawing" aria-hidden="true">
+  <div class="drawing">
+    <ExampleTag />
+    <div aria-hidden="true">
     <div class="page" {...part("color-surface-page")}>
       <div class="band" {...part("color-surface-subtle")}>
         <div class="card" {...part("color-surface-card")}>
@@ -109,6 +112,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
         <span {...part("color-text-inverse-muted")}>Stays dark in both variants</span>
         <span class="footer-link" {...part("color-link-inverse")}>Contact us</span>
       </div>
+    </div>
     </div>
   </div>
 </div>
@@ -149,6 +153,8 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .drawing {
     grid-area: drawing;
+    display: grid;
+    gap: var(--igd-space-gap-xs);
     min-inline-size: 0;
   }
 
