@@ -1,9 +1,15 @@
 ---
-// A banner above the top bar that stays in view, shown only in the dark variant of the theme, that says the variant is not final.
-// Its height is published as --notice-block-size, so the rows that stick under it move down by as much.
+// Says the dark variant is not final. As a banner it sticks above the top bar in the dark variant only, and publishes its height
+// as --notice-block-size so the rows that stick under it move down by as much. Inline, it sits in the page in both variants.
+interface Props {
+  /** Shown in the page, beside a dark example, instead of as the banner of a dark page. */
+  inline?: boolean;
+}
+
+const { inline = false } = Astro.props;
 ---
 
-<p class="notice" role="note" data-dark-notice>
+<p class:list={["notice", { inline }]} role="note" data-dark-notice={inline ? undefined : ""}>
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 3.5 2.5 20h19L12 3.5Z"></path>
     <path d="M12 10v4.5M12 17.25v.25"></path>
@@ -57,6 +63,16 @@
     stroke-width: var(--igd-size-icon-stroke-strong);
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  .notice.inline {
+    position: static;
+    display: flex;
+    justify-content: start;
+    margin-block: 0 var(--igd-space-stack-md);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-md);
   }
 
   strong {

@@ -364,14 +364,30 @@ describe("the dials of the guide", () => {
   it("keeps space between the card and the line under it", async () => {
     const { page } = await open("");
     const gap = await page.evaluate(() => {
-      const stage = document.getElementById("dial-stage");
-      const after = stage?.nextElementSibling;
-      if (!stage || !after) throw new Error("no line after the dial card");
+      const lab = document.getElementById("dial-stage")?.parentElement;
+      const after = lab?.closest(".group")?.querySelector(".lead.after");
+      if (!lab || !after) throw new Error("no line after the dial card");
       return (
-        after.getBoundingClientRect().top - stage.getBoundingClientRect().bottom
+        after.getBoundingClientRect().top - lab.getBoundingClientRect().bottom
       );
     });
     expect(gap).toBeGreaterThanOrEqual(16);
+    await page.close();
+  });
+
+  it.each([
+    [1280, true],
+    [800, false],
+  ])("at %ipx puts the panel beside the card: %s", async (width, beside) => {
+    const { page } = await open("", width);
+    const [panel, card] = await page.evaluate(() =>
+      ["[data-dials]", "#dial-stage"].map((s) => {
+        const r = document.querySelector(s)?.getBoundingClientRect();
+        return { top: r?.top ?? 0, bottom: r?.bottom ?? 0 };
+      }),
+    );
+    if (beside) expect(card.top).toBe(panel.top);
+    else expect(card.top).toBeGreaterThanOrEqual(panel.bottom);
     await page.close();
   });
 

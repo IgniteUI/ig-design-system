@@ -2,6 +2,7 @@
 // The guide: the design system in plain words, with live examples built on the tokens.
 import DemoCard from "@/components/guide/DemoCard.astro";
 import Dials from "@/components/guide/Dials.astro";
+import DarkNotice from "@/components/layout/DarkNotice.astro";
 import RulePair from "@/components/guide/RulePair.astro";
 import SpacingAnatomy from "@/components/guide/SpacingAnatomy.astro";
 import Stage from "@/components/guide/Stage.astro";
@@ -257,6 +258,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
         The button at the top of this page switches the whole page. A region can also carry its own variant:
         these two cards are the same markup.
       </p>
+      <DarkNotice inline />
       <div class="themes">
         <Stage data-theme="light" label="Light variant">
           <DemoCard title="Light variant">Every colour takes its light value.</DemoCard>
@@ -270,16 +272,17 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       <h3 id="themes-dials">Dials</h3>
       <p class="lead">
         Four dials change every token below them at once. Press a value and watch the card: its padding,
-        corners and shadow follow, and no rule of the card changes. The Default column is what a site gets
-        when it sets no dial.
+        corners and shadow follow, and no rule of the card changes. The default is what a site gets when it
+        sets no dial.
       </p>
-      <Dials target="dial-stage" />
-      <Stage id="dial-stage" data-ig-scope>
-        <DemoCard title="One card, four dials">
-          Padding now: <Readout token="space-inset-lg" kind="length" />, corner:{" "}
-          <Readout token="radius-lg" kind="length" />
-        </DemoCard>
-      </Stage>
+      <Dials target="dial-stage">
+        <Stage id="dial-stage" data-ig-scope>
+          <DemoCard title="One card, four dials">
+            Padding now: <Readout token="space-inset-lg" kind="length" />, corner:{" "}
+            <Readout token="radius-lg" kind="length" />
+          </DemoCard>
+        </Stage>
+      </Dials>
       <p class="lead after">A site sets a dial once, on the page or on one region. A component never sets one.</p>
     </div>
   </Section>

@@ -176,53 +176,50 @@ export const SHAPE_PICKS: Record<
 export const SPACE_PICKS = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
 /**
- * The dials of the live card: the property, its plain label, what a token reads when no dial is set, and the values a button sets.
- * A button with an empty value is the default: it clears the dial. `shown` is the number printed beside its label.
+ * The dials of the live card: the property, its plain label and the values a button sets.
+ * The button with an empty value is the default: it clears the dial. `note` says in plain words what the default gives.
  */
 export const DIALS: {
   property: string;
   label: string;
-  fallback: string;
-  values: [label: string, value: string, shown: string][];
+  note?: string;
+  values: [label: string, value: string][];
 }[] = [
   {
     property: "--ig-size",
     label: "Size",
-    fallback: "Large, 3",
     values: [
-      ["Small", "1", "1"],
-      ["Medium", "2", "2"],
-      ["Large", "", "3"],
+      ["Small", "1"],
+      ["Medium", "2"],
+      ["Large", ""],
     ],
   },
   {
     property: "--ig-spacing",
     label: "Spacing",
-    fallback: "Normal, 1",
     values: [
-      ["Half", "0.5", "0.5"],
-      ["Normal", "", "1"],
-      ["Double", "2", "2"],
+      ["Half", "0.5"],
+      ["Normal", ""],
+      ["Double", "2"],
     ],
   },
   {
     property: "--ig-radius-factor",
     label: "Roundness",
-    fallback: "Standard: buttons stay fully round, cards are gently rounded, and each kind of element keeps its own corner",
+    note: "Buttons stay fully round and cards are gently rounded.",
     values: [
-      ["Square", "0", "0"],
-      ["Standard", "", ""],
-      ["Round", "1", "1"],
+      ["Square", "0"],
+      ["Standard", ""],
+      ["Round", "1"],
     ],
   },
   {
     property: "--ig-elevation-factor",
     label: "Shadow",
-    fallback: "Normal, 1",
     values: [
-      ["None", "0", "0"],
-      ["Normal", "", "1"],
-      ["Double", "2", "2"],
+      ["None", "0"],
+      ["Normal", ""],
+      ["Double", "2"],
     ],
   },
 ];

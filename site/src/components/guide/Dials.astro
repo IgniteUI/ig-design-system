@@ -1,56 +1,45 @@
 ---
-// The dials as a table: each row names a dial, its custom property and its default, and its buttons set it on one element of the page.
-import ToggleButton from "@/components/ui/ToggleButton.astro";
+// A control panel beside the live card: each dial is one row of options that sets it on the card, with its default named below.
 import { DIALS } from "@/data/guide.ts";
 
 interface Props {
-  /** The id of the element the dials are set on. */
+  /** The id of the element the dials are set on, passed in the slot. */
   target: string;
 }
 
 const { target } = Astro.props;
+const defaultOf = (values: [string, string][]) => values.find(([, value]) => value === "")?.[0];
 ---
 
-<div class="dials" data-dials={target}>
-  <table>
-    <caption class="sr">The dials and the values they take</caption>
-    <thead>
-      <tr>
-        <th scope="col">Dial</th>
-        <th scope="col">Custom property</th>
-        <th scope="col">Default</th>
-        <th scope="col">Set to</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        DIALS.map((dial) => (
-          <tr>
-            <th scope="row">{dial.label}</th>
-            <td>
-              <code>{dial.property}</code>
-            </td>
-            <td class="fallback">{dial.fallback}</td>
-            <td>
-              <div class="values" role="group" aria-label={dial.label}>
-                {dial.values.map(([label, value, shown]) => (
-                  <ToggleButton
-                    data-dial={dial.property}
-                    data-value={value}
-                    aria-pressed={value === "" ? "true" : "false"}
-                  >
-                    {label}
-                    {shown && <span class="number">{shown}</span>}
-                  </ToggleButton>
-                ))}
-              </div>
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
-  <button type="button" class="reset" data-dial-reset>Reset the dials</button>
+<div class="lab">
+  <div class="panel" data-dials={target}>
+    {
+      DIALS.map((dial) => (
+        <div class="dial">
+          <p class="name" id={`dial-${dial.label.toLowerCase()}`}>
+            {dial.label} <code>{dial.property}</code>
+          </p>
+          <div class="options" role="group" aria-labelledby={`dial-${dial.label.toLowerCase()}`}>
+            {dial.values.map(([label, value]) => (
+              <button
+                type="button"
+                data-dial={dial.property}
+                data-value={value}
+                aria-pressed={value === "" ? "true" : "false"}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p class="default">
+            Default: {defaultOf(dial.values)}.{dial.note && ` ${dial.note}`}
+          </p>
+        </div>
+      ))
+    }
+    <button type="button" class="reset" data-dial-reset>Reset the dials</button>
+  </div>
+  <slot />
 </div>
 
 <script>
@@ -58,61 +47,111 @@ const { target } = Astro.props;
 </script>
 
 <style>
-  .dials {
+  .lab {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: var(--igd-space-gap-lg);
+  }
+
+  /* With room for both, the panel sits beside the card, so a press and its effect are in view together. */
+  @media (min-width: 1100px) {
+    .lab {
+      grid-template-columns: minmax(18rem, 22rem) minmax(0, 1fr);
+    }
+  }
+
+  /* The card fills its stage, so a change of padding or corner shows across its whole width. */
+  .lab > :global(.stage) {
+    justify-items: stretch;
+  }
+
+  .lab > :global(.stage .card) {
+    max-inline-size: none;
+  }
+
+  .panel {
+    display: grid;
+    gap: var(--igd-space-gap-lg);
+    padding: var(--igd-space-inset-lg);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    border-radius: var(--igd-radius-lg);
+    background: var(--igd-color-surface-card);
+  }
+
+  .dial {
     display: grid;
     gap: var(--igd-space-gap-xs);
-    margin-block-end: var(--igd-space-stack-md);
-    container-type: inline-size;
   }
 
-  table {
-    inline-size: 100%;
-    border-collapse: collapse;
-  }
-
-  thead th {
-    padding: 0 var(--igd-space-inset-sm) var(--igd-space-inset-xs) 0;
-    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    color: var(--igd-color-text-secondary);
-    font-size: var(--igd-type-body-xs-font-size);
-    font-weight: var(--igd-font-weight-semibold);
-    text-align: start;
-  }
-
-  tbody th,
-  tbody td {
-    padding: var(--igd-space-inset-xs) var(--igd-space-inset-sm) var(--igd-space-inset-xs) 0;
-    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
-    text-align: start;
-    vertical-align: middle;
-  }
-
-  tbody th {
-    color: var(--igd-color-text-ui);
+  .name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--igd-space-gap-xs);
+    margin: 0;
+    color: var(--igd-color-text-heading);
     font-weight: var(--igd-font-weight-semibold);
   }
 
-  code {
+  .name code {
     color: var(--igd-color-text-muted);
-    white-space: nowrap;
-  }
-
-  .fallback {
-    color: var(--igd-color-text-secondary);
-    font-size: var(--igd-type-body-sm-font-size);
-  }
-
-  .number {
-    margin-inline-start: var(--igd-space-gap-2xs);
-    font-family: var(--igd-font-mono);
-    font-size: var(--igd-type-body-xs-font-size);
     font-weight: var(--igd-font-weight-regular);
   }
 
-  .values {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--igd-space-gap-xs);
+  /* One choice: the options are joined into a single control, and the chosen one is filled. */
+  .options {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: var(--igd-space-gap-3xs);
+    padding: var(--igd-space-inset-3xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-full);
+    background: var(--igd-color-surface-subtle);
+  }
+
+  .options button {
+    min-block-size: var(--igd-size-control-sm);
+    padding: 0 var(--igd-space-inset-sm);
+    border: 0;
+    border-radius: var(--igd-radius-full);
+    background: transparent;
+    color: var(--igd-color-text-ui);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    cursor: pointer;
+    transition:
+      background-color var(--igd-duration-fast) var(--igd-easing-default),
+      color var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  .options button:hover {
+    background: var(--igd-color-surface-card);
+    color: var(--igd-color-text-heading);
+  }
+
+  .options button[aria-pressed="true"] {
+    background: var(--igd-color-action-default);
+    color: var(--igd-color-action-on);
+  }
+
+  .options button:focus-visible {
+    position: relative;
+  }
+
+  @media (pointer: coarse) {
+    .options button {
+      min-block-size: var(--igd-size-control-lg);
+    }
+  }
+
+  .default {
+    margin: 0;
+    color: var(--igd-color-text-secondary);
+    font-size: var(--igd-type-body-xs-font-size);
+    line-height: var(--igd-type-body-xs-line-height);
   }
 
   .reset {
@@ -129,37 +168,5 @@ const { target } = Astro.props;
 
   .reset:hover {
     color: var(--igd-color-action-hover);
-  }
-
-  /* A narrow table puts the values of a dial on a line under its name and property. */
-  @container (inline-size < 36rem) {
-    thead {
-      display: none;
-    }
-
-    tbody tr {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      align-items: baseline;
-      gap: var(--igd-space-gap-xs) var(--igd-space-gap-sm);
-      padding-block: var(--igd-space-inset-xs);
-      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
-    }
-
-    tbody th,
-    tbody td {
-      padding: 0;
-      border: 0;
-    }
-
-    tbody td:nth-child(n + 3) {
-      grid-column: 1 / -1;
-    }
-
-    .fallback::before {
-      content: "Default: ";
-      color: var(--igd-color-text-ui);
-      font-weight: var(--igd-font-weight-semibold);
-    }
   }
 </style>

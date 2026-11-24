@@ -184,30 +184,51 @@ describe("the Engine page", () => {
 describe("the guide", () => {
   const html = page("");
 
-  it("lists the dials as a table: name, custom property, default and the values to press", () => {
-    const table = html.match(/<div class="dials".*?<\/table>/s)?.[0] ?? "";
+  it("names each dial, its custom property and its default in plain words", () => {
+    const panel =
+      html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
     expect(
-      [...table.matchAll(/<th[^>]*scope="col"[^>]*>([^<]*)</g)].map(
+      [
+        ...panel.matchAll(
+          /<p class="name"[^>]*>\s*([^<]+?)\s*<code[^>]*>([^<]+)</g,
+        ),
+      ].map((m) => `${m[1]} ${m[2]}`),
+    ).toEqual([
+      "Size --ig-size",
+      "Spacing --ig-spacing",
+      "Roundness --ig-radius-factor",
+      "Shadow --ig-elevation-factor",
+    ]);
+    expect(
+      [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
         (m) => m[1],
       ),
-    ).toEqual(["Dial", "Custom property", "Default", "Set to"]);
-    expect(
-      [...table.matchAll(/<th[^>]*scope="row"[^>]*>([^<]*)</g)].map(
-        (m) => m[1],
-      ),
-    ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
+    ).toEqual([
+      "Default: Large.",
+      "Default: Normal.",
+      "Default: Standard. Buttons stay fully round and cards are gently rounded.",
+      "Default: Normal.",
+    ]);
   });
 
-  it("presses at first the button that clears each dial, named for what it gives", () => {
-    const dials =
-      html.match(/<div class="dials".*?data-dial-reset/s)?.[0] ?? "";
+  it("says beside the dark example, in either variant, that the dark variant is not final", () => {
+    const group =
+      html.match(/id="themes-light-dark".*?<div class="themes"/s)?.[0] ?? "";
+    expect(group).toMatch(/<p class="notice inline"[^>]*role="note"/);
+    expect(group).toContain("The dark variant is not final.");
+    expect(group).not.toContain("data-dark-notice");
+  });
+
+  it("presses at first the option that clears each dial", () => {
+    const panel =
+      html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
     expect(
-      [...dials.matchAll(/aria-pressed="true"[^>]*>\s*([^<]+?)\s*</g)].map(
-        (m) => m[1],
-      ),
+      [
+        ...panel.matchAll(
+          /data-value(?:="")? [^>]*aria-pressed="true"[^>]*>\s*([^<]+?)\s*</g,
+        ),
+      ].map((m) => m[1]),
     ).toEqual(["Large", "Normal", "Standard", "Normal"]);
-    expect(dials).toContain('<td class="fallback"');
-    expect(html).toContain("The Default column is what a site gets");
   });
 
   it("prints the install and check commands with the package's name", () => {
