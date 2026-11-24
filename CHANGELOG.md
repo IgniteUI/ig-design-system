@@ -8,7 +8,7 @@ A token value that changes, a token that is renamed or removed, and a file that 
 
 The first version.
 
-- `dist/tokens.css` and `dist/theme.css`: the engine palette under `--ig-*` and every design system token under `--igd-*`: colour, feedback, badges, spacing, radius, size, shadow, type roles, motion, breakpoints and layers, in a light and a dark theme.
+- `dist/tokens.css` and `dist/theme.css`: the engine palette under `--ig-*` and every design system token under `--igd-*`: colour, feedback, badges, spacing, radius, size, shadow, type roles, motion, breakpoints and layers, in one theme with a light and a dark variant.
 - `dist/base.css`: optional element styles.
 - `dist/fonts.css` and `dist/fonts/`: optional. Plus Jakarta Sans, DM Sans and JetBrains Mono, each with its SIL Open Font License.
 - `dist/tokens.json` and `dist/infragistics.tokens.json`: the tokens as data, the second in the Design Tokens Community Group format.

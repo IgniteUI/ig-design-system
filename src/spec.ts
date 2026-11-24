@@ -346,7 +346,7 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
 };
 
-// ---- dark theme: text token -> the engine step it reads under [data-theme="dark"] ---------------
+// ---- dark variant: text token -> the engine step it reads under [data-theme="dark"] ---------------
 // Each is a lighter step of the family its alias in ALIAS names.
 export const DARK_STEP: Record<string, string> = {
   "color-action-text": "ig-primary-200",
