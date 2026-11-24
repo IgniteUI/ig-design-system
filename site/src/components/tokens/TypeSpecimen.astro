@@ -2,7 +2,7 @@
 // A type role as a row: its class as a copy button, its rendered size, and a sample set in it.
 import CopyName from "@/components/ui/CopyName.astro";
 import Note from "@/components/ui/Note.astro";
-import type { TypeStyle } from "@/lib/design-system.ts";
+import { type TypeStyle, typeVariables } from "@/lib/design-system.ts";
 
 interface Props {
   style: TypeStyle;
@@ -28,6 +28,23 @@ const className = `igd-${style.name}`;
   <div>
     <p class:list={["sample", className]} data-type-sample={className}>{style.sample}</p>
     {use ? <p class="use">{use}</p> : <Note text={style.usage} about={style.name} />}
+    {
+      plain && (
+        <ul class="names" aria-label={`The class and the variables of ${style.name}`}>
+          <li>
+            <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
+          </li>
+          <li class="vars">
+            <code class="stem">{`--igd-${style.name}-`}</code>
+            {typeVariables(style.name).map((v) => (
+              <button type="button" data-copy={`var(${v})`} data-copy-alt={v} aria-label={`Copy var(${v})`}>
+                {v.slice(`--igd-${style.name}-`.length)}
+              </button>
+            ))}
+          </li>
+        </ul>
+      )
+    }
   </div>
 </li>
 
@@ -55,6 +72,49 @@ const className = `igd-${style.name}`;
   .use {
     margin: 0;
     color: var(--igd-color-text-secondary);
+  }
+
+  .names {
+    display: grid;
+    gap: var(--igd-space-gap-3xs);
+    margin: var(--igd-space-stack-xs) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .names li {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  /* The variables share the role's stem, so it is written once and each property is a chip that copies the full name. */
+  .names .vars {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-3xs);
+  }
+
+  .stem {
+    color: var(--igd-color-text-muted);
+  }
+
+  .vars button {
+    padding: 0 var(--igd-space-inset-2xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    border-radius: var(--igd-radius-xs);
+    background: transparent;
+    color: var(--igd-color-text-ui);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+    cursor: copy;
+  }
+
+  .vars button:hover {
+    border-color: var(--igd-color-border-control);
+    color: var(--igd-color-text-heading);
   }
 
   .sample {
