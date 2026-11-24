@@ -361,6 +361,41 @@ describe("the guide", () => {
 });
 
 describe("the dials of the guide", () => {
+  it.each([1280, 800, 640])(
+    "at %ipx keep the card's two buttons on one row at Double spacing",
+    async (width) => {
+      const { page } = await open("", width);
+      await page.click('button[data-dial="--ig-spacing"][data-value="2"]');
+      const [first, second] = await page.$$eval(
+        "#dial-stage .card:not(form) .actions > *",
+        (all) => all.map((el) => el.getBoundingClientRect().top),
+      );
+      expect(second).toBe(first);
+      await page.close();
+    },
+  );
+
+  it("change the form beside the card: Small makes its fields shorter and Square makes their corners sharper, down to the 2px floor", async () => {
+    const { page } = await open("");
+    const field = "#dial-form-name";
+    const measure = () =>
+      page.$eval(field, (el) => {
+        const s = getComputedStyle(el);
+        return {
+          height: el.getBoundingClientRect().height,
+          radius: s.borderTopLeftRadius,
+        };
+      });
+    const before = await measure();
+    await page.click('button[data-dial="--ig-size"][data-value="1"]');
+    await page.click('button[data-dial="--ig-radius-factor"][data-value="0"]');
+    const after = await measure();
+    expect(after.height).toBeLessThan(before.height);
+    expect(after.radius).toBe("2px");
+    expect(Number.parseFloat(before.radius)).toBeGreaterThan(2);
+    await page.close();
+  });
+
   it.each([
     ["2", "14px"],
     ["1", "12px"],
@@ -372,6 +407,7 @@ describe("the dials of the guide", () => {
       expect(
         await page.evaluate(() => {
           const probe = document.createElement("div");
+          probe.setAttribute("data-ig-scope", "");
           probe.style.paddingTop = "var(--igd-space-md)";
           document.getElementById("dial-stage")?.append(probe);
           const value = getComputedStyle(probe).paddingTop;

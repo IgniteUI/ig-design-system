@@ -1,6 +1,7 @@
 ---
 // The guide: the design system in plain words, with live examples built on the tokens.
 import DemoCard from "@/components/guide/DemoCard.astro";
+import DemoForm from "@/components/guide/DemoForm.astro";
 import Dials from "@/components/guide/Dials.astro";
 import DarkNotice from "@/components/layout/DarkNotice.astro";
 import RulePair from "@/components/guide/RulePair.astro";
@@ -271,16 +272,17 @@ const property = { fill: "background", text: "color", outline: "border-color" };
     <div class="group">
       <h3 id="themes-dials">Dials</h3>
       <p class="lead">
-        Four dials change every token below them at once. Press a value and watch the card: its padding,
-        corners and shadow follow, and no rule of the card changes. The default is what a site gets when it
+        Four dials change every token below them at once. Press a value and watch the card and the form: their
+        padding, corners, field heights and shadow follow, and no rule of either changes. The default is what a site gets when it
         sets no dial.
       </p>
       <Dials target="dial-stage">
-        <Stage id="dial-stage" data-ig-scope>
+        <Stage id="dial-stage">
           <DemoCard title="One card, four dials">
             Padding now: <Readout token="space-inset-lg" kind="length" />, corner:{" "}
             <Readout token="radius-lg" kind="length" />
           </DemoCard>
+          <DemoForm id="dial-form" />
         </Stage>
       </Dials>
       <p class="lead after">A site sets a dial once, on the page or on one region. A component never sets one.</p>
