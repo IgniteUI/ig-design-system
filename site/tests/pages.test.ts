@@ -256,22 +256,13 @@ describe("the guide", () => {
     );
   });
 
-  it("names the class and the variables of each type role, never the engine slot behind them", () => {
+  it("names the class of each type role and the element it is meant for", () => {
     const role =
-      html.match(/<li[^>]*data-token="type-title-sm".*?<\/ul>/s)?.[0] ?? "";
-    const names = [...role.matchAll(/data-copy-alt="([^"]+)"/g)].map(
-      (m) => m[1],
-    );
-    expect(names).toEqual([
-      ".igd-type-title-sm",
-      "--igd-type-title-sm-font-family",
-      "--igd-type-title-sm-font-size",
-      "--igd-type-title-sm-font-weight",
-      "--igd-type-title-sm-line-height",
-      "--igd-type-title-sm-letter-spacing",
-      "--igd-type-title-sm-text-transform",
-    ]);
-    expect(role).not.toContain("--ig-h");
+      html.match(/<li[^>]*data-token="type-display-lg".*?<\/ul>/s)?.[0] ?? "";
+    expect(role).toContain('data-copy-alt=".igd-type-display-lg"');
+    expect(role).toContain("on <code");
+    expect(role).toContain("&lt;h1&gt;");
+    expect(role).not.toContain("--igd-type-display-lg-");
   });
 
   it("draws a part of the page for every colour the colour explorer lists", () => {

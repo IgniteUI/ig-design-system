@@ -1,4 +1,4 @@
-// The explorers of the guide: a pressed option, or a picked part of the drawing, outlines what uses that token and shows its use and name.
+// The explorers of the guide: a pressed option outlines what uses that token in the drawing and shows its use and name.
 for (const explorer of document.querySelectorAll<HTMLElement>(
   "[data-explorer]",
 )) {
@@ -19,15 +19,4 @@ for (const explorer of document.querySelectorAll<HTMLElement>(
     "button[data-pick]",
   ))
     b.addEventListener("click", () => choose(b.dataset.pick ?? ""));
-  for (const p of explorer.querySelectorAll<HTMLElement>("[data-part]")) {
-    // The innermost part under the pointer is the one picked.
-    p.addEventListener("click", (e) => {
-      e.stopPropagation();
-      choose(p.dataset.part ?? "");
-    });
-    p.addEventListener("pointerover", (e) => {
-      e.stopPropagation();
-      choose(p.dataset.part ?? "");
-    });
-  }
 }

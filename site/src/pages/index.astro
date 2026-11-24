@@ -19,7 +19,7 @@ import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import { CARD_MARKUP, CARD_RULE } from "@/data/card.ts";
-import { COLOUR_PICKS, TYPE_USES } from "@/data/guide.ts";
+import { COLOUR_PICKS, TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import { RULES, ruleId } from "@/data/rules.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
@@ -63,10 +63,10 @@ const rawOf = (token: { name: string; value: string }) => {
 const styles = tokens.type.groups.flatMap((g) => g.styles);
 const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
 const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
-const missing = styles.filter((style) => !TYPE_USES[style.name]).map((style) => style.name);
+const missing = styles.filter((style) => !TYPE_USES[style.name] || !TYPE_ELEMENTS[style.name]).map((style) => style.name);
 if (missing.length)
   throw new Error(
-    `The guide has no plain use for ${missing.join(", ")}. Add one to TYPE_USES in site/src/data/guide.ts.`,
+    `The guide has no plain use or element for ${missing.join(", ")}. Add one to TYPE_USES and TYPE_ELEMENTS in site/src/data/guide.ts.`,
   );
 ---
 
@@ -135,7 +135,7 @@ if (missing.length)
       switches by itself.
     </p>
     <p class="lead">
-      Pick a colour, or point at a part of the page, to see where it goes. An inverse colour is for an area that
+      Pick a colour to see where it goes on the page. An inverse colour is for an area that
       stays dark in both variants, such as the footer.
     </p>
     <ColourExplorer />
@@ -157,7 +157,7 @@ if (missing.length)
       press the button to see it.
     </p>
     <p class="switches"><TypeSetToggle target="type-specimens" /></p>
-    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} plain />)}</ul>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} element={TYPE_ELEMENTS[style.name]} plain />)}</ul>
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
@@ -181,7 +181,7 @@ if (missing.length)
     </p>
     <div class="group">
       <h3 id="shape-corners">Corners</h3>
-      <p class="lead">Pick an element, or point at it in the drawing, to see the corner it takes.</p>
+      <p class="lead">Pick an element to see the corner it takes.</p>
       <ShapeExplorer kind="radius" />
     </div>
     <div class="group">

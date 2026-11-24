@@ -1,6 +1,6 @@
 ---
 // Picks a colour by its job: a list of colours by group beside a small drawn page, where every part that uses the picked
-// colour is outlined, with its use and the name of its token above the page. A part of the page can be picked too.
+// colour is outlined, with its use and the name of its token above the page.
 import ExampleTag from "@/components/guide/ExampleTag.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import { COLOUR_PICKS } from "@/data/guide.ts";
@@ -232,7 +232,6 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     outline: var(--igd-focus-ring-width) solid transparent;
     outline-offset: var(--igd-focus-ring-offset);
     transition: outline-color var(--igd-duration-fast) var(--igd-easing-default);
-    cursor: pointer;
   }
 
   [data-part][data-current] {

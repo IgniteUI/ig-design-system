@@ -147,6 +147,17 @@ describe("the dark variant notice", () => {
       document.documentElement.style.scrollBehavior = "auto";
       scrollTo(0, 2000);
     });
+    // The notice publishes its height from a ResizeObserver, a frame after it shows.
+    await page.waitForFunction(
+      () =>
+        Math.round(
+          document.querySelector("header")?.getBoundingClientRect().top ?? -1,
+        ) ===
+        Math.round(
+          document.querySelector("[data-dark-notice]")?.getBoundingClientRect()
+            .bottom ?? 0,
+        ),
+    );
     const stuck = await page.evaluate(() => {
       const n = document
         .querySelector("[data-dark-notice]")
@@ -376,6 +387,29 @@ describe("the usage samples of the Tokens page", () => {
   });
 });
 
+describe("the type roles of the guide", () => {
+  it.each([1280, 390, 320])(
+    "at %ipx keep every class name on one line",
+    async (width) => {
+      const { page } = await open("", width);
+      const wrapped = await page.$$eval(
+        "#type-specimens .names button .text",
+        (all) =>
+          all.filter((el) => {
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            const lines = new Set(
+              [...range.getClientRects()].map((r) => Math.round(r.top)),
+            );
+            return lines.size > 1;
+          }).length,
+      );
+      expect(wrapped).toBe(0);
+      await page.close();
+    },
+  );
+});
+
 describe("the colour explorer of the guide", () => {
   it("outlines every part that uses the picked colour and names its token", async () => {
     const { page } = await open("");
@@ -397,12 +431,12 @@ describe("the colour explorer of the guide", () => {
     await page.close();
   });
 
-  it("picks the colour of the part under the pointer", async () => {
+  it("keeps the pick when the pointer moves over the page, so nothing above it moves", async () => {
     const { page } = await open("");
     await page.hover('[data-colour-explorer] [data-part="color-link-inverse"]');
     expect(
       await page.getAttribute(
-        '[data-colour-explorer] button[data-pick="color-link-inverse"]',
+        '[data-colour-explorer] button[data-pick="color-text-muted"]',
         "aria-pressed",
       ),
     ).toBe("true");
@@ -411,7 +445,7 @@ describe("the colour explorer of the guide", () => {
 });
 
 describe("the shape explorers of the guide", () => {
-  it("show the corner of the element picked, by its button or by pointing at it in the drawing", async () => {
+  it("show the corner of the element picked by its button, and keep it when the pointer moves over the drawing", async () => {
     const { page } = await open("");
     const shown = () =>
       page.$eval(
@@ -431,13 +465,7 @@ describe("the shape explorers of the guide", () => {
       ),
     ).toBe("");
     await page.hover('.explorer.radius [data-part="radius-xs"]');
-    expect(await shown()).toBe("radius-xs");
-    expect(
-      await page.getAttribute(
-        '.explorer.radius button[data-pick="radius-xs"]',
-        "aria-pressed",
-      ),
-    ).toBe("true");
+    expect(await shown()).toBe("radius-full");
     await page.close();
   });
 

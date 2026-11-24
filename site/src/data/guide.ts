@@ -190,6 +190,25 @@ export const TYPE_USES: Record<string, string> = {
   "type-body-2xs": "The smallest label, such as the line under a badge.",
 };
 
+/** The element each type role is meant for. A role of tokens.json that is missing here stops the build. */
+export const TYPE_ELEMENTS: Record<string, string> = {
+  "type-display-lg": "h1",
+  "type-display-md": "h2",
+  "type-display-sm": "h3",
+  "type-stat": "p",
+  "type-title-md": "h3",
+  "type-title-sm": "h3",
+  "type-lead": "p",
+  "type-label-lg": "button",
+  "type-body-lg": "p",
+  "type-body-md": "li",
+  "type-label-md": "button",
+  "type-body-sm": "p",
+  "type-eyebrow": "p",
+  "type-body-xs": "small",
+  "type-body-2xs": "span",
+};
+
 /** The radius and shadow roles the guide shows, each with the label of its button and its plain use. */
 export const SHAPE_PICKS: Record<
   "radius" | "shadow",

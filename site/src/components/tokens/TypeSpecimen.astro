@@ -2,17 +2,19 @@
 // A type role as a row: its class as a copy button, its rendered size, and a sample set in it.
 import CopyName from "@/components/ui/CopyName.astro";
 import Note from "@/components/ui/Note.astro";
-import { type TypeStyle, typeVariables } from "@/lib/design-system.ts";
+import type { TypeStyle } from "@/lib/design-system.ts";
 
 interface Props {
   style: TypeStyle;
   /** A plain use, shown in place of the role's own note. */
   use?: string;
-  /** Shows the sample and its use only, without the class and the size, as the guide does. */
+  /** Shows the sample, its use, its class and its element, without the size, as the guide does. */
   plain?: boolean;
+  /** The element the role is meant for, such as "h1". */
+  element?: string;
 }
 
-const { style, use, plain = false } = Astro.props;
+const { style, use, plain = false, element } = Astro.props;
 const className = `igd-${style.name}`;
 ---
 
@@ -30,18 +32,15 @@ const className = `igd-${style.name}`;
     {use ? <p class="use">{use}</p> : <Note text={style.usage} about={style.name} />}
     {
       plain && (
-        <ul class="names" aria-label={`The class and the variables of ${style.name}`}>
+        <ul class="names" aria-label={`The class of ${style.name} and its element`}>
           <li>
             <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
           </li>
-          <li class="vars">
-            <code class="stem">{`--igd-${style.name}-`}</code>
-            {typeVariables(style.name).map((v) => (
-              <button type="button" data-copy={`var(${v})`} data-copy-alt={v} aria-label={`Copy var(${v})`}>
-                {v.slice(`--igd-${style.name}-`.length)}
-              </button>
-            ))}
-          </li>
+          {element && (
+            <li class="element">
+              on <code>{`<${element}>`}</code>
+            </li>
+          )}
         </ul>
       )
     }
@@ -75,7 +74,10 @@ const className = `igd-${style.name}`;
   }
 
   .names {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--igd-space-gap-xs);
     gap: var(--igd-space-gap-3xs);
     margin: var(--igd-space-stack-xs) 0 0;
     padding: 0;
@@ -83,39 +85,19 @@ const className = `igd-${style.name}`;
     font-size: var(--igd-type-body-xs-font-size);
   }
 
+  /* The class and the element each stay on one line; the pair wraps as a whole. */
   .names li {
     display: block;
+    flex: none;
     padding: 0;
     border: 0;
+    white-space: nowrap;
   }
 
-  /* The variables share the role's stem, so it is written once and each property is a chip that copies the full name. */
-  .names .vars {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--igd-space-gap-3xs);
-  }
-
-  .stem {
+  .element {
     color: var(--igd-color-text-muted);
   }
 
-  .vars button {
-    padding: 0 var(--igd-space-inset-2xs);
-    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
-    border-radius: var(--igd-radius-xs);
-    background: transparent;
-    color: var(--igd-color-text-ui);
-    font-family: var(--igd-font-mono);
-    font-size: var(--igd-type-body-xs-font-size);
-    cursor: copy;
-  }
-
-  .vars button:hover {
-    border-color: var(--igd-color-border-control);
-    color: var(--igd-color-text-heading);
-  }
 
   .sample {
     margin: 0 0 var(--igd-space-stack-xs);
