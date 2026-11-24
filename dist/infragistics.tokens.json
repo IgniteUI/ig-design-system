@@ -1368,7 +1368,7 @@
     },
     "color-text-body": {
       "$value": "{color.ig-gray-600}",
-      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`."
+      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 7.03:1 on `color-surface-muted`."
     },
     "color-text-ui": {
       "$value": "{color.ig-gray-700}",
@@ -1499,8 +1499,8 @@
       "$description": "Release strip on hover; also the open nav trigger."
     },
     "color-surface-muted": {
-      "$value": "{color.ig-gray-100}",
-      "$description": "\"Coming soon\" pill fill."
+      "$value": "{color.ig-surface-sunken}",
+      "$description": "\"Coming soon\" pill fill: a recessed surface, lighter grey in the light variant and a deeper navy in the dark one."
     },
     "footer-background": {
       "$value": "{color.color-surface-inverse-sunken}",

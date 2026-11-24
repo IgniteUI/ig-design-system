@@ -416,7 +416,7 @@
   {
    "fg": "color-text-body",
    "bg": "color-surface-muted",
-   "ratio": 6.74,
+   "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
@@ -929,7 +929,7 @@
   {
    "fg": "color-text-body",
    "bg": "color-surface-muted",
-   "ratio": 7.21,
+   "ratio": 13.6,
    "min": 4.5,
    "ok": true
   },

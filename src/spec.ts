@@ -175,7 +175,10 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-primary-100",
     "Release strip on hover; also the open nav trigger.",
   ],
-  "color-surface-muted": ["ig-gray-100", '"Coming soon" pill fill.'],
+  "color-surface-muted": [
+    "ig-surface-sunken",
+    '"Coming soon" pill fill: a recessed surface, lighter grey in the light variant and a deeper navy in the dark one.',
+  ],
   // footer
   "footer-background": [
     "color-surface-inverse-sunken",
