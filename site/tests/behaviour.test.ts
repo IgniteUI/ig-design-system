@@ -420,6 +420,18 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
+  it("show each pick with a CSS sample that uses its token", async () => {
+    const { page } = await open("");
+    for (const [token, line] of [
+      ["radius-lg", "border-radius: var(--igd-radius-lg);"],
+      ["shadow-raised", "box-shadow: var(--igd-shadow-raised);"],
+    ])
+      expect(
+        await page.textContent(`[data-info="${token}"] pre code`),
+      ).toContain(line);
+    await page.close();
+  });
+
   it("lift the card to the shadow picked", async () => {
     const { page } = await open("");
     const shadow = () =>
