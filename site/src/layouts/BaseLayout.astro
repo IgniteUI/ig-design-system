@@ -5,6 +5,7 @@ import "@root/dist/tokens.css";
 import "@root/dist/theme.css";
 import "@root/dist/base.css";
 import "@/styles/global.css";
+import DarkNotice from "@/components/layout/DarkNotice.astro";
 import SiteFooter from "@/components/layout/SiteFooter.astro";
 import SiteHeader from "@/components/layout/SiteHeader.astro";
 import Toast from "@/components/ui/Toast.astro";
@@ -40,6 +41,7 @@ const SITE = "Infragistics design system";
   </head>
   <body>
     <a class="skip" href="#content">Skip to the content</a>
+    <DarkNotice />
     <SiteHeader current={current}>
       <slot name="bar" slot="bar" />
       <slot name="switches" slot="switches" />

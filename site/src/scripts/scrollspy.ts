@@ -6,6 +6,7 @@ const links = [
 const targets = links.map((a) => document.getElementById(a.hash.slice(1)));
 const nav = document.querySelector<HTMLElement>("[data-section-nav]");
 const header = document.querySelector<HTMLElement>("header");
+const notice = document.querySelector<HTMLElement>("[data-dark-notice]");
 const row = matchMedia("(max-width: 1024px)");
 let current: HTMLAnchorElement | undefined;
 
@@ -20,7 +21,7 @@ const reveal = (link: HTMLElement) => {
   list.scrollTo({ left: left - (list.clientWidth - link.offsetWidth) / 2 });
 };
 
-// The section being read is the last one whose top has passed the line a jump stops at, or the first one above that.
+// The section being read is the last one whose top, with its scroll margin, has passed the line a jump stops at, or the first one above that.
 const mark = () => {
   const line =
     Number.parseFloat(
@@ -32,7 +33,13 @@ const mark = () => {
   links.forEach((a, i) => {
     const target = targets[i];
     if (!target || target.closest("[hidden]")) return;
-    if (!found || ended || target.getBoundingClientRect().top <= line + 1)
+    const margin =
+      Number.parseFloat(getComputedStyle(target).scrollMarginBlockStart) || 0;
+    if (
+      !found ||
+      ended ||
+      target.getBoundingClientRect().top - margin <= line + 1
+    )
       found = a;
   });
   if (found === current) return;
@@ -44,10 +51,12 @@ const mark = () => {
   if (found) reveal(found);
 };
 
-// Stops a jump below the sticky rows: the top bar where it sticks, and the section list where it is a row.
+// Stops a jump below the sticky rows: the page keeps the notice and the top bar where it sticks, and a target keeps the section list where it is a row.
 const offset = () => {
+  const root = document.documentElement.style;
   if (!nav || !row.matches) {
-    document.documentElement.style.removeProperty("scroll-padding-block-start");
+    root.removeProperty("scroll-padding-block-start");
+    root.removeProperty("--row-block-size");
     return;
   }
   const bar =
@@ -55,10 +64,11 @@ const offset = () => {
       ? header.offsetHeight
       : 0;
   const gap = Number.parseFloat(getComputedStyle(nav).paddingBlockStart);
-  document.documentElement.style.setProperty(
+  root.setProperty(
     "scroll-padding-block-start",
-    `${bar + nav.offsetHeight + gap}px`,
+    `${(notice?.offsetHeight ?? 0) + bar}px`,
   );
+  root.setProperty("--row-block-size", `${nav.offsetHeight + gap}px`);
 };
 
 if (nav) {
@@ -66,6 +76,7 @@ if (nav) {
     offset();
     mark();
   }).observe(nav);
+  if (notice) new ResizeObserver(offset).observe(notice);
   row.addEventListener("change", offset);
   addEventListener("resize", offset);
   offset();

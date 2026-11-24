@@ -127,6 +127,84 @@ describe("the theme button", () => {
   });
 });
 
+describe("the dark variant notice", () => {
+  it("shows only in the dark variant, stays above the top bar while the page scrolls, and says the variant is not final", async () => {
+    const { page } = await open("");
+    const notice = page.locator("[data-dark-notice]");
+    expect(await notice.isVisible()).toBe(false);
+    await page.click("[data-theme-toggle]");
+    expect(await notice.isVisible()).toBe(true);
+    expect(await notice.textContent()).toContain(
+      "The dark variant is not final.",
+    );
+    const [noticeBottom, headerTop] = await page.evaluate(() => [
+      document.querySelector("[data-dark-notice]")?.getBoundingClientRect()
+        .bottom,
+      document.querySelector("header")?.getBoundingClientRect().top,
+    ]);
+    expect(noticeBottom).toBeLessThanOrEqual(headerTop ?? 0);
+    await page.evaluate(() => {
+      document.documentElement.style.scrollBehavior = "auto";
+      scrollTo(0, 2000);
+    });
+    const stuck = await page.evaluate(() => {
+      const n = document
+        .querySelector("[data-dark-notice]")
+        ?.getBoundingClientRect();
+      const h = document.querySelector("header")?.getBoundingClientRect();
+      return {
+        notice: n?.top,
+        header: Math.round(h?.top ?? -1) === Math.round(n?.bottom ?? 0),
+      };
+    });
+    expect(stuck).toEqual({ notice: 0, header: true });
+    await page.click("[data-theme-toggle]");
+    expect(await notice.isVisible()).toBe(false);
+    await page.close();
+  });
+
+  it("does not scroll sideways at 320px", async () => {
+    const { page } = await open("", 320);
+    await page.click("[data-theme-toggle]");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth - innerWidth,
+      ),
+    ).toBe(0);
+    await page.click("[data-theme-toggle]");
+    await page.close();
+  });
+});
+
+describe("Tab through the sticky bars", () => {
+  it.each([
+    [1280, "light"],
+    [800, "light"],
+    [800, "dark"],
+  ])(
+    "at %ipx in the %s variant moves focus through the top bar and the section list without scrolling the page",
+    async (width, variant) => {
+      const { page } = await open("tokens/", width);
+      if (variant === "dark") await page.click("[data-theme-toggle]");
+      await page.evaluate(() => {
+        document.documentElement.style.scrollBehavior = "auto";
+        scrollTo(0, 3000);
+      });
+      await page.focus("header a.brand");
+      const visited: string[] = [];
+      for (let i = 0; i < 8; i++) {
+        await page.keyboard.press("Tab");
+        visited.push(
+          await page.evaluate(() => document.activeElement?.tagName ?? ""),
+        );
+      }
+      expect(visited).toContain("INPUT");
+      expect(await page.evaluate(() => scrollY)).toBe(3000);
+      await page.close();
+    },
+  );
+});
+
 describe("the skip link", () => {
   it("is the first Tab stop and moves focus to the content", async () => {
     const { page } = await open("");
@@ -374,7 +452,7 @@ describe("the filter of the Tokens page", () => {
     expect(
       await page.textContent('[data-token="color-action-default"] output'),
     ).toMatch(/^#[0-9a-f]{6}$/);
-    expect(await page.textContent('[data-token="space-md"] output')).toBe(
+    expect(await page.textContent('[data-token="space-inset-md"] output')).toBe(
       "16px",
     );
     await page.close();

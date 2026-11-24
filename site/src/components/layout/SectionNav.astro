@@ -53,9 +53,9 @@ const { sections, back, pages } = Astro.props;
 <style>
   nav {
     position: sticky;
-    inset-block-start: calc(var(--igd-nav-height) + var(--igd-space-stack-xl));
+    inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-xl));
     align-self: start;
-    max-block-size: calc(100dvb - var(--igd-nav-height) - var(--igd-space-stack-xl) * 2);
+    max-block-size: calc(100dvb - var(--igd-nav-height) - var(--notice-block-size, 0px) - var(--igd-space-stack-xl) * 2);
     overflow-y: auto;
     /* Room inside the scrolling box for the focus ring of the controls at its edges. */
     padding: calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset));
@@ -127,7 +127,7 @@ const { sections, back, pages } = Astro.props;
   /* breakpoint-lg: one row under the top bar that stays in view and scrolls sideways. */
   @media (max-width: 1024px) {
     nav {
-      inset-block-start: var(--igd-nav-height);
+      inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px));
       z-index: var(--igd-z-index-sticky);
       display: grid;
       grid-template-columns: minmax(0, auto) minmax(0, 1fr);
@@ -200,7 +200,7 @@ const { sections, back, pages } = Astro.props;
   /* breakpoint-sm: the top bar scrolls away there, so the row sits at the top of the screen. */
   @media (max-width: 640px) {
     nav {
-      inset-block-start: 0;
+      inset-block-start: var(--notice-block-size, 0px);
     }
   }
 

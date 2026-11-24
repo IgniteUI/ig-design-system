@@ -1,13 +1,19 @@
 /* What every page shares: element defaults and the few text styles used in more than one component. */
 
+/* The height of the dark variant notice; DarkNotice.astro sets it while the notice shows. */
+:root { --notice-block-size: 0px; --row-block-size: var(--igd-space-5xl); }
 /* A jump to a section scrolls smoothly; base.css turns it off for a reader who asks for reduced motion. */
-html { scroll-behavior: smooth; scroll-padding-block-start: calc(var(--igd-nav-height) + var(--igd-space-stack-md)); }
+html { scroll-behavior: smooth; scroll-padding-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-md)); }
 button { font: inherit; color: inherit; }
 code, output { font-family: var(--igd-font-mono); font-size: var(--igd-type-body-xs-font-size); }
 output { color: var(--igd-color-text-secondary); }
 [hidden] { display: none !important; }
-/* breakpoint-lg: the section list is a sticky row there; scrollspy.ts sets the measured height of the sticky rows in its place. */
-@media (max-width: 1024px) { html { scroll-padding-block-start: calc(var(--igd-nav-height) + var(--igd-space-5xl)); } }
+/* breakpoint-lg: the section list is a sticky row there. A jump target keeps its height above it, so the space the page keeps covers the top bar only and focus in the row scrolls nothing. scrollspy.ts sets both from measured heights. */
+@media (max-width: 1024px) { main [id] { scroll-margin-block-start: var(--row-block-size); } }
+/* What sits in the sticky bars is always in view, so focus moving into it scrolls nothing; the space a jump keeps under the bars would otherwise count it as hidden. */
+[data-dark-notice] * { scroll-margin-block-start: -100vh; }
+/* breakpoint-sm up: the top bar sticks. */
+@media (min-width: 641px) { header * { scroll-margin-block-start: -100vh; } }
 /* Text for assistive technology only. */
 .sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 ::placeholder { color: var(--igd-color-text-muted); opacity: 1; }

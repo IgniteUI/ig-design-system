@@ -177,8 +177,9 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - `site/` is an Astro project. It is not part of the npm package and has its own `package.json`, lockfile and tests. The package keeps no dependencies.
 - The site reads its facts where they live: tokens from `dist/tokens.json`, the documents from `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, the package name and repository from `package.json`, the stylesheet order and the commands from `src/usage.ts`. `site/src/lib/design-system.ts` is the one module that imports from outside `site/`.
 - Nothing the site builds is committed. `site/dist/` is ignored; the Pages workflow builds it.
-- A new kind of token gets a section on the Tokens page. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets. A test fails when a token of `tokens.json` is not on the page.
-- Every token on the Tokens page is an element with `data-token="<name>"`. A palette family is one element, `data-token="ig-<family>"`, that holds its steps. The filter, and any later tool that edits a token, finds it by that attribute.
+- A new kind of token gets a section on the Tokens page. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets. A test fails when a token of `tokens.json` is on neither the Tokens page nor the Engine page.
+- The Tokens page lists what a site may write. The Engine page lists what the tokens are built from: the palette, the raw spacing steps and the engine's elevations (`isEngine()` in `site/src/lib/tokens.ts`). Under each step it lists the tokens that read it, and a colour card on the Tokens page links to the step it reads. Why: the owner decided on 2026-11-24 that values a site must not write do not sit beside the ones it may.
+- Every token on both pages is an element with `data-token="<name>"`, a palette step included. The filter, and any later tool that edits a token, finds it by that attribute.
 - A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
 - The guide shows a chosen few tokens with a plain use each, listed in `site/src/data/guide.ts`. A name there that `tokens.json` does not have stops the build.
 - A Markdown document becomes a page by a line in `DOCUMENTS` in `site/src/data/navigation.ts`. Do not link a reader of the site to a Markdown file on GitHub: a test fails on such a link.
@@ -187,7 +188,7 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
 - The clear space (half the logo's height), the smallest sizes (16px) and the do and don't list on the Logo page are the rules for the logo. The owner approved them on 2026-11-23. The sizes are in `site/src/data/logo.ts`.
 - The site is light by default, whatever the system colour scheme. The theme switch in the top bar is an icon button; it stores the dark theme once chosen and removes it when switched back.
-- The picture of the guide's hero is an inline SVG, `site/src/components/guide/HeroArt.astro`, drawn by hand. Every colour in it is a token, so it follows the theme and a change of brand colour. Do not replace it with a raster image.
+- In the dark variant a sticky notice above the top bar says the variant is not final. Remove it once the dark variant is reviewed (see Open).
 - The selected row of the section list is filled with the action colour, as the selected row of the docs site's sidebar is. The filter of the Tokens page sits above that list.
 - A type set button switches one element, the type list beside it, never the page.
 - Astro removes the whitespace between two inline elements. Write `{" "}` where a space must stay.
