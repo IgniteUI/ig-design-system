@@ -204,7 +204,7 @@ describe("the guide", () => {
         (m) => m[1],
       ),
     ).toEqual([
-      "Default: Large.",
+      "Default: Large. A smaller size also tightens the spacing: Medium to 87.5%, Small to 75%.",
       "Default: Normal.",
       "Default: Standard. Buttons stay fully round and cards are gently rounded.",
       "Default: Normal.",

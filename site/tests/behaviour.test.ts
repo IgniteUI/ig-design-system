@@ -361,6 +361,28 @@ describe("the guide", () => {
 });
 
 describe("the dials of the guide", () => {
+  it.each([
+    ["2", "14px"],
+    ["1", "12px"],
+  ])(
+    "tighten the spacing with the size: --ig-size %s gives a 16px step %s, as the Size line says",
+    async (size, px) => {
+      const { page } = await open("");
+      await page.click(`button[data-dial="--ig-size"][data-value="${size}"]`);
+      expect(
+        await page.evaluate(() => {
+          const probe = document.createElement("div");
+          probe.style.paddingTop = "var(--igd-space-md)";
+          document.getElementById("dial-stage")?.append(probe);
+          const value = getComputedStyle(probe).paddingTop;
+          probe.remove();
+          return value;
+        }),
+      ).toBe(px);
+      await page.close();
+    },
+  );
+
   it("keeps space between the card and the line under it", async () => {
     const { page } = await open("");
     const gap = await page.evaluate(() => {

@@ -188,6 +188,7 @@ export const DIALS: {
   {
     property: "--ig-size",
     label: "Size",
+    note: "A smaller size also tightens the spacing: Medium to 87.5%, Small to 75%.",
     values: [
       ["Small", "1"],
       ["Medium", "2"],
