@@ -208,10 +208,10 @@ export const DIALS: {
   {
     property: "--ig-radius-factor",
     label: "Roundness",
-    fallback: "Mixed: each radius token keeps its own, 0.67 to 1",
+    fallback: "Standard: buttons stay fully round, cards are gently rounded, and each kind of element keeps its own corner",
     values: [
       ["Square", "0", "0"],
-      ["Mixed", "", ""],
+      ["Standard", "", ""],
       ["Round", "1", "1"],
     ],
   },

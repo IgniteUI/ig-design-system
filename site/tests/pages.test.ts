@@ -205,7 +205,7 @@ describe("the guide", () => {
       [...dials.matchAll(/aria-pressed="true"[^>]*>\s*([^<]+?)\s*</g)].map(
         (m) => m[1],
       ),
-    ).toEqual(["Large", "Normal", "Mixed", "Normal"]);
+    ).toEqual(["Large", "Normal", "Standard", "Normal"]);
     expect(dials).toContain('<td class="fallback"');
     expect(html).toContain("The Default column is what a site gets");
   });
