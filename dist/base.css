@@ -17,7 +17,7 @@ body {
   font-family: var(--igd-font-body);
   font-size: var(--igd-type-body-md-font-size);
   line-height: var(--igd-type-body-md-line-height);
-  color: var(--igd-color-text-primary);
+  color: var(--igd-color-text-strong);
   text-wrap: pretty;
 }
 a { color: var(--igd-color-action-text); text-decoration: none; }

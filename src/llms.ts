@@ -77,7 +77,7 @@ A documentation site puts \`data-igd-type="docs"\` on \`<html>\` for the smaller
 
 ## Rules for code that uses the tokens
 
-- Read a semantic token, \`var(--igd-color-text-primary)\`. Never read a palette step, \`var(--ig-gray-700)\`, and never declare one.
+- Read a semantic token, \`var(--igd-color-text-strong)\`. Never read a palette step, \`var(--ig-gray-700)\`, and never declare one.
 - A custom property is \`--igd-*\` when the design system defines it and \`--ig-*\` only when the \`igniteui-theming\` engine emits that exact name.
 - Padding uses \`--igd-space-inset-*\`, vertical margins \`--igd-space-stack-*\`, gaps and inline margins \`--igd-space-gap-*\`. Not the raw step \`--igd-space-md\`.
 - A colour has one value per theme. Do not write \`light-dark()\` pairs of palette steps; the token already switches.

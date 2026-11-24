@@ -35,7 +35,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
   background: var(--igd-color-action-default);
   color: var(--igd-color-action-on);
   padding: var(--igd-space-inset-sm) var(--igd-space-inset-xl);
-  border-radius: var(--igd-radius-full);
+  border-radius: var(--igd-radius-pill);
 }
 .promo-button:hover { background: var(--igd-color-action-fill-hover); }
 ```

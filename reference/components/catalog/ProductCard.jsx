@@ -8,7 +8,7 @@ export function ProductCard({
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', position: 'relative',
-      borderRadius: 'var(--igd-radius-xl)', padding: 'var(--igd-space-inset-xl)',
+      borderRadius: 'var(--igd-radius-card-featured)', padding: 'var(--igd-space-inset-xl)',
       ...(bundle
         ? { border: 'var(--igd-border-width-strong) solid transparent', background: 'var(--igd-gradient-border-bundle)', boxShadow: 'var(--igd-shadow-accent-md)' }
         : { border: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', background: 'var(--igd-color-surface-card)', boxShadow: 'var(--igd-shadow-none)' }),

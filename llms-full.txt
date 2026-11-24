@@ -25,8 +25,8 @@
 - `--igd-color-focus-default`: `{color-action-text}`. Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only. Contrast 5.24:1 on `color-surface-page`.
 - `--igd-color-focus-inverse`: `#95d5f7`. Keyboard focus outline inside a `data-on-dark` section. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-surface-inverse`, 11.17:1 on `color-surface-inverse`.
 - `--igd-color-text-heading`: `{ig-gray-900}`. Headlines h1–h6 on `color-surface-page` and the catalog band. Contrast 17.79:1 on `color-surface-page`.
-- `--igd-color-text-primary`: `{ig-gray-800}`. Strong text and secondary-button labels on `color-surface-page`; the body default in base styles. Contrast 13.8:1 on `color-surface-page`.
-- `--igd-color-text-secondary`: `{ig-gray-600}`. Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`.
+- `--igd-color-text-strong`: `{ig-gray-800}`. Strong text and secondary-button labels on `color-surface-page`; the body default in base styles. Contrast 13.8:1 on `color-surface-page`.
+- `--igd-color-text-body`: `{ig-gray-600}`. Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`.
 - `--igd-color-text-ui`: `{ig-gray-700}`. UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.74:1 on `color-surface-subtle`.
 - `--igd-color-text-muted`: `{ig-gray-500}`. Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.62:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`.
 - `--igd-color-text-inverse`: `#fbfbfb`. Text on `color-surface-inverse`. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`.
@@ -190,13 +190,13 @@ Two tiers. Steps (space-3xs … space-6xl) are the raw scale; the name is a size
 
 Live values are produced by the engine's border-radius() in theme.css and follow --ig-radius-factor (unset = as listed, 0 = each role’s minimum, 1 = each role’s maximum).
 
-- `--igd-radius-full`: `624.9375rem`. Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px. Range 4px to 9999px.
+- `--igd-radius-pill`: `624.9375rem`. Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px. Range 4px to 9999px.
 - `--igd-nav-panel-radius`: `1.875rem`. Flared top corners of an open nav panel. Range 0px to 30px.
-- `--igd-radius-xl`: `1.5rem`. Emphasis and catalog cards. Never a circle: capped at 28px. Range 4px to 28px.
-- `--igd-radius-lg`: `1rem`. Marketing cards and media frames. Capped at 24px. Range 0px to 24px.
-- `--igd-radius-md`: `0.75rem`. Icon tiles, stat badges and nav link rows. Capped at 16px so a tile never becomes a circle. Range 4px to 16px.
-- `--igd-radius-sm`: `0.5rem`. Small elements and the monogram badge. Range 2px to 12px.
-- `--igd-radius-xs`: `0.375rem`. OSS tag and checkbox. Range 2px to 8px.
+- `--igd-radius-card-featured`: `1.5rem`. Emphasis and catalog cards. Never a circle: capped at 28px. Range 4px to 28px.
+- `--igd-radius-card`: `1rem`. Marketing cards and media frames. Capped at 24px. Range 0px to 24px.
+- `--igd-radius-tile`: `0.75rem`. Icon tiles, stat badges and nav link rows. Capped at 16px so a tile never becomes a circle. Range 4px to 16px.
+- `--igd-radius-badge`: `0.5rem`. Small elements and the monogram badge. Range 2px to 12px.
+- `--igd-radius-control`: `0.375rem`. OSS tag and checkbox. Range 2px to 8px.
 
 ## Size
 
@@ -358,9 +358,9 @@ Each role has `--igd-type-<role>-font-family`, `-font-size`, `-font-weight`, `-l
 - `stat`: 1.625rem, line height 1.1, weight 800; 1.125rem in the docs set. Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. Engine slot `h4`.
 - `title-md`: 1.125rem, line height 1.3, weight 800; 1rem in the docs set. Product names in a catalog card, in `color-text-heading`. Engine slot `h5`.
 - `title-sm`: 1rem, line height 1.4, weight 600; 0.875rem in the docs set. Card titles, sentence case, in `color-text-heading` — body face, not the display face. Engine slot `h6`.
-- `lead`: 1.1875rem, fluid from 1.0625rem, line height 1.6, weight 400; 1rem in the docs set. Lead under an h1 or h2, in `color-text-secondary`. Engine slot `subtitle-1`.
+- `lead`: 1.1875rem, fluid from 1.0625rem, line height 1.6, weight 400; 1rem in the docs set. Lead under an h1 or h2, in `color-text-body`. Engine slot `subtitle-1`.
 - `label-lg`: 1.0625rem, line height 1.5, weight 700; 0.875rem in the docs set. Hero button label and callout titles. Engine slot `subtitle-2`.
-- `body-lg`: 1rem, line height 1.62, weight 400; 1rem in the docs set. Running prose, in `color-text-secondary`. Engine slot `body-1`.
+- `body-lg`: 1rem, line height 1.62, weight 400; 1rem in the docs set. Running prose, in `color-text-body`. Engine slot `body-1`.
 - `body-md`: 0.9375rem, line height 1.5, weight 400; 0.875rem in the docs set. Nav, buttons and list rows, in `color-text-ui`. Engine slot `body-2`.
 - `label-md`: 0.9375rem, line height 1.5, weight 600; 1rem in the docs set. Button and CTA labels. Engine slot `button`.
 - `body-sm`: 0.875rem, line height 1.55, weight 400; 0.75rem in the docs set. Captions, card descriptions and table detail copy. Engine slot `caption`.

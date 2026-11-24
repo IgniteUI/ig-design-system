@@ -122,13 +122,13 @@ const count = (step: Token) => readers[step.name]?.length ?? 0;
 
   /* The ends of the row are rounded on the steps themselves, so nothing clips a focus ring. */
   ol li:first-child button {
-    border-start-start-radius: var(--igd-radius-sm);
-    border-end-start-radius: var(--igd-radius-sm);
+    border-start-start-radius: var(--igd-radius-badge);
+    border-end-start-radius: var(--igd-radius-badge);
   }
 
   ol li:last-child button {
-    border-start-end-radius: var(--igd-radius-sm);
-    border-end-end-radius: var(--igd-radius-sm);
+    border-start-end-radius: var(--igd-radius-badge);
+    border-end-end-radius: var(--igd-radius-badge);
   }
 
   button:focus-visible {
@@ -146,7 +146,7 @@ const count = (step: Token) => readers[step.name]?.length ?? 0;
   }
 
   .count {
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-2xs-font-size);
     font-weight: var(--igd-font-weight-semibold);
@@ -161,7 +161,7 @@ const count = (step: Token) => readers[step.name]?.length ?? 0;
     display: grid;
     gap: var(--igd-space-gap-3xs);
     margin: 0;
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
     font-size: var(--igd-type-body-xs-font-size);
     line-height: var(--igd-type-body-xs-line-height);
   }

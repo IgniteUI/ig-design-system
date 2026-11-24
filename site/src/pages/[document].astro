@@ -93,7 +93,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
   /* A measure a reader can follow; tables and code take the full width. */
   .prose :global(:is(p, ul, ol)) {
     max-inline-size: 33rem;
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
   }
 
   .prose :global(p) {
@@ -144,9 +144,9 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
 
   .prose :global(:not(pre) > code) {
     padding: 0 var(--igd-space-inset-3xs);
-    border-radius: var(--igd-radius-xs);
+    border-radius: var(--igd-radius-control);
     background: var(--igd-color-surface-subtle);
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
   }
 
   /* A name stays on one line. */
@@ -159,7 +159,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
     max-inline-size: var(--igd-container-prose-max-width);
     margin-block: 0 var(--igd-space-stack-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-md);
+    border-radius: var(--igd-radius-tile);
     background: var(--igd-color-surface-inverse);
   }
 
@@ -184,7 +184,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
     min-block-size: var(--igd-space-xl);
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-text-inverse-muted);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: var(--igd-color-surface-inverse-raised);
     color: var(--igd-color-text-inverse);
     font-size: var(--igd-type-body-xs-font-size);
@@ -222,7 +222,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-2xs);
     margin-inline-start: calc(-1 * var(--igd-space-inset-2xs));
     border: 0;
-    border-radius: var(--igd-radius-xs);
+    border-radius: var(--igd-radius-control);
     background: transparent;
     cursor: copy;
   }
@@ -267,7 +267,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
       display: flex;
       align-items: center;
       min-block-size: var(--igd-size-control-lg);
-      color: var(--igd-color-text-secondary);
+      color: var(--igd-color-text-body);
     }
 
     .documents a[aria-current="page"] {
@@ -283,14 +283,14 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
   kbd {
     padding: 0 var(--igd-space-inset-2xs);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-xs);
+    border-radius: var(--igd-radius-control);
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-xs-font-size);
   }
 
   .empty {
     padding-block: var(--igd-space-inset-3xl);
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
   }
 
   /* breakpoint-lg up: the column headings of a long table stay in view under the top bar. */

@@ -378,7 +378,7 @@ describe("the usage samples of the Tokens page", () => {
     ["colour", "color: var(--igd-color-text-muted);"],
     ["type", '<h3 class="igd-type-title-sm">Card title</h3>'],
     ["spacing", "padding: var(--igd-space-inset-lg);"],
-    ["radius", "border-radius: var(--igd-radius-lg);"],
+    ["radius", "border-radius: var(--igd-radius-card);"],
     ["shadow", "box-shadow: var(--igd-shadow-raised);"],
   ])("show how to write a %s token", async (id, line) => {
     const { page } = await open("tokens/");
@@ -477,17 +477,17 @@ describe("the shape explorers of the guide", () => {
             (i) => !i.hidden,
           )?.dataset.info,
       );
-    expect(await shown()).toBe("radius-lg");
-    await page.click('.explorer.radius button[data-pick="radius-full"]');
-    expect(await shown()).toBe("radius-full");
+    expect(await shown()).toBe("radius-card");
+    await page.click('.explorer.radius button[data-pick="radius-pill"]');
+    expect(await shown()).toBe("radius-pill");
     expect(
       await page.getAttribute(
-        '.explorer.radius [data-part="radius-full"]',
+        '.explorer.radius [data-part="radius-pill"]',
         "data-current",
       ),
     ).toBe("");
-    await page.hover('.explorer.radius [data-part="radius-xs"]');
-    expect(await shown()).toBe("radius-full");
+    await page.hover('.explorer.radius [data-part="radius-control"]');
+    expect(await shown()).toBe("radius-pill");
     await page.close();
   });
 
@@ -963,7 +963,7 @@ describe("the filter of the Tokens page, beyond names", () => {
         .locator('[data-section-list] a[href="#radius"] .count')
         .evaluate((el) => el.firstChild?.textContent?.trim());
     const total = await count();
-    await page.fill("[data-filter]", "radius-full");
+    await page.fill("[data-filter]", "radius-pill");
     expect(await count()).toBe("1");
     await page.fill("[data-filter]", "");
     expect(await count()).toBe(total);
@@ -985,7 +985,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("applies the filter of the address, and writes the filter to it", async () => {
-    const { page } = await open("tokens/?q=radius-full");
+    const { page } = await open("tokens/?q=radius-pill");
     await page.waitForFunction(
       () =>
         document.querySelector("[data-filter-matches]")?.textContent ===
@@ -1112,15 +1112,15 @@ describe("the migration guide", () => {
     });
     const page = await context.newPage();
     await page.goto(`${site.origin}/migration/`);
-    const button = 'button[data-copy="var(--igd-radius-full)"]';
+    const button = 'button[data-copy="var(--igd-radius-pill)"]';
     await page.click(button);
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--igd-radius-full)",
+      "var(--igd-radius-pill)",
     );
     await page.focus(button);
     await page.keyboard.press("Alt+Enter");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-radius-full",
+      "--igd-radius-pill",
     );
     await context.close();
   });
@@ -1150,7 +1150,7 @@ describe("the migration guide", () => {
     const { page } = await open("migration/", 390);
     expect(await page.getByRole("table").count()).toBeGreaterThan(5);
     expect(
-      await page.getByRole("cell", { name: "--igd-radius-full" }).count(),
+      await page.getByRole("cell", { name: "--igd-radius-pill" }).count(),
     ).toBe(1);
     await page.close();
   });
@@ -1453,15 +1453,15 @@ describe("a filter, where the result shows", () => {
 
   it("finds a name pasted as var(--name) in the migration guide", async () => {
     const { page } = await open("migration/");
-    await page.fill("[data-filter]", "var(--igd-radius-full)");
+    await page.fill("[data-filter]", "var(--igd-radius-pill)");
     expect(await page.locator("article tbody tr:visible").count()).toBe(1);
     await page.close();
   });
 
   it("clears with Escape wherever the focus is", async () => {
     const { page } = await open("tokens/");
-    await page.fill("[data-filter]", "radius-full");
-    await page.focus('[data-token="radius-full"] button[data-copy]');
+    await page.fill("[data-filter]", "radius-pill");
+    await page.focus('[data-token="radius-pill"] button[data-copy]');
     await page.keyboard.press("Escape");
     expect(await page.inputValue("[data-filter]")).toBe("");
     expect(await page.textContent("[data-filter-matches]")).toBe("");

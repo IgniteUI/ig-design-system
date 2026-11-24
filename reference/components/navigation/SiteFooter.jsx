@@ -77,7 +77,7 @@ function Newsletter({ variant, onSubscribe }) {
   const cols = 'repeat(auto-fit, minmax(min(100%, var(--igd-newsletter-min-width)), 1fr))';
   return (
     <section aria-labelledby="igf-nl-h" style={card
-      ? { margin: '0 0 var(--igd-space-stack-3xl)', padding: 'var(--igd-space-inset-2xl) clamp(var(--igd-space-inset-lg), 3vw, var(--igd-space-inset-3xl))', borderRadius: 'var(--igd-radius-xl)', border: 'var(--igd-border-width-default) solid var(--igd-footer-card-border)', background: 'var(--igd-footer-card-background)', display: 'grid', gridTemplateColumns: cols, gap: 'var(--igd-space-gap-lg) var(--igd-space-gap-4xl)', alignItems: 'center' }
+      ? { margin: '0 0 var(--igd-space-stack-3xl)', padding: 'var(--igd-space-inset-2xl) clamp(var(--igd-space-inset-lg), 3vw, var(--igd-space-inset-3xl))', borderRadius: 'var(--igd-radius-card-featured)', border: 'var(--igd-border-width-default) solid var(--igd-footer-card-border)', background: 'var(--igd-footer-card-background)', display: 'grid', gridTemplateColumns: cols, gap: 'var(--igd-space-gap-lg) var(--igd-space-gap-4xl)', alignItems: 'center' }
       : { display: 'grid', gridTemplateColumns: cols, gap: 'var(--igd-space-gap-lg) var(--igd-space-gap-4xl)', alignItems: 'start', padding: 'var(--igd-space-inset-2xl) 0 var(--igd-space-inset-3xl)', borderTop: 'var(--igd-border-width-default) solid var(--igd-footer-rule)' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: card ? 'var(--igd-space-gap-xs)' : 'var(--igd-space-gap-xs)', minWidth: 0 }}>
         <h2 id="igf-nl-h" className={card ? 'igd-type-stat' : 'igd-type-eyebrow'} style={card ? { margin: 0, color: 'var(--igd-color-text-inverse)' } : label}>Newsletter</h2>

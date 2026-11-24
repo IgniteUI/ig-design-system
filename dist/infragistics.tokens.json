@@ -1362,11 +1362,11 @@
       "$value": "{color.ig-gray-900}",
       "$description": "Headlines h1–h6 on `color-surface-page` and the catalog band. Contrast 17.79:1 on `color-surface-page`."
     },
-    "color-text-primary": {
+    "color-text-strong": {
       "$value": "{color.ig-gray-800}",
       "$description": "Strong text and secondary-button labels on `color-surface-page`; the body default in base styles. Contrast 13.8:1 on `color-surface-page`."
     },
-    "color-text-secondary": {
+    "color-text-body": {
       "$value": "{color.ig-gray-600}",
       "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`."
     },
@@ -2489,7 +2489,7 @@
   },
   "radius": {
     "$type": "dimension",
-    "radius-full": {
+    "radius-pill": {
       "$value": {
         "value": 624.9375,
         "unit": "rem"
@@ -2503,35 +2503,35 @@
       },
       "$description": "Flared top corners of an open nav panel. Range 0px to 30px."
     },
-    "radius-xl": {
+    "radius-card-featured": {
       "$value": {
         "value": 1.5,
         "unit": "rem"
       },
       "$description": "Emphasis and catalog cards. Never a circle: capped at 28px. Range 4px to 28px."
     },
-    "radius-lg": {
+    "radius-card": {
       "$value": {
         "value": 1,
         "unit": "rem"
       },
       "$description": "Marketing cards and media frames. Capped at 24px. Range 0px to 24px."
     },
-    "radius-md": {
+    "radius-tile": {
       "$value": {
         "value": 0.75,
         "unit": "rem"
       },
       "$description": "Icon tiles, stat badges and nav link rows. Capped at 16px so a tile never becomes a circle. Range 4px to 16px."
     },
-    "radius-sm": {
+    "radius-badge": {
       "$value": {
         "value": 0.5,
         "unit": "rem"
       },
       "$description": "Small elements and the monogram badge. Range 2px to 12px."
     },
-    "radius-xs": {
+    "radius-control": {
       "$value": {
         "value": 0.375,
         "unit": "rem"
@@ -5694,7 +5694,7 @@
         },
         "lineHeight": 1.6
       },
-      "$description": "Lead under an h1 or h2, in `color-text-secondary`. Engine slot `subtitle-1`.",
+      "$description": "Lead under an h1 or h2, in `color-text-body`. Engine slot `subtitle-1`.",
       "$extensions": {
         "com.infragistics.css": {
           "fluid": {
@@ -5744,7 +5744,7 @@
         },
         "lineHeight": 1.62
       },
-      "$description": "Running prose, in `color-text-secondary`. Engine slot `body-1`."
+      "$description": "Running prose, in `color-text-body`. Engine slot `body-1`."
     },
     "type-body-md": {
       "$value": {

@@ -30,7 +30,7 @@ beforeAll(async () => {
   page = await browser.newPage();
   await page.setContent(`<style>${css}
     .box { padding: var(--igd-space-inset-md); margin-left: var(--igd-size-control-md);
-      border-radius: var(--igd-radius-lg); box-shadow: var(--igd-elevation-8); }
+      border-radius: var(--igd-radius-card); box-shadow: var(--igd-elevation-8); }
     .fill { background: var(--igd-color-action-fill-hover); }</style>
     <div id="default" class="box"></div>
     <div style="${DIALS}"><div id="plain" class="box"></div></div>

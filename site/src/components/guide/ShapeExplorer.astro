@@ -14,7 +14,7 @@ interface Props {
 const { kind } = Astro.props;
 const picks = SHAPE_PICKS[kind];
 pick(kind === "radius" ? tokens.radius.tokens : tokens.shadow.tokens, picks.map((p) => p.token), kind);
-const first = kind === "radius" ? "radius-lg" : "shadow-raised";
+const first = kind === "radius" ? "radius-card" : "shadow-raised";
 const part = (token: string) => ({ "data-part": token, "data-current": token === first ? "" : undefined });
 ---
 
@@ -42,17 +42,17 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     <div class="drawn" aria-hidden="true">
     {
       kind === "radius" ? (
-        <div class="large" {...part("radius-xl")}>
-          <div class="card" {...part("radius-lg")}>
-            <span class="badge" {...part("radius-sm")}>New</span>
+        <div class="large" {...part("radius-card-featured")}>
+          <div class="card" {...part("radius-card")}>
+            <span class="badge" {...part("radius-badge")}>New</span>
             <strong>Project settings</strong>
-            <span class="row on" {...part("radius-md")}>General</span>
+            <span class="row on" {...part("radius-tile")}>General</span>
             <span class="row">Members</span>
             <span class="check">
-              <span class="box" {...part("radius-xs")} />
+              <span class="box" {...part("radius-control")} />
               Email me about changes
             </span>
-            <span class="button" {...part("radius-full")}>Save changes</span>
+            <span class="button" {...part("radius-pill")}>Save changes</span>
           </div>
         </div>
       ) : (
@@ -140,7 +140,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     display: grid;
     gap: var(--igd-space-gap-3xs);
     padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
-    border-radius: var(--igd-radius-md);
+    border-radius: var(--igd-radius-tile);
     text-align: start;
   }
 
@@ -160,7 +160,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: transparent;
     color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
@@ -190,7 +190,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     gap: var(--igd-space-gap-md);
     padding: var(--igd-space-inset-md) var(--igd-space-inset-md) var(--igd-space-inset-2xl);
     border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
   }
 
   .drawn {
@@ -213,7 +213,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     display: grid;
     inline-size: min(100%, 26rem);
     padding: var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-xl);
+    border-radius: var(--igd-radius-card-featured);
     background: var(--igd-color-surface-tint);
   }
 
@@ -222,9 +222,9 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     gap: var(--igd-space-gap-xs);
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
     background: var(--igd-color-surface-card);
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
   }
 
   .card strong {
@@ -234,7 +234,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   .badge {
     justify-self: start;
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
-    border-radius: var(--igd-radius-sm);
+    border-radius: var(--igd-radius-badge);
     background: var(--igd-badge-new-background);
     color: var(--igd-badge-new-color);
     font-size: var(--igd-type-body-2xs-font-size);
@@ -244,7 +244,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .row {
     padding: var(--igd-space-inset-xs) var(--igd-space-inset-sm);
-    border-radius: var(--igd-radius-md);
+    border-radius: var(--igd-radius-tile);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -266,7 +266,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     inline-size: var(--igd-size-icon-md);
     block-size: var(--igd-size-icon-md);
     border: var(--igd-border-width-strong) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-xs);
+    border-radius: var(--igd-radius-control);
   }
 
   .button {
@@ -276,7 +276,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-block-size: var(--igd-size-control-md);
     margin-block-start: var(--igd-space-stack-2xs);
     padding: 0 var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: var(--igd-color-action-default);
     color: var(--igd-color-action-on);
     font-weight: var(--igd-font-weight-semibold);
@@ -288,9 +288,9 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     inline-size: min(100%, 20rem);
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
     background: var(--igd-color-surface-card);
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
     transition: box-shadow var(--igd-duration-slow) var(--igd-easing-default);
   }
 
@@ -305,7 +305,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .use {
     margin: 0;
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
     font-weight: var(--igd-font-weight-semibold);
   }
 </style>

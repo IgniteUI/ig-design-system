@@ -6,7 +6,7 @@
 html { scroll-behavior: smooth; scroll-padding-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-md)); }
 button { font: inherit; color: inherit; }
 code, output { font-family: var(--igd-font-mono); font-size: var(--igd-type-body-xs-font-size); }
-output { color: var(--igd-color-text-secondary); }
+output { color: var(--igd-color-text-body); }
 [hidden] { display: none !important; }
 /* breakpoint-lg: the section list is a sticky row there. A jump target keeps its height above it, so the space the page keeps covers the top bar only and focus in the row scrolls nothing. scrollspy.ts sets both from measured heights. */
 @media (max-width: 1024px) { main [id] { scroll-margin-block-start: var(--row-block-size); } }
@@ -45,8 +45,8 @@ main h3 { font-family: var(--igd-font-body); font-size: var(--igd-type-eyebrow-f
 main h3.plain { margin-block: var(--igd-space-stack-2xl) var(--igd-space-stack-sm); font-size: var(--igd-type-title-sm-font-size); letter-spacing: normal; text-transform: none; color: var(--igd-color-text-heading); }
 
 /* A measure of about 70 characters at each text size. */
-.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: 38rem; font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
-.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: 33rem; color: var(--igd-color-text-secondary); }
+.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: 38rem; font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-body); }
+.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: 33rem; color: var(--igd-color-text-body); }
 /* A link inside running text is underlined, so it is not told apart by colour alone. */
 :is(.intro, .lead, .prose :is(p, li)) a { text-decoration: underline; text-underline-offset: 0.15em; }
 .more { margin-block: var(--igd-space-stack-lg) 0; font-weight: var(--igd-font-weight-semibold); }

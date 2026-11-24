@@ -88,7 +88,7 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-md) 0 var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: transparent;
     color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
@@ -117,7 +117,7 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
   .key {
     inline-size: var(--igd-size-icon-sm);
     block-size: var(--igd-size-icon-sm);
-    border-radius: var(--igd-radius-xs);
+    border-radius: var(--igd-radius-control);
     background: var(--stripes);
   }
 
@@ -128,7 +128,7 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
 
   .use {
     margin: 0;
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
     font-weight: var(--igd-font-weight-semibold);
   }
 
@@ -137,14 +137,14 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
     gap: var(--igd-space-gap-sm);
     padding: var(--igd-space-inset-md) var(--igd-space-inset-md) var(--igd-space-inset-xl);
     border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
   }
 
   .stack {
     display: grid;
     justify-self: center;
     inline-size: min(100%, 26rem);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
     transition: background-color var(--igd-duration-fast) var(--igd-easing-default);
   }
 
@@ -154,7 +154,7 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
     gap: var(--igd-space-gap-xs);
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
     background: var(--igd-color-surface-card);
   }
 
@@ -168,7 +168,7 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
   }
 
   .text {
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -185,7 +185,7 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-action-default);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: var(--igd-color-action-default);
     color: var(--igd-color-action-on);
     font-weight: var(--igd-font-weight-semibold);
@@ -211,6 +211,6 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
   /* Gap: the row shows stripes, and only the space between the buttons is not covered by a button. */
   .row[data-current] {
     background: var(--stripes);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
   }
 </style>

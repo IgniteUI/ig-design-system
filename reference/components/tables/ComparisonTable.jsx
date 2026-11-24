@@ -18,7 +18,7 @@ function BadgeMark({ cell, ours }) {
   const text = c.text ?? (c.mark === 'yes' ? 'Yes' : c.mark === 'no' ? 'No' : '');
   return (
     <span className="igd-type-body-sm" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--igd-space-gap-xs)', lineHeight: 'var(--igd-type-body-md-line-height)', fontWeight: ours && c.mark === 'yes' ? 'var(--igd-font-weight-semibold)' : 'var(--igd-font-weight-regular)', color: ours && c.mark === 'yes' ? 'var(--igd-color-text-heading)' : 'var(--igd-color-text-ui)' }}>
-      <span title={b.sr} style={{ flex: '0 0 auto', width: 'var(--igd-size-icon-lg)', height: 'var(--igd-size-icon-lg)', borderRadius: 'var(--igd-radius-full)', background: b.bg, color: b.fg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{b.icon}</span>
+      <span title={b.sr} style={{ flex: '0 0 auto', width: 'var(--igd-size-icon-lg)', height: 'var(--igd-size-icon-lg)', borderRadius: 'var(--igd-radius-pill)', background: b.bg, color: b.fg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{b.icon}</span>
       <span>{text || <span style={SR}>{b.sr}</span>}</span>
     </span>
   );
@@ -58,7 +58,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
     </div>
   ) : (
     <div role="row" style={{ ...row, background: 'var(--igd-color-surface-subtle)', alignItems: 'stretch' }}>
-      <div role="columnheader" style={{ padding: 'var(--igd-space-inset-xl)', ...caps, color: 'var(--igd-color-text-secondary)', display: 'flex', alignItems: 'flex-end' }}>{label ?? 'Feature'}</div>
+      <div role="columnheader" style={{ padding: 'var(--igd-space-inset-xl)', ...caps, color: 'var(--igd-color-text-body)', display: 'flex', alignItems: 'flex-end' }}>{label ?? 'Feature'}</div>
       {columns.map((c, i) => (
         <div role="columnheader" key={i} style={{ background: tint(i), display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
           {c.tab && <div style={{ background: 'var(--igd-color-action-default)', color: 'var(--igd-color-action-on)', fontSize: 'var(--igd-type-body-2xs-font-size)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-label)', textTransform: 'uppercase', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-xs)' }}>{c.tab}</div>}
@@ -70,7 +70,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
 
   return (
     <div style={style} {...rest}>
-      <div role="table" style={{ border: BORDER, borderRadius: 'var(--igd-radius-xl)', overflow: 'clip', boxShadow: 'var(--igd-elevation-1)', background: 'var(--igd-color-surface-page)', fontFamily: 'var(--igd-font-body)' }}>
+      <div role="table" style={{ border: BORDER, borderRadius: 'var(--igd-radius-card-featured)', overflow: 'clip', boxShadow: 'var(--igd-elevation-1)', background: 'var(--igd-color-surface-page)', fontFamily: 'var(--igd-font-body)' }}>
         <div role="rowgroup" style={{ position: 'sticky', top: 0, zIndex: 'var(--igd-z-index-raised)' }}>{head}</div>
         {groups.map((g, gi) => {
           const isClosed = canCollapse && closed[gi];
@@ -99,7 +99,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
                       {isCmp ? <BadgeMark cell={r.cells?.[ci]} ours={ci === ours} /> : <PlainMark cell={r.cells?.[ci]} />}
                     </div>
                   ))}
-                  {showDetail && <div role="cell" className="igd-type-body-sm" style={{ padding: cellPad, color: 'var(--igd-color-text-secondary)', textWrap: 'pretty' }}>{r.detail}</div>}
+                  {showDetail && <div role="cell" className="igd-type-body-sm" style={{ padding: cellPad, color: 'var(--igd-color-text-body)', textWrap: 'pretty' }}>{r.detail}</div>}
                 </div>
               ))}
             </div>

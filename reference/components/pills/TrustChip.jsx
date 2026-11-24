@@ -5,7 +5,7 @@ export function TrustChip({ children, style, ...rest }) {
     <div className="igd-type-body-sm" style={{
       display: 'inline-flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-md)',
       border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', background: 'var(--igd-color-surface-tint)',
-      borderRadius: 'var(--igd-radius-full)', fontWeight: 'var(--igd-font-weight-medium)', color: 'var(--igd-color-text-ui)', whiteSpace: 'nowrap', ...style,
+      borderRadius: 'var(--igd-radius-pill)', fontWeight: 'var(--igd-font-weight-medium)', color: 'var(--igd-color-text-ui)', whiteSpace: 'nowrap', ...style,
     }} {...rest}>{children}</div>
   );
 }

@@ -13,7 +13,7 @@ export function StatBadge({ value, label, accent = 'inverse', position = 'top-le
   return (
     <div style={{
       position: 'absolute', ...POS[position], zIndex: 'var(--igd-z-index-media)',
-      background: 'var(--igd-color-surface-inverse)', borderRadius: 'var(--igd-radius-md)',
+      background: 'var(--igd-color-surface-inverse)', borderRadius: 'var(--igd-radius-tile)',
       padding: 'var(--igd-space-inset-sm) var(--igd-space-inset-md)', boxShadow: 'var(--igd-shadow-floating)',
       animation: 'igd-float var(--igd-duration-float) ease-in-out infinite',
       animationDuration: duration != null ? duration + 's' : undefined, ...style,

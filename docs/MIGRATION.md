@@ -74,11 +74,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--focus-ring` | `--igd-color-focus-default` |
 | `--focus-ring-dark` | `--igd-color-focus-inverse` |
 | `--ink` | `--igd-color-text-heading` |
-| `--text-strong` | `--igd-color-text-primary` |
-| `--text-body` | `--igd-color-text-secondary` |
+| `--text-strong` | `--igd-color-text-strong` |
+| `--text-body` | `--igd-color-text-body` |
 | `--text-body-alt` | `--igd-color-text-ui` |
 | `--text-muted` | `--igd-color-text-muted` |
-| `--text-utility` | `--igd-color-text-secondary` |
+| `--text-utility` | `--igd-color-text-body` |
 | `--text-eyebrow` | `--igd-color-action-default` |
 | `--text-on-dark` | `--igd-color-text-inverse` |
 | `--text-on-dark-muted` | `--igd-color-text-inverse-muted` |
@@ -184,16 +184,16 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 
 | Before | Now |
 |---|---|
-| `--radius-pill` | `--igd-radius-full` |
+| `--radius-pill` | `--igd-radius-pill` |
 | `--radius-flare` | `--igd-nav-panel-radius` |
-| `--radius-lg` | `--igd-radius-xl` |
-| `--radius-card` | `--igd-radius-lg` |
-| `--radius-media` | `--igd-radius-lg` |
-| `--radius-tile` | `--igd-radius-md` |
-| `--radius-link` | `--igd-radius-md` |
-| `--radius-mono` | `--igd-radius-sm` |
-| `--radius-badge` | `--igd-radius-xs` |
-| `--radius-check` | `--igd-radius-xs` |
+| `--radius-lg` | `--igd-radius-card-featured` |
+| `--radius-card` | `--igd-radius-card` |
+| `--radius-media` | `--igd-radius-card` |
+| `--radius-tile` | `--igd-radius-tile` |
+| `--radius-link` | `--igd-radius-tile` |
+| `--radius-mono` | `--igd-radius-badge` |
+| `--radius-badge` | `--igd-radius-control` |
+| `--radius-check` | `--igd-radius-control` |
 
 ### Weight and letter spacing
 

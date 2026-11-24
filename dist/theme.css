@@ -356,13 +356,13 @@
   --igd-container-hero-max-width: max(var(--igd-is-large, 1) * 70rem, var(--igd-is-medium, 1) * 61.25rem, var(--igd-is-small, 1) * 52.5rem);
   --igd-container-prose-max-width: max(var(--igd-is-large, 1) * 55rem, var(--igd-is-medium, 1) * 48.125rem, var(--igd-is-small, 1) * 41.25rem);
   --igd-catalog-card-min-width: max(var(--igd-is-large, 1) * 21.25rem, var(--igd-is-medium, 1) * 18.59375rem, var(--igd-is-small, 1) * 15.9375rem);
-  --igd-radius-full: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 624.9375rem), 624.9375rem);
+  --igd-radius-pill: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 624.9375rem), 624.9375rem);
   --igd-nav-panel-radius: clamp(0rem, calc(var(--ig-radius-factor, 1) * 1.875rem), 1.875rem);
-  --igd-radius-xl: clamp(0.25rem, calc(var(--ig-radius-factor, 0.8571428571) * 1.75rem), 1.75rem);
-  --igd-radius-lg: clamp(0rem, calc(var(--ig-radius-factor, 0.6666666667) * 1.5rem), 1.5rem);
-  --igd-radius-md: clamp(0.25rem, calc(var(--ig-radius-factor, 0.75) * 1rem), 1rem);
-  --igd-radius-sm: clamp(0.125rem, calc(var(--ig-radius-factor, 0.6666666667) * 0.75rem), 0.75rem);
-  --igd-radius-xs: clamp(0.125rem, calc(var(--ig-radius-factor, 0.75) * 0.5rem), 0.5rem);
+  --igd-radius-card-featured: clamp(0.25rem, calc(var(--ig-radius-factor, 0.8571428571) * 1.75rem), 1.75rem);
+  --igd-radius-card: clamp(0rem, calc(var(--ig-radius-factor, 0.6666666667) * 1.5rem), 1.5rem);
+  --igd-radius-tile: clamp(0.25rem, calc(var(--ig-radius-factor, 0.75) * 1rem), 1rem);
+  --igd-radius-badge: clamp(0.125rem, calc(var(--ig-radius-factor, 0.6666666667) * 0.75rem), 0.75rem);
+  --igd-radius-control: clamp(0.125rem, calc(var(--ig-radius-factor, 0.75) * 0.5rem), 0.5rem);
   --ig-elevation-0: none;
   --ig-elevation-1: 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 3px) 0 hsl(from var(--igd-color-shadow) h s l / 0.26), 0 calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * 1px) 0 hsl(from var(--igd-color-shadow) h s l / 0.12), 0 calc(var(--ig-elevation-factor, 1) * 2px) calc(var(--ig-elevation-factor, 1) * 1px) calc(var(--ig-elevation-factor, 1) * -1px) hsl(from var(--igd-color-shadow) h s l / 0.08);
   --ig-elevation-2: 0 calc(var(--ig-elevation-factor, 1) * 3px) calc(var(--ig-elevation-factor, 1) * 6px) 0 hsl(from var(--igd-color-shadow) h s l / 0.3);
@@ -766,8 +766,8 @@
 /* neutral roles, declared again on each scope and theme */
 :root, [data-ig-scope], [data-theme] {
   --igd-color-text-heading: var(--ig-gray-900);
-  --igd-color-text-primary: var(--ig-gray-800);
-  --igd-color-text-secondary: var(--ig-gray-600);
+  --igd-color-text-strong: var(--ig-gray-800);
+  --igd-color-text-body: var(--ig-gray-600);
   --igd-color-text-ui: var(--ig-gray-700);
   --igd-color-text-muted: var(--ig-gray-500);
   --igd-color-icon-subtle: var(--ig-gray-400);
@@ -817,4 +817,4 @@
   --igd-fw-angular-color: #ffb9ce;
   --igd-fw-react-color: #d3f1fa;
 }
-[data-theme] { background-color: var(--igd-color-surface-page); color: var(--igd-color-text-primary); }
+[data-theme] { background-color: var(--igd-color-surface-page); color: var(--igd-color-text-strong); }

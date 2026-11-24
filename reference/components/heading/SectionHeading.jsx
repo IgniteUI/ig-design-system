@@ -15,7 +15,7 @@ export function SectionHeading({
           }}> {accent}</span>
         )}
       </Tag>
-      {lead && <p className="igd-type-body-lg" style={{ color: 'var(--igd-color-text-secondary)', margin: 0 }}>{lead}</p>}
+      {lead && <p className="igd-type-body-lg" style={{ color: 'var(--igd-color-text-body)', margin: 0 }}>{lead}</p>}
     </div>
   );
 }

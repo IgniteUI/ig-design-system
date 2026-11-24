@@ -73,12 +73,14 @@ describe("rampOf", () => {
 });
 
 describe("pick", () => {
-  const tokens = [t("radius-sm"), t("radius-lg")];
+  const tokens = [t("radius-badge"), t("radius-card")];
 
   it("returns the tokens in the order they are named", () => {
     expect(
-      pick(tokens, ["radius-lg", "radius-sm"], "radius").map((x) => x.name),
-    ).toEqual(["radius-lg", "radius-sm"]);
+      pick(tokens, ["radius-card", "radius-badge"], "radius").map(
+        (x) => x.name,
+      ),
+    ).toEqual(["radius-card", "radius-badge"]);
   });
 
   it("stops the build on a name tokens.json does not have, and says where to fix it", () => {
@@ -110,7 +112,7 @@ describe("the engine tokens", () => {
         "space-inset-md",
         "color-text-muted",
         "elevation-tint-1",
-        "radius-md",
+        "radius-tile",
       ].some(isEngine),
     ).toBe(false);
   });

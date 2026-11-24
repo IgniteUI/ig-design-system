@@ -84,11 +84,11 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-gray-900",
     "Headlines h1–h6 on `color-surface-page` and the catalog band.",
   ],
-  "color-text-primary": [
+  "color-text-strong": [
     "ig-gray-800",
     "Strong text and secondary-button labels on `color-surface-page`; the body default in base styles.",
   ],
-  "color-text-secondary": [
+  "color-text-body": [
     "ig-gray-600",
     "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`.",
   ],
@@ -636,28 +636,33 @@ export type RadiusEntry = [
 ];
 // The engine's border-radius() clamps between min and max.
 export const RADIUS: Record<string, RadiusEntry> = {
-  "radius-full": [
+  "radius-pill": [
     9999,
     "Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px.",
     4,
     9999,
   ],
   "nav-panel-radius": [30, "Flared top corners of an open nav panel.", 0, 30],
-  "radius-xl": [
+  "radius-card-featured": [
     24,
     "Emphasis and catalog cards. Never a circle: capped at 28px.",
     4,
     28,
   ],
-  "radius-lg": [16, "Marketing cards and media frames. Capped at 24px.", 0, 24],
-  "radius-md": [
+  "radius-card": [
+    16,
+    "Marketing cards and media frames. Capped at 24px.",
+    0,
+    24,
+  ],
+  "radius-tile": [
     12,
     "Icon tiles, stat badges and nav link rows. Capped at 16px so a tile never becomes a circle.",
     4,
     16,
   ],
-  "radius-sm": [8, "Small elements and the monogram badge.", 2, 12],
-  "radius-xs": [6, "OSS tag and checkbox.", 2, 8],
+  "radius-badge": [8, "Small elements and the monogram badge.", 2, 12],
+  "radius-control": [6, "OSS tag and checkbox.", 2, 8],
 };
 // The neutral shadows, as www.infragistics.com ships them. Each layer is [y, blur, spread, tint, alpha]; the tint is a token name.
 export type ShadowLayer = [
@@ -872,7 +877,7 @@ export const TYPE: TypeRow[] = [
     weight: 400,
     tracking: "0",
     transform: "none",
-    usage: "Lead under an h1 or h2, in `color-text-secondary`.",
+    usage: "Lead under an h1 or h2, in `color-text-body`.",
     sample:
       "Build enterprise applications with 300+ framework agnostic UI components.",
   },
@@ -899,7 +904,7 @@ export const TYPE: TypeRow[] = [
     weight: 400,
     tracking: "0",
     transform: "none",
-    usage: "Running prose, in `color-text-secondary`.",
+    usage: "Running prose, in `color-text-body`.",
     sample: "Enterprise-grade virtualization renders 100,000 rows without lag.",
   },
   {
@@ -1040,9 +1045,9 @@ export const SIZE_RATIO: Record<"small" | "medium" | "large", number> = {
 export type ContrastPair = [fg: string, bg: string, min?: number];
 export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-text-heading", "color-surface-page"],
-  ["color-text-primary", "color-surface-page"],
-  ["color-text-secondary", "color-surface-page"],
-  ["color-text-secondary", "color-surface-subtle"],
+  ["color-text-strong", "color-surface-page"],
+  ["color-text-body", "color-surface-page"],
+  ["color-text-body", "color-surface-subtle"],
   ["color-text-ui", "color-surface-page"],
   ["color-text-muted", "color-surface-page"],
   ["color-text-muted", "color-surface-subtle"],
@@ -1098,5 +1103,5 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-feedback-error-default", "color-surface-subtle"],
   ["color-focus-default", "color-surface-page", 3],
   ["color-text-ui", "color-surface-subtle"],
-  ["color-text-secondary", "color-surface-muted"],
+  ["color-text-body", "color-surface-muted"],
 ];

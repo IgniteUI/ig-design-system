@@ -24,7 +24,7 @@ export const rawPaletteReads = (text) => [
 ].map((m) => ({
     line: lineOf(text, m.index),
     rule: "raw-palette",
-    message: `${m[1]} is a raw palette step. Read a semantic token, such as --igd-color-text-primary or --igd-color-border-default.`,
+    message: `${m[1]} is a raw palette step. Read a semantic token, such as --igd-color-text-strong or --igd-color-border-default.`,
 }));
 /** A palette step declared by site code, which replaces the design system's colour for every token built on it. */
 export const paletteOverrides = (text) => [

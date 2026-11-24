@@ -257,7 +257,7 @@ ${[
   ),
 ].join("\n")}
 }
-[data-theme] { background-color: var(--color-surface-page); color: var(--color-text-primary); }
+[data-theme] { background-color: var(--color-surface-page); color: var(--color-text-strong); }
 `;
 };
 

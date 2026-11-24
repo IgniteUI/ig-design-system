@@ -23,12 +23,12 @@ export const COLOUR_PICKS: ColourGroup[] = [
     picks: [
       { token: "color-text-heading", label: "Heading", use: "Headlines." },
       {
-        token: "color-text-primary",
+        token: "color-text-strong",
         label: "Strong text",
         use: "Strong text and the default text of a page.",
       },
       {
-        token: "color-text-secondary",
+        token: "color-text-body",
         label: "Body text",
         use: "Body copy and the paragraph under a heading.",
       },
@@ -216,32 +216,32 @@ export const SHAPE_PICKS: Record<
 > = {
   radius: [
     {
-      token: "radius-xs",
+      token: "radius-control",
       label: "Checkbox",
       use: "A checkbox or a small tag.",
     },
     {
-      token: "radius-sm",
+      token: "radius-badge",
       label: "Badge",
       use: "A small element, such as a badge.",
     },
     {
-      token: "radius-md",
+      token: "radius-tile",
       label: "Menu row",
       use: "An icon tile or a row in a menu.",
     },
     {
-      token: "radius-lg",
+      token: "radius-card",
       label: "Card",
       use: "A card or a picture frame.",
     },
     {
-      token: "radius-xl",
+      token: "radius-card-featured",
       label: "Large card",
       use: "A large card that stands out.",
     },
     {
-      token: "radius-full",
+      token: "radius-pill",
       label: "Button",
       use: "A button, a chip, anything shaped like a pill.",
     },

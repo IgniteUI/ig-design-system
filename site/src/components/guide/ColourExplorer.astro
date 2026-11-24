@@ -18,8 +18,8 @@ const PARTS = [
   "color-surface-card",
   "color-surface-tint",
   "color-text-heading",
-  "color-text-primary",
-  "color-text-secondary",
+  "color-text-strong",
+  "color-text-body",
   "color-text-muted",
   "color-action-text",
   "color-border-subtle",
@@ -86,8 +86,8 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
         <div class="card" {...part("color-surface-card")}>
           <span class="tint" {...part("color-surface-tint")}>New</span>
           <span class="heading" {...part("color-text-heading")}>Project settings</span>
-          <span class="strong" {...part("color-text-primary")}>Choose who can edit this project.</span>
-          <span class="body" {...part("color-text-secondary")}>
+          <span class="strong" {...part("color-text-strong")}>Choose who can edit this project.</span>
+          <span class="body" {...part("color-text-body")}>
             Members can change the samples and the theme. Viewers can only read them.
           </span>
           <span class="muted" {...part("color-text-muted")}>Updated 2 hours ago</span>
@@ -183,7 +183,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-sm) 0 var(--igd-space-inset-xs);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: transparent;
     color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
@@ -213,7 +213,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     inline-size: var(--igd-size-icon-sm);
     block-size: var(--igd-size-icon-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
   }
 
   .info > div {
@@ -223,7 +223,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .use {
     margin: 0;
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
     font-weight: var(--igd-font-weight-semibold);
   }
 
@@ -246,14 +246,14 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     display: grid;
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
     background: var(--igd-color-surface-page);
     gap: var(--igd-space-gap-md);
   }
 
   .band {
     padding: var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-md);
+    border-radius: var(--igd-radius-tile);
     background: var(--igd-color-surface-subtle);
   }
 
@@ -264,13 +264,13 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     max-inline-size: 30rem;
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
     background: var(--igd-color-surface-card);
   }
 
   .tint {
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: var(--igd-color-surface-tint);
     color: var(--igd-color-action-text);
     font-size: var(--igd-type-body-2xs-font-size);
@@ -286,12 +286,12 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   }
 
   .strong {
-    color: var(--igd-color-text-primary);
+    color: var(--igd-color-text-strong);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .body {
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -326,7 +326,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-inline-size: 10rem;
     padding: 0 var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-sm);
+    border-radius: var(--igd-radius-badge);
     color: var(--igd-color-text-muted);
     font-size: var(--igd-type-body-sm-font-size);
   }
@@ -334,7 +334,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   .chip {
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
   }
@@ -344,7 +344,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     align-items: center;
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-pill);
     background: var(--igd-color-action-default);
     color: var(--igd-color-action-on);
     font-weight: var(--igd-font-weight-semibold);
@@ -360,7 +360,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     align-items: baseline;
     gap: var(--igd-space-gap-xs) var(--igd-space-gap-md);
     padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-md);
+    border-radius: var(--igd-radius-tile);
     background: var(--igd-color-surface-inverse);
     color: var(--igd-color-text-inverse-muted);
     font-size: var(--igd-type-body-sm-font-size);
