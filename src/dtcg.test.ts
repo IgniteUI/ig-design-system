@@ -132,7 +132,7 @@ describe("toDtcg", () => {
         shadow: {
           tokens: [
             t(
-              "shadow-raised",
+              "shadow-card-hover",
               "0 1px 2px 0 rgba(0,0,0,0.2), inset 0 0 0 1px rgba(0,0,0,0.1)",
             ),
           ],
@@ -140,7 +140,7 @@ describe("toDtcg", () => {
       }),
       "",
     );
-    const layers = groups.shadow["shadow-raised"] as { $value: object[] };
+    const layers = groups.shadow["shadow-card-hover"] as { $value: object[] };
     expect(layers.$value).toHaveLength(2);
     expect(layers.$value[0]).toMatchObject({
       offsetY: { value: 1, unit: "px" },
@@ -185,7 +185,7 @@ describe("toDtcg", () => {
         gradient: {
           tokens: [
             t(
-              "glow-primary",
+              "glow-brand",
               "radial-gradient(circle, #000000, transparent 62%)",
             ),
           ],
@@ -193,7 +193,7 @@ describe("toDtcg", () => {
       }),
       "",
     );
-    expect(cssOnly["glow-primary"].reason).toBe("a radial glow");
+    expect(cssOnly["glow-brand"].reason).toBe("a radial glow");
   });
 
   it("writes line height as a multiple of the font size and letter spacing in the font unit", () => {

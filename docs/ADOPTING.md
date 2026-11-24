@@ -57,7 +57,17 @@ Choosing the token:
 npx ig-design-system check src
 ```
 
-Run it on the site's source and in CI (see the README). It reports a token that does not exist, a raw palette step that is read or declared, and a raw spacing step.
+Run it on the site's source. It reports a token that does not exist, a raw palette step that is read or declared, and a raw spacing step.
+
+In CI, a site calls the reusable workflow of this package:
+
+```yaml
+jobs:
+  design-system:
+    uses: IgniteUI/ig-design-system/.github/workflows/check-site.yml@1.0.0
+    with:
+      paths: src
+```
 
 Then compare the pages. A token name that resolves to nothing fails silently, so measure. From a checkout of this repository, with the site running before and after the change on two ports:
 
@@ -77,4 +87,4 @@ It reports, per page, the element count, the page height, horizontal overflow, a
 - **Grays** shift by a few units: the palette is neutral, and a blue-tinted gray becomes a neutral one.
 - **One size per role.** Near-duplicate sizes (41px, 43px and 47px headings) collapse into the role's size.
 - **A larger exported stylesheet** if the site exports part of itself to other sites: it now carries tokens. Drop the custom properties the exported part does not read.
-- **The dark theme** is the design system's. Review it separately; it is not the old dark theme with new names.
+- **The dark variant** is the design system's. Review it separately; it is not the old site's dark mode with new names.

@@ -28,7 +28,7 @@ Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there
 
 | File | What it does |
 |---|---|
-| `src/spec.ts` | The vocabulary: token names, the engine step each aliases, the step a text token reads in the dark theme, scales, type rows, contrast pairings. Start here to add or change a token. |
+| `src/spec.ts` | The vocabulary: token names, the engine step each aliases, the step a text token reads in the dark variant, scales, type rows, contrast pairings. Start here to add or change a token. |
 | `src/palette-sets.ts`, `src/palettes.ts` | The seeds and the `palette()` call of each palette; `npm run palettes` compiles them to `src/palettes.json`. |
 | `src/make.ts` | The entry point. Calls the modules below and writes `dist/tokens.json`, `tokens.css`, `theme.css`, `base.css`, `fonts.css`, `dist/fonts/` and `reports/`. |
 | `src/typography.ts` | Compiles the type scale and the type sets with the engine's `typography()`. |
@@ -64,8 +64,8 @@ Why: an Ignite UI component on the same page reads the `--ig-*` names, so the pa
 - Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-3: #e23b8f`, not `var(--ig-pink-400)`.
 - The spec still names the step (`"tile-3": ["ig-pink-400", …]`). That name is internal to the build.
 - The dark palette is handled the same way. There is no `--ig-dark-gray-<n>` or `--ig-dark-surface-<n>` in `dist/`.
-  - The dark theme sets the engine's own names: `[data-theme="dark"] { --ig-gray-500: #bcc1c9; }`. The engine does the same for a dark palette.
-  - A token for an area that is dark in both themes carries the colour: `--igd-color-surface-inverse: #0f172a`. The spec names the step as `ig-dark-surface-500`.
+  - The dark variant sets the engine's own names: `[data-theme="dark"] { --ig-gray-500: #bcc1c9; }`. The engine does the same for a dark palette.
+  - A token for an area that is dark in both variants carries the colour: `--igd-color-surface-inverse: #0f172a`. The spec names the step as `ig-dark-surface-500`.
 - A dark area uses the three inverse surface levels, not a component's own colour: `color-surface-inverse-raised`, `color-surface-inverse`, `color-surface-inverse-sunken`. `footer-background` points at the last one.
 
 Why: the theme reads 11 steps of the 4 accent palettes, so publishing the full ramps is not worth their size. The names were not the problem there: `--ig-pink-400` follows the pattern the engine uses for a custom family.
@@ -76,7 +76,7 @@ Why the palettes are still built: none of the colours in use is a seed. Each is 
 
 Considered and not done:
 - The dark palette also has the engine's surface roles (`raised`, `sunken`, `overlay`). They are within a shade or two of the numeric steps the inverse surfaces use. Pointing the inverse surfaces at the roles would shift the footer's colours slightly, so it needs a design decision.
-- The dark theme swaps the gray and surface ramps only. The engine's dark palette also re-solves the brand ramps against the dark surface; using those would change dark-theme colours.
+- The dark variant swaps the gray and surface ramps only. The engine's dark palette also re-solves the brand ramps against the dark surface; using those would change dark-variant colours.
 - The engine's `shades($name, $color, $shades, $surface, $generator, $scale)` builds one family from a seed with any list of steps, two at least. With the ten steps `50` to `900` it gives the same 40 colours as the four full palettes. The owner decided to keep the `palette()` build.
 - A shorter list of steps changes the colours. `shades()` places a step by its position in the list, not by the number in its name: `('400', '500')` returns the two ends of the ramp, `#fee6ec` and `#290a18` for the pink seed.
 
@@ -86,8 +86,8 @@ To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palett
 
 - The seeds live in `src/palette-sets.ts`. Changing one means `npm run palettes` and `npm run build`.
 - There is no runtime seed change and no `seed.js`.
-- The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-alt`.
-- Text in the action colour, `color-action-text`, reads an engine step: `ig-primary-600` in the light theme and `ig-primary-200` in the dark one. Why: the engine solves each step to a fixed contrast against the surface for any seed, about 5.2:1 on white for step 600, so a step is safe as text and a seed is not.
+- The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-performance`.
+- Text in the action colour, `color-action-text`, reads an engine step: `ig-primary-600` in the light variant and `ig-primary-200` in the dark one. Why: the engine solves each step to a fixed contrast against the surface for any seed, about 5.2:1 on white for step 600, so a step is safe as text and a seed is not.
 - The action fill, `color-action-default`, is the seed, and its label is the engine's contrast colour (decision 5). The fill is held to no contrast against the page: a `#ffee00` seed builds, with a black label on the fill and step 600 as text.
 - `compile()` in `src/sass.ts` stops the build when the engine warns, for example that a hue cannot reach the contrast a step asks for. Sass deprecation notices are ignored.
 
@@ -108,13 +108,20 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 - Do not switch to native CSS `contrast-color()` yet. It is Baseline only since April 2026 (Chrome 147, Firefox 146, Safari 26.0); Safari on iOS 18 does not have it, and there the label would fall back to the inherited text colour. Revisit in late 2027.
 - It does not apply to a brand colour used as text on a surface. That reads an engine step (decision 3), not black or white.
 
-### 6. Names carry a role, never a hue
+### 6. Names carry a role, never a hue, a shape or a brand family
 
-- Semantic and component names have no colour word: `color-accent-primary`, `tile-1` … `tile-8`, `glow-inverse`. The exception is `window-dot-red`, `-amber` and `-green`, the three dots of a mock window.
+- Semantic and component names have no colour word: `color-accent-brand`, `tile-1` … `tile-8`, `glow-inverse`. The exception is `window-dot-red`, `-amber` and `-green`, the three dots of a mock window.
+- A name says what the value is for, not how it looks: no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`) and no vague `-alt` (`color-surface-tint-category`, not `color-surface-tint-alt`).
+- No semantic name uses `primary` or `secondary`, which are engine family names: `color-text-strong` and `color-accent-brand`, not `color-text-primary` and `color-accent-primary`. `color-accent-brand` reads the info family; under the old name a reader expected the primary one.
+- A name does not carry a product or a page: a product is renamed or replaced more often than a colour changes. `tile-1` … `tile-8` are not named for the products they fill today.
+- Two kinds of name may be a position instead of a word, because the position is the role:
+  - A scale: `space-inset-lg`, `size-icon-sm`, `font-weight-bold`, `breakpoint-md`. The step says how much, and a component picks a step by need.
+  - An ordered set: `tile-1` … `tile-8`. A grid of icon tiles takes them in order, so the fifth tile is `tile-5` whatever product it shows. Each token's note says where it is used now.
+- A state colour stays in the family of its base (`stateFamilyErrors` in `src/derived.ts`); the build stops otherwise.
 - The `color-` category word stays on the semantic tier, so `color-border-default` cannot be mistaken for `border-width-default`.
 - Semantic and component names in `tokens.json` and in the DTCG file carry no prefix. The prefix belongs to CSS. An engine name keeps its `ig-`.
 
-Why: a seed can change, and a token called "blue" would then be another colour.
+Why: a name is written into every site that uses it, and a value is written once, here. A token called "blue" is wrong the day the seed changes; `radius-pill` is wrong the day actions stop being pills; `tile-agent-skills` is wrong the day that product is renamed. Each of those forces a rename in every site. A role name stays right, and only the value changes. The owner decided the role names on 2026-11-24.
 
 ### 7. A type style is named for its role, and the large ones are fluid
 
@@ -149,7 +156,7 @@ Considered and not done: the engine lets you register more type slots, through `
 ### 8. Use the engine, not a copy of it
 
 - Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()` and `box-shadow()`, type from `typography()`.
-- `shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. `shadow-popover` and `shadow-panel` are listed and compiled the same way. Why not an elevation level: the engine's indigo elevation levels are far heavier than the site's shadows, and loading them changed every card and screenshot. The tinted shadows, `shadow-popover-filter` and the raw `elevation-*` tokens are still engine levels. `shadow-popover-filter` is not the filter form of `shadow-panel`: `drop-shadow()` has no spread, and the panel's layers depend on a negative spread.
+- `shadow-card-hover`, `shadow-screenshot` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. `shadow-popover` and `shadow-panel` are listed and compiled the same way. Why not an elevation level: the engine's indigo elevation levels are far heavier than the site's shadows, and loading them changed every card and screenshot. The tinted shadows, `shadow-popover-filter` and the raw `elevation-*` tokens are still engine levels. `shadow-popover-filter` is not the filter form of `shadow-panel`: `drop-shadow()` has no spread, and the panel's layers depend on a negative spread.
 - The build starts no MCP server and no browser. Three gates use one: `gates-derived.ts`, `gates-themes.ts` and `resolve.ts`.
 - The main palette is built with `palette()` in full, and `theme.css` declares every custom property it emits for the light palette. Ignite UI components depend on every shade of the built-in families: primary, secondary, gray, surface, info, success, warn and error. Do not trim it.
 
@@ -177,8 +184,9 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - `site/` is an Astro project. It is not part of the npm package and has its own `package.json`, lockfile and tests. The package keeps no dependencies.
 - The site reads its facts where they live: tokens from `dist/tokens.json`, the documents from `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, the package name and repository from `package.json`, the stylesheet order and the commands from `src/usage.ts`. `site/src/lib/design-system.ts` is the one module that imports from outside `site/`.
 - Nothing the site builds is committed. `site/dist/` is ignored; the Pages workflow builds it.
-- A new kind of token gets a section on the Tokens page. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets. A test fails when a token of `tokens.json` is not on the page.
-- Every token on the Tokens page is an element with `data-token="<name>"`. A palette family is one element, `data-token="ig-<family>"`, that holds its steps. The filter, and any later tool that edits a token, finds it by that attribute.
+- A new kind of token gets a section on the Tokens page. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets. A test fails when a token of `tokens.json` is on neither the Tokens page nor the Engine page.
+- The Tokens page lists what a site may write. The Engine page lists what the tokens are built from: the palette, the raw spacing steps and the engine's elevations (`isEngine()` in `site/src/lib/tokens.ts`). Under each step it lists the tokens that read it, and a colour card on the Tokens page links to the step it reads. Why: the owner decided on 2026-11-24 that values a site must not write do not sit beside the ones it may.
+- Every token on both pages is an element with `data-token="<name>"`, a palette step included. The filter, and any later tool that edits a token, finds it by that attribute.
 - A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
 - The guide shows a chosen few tokens with a plain use each, listed in `site/src/data/guide.ts`. A name there that `tokens.json` does not have stops the build.
 - A Markdown document becomes a page by a line in `DOCUMENTS` in `site/src/data/navigation.ts`. Do not link a reader of the site to a Markdown file on GitHub: a test fails on such a link.
@@ -186,7 +194,10 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - When a rule in `src/llms.ts` changes, change the same rule in `site/src/data/rules.ts`.
 - The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
 - The clear space (half the logo's height), the smallest sizes (16px) and the do and don't list on the Logo page are the rules for the logo. The owner approved them on 2026-11-23. The sizes are in `site/src/data/logo.ts`.
-- The site is light by default, whatever the system colour scheme. The theme switch in the top bar is an icon button; it stores the dark theme once chosen and removes it when switched back.
+- The site is light by default, whatever the system colour scheme. The theme switch in the top bar is an icon button; it stores the dark variant once chosen and removes it when switched back.
+- In the dark variant a sticky notice above the top bar says the variant is not final. Remove it once the dark variant is reviewed (see Open).
+- The selected row of the section list is filled with the action colour, as the selected row of the docs site's sidebar is. The filter of the Tokens page sits above that list.
+- A type set button switches one element, the type list beside it, never the page.
 - Astro removes the whitespace between two inline elements. Write `{" "}` where a space must stay.
 
 Why Astro: the pages were strings built by TypeScript generators, and their HTML was committed. Every change rewrote the generated files, and a Markdown document needed patching to become a page. The owner decided on 2026-11-23 to move the site to Astro, the tool the other documentation sites use.
@@ -206,8 +217,8 @@ Nothing below is decided. Ask the owner before acting on one.
 
 - No site installs the package yet. The marketing site and `igniteui-astro-components` carry a copy of `dist/` until the first release.
 - Not reviewed by design: the width range type and section spacing grow across (360px to 1280px), the status badge colours, and `color-feedback-error-default` at `error-500`.
-- The dark theme has not been reviewed. Nobody is working on it and no site has a switch for it yet.
-- Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark theme.
+- The dark variant has not been reviewed. Nobody is working on it and no site has a switch for it yet.
+- Two design options are recorded under decision 2: the dark palette's surface roles for the inverse surfaces, and the engine's dark brand ramps for the dark variant.
 - The owner wants the Tokens page to become editable later, so that someone who is not a developer can change a value and get a pull request. Nothing of that exists. The page is static and generated.
 - A fixed dark area, such as the footer, could be a `data-theme="dark"` region that uses the normal tokens. That would remove most `*-inverse` and footer colour tokens. It was raised and not pursued.
 

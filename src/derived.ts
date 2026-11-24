@@ -1,6 +1,6 @@
 // Builds the derived-colour section of theme.css: each state colour as a formula on its base token.
 import { hexToOklch } from "./color.ts";
-import { DARK_STEP } from "./spec.ts";
+import { ALIAS, type AliasEntry, DARK_STEP } from "./spec.ts";
 import type { Declaration } from "./stylesheets.ts";
 import { SCOPED } from "./theme.ts";
 
@@ -13,8 +13,8 @@ const DERIVED: [token: string, base: string][] = [
   ["color-surface-tint", "color-action-default"],
   ["color-surface-tint-strong", "color-action-default"],
   ["color-border-accent", "color-action-default"],
-  ["color-accent-primary-hover", "color-accent-primary"],
-  ["color-accent-primary-active", "color-accent-primary"],
+  ["color-accent-brand-hover", "color-accent-brand"],
+  ["color-accent-brand-active", "color-accent-brand"],
   ["color-link-inverse-hover", "color-link-inverse"],
   ["color-focus-inverse", "color-link-inverse"],
   ["footer-focus", "color-link-inverse"],
@@ -28,8 +28,8 @@ const DERIVED: [token: string, base: string][] = [
   ["fw-angular-border", "fw-angular-color"],
   ["fw-react-background", "fw-react-color"],
   ["fw-react-border", "fw-react-color"],
-  ["fw-blazor-background", "color-accent-secondary"],
-  ["fw-blazor-border", "color-accent-secondary"],
+  ["fw-blazor-background", "color-accent-ai"],
+  ["fw-blazor-border", "color-accent-ai"],
   ["fw-webcomponents-background", "color-action-default"],
   ["fw-webcomponents-border", "color-action-default"],
   ["fw-winforms-background", "color-action-default"],
@@ -42,13 +42,49 @@ const DERIVED: [token: string, base: string][] = [
   ["footer-strong", "footer-text"],
   ["color-text-inverse-muted", "color-text-inverse"],
 ];
+// A state token: the same element under the pointer, pressed or focused.
+const STATE = /-(?:hover|active|pressed|focus)$/;
+
+/** The engine family a token reads through its aliases, such as "primary" for ig-primary-600; a dark palette counts as its light family. */
+const familyOf = (
+  name: string,
+  alias: Record<string, AliasEntry>,
+): string | undefined => {
+  const seen = new Set<string>();
+  let step: string | undefined = name;
+  while (step && !step.startsWith("ig-") && !seen.has(step)) {
+    seen.add(step);
+    step = alias[step]?.[0];
+  }
+  return step?.match(/^ig-(?:dark-)?([a-z]+)-/)?.[1];
+};
+
+/**
+ * The state tokens that read another engine family than their base, as error messages. A state of an element stays on
+ * its base's scale, so a link that is primary is primary when hovered, pressed or focused.
+ */
+export const stateFamilyErrors = (
+  pairs: [token: string, base: string][],
+  alias: Record<string, AliasEntry>,
+) =>
+  pairs
+    .filter(([token]) => STATE.test(token))
+    .flatMap(([token, base]) => {
+      const [own, of] = [familyOf(token, alias), familyOf(base, alias)];
+      return own && of && own !== of
+        ? [
+            `${token} is a state of ${base} and reads the ${own} family, but ${base} reads ${of}. A state stays in the family of its base: alias ${token} to a step of ig-${of} in ALIAS in src/spec.ts.`,
+          ]
+        : [];
+    });
+
 /** A token that equals its base token. */
 const SAME_AS: [token: string, base: string][] = [
   ["table-header-sub-highlight-color", "color-action-on"],
   ["color-link-utility-hover", "color-action-text"],
   ["color-focus-default", "color-action-text"],
-  ["tile-1", "color-accent-primary"],
-  ["tile-2", "color-accent-secondary"],
+  ["tile-1", "color-accent-brand"],
+  ["tile-2", "color-accent-ai"],
   ["tile-7", "color-action-default"],
   ["color-link-inverse", "color-accent-inverse"],
   ["footer-icon", "footer-text"],
@@ -132,6 +168,8 @@ export const resolvedValue = (
  * `declarations` are those of tokens.css.
  */
 export const derivedColors = (declarations: Declaration[]) => {
+  const familyErrors = stateFamilyErrors(DERIVED, ALIAS);
+  if (familyErrors.length) throw new Error(familyErrors.join("\n"));
   const declared = new Map<string, string>();
   for (const [name, value] of declarations)
     if (!declared.has(name)) declared.set(name, value);

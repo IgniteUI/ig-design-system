@@ -2,12 +2,14 @@
 // The top bar: the logo, the pages, a slot for the page's own control and the theme switch.
 import darkLogo from "@/assets/logos/ig-logo-dark.svg";
 import logo from "@/assets/logos/ig-logo.svg";
+import mark from "@/assets/logos/ig-logomark.svg";
 import ThemeToggle from "@/components/layout/ThemeToggle.astro";
 import { PAGES, type PageId } from "@/data/navigation.ts";
 import { href } from "@/lib/paths.ts";
 
 interface Props {
-  current: PageId;
+  /** The page marked as open. A page the bar does not list leaves it out. */
+  current?: PageId;
 }
 
 const { current } = Astro.props;
@@ -17,6 +19,7 @@ const { current } = Astro.props;
   <a class="brand" href={href()} aria-label="Infragistics design system">
     <img class="logo light" src={logo.src} width={logo.width} height={logo.height} alt="" />
     <img class="logo dark" src={darkLogo.src} width={darkLogo.width} height={darkLogo.height} alt="" />
+    <img class="logo mark" src={mark.src} width={mark.width} height={mark.height} alt="" />
     <span>Design system</span>
   </a>
   <nav aria-label="Pages">
@@ -24,6 +27,7 @@ const { current } = Astro.props;
       PAGES.map((page) => (
         <a href={href(page.path)} aria-current={page.id === current ? "page" : undefined}>
           {page.title}
+          {page.beta && <span class="beta">Beta</span>}
         </a>
       ))
     }
@@ -38,7 +42,7 @@ const { current } = Astro.props;
 <style>
   .top {
     position: sticky;
-    inset-block-start: 0;
+    inset-block-start: var(--notice-block-size, 0px);
     z-index: var(--igd-z-index-sticky);
     display: flex;
     flex-wrap: wrap;
@@ -75,6 +79,7 @@ const { current } = Astro.props;
   }
 
   .logo.dark,
+  .logo.mark,
   :global([data-theme="dark"]) .logo.light {
     display: none;
   }
@@ -90,10 +95,28 @@ const { current } = Astro.props;
 
   nav a {
     padding: var(--igd-space-inset-2xs) var(--igd-space-inset-sm);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-action);
     color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
+  }
+
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--igd-space-gap-2xs);
+    white-space: nowrap;
+  }
+
+  .beta {
+    padding: 0 var(--igd-space-inset-2xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-action);
+    color: var(--igd-color-text-body);
+    font-size: var(--igd-type-body-2xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    letter-spacing: var(--igd-letter-spacing-label);
+    text-transform: uppercase;
   }
 
   nav a:hover {
@@ -118,5 +141,68 @@ const { current } = Astro.props;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--igd-space-gap-xs);
+  }
+
+  @media (pointer: coarse) {
+    nav a,
+    .brand {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--igd-size-control-lg);
+    }
+  }
+
+  /* breakpoint-lg: the symbol stands for the logo, so the name and the pages stay on one row. */
+  @media (max-width: 1024px) {
+    .logo.light,
+    :global([data-theme="dark"]) .logo.dark {
+      display: none;
+    }
+
+    .logo.mark {
+      display: block;
+    }
+
+    .brand span {
+      padding-inline-start: 0;
+      border: 0;
+    }
+  }
+
+  /* breakpoint-sm: a bar that scrolls away with the page, with the symbol standing for the logo and the name, and the pages on a row of their own. */
+  @media (max-width: 640px) {
+    .top {
+      position: static;
+      gap: var(--igd-space-gap-2xs) var(--igd-space-gap-sm);
+    }
+
+    .bar {
+      display: none;
+    }
+
+    .switches {
+      margin-inline-start: auto;
+    }
+
+    .brand span,
+    .logo.light,
+    :global([data-theme="dark"]) .logo.dark {
+      display: none;
+    }
+
+    .logo.mark {
+      display: block;
+    }
+
+    nav {
+      order: 1;
+      flex-basis: 100%;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    nav a {
+      padding-inline: var(--igd-space-inset-xs);
+    }
   }
 </style>

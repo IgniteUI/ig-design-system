@@ -1,5 +1,5 @@
 // Writes the rendered value of a token into its readout: a colour, a length, a type role or a contrast ratio.
-import { CHANGE } from "./events.ts";
+import { CHANGE, READ } from "./events.ts";
 
 const root = document.documentElement;
 const canvas = document.createElement("canvas").getContext("2d", {
@@ -48,6 +48,14 @@ const read = () => {
     probe.style.backgroundColor = `var(${o.dataset.colour})`;
     o.textContent = hex(getComputedStyle(probe).backgroundColor);
   }
+  // The value of a swatch that has no room for a readout, as its tooltip.
+  for (const el of document.querySelectorAll<HTMLElement>(
+    "[data-colour-title]",
+  )) {
+    place(el);
+    probe.style.backgroundColor = `var(${el.dataset.colourTitle})`;
+    el.title = hex(getComputedStyle(probe).backgroundColor);
+  }
   for (const o of outputs("data-length")) {
     place(o);
     probe.style.inlineSize = `var(${o.dataset.length})`;
@@ -72,6 +80,7 @@ const read = () => {
     o.textContent = `${round(ratio, 1)}:1`;
     o.toggleAttribute("data-low", ratio < Number(o.dataset.min ?? 0));
   }
+  document.dispatchEvent(new CustomEvent(READ));
 };
 
 document.addEventListener(CHANGE, read);

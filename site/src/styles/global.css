@@ -1,19 +1,54 @@
 /* What every page shares: element defaults and the few text styles used in more than one component. */
 
-html { scroll-padding-block-start: calc(var(--igd-nav-height) + var(--igd-space-stack-md)); }
+/* The height of the dark variant notice; DarkNotice.astro sets it while the notice shows. */
+:root { --notice-block-size: 0px; --row-block-size: var(--igd-space-5xl); }
+/* A jump to a section scrolls smoothly; base.css turns it off for a reader who asks for reduced motion. */
+html { scroll-behavior: smooth; scroll-padding-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-md)); }
 button { font: inherit; color: inherit; }
 code, output { font-family: var(--igd-font-mono); font-size: var(--igd-type-body-xs-font-size); }
-output { color: var(--igd-color-text-secondary); }
+output { color: var(--igd-color-text-body); }
 [hidden] { display: none !important; }
+/* breakpoint-lg: the section list is a sticky row there. A jump target keeps its height above it, so the space the page keeps covers the top bar only and focus in the row scrolls nothing. scrollspy.ts sets both from measured heights. */
+@media (max-width: 1024px) { main [id] { scroll-margin-block-start: var(--row-block-size); } }
+/* What sits in the sticky bars is always in view, so focus moving into it scrolls nothing; the space a jump keeps under the bars would otherwise count it as hidden. */
+[data-dark-notice] * { scroll-margin-block-start: -100vh; }
+/* breakpoint-sm up: the top bar sticks. */
+@media (min-width: 641px) { header * { scroll-margin-block-start: -100vh; } }
+/* Text for assistive technology only. */
+.sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+::placeholder { color: var(--igd-color-text-muted); opacity: 1; }
+
+/* The parts the browser draws take the theme too: form controls, scrollbars, the selection and the caret. */
+:root { color-scheme: light; accent-color: var(--igd-color-action-default); caret-color: var(--igd-color-action-default); }
+[data-theme="dark"] { color-scheme: dark; }
+/* The colours of a code sample, which sits on the one dark surface. Shiki's css-variables theme reads them. */
+:root {
+  --astro-code-foreground: var(--igd-color-text-inverse);
+  --astro-code-background: var(--igd-color-surface-inverse);
+  --astro-code-token-constant: var(--igd-color-accent-inverse);
+  --astro-code-token-string: var(--igd-color-accent-inverse-performance);
+  --astro-code-token-comment: var(--igd-color-text-inverse-muted);
+  --astro-code-token-keyword: var(--igd-color-accent-inverse);
+  --astro-code-token-parameter: var(--igd-color-text-inverse);
+  --astro-code-token-function: var(--igd-color-text-inverse);
+  --astro-code-token-string-expression: var(--igd-color-accent-inverse-performance);
+  --astro-code-token-punctuation: var(--igd-color-text-inverse-muted);
+  --astro-code-token-link: var(--igd-color-link-inverse);
+}
+::selection { background: var(--igd-color-action-default); color: var(--igd-color-action-on); }
 
 main { container-type: inline-size; min-inline-size: 0; }
-main h1 { font-size: var(--igd-type-display-md-font-size); line-height: var(--igd-type-display-md-line-height); font-weight: var(--igd-type-display-md-font-weight); }
-main h2 { font-size: var(--igd-type-display-sm-font-size); line-height: var(--igd-type-display-sm-line-height); font-weight: var(--igd-type-display-sm-font-weight); }
+main h1 { font-size: var(--igd-type-display-lg-font-size); line-height: var(--igd-type-display-lg-line-height); font-weight: var(--igd-type-display-lg-font-weight); text-wrap: balance; }
+main > h1 { margin-block-end: var(--igd-space-stack-xs); }
+main h2 { font-size: var(--igd-type-display-md-font-size); line-height: var(--igd-type-display-md-line-height); font-weight: var(--igd-type-display-md-font-weight); text-wrap: balance; }
 main h3 { font-family: var(--igd-font-body); font-size: var(--igd-type-eyebrow-font-size); letter-spacing: var(--igd-type-eyebrow-letter-spacing); text-transform: uppercase; color: var(--igd-color-text-muted); font-weight: var(--igd-font-weight-semibold); }
 main h3.plain { margin-block: var(--igd-space-stack-2xl) var(--igd-space-stack-sm); font-size: var(--igd-type-title-sm-font-size); letter-spacing: normal; text-transform: none; color: var(--igd-color-text-heading); }
 
-.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: var(--igd-container-prose-max-width); font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-secondary); }
-.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: var(--igd-container-prose-max-width); color: var(--igd-color-text-secondary); }
+/* A measure of about 70 characters at each text size. */
+.intro { margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-xl); max-inline-size: 38rem; font-size: var(--igd-type-lead-font-size); line-height: var(--igd-type-lead-line-height); color: var(--igd-color-text-body); }
+.lead { margin-block: 0 var(--igd-space-stack-md); max-inline-size: 33rem; color: var(--igd-color-text-body); }
+/* A link inside running text is underlined, so it is not told apart by colour alone. */
+:is(.intro, .lead, .prose :is(p, li)) a { text-decoration: underline; text-underline-offset: 0.15em; }
 .more { margin-block: var(--igd-space-stack-lg) 0; font-weight: var(--igd-font-weight-semibold); }
 .group { margin-block-end: var(--igd-space-stack-2xl); }
 .group > h3 { margin-block-end: var(--igd-space-stack-sm); }

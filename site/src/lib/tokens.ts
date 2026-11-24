@@ -69,6 +69,43 @@ export const rampOf = (family: Token[]) => {
       );
 };
 
+/** Whether a token is one the others are built from: a palette step, a raw spacing step or an engine elevation, plain or tinted. */
+export const isEngine = (name: string) =>
+  /^ig-/.test(name) ||
+  /^space-\d?[a-z]+$/.test(name) ||
+  /^elevation-(?:tint-)?\d+$/.test(name);
+
+const REFERENCE = /^\{([\w-]+)\}$/;
+
+/** The engine token a token's value leads to through its references, if it leads to one. */
+export const engineOf = (token: Token, all: Token[]): string | undefined => {
+  const seen = new Set<string>();
+  let value = token.value;
+  for (
+    let name = value.match(REFERENCE)?.[1];
+    name && !seen.has(name);
+    name = value.match(REFERENCE)?.[1]
+  ) {
+    if (isEngine(name)) return name;
+    seen.add(name);
+    value = all.find((t) => t.name === name)?.value ?? "";
+  }
+  return undefined;
+};
+
+/** The tokens that lead to each engine token, by its name. */
+export const readersOf = (all: Token[]) => {
+  const readers: Record<string, Token[]> = {};
+  for (const t of all) {
+    if (isEngine(t.name)) continue;
+    const engine = engineOf(t, all);
+    if (!engine) continue;
+    readers[engine] ??= [];
+    readers[engine].push(t);
+  }
+  return readers;
+};
+
 /** Finds tokens by name, in the order named, or stops the build with the name that is missing. */
 export const pick = (tokens: Token[], names: string[], where: string) =>
   names.map((n) => {

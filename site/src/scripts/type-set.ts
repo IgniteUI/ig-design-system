@@ -1,21 +1,23 @@
-// The type set buttons: each switches the page to its set, or back to the default.
+// The type set buttons: each switches the element it names to its set, or back to the default.
 import { changed } from "./events.ts";
 
-const root = document.documentElement;
 const buttons = document.querySelectorAll<HTMLButtonElement>(
   "button[data-type-set]",
 );
 
 for (const button of buttons)
   button.addEventListener("click", () => {
+    const target = document.getElementById(button.dataset.typeSetTarget ?? "");
     const set = button.dataset.typeSet ?? "";
-    if (root.getAttribute("data-igd-type") === set)
-      root.removeAttribute("data-igd-type");
-    else root.setAttribute("data-igd-type", set);
+    if (!target) return;
+    if (target.getAttribute("data-igd-type") === set)
+      target.removeAttribute("data-igd-type");
+    else target.setAttribute("data-igd-type", set);
     for (const b of buttons)
-      b.setAttribute(
-        "aria-pressed",
-        String(root.getAttribute("data-igd-type") === b.dataset.typeSet),
-      );
+      if (b.dataset.typeSetTarget === button.dataset.typeSetTarget)
+        b.setAttribute(
+          "aria-pressed",
+          String(target.getAttribute("data-igd-type") === b.dataset.typeSet),
+        );
     changed();
   });

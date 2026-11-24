@@ -1,6 +1,6 @@
 ---
-// One of the logo files as an image, at a height. The width follows.
-import { LOGOS, type LogoKey } from "@/data/logo.ts";
+// One of the logo files as an image, at a height. The width follows, and a box narrower than it scales the whole logo down.
+import { LOGOS, type LogoKey, PROPORTIONS } from "@/data/logo.ts";
 
 interface Props {
   logo: LogoKey;
@@ -19,13 +19,13 @@ const { image, alt } = LOGOS[logo];
   width={image.width}
   height={image.height}
   alt={decorative ? "" : alt}
-  style={`block-size: ${height}`}
+  style={`inline-size: calc(${height} * ${PROPORTIONS[logo]})`}
 />
 
 <style>
   img {
     display: block;
-    inline-size: auto;
+    block-size: auto;
     max-inline-size: 100%;
   }
 </style>

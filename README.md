@@ -13,7 +13,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 | File | What it is |
 |---|---|
 | `dist/tokens.css` | Every token as a CSS custom property, with its default value. Load it first. |
-| `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark theme and the type classes. Load it second. |
+| `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark variant and the type classes. Load it second. |
 | `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
 | `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
 | `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use, plus the custom properties only the stylesheets declare. Generated on every build. |
@@ -35,21 +35,21 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
   background: var(--igd-color-action-default);
   color: var(--igd-color-action-on);
   padding: var(--igd-space-inset-sm) var(--igd-space-inset-xl);
-  border-radius: var(--igd-radius-full);
+  border-radius: var(--igd-radius-action);
 }
 .promo-button:hover { background: var(--igd-color-action-fill-hover); }
 ```
 
 ## Documentation site
 
-`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark theme. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
+`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark variant. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
 
 | Page | What it is |
 |---|---|
-| Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the two themes and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. |
+| Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the light and dark variants and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. |
 | Tokens (`/tokens/`) | Every token in `tokens.json` with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
 | Logo (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes and a do and don't list. |
-| `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files as they are. |
+| `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files. `site/integrations/document-markdown.mjs`, a plugin of Astro's Markdown processor, links the documents to each other as pages, adds a copy button to a code sample, and makes a new name in a table a copy button. |
 
 Nothing the site shows is typed twice. The pages read `dist/tokens.json`, the Markdown files and `package.json` at build time, and nothing the build writes is committed. Change a token, a document or a rule in one place and the next build shows it.
 
@@ -73,11 +73,13 @@ Every token the design system defines is published as `--igd-*`, so it cannot co
 
 Semantic and component names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS. An engine name keeps its `ig-`, as in `ig-primary-500`.
 
-**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark theme and for the areas that stay dark in both themes. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 11 steps of the four accent palettes and 8 steps of the dark ramps outside the dark theme, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
+**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark variant and for the areas that stay dark in both variants. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 11 steps of the four accent palettes and 8 steps of the dark ramps outside the dark variant, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
 
 The classes and keyframes the package defines follow the same rule: `.igd-type-display-lg` … `.igd-type-body-2xs` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
-**Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default` (`--igd-color-action-default` in CSS), `color-text-muted`, `color-surface-tint`. No semantic or component name carries a hue, with one exception, `window-dot-red`, `-amber` and `-green`, which name the three dots of a mock window: the accents are `color-accent-primary`, `-secondary`, `-inverse` and `-inverse-alt`, the icon tile fills are `tile-1` … `tile-8`, and the glows take the name of the accent they derive from. A hue appears only in the raw tier, where the name says what the value is. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
+**Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default` (`--igd-color-action-default` in CSS), `color-text-muted`, `color-surface-tint`. No semantic or component name carries a hue, with one exception, `window-dot-red`, `-amber` and `-green`, which name the three dots of a mock window: the accents are `color-accent-brand`, `-ai`, `-inverse` and `-inverse-performance`, the icon tile fills are `tile-1` … `tile-8`, and the glows take the name of the accent they derive from.
+
+**Why names say the job.** A name is written into every site that uses it; a value is written once, in this package. So a name says what the value is for, never how it looks: no hue, no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`), no `-alt`, no product name and no `primary` or `secondary`, which are the engine's family names (`color-text-strong`, not `color-text-primary`). When the look changes, the value changes and every site keeps working. Two kinds of name use a position, because there the position is the role: a scale (`space-inset-lg`, `font-weight-bold`), where a component picks a step by need, and an ordered set (`tile-1` … `tile-8`), where a grid takes the colours in order. A hue appears only in the raw tier, where the name says what the value is. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
 
 **Type** has 15 styles, each named for its role. The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`.
 
@@ -140,17 +142,17 @@ A token is calculated where it is declared: on the root and on each `data-ig-sco
 | `--ig-spacing` | multiplier, default 1 |
 | `--ig-radius-factor` | unset by default (each role takes its design value); 0 is each role's minimum, 1 its maximum |
 | `--ig-elevation-factor` | multiplier, default 1 |
-| `data-theme="dark"` | the dark theme, on the page or on one region |
+| `data-theme="dark"` | the dark variant, on the page or on one region |
 | `data-ig-scope` | a component root, or a region that carries its own dials or base colours |
 | `data-igd-type="docs"` | the type roles at documentation sizes, on the page or on one region |
 
 **Brand colours.** `IGD_SEED_PRIMARY` and `IGD_SEED_SECONDARY` replace a seed for one build; CI builds the system with two other brand colours on every pull request and runs every gate on the result. The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action fill, `color-action-default`, is the seed, and its label is the engine's contrast colour: black or white, whichever reads on the seed. The hover fill, `color-action-fill-hover`, is a step that label still reads on: primary step 700 under a white label, step 400 under a black one. Text in the action colour, `color-action-text`, reads primary step 600, because the engine solves each step to a fixed contrast for any seed (about 5.2:1 on white for step 600). The build stops when the engine warns that a seed or a scale cannot give a step its contrast.
 
-**Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. Text in the action colour or a status colour is not derived: it reads one engine step in the light theme and a lighter step of the same family in the dark theme. Fills keep the exact colour with a black or white label.
+**Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. Text in the action colour or a status colour is not derived: it reads one engine step in the light variant and a lighter step of the same family in the dark variant. Fills keep the exact colour with a black or white label.
 
 **Dark theme.** Built from the engine's dark palette. `[data-theme="dark"]` gives the engine's gray shades and surface roles their dark-palette values; every semantic name keeps its meaning.
 
-**Dark areas.** An area that is dark in both themes uses the inverse surfaces: `color-surface-inverse-raised` (lightest), `color-surface-inverse` and `color-surface-inverse-sunken` (darkest), with `color-text-inverse` on top.
+**Dark areas.** An area that is dark in both variants uses the inverse surfaces: `color-surface-inverse-raised` (lightest), `color-surface-inverse` and `color-surface-inverse-sunken` (darkest), with `color-text-inverse` on top.
 
 ## Checks
 
@@ -159,11 +161,11 @@ A token is calculated where it is declared: on the root and on each `data-ig-sco
 | Check | What it stops |
 |---|---|
 | `checks/lint.ts` | A hand-typed colour, size, duration or easing in a component source |
-| `checks/check-vars.ts` | A `var()` that points at a token that does not exist |
+| `checks/check-vars.ts` | A `var()` that points at a token that does not exist. A custom property that a checked stylesheet declares itself counts as defined. |
 | `checks/spacing-roles.ts` | A raw spacing step used for padding, a margin or a gap |
 | `checks/gates-derived.ts` | A hover, focus or active colour that is not derived from its base, or a derived token that drifts from the engine's value |
-| `checks/gates-themes.ts` | A colour pairing below WCAG AA, measured in a browser in the light and the dark theme. A translucent colour is measured over what is below it: the background over the page colour, the text over the background. `reports/contrast-pairs.json` lists the pairings |
-| `checks/resolve.ts` | A token that resolves to nothing, or to an invalid colour or length, when a page loads the package, in the light and the dark theme |
+| `checks/gates-themes.ts` | A colour pairing below WCAG AA, measured in a browser in the light and the dark variant. A translucent colour is measured over what is below it: the background over the page colour, the text over the background. `reports/contrast-pairs.json` lists the pairings |
+| `checks/resolve.ts` | A token that resolves to nothing, or to an invalid colour or length, when a page loads the package, in the light and the dark variant |
 
 The rules of the three source checks and the functions of the generator have unit tests in `src/*.test.ts` and `checks/*.test.ts`. `lint.ts`, `check-vars.ts`, `spacing-roles.ts` and `compare.ts` export their functions and do their file work only when they are the script Node was started with. The three browser gates are scripts.
 

@@ -5,6 +5,7 @@ import logoSource from "@/assets/logos/ig-logo.svg?raw";
 import darkFile from "@/assets/logos/ig-logo-dark.svg";
 import darkSource from "@/assets/logos/ig-logo-dark.svg?raw";
 import markFile from "@/assets/logos/ig-logomark.svg";
+import markSource from "@/assets/logos/ig-logomark.svg?raw";
 import { readLogo } from "@/lib/logo.ts";
 
 /** The logo files, where each one is used, and the theme of the surface it sits on. */
@@ -22,7 +23,7 @@ export const LOGOS = {
     image: darkFile,
     title: "Logo for dark surfaces",
     alt: "Infragistics",
-    use: "The same drawing with a lighter wordmark. On the dark theme and on a dark area.",
+    use: "The same drawing with a lighter wordmark. On the dark variant of the theme and on a dark area.",
     theme: "dark",
   },
   mark: {
@@ -38,6 +39,14 @@ export type LogoKey = keyof typeof LOGOS;
 
 const logo = readLogo(logoSource, LOGOS.logo.file);
 const dark = readLogo(darkSource, LOGOS.dark.file);
+const mark = readLogo(markSource, LOGOS.mark.file);
+
+/** The width of each logo file over its height, from its viewBox. */
+export const PROPORTIONS: Record<LogoKey, number> = {
+  logo: logo.width / logo.height,
+  dark: dark.width / dark.height,
+  mark: mark.width / mark.height,
+};
 const [wordmark, blue, white] = logo.fills;
 
 /** The proportion of the logo: its width over its height. */
@@ -51,17 +60,37 @@ export const LOGO_COLOURS = {
   darkWordmark: dark.fills[0],
 };
 
-/** The surfaces the page shows a logo on: the token, and the theme whose logo sits on it. */
-export const SURFACES: [token: string, theme: "light" | "dark"][] = [
-  ["color-surface-page", "light"],
-  ["color-surface-subtle", "light"],
-  ["color-surface-card", "light"],
-  ["color-surface-tint", "light"],
-  ["color-surface-page", "dark"],
-  ["color-surface-subtle", "dark"],
-  ["color-surface-card", "dark"],
-  ["color-surface-inverse", "dark"],
+/** The surfaces the page shows a logo on: the token, its plain name, and the theme whose logo sits on it. */
+export const SURFACES: {
+  token: string;
+  title: string;
+  theme: "light" | "dark";
+}[] = [
+  { token: "color-surface-page", title: "The page", theme: "light" },
+  { token: "color-surface-subtle", title: "A section band", theme: "light" },
+  { token: "color-surface-card", title: "A card", theme: "light" },
+  { token: "color-surface-tint", title: "A tinted area", theme: "light" },
+  { token: "color-surface-page", title: "The page", theme: "dark" },
+  { token: "color-surface-subtle", title: "A section band", theme: "dark" },
+  { token: "color-surface-card", title: "A card", theme: "dark" },
+  {
+    token: "color-surface-inverse",
+    title: "A dark area on a light page",
+    theme: "dark",
+  },
 ];
+
+if (!logo.symbol || !logo.wordmark)
+  throw new Error(
+    `${LOGOS.logo.file} needs a rectangle for the symbol and a path right of it for the wordmark. The logo page draws its anatomy from them.`,
+  );
+
+/** The parts of the logo, read from the file, in logo heights: the width of the symbol, the gap after it, and where the wordmark starts. */
+export const ANATOMY = {
+  symbol: logo.symbol / logo.height,
+  gap: (logo.wordmark - logo.symbol) / logo.height,
+  wordmark: logo.wordmark / logo.height,
+};
 
 /** The lowest contrast the wordmark may have against its surface: the WCAG 1.4.11 minimum for a graphic. */
 export const MIN_CONTRAST = 3;

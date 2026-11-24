@@ -6,10 +6,10 @@ export const CARD_RULE = `.card {
   gap: var(--igd-space-gap-sm);
   padding: var(--igd-space-inset-lg);
   border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-  border-radius: var(--igd-radius-lg);
+  border-radius: var(--igd-radius-card);
   background: var(--igd-color-surface-card);
-  color: var(--igd-color-text-secondary);
-  box-shadow: var(--igd-shadow-raised);
+  color: var(--igd-color-text-body);
+  box-shadow: var(--igd-shadow-card-hover);
 }`;
 
 /** The markup of the card, as the guide prints it. */

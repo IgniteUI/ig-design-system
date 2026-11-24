@@ -1,6 +1,9 @@
 ---
 // One page per Markdown document of the package. The file is rendered as it is; its second-level headings are the sections.
 import { getCollection, render } from "astro:content";
+import TokenFilter from "@/components/tokens/TokenFilter.astro";
+import CopyFormat from "@/components/ui/CopyFormat.astro";
+import LinkCards from "@/components/ui/LinkCards.astro";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
 import { href } from "@/lib/paths.ts";
@@ -17,27 +20,80 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
+const document = DOCUMENTS.find((d) => d.slug === entry.id);
 const title = headings.find((h) => h.depth === 1)?.text;
 if (!title)
   throw new Error(
     `${entry.filePath} has no first-level heading. The page takes its title from it: start the file with "# Title".`,
   );
-const sections = headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug, title: h.text }));
+// One name for a document everywhere: its heading, its card on the guide and its link in the footer.
+if (document && document.title !== title)
+  throw new Error(
+    `${entry.filePath} is titled "${title}" but DOCUMENTS in site/src/data/navigation.ts calls it "${document.title}". Use the heading of the file as the title.`,
+  );
+const sections = headings
+  .filter((h) => h.depth === 2 || h.depth === 3)
+  .map((h) => ({ id: h.slug, title: h.text, sub: h.depth === 3 }));
+const pages = DOCUMENTS.map((d) => ({ href: href(`${d.slug}/`), title: d.title, current: d.slug === entry.id }));
+const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
+  href: href(`${d.slug}/`),
+  title: d.title,
+  text: d.summary,
+}));
 ---
 
-<SectionsLayout
-  title={title}
-  current="guide"
-  sections={sections}
-  back={{ href: href("#setup"), title: "Back to the guide" }}
->
-  <article class="prose"><Content /></article>
+<SectionsLayout title={title} sections={sections} pages={pages} back={{ href: href("#setup"), title: "Back to the guide" }}>
+  {
+    document?.filter && (
+      <TokenFilter
+        slot="nav"
+        placeholder="Filter names, e.g. radius"
+        label="Filter the tables by an old or a new name"
+      />
+    )
+  }
+  <nav class="documents" aria-label="Documents">
+    {
+      pages.map((page) => (
+        <a href={page.href} aria-current={page.current ? "page" : undefined}>
+          {page.title}
+        </a>
+      ))
+    }
+  </nav>
+  {
+    document?.filter && (
+      <div class="how" data-filter-rest>
+        <p class="lead">
+          Click a new name to copy it, for CSS or as the name alone. Press <kbd>/</kbd> to filter the tables by an old
+          or a new name, and <kbd>Esc</kbd> to clear.
+        </p>
+        <CopyFormat />
+      </div>
+    )
+  }
+  <article class="prose" data-filter-scope={document?.filter ? "" : undefined}><Content /></article>
+  <p class="empty" hidden data-filter-empty>No name matches. Try a shorter word, such as <code>radius</code>.</p>
+  <aside aria-labelledby="read-next">
+    <h2 id="read-next">Read next</h2>
+    <LinkCards
+      items={[
+        ...others,
+        { href: href("tokens/"), title: "Tokens", text: "Every token a site may use, with what it is for and its value." },
+      ]}
+    />
+  </aside>
 </SectionsLayout>
 
+<script>
+  import "@/scripts/copy.ts";
+</script>
+
 <style>
+  /* A measure a reader can follow; tables and code take the full width. */
   .prose :global(:is(p, ul, ol)) {
-    max-inline-size: var(--igd-container-prose-max-width);
-    color: var(--igd-color-text-secondary);
+    max-inline-size: 33rem;
+    color: var(--igd-color-text-body);
   }
 
   .prose :global(p) {
@@ -45,17 +101,22 @@ const sections = headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug,
   }
 
   .prose :global(h1 + p) {
+    max-inline-size: 38rem;
     margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-2xl);
     font-size: var(--igd-type-lead-font-size);
     line-height: var(--igd-type-lead-line-height);
   }
 
-  .prose :global(h2) {
+  .prose :global(h2),
+  aside h2 {
     margin-block: var(--igd-space-stack-4xl) var(--igd-space-stack-md);
+    font-size: var(--igd-type-display-sm-font-size);
+    line-height: var(--igd-type-display-sm-line-height);
+    font-weight: var(--igd-type-display-sm-font-weight);
   }
 
   .prose :global(h3) {
-    margin-block: var(--igd-space-stack-xl) var(--igd-space-stack-sm);
+    margin-block: var(--igd-space-stack-2xl) var(--igd-space-stack-sm);
     font-family: var(--igd-font-display);
     font-size: var(--igd-type-title-md-font-size);
     letter-spacing: normal;
@@ -81,30 +142,65 @@ const sections = headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug,
     font-weight: var(--igd-font-weight-semibold);
   }
 
-  .prose :global(pre) {
+  .prose :global(:not(pre) > code) {
+    padding: 0 var(--igd-space-inset-3xs);
+    border-radius: var(--igd-radius-control);
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-strong);
+  }
+
+  /* A name stays on one line. */
+  .prose :global(code.name) {
+    white-space: nowrap;
+  }
+
+  .prose :global(.code) {
+    position: relative;
     max-inline-size: var(--igd-container-prose-max-width);
     margin-block: 0 var(--igd-space-stack-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-tile);
+    background: var(--igd-color-surface-inverse);
+  }
+
+  .prose :global(pre) {
+    margin: 0;
     padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-md);
+    padding-inline-end: var(--igd-space-inset-5xl);
+    border-radius: inherit;
     overflow: auto;
     font-size: var(--igd-type-body-sm-font-size);
     line-height: var(--igd-type-body-sm-line-height);
   }
 
-  /* A table wider than the page scrolls inside itself. */
+  .prose :global(pre code) {
+    font-size: inherit;
+  }
+
+  .prose :global(.code > button) {
+    position: absolute;
+    inset-block-start: var(--igd-space-xs);
+    inset-inline-end: var(--igd-space-xs);
+    min-block-size: var(--igd-space-xl);
+    padding: var(--igd-space-inset-3xs) var(--igd-space-inset-sm);
+    border: var(--igd-border-width-default) solid var(--igd-color-text-inverse-muted);
+    border-radius: var(--igd-radius-action);
+    background: var(--igd-color-surface-inverse-raised);
+    color: var(--igd-color-text-inverse);
+    font-size: var(--igd-type-body-xs-font-size);
+    cursor: copy;
+  }
+
   .prose :global(table) {
-    display: block;
-    max-inline-size: 100%;
     margin-block: 0 var(--igd-space-stack-lg);
-    overflow-x: auto;
     border-collapse: collapse;
   }
 
   .prose :global(:is(th, td)) {
-    padding: var(--igd-space-inset-xs) var(--igd-space-inset-md) var(--igd-space-inset-xs) 0;
+    padding: var(--igd-space-inset-2xs) var(--igd-space-inset-2xl) var(--igd-space-inset-2xs) 0;
     border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
     text-align: start;
-    vertical-align: top;
+    vertical-align: middle;
   }
 
   .prose :global(th) {
@@ -113,7 +209,156 @@ const sections = headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug,
     color: var(--igd-color-text-muted);
   }
 
-  .prose :global(:is(th, td) code) {
+  .prose :global(td code) {
     white-space: nowrap;
+  }
+
+  /* A published name as a button that copies it. */
+  .prose :global(.copy-name) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--igd-space-gap-2xs);
+    min-block-size: var(--igd-space-xl);
+    padding: var(--igd-space-inset-3xs) var(--igd-space-inset-2xs);
+    margin-inline-start: calc(-1 * var(--igd-space-inset-2xs));
+    border: 0;
+    border-radius: var(--igd-radius-control);
+    background: transparent;
+    cursor: copy;
+  }
+
+  .prose :global(.copy-name code) {
+    background: transparent;
+    color: var(--igd-color-text-heading);
+  }
+
+  .prose :global(.copy-name svg) {
+    flex: none;
+    inline-size: var(--igd-size-icon-xs);
+    block-size: var(--igd-size-icon-xs);
+    fill: none;
+    stroke: var(--igd-color-text-muted);
+    stroke-width: var(--igd-size-icon-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .prose :global(.copy-name:hover) {
+    background: var(--igd-color-surface-tint);
+  }
+
+  /* breakpoint-lg and under: the documents are listed above the page, where the side list is a row of sections only. */
+  .documents {
+    display: none;
+  }
+
+  @media (max-width: 1024px) {
+    .documents {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--igd-space-gap-2xs) var(--igd-space-gap-lg);
+      margin-block-end: var(--igd-space-stack-lg);
+      padding-block-end: var(--igd-space-inset-sm);
+      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
+      font-size: var(--igd-type-body-sm-font-size);
+    }
+
+    .documents a {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--igd-size-control-lg);
+      color: var(--igd-color-text-body);
+    }
+
+    .documents a[aria-current="page"] {
+      color: var(--igd-color-text-heading);
+      font-weight: var(--igd-font-weight-semibold);
+    }
+  }
+
+  .how {
+    margin-block-end: var(--igd-space-stack-lg);
+  }
+
+  kbd {
+    padding: 0 var(--igd-space-inset-2xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-control);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .empty {
+    padding-block: var(--igd-space-inset-3xl);
+    color: var(--igd-color-text-body);
+  }
+
+  /* breakpoint-lg up: the column headings of a long table stay in view under the top bar. */
+  @media (min-width: 1025px) {
+    .prose :global(thead th) {
+      position: sticky;
+      inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px));
+      background: var(--igd-color-surface-page);
+    }
+  }
+
+  /* Stacks a row: each cell on a line of its own, under the name of its column. */
+  @container (inline-size < 40rem) {
+    .prose :global(thead) {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    .prose :global(:is(table, tbody)) {
+      display: block;
+    }
+
+    .prose :global(tbody tr) {
+      display: grid;
+      padding-block: var(--igd-space-inset-xs);
+      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    }
+
+    .prose :global(td) {
+      display: grid;
+      grid-template-columns: var(--igd-space-5xl) minmax(0, 1fr);
+      align-items: center;
+      padding: 0;
+      border: 0;
+    }
+
+    .prose :global(td::before) {
+      content: attr(data-label);
+      font-size: var(--igd-type-body-xs-font-size);
+      color: var(--igd-color-text-muted);
+    }
+
+    .prose :global(td code.name) {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .prose :global(.copy-name) {
+      justify-self: start;
+      text-align: start;
+    }
+  }
+
+  /* breakpoint-sm: the button gets a line of its own above the code, so it covers none of it. */
+  @media (max-width: 640px) {
+    .prose :global(pre) {
+      padding-block-start: var(--igd-space-inset-4xl);
+      padding-inline-end: var(--igd-space-inset-lg);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .prose :global(.copy-name),
+    .prose :global(.code > button) {
+      min-block-size: var(--igd-size-control-lg);
+    }
   }
 </style>

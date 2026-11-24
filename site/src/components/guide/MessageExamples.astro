@@ -1,0 +1,156 @@
+---
+// Four messages as a site shows them: an icon and a title in the message colour, a short text, on the message's own tint,
+// each with the names of the two tokens it uses.
+import ExampleTag from "@/components/guide/ExampleTag.astro";
+import CopyName from "@/components/ui/CopyName.astro";
+import { cssVar, prefixOf } from "@/lib/design-system.ts";
+
+const MESSAGES = [
+  {
+    kind: "error",
+    title: "Payment failed",
+    text: "Your card was declined. Check the card number, or try another card.",
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/>',
+  },
+  {
+    kind: "success",
+    title: "Changes saved",
+    text: "Your project settings are up to date. Everyone on the team sees them now.",
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/>',
+  },
+  {
+    kind: "warning",
+    title: "Your trial ends in 3 days",
+    text: "Choose a plan to keep your projects and samples.",
+    icon: '<path d="M12 3.5 2.5 20h19L12 3.5Z"/><path d="M12 10v4.5M12 17.25v.25"/>',
+  },
+  {
+    kind: "info",
+    title: "A new version is out",
+    text: "The grid can now filter by more than one column. Read what changed.",
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.75v.25"/>',
+  },
+];
+---
+
+<div class="examples">
+  <ExampleTag many />
+  <ul class="messages">
+    {
+      MESSAGES.map((m) => (
+        <li data-token={`color-feedback-${m.kind}-default`}>
+          <div class:list={["message", m.kind]}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={m.icon} />
+            <div>
+              <p class="title">{m.title}</p>
+              <p>{m.text}</p>
+            </div>
+          </div>
+          <dl class="names">
+            {[
+              ["Icon and title", `color-feedback-${m.kind}-default`],
+              ["Background", `color-feedback-${m.kind}-surface`],
+            ].map(([role, token]) => (
+              <div>
+                <dt>{role}</dt>
+                <dd>
+                  <CopyName name={cssVar(token)} prefix={prefixOf(cssVar(token))} copy={`var(${cssVar(token)})`} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .examples {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+  }
+
+  .messages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--igd-space-gap-lg) var(--igd-space-gap-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .messages > li {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-xs);
+    min-inline-size: 0;
+  }
+
+  .message {
+    display: flex;
+    align-items: start;
+    gap: var(--igd-space-gap-sm);
+    padding: var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    border-radius: var(--igd-radius-tile);
+    color: var(--igd-color-text-strong);
+  }
+
+  .error {
+    --tone: var(--igd-color-feedback-error-default);
+    background: var(--igd-color-feedback-error-surface);
+  }
+
+  .success {
+    --tone: var(--igd-color-feedback-success-default);
+    background: var(--igd-color-feedback-success-surface);
+  }
+
+  .warning {
+    --tone: var(--igd-color-feedback-warning-default);
+    background: var(--igd-color-feedback-warning-surface);
+  }
+
+  .info {
+    --tone: var(--igd-color-feedback-info-default);
+    background: var(--igd-color-feedback-info-surface);
+  }
+
+  svg {
+    flex: none;
+    inline-size: var(--igd-size-icon-lg);
+    block-size: var(--igd-size-icon-lg);
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .message p {
+    margin: 0;
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+  }
+
+  .title {
+    color: var(--tone);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .names {
+    display: grid;
+    gap: var(--igd-space-gap-3xs);
+    margin: 0;
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .names dt {
+    color: var(--igd-color-text-muted);
+  }
+
+  .names dd {
+    margin: 0;
+  }
+</style>

@@ -12,7 +12,7 @@ const REP = path.join(ROOT, "reports/");
 const BASES = [
   "color-action-default",
   "color-action-text",
-  "color-accent-primary",
+  "color-accent-brand",
   "color-accent-inverse",
   "color-link-inverse",
   "footer-link",
@@ -24,7 +24,7 @@ const BASES = [
   "color-surface-subtle",
   "footer-heading",
   "footer-text",
-  "shadow-raised",
+  "shadow-card-hover",
 ];
 // A light and a dark probe: a token follows its base when either one moves it.
 const PROBES = ["oklch(.6 .2 150)", "oklch(.3 .15 300)"];

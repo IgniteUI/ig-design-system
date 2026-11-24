@@ -91,33 +91,33 @@ describe("checks/resolve.ts", () => {
   it("fails a token that points at a custom property that does not exist", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-text-primary: var(--igd-missing); }\n`,
+        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-text-strong: var(--igd-missing); }\n`,
     );
     const r = run("resolve.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("--igd-color-text-primary resolves to nothing");
+    expect(r.out).toContain("--igd-color-text-strong resolves to nothing");
   }, 60000);
 
   it("fails a token that resolves to nothing in the dark theme only", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n[data-theme="dark"] { --igd-color-text-primary: var(--igd-missing); }\n`,
+        `${t}\n[data-theme="dark"] { --igd-color-text-strong: var(--igd-missing); }\n`,
     );
     const r = run("resolve.ts", dir);
     expect(r.code).toBe(1);
     expect(r.out).toContain(
-      "UNRESOLVED dark: --igd-color-text-primary resolves to nothing",
+      "UNRESOLVED dark: --igd-color-text-strong resolves to nothing",
     );
     expect(r.out).not.toContain("UNRESOLVED light");
   }, 60000);
 
   it("fails a radius token whose value is not a length", () => {
     const dir = brokenDist(
-      (t) => `${t}\n:root, [data-ig-scope] { --igd-radius-md: red; }\n`,
+      (t) => `${t}\n:root, [data-ig-scope] { --igd-radius-tile: red; }\n`,
     );
     const r = run("resolve.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("--igd-radius-md is not a valid length");
+    expect(r.out).toContain("--igd-radius-tile is not a valid length");
   }, 60000);
 
   it("fails a spacing token whose live value differs from tokens.json", () => {

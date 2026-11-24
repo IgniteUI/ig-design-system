@@ -1,25 +1,28 @@
 ---
-// A logo on one surface token, with the measured contrast of its wordmark and of its blue square.
+// A logo on one surface: the plain name of the surface, which logo to use, then the token and the measured contrast.
 import LogoImage from "@/components/logo/LogoImage.astro";
-import { LOGO_COLOURS, MIN_CONTRAST } from "@/data/logo.ts";
+import { LOGO_COLOURS, LOGOS, MIN_CONTRAST } from "@/data/logo.ts";
 import { cssVar } from "@/lib/design-system.ts";
 
 interface Props {
   token: string;
+  title: string;
   theme: "light" | "dark";
 }
 
-const { token, theme } = Astro.props;
+const { token, title, theme } = Astro.props;
+const logo = theme === "dark" ? "dark" : "logo";
 const wordmark = theme === "dark" ? LOGO_COLOURS.darkWordmark : LOGO_COLOURS.wordmark;
 ---
 
 <li data-sample>
   <div class="surface" data-surface data-theme={theme} style={`background: var(${cssVar(token)})`}>
-    <LogoImage logo={theme === "dark" ? "dark" : "logo"} decorative />
+    <LogoImage logo={logo} decorative />
   </div>
-  <p class="name"><code>{token}</code> <span class="tag">{theme} theme</span></p>
+  <p class="name"><strong>{title}</strong></p>
+  <p class="use">Use the {LOGOS[logo].title.toLowerCase()}.</p>
   <p class="contrast">
-    Wordmark <output data-contrast={wordmark} data-min={MIN_CONTRAST}></output> · Blue <output
+    <code>{token}</code> · wordmark <output data-contrast={wordmark} data-min={MIN_CONTRAST}></output> · blue <output
       data-contrast={LOGO_COLOURS.blue}></output>
   </p>
 </li>
@@ -32,28 +35,35 @@ const wordmark = theme === "dark" ? LOGO_COLOURS.darkWordmark : LOGO_COLOURS.wor
   li {
     display: grid;
     align-content: start;
-    gap: var(--igd-space-gap-2xs);
+    gap: var(--igd-space-gap-3xs);
   }
 
   .surface {
     display: grid;
     place-items: center;
     min-block-size: var(--igd-space-6xl);
-    padding: var(--igd-space-inset-xl);
+    margin-block-end: var(--igd-space-stack-xs);
+    padding: var(--igd-space-inset-xl) var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
-    border-radius: var(--igd-radius-lg);
+    border-radius: var(--igd-radius-card);
   }
 
   p {
     margin: 0;
   }
 
-  .name {
-    margin-block-start: var(--igd-space-stack-xs);
+  strong {
+    color: var(--igd-color-text-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .use {
+    color: var(--igd-color-text-body);
+    font-size: var(--igd-type-body-sm-font-size);
   }
 
   .contrast {
-    font-size: var(--igd-type-body-sm-font-size);
+    font-size: var(--igd-type-body-xs-font-size);
     color: var(--igd-color-text-muted);
   }
 

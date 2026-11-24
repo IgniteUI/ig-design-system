@@ -103,9 +103,9 @@ export const ratioNotes = (rows: ContrastRow[]) => {
 export const themePairs = (): ContrastPair[] => [
   ...CONTRAST_PAIRS,
   ["color-text-heading", "color-surface-card"],
-  ["color-text-primary", "color-surface-tint"],
+  ["color-text-strong", "color-surface-tint"],
   ["color-text-heading", "color-surface-tint"],
-  ["color-text-secondary", "color-surface-card"],
+  ["color-text-body", "color-surface-card"],
   ["color-text-ui", "fw-webcomponents-background"],
   ["color-text-ui", "fw-angular-background"],
   ["color-text-ui", "fw-react-background"],

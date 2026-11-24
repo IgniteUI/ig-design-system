@@ -18,6 +18,7 @@ export const page = (route: string) =>
 export const ROUTES = [
   "",
   "tokens/",
+  "engine/",
   "logo/",
   "adopting/",
   "migration/",

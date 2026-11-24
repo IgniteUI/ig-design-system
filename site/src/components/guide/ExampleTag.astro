@@ -1,0 +1,22 @@
+---
+// The label every drawn example of the guide carries: it is an example, not a real component.
+interface Props {
+  /** For a drawing that holds more than one component. */
+  many?: boolean;
+}
+
+const { many = false } = Astro.props;
+---
+
+<p class="example">{many ? "Example only: these are not real components" : "Example only: not a real component"}</p>
+
+<style>
+  .example {
+    justify-self: start;
+    align-self: start;
+    margin: 0;
+    color: var(--igd-color-text-muted);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-2xs-font-size);
+  }
+</style>

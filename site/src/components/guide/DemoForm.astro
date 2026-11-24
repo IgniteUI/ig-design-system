@@ -1,0 +1,140 @@
+---
+// A sign-up form the guide uses as a second example component: fields, a select, a checkbox and a button, all read from tokens.
+// It takes the card rule the page adds, so the dials reach its padding, corners and shadow as they reach the card.
+import ButtonPicture from "@/components/guide/ButtonPicture.astro";
+
+interface Props {
+  /** Makes the ids of the fields unique on the page. */
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<form class="card form" data-ig-scope aria-label="Example sign-up form">
+  <h3 class="igd-type-title-sm">Form controls</h3>
+  <div class="row">
+    <div class="field">
+      <label for={`${id}-name`}>Name</label>
+      <input id={`${id}-name`} type="text" autocomplete="off" placeholder="Ada Lovelace" />
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>Work email</label>
+      <input id={`${id}-email`} type="email" autocomplete="off" placeholder="ada@example.com" />
+    </div>
+  </div>
+  <div class="field">
+    <label for={`${id}-product`}>Product</label>
+    <span class="select">
+      <select id={`${id}-product`}>
+        <option>Ignite UI for Angular</option>
+        <option>Ignite UI for React</option>
+        <option>Ignite UI for Web Components</option>
+        <option>Ignite UI for Blazor</option>
+      </select>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"></path></svg>
+    </span>
+  </div>
+  <label class="check">
+    <input type="checkbox" checked />
+    Send me the release notes
+  </label>
+  <div class="actions">
+    <ButtonPicture>Create account</ButtonPicture>
+  </div>
+</form>
+
+<style>
+  .form {
+    inline-size: 100%;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--igd-font-body);
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--igd-color-text-heading);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--igd-field-min-width)), 1fr));
+    gap: var(--igd-space-gap-sm);
+  }
+
+  .field {
+    display: grid;
+    gap: var(--igd-space-gap-2xs);
+  }
+
+  label {
+    color: var(--igd-color-text-ui);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  input:not([type="checkbox"]),
+  select {
+    inline-size: 100%;
+    min-block-size: var(--igd-size-control-md);
+    padding: var(--igd-space-inset-2xs) var(--igd-space-inset-sm);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-badge);
+    background: var(--igd-color-surface-card);
+    color: var(--igd-color-text-strong);
+    font: inherit;
+  }
+
+  input:not([type="checkbox"]):focus-visible,
+  select:focus-visible {
+    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+    outline-offset: var(--igd-focus-ring-offset);
+  }
+
+  /* The browser's arrow ignores the padding, so the select draws its own inside it, in the text colour. */
+  .select {
+    position: relative;
+    display: grid;
+  }
+
+  select {
+    appearance: none;
+    padding-inline-end: calc(var(--igd-space-inset-sm) + var(--igd-size-icon-sm) + var(--igd-space-inset-xs));
+    cursor: pointer;
+  }
+
+  .select svg {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: var(--igd-space-inset-sm);
+    inline-size: var(--igd-size-icon-sm);
+    block-size: 100%;
+    fill: none;
+    stroke: var(--igd-color-text-ui);
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+
+  .check {
+    display: flex;
+    align-items: center;
+    gap: var(--igd-space-gap-xs);
+    font-weight: var(--igd-font-weight-regular);
+  }
+
+  .check input {
+    inline-size: var(--igd-size-icon-md);
+    block-size: var(--igd-size-icon-md);
+    margin: 0;
+    accent-color: var(--igd-color-action-default);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-sm);
+  }
+</style>

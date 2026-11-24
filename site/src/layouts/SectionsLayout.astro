@@ -6,23 +6,25 @@ import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title?: string;
-  current: PageId;
+  /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
+  current?: PageId;
   /** The sections of the page, in order. Each id is the id of an element on the page. */
-  sections: { id: string; title: string; count?: number }[];
+  sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean }[];
   /** A link above the section list, back to the page this one belongs to. */
   back?: { href: string; title: string };
+  /** The pages this one belongs with, listed above the sections. */
+  pages?: { href: string; title: string; current?: boolean }[];
 }
 
-const { title, current, sections, back } = Astro.props;
+const { title, current, sections, back, pages } = Astro.props;
 ---
 
 <BaseLayout title={title} current={current}>
   <slot name="bar" slot="bar" />
   <slot name="switches" slot="switches" />
-  <slot name="before" />
   <div class="layout">
-    <SectionNav sections={sections} back={back} />
-    <main>
+    <SectionNav sections={sections} back={back} pages={pages}><slot name="nav" /></SectionNav>
+    <main id="content" tabindex="-1">
       <slot />
     </main>
   </div>
@@ -38,11 +40,16 @@ const { title, current, sections, back } = Astro.props;
     padding: var(--igd-space-inset-xl) var(--igd-container-gutter) var(--igd-space-inset-5xl);
   }
 
+  main:focus {
+    outline: none;
+  }
+
   /* breakpoint-lg */
   @media (max-width: 1024px) {
     .layout {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--igd-space-gap-lg);
+      padding-block-start: 0;
     }
   }
 </style>

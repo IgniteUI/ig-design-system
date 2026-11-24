@@ -1,0 +1,72 @@
+---
+// The foot of every page: what the site is, its version, and the ways on from here.
+import { DOCUMENTS, PAGES } from "@/data/navigation.ts";
+import { packageName, packageVersion, repository } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+
+---
+
+<footer>
+  <div class="inner">
+    <p>
+      <strong>Infragistics design system</strong>
+      <span><code>{packageName}</code> {packageVersion}</span>
+    </p>
+    <nav aria-label="Footer">
+      {PAGES.map((page) => <a href={href(page.path)}>{page.title}</a>)}
+      {DOCUMENTS.map((document) => <a href={href(`${document.slug}/`)}>{document.title}</a>)}
+      <a href={repository}>Repository on GitHub</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-block-start: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    background: var(--igd-color-surface-subtle);
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--igd-space-gap-md) var(--igd-space-gap-3xl);
+    max-inline-size: var(--igd-container-max-width);
+    margin-inline: auto;
+    padding: var(--igd-space-inset-2xl) var(--igd-container-gutter);
+  }
+
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--igd-space-gap-2xs) var(--igd-space-gap-md);
+    margin: 0;
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-body-sm-font-size);
+  }
+
+  strong {
+    color: var(--igd-color-text-heading);
+    font-family: var(--igd-font-display);
+    font-size: var(--igd-type-title-sm-font-size);
+    font-weight: var(--igd-font-weight-bold);
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-xs) var(--igd-space-gap-xl);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  @media (pointer: coarse) {
+    nav a {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--igd-size-control-lg);
+    }
+  }
+</style>

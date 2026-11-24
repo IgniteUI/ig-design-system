@@ -13,12 +13,15 @@ interface Props {
 
 const { token, value } = Astro.props;
 const custom = cssVar(token.name);
+// A length written in rem, in pixels at the default text size of 16px.
+const rem = token.value.match(/^(-?[\d.]+)rem$/);
+const written = rem ? `${Math.round(Number(rem[1]) * 16 * 100) / 100}px (${token.value})` : token.value;
 ---
 
-<tr data-token={token.name}>
-  <th scope="row"><CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} /></th>
-  <td class="value">{value === "length" ? <Readout token={token.name} kind="length" /> : token.value}</td>
-  <td>
-    <slot><Note text={token.usage} /></slot>
+<tr data-token={token.name} role="row">
+  <th scope="row" role="rowheader"><CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} /></th>
+  <td class="value" role="cell">{value === "length" ? <Readout token={token.name} kind="length" /> : written}</td>
+  <td role="cell">
+    <slot><Note text={token.usage} about={token.name} /></slot>
   </td>
 </tr>

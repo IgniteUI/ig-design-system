@@ -1,6 +1,6 @@
 ---
 // The card the guide uses as its example component. The page that uses it adds CARD_RULE, the rule of its root, which the guide also prints.
-import ActionLink from "@/components/guide/ActionLink.astro";
+import ButtonPicture from "@/components/guide/ButtonPicture.astro";
 
 interface Props {
   title: string;
@@ -14,8 +14,8 @@ const { title } = Astro.props;
   <h3 class="igd-type-title-sm">{title}</h3>
   <p class="igd-type-body-md"><slot /></p>
   <div class="actions">
-    <ActionLink href="#themes">Start free trial</ActionLink>
-    <ActionLink href="#themes" quiet>Read more</ActionLink>
+    <ButtonPicture>Start free trial</ButtonPicture>
+    <ButtonPicture quiet>Read more</ButtonPicture>
   </div>
 </article>
 
@@ -29,7 +29,7 @@ const { title } = Astro.props;
     justify-self: start;
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
     border: var(--igd-border-width-default) solid var(--igd-badge-new-border);
-    border-radius: var(--igd-radius-full);
+    border-radius: var(--igd-radius-action);
     background: var(--igd-badge-new-background);
     color: var(--igd-badge-new-color);
     font-size: var(--igd-type-body-2xs-font-size);

@@ -13,9 +13,9 @@
   },
   "color-action-hover": {
     "base": "color-action-text",
-    "dl": -0.0191,
-    "kc": 0.6566,
-    "dh": -13.81
+    "dl": -0.0685,
+    "kc": 0.9384,
+    "dh": 0.06
   },
   "color-link-utility": {
     "base": "color-action-text",
@@ -41,23 +41,23 @@
     "kc": 0.236,
     "dh": 10.49
   },
-  "color-accent-primary-hover": {
-    "base": "color-accent-primary",
+  "color-accent-brand-hover": {
+    "base": "color-accent-brand",
     "dl": -0.0722,
     "kc": 0.8392,
     "dh": 0.16
   },
-  "color-accent-primary-active": {
-    "base": "color-accent-primary",
+  "color-accent-brand-active": {
+    "base": "color-accent-brand",
     "dl": -0.145,
     "kc": 0.7697,
     "dh": 0.25
   },
   "color-link-inverse-hover": {
     "base": "color-link-inverse",
-    "dl": 0.2371,
-    "kc": 0,
-    "dh": 0
+    "dl": 0.0909,
+    "kc": 0.6634,
+    "dh": -0.39
   },
   "color-focus-inverse": {
     "base": "color-link-inverse",
@@ -132,13 +132,13 @@
     "dh": 0.47
   },
   "fw-blazor-background": {
-    "base": "color-accent-secondary",
+    "base": "color-accent-ai",
     "l": 0.9755,
     "kc": 0.0395,
     "dh": 6.03
   },
   "fw-blazor-border": {
-    "base": "color-accent-secondary",
+    "base": "color-accent-ai",
     "l": 0.904,
     "kc": 0.2125,
     "dh": 6.41
@@ -222,11 +222,11 @@
     "alias": true
   },
   "tile-1": {
-    "base": "color-accent-primary",
+    "base": "color-accent-brand",
     "alias": true
   },
   "tile-2": {
-    "base": "color-accent-secondary",
+    "base": "color-accent-ai",
     "alias": true
   },
   "tile-7": {

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { TOKEN_FAMILIES } from "../../src/types.ts";
+import { isEngine, readersOf } from "../src/lib/tokens.ts";
 import { DIST, page, ROUTES, source } from "./built.ts";
 
 const tokens = JSON.parse(source("dist/tokens.json"));
@@ -15,7 +16,8 @@ describe("every page", () => {
       const broken: string[] = [];
       for (const [, url] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
         if (/^(https?:|data:|mailto:)/.test(url)) continue;
-        const [file, hash] = url.split("#");
+        const [address, hash] = url.split("#");
+        const file = address.split("?")[0];
         const target = file ? path.join(DIST, file) : path.join(DIST, route);
         const index =
           fs.existsSync(target) && fs.statSync(target).isDirectory()
@@ -38,7 +40,7 @@ describe("every page", () => {
   });
 
   it.each(ROUTES)(
-    "/%s carries the logo of each theme in the top bar, under one accessible name",
+    "/%s carries the logo of each variant of the theme in the top bar, under one accessible name",
     (route) => {
       const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
       expect(header).toContain('aria-label="Infragistics design system"');
@@ -51,8 +53,28 @@ describe("every page", () => {
   it("marks the open page in the top bar", () => {
     expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Guide/);
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
-    expect(page("logo/")).toMatch(/aria-current="page"[^>]*>\s*Logo/);
+    expect(page("engine/")).toMatch(/aria-current="page"[^>]*>\s*Engine/);
+    expect(page("logo/")).toMatch(
+      /aria-current="page"[^>]*>\s*Brand book\s*<span[^>]*>Beta<\/span>/,
+    );
   });
+  it.each(ROUTES)(
+    "/%s ends with the footer, which names the package and its version",
+    (route) => {
+      const footer = page(route).match(/<footer.*?<\/footer>/s)?.[0] ?? "";
+      expect(footer).toContain(pkg.name);
+      expect(footer).toContain(pkg.version);
+    },
+  );
+
+  it.each(ROUTES)(
+    "/%s starts with a link that skips to the content",
+    (route) => {
+      const html = page(route);
+      expect(html).toMatch(/<body[^>]*>\s*<a[^>]*href="#content"/);
+      expect(html).toContain(' id="content"');
+    },
+  );
 });
 
 describe("the Tokens page", () => {
@@ -60,13 +82,23 @@ describe("the Tokens page", () => {
   const shown = new Set(
     [...html.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
   );
+  const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
+    tokens[f].tokens.map((t: { name: string }) => t.name),
+  );
 
-  it("shows every semantic and component token of tokens.json", () => {
-    const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
-      tokens[f].tokens.map((t: { name: string }) => t.name),
-    );
-    expect(listed.filter((n) => !n.startsWith("ig-") && !shown.has(n))).toEqual(
-      [],
+  it("shows every token of tokens.json that is not on the Engine page", () => {
+    expect(listed.filter((n) => !isEngine(n) && !shown.has(n))).toEqual([]);
+  });
+
+  it("shows no token of the Engine page", () => {
+    expect([...shown].filter((n) => isEngine(n))).toEqual([]);
+  });
+
+  it("names the engine step a colour is built from and links to it", () => {
+    const card =
+      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+    expect(card).toMatch(
+      /From <a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
     );
   });
 
@@ -76,8 +108,33 @@ describe("the Tokens page", () => {
     );
     expect(roles.filter((n) => !shown.has(n))).toEqual([]);
   });
+});
 
-  it("lists the surface in the engine palette by its four roles", () => {
+describe("the Engine page", () => {
+  const html = page("engine/");
+  const shown = new Set(
+    [...html.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
+  );
+
+  it("shows every palette step, raw spacing step and engine elevation of tokens.json", () => {
+    const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
+      tokens[f].tokens.map((t: { name: string }) => t.name),
+    );
+    expect(
+      listed.filter(
+        (n) => isEngine(n) && !n.endsWith("-contrast") && !shown.has(n),
+      ),
+    ).toEqual([]);
+  });
+
+  it("says first that a site does not write these values", () => {
+    const main = html.match(/<main.*?<\/main>/s)?.[0] ?? "";
+    expect(main.search(/Do not write them in a site/)).toBeLessThan(
+      main.indexOf("data-token="),
+    );
+  });
+
+  it("lists the surface in the palette by its four roles", () => {
     for (const role of ["base", "sunken", "raised", "overlay"])
       expect(html).toContain(`data-copy="var(--ig-surface-${role})"`);
   });
@@ -85,18 +142,103 @@ describe("the Tokens page", () => {
   it("lists a shaded family by its ten numbered shades", () => {
     expect(html.match(/data-copy="var\(--ig-gray-\d+\)"/g)).toHaveLength(10);
   });
+
+  it("lists under a palette step the tokens that read it, each linked to its filter on the Tokens page", () => {
+    const row =
+      html.match(
+        /<li[^>]*data-filter-group[^>]*>\s*<span class="family"[^>]*><span[^>]*>--ig-<\/span>gray.*?<\/dl>/s,
+      )?.[0] ?? "";
+    expect(row).toMatch(
+      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-text-muted"[^>]*>.*?<code[^>]*>--igd-color-text-muted<\/code>\s*<\/a>/s,
+    );
+  });
+
+  it("shows each token that reads a step with a swatch in its own colour", () => {
+    expect(html).toMatch(
+      /<a href="\/tokens\/\?q=color-text-muted"[^>]*>\s*<span class="swatch" style="background: var\(--igd-color-text-muted\)"/,
+    );
+  });
+
+  it("says how many steps are read with a space between the numbers and the words", () => {
+    expect(html).toMatch(/\d+ of the \d+ steps are read\./);
+  });
+
+  it("counts the readers of a step in its label, and says when no token reads it", () => {
+    const readers = readersOf(TOKEN_FAMILIES.flatMap((f) => tokens[f].tokens));
+    const n = readers["ig-gray-500"].length;
+    expect(html).toContain(
+      `aria-label="Copy var(--ig-gray-500). Read by ${n} ${n === 1 ? "token" : "tokens"}."`,
+    );
+    const unread = tokens.color.tokens.find(
+      (t: { name: string }) =>
+        /^ig-[a-z]+-\d+$/.test(t.name) && !readers[t.name],
+    );
+    expect(html).toContain(
+      `aria-label="Copy var(--${unread.name}). No token reads it."`,
+    );
+  });
+
+  it("lists under a spacing step the roles that read it", () => {
+    const row =
+      html.match(/<tr[^>]*data-token="space-md".*?<\/tr>/s)?.[0] ?? "";
+    expect(row).toContain('href="/tokens/?q=space-inset-md"');
+  });
+
+  it("makes each palette step findable and copyable by its bare name", () => {
+    expect(html).toMatch(
+      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy-alt="--ig-primary-500"/,
+    );
+  });
 });
 
 describe("the guide", () => {
   const html = page("");
 
-  it("prints the card rule the page itself uses", () => {
-    const rule = html.match(/<style>(\.card \{[^}]+\})<\/style>/)?.[1];
-    expect(rule).toBeDefined();
-    const printed = html.match(
-      /<pre[^>]*><code[^>]*>(\.card \{[^<]+)<\/code>/,
-    )?.[1];
-    expect(printed).toBe(rule);
+  it("names each dial, its custom property and its default in plain words", () => {
+    const panel =
+      html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
+    expect(
+      [
+        ...panel.matchAll(
+          /<p class="name"[^>]*>\s*([^<]+?)\s*<code[^>]*>([^<]+)</g,
+        ),
+      ].map((m) => `${m[1]} ${m[2]}`),
+    ).toEqual([
+      "Size --ig-size",
+      "Spacing --ig-spacing",
+      "Roundness --ig-radius-factor",
+      "Shadow --ig-elevation-factor",
+    ]);
+    expect(
+      [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
+        (m) => m[1],
+      ),
+    ).toEqual([
+      "Default: Large. A smaller size also tightens the spacing: Medium to 87.5%, Small to 75%.",
+      "Default: Normal.",
+      "Default: Standard. Buttons stay fully round and cards are gently rounded.",
+      "Default: Normal.",
+    ]);
+  });
+
+  it("says beside the dark example, in either variant, that the dark variant is not final", () => {
+    const group =
+      html.match(/id="themes-light-dark".*?<div class="themes"/s)?.[0] ?? "";
+    expect(group).toMatch(/<p class="notice inline"[^>]*role="note"/);
+    expect(group).toContain("The dark variant is not final.");
+    expect(group).not.toContain("data-dark-notice");
+  });
+
+  it("presses at first the option that clears each dial", () => {
+    const panel =
+      html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
+    expect(
+      [
+        ...panel.matchAll(
+          /data-value(?:="")? [^>]*aria-pressed="true"[^>]*>\s*([^<]+?)\s*</g,
+        ),
+      ].map((m) => m[1]),
+    ).toEqual(["Large", "Normal", "Standard", "Normal"]);
   });
 
   it("prints the install and check commands with the package's name", () => {
@@ -112,8 +254,90 @@ describe("the guide", () => {
 
   it("shows a featured colour with its plain use, not its technical note", () => {
     expect(html).toMatch(
-      /data-token="color-action-default".*?The fill of the main button\./s,
+      /data-info="color-action-default".*?The fill of the main button\./s,
     );
+  });
+
+  it("titles each rule in plain words, with the code under it", () => {
+    const rule = html.match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
+    expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
+    expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
+      rule.indexOf("color: var(--igd-color-text-muted);"),
+    );
+  });
+
+  it("names the class of each type role and the element it is meant for", () => {
+    const role =
+      html.match(/<li[^>]*data-token="type-display-lg".*?<\/ul>/s)?.[0] ?? "";
+    expect(role).toContain('data-copy-alt=".igd-type-display-lg"');
+    expect(role).toContain("on <code");
+    expect(role).toContain("&lt;h1&gt;");
+    expect(role).not.toContain("--igd-type-display-lg-");
+  });
+
+  it("gives corners and shadows a section each, as the Tokens page does", () => {
+    const list = html.match(/data-section-list.*?<\/ul>/s)?.[0] ?? "";
+    expect(list).toContain('href="#corners"');
+    expect(list).toContain('href="#shadows"');
+    expect(list).not.toContain('href="#shape"');
+  });
+
+  it("says why a name says its job, with the two kinds of name that use a position", () => {
+    const part = html.match(/id="idea-names".*?What do you need\?/s)?.[0] ?? "";
+    expect(part).toMatch(/not <code[^>]*>radius-pill<\/code>/);
+    expect(part).toContain("an ordered set");
+    expect(part).toMatch(/such as <code[^>]*>space-inset-lg/);
+    expect(page("tokens/")).toContain('href="/#idea-names"');
+  });
+
+  it("draws a part of the page for every colour the colour explorer lists", () => {
+    const explorer =
+      html.match(
+        /data-colour-explorer.*?<\/div>\s*<\/div>\s*<\/div>\s*<\/div>/s,
+      )?.[0] ?? "";
+    const picks = [...explorer.matchAll(/data-pick="([^"]+)"/g)].map(
+      (m) => m[1],
+    );
+    const parts = new Set(
+      [...explorer.matchAll(/data-part="([^"]+)"/g)].map((m) => m[1]),
+    );
+    expect(picks.length).toBe(19);
+    expect(picks.filter((p) => !parts.has(p))).toEqual([]);
+  });
+
+  it("says what inverse means in the colour explorer", () => {
+    expect(html).toContain("Inverse does not mean the dark variant.");
+  });
+
+  it("names the message colour and its tint under each message, not the palette steps behind them", () => {
+    const messages = html.match(/<ul class="messages".*?<\/ul>/s)?.[0] ?? "";
+    expect(messages).toContain(
+      'data-copy-alt="--igd-color-feedback-error-default"',
+    );
+    expect(messages).toContain(
+      'data-copy-alt="--igd-color-feedback-error-surface"',
+    );
+    expect(messages).not.toContain("--ig-error");
+  });
+
+  it("labels every drawn example as an example, not a real component", () => {
+    const labels = html.match(/<p class="example"/g) ?? [];
+    // The colour page, the spacing cards, two corner and shadow drawings, the messages, the light and dark cards and the dial preview.
+    expect(labels).toHaveLength(7);
+  });
+
+  it("shows each message as an alert with an icon, a title and a text", () => {
+    const messages = html.match(/<ul class="messages".*?<\/ul>/s)?.[0] ?? "";
+    expect(messages.match(/<li /g)).toHaveLength(4);
+    expect(messages.match(/<svg viewBox="0 0 24 24"/g)).toHaveLength(4);
+    expect(messages).toContain("Payment failed");
+  });
+
+  it("marks a card that leaves the site", () => {
+    const cards =
+      html.match(/<a href="https:[^"]*"[^>]*>\s*<strong.*?<\/strong>/gs) ?? [];
+    expect(cards.length).toBeGreaterThan(0);
+    for (const card of cards) expect(card).toContain("(leaves this site)");
   });
 });
 
@@ -156,5 +380,168 @@ describe("the files llms.txt links to", () => {
       .filter((l) => !/^https?:/.test(l));
     expect(links.length).toBeGreaterThan(0);
     expect(links.filter((l) => !fs.existsSync(path.join(DIST, l)))).toEqual([]);
+  });
+});
+
+describe("the documents", () => {
+  const documents = [
+    ["adopting/", "docs/ADOPTING.md"],
+    ["migration/", "docs/MIGRATION.md"],
+    ["changelog/", "CHANGELOG.md"],
+  ] as const;
+  const titleOf = (file: string) => source(file).match(/^# (.+)$/m)?.[1] ?? "";
+
+  it.each(ROUTES)(
+    "/%s links each document from the footer under the title of its file",
+    (route) => {
+      const footer = page(route).match(/<footer.*?<\/footer>/s)?.[0] ?? "";
+      for (const [slug, file] of documents)
+        expect(footer).toMatch(
+          new RegExp(`href="/${slug}"[^>]*>\\s*${titleOf(file)}\\s*<`),
+        );
+    },
+  );
+
+  it.each(documents)(
+    "/%s lists the three documents beside its sections and marks itself",
+    (slug, file) => {
+      const list =
+        page(slug).match(/<ul[^>]*aria-label="Documents".*?<\/ul>/s)?.[0] ?? "";
+      expect(list.match(/<a /g)).toHaveLength(3);
+      expect(list).toMatch(
+        new RegExp(`aria-current="page"[^>]*>\\s*${titleOf(file)}\\s*<`),
+      );
+    },
+  );
+
+  it.each(documents)("/%s marks no page of the top bar as open", (slug) => {
+    const header = page(slug).match(/<header.*?<\/header>/s)?.[0] ?? "";
+    expect(header).not.toContain("aria-current");
+  });
+
+  it.each(documents)(
+    "/%s ends with links to the other documents and to the Tokens page",
+    (slug) => {
+      const next = page(slug).match(/<aside.*?<\/aside>/s)?.[0] ?? "";
+      for (const [other] of documents)
+        if (other !== slug) expect(next).toContain(`href="/${other}"`);
+      expect(next).not.toContain(`href="/${slug}"`);
+      expect(next).toContain('href="/tokens/"');
+    },
+  );
+
+  it("links one document to another as a page, not as a file", () => {
+    const article =
+      page("migration/").match(/<article.*?<\/article>/s)?.[0] ?? "";
+    expect(article).toMatch(
+      /<a href="\/adopting\/"[^>]*>Moving a site onto the design system<\/a>/,
+    );
+    expect(article).not.toMatch(/href="[^"]*\.md"/);
+  });
+
+  it("makes every new name of the migration guide a button that copies it", () => {
+    const article =
+      page("migration/").match(/<article.*?<\/article>/s)?.[0] ?? "";
+    const rows =
+      source("docs/MIGRATION.md").match(/^\| `[^|]+\| `(--igd?-|\.igd-)/gm) ??
+      [];
+    expect(rows.length).toBeGreaterThan(200);
+    expect(article.match(/class="copy-name"/g)).toHaveLength(rows.length);
+  });
+
+  it("splits the renames that are not colours into tables by kind", () => {
+    const headings = [
+      ...source("docs/MIGRATION.md").matchAll(/^### (.+)$/gm),
+    ].map((m) => m[1]);
+    expect(headings).toEqual([
+      "Colour",
+      "Size and layout",
+      "Radius",
+      "Weight and letter spacing",
+      "Motion",
+      "Layers",
+      "Shadow and effects",
+      "Type styles",
+    ]);
+  });
+});
+
+describe("the Tokens page, by tier", () => {
+  const html = page("tokens/");
+
+  it("says which tokens to use, which belong to one component and which not to use", () => {
+    const legend = html.match(/<dl.*?<\/dl>/s)?.[0] ?? "";
+    expect(
+      [...legend.matchAll(/<dt[^>]*>([^<]*)<\/dt>/g)].map((m) => m[1].trim()),
+    ).toEqual(["Use these", "One component only", "Do not use"]);
+  });
+
+  it("shows what a token is for before its name", () => {
+    const card =
+      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+    expect(card.indexOf("<p")).toBeGreaterThan(-1);
+    expect(card.indexOf("<p")).toBeLessThan(card.indexOf("data-copy="));
+  });
+
+  it("prints the value of a shadow and of a gradient as it is written", () => {
+    for (const family of [tokens.shadow.tokens, tokens.gradient.tokens]) {
+      const token = family.find((t: { value: string }) =>
+        t.value.includes("("),
+      );
+      const card =
+        html.match(
+          new RegExp(`<li[^>]*data-token="${token.name}".*?</li>`, "s"),
+        )?.[0] ?? "";
+      expect(card.replaceAll("&#39;", "'")).toContain(token.value);
+    }
+  });
+
+  it("shows a size written in rem in pixels too", () => {
+    const row =
+      html.match(/<tr[^>]*data-token="border-width-default".*?<\/tr>/s)?.[0] ??
+      "";
+    expect(row).toContain("1px (0.0625rem)");
+  });
+});
+
+describe("the backgrounds of the logo page", () => {
+  const html = page("logo/");
+
+  it("names each surface in plain words and says which logo it takes, before its token", () => {
+    const samples = html.match(/<li[^>]*data-sample.*?<\/li>/gs) ?? [];
+    expect(samples).toHaveLength(8);
+    for (const sample of samples) {
+      const use = sample.search(/Use the logo( for dark surfaces)?\./);
+      expect(use).toBeGreaterThan(-1);
+      expect(use).toBeLessThan(sample.indexOf("<code"));
+    }
+  });
+
+  it("groups the usage pictures into what to do and what not to do", () => {
+    const rules =
+      html.match(/<section[^>]*id="rules".*?<\/section>/s)?.[0] ?? "";
+    expect(
+      [...rules.matchAll(/<h3[^>]*>(.*?)<\/h3>/g)].map((m) =>
+        m[1].replace("&#39;", "'"),
+      ),
+    ).toEqual(["Do", "Don't"]);
+  });
+});
+
+describe("the anatomy of the logo page", () => {
+  it("states the width of the symbol and the gap after it as the file has them", () => {
+    const svg = source("site/src/assets/logos/ig-logo.svg");
+    const height = Number(
+      svg.match(/viewBox="[\d.-]+ [\d.-]+ [\d.]+ ([\d.]+)"/)?.[1],
+    );
+    const symbol = Number(
+      svg.match(/<rect[^>]*fill="#0099FF"[^>]*width="([\d.]+)"/)?.[1],
+    );
+    const start = Number(svg.match(/d="M([\d.]+),/)?.[1]);
+    const round = (n: number) => Math.round(n * 100) / 100;
+    const html = page("logo/");
+    expect(html).toContain(`${round(symbol / height)} of the height`);
+    expect(html).toContain(`${round((start - symbol) / height)} of the height`);
+    expect(html).not.toContain("As wide as the logo is tall");
   });
 });

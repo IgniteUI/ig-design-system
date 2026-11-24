@@ -8,7 +8,7 @@ function ReleaseStrip({ href, label = 'Latest Release', title, body, linkLabel =
     <a href={href} className="igd-type-body-md" data-ig="release-strip" style={style} {...rest}>
       <span className="igd-type-eyebrow" data-ig-label="" style={nw}>{label}</span>
       <span style={{ ...nw, fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-text-heading)' }}>{title}</span>
-      {body && <span style={{ ...nw, color: 'var(--igd-color-text-secondary)' }}>{body}</span>}
+      {body && <span style={{ ...nw, color: 'var(--igd-color-text-body)' }}>{body}</span>}
       <span style={{ ...nw, display: 'inline-flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-action-text)' }}>
         {linkLabel}
         <Icon name="arrow-right" size="sm" />
@@ -23,7 +23,7 @@ export function CalloutStrip({ kind = 'default', title, body, action, style, ...
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-md)', padding: 'var(--igd-space-inset-xl) var(--igd-space-inset-xl)',
-      borderRadius: 'var(--igd-radius-xl)', background: 'var(--igd-color-surface-subtle)',
+      borderRadius: 'var(--igd-radius-card-featured)', background: 'var(--igd-color-surface-subtle)',
       border: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', flexWrap: 'wrap', ...style,
     }} {...divRest}>
       <div style={{ flex: 1, minWidth: 'var(--igd-callout-min-width)' }}>

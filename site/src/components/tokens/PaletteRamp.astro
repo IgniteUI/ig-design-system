@@ -1,54 +1,105 @@
 ---
-// A family of the engine palette as one row: each step is a button that copies it, labelled in its contrast colour.
+// A family of the engine palette: its shades in one row and its accent steps and seed in a second, each step a button
+// that copies it, labelled in its contrast colour, with the number of tokens that read it under it and those tokens below.
 import { cssVar, type Token } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
 
 interface Props {
   family: string;
   steps: Token[];
+  /** The accent steps and the seed, in a second, shorter row. */
+  accents?: Token[];
+  /** The tokens that read each step, by the step's name. */
+  readers: Record<string, Token[]>;
 }
 
-const { family, steps } = Astro.props;
+const { family, steps, accents = [], readers } = Astro.props;
+const rows = [steps, accents].filter((row) => row.length);
+const read = rows.flat().filter((step) => readers[step.name]?.length);
+const label = (step: Token) => step.name.split("-").pop();
+const count = (step: Token) => readers[step.name]?.length ?? 0;
 ---
 
-<li data-token={`ig-${family}`}>
+<li class="family-row" data-filter-group>
   <span class="family"><span>--ig-</span>{family}</span>
-  <ol>
+  <div class="steps">
+    {rows.map((row, r) => (
+    <ol class:list={{ accents: r > 0 }}>
+      {
+        row.map((step) => (
+          <li data-token={step.name} id={step.name}>
+            <button
+              type="button"
+              style={`background: var(${cssVar(step.name)}); color: var(${cssVar(`${step.name}-contrast`)})`}
+              data-copy={`var(${cssVar(step.name)})`}
+              data-copy-alt={cssVar(step.name)}
+              data-colour-title={cssVar(step.name)}
+              aria-label={`Copy var(${cssVar(step.name)}). ${count(step) ? `Read by ${count(step)} ${count(step) === 1 ? "token" : "tokens"}.` : "No token reads it."}`}
+            >
+              {label(step)}
+            </button>
+            <span class:list={["count", { none: !count(step) }]} aria-hidden="true">{count(step) || "·"}</span>
+          </li>
+        ))
+      }
+    </ol>
+    ))}
     {
-      steps.map((step) => (
-        <li>
-          <button
-            type="button"
-            style={`background: var(${cssVar(step.name)}); color: var(${cssVar(`${step.name}-contrast`)})`}
-            data-copy={`var(${cssVar(step.name)})`}
-            aria-label={cssVar(step.name)}
-          >
-            {step.name.split("-").pop()}
-          </button>
-        </li>
-      ))
+      read.length ? (
+        <dl class="readers">
+          {read.map((step) => (
+            <div>
+              <dt>{label(step)}</dt>
+              <dd>
+                {readers[step.name].map((t) => (
+                  <>
+                    <a href={href(`tokens/?q=${t.name}`)}>
+                      <span class="swatch" style={`background: var(${cssVar(t.name)})`} aria-hidden="true" />
+                      <code>{cssVar(t.name)}</code>
+                    </a>
+                  </>
+                ))}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <p class="readers">No token reads this family.</p>
+      )
     }
-  </ol>
+  </div>
 </li>
 
 <script>
   import "@/scripts/copy.ts";
+  import "@/scripts/readouts.ts";
 </script>
 
 <style>
-  li[data-token] {
+  .family-row {
     display: grid;
-    grid-template-columns: var(--igd-space-6xl) minmax(0, 1fr);
-    align-items: center;
+    grid-template-columns: var(--igd-field-min-width) minmax(0, 1fr);
+    align-items: start;
     gap: var(--igd-space-gap-md);
+    padding-block-end: var(--igd-space-inset-md);
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
   }
 
   .family {
+    padding-block-start: var(--igd-space-inset-sm);
+    white-space: nowrap;
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-xs-font-size);
   }
 
   .family span {
     color: var(--igd-color-text-muted);
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--igd-space-gap-sm);
+    min-inline-size: 0;
   }
 
   ol {
@@ -58,22 +109,109 @@ const { family, steps } = Astro.props;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
-    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-    border-radius: var(--igd-radius-sm);
-    overflow: hidden;
+  }
+
+  /* An accent row keeps the width of a shade, so its steps line up with the row above. */
+  ol.accents {
+    grid-auto-columns: calc(100% / 10);
+  }
+
+  ol li {
+    display: grid;
+    gap: var(--igd-space-gap-3xs);
+    text-align: center;
+  }
+
+  /* The ends of the row are rounded on the steps themselves, so nothing clips a focus ring. */
+  ol li:first-child button {
+    border-start-start-radius: var(--igd-radius-badge);
+    border-end-start-radius: var(--igd-radius-badge);
+  }
+
+  ol li:last-child button {
+    border-start-end-radius: var(--igd-radius-badge);
+    border-end-end-radius: var(--igd-radius-badge);
+  }
+
+  button:focus-visible {
+    position: relative;
   }
 
   button {
     inline-size: 100%;
     min-block-size: var(--igd-size-control-lg);
     border: 0;
+    box-shadow: inset 0 0 0 var(--igd-border-width-default) var(--igd-color-border-subtle);
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-2xs-font-size);
     cursor: copy;
   }
 
+  .count {
+    color: var(--igd-color-text-strong);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-2xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .count.none {
+    color: var(--igd-color-text-muted);
+    font-weight: var(--igd-font-weight-regular);
+  }
+
+  .readers {
+    display: grid;
+    gap: var(--igd-space-gap-3xs);
+    margin: 0;
+    color: var(--igd-color-text-body);
+    font-size: var(--igd-type-body-xs-font-size);
+    line-height: var(--igd-type-body-xs-line-height);
+  }
+
+  .readers div {
+    display: grid;
+    grid-template-columns: 7ch minmax(0, 1fr);
+    gap: var(--igd-space-gap-sm);
+  }
+
+  .readers dt {
+    font-family: var(--igd-font-mono);
+    color: var(--igd-color-text-muted);
+  }
+
+  /* Each reader moves to the next line whole; a name wider than the line breaks after a hyphen. */
+  .readers dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-3xs) var(--igd-space-gap-sm);
+    margin: 0;
+    min-inline-size: 0;
+  }
+
+  .readers a {
+    display: inline-flex;
+    align-items: baseline;
+    max-inline-size: 100%;
+  }
+
+  /* Each token that reads the step, in its own colour, which a derived state can shift from the step. */
+  .swatch {
+    display: inline-block;
+    inline-size: var(--igd-size-icon-xs);
+    block-size: var(--igd-size-icon-xs);
+    flex: none;
+    margin-inline-end: var(--igd-space-gap-3xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-control);
+    vertical-align: middle;
+  }
+
+  .readers code {
+    min-inline-size: 0;
+  }
+
   @container (inline-size < 40rem) {
-    li[data-token] {
+    .family-row {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--igd-space-gap-xs);
     }

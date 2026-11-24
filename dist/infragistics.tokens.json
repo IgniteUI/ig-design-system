@@ -1214,21 +1214,21 @@
       },
       "$description": "Engine surface role `overlay` (light variant)."
     },
-    "color-accent-primary": {
+    "color-accent-brand": {
       "$value": "{color.ig-info-seed}",
       "$description": "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white."
     },
-    "color-accent-primary-hover": {
+    "color-accent-brand-hover": {
       "$value": "{color.ig-info-400}",
-      "$description": "Hover step of `color-accent-primary`."
+      "$description": "Hover step of `color-accent-brand`."
     },
-    "color-accent-primary-active": {
+    "color-accent-brand-active": {
       "$value": "{color.ig-info-500}",
-      "$description": "Press state step of `color-accent-primary`."
+      "$description": "Press state step of `color-accent-brand`."
     },
-    "color-accent-secondary": {
+    "color-accent-ai": {
       "$value": "{color.ig-secondary-seed}",
-      "$description": "Gradient partner to `color-accent-primary` and the AI marker. Never a fill on its own."
+      "$description": "Gradient partner to `color-accent-brand` and the AI marker. Never a fill on its own."
     },
     "color-accent-inverse": {
       "$value": {
@@ -1242,7 +1242,7 @@
       },
       "$description": "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white. Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`."
     },
-    "color-accent-inverse-alt": {
+    "color-accent-inverse-performance": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -1259,8 +1259,8 @@
       "$description": "The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`. Contrast 5.25:1 on `color-surface-page`."
     },
     "color-action-hover": {
-      "$value": "{color.ig-info-500}",
-      "$description": "Link hover on light surfaces (colour shift only, no underline). Contrast 5.41:1 on `color-surface-page`."
+      "$value": "{color.ig-primary-700}",
+      "$description": "Link hover on light surfaces (colour shift only, no underline). Contrast 7.03:1 on `color-surface-page`."
     },
     "color-action-fill-hover": {
       "$value": "{color.ig-primary-700}",
@@ -1272,7 +1272,7 @@
     },
     "color-action-text": {
       "$value": "{color.ig-primary-600}",
-      "$description": "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.98:1 on `color-surface-subtle`."
+      "$description": "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.89:1 on `color-surface-subtle`."
     },
     "color-action-on": {
       "$value": {
@@ -1288,7 +1288,7 @@
     },
     "color-link-utility": {
       "$value": "{color.ig-info-500}",
-      "$description": "Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`."
+      "$description": "Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`."
     },
     "color-link-utility-hover": {
       "$value": "{color.color-action-text}",
@@ -1310,13 +1310,13 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.9843,
-          0.9843,
-          0.9843
+          0.5843,
+          0.8353,
+          0.9686
         ],
-        "hex": "#fbfbfb"
+        "hex": "#95d5f7"
       },
-      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`."
+      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-surface-inverse`."
     },
     "footer-link": {
       "$value": {
@@ -1362,21 +1362,21 @@
       "$value": "{color.ig-gray-900}",
       "$description": "Headlines h1–h6 on `color-surface-page` and the catalog band. Contrast 17.79:1 on `color-surface-page`."
     },
-    "color-text-primary": {
+    "color-text-strong": {
       "$value": "{color.ig-gray-800}",
       "$description": "Strong text and secondary-button labels on `color-surface-page`; the body default in base styles. Contrast 13.8:1 on `color-surface-page`."
     },
-    "color-text-secondary": {
+    "color-text-body": {
       "$value": "{color.ig-gray-600}",
-      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.16:1 on `color-surface-subtle`, 6.74:1 on `color-surface-muted`."
+      "$description": "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`. Contrast 7.53:1 on `color-surface-page`, 7.03:1 on `color-surface-subtle`, 7.03:1 on `color-surface-muted`."
     },
     "color-text-ui": {
       "$value": "{color.ig-gray-700}",
-      "$description": "UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.92:1 on `color-surface-subtle`."
+      "$description": "UI text — nav, buttons, list rows, chips — on `color-surface-page`. Contrast 10.43:1 on `color-surface-page`, 9.74:1 on `color-surface-subtle`."
     },
     "color-text-muted": {
       "$value": "{color.ig-gray-500}",
-      "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.7:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`."
+      "$description": "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter. Contrast 4.94:1 on `color-surface-page`, 4.62:1 on `color-surface-subtle`, 4.94:1 on `color-surface-card`, 4.55:1 on `color-surface-tint`."
     },
     "color-text-inverse": {
       "$value": {
@@ -1408,7 +1408,7 @@
     },
     "color-feedback-error-default": {
       "$value": "{color.ig-error-500}",
-      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.14:1 on `color-surface-subtle`."
+      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`."
     },
     "color-feedback-info-default": {
       "$value": "{color.ig-primary-700}",
@@ -1447,7 +1447,7 @@
       "$description": "Top of the hero wash (`gradient-hero`)."
     },
     "color-surface-subtle": {
-      "$value": "{color.ig-gray-50}",
+      "$value": "{color.ig-surface-sunken}",
       "$description": "Alternating section bands, BrowserFrame title bar, callout strips and chips at rest."
     },
     "color-surface-card": {
@@ -1499,8 +1499,8 @@
       "$description": "Release strip on hover; also the open nav trigger."
     },
     "color-surface-muted": {
-      "$value": "{color.ig-gray-100}",
-      "$description": "\"Coming soon\" pill fill."
+      "$value": "{color.ig-surface-sunken}",
+      "$description": "\"Coming soon\" pill fill: a recessed surface, lighter grey in the light variant and a deeper navy in the dark one."
     },
     "footer-background": {
       "$value": "{color.color-surface-inverse-sunken}",
@@ -1784,11 +1784,11 @@
     },
     "tile-1": {
       "$value": "{color.ig-info-seed}",
-      "$description": "Icon tile fill — CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph."
+      "$description": "Icon tile fill 1 of 8; a grid of icon tiles takes the fills in order. Now: CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph."
     },
     "tile-2": {
       "$value": "{color.ig-secondary-seed}",
-      "$description": "Icon tile fill — Agent Skills on the AI toolchain row."
+      "$description": "Icon tile fill 2 of 8; a grid of icon tiles takes the fills in order. Now: Agent Skills on the AI toolchain row."
     },
     "tile-3": {
       "$value": {
@@ -1800,11 +1800,11 @@
         ],
         "hex": "#e23b8f"
       },
-      "$description": "Icon tile fill — Theming MCP on the AI toolchain row. Engine step 400 of the pink palette."
+      "$description": "Icon tile fill 3 of 8; a grid of icon tiles takes the fills in order. Now: Theming MCP on the AI toolchain row. Engine step 400 of the pink palette."
     },
     "tile-4": {
       "$value": "{color.ig-success-400}",
-      "$description": "Icon tile fill — AI Scaffolding on the AI toolchain row."
+      "$description": "Icon tile fill 4 of 8; a grid of icon tiles takes the fills in order. Now: AI Scaffolding on the AI toolchain row."
     },
     "tile-5": {
       "$value": {
@@ -1816,15 +1816,15 @@
         ],
         "hex": "#39bfdc"
       },
-      "$description": "Extended icon tile fill for grids longer than four tiles. Engine step 200 of the cyan palette."
+      "$description": "Icon tile fill 5 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles. Engine step 200 of the cyan palette."
     },
     "tile-6": {
       "$value": "{color.ig-warn-200}",
-      "$description": "Extended icon tile fill for grids longer than four tiles."
+      "$description": "Icon tile fill 6 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles."
     },
     "tile-7": {
       "$value": "{color.ig-primary-seed}",
-      "$description": "Extended icon tile fill for grids longer than four tiles."
+      "$description": "Icon tile fill 7 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles."
     },
     "tile-8": {
       "$value": {
@@ -1836,7 +1836,7 @@
         ],
         "hex": "#0f172a"
       },
-      "$description": "Extended icon tile fill for grids longer than four tiles. Engine step 500 of the dark palette's surface ramp."
+      "$description": "Icon tile fill 8 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles. Engine step 500 of the dark palette's surface ramp."
     },
     "color-action-subtle": {
       "$value": {
@@ -1875,7 +1875,7 @@
         "alpha": 0.4,
         "hex": "#0099ff"
       },
-      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-primary` at `opacity-heavy`."
+      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-brand` at `opacity-heavy`."
     },
     "color-emphasis-ring": {
       "$value": {
@@ -1888,7 +1888,7 @@
         "alpha": 0.12,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip at rest. Live: `color-accent-primary` at `opacity-soft`."
+      "$description": "Inner ring of the release strip at rest. Live: `color-accent-brand` at `opacity-soft`."
     },
     "color-emphasis-ring-hover": {
       "$value": {
@@ -1901,7 +1901,7 @@
         "alpha": 0.25,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip on hover. Live: `color-accent-primary` at `opacity-strong`."
+      "$description": "Inner ring of the release strip on hover. Live: `color-accent-brand` at `opacity-strong`."
     },
     "badge-oss-background": {
       "$value": {
@@ -2033,7 +2033,7 @@
       },
       "$description": "Premium status badge border. Live: `badge-premium-color` at `opacity-strong`."
     },
-    "color-surface-tint-secondary": {
+    "color-surface-tint-ai": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2044,9 +2044,9 @@
         "alpha": 0.08,
         "hex": "#9810fa"
       },
-      "$description": "Soft fill in the secondary accent: a second category beside `color-surface-tint`. Live: `color-accent-secondary` at `opacity-subtle`."
+      "$description": "Soft fill in the secondary accent: a second category beside `color-surface-tint`. Live: `color-accent-ai` at `opacity-subtle`."
     },
-    "color-surface-tint-alt": {
+    "color-surface-tint-category": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2057,9 +2057,9 @@
         "alpha": 0.08,
         "hex": "#3cc3b1"
       },
-      "$description": "Soft fill in the alternative accent: a third category beside `color-surface-tint`. Live: `color-accent-inverse-alt` at `opacity-subtle`."
+      "$description": "Soft fill for a third category, beside `color-surface-tint` and `color-surface-tint-ai`. Live: `color-accent-inverse-performance` at `opacity-subtle`."
     },
-    "color-surface-inverse-glass": {
+    "color-surface-inverse-chip": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2070,7 +2070,7 @@
         "alpha": 0.82,
         "hex": "#0f172a"
       },
-      "$description": "Translucent dark chip that floats over a screenshot. Live: `color-surface-inverse` at `opacity-glass`."
+      "$description": "Translucent dark chip that floats over a screenshot. Live: `color-surface-inverse` at `opacity-chip`."
     },
     "color-feedback-info-surface": {
       "$value": {
@@ -2202,7 +2202,7 @@
       },
       "$description": "Footer input fill (stacked newsletter). Live: `color-text-inverse` at `opacity-subtle`."
     },
-    "footer-field-pill-background": {
+    "footer-field-inline-background": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2489,12 +2489,12 @@
   },
   "radius": {
     "$type": "dimension",
-    "radius-full": {
+    "radius-action": {
       "$value": {
         "value": 624.9375,
         "unit": "rem"
       },
-      "$description": "Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px. Range 4px to 9999px."
+      "$description": "Every action, chip and framework selector. Fully round at any height today; never sharper than 4px. Range 4px to 9999px."
     },
     "nav-panel-radius": {
       "$value": {
@@ -2503,35 +2503,35 @@
       },
       "$description": "Flared top corners of an open nav panel. Range 0px to 30px."
     },
-    "radius-xl": {
+    "radius-card-featured": {
       "$value": {
         "value": 1.5,
         "unit": "rem"
       },
       "$description": "Emphasis and catalog cards. Never a circle: capped at 28px. Range 4px to 28px."
     },
-    "radius-lg": {
+    "radius-card": {
       "$value": {
         "value": 1,
         "unit": "rem"
       },
       "$description": "Marketing cards and media frames. Capped at 24px. Range 0px to 24px."
     },
-    "radius-md": {
+    "radius-tile": {
       "$value": {
         "value": 0.75,
         "unit": "rem"
       },
       "$description": "Icon tiles, stat badges and nav link rows. Capped at 16px so a tile never becomes a circle. Range 4px to 16px."
     },
-    "radius-sm": {
+    "radius-badge": {
       "$value": {
         "value": 0.5,
         "unit": "rem"
       },
       "$description": "Small elements and the monogram badge. Range 2px to 12px."
     },
-    "radius-xs": {
+    "radius-control": {
       "$value": {
         "value": 0.375,
         "unit": "rem"
@@ -2878,7 +2878,7 @@
       "$value": 0.6,
       "$description": "Input fill on the dark footer."
     },
-    "opacity-glass": {
+    "opacity-chip": {
       "$value": 0.82,
       "$description": "Dark chips over a screenshot."
     },
@@ -2981,7 +2981,7 @@
   },
   "shadow": {
     "$type": "shadow",
-    "shadow-raised": {
+    "shadow-card-hover": {
       "$value": [
         {
           "color": {
@@ -3042,7 +3042,7 @@
       ],
       "$description": "Card hover: cards lift shadow only, no translate or scale."
     },
-    "shadow-accent-lg": {
+    "shadow-action-lg": {
       "$value": [
         {
           "color": {
@@ -3131,7 +3131,7 @@
       ],
       "$description": "Primary CTA and its hover (no shadow change on hover). Engine elevation 16 tinted with `color-action-default`."
     },
-    "shadow-accent-sm": {
+    "shadow-action-sm": {
       "$value": [
         {
           "color": {
@@ -3220,7 +3220,7 @@
       ],
       "$description": "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`."
     },
-    "shadow-overlay": {
+    "shadow-screenshot": {
       "$value": {
         "color": {
           "colorSpace": "srgb",
@@ -3282,7 +3282,7 @@
       },
       "$description": "Floating stat badges."
     },
-    "shadow-accent-md": {
+    "shadow-action-md": {
       "$value": [
         {
           "color": {
@@ -3607,7 +3607,7 @@
       ],
       "$description": "Release strip on hover. Engine elevation 16 tinted with `color-action-default`."
     },
-    "shadow-glass": {
+    "shadow-chip": {
       "$value": {
         "color": {
           "colorSpace": "srgb",
@@ -3636,7 +3636,7 @@
           "unit": "px"
         }
       },
-      "$description": "Dark glass chips over a screenshot, with `color-surface-inverse-glass`."
+      "$description": "Dark glass chips over a screenshot, with `color-surface-inverse-chip`."
     },
     "shadow-popover": {
       "$value": {
@@ -5646,7 +5646,7 @@
         },
         "lineHeight": 1.1
       },
-      "$description": "Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. Engine slot `h4`."
+      "$description": "Stat badge values: `color-accent-inverse` or `color-accent-inverse-performance` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. Engine slot `h4`."
     },
     "type-title-md": {
       "$value": {
@@ -5694,7 +5694,7 @@
         },
         "lineHeight": 1.6
       },
-      "$description": "Lead under an h1 or h2, in `color-text-secondary`. Engine slot `subtitle-1`.",
+      "$description": "Lead under an h1 or h2, in `color-text-body`. Engine slot `subtitle-1`.",
       "$extensions": {
         "com.infragistics.css": {
           "fluid": {
@@ -5744,7 +5744,7 @@
         },
         "lineHeight": 1.62
       },
-      "$description": "Running prose, in `color-text-secondary`. Engine slot `body-1`."
+      "$description": "Running prose, in `color-text-body`. Engine slot `body-1`."
     },
     "type-body-md": {
       "$value": {
@@ -6137,15 +6137,15 @@
           "value": "none",
           "reason": "no shadow"
         },
-        "glow-primary": {
+        "glow-brand": {
           "value": "radial-gradient(circle, rgba(0,153,255,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-secondary": {
+        "glow-ai": {
           "value": "radial-gradient(circle, rgba(152,16,250,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-secondary-strong": {
+        "glow-footer": {
           "value": "radial-gradient(circle, rgba(152,16,250,0.4), transparent 62%)",
           "reason": "a radial glow"
         },
@@ -6153,7 +6153,7 @@
           "value": "radial-gradient(circle, rgba(226,59,143,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-inverse-alt": {
+        "glow-inverse-partner": {
           "value": "radial-gradient(circle, rgba(60,195,177,0.12), transparent 68%)",
           "reason": "a radial glow"
         }

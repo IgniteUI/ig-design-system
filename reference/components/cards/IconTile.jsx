@@ -15,7 +15,7 @@ export function IconTile({ src, alt = '', fill = 1, size = 'tile', style, childr
   return (
     <div data-ig="icon-tile" style={{
       '--igd-tile-fill': FILLS[fill] || fill, color: 'var(--igd-tile-on)',
-      flex: '0 0 auto', width: box, height: box, borderRadius: 'var(--igd-radius-md)',
+      flex: '0 0 auto', width: box, height: box, borderRadius: 'var(--igd-radius-tile)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'var(--igd-tile-fill)', ...style,
     }} {...rest}>

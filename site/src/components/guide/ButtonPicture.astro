@@ -1,0 +1,32 @@
+---
+// A picture of a button for an example: filled in the action colour, or quiet with an outline. It leads nowhere, so it is not a control.
+interface Props {
+  quiet?: boolean;
+}
+
+const { quiet = false } = Astro.props;
+---
+
+<span class:list={["action", { quiet }]}><slot /></span>
+
+<style>
+  .action {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--igd-size-control-lg);
+    padding: var(--igd-space-inset-xs) var(--igd-space-inset-xl);
+    border: var(--igd-border-width-default) solid var(--igd-color-action-default);
+    border-radius: var(--igd-radius-action);
+    background: var(--igd-color-action-default);
+    color: var(--igd-color-action-on);
+    font-size: var(--igd-type-label-md-font-size);
+    font-weight: var(--igd-type-label-md-font-weight);
+    white-space: nowrap;
+  }
+
+  .quiet {
+    background: transparent;
+    border-color: var(--igd-color-border-default);
+    color: var(--igd-color-text-ui);
+  }
+</style>

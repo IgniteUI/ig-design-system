@@ -1,5 +1,6 @@
 ---
-// A table that scrolls sideways inside its own region when it is wider than the page.
+// A table of rows with a row heading each. A narrow page stacks each row: the heading, then its cells.
+// A table that is still wider than the page scrolls sideways inside its own region.
 interface Props {
   /** The name of the region, for assistive technology. */
   label: string;
@@ -10,14 +11,16 @@ interface Props {
 const { label, head } = Astro.props;
 ---
 
-<div class="table" tabindex="0" role="region" aria-label={label}>
-  <table>
+<div class="table" role="region" aria-label={label} data-scroll-region>
+  <table role="table">
     {
       head && (
         <thead>
-          <tr>
+          <tr role="row">
             {head.map((h) => (
-              <th scope="col">{h}</th>
+              <th scope="col" role="columnheader">
+                {h}
+              </th>
             ))}
           </tr>
         </thead>
@@ -27,10 +30,30 @@ const { label, head } = Astro.props;
   </table>
 </div>
 
+<script>
+  // A region takes a tab stop only while it scrolls sideways.
+  const watch = new ResizeObserver((entries) => {
+    for (const { target } of entries)
+      if (target.scrollWidth > target.clientWidth) target.setAttribute("tabindex", "0");
+      else target.removeAttribute("tabindex");
+  });
+  for (const region of document.querySelectorAll("[data-scroll-region]")) watch.observe(region);
+</script>
+
 <style>
+  /* A soft edge shows on the side that has more of the table to scroll to. */
   .table {
     overflow: auto;
+    /* Room inside the scrolling box for the focus ring of the controls at its edges; a name button reaches a little past its cell. */
+    padding: calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)) calc(calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)) + var(--igd-space-inset-2xs));
+    margin-inline: calc(-1 * (calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)) + var(--igd-space-inset-2xs)));
+    margin-block-start: calc(-1 * calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)));
     margin-block-end: var(--igd-space-stack-lg);
+    background:
+      linear-gradient(90deg, var(--igd-color-surface-page) 30%, transparent) left / var(--igd-space-2xl) 100% no-repeat local,
+      linear-gradient(270deg, var(--igd-color-surface-page) 30%, transparent) right / var(--igd-space-2xl) 100% no-repeat local,
+      linear-gradient(90deg, var(--igd-color-border-default), transparent) left / var(--igd-space-sm) 100% no-repeat scroll,
+      linear-gradient(270deg, var(--igd-color-border-default), transparent) right / var(--igd-space-sm) 100% no-repeat scroll;
   }
 
   table {
@@ -56,10 +79,67 @@ const { label, head } = Astro.props;
     white-space: nowrap;
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-xs-font-size);
-    color: var(--igd-color-text-secondary);
+    color: var(--igd-color-text-body);
   }
 
   table :global(td button) {
     white-space: nowrap;
+  }
+
+  /* Stacks a row: its heading on a line of its own, its cells under it. The roles keep it a table for assistive technology. */
+  @container (inline-size < 40rem) {
+    thead {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    table,
+    tbody {
+      display: block;
+    }
+
+    table :global(tbody tr) {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: var(--igd-space-gap-md);
+      padding-block: var(--igd-space-inset-xs);
+      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    }
+
+    table :global(tbody :is(th, td)) {
+      padding: 0;
+      border: 0;
+    }
+
+    table :global(tbody th) {
+      grid-column: 1 / -1;
+    }
+
+    table :global(tbody td:only-of-type),
+    table :global(tbody td:empty) {
+      grid-column: 1 / -1;
+    }
+
+    /* A cell that carries the name of its column takes a line of its own, with the name before it. */
+    table :global(tbody td[data-label]) {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr);
+      align-items: center;
+    }
+
+    table :global(tbody td[data-label])::before {
+      content: attr(data-label);
+      font-family: var(--igd-font-body);
+      font-size: var(--igd-type-body-xs-font-size);
+      color: var(--igd-color-text-muted);
+    }
+
+    table :global(tbody td[data-label] ~ td:not([data-label])) {
+      grid-column: 1 / -1;
+    }
   }
 </style>

@@ -1,0 +1,81 @@
+---
+// Says the dark variant is not final. As a banner it sticks above the top bar in the dark variant only, and publishes its height
+// as --notice-block-size so the rows that stick under it move down by as much. Inline, it sits in the page in both variants.
+interface Props {
+  /** Shown in the page, beside a dark example, instead of as the banner of a dark page. */
+  inline?: boolean;
+}
+
+const { inline = false } = Astro.props;
+---
+
+<p class:list={["notice", { inline }]} role="note" data-dark-notice={inline ? undefined : ""}>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3.5 2.5 20h19L12 3.5Z"></path>
+    <path d="M12 10v4.5M12 17.25v.25"></path>
+  </svg>
+  <span>
+    <strong>The dark variant is not final.</strong> It has not been tested, no site uses it yet, and how it
+    looks is not decided: it may change.
+  </span>
+</p>
+
+<script>
+  const notice = document.querySelector<HTMLElement>("[data-dark-notice]");
+  if (notice)
+    new ResizeObserver(() =>
+      document.documentElement.style.setProperty("--notice-block-size", `${notice.offsetHeight}px`),
+    ).observe(notice);
+</script>
+
+<style>
+  .notice {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--igd-z-index-sticky);
+    display: none;
+    align-items: start;
+    justify-content: center;
+    gap: var(--igd-space-gap-xs);
+    margin: 0;
+    padding: var(--igd-space-inset-xs) var(--igd-container-gutter);
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    /* The warning tint is see-through, so it is laid over the page colour to hide what scrolls beneath. */
+    background:
+      linear-gradient(var(--igd-color-feedback-warning-surface), var(--igd-color-feedback-warning-surface)),
+      var(--igd-color-surface-page);
+    color: var(--igd-color-text-strong);
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+  }
+
+  :global([data-theme="dark"]) .notice {
+    display: flex;
+  }
+
+  svg {
+    flex: none;
+    inline-size: var(--igd-size-icon-md);
+    block-size: var(--igd-size-icon-md);
+    margin-block-start: var(--igd-space-stack-3xs);
+    fill: none;
+    stroke: var(--igd-color-feedback-warning-default);
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .notice.inline {
+    position: static;
+    display: flex;
+    justify-content: start;
+    margin-block: 0 var(--igd-space-stack-md);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-tile);
+  }
+
+  strong {
+    color: var(--igd-color-text-heading);
+  }
+</style>

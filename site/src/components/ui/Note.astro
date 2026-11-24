@@ -4,11 +4,13 @@ import { lead, prose } from "@/lib/text.ts";
 
 interface Props {
   text: string;
+  /** What the note is about, for the name of the control that opens the rest. */
+  about?: string;
   /** Show only the first sentence, with no way to open the rest. */
   short?: boolean;
 }
 
-const { text, short = false } = Astro.props;
+const { text, about, short = false } = Astro.props;
 const [first, rest] = lead(text);
 ---
 
@@ -16,7 +18,7 @@ const [first, rest] = lead(text);
 {
   rest && !short && (
     <details>
-      <summary>More</summary>
+      <summary aria-label={about ? `More about ${about}` : undefined}>More</summary>
       <p set:html={prose(rest)} />
     </details>
   )
@@ -31,8 +33,17 @@ const [first, rest] = lead(text);
   }
 
   summary {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--igd-space-xl);
     font-size: var(--igd-type-body-xs-font-size);
     color: var(--igd-color-action-text);
     cursor: pointer;
+  }
+
+  @media (pointer: coarse) {
+    summary {
+      min-block-size: var(--igd-size-control-lg);
+    }
   }
 </style>

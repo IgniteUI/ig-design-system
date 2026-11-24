@@ -1,6 +1,6 @@
 # Migration guide
 
-Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see `docs/ADOPTING.md`. Nothing from the old names is kept: no aliases, no deprecated files.
+Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see [Moving a site onto the design system](ADOPTING.md). Nothing from the old names is kept: no aliases, no deprecated files.
 
 ## 1. Naming convention
 
@@ -52,12 +52,12 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 
 | Before | Now |
 |---|---|
-| `--ig-blue` | `--igd-color-accent-primary` |
-| `--ig-blue-hover` | `--igd-color-accent-primary-hover` |
-| `--ig-blue-press` | `--igd-color-accent-primary-active` |
-| `--ig-violet` | `--igd-color-accent-secondary` |
+| `--ig-blue` | `--igd-color-accent-brand` |
+| `--ig-blue-hover` | `--igd-color-accent-brand-hover` |
+| `--ig-blue-press` | `--igd-color-accent-brand-active` |
+| `--ig-violet` | `--igd-color-accent-ai` |
 | `--ig-sky` | `--igd-color-accent-inverse` |
-| `--ig-teal` | `--igd-color-accent-inverse-alt` |
+| `--ig-teal` | `--igd-color-accent-inverse-performance` |
 | `--action` | `--igd-color-action-default` |
 | `--action-hover` | `--igd-color-action-hover` |
 | `--action-hover-fill` | `--igd-color-action-fill-hover` |
@@ -74,11 +74,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--focus-ring` | `--igd-color-focus-default` |
 | `--focus-ring-dark` | `--igd-color-focus-inverse` |
 | `--ink` | `--igd-color-text-heading` |
-| `--text-strong` | `--igd-color-text-primary` |
-| `--text-body` | `--igd-color-text-secondary` |
+| `--text-strong` | `--igd-color-text-strong` |
+| `--text-body` | `--igd-color-text-body` |
 | `--text-body-alt` | `--igd-color-text-ui` |
 | `--text-muted` | `--igd-color-text-muted` |
-| `--text-utility` | `--igd-color-text-secondary` |
+| `--text-utility` | `--igd-color-text-body` |
 | `--text-eyebrow` | `--igd-color-action-default` |
 | `--text-on-dark` | `--igd-color-text-inverse` |
 | `--text-on-dark-muted` | `--igd-color-text-inverse-muted` |
@@ -114,7 +114,7 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--surface-nav` | `--igd-nav-background` |
 | `--footer-bg` | `--igd-footer-background` |
 | `--footer-field` | `--igd-footer-field-background` |
-| `--footer-field-pill` | `--igd-footer-field-pill-background` |
+| `--footer-field-pill` | `--igd-footer-field-inline-background` |
 | `--footer-check-bg` | `--igd-footer-check-background` |
 | `--footer-soc-hover-bg` | `--igd-footer-social-hover-background` |
 | `--footer-soc-hover-border` | `--igd-footer-social-hover-border` |
@@ -141,7 +141,7 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--fw-blazor-bg` | `--igd-fw-blazor-background` |
 | `--fw-wpf-bg` | `--igd-fw-wpf-background` |
 
-### Size, radius, border, typography, motion and everything else
+### Size and layout
 
 | Before | Now |
 |---|---|
@@ -173,16 +173,32 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--container-hero` | `--igd-container-hero-max-width` |
 | `--container-prose` | `--igd-container-prose-max-width` |
 | `--catalog-min` | `--igd-catalog-card-min-width` |
-| `--radius-pill` | `--igd-radius-full` |
+| `--bp-sm` | `--igd-breakpoint-sm` |
+| `--bp-md` | `--igd-breakpoint-md` |
+| `--bp-lg` | `--igd-breakpoint-lg` |
+| `--bp-xl` | `--igd-breakpoint-xl` |
+| `--gutter` | `--igd-container-gutter` |
+| `--grid-split` | `--igd-layout-split` |
+
+### Radius
+
+| Before | Now |
+|---|---|
+| `--radius-pill` | `--igd-radius-action` |
 | `--radius-flare` | `--igd-nav-panel-radius` |
-| `--radius-lg` | `--igd-radius-xl` |
-| `--radius-card` | `--igd-radius-lg` |
-| `--radius-media` | `--igd-radius-lg` |
-| `--radius-tile` | `--igd-radius-md` |
-| `--radius-link` | `--igd-radius-md` |
-| `--radius-mono` | `--igd-radius-sm` |
-| `--radius-badge` | `--igd-radius-xs` |
-| `--radius-check` | `--igd-radius-xs` |
+| `--radius-lg` | `--igd-radius-card-featured` |
+| `--radius-card` | `--igd-radius-card` |
+| `--radius-media` | `--igd-radius-card` |
+| `--radius-tile` | `--igd-radius-tile` |
+| `--radius-link` | `--igd-radius-tile` |
+| `--radius-mono` | `--igd-radius-badge` |
+| `--radius-badge` | `--igd-radius-control` |
+| `--radius-check` | `--igd-radius-control` |
+
+### Weight and letter spacing
+
+| Before | Now |
+|---|---|
 | `--weight-regular` | `--igd-font-weight-regular` |
 | `--weight-medium` | `--igd-font-weight-medium` |
 | `--weight-semibold` | `--igd-font-weight-semibold` |
@@ -192,6 +208,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--tracking-label` | `--igd-letter-spacing-label` |
 | `--tracking-badge` | `--igd-letter-spacing-badge` |
 | `--tracking-mono` | `--igd-letter-spacing-mono` |
+
+### Motion
+
+| Before | Now |
+|---|---|
 | `--dur-chip` | `--igd-duration-chip` |
 | `--dur-fast` | `--igd-duration-fast` |
 | `--dur-button` | `--igd-duration-button` |
@@ -199,6 +220,11 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--dur-float` | `--igd-duration-float` |
 | `--ease` | `--igd-easing-default` |
 | `--transition` | `--igd-transition-default` |
+
+### Layers
+
+| Before | Now |
+|---|---|
 | `--z-base` | `--igd-z-index-base` |
 | `--z-raised` | `--igd-z-index-raised` |
 | `--z-media` | `--igd-z-index-media` |
@@ -207,24 +233,23 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--z-nav` | `--igd-z-index-nav` |
 | `--z-panel` | `--igd-z-index-panel` |
 | `--z-overlay` | `--igd-z-index-overlay` |
-| `--bp-sm` | `--igd-breakpoint-sm` |
-| `--bp-md` | `--igd-breakpoint-md` |
-| `--bp-lg` | `--igd-breakpoint-lg` |
-| `--bp-xl` | `--igd-breakpoint-xl` |
+
+### Shadow and effects
+
+| Before | Now |
+|---|---|
 | `--blur-nav` | `--igd-nav-backdrop-blur` |
-| `--gutter` | `--igd-container-gutter` |
-| `--grid-split` | `--igd-layout-split` |
 | `--emphasis-fill` | `--igd-gradient-emphasis` |
 | `--border-gradient-bundle` | `--igd-gradient-border-bundle` |
 | `--shadow-card` | `--igd-shadow-none` |
 | `--shadow-catalog-card` | `--igd-shadow-none` |
-| `--shadow-card-hover` | `--igd-shadow-raised` |
-| `--shadow-cta` | `--igd-shadow-accent-lg` |
-| `--shadow-cta-hover` | `--igd-shadow-accent-lg` |
-| `--shadow-pill-hover` | `--igd-shadow-accent-sm` |
-| `--shadow-media` | `--igd-shadow-overlay` |
+| `--shadow-card-hover` | `--igd-shadow-card-hover` |
+| `--shadow-cta` | `--igd-shadow-action-lg` |
+| `--shadow-cta-hover` | `--igd-shadow-action-lg` |
+| `--shadow-pill-hover` | `--igd-shadow-action-sm` |
+| `--shadow-media` | `--igd-shadow-screenshot` |
 | `--shadow-badge` | `--igd-shadow-floating` |
-| `--shadow-bundle` | `--igd-shadow-accent-md` |
+| `--shadow-bundle` | `--igd-shadow-action-md` |
 | `--shadow-release` | `--igd-callout-release-shadow` |
 | `--shadow-release-hover` | `--igd-callout-release-shadow-hover` |
 | `--shadow-panel-filter` | `--igd-shadow-popover-filter` |

@@ -1,4 +1,4 @@
-// Gate: every var() points at a token that exists.
+// Gate: every var() points at a token that exists, or at a custom property a checked stylesheet declares.
 // node checks/check-vars.ts <tokens.css> <theme.css> <dir or file> [...]
 import fs from "node:fs";
 import path from "node:path";
@@ -24,15 +24,18 @@ export const undefinedVars = (text: string, defined: Set<string>) =>
 
 if (isMain(import.meta.url)) {
   const [css1, css2, ...dirs] = process.argv.slice(2);
-  const defd = definedVars(
-    fs.readFileSync(css1, "utf8") + fs.readFileSync(css2, "utf8"),
-  );
   const files = [
     ...dirs.flatMap((d) =>
       fs.statSync(d).isDirectory() ? walk(d, /\.(jsx|html|css|mjs)$/) : [d],
     ),
     css2,
   ];
+  // A custom property a checked stylesheet declares itself is defined, beside the tokens.
+  const defd = definedVars(
+    [css1, ...files.filter((f) => f.endsWith(".css"))]
+      .map((f) => fs.readFileSync(f, "utf8"))
+      .join("\n"),
+  );
   const bad: Record<string, Set<string>> = {};
   for (const f of files)
     for (const n of undefinedVars(fs.readFileSync(f, "utf8"), defd)) {

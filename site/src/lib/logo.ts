@@ -5,6 +5,10 @@ export type Logo = {
   height: number;
   /** The fill colours of the file, upper case and six digits, in the order they first appear. */
   fills: string[];
+  /** The width of the symbol: the widest rectangle of the file. Zero in a file with no rectangle. */
+  symbol: number;
+  /** Where the wordmark starts: the left edge of the first shape drawn right of the symbol. Zero in a file with none. */
+  wordmark: number;
 };
 
 /** Reads the size and the fill colours of an SVG logo, or stops the build when the file has neither. */
@@ -28,7 +32,26 @@ export const readLogo = (svg: string, file: string): Logo => {
     throw new Error(
       `${file} needs a viewBox of four numbers and at least one hex fill. The logo page reads its proportions and colours from them.`,
     );
-  return { width: Number(box[2]), height: Number(box[3]), fills };
+  const rects = [...svg.matchAll(/<rect\b[^>]*>/g)].map(([tag]) => ({
+    x: Number(tag.match(/\bx="([\d.-]+)"/)?.[1] ?? 0),
+    width: Number(tag.match(/\bwidth="([\d.]+)"/)?.[1] ?? 0),
+  }));
+  const square = rects.reduce(
+    (widest, r) => (r.width > widest.width ? r : widest),
+    { x: 0, width: 0 },
+  );
+  const edge = square.x + square.width;
+  // A path starts at the point after its first M.
+  const starts = [...svg.matchAll(/\bd="M\s*([\d.-]+)/g)]
+    .map((m) => Number(m[1]))
+    .filter((x) => x > edge);
+  return {
+    width: Number(box[2]),
+    height: Number(box[3]),
+    fills,
+    symbol: square.width,
+    wordmark: starts.length ? Math.min(...starts) : 0,
+  };
 };
 
 /** A hex colour as "R, G, B". */
