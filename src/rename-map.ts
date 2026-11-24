@@ -118,7 +118,7 @@ export const SIZEMAP = {
   "container-hero": "container-hero-max-width",
   "container-prose": "container-prose-max-width",
   "catalog-min": "catalog-card-min-width",
-  "radius-pill": "radius-pill",
+  "radius-pill": "radius-action",
   "radius-flare": "nav-panel-radius",
   "radius-lg": "radius-card-featured",
   "radius-card": "radius-card",

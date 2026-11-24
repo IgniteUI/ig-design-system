@@ -18,7 +18,7 @@ function BadgeMark({ cell, ours }) {
   const text = c.text ?? (c.mark === 'yes' ? 'Yes' : c.mark === 'no' ? 'No' : '');
   return (
     <span className="igd-type-body-sm" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--igd-space-gap-xs)', lineHeight: 'var(--igd-type-body-md-line-height)', fontWeight: ours && c.mark === 'yes' ? 'var(--igd-font-weight-semibold)' : 'var(--igd-font-weight-regular)', color: ours && c.mark === 'yes' ? 'var(--igd-color-text-heading)' : 'var(--igd-color-text-ui)' }}>
-      <span title={b.sr} style={{ flex: '0 0 auto', width: 'var(--igd-size-icon-lg)', height: 'var(--igd-size-icon-lg)', borderRadius: 'var(--igd-radius-pill)', background: b.bg, color: b.fg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{b.icon}</span>
+      <span title={b.sr} style={{ flex: '0 0 auto', width: 'var(--igd-size-icon-lg)', height: 'var(--igd-size-icon-lg)', borderRadius: 'var(--igd-radius-action)', background: b.bg, color: b.fg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{b.icon}</span>
       <span>{text || <span style={SR}>{b.sr}</span>}</span>
     </span>
   );

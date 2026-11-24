@@ -52,7 +52,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
               <span class="box" {...part("radius-control")} />
               Email me about changes
             </span>
-            <span class="button" {...part("radius-pill")}>Save changes</span>
+            <span class="button" {...part("radius-action")}>Save changes</span>
           </div>
         </div>
       ) : (
@@ -160,7 +160,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-pill);
+    border-radius: var(--igd-radius-action);
     background: transparent;
     color: var(--igd-color-text-ui);
     font-size: var(--igd-type-body-sm-font-size);
@@ -276,7 +276,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-block-size: var(--igd-size-control-md);
     margin-block-start: var(--igd-space-stack-2xs);
     padding: 0 var(--igd-space-inset-lg);
-    border-radius: var(--igd-radius-pill);
+    border-radius: var(--igd-radius-action);
     background: var(--igd-color-action-default);
     color: var(--igd-color-action-on);
     font-weight: var(--igd-font-weight-semibold);

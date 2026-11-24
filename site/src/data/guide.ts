@@ -241,7 +241,7 @@ export const SHAPE_PICKS: Record<
       use: "A large card that stands out.",
     },
     {
-      token: "radius-pill",
+      token: "radius-action",
       label: "Button",
       use: "A button, a chip, anything shaped like a pill.",
     },

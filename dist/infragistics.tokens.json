@@ -2489,12 +2489,12 @@
   },
   "radius": {
     "$type": "dimension",
-    "radius-pill": {
+    "radius-action": {
       "$value": {
         "value": 624.9375,
         "unit": "rem"
       },
-      "$description": "Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px. Range 4px to 9999px."
+      "$description": "Every action, chip and framework selector. Fully round at any height today; never sharper than 4px. Range 4px to 9999px."
     },
     "nav-panel-radius": {
       "$value": {

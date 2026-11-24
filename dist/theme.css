@@ -356,7 +356,7 @@
   --igd-container-hero-max-width: max(var(--igd-is-large, 1) * 70rem, var(--igd-is-medium, 1) * 61.25rem, var(--igd-is-small, 1) * 52.5rem);
   --igd-container-prose-max-width: max(var(--igd-is-large, 1) * 55rem, var(--igd-is-medium, 1) * 48.125rem, var(--igd-is-small, 1) * 41.25rem);
   --igd-catalog-card-min-width: max(var(--igd-is-large, 1) * 21.25rem, var(--igd-is-medium, 1) * 18.59375rem, var(--igd-is-small, 1) * 15.9375rem);
-  --igd-radius-pill: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 624.9375rem), 624.9375rem);
+  --igd-radius-action: clamp(0.25rem, calc(var(--ig-radius-factor, 1) * 624.9375rem), 624.9375rem);
   --igd-nav-panel-radius: clamp(0rem, calc(var(--ig-radius-factor, 1) * 1.875rem), 1.875rem);
   --igd-radius-card-featured: clamp(0.25rem, calc(var(--ig-radius-factor, 0.8571428571) * 1.75rem), 1.75rem);
   --igd-radius-card: clamp(0rem, calc(var(--ig-radius-factor, 0.6666666667) * 1.5rem), 1.5rem);

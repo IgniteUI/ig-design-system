@@ -190,7 +190,7 @@ Two tiers. Steps (space-3xs … space-6xl) are the raw scale; the name is a size
 
 Live values are produced by the engine's border-radius() in theme.css and follow --ig-radius-factor (unset = as listed, 0 = each role’s minimum, 1 = each role’s maximum).
 
-- `--igd-radius-pill`: `624.9375rem`. Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px. Range 4px to 9999px.
+- `--igd-radius-action`: `624.9375rem`. Every action, chip and framework selector. Fully round at any height today; never sharper than 4px. Range 4px to 9999px.
 - `--igd-nav-panel-radius`: `1.875rem`. Flared top corners of an open nav panel. Range 0px to 30px.
 - `--igd-radius-card-featured`: `1.5rem`. Emphasis and catalog cards. Never a circle: capped at 28px. Range 4px to 28px.
 - `--igd-radius-card`: `1rem`. Marketing cards and media frames. Capped at 24px. Range 0px to 24px.

@@ -4,7 +4,7 @@ const KINDS = {
   bundle: {
     type: 'body-2xs', background: 'var(--igd-badge-bundle-background)', color: 'var(--igd-badge-bundle-color)',
     fontFamily: 'var(--igd-font-display)', fontWeight: 'var(--igd-font-weight-bold)', letterSpacing: 'var(--igd-letter-spacing-badge)',
-    textTransform: 'uppercase', padding: 'var(--igd-space-inset-2xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-pill)',
+    textTransform: 'uppercase', padding: 'var(--igd-space-inset-2xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-action)',
   },
   oss: {
     type: 'body-2xs', background: 'var(--igd-badge-oss-background)', color: 'var(--igd-badge-oss-color)',

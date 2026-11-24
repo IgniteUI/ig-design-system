@@ -184,7 +184,7 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 
 | Before | Now |
 |---|---|
-| `--radius-pill` | `--igd-radius-pill` |
+| `--radius-pill` | `--igd-radius-action` |
 | `--radius-flare` | `--igd-nav-panel-radius` |
 | `--radius-lg` | `--igd-radius-card-featured` |
 | `--radius-card` | `--igd-radius-card` |

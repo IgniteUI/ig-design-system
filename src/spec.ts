@@ -636,9 +636,9 @@ export type RadiusEntry = [
 ];
 // The engine's border-radius() clamps between min and max.
 export const RADIUS: Record<string, RadiusEntry> = {
-  "radius-pill": [
+  "radius-action": [
     9999,
-    "Pills: every action, chip and framework selector. Fully round at any height; never sharper than 4px.",
+    "Every action, chip and framework selector. Fully round at any height today; never sharper than 4px.",
     4,
     9999,
   ],
