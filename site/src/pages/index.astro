@@ -3,6 +3,7 @@
 import DemoCard from "@/components/guide/DemoCard.astro";
 import DemoForm from "@/components/guide/DemoForm.astro";
 import Dials from "@/components/guide/Dials.astro";
+import MessageExamples from "@/components/guide/MessageExamples.astro";
 import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
 import DarkNotice from "@/components/layout/DarkNotice.astro";
 import RulePair from "@/components/guide/RulePair.astro";
@@ -14,15 +15,11 @@ import TokenCard from "@/components/tokens/TokenCard.astro";
 import TokenGrid from "@/components/tokens/TokenGrid.astro";
 import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
 import CodeBlock from "@/components/ui/CodeBlock.astro";
-import CopyFormat from "@/components/ui/CopyFormat.astro";
-import CopyName from "@/components/ui/CopyName.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
-import Readout from "@/components/ui/Readout.astro";
-import ScrollTable from "@/components/ui/ScrollTable.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import { CARD_MARKUP, CARD_RULE } from "@/data/card.ts";
-import { COLOUR_PICKS, SPACE_PICKS, TYPE_USES } from "@/data/guide.ts";
+import { COLOUR_PICKS, TYPE_USES } from "@/data/guide.ts";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import { RULES, ruleId } from "@/data/rules.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
@@ -31,7 +28,6 @@ import {
   cssVar,
   installCommand,
   packageName,
-  prefixOf,
   repository,
   STYLESHEETS,
   tokens,
@@ -65,14 +61,6 @@ const rawOf = (token: { name: string; value: string }) => {
 };
 const styles = tokens.type.groups.flatMap((g) => g.styles);
 const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
-const spacing = SPACE_PICKS.map((size) => {
-  const [inset, stack, gap] = pick(
-    tokens.spacing.tokens,
-    ["inset", "stack", "gap"].map((role) => `space-${role}-${size}`),
-    "spacing",
-  );
-  return { size, inset, stack, gap };
-});
 const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
 const missing = styles.filter((style) => !TYPE_USES[style.name]).map((style) => style.name);
 if (missing.length)
@@ -87,8 +75,9 @@ const property = { fill: "background", text: "color", outline: "border-color" };
 
   <h1>The Infragistics design system</h1>
   <p class="intro">
-    Every colour, size and space of the Infragistics sites has a name that says what it is for. This guide shows the
-    names, the rules for using them, and how to set up a site.
+    Every colour, size and space of the Infragistics sites has a name that says what it is for. This guide shows
+    what the system offers, in plain words and pictures, then how to build with it and set up a site. The
+    names and values are on the <a href={href("tokens/")}>Tokens</a> page.
   </p>
 
   <Section {...sections.idea}>
@@ -145,74 +134,54 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       never by the nearest shade. Each one has a value for the light variant of the theme and one for the dark variant, and
       switches by itself.
     </p>
-    <p class="lead">
-      Click a name to copy it. Choose CSS for a stylesheet, or Name for a design file or a brief; the choice holds
-      for every name on the site.
-    </p>
-    <CopyFormat />
     {
       COLOUR_PICKS.map((group) => (
         <div class="group">
           <h3 id={group.id}>{group.title}</h3>
           <p class="lead">{group.lead}</p>
-          <TokenGrid>
-            {pick(colours, group.picks.map((p) => p.token), "colour").map((token, i) => {
-              const { use, on, preview = group.preview } = group.picks[i];
-              return (
-                <TokenCard token={token} preview={preview} property={property[preview]} readout="colour" use={use} on={on} />
-              );
-            })}
-          </TokenGrid>
+          {group.id === "colour-messages" ? (
+            <MessageExamples />
+          ) : (
+            <TokenGrid>
+              {pick(colours, group.picks.map((p) => p.token), "colour").map((token, i) => {
+                const { use, on, preview = group.preview } = group.picks[i];
+                return (
+                  <TokenCard token={token} preview={preview} property={property[preview]} use={use} on={on} plain />
+                );
+              })}
+            </TokenGrid>
+          )}
         </div>
       ))
     }
-    <p class="more"><a href={href("tokens/#colour")}>All {colours.length} colours</a></p>
+    <p class="more"><a href={href("tokens/#colour")}>The names and values of all {colours.length} colours</a></p>
   </Section>
 
   <Section {...sections.type}>
     <p class="intro">
-      {styles.length} type roles, each named for its job on the page. Put the class on the element and the
-      font, size, weight and line height come with it. The numbers show the size on this screen right now.
+      {styles.length} type roles, each named for its job on the page. A role carries the font, size, weight
+      and line height together, so text set in it always looks the same.
     </p>
     <p class="lead">
       The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set:
       press the button to see it.
     </p>
     <p class="switches"><TypeSetToggle target="type-specimens" /></p>
-    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} />)}</ul>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} plain />)}</ul>
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
+    <p class="more"><a href={href("tokens/#type")}>The names and sizes of all {styles.length} type roles</a></p>
   </Section>
 
   <Section {...sections.spacing}>
     <p class="intro">
-      Space comes from one scale, from <code>xs</code> to <code>5xl</code>. You choose a size and say what the
-      space is: padding inside a box, a vertical margin between blocks, or a gap between items.
+      Space comes from one scale of sizes, from very small to very large. You choose a size and say what the
+      space is: padding inside a box, a margin between blocks, or a gap between items.
     </p>
     <SpacingAnatomy />
-    <ScrollTable label="Spacing sizes" head={["Size", "Padding", "Vertical margin", "Gap", "Now", ""]}>
-      {
-        spacing.map(({ size, inset, stack, gap }) => (
-          <tr>
-            <th scope="row">{size}</th>
-            {[inset, stack, gap].map((token, i) => (
-              <td data-label={["Padding", "Vertical margin", "Gap"][i]}>
-                <CopyName
-                  name={cssVar(token.name)}
-                  prefix={prefixOf(cssVar(token.name))}
-                  copy={`var(${cssVar(token.name)})`}
-                />
-              </td>
-            ))}
-            <td class="value" data-label="Now"><Readout token={inset.name} kind="length" /></td>
-            <td><span class="bar" style={`inline-size: var(${cssVar(inset.name)})`} /></td>
-          </tr>
-        ))
-      }
-    </ScrollTable>
     <p class="lead">Widths, heights and offsets are not tokens. Type those as the layout needs them.</p>
-    <p class="more"><a href={href("tokens/#spacing")}>All {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
+    <p class="more"><a href={href("tokens/#spacing")}>The names and sizes of all {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
   </Section>
 
   <Section {...sections.shape}>
@@ -234,7 +203,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       <ShapeExplorer kind="shadow" />
     </div>
     <p class="more">
-      <a href={href("tokens/#radius")}>All corners</a> · <a href={href("tokens/#shadow")}>All shadows</a>
+      The names and values of <a href={href("tokens/#radius")}>all corners</a> and <a href={href("tokens/#shadow")}>all shadows</a>
     </p>
   </Section>
 
@@ -268,10 +237,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       </p>
       <Dials target="dial-stage">
         <Stage id="dial-stage" label="Example only: these are not real components">
-          <DemoCard title="One card, four dials">
-            Padding now: <Readout token="space-inset-lg" kind="length" />, corner:{" "}
-            <Readout token="radius-lg" kind="length" />
-          </DemoCard>
+          <DemoCard title="One card, four dials">Press a dial and watch the padding and the corners.</DemoCard>
           <DemoForm id="dial-form" />
         </Stage>
       </Dials>
@@ -414,10 +380,4 @@ const property = { fill: "background", text: "color", outline: "border-color" };
     gap: var(--igd-space-gap-md);
   }
 
-  .bar {
-    display: block;
-    block-size: var(--igd-space-sm);
-    background: var(--igd-color-action-default);
-    border-radius: var(--igd-radius-xs);
-  }
 </style>

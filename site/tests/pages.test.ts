@@ -184,21 +184,15 @@ describe("the Engine page", () => {
 describe("the guide", () => {
   const html = page("");
 
-  it("names each dial, its custom property and its default in plain words", () => {
+  it("names each dial and its default in plain words, without its custom property", () => {
     const panel =
       html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
     expect(
-      [
-        ...panel.matchAll(
-          /<p class="name"[^>]*>\s*([^<]+?)\s*<code[^>]*>([^<]+)</g,
-        ),
-      ].map((m) => `${m[1]} ${m[2]}`),
-    ).toEqual([
-      "Size --ig-size",
-      "Spacing --ig-spacing",
-      "Roundness --ig-radius-factor",
-      "Shadow --ig-elevation-factor",
-    ]);
+      [...panel.matchAll(/<p class="name"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
+        (m) => m[1],
+      ),
+    ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
+    expect(panel).not.toMatch(/>[^<]*--ig-/);
     expect(
       [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
         (m) => m[1],
@@ -264,12 +258,19 @@ describe("the guide", () => {
     expect(card).toContain("background: var(--igd-color-surface-inverse)");
   });
 
-  it("shows a featured token as its use, then its name", () => {
-    const card = html.match(/data-token="radius-lg".*?<\/button>/s)?.[0] ?? "";
-    expect(card.indexOf("A card or a picture frame.")).toBeGreaterThan(-1);
-    expect(card.indexOf("A card or a picture frame.")).toBeLessThan(
-      card.indexOf("data-copy="),
-    );
+  it("shows a colour by its use and preview, without its name or value", () => {
+    const card =
+      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+    expect(card).toContain("Captions, card descriptions and small labels.");
+    expect(card).not.toContain("data-copy=");
+    expect(card).not.toContain("<output");
+  });
+
+  it("shows each message as an alert with an icon, a title and a text", () => {
+    const messages = html.match(/<ul class="messages".*?<\/ul>/s)?.[0] ?? "";
+    expect(messages.match(/<li /g)).toHaveLength(4);
+    expect(messages.match(/<svg /g)).toHaveLength(4);
+    expect(messages).toContain("Payment failed");
   });
 
   it("marks a card that leaves the site", () => {

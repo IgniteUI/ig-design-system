@@ -6,6 +6,7 @@ import TokenFilter from "@/components/tokens/TokenFilter.astro";
 import TokenGrid from "@/components/tokens/TokenGrid.astro";
 import TokenRow from "@/components/tokens/TokenRow.astro";
 import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
+import CodeBlock from "@/components/ui/CodeBlock.astro";
 import CopyFormat from "@/components/ui/CopyFormat.astro";
 import ScrollTable from "@/components/ui/ScrollTable.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
@@ -31,6 +32,53 @@ const property = { fill: "background", text: "color", outline: "border-color" };
 const LABELS: Record<string, string> = { "color-action-on": "color-action-default" };
 // A text colour made for a dark surface is shown on one.
 const surfaceOf = (name: string) => (name.includes("-inverse") ? "color-surface-inverse" : undefined);
+
+// One short sample per section: how a site writes a token of it.
+const USAGE = {
+  colour: {
+    lang: "css",
+    code: `.caption {
+  color: var(--igd-color-text-muted);
+  background: var(--igd-color-surface-card);
+}`,
+  },
+  type: {
+    lang: "html",
+    code: `<h3 class="igd-type-title-sm">Card title</h3>
+<p class="igd-type-body-md">Card text.</p>`,
+  },
+  spacing: {
+    lang: "css",
+    code: `.card {
+  padding: var(--igd-space-inset-lg);
+  margin-block-end: var(--igd-space-stack-md);
+}
+
+.card .actions {
+  gap: var(--igd-space-gap-sm);
+}`,
+  },
+  radius: {
+    lang: "css",
+    code: `.card {
+  border-radius: var(--igd-radius-lg);
+}
+
+.button {
+  border-radius: var(--igd-radius-full);
+}`,
+  },
+  shadow: {
+    lang: "css",
+    code: `.card:hover {
+  box-shadow: var(--igd-shadow-raised);
+}
+
+.dropdown {
+  box-shadow: var(--igd-shadow-popover);
+}`,
+  },
+} as const;
 
 const sections = {
   colour: { id: "colour", title: "Colour", count: Object.values(semantic).flat().length + component.length },
@@ -82,6 +130,7 @@ const sections = {
       Site code uses these. A name says what the colour is for. A name with <code>-inverse</code> is for an
       area that stays dark in both variants, such as the footer; its preview sits on that dark surface.
     </p>
+    <CodeBlock code={USAGE.colour.code} lang={USAGE.colour.lang} label="how to use the colour tokens" />
     {
       groups.map(([key, title]) => (
         <div class="group" data-filter-group>
@@ -124,6 +173,7 @@ const sections = {
       {styles.length} roles. The readout is the size, line height and weight as rendered right now: resize the
       window or switch the type set.
     </p>
+    <CodeBlock code={USAGE.type.code} lang={USAGE.type.lang} label="how to use the type tokens" />
     <p class="lead">
       The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set: press
       the button to see it.
@@ -138,6 +188,7 @@ const sections = {
         >space-gap-*</code
       > for gaps. Each reads a <a href={href("engine/#spacing")}>raw step</a>.
     </p>
+    <CodeBlock code={USAGE.spacing.code} lang={USAGE.spacing.lang} label="how to use the spacing tokens" />
     <ScrollTable label="Spacing roles" head={["Role", "Value", "Use"]}>
       {roles.map((token) => <TokenRow token={token} value="length" />)}
     </ScrollTable>
@@ -145,6 +196,7 @@ const sections = {
 
   <Section {...sections.radius}>
     <p class="intro">Each role has a design value and a range it stays within.</p>
+    <CodeBlock code={USAGE.radius.code} lang={USAGE.radius.lang} label="how to use the radius tokens" />
     <TokenGrid>
       {
         tokens.radius.tokens.map((token) => (
@@ -159,6 +211,7 @@ const sections = {
       Built from the engine's <a href={href("engine/#elevation")}>elevations</a>. The accent shadows and the tinted elevations take the action colour. In
       the dark variant of the theme surfaces separate by tone, so a shadow adds little there.
     </p>
+    <CodeBlock code={USAGE.shadow.code} lang={USAGE.shadow.lang} label="how to use the shadow tokens" />
     <TokenGrid roomy>
       {
         shadows.map((token) => (

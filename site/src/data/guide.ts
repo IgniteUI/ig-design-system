@@ -126,7 +126,7 @@ export const COLOUR_PICKS: ColourGroup[] = [
   {
     id: "colour-messages",
     title: "Messages",
-    lead: "Error, success, warning and information. Each is a text colour shown here on its own tinted background.",
+    lead: "Error, success, warning and information, as a site shows them: an icon and a title in the message colour, on a soft tint of it.",
     preview: "text",
     picks: [
       {
@@ -172,45 +172,39 @@ export const TYPE_USES: Record<string, string> = {
   "type-body-2xs": "The smallest label, such as the line under a badge.",
 };
 
-/** The radius and shadow roles the guide shows, each with the selector its code sample styles, the label of its button and its plain use. */
+/** The radius and shadow roles the guide shows, each with the label of its button and its plain use. */
 export const SHAPE_PICKS: Record<
   "radius" | "shadow",
-  { token: string; selector: string; label: string; use: string }[]
+  { token: string; label: string; use: string }[]
 > = {
   radius: [
     {
       token: "radius-xs",
-      selector: ".checkbox",
       label: "Checkbox",
       use: "A checkbox or a small tag.",
     },
     {
       token: "radius-sm",
-      selector: ".badge",
       label: "Badge",
       use: "A small element, such as a badge.",
     },
     {
       token: "radius-md",
-      selector: ".menu-row",
       label: "Menu row",
       use: "An icon tile or a row in a menu.",
     },
     {
       token: "radius-lg",
-      selector: ".card",
       label: "Card",
       use: "A card or a picture frame.",
     },
     {
       token: "radius-xl",
-      selector: ".card-featured",
       label: "Large card",
       use: "A large card that stands out.",
     },
     {
       token: "radius-full",
-      selector: ".button",
       label: "Button",
       use: "A button, a chip, anything shaped like a pill.",
     },
@@ -218,39 +212,31 @@ export const SHAPE_PICKS: Record<
   shadow: [
     {
       token: "shadow-none",
-      selector: ".card",
       label: "At rest",
       use: "A card nobody is pointing at. It stays flat; its thin border marks its edge.",
     },
     {
       token: "shadow-raised",
-      selector: ".card:hover",
       label: "Hover",
       use: "A card under the mouse pointer. It lifts, and does not move or grow.",
     },
     {
       token: "shadow-floating",
-      selector: ".badge-floating",
       label: "Floating",
       use: "A small badge that floats over a picture or a card, such as a number.",
     },
     {
       token: "shadow-popover",
-      selector: ".dropdown",
       label: "Dropdown",
       use: "A menu or a popover that opens over the page.",
     },
     {
       token: "shadow-panel",
-      selector: ".nav-panel",
       label: "Panel",
       use: "The navigation panel that opens from the top bar.",
     },
   ],
 };
-
-/** The sizes of the spacing scale the guide draws. */
-export const SPACE_PICKS = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
 /**
  * The dials of the live card: the property, its plain label and the values a button sets.

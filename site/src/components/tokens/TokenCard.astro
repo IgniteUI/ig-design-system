@@ -23,9 +23,11 @@ interface Props {
   written?: boolean;
   /** The engine token the value is built from, linked to its place on the Engine page. */
   from?: string;
+  /** Shows the preview and the use only, without the name and the value, as the guide does. */
+  plain?: boolean;
 }
 
-const { token, preview, property, readout, use, on, written = false, from } = Astro.props;
+const { token, preview, property, readout, use, on, written = false, from, plain = false } = Astro.props;
 const custom = cssVar(token.name);
 const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
@@ -35,8 +37,8 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
     {preview === "text" && "Aa"}
   </span>
   {use ? <p class="use">{use}</p> : <Note text={token.usage} about={token.name} />}
-  <CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} />
-  {readout && <Readout token={token.name} kind={readout} />}
+  {!plain && <CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} />}
+  {!plain && readout && <Readout token={token.name} kind={readout} />}
   {written && <code class="written">{token.value}</code>}
   {
     from && (

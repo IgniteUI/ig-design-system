@@ -8,17 +8,23 @@ interface Props {
   style: TypeStyle;
   /** A plain use, shown in place of the role's own note. */
   use?: string;
+  /** Shows the sample and its use only, without the class and the size, as the guide does. */
+  plain?: boolean;
 }
 
-const { style, use } = Astro.props;
+const { style, use, plain = false } = Astro.props;
 const className = `igd-${style.name}`;
 ---
 
-<li data-token={style.name}>
-  <div class="spec">
-    <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
-    <output data-type={className}></output>
-  </div>
+<li data-token={style.name} class:list={{ plain }}>
+  {
+    !plain && (
+      <div class="spec">
+        <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
+        <output data-type={className} />
+      </div>
+    )
+  }
   <div>
     <p class:list={["sample", className]} data-type-sample={className}>{style.sample}</p>
     {use ? <p class="use">{use}</p> : <Note text={style.usage} about={style.name} />}
@@ -36,6 +42,10 @@ const className = `igd-${style.name}`;
     gap: var(--igd-space-gap-xl);
     padding-block: var(--igd-space-inset-lg);
     border-block-start: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+  }
+
+  li.plain {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   output {

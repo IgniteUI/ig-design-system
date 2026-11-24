@@ -335,9 +335,10 @@ describe("the type set button", () => {
       expect(after.sample).not.toBe(before.sample);
       expect(after.heading).toBe(before.heading);
       expect(await page.getAttribute("html", "data-igd-type")).toBeNull();
-      expect(
-        await page.textContent('output[data-type="igd-type-display-lg"]'),
-      ).toMatch(/^36px/);
+      if (route === "tokens/")
+        expect(
+          await page.textContent('output[data-type="igd-type-display-lg"]'),
+        ).toMatch(/^36px/);
       await page.close();
     },
   );
@@ -357,6 +358,20 @@ describe("the guide", () => {
     }));
     expect(rule).toBeDefined();
     expect(printed).toBe(rule);
+    await page.close();
+  });
+});
+
+describe("the usage samples of the Tokens page", () => {
+  it.each([
+    ["colour", "color: var(--igd-color-text-muted);"],
+    ["type", '<h3 class="igd-type-title-sm">Card title</h3>'],
+    ["spacing", "padding: var(--igd-space-inset-lg);"],
+    ["radius", "border-radius: var(--igd-radius-lg);"],
+    ["shadow", "box-shadow: var(--igd-shadow-raised);"],
+  ])("show how to write a %s token", async (id, line) => {
+    const { page } = await open("tokens/");
+    expect(await page.textContent(`#${id} pre code`)).toContain(line);
     await page.close();
   });
 });
@@ -395,10 +410,8 @@ describe("the shape explorers of the guide", () => {
   it.each([
     [1280, "radius"],
     [390, "radius"],
-    [1280, "shadow"],
-    [390, "shadow"],
   ])(
-    "at %ipx put the token of the %s pick above its drawing",
+    "at %ipx put the use of the %s pick above its drawing",
     async (width, kind) => {
       const { page } = await open("", width);
       const [drawing, info] = await page.$$eval(
@@ -420,15 +433,13 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
-  it("show each pick with a CSS sample that uses its token", async () => {
+  it("show no token name, value or code sample in the guide", async () => {
     const { page } = await open("");
-    for (const [token, line] of [
-      ["radius-lg", "border-radius: var(--igd-radius-lg);"],
-      ["shadow-raised", "box-shadow: var(--igd-shadow-raised);"],
-    ])
-      expect(
-        await page.textContent(`[data-info="${token}"] pre code`),
-      ).toContain(line);
+    expect(
+      await page
+        .locator("[data-shape-explorer] :is(code, output, pre)")
+        .count(),
+    ).toBe(0);
     await page.close();
   });
 
@@ -535,7 +546,7 @@ describe("the dials of the guide", () => {
     await page.close();
   });
 
-  it("move the card and its readout, and no dial is set on the card", async () => {
+  it("move the card, and no dial is set on the card", async () => {
     const { page } = await open("");
     expect(await cardStyle(page)).toMatchObject({
       padding: "20px",
@@ -544,7 +555,6 @@ describe("the dials of the guide", () => {
 
     await page.click('button[data-dial="--ig-spacing"][data-value="0.5"]');
     expect((await cardStyle(page)).padding).toBe("10px");
-    expect(await page.textContent("#dial-stage output")).toBe("10px");
 
     await page.click('button[data-dial="--ig-radius-factor"][data-value="0"]');
     expect((await cardStyle(page)).radius).toBe("0px");
@@ -707,7 +717,7 @@ describe("a copy button", () => {
       permissions: ["clipboard-read", "clipboard-write"],
     });
     const page = await context.newPage();
-    await page.goto(`${site.origin}/`);
+    await page.goto(`${site.origin}/tokens/`);
     const button = '[data-token="color-text-muted"] button[data-copy]';
     expect(await page.getAttribute(button, "aria-label")).toBe(
       "Copy var(--igd-color-text-muted)",
@@ -720,7 +730,7 @@ describe("a copy button", () => {
   });
 
   it("says what to do when the copy fails", async () => {
-    const { page } = await open("");
+    const { page } = await open("tokens/");
     await page.evaluate(() => {
       Object.defineProperty(navigator, "clipboard", {
         value: { writeText: () => Promise.reject(new Error("denied")) },
@@ -1187,26 +1197,6 @@ describe("the guide, without a hero", () => {
     ).toBe(0);
     await page.close();
   });
-
-  it("names each kind of space beside its token when the spacing table is stacked", async () => {
-    const { page } = await open("", 390);
-    const result = await page.evaluate(() => {
-      const row = document.querySelector("#spacing tbody tr");
-      const region = document.querySelector("#spacing [data-scroll-region]");
-      if (!row || !region) throw new Error("no spacing table");
-      return {
-        labels: [...row.querySelectorAll("td[data-label]")].map((cell) =>
-          getComputedStyle(cell, "::before").content.replaceAll('"', ""),
-        ),
-        scrolls: region.scrollWidth > region.clientWidth,
-      };
-    });
-    expect(result).toEqual({
-      labels: ["Padding", "Vertical margin", "Gap", "Now"],
-      scrolls: false,
-    });
-    await page.close();
-  });
 });
 
 describe("the section being read", () => {
@@ -1276,7 +1266,7 @@ describe("the Copy as switch", () => {
       permissions: ["clipboard-read", "clipboard-write"],
     });
     const page = await context.newPage();
-    await page.goto(`${site.origin}/`);
+    await page.goto(`${site.origin}/tokens/`);
     const button = '[data-token="color-text-muted"] button[data-copy]';
     await page.click('button[data-copy-format="name"]');
     expect(await page.getAttribute(button, "aria-label")).toBe(
@@ -1286,26 +1276,27 @@ describe("the Copy as switch", () => {
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
       "--igd-color-text-muted",
     );
-    await page.goto(`${site.origin}/tokens/`);
+    await page.goto(`${site.origin}/engine/`);
     expect(
       await page.getAttribute(
         'button[data-copy-format="name"]',
         "aria-pressed",
       ),
     ).toBe("true");
-    await page.click(button);
+    const step = '[data-token="ig-gray-500"] button';
+    await page.click(step);
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-color-text-muted",
+      "--ig-gray-500",
     );
-    await page.click(button, { modifiers: ["Alt"] });
+    await page.click(step, { modifiers: ["Alt"] });
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--igd-color-text-muted)",
+      "var(--ig-gray-500)",
     );
     await context.close();
   });
 
   it("is on every page that has name buttons", async () => {
-    for (const route of ["", "tokens/", "migration/"]) {
+    for (const route of ["tokens/", "engine/", "migration/"]) {
       const { page } = await open(route);
       expect(await page.locator("button[data-copy-format]").count()).toBe(2);
       await page.close();
