@@ -1,21 +1,16 @@
 // What the guide shows: the tokens it features with a plain use each, and the dials of the live card.
-import type { Preview } from "@/lib/tokens.ts";
 
-/** A featured colour: the token, the plain use the guide prints, and how it is previewed. */
+/** A featured colour: the token, the short label of its button and the plain use the guide prints. */
 type ColourPick = {
   token: string;
+  label: string;
   use: string;
-  /** How this colour is previewed, when it differs from its group. */
-  preview?: Preview;
-  /** The token of the surface a text colour is shown on. */
-  on?: string;
 };
 
 type ColourGroup = {
   id: string;
   title: string;
   lead: string;
-  preview: Preview;
   picks: ColourPick[];
 };
 
@@ -25,19 +20,21 @@ export const COLOUR_PICKS: ColourGroup[] = [
     id: "colour-text",
     title: "Text",
     lead: "Four strengths of text. Body copy never goes lighter than muted.",
-    preview: "text",
     picks: [
-      { token: "color-text-heading", use: "Headlines." },
+      { token: "color-text-heading", label: "Heading", use: "Headlines." },
       {
         token: "color-text-primary",
+        label: "Strong text",
         use: "Strong text and the default text of a page.",
       },
       {
         token: "color-text-secondary",
+        label: "Body text",
         use: "Body copy and the paragraph under a heading.",
       },
       {
         token: "color-text-muted",
+        label: "Muted text",
         use: "Captions, card descriptions and small labels.",
       },
     ],
@@ -46,16 +43,25 @@ export const COLOUR_PICKS: ColourGroup[] = [
     id: "colour-backgrounds",
     title: "Backgrounds",
     lead: "The page, a band that alternates with it, a card and a soft tint.",
-    preview: "fill",
     picks: [
-      { token: "color-surface-page", use: "The page background." },
+      {
+        token: "color-surface-page",
+        label: "Page",
+        use: "The page background.",
+      },
       {
         token: "color-surface-subtle",
+        label: "Band",
         use: "A section band that alternates with the page.",
       },
-      { token: "color-surface-card", use: "The fill of a card." },
+      {
+        token: "color-surface-card",
+        label: "Card",
+        use: "The fill of a card.",
+      },
       {
         token: "color-surface-tint",
+        label: "Tint",
         use: "A soft tint behind a chip or a callout.",
       },
     ],
@@ -64,27 +70,26 @@ export const COLOUR_PICKS: ColourGroup[] = [
     id: "colour-inverse",
     title: "Inverse: areas that stay dark",
     lead: "Inverse means for an area that is dark in both variants of the theme, such as the footer, a table header or a stat panel. It is not the dark variant. Each inverse colour is shown here on the inverse surface it is made for.",
-    preview: "text",
     picks: [
       {
         token: "color-surface-inverse",
-        use: "The dark area itself.",
-        preview: "fill",
+        label: "Dark area",
+        use: "An area that stays dark in both variants of the theme, such as a footer. Inverse does not mean the dark variant.",
       },
       {
         token: "color-text-inverse",
+        label: "Text",
         use: "Text in a dark area.",
-        on: "color-surface-inverse",
       },
       {
         token: "color-text-inverse-muted",
+        label: "Quiet text",
         use: "Labels and quieter text in a dark area.",
-        on: "color-surface-inverse",
       },
       {
         token: "color-link-inverse",
+        label: "Link",
         use: "A link in a dark area.",
-        on: "color-surface-inverse",
       },
     ],
   },
@@ -92,22 +97,25 @@ export const COLOUR_PICKS: ColourGroup[] = [
     id: "colour-actions",
     title: "Buttons and links",
     lead: "One action colour. A filled button uses the fill and its label; a link or an outline uses the text colour.",
-    preview: "fill",
     picks: [
-      { token: "color-action-default", use: "The fill of the main button." },
+      {
+        token: "color-action-default",
+        label: "Button",
+        use: "The fill of the main button.",
+      },
       {
         token: "color-action-on",
+        label: "Button label",
         use: "The label on that fill.",
-        preview: "text",
-        on: "color-action-default",
       },
       {
         token: "color-action-text",
+        label: "Link",
         use: "A link, an outline button label, a short label in the action colour.",
-        preview: "text",
       },
       {
         token: "color-action-fill-hover",
+        label: "Button hover",
         use: "The fill of the main button under the pointer.",
       },
     ],
@@ -116,38 +124,48 @@ export const COLOUR_PICKS: ColourGroup[] = [
     id: "colour-lines",
     title: "Lines",
     lead: "Borders of cards, dividers and form fields.",
-    preview: "outline",
     picks: [
-      { token: "color-border-default", use: "The border of a card or a chip." },
-      { token: "color-border-subtle", use: "A quiet divider." },
-      { token: "color-border-control", use: "The border of a form field." },
+      {
+        token: "color-border-default",
+        label: "Card border",
+        use: "The border of a card or a chip.",
+      },
+      {
+        token: "color-border-subtle",
+        label: "Divider",
+        use: "A quiet divider.",
+      },
+      {
+        token: "color-border-control",
+        label: "Field border",
+        use: "The border of a form field.",
+      },
     ],
   },
   {
     id: "colour-messages",
     title: "Messages",
     lead: "Error, success, warning and information, as a site shows them: an icon and a title in the message colour, on a soft tint of it.",
-    preview: "text",
     picks: [
       {
         token: "color-feedback-error-default",
+        label: "Error",
         use: "An error message.",
-        on: "color-feedback-error-surface",
       },
       {
         token: "color-feedback-success-default",
+        label: "Success",
         use: "A confirmation.",
-        on: "color-feedback-success-surface",
       },
       {
         token: "color-feedback-warning-default",
+        label: "Warning",
         use: "A warning.",
-        on: "color-feedback-warning-surface",
       },
       {
         token: "color-feedback-info-default",
+        label: "Information",
         use: "A note or a tip.",
-        on: "color-feedback-info-surface",
       },
     ],
   },

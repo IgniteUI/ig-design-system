@@ -376,6 +376,40 @@ describe("the usage samples of the Tokens page", () => {
   });
 });
 
+describe("the colour explorer of the guide", () => {
+  it("outlines every part that uses the picked colour and names its token", async () => {
+    const { page } = await open("");
+    await page.click(
+      '[data-colour-explorer] button[data-pick="color-action-on"]',
+    );
+    expect(
+      await page
+        .locator(
+          '[data-colour-explorer] [data-part="color-action-on"][data-current]',
+        )
+        .count(),
+    ).toBe(2);
+    expect(
+      await page.textContent(
+        "[data-colour-explorer] [data-info]:not([hidden]) button",
+      ),
+    ).toContain("color-action-on");
+    await page.close();
+  });
+
+  it("picks the colour of the part under the pointer", async () => {
+    const { page } = await open("");
+    await page.hover('[data-colour-explorer] [data-part="color-link-inverse"]');
+    expect(
+      await page.getAttribute(
+        '[data-colour-explorer] button[data-pick="color-link-inverse"]',
+        "aria-pressed",
+      ),
+    ).toBe("true");
+    await page.close();
+  });
+});
+
 describe("the shape explorers of the guide", () => {
   it("show the corner of the element picked, by its button or by pointing at it in the drawing", async () => {
     const { page } = await open("");

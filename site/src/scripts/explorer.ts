@@ -1,6 +1,6 @@
-// The shape explorers: a pressed option, or a picked part of the drawing, shows that corner or shadow and its token.
+// The explorers of the guide: a pressed option, or a picked part of the drawing, outlines what uses that token and shows its use and name.
 for (const explorer of document.querySelectorAll<HTMLElement>(
-  "[data-shape-explorer]",
+  "[data-explorer]",
 )) {
   const choose = (token: string) => {
     for (const b of explorer.querySelectorAll("button[data-pick]"))

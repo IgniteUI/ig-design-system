@@ -244,9 +244,10 @@ describe("the guide", () => {
 
   it("shows a featured colour with its plain use, not its technical note", () => {
     expect(html).toMatch(
-      /data-token="color-action-default".*?The fill of the main button\./s,
+      /data-info="color-action-default".*?The fill of the main button\./s,
     );
   });
+
   it("titles each rule in plain words, with the code under it", () => {
     const rule = html.match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
     expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
@@ -255,21 +256,23 @@ describe("the guide", () => {
     );
   });
 
-  it("says what inverse means and shows each inverse text colour on the inverse surface", () => {
-    const group = html.match(/id="colour-inverse".*?<\/ul>/s)?.[0] ?? "";
-    expect(group).toContain("It is not the dark variant.");
-    const card =
-      group.match(/<li[^>]*data-token="color-text-inverse".*?<\/li>/s)?.[0] ??
-      "";
-    expect(card).toContain("background: var(--igd-color-surface-inverse)");
+  it("draws a part of the page for every colour the colour explorer lists", () => {
+    const explorer =
+      html.match(
+        /data-colour-explorer.*?<\/div>\s*<\/div>\s*<\/div>\s*<\/div>/s,
+      )?.[0] ?? "";
+    const picks = [...explorer.matchAll(/data-pick="([^"]+)"/g)].map(
+      (m) => m[1],
+    );
+    const parts = new Set(
+      [...explorer.matchAll(/data-part="([^"]+)"/g)].map((m) => m[1]),
+    );
+    expect(picks.length).toBe(19);
+    expect(picks.filter((p) => !parts.has(p))).toEqual([]);
   });
 
-  it("shows a colour by its use and preview, without its name or value", () => {
-    const card =
-      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
-    expect(card).toContain("Captions, card descriptions and small labels.");
-    expect(card).not.toContain("data-copy=");
-    expect(card).not.toContain("<output");
+  it("says what inverse means in the colour explorer", () => {
+    expect(html).toContain("Inverse does not mean the dark variant.");
   });
 
   it("shows each message as an alert with an icon, a title and a text", () => {

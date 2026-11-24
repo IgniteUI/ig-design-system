@@ -2,6 +2,7 @@
 // The guide: the design system in plain words, with live examples built on the tokens.
 import DemoCard from "@/components/guide/DemoCard.astro";
 import DemoForm from "@/components/guide/DemoForm.astro";
+import ColourExplorer from "@/components/guide/ColourExplorer.astro";
 import Dials from "@/components/guide/Dials.astro";
 import MessageExamples from "@/components/guide/MessageExamples.astro";
 import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
@@ -11,8 +12,6 @@ import SpacingAnatomy from "@/components/guide/SpacingAnatomy.astro";
 import Stage from "@/components/guide/Stage.astro";
 import Steps from "@/components/guide/Steps.astro";
 import Section from "@/components/layout/Section.astro";
-import TokenCard from "@/components/tokens/TokenCard.astro";
-import TokenGrid from "@/components/tokens/TokenGrid.astro";
 import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
 import CodeBlock from "@/components/ui/CodeBlock.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
@@ -49,6 +48,7 @@ const sections = {
 };
 
 const colours = tokens.color.tokens.filter((t) => !t.name.startsWith("ig-"));
+const messages = COLOUR_PICKS.find((g) => g.id === "colour-messages") ?? { lead: "" };
 // The token "The idea" uses as its example, and the raw token its value points at.
 const [example] = pick(colours, ["color-text-muted"], "colour");
 const rawOf = (token: { name: string; value: string }) => {
@@ -67,7 +67,6 @@ if (missing.length)
   throw new Error(
     `The guide has no plain use for ${missing.join(", ")}. Add one to TYPE_USES in site/src/data/guide.ts.`,
   );
-const property = { fill: "background", text: "color", outline: "border-color" };
 ---
 
 <SectionsLayout current="guide" sections={Object.values(sections)}>
@@ -134,26 +133,16 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       never by the nearest shade. Each one has a value for the light variant of the theme and one for the dark variant, and
       switches by itself.
     </p>
-    {
-      COLOUR_PICKS.map((group) => (
-        <div class="group">
-          <h3 id={group.id}>{group.title}</h3>
-          <p class="lead">{group.lead}</p>
-          {group.id === "colour-messages" ? (
-            <MessageExamples />
-          ) : (
-            <TokenGrid>
-              {pick(colours, group.picks.map((p) => p.token), "colour").map((token, i) => {
-                const { use, on, preview = group.preview } = group.picks[i];
-                return (
-                  <TokenCard token={token} preview={preview} property={property[preview]} use={use} on={on} plain />
-                );
-              })}
-            </TokenGrid>
-          )}
-        </div>
-      ))
-    }
+    <p class="lead">
+      Pick a colour, or point at a part of the page, to see where it goes. An inverse colour is for an area that
+      stays dark in both variants, such as the footer.
+    </p>
+    <ColourExplorer />
+    <div class="group">
+      <h3 id="colour-messages">Messages</h3>
+      <p class="lead">{messages.lead}</p>
+      <MessageExamples />
+    </div>
     <p class="more"><a href={href("tokens/#colour")}>The names and values of all {colours.length} colours</a></p>
   </Section>
 

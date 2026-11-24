@@ -17,7 +17,7 @@ const first = kind === "radius" ? "radius-lg" : "shadow-raised";
 const part = (token: string) => ({ "data-part": token, "data-current": token === first ? "" : undefined });
 ---
 
-<div class:list={["explorer", kind]} data-shape-explorer>
+<div class:list={["explorer", kind]} data-explorer data-shape-explorer>
   <div class="body">
   <div class="options" role="group" aria-label={kind === "radius" ? "Corner of" : "Shadow of"}>
     {
@@ -75,7 +75,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 </div>
 
 <script>
-  import "@/scripts/shape.ts";
+  import "@/scripts/explorer.ts";
 </script>
 
 <style>
