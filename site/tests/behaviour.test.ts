@@ -351,6 +351,7 @@ describe("the guide", () => {
         .map((style) => style.textContent ?? "")
         .find((css) => css.startsWith(".card {")),
       printed: [...document.querySelectorAll("pre code")]
+        .filter((code) => !code.closest("[data-shape-explorer]"))
         .map((code) => code.textContent ?? "")
         .find((code) => code.startsWith(".card {")),
     }));

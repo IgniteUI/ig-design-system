@@ -255,6 +255,17 @@ describe("the guide", () => {
     );
   });
 
+  it("shows each corner and shadow pick with a CSS sample that uses its token", () => {
+    for (const [token, line] of [
+      ["radius-lg", "border-radius: var(--igd-radius-lg);"],
+      ["shadow-raised", "box-shadow: var(--igd-shadow-raised);"],
+    ]) {
+      const info =
+        html.match(new RegExp(`data-info="${token}".*?</pre>`, "s"))?.[0] ?? "";
+      expect(info.replace(/<[^>]+>/g, "")).toContain(line);
+    }
+  });
+
   it("shows a featured token as its use, then its name", () => {
     const card = html.match(/data-token="radius-lg".*?<\/button>/s)?.[0] ?? "";
     expect(card.indexOf("A card or a picture frame.")).toBeGreaterThan(-1);

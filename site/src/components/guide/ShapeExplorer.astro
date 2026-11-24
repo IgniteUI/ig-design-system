@@ -1,6 +1,7 @@
 ---
-// Picks a corner or a shadow by what it sits on: a row of options, a drawing that shows the chosen one, and its token, use and value.
+// Picks a corner or a shadow by what it sits on: a row of options, a drawing that shows the chosen one, and its token, use, value and a CSS sample.
 // For corners the drawing is a small interface whose parts can be picked too; for shadows it is one card that lifts.
+import CodeBlock from "@/components/ui/CodeBlock.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import Readout from "@/components/ui/Readout.astro";
 import { SHAPE_PICKS } from "@/data/guide.ts";
@@ -69,6 +70,11 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
           {kind === "radius" && <p class="use">{p.use}</p>}
           <CopyName name={cssVar(p.token)} prefix={prefixOf(cssVar(p.token))} copy={`var(${cssVar(p.token)})`} />
           {kind === "radius" && <Readout token={p.token} kind="length" />}
+          <CodeBlock
+            code={`${p.selector} {\n  ${kind === "radius" ? "border-radius" : "box-shadow"}: var(${cssVar(p.token)});\n}`}
+            lang="css"
+            label={`using ${cssVar(p.token)}`}
+          />
         </div>
       ))
     }
@@ -91,6 +97,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
      form a list beside the card where there is room. */
   .body {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "options" "info" "drawing";
     gap: var(--igd-space-gap-md);
   }
@@ -101,6 +108,14 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .drawing {
     grid-area: drawing;
+  }
+
+  /* A grid item takes the width of its widest line by default; a code sample scrolls inside it instead. */
+  .options,
+  .drawing,
+  .info,
+  .info > div {
+    min-inline-size: 0;
   }
 
   .info {
@@ -285,6 +300,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .info > div {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--igd-space-gap-3xs);
   }
 
