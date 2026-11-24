@@ -78,7 +78,10 @@ const sections = {
   </div>
 
   <Section {...sections.colour}>
-    <p class="intro">Site code uses these. A name says what the colour is for.</p>
+    <p class="intro">
+      Site code uses these. A name says what the colour is for. A name with <code>-inverse</code> is for an
+      area that stays dark in both variants, such as the footer; its preview sits on that dark surface.
+    </p>
     {
       groups.map(([key, title]) => (
         <div class="group" data-filter-group>

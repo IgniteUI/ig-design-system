@@ -45,7 +45,7 @@ export const COLOUR_PICKS: ColourGroup[] = [
   {
     id: "colour-backgrounds",
     title: "Backgrounds",
-    lead: "The page, a band that alternates with it, a card, a soft tint and the one dark surface.",
+    lead: "The page, a band that alternates with it, a card and a soft tint.",
     preview: "fill",
     picks: [
       { token: "color-surface-page", use: "The page background." },
@@ -58,9 +58,33 @@ export const COLOUR_PICKS: ColourGroup[] = [
         token: "color-surface-tint",
         use: "A soft tint behind a chip or a callout.",
       },
+    ],
+  },
+  {
+    id: "colour-inverse",
+    title: "Inverse: areas that stay dark",
+    lead: "Inverse means for an area that is dark in both variants of the theme, such as the footer, a table header or a stat panel. It is not the dark variant. Each inverse colour is shown here on the inverse surface it is made for.",
+    preview: "text",
+    picks: [
       {
         token: "color-surface-inverse",
-        use: "The one dark surface, such as a table header.",
+        use: "The dark area itself.",
+        preview: "fill",
+      },
+      {
+        token: "color-text-inverse",
+        use: "Text in a dark area.",
+        on: "color-surface-inverse",
+      },
+      {
+        token: "color-text-inverse-muted",
+        use: "Labels and quieter text in a dark area.",
+        on: "color-surface-inverse",
+      },
+      {
+        token: "color-link-inverse",
+        use: "A link in a dark area.",
+        on: "color-surface-inverse",
       },
     ],
   },

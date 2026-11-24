@@ -255,6 +255,15 @@ describe("the guide", () => {
     );
   });
 
+  it("says what inverse means and shows each inverse text colour on the inverse surface", () => {
+    const group = html.match(/id="colour-inverse".*?<\/ul>/s)?.[0] ?? "";
+    expect(group).toContain("It is not the dark variant.");
+    const card =
+      group.match(/<li[^>]*data-token="color-text-inverse".*?<\/li>/s)?.[0] ??
+      "";
+    expect(card).toContain("background: var(--igd-color-surface-inverse)");
+  });
+
   it("shows each corner and shadow pick with a CSS sample that uses its token", () => {
     for (const [token, line] of [
       ["radius-lg", "border-radius: var(--igd-radius-lg);"],
