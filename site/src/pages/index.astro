@@ -270,7 +270,8 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       <h3 id="themes-dials">Dials</h3>
       <p class="lead">
         Four dials change every token below them at once. Press a value and watch the card: its padding,
-        corners and shadow follow, and no rule of the card changes.
+        corners and shadow follow, and no rule of the card changes. The Default column is what a site gets
+        when it sets no dial.
       </p>
       <Dials target="dial-stage" />
       <Stage id="dial-stage" data-ig-scope>
@@ -380,7 +381,8 @@ const property = { fill: "background", text: "color", outline: "border-color" };
 </SectionsLayout>
 
 <style>
-  .group > .lead {
+  /* A lead pulls up to the heading above it; a lead after a demo keeps its distance from the demo. */
+  .group > .lead:not(.after) {
     margin-block-start: calc(-1 * var(--igd-space-stack-2xs));
   }
 

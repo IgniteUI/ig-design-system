@@ -184,6 +184,32 @@ describe("the Engine page", () => {
 describe("the guide", () => {
   const html = page("");
 
+  it("lists the dials as a table: name, custom property, default and the values to press", () => {
+    const table = html.match(/<div class="dials".*?<\/table>/s)?.[0] ?? "";
+    expect(
+      [...table.matchAll(/<th[^>]*scope="col"[^>]*>([^<]*)</g)].map(
+        (m) => m[1],
+      ),
+    ).toEqual(["Dial", "Custom property", "Default", "Set to"]);
+    expect(
+      [...table.matchAll(/<th[^>]*scope="row"[^>]*>([^<]*)</g)].map(
+        (m) => m[1],
+      ),
+    ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
+  });
+
+  it("presses at first the button that clears each dial, named for what it gives", () => {
+    const dials =
+      html.match(/<div class="dials".*?data-dial-reset/s)?.[0] ?? "";
+    expect(
+      [...dials.matchAll(/aria-pressed="true"[^>]*>\s*([^<]+?)\s*</g)].map(
+        (m) => m[1],
+      ),
+    ).toEqual(["Large", "Normal", "Mixed", "Normal"]);
+    expect(dials).toContain('<td class="fallback"');
+    expect(html).toContain("The Default column is what a site gets");
+  });
+
   it("prints the install and check commands with the package's name", () => {
     expect(html).toContain(`npm install ${pkg.name}`);
     expect(html).toContain(`npx ${pkg.name} check src`);

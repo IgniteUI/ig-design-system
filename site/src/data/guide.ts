@@ -175,46 +175,54 @@ export const SHAPE_PICKS: Record<
 /** The sizes of the spacing scale the guide draws. */
 export const SPACE_PICKS = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
-/** The dials of the live card: the property, its plain label and the values a button sets. An empty value is the design value and clears the dial. */
+/**
+ * The dials of the live card: the property, its plain label, what a token reads when no dial is set, and the values a button sets.
+ * A button with an empty value is the default: it clears the dial. `shown` is the number printed beside its label.
+ */
 export const DIALS: {
   property: string;
   label: string;
-  values: [label: string, value: string][];
+  fallback: string;
+  values: [label: string, value: string, shown: string][];
 }[] = [
   {
     property: "--ig-size",
     label: "Size",
+    fallback: "Large, 3",
     values: [
-      ["Small", "1"],
-      ["Medium", "2"],
-      ["Design", ""],
+      ["Small", "1", "1"],
+      ["Medium", "2", "2"],
+      ["Large", "", "3"],
     ],
   },
   {
     property: "--ig-spacing",
     label: "Spacing",
+    fallback: "Normal, 1",
     values: [
-      ["Half", "0.5"],
-      ["Design", ""],
-      ["Double", "2"],
+      ["Half", "0.5", "0.5"],
+      ["Normal", "", "1"],
+      ["Double", "2", "2"],
     ],
   },
   {
     property: "--ig-radius-factor",
     label: "Roundness",
+    fallback: "Mixed: each radius token keeps its own, 0.67 to 1",
     values: [
-      ["Square", "0"],
-      ["Design", ""],
-      ["Round", "1"],
+      ["Square", "0", "0"],
+      ["Mixed", "", ""],
+      ["Round", "1", "1"],
     ],
   },
   {
     property: "--ig-elevation-factor",
     label: "Shadow",
+    fallback: "Normal, 1",
     values: [
-      ["None", "0"],
-      ["Design", ""],
-      ["Double", "2"],
+      ["None", "0", "0"],
+      ["Normal", "", "1"],
+      ["Double", "2", "2"],
     ],
   },
 ];

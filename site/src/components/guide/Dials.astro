@@ -1,5 +1,5 @@
 ---
-// The buttons that set the dials on one element of the page.
+// The dials as a table: each row names a dial, its custom property and its default, and its buttons set it on one element of the page.
 import ToggleButton from "@/components/ui/ToggleButton.astro";
 import { DIALS } from "@/data/guide.ts";
 
@@ -12,20 +12,44 @@ const { target } = Astro.props;
 ---
 
 <div class="dials" data-dials={target}>
-  {
-    DIALS.map((dial) => (
-      <div class="dial" role="group" aria-label={dial.label}>
-        <span>
-          {dial.label} <code>{dial.property}</code>
-        </span>
-        {dial.values.map(([label, value]) => (
-          <ToggleButton data-dial={dial.property} data-value={value} aria-pressed={value === "" ? "true" : "false"}>
-            {label}
-          </ToggleButton>
-        ))}
-      </div>
-    ))
-  }
+  <table>
+    <caption class="sr">The dials and the values they take</caption>
+    <thead>
+      <tr>
+        <th scope="col">Dial</th>
+        <th scope="col">Custom property</th>
+        <th scope="col">Default</th>
+        <th scope="col">Set to</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        DIALS.map((dial) => (
+          <tr>
+            <th scope="row">{dial.label}</th>
+            <td>
+              <code>{dial.property}</code>
+            </td>
+            <td class="fallback">{dial.fallback}</td>
+            <td>
+              <div class="values" role="group" aria-label={dial.label}>
+                {dial.values.map(([label, value, shown]) => (
+                  <ToggleButton
+                    data-dial={dial.property}
+                    data-value={value}
+                    aria-pressed={value === "" ? "true" : "false"}
+                  >
+                    {label}
+                    {shown && <span class="number">{shown}</span>}
+                  </ToggleButton>
+                ))}
+              </div>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
   <button type="button" class="reset" data-dial-reset>Reset the dials</button>
 </div>
 
@@ -38,19 +62,57 @@ const { target } = Astro.props;
     display: grid;
     gap: var(--igd-space-gap-xs);
     margin-block-end: var(--igd-space-stack-md);
+    container-type: inline-size;
   }
 
-  .dial {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--igd-space-gap-xs);
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
   }
 
-  span {
-    flex: 0 1 20rem;
+  thead th {
+    padding: 0 var(--igd-space-inset-sm) var(--igd-space-inset-xs) 0;
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    color: var(--igd-color-text-secondary);
+    font-size: var(--igd-type-body-xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    text-align: start;
+  }
+
+  tbody th,
+  tbody td {
+    padding: var(--igd-space-inset-xs) var(--igd-space-inset-sm) var(--igd-space-inset-xs) 0;
+    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  tbody th {
     color: var(--igd-color-text-ui);
     font-weight: var(--igd-font-weight-semibold);
+  }
+
+  code {
+    color: var(--igd-color-text-muted);
+    white-space: nowrap;
+  }
+
+  .fallback {
+    color: var(--igd-color-text-secondary);
+    font-size: var(--igd-type-body-sm-font-size);
+  }
+
+  .number {
+    margin-inline-start: var(--igd-space-gap-2xs);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+    font-weight: var(--igd-font-weight-regular);
+  }
+
+  .values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-xs);
   }
 
   .reset {
@@ -69,9 +131,35 @@ const { target } = Astro.props;
     color: var(--igd-color-action-hover);
   }
 
-  code {
-    margin-inline-start: var(--igd-space-gap-2xs);
-    color: var(--igd-color-text-muted);
-    font-weight: var(--igd-font-weight-regular);
+  /* A narrow table puts the values of a dial on a line under its name and property. */
+  @container (inline-size < 36rem) {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: baseline;
+      gap: var(--igd-space-gap-xs) var(--igd-space-gap-sm);
+      padding-block: var(--igd-space-inset-xs);
+      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    }
+
+    tbody th,
+    tbody td {
+      padding: 0;
+      border: 0;
+    }
+
+    tbody td:nth-child(n + 3) {
+      grid-column: 1 / -1;
+    }
+
+    .fallback::before {
+      content: "Default: ";
+      color: var(--igd-color-text-ui);
+      font-weight: var(--igd-font-weight-semibold);
+    }
   }
 </style>

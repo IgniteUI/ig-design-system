@@ -361,6 +361,20 @@ describe("the guide", () => {
 });
 
 describe("the dials of the guide", () => {
+  it("keeps space between the card and the line under it", async () => {
+    const { page } = await open("");
+    const gap = await page.evaluate(() => {
+      const stage = document.getElementById("dial-stage");
+      const after = stage?.nextElementSibling;
+      if (!stage || !after) throw new Error("no line after the dial card");
+      return (
+        after.getBoundingClientRect().top - stage.getBoundingClientRect().bottom
+      );
+    });
+    expect(gap).toBeGreaterThanOrEqual(16);
+    await page.close();
+  });
+
   it("move the card and its readout, and no dial is set on the card", async () => {
     const { page } = await open("");
     expect(await cardStyle(page)).toMatchObject({
