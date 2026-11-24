@@ -19,11 +19,19 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 ---
 
 <div class:list={["explorer", kind]} data-shape-explorer>
+  <div class="body">
   <div class="options" role="group" aria-label={kind === "radius" ? "Corner of" : "Shadow of"}>
     {
       picks.map((p) => (
         <button type="button" data-pick={p.token} aria-pressed={p.token === first ? "true" : "false"}>
-          {p.label}
+          {kind === "shadow" ? (
+            <>
+              <strong>{p.label}</strong>
+              <span class="meaning">{p.use}</span>
+            </>
+          ) : (
+            p.label
+          )}
         </button>
       ))
     }
@@ -58,12 +66,13 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     {
       picks.map((p) => (
         <div data-token={p.token} data-info={p.token} hidden={p.token !== first}>
-          <p class="use">{p.use}</p>
+          {kind === "radius" && <p class="use">{p.use}</p>}
           <CopyName name={cssVar(p.token)} prefix={prefixOf(cssVar(p.token))} copy={`var(${cssVar(p.token)})`} />
           {kind === "radius" && <Readout token={p.token} kind="length" />}
         </div>
       ))
     }
+  </div>
   </div>
 </div>
 
@@ -75,6 +84,55 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   .explorer {
     display: grid;
     gap: var(--igd-space-gap-md);
+    container-type: inline-size;
+  }
+
+  /* The token of the pick sits above the drawing at every width. The shadow options, each with its meaning,
+     form a list beside the card where there is room. */
+  .body {
+    display: grid;
+    grid-template-areas: "options" "info" "drawing";
+    gap: var(--igd-space-gap-md);
+  }
+
+  .options {
+    grid-area: options;
+  }
+
+  .drawing {
+    grid-area: drawing;
+  }
+
+  .info {
+    grid-area: info;
+  }
+
+  @container (inline-size >= 40rem) {
+    .shadow .body {
+      grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+      grid-template-areas: "options info" "options drawing";
+      grid-template-rows: auto 1fr;
+    }
+  }
+
+  .shadow .options {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-xs);
+  }
+
+  .shadow .options button {
+    display: grid;
+    gap: var(--igd-space-gap-3xs);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
+    border-radius: var(--igd-radius-md);
+    text-align: start;
+  }
+
+  .meaning {
+    font-size: var(--igd-type-body-xs-font-size);
+    line-height: var(--igd-type-body-xs-line-height);
+    font-weight: var(--igd-font-weight-regular);
   }
 
   .options {

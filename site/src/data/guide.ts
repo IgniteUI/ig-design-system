@@ -185,20 +185,28 @@ export const SHAPE_PICKS: Record<
     {
       token: "shadow-none",
       label: "At rest",
-      use: "A card at rest: flat, with its hairline border.",
+      use: "A card nobody is pointing at. It stays flat; its thin border marks its edge.",
     },
     {
       token: "shadow-raised",
-      label: "Under the pointer",
-      use: "A card under the pointer.",
+      label: "Hover",
+      use: "A card under the mouse pointer. It lifts, and does not move or grow.",
     },
     {
       token: "shadow-floating",
       label: "Floating",
-      use: "A badge that floats over a picture.",
+      use: "A small badge that floats over a picture or a card, such as a number.",
     },
-    { token: "shadow-popover", label: "Dropdown", use: "A dropdown menu." },
-    { token: "shadow-panel", label: "Panel", use: "An open navigation panel." },
+    {
+      token: "shadow-popover",
+      label: "Dropdown",
+      use: "A menu or a popover that opens over the page.",
+    },
+    {
+      token: "shadow-panel",
+      label: "Panel",
+      use: "The navigation panel that opens from the top bar.",
+    },
   ],
 };
 

@@ -391,6 +391,34 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
+  it.each([
+    [1280, "radius"],
+    [390, "radius"],
+    [1280, "shadow"],
+    [390, "shadow"],
+  ])(
+    "at %ipx put the token of the %s pick above its drawing",
+    async (width, kind) => {
+      const { page } = await open("", width);
+      const [drawing, info] = await page.$$eval(
+        `.explorer.${kind} .drawing, .explorer.${kind} .info`,
+        (all) => all.map((el) => el.getBoundingClientRect().toJSON()),
+      );
+      expect(info.bottom).toBeLessThanOrEqual(drawing.top);
+      await page.close();
+    },
+  );
+
+  it("says what each shadow is for on its option", async () => {
+    const { page } = await open("");
+    expect(
+      await page.textContent(
+        '.explorer.shadow button[data-pick="shadow-raised"]',
+      ),
+    ).toContain("A card under the mouse pointer.");
+    await page.close();
+  });
+
   it("lift the card to the shadow picked", async () => {
     const { page } = await open("");
     const shadow = () =>
