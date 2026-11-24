@@ -61,8 +61,8 @@ Why: an Ignite UI component on the same page reads the `--ig-*` names, so the pa
 ### 2. The accent palettes and the dark palette are built, not published
 
 - `src/palette-sets.ts` builds five extra palettes with the engine: pink, cyan, sky and teal for accent colours, and a dark palette.
-- Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-theming-mcp: #e23b8f`, not `var(--ig-pink-400)`.
-- The spec still names the step (`"tile-theming-mcp": ["ig-pink-400", …]`). That name is internal to the build.
+- Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-3: #e23b8f`, not `var(--ig-pink-400)`.
+- The spec still names the step (`"tile-3": ["ig-pink-400", …]`). That name is internal to the build.
 - The dark palette is handled the same way. There is no `--ig-dark-gray-<n>` or `--ig-dark-surface-<n>` in `dist/`.
   - The dark theme sets the engine's own names: `[data-theme="dark"] { --ig-gray-500: #bcc1c9; }`. The engine does the same for a dark palette.
   - A token for an area that is dark in both themes carries the colour: `--igd-color-surface-inverse: #0f172a`. The spec names the step as `ig-dark-surface-500`.
@@ -110,14 +110,18 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 
 ### 6. Names carry a role, never a hue, a shape or a brand family
 
-- Semantic and component names have no colour word: `color-accent-brand`, `tile-cli-mcp` … `tile-extended-4`, `glow-inverse`. The exception is `window-dot-red`, `-amber` and `-green`, the three dots of a mock window.
-- A name says what the value is for, not how it looks: no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`), no vague `-alt` and no bare number for a role (`tile-agent-skills`, not `tile-2`). A size on a scale (`space-inset-lg`, `size-icon-sm`) is fine.
-- No semantic name uses `primary` or `secondary`, which are engine family names: `color-text-strong` and `color-accent-brand`, not `color-text-primary` and `color-accent-primary`.
+- Semantic and component names have no colour word: `color-accent-brand`, `tile-1` … `tile-8`, `glow-inverse`. The exception is `window-dot-red`, `-amber` and `-green`, the three dots of a mock window.
+- A name says what the value is for, not how it looks: no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`) and no vague `-alt` (`color-surface-tint-category`, not `color-surface-tint-alt`).
+- No semantic name uses `primary` or `secondary`, which are engine family names: `color-text-strong` and `color-accent-brand`, not `color-text-primary` and `color-accent-primary`. `color-accent-brand` reads the info family; under the old name a reader expected the primary one.
+- A name does not carry a product or a page: a product is renamed or replaced more often than a colour changes. `tile-1` … `tile-8` are not named for the products they fill today.
+- Two kinds of name may be a position instead of a word, because the position is the role:
+  - A scale: `space-inset-lg`, `size-icon-sm`, `font-weight-bold`, `breakpoint-md`. The step says how much, and a component picks a step by need.
+  - An ordered set: `tile-1` … `tile-8`. A grid of icon tiles takes them in order, so the fifth tile is `tile-5` whatever product it shows. Each token's note says where it is used now.
 - A state colour stays in the family of its base (`stateFamilyErrors` in `src/derived.ts`); the build stops otherwise.
 - The `color-` category word stays on the semantic tier, so `color-border-default` cannot be mistaken for `border-width-default`.
 - Semantic and component names in `tokens.json` and in the DTCG file carry no prefix. The prefix belongs to CSS. An engine name keeps its `ig-`.
 
-Why: a seed can change, and a token called "blue" would then be another colour. The same goes for a shape: if actions stop being pills, `radius-action` keeps its name and changes its value. The owner decided the role names on 2026-11-24.
+Why: a name is written into every site that uses it, and a value is written once, here. A token called "blue" is wrong the day the seed changes; `radius-pill` is wrong the day actions stop being pills; `tile-agent-skills` is wrong the day that product is renamed. Each of those forces a rename in every site. A role name stays right, and only the value changes. The owner decided the role names on 2026-11-24.
 
 ### 7. A type style is named for its role, and the large ones are fluid
 

@@ -10,23 +10,13 @@ import { ALIAS } from "./spec.ts";
 describe("assertSameColor", () => {
   it("rejects a token listed as equal to a base that has another colour", () => {
     expect(() =>
-      assertSameColor(
-        "tile-cli-mcp",
-        "color-accent-brand",
-        "#0099ff",
-        "#155dfc",
-      ),
-    ).toThrow("alias tile-cli-mcp is not color-accent-brand in the engine");
+      assertSameColor("tile-1", "color-accent-brand", "#0099ff", "#155dfc"),
+    ).toThrow("alias tile-1 is not color-accent-brand in the engine");
   });
 
   it("accepts a token with the colour of its base", () => {
     expect(() =>
-      assertSameColor(
-        "tile-cli-mcp",
-        "color-accent-brand",
-        "#0099ff",
-        "#0099ff",
-      ),
+      assertSameColor("tile-1", "color-accent-brand", "#0099ff", "#0099ff"),
     ).not.toThrow();
   });
 });

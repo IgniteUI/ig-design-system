@@ -221,15 +221,15 @@
     "base": "color-action-text",
     "alias": true
   },
-  "tile-cli-mcp": {
+  "tile-1": {
     "base": "color-accent-brand",
     "alias": true
   },
-  "tile-agent-skills": {
+  "tile-2": {
     "base": "color-accent-ai",
     "alias": true
   },
-  "tile-extended-3": {
+  "tile-7": {
     "base": "color-action-default",
     "alias": true
   },

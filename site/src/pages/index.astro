@@ -101,6 +101,32 @@ if (missing.length)
         },
       ]}
     />
+    <h3 class="plain" id="idea-names">Why a name says its job</h3>
+    <p class="lead">
+      A name is written into every site that uses it; its value is written once, here. So a name says what the
+      value is for, never how it looks. When the look changes, only the value changes, and no site has to be
+      edited.
+    </p>
+    <ul class="names">
+      <li>
+        <code>radius-action</code>, not <code>radius-pill</code>: if buttons stop being pills, the name is still
+        right.
+      </li>
+      <li>
+        <code>color-text-strong</code>, not <code>color-text-primary</code>: primary is the name of a colour family,
+        and this text does not use it.
+      </li>
+      <li>
+        <code>shadow-chip</code>, not <code>shadow-glass</code>: a name says where the value goes, not what it
+        looks like.
+      </li>
+    </ul>
+    <p class="lead">
+      Two kinds of name use a position, because there the position is the job. A scale, such as{" "}
+      <code>space-inset-lg</code>, where you pick a step by how much you need. And an ordered set, such as{" "}
+      <code>tile-1</code> to <code>tile-8</code>, where a grid takes the colours in order whatever product each
+      tile shows.
+    </p>
     <h3 class="plain">What do you need?</h3>
     <LinkCards
       items={[
@@ -336,6 +362,15 @@ if (missing.length)
 
 <style>
   /* A lead pulls up to the heading above it; a lead after a demo keeps its distance from the demo. */
+  .names {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+    max-inline-size: 38rem;
+    margin-block: 0 var(--igd-space-stack-md);
+    padding-inline-start: var(--igd-space-inset-lg);
+    color: var(--igd-color-text-body);
+  }
+
   .group > .lead:not(.after) {
     margin-block-start: calc(-1 * var(--igd-space-stack-2xs));
   }

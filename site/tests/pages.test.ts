@@ -275,6 +275,14 @@ describe("the guide", () => {
     expect(role).not.toContain("--igd-type-display-lg-");
   });
 
+  it("says why a name says its job, with the two kinds of name that use a position", () => {
+    const part = html.match(/id="idea-names".*?What do you need\?/s)?.[0] ?? "";
+    expect(part).toMatch(/not <code[^>]*>radius-pill<\/code>/);
+    expect(part).toContain("an ordered set");
+    expect(part).toMatch(/such as <code[^>]*>space-inset-lg/);
+    expect(page("tokens/")).toContain('href="/#idea-names"');
+  });
+
   it("draws a part of the page for every colour the colour explorer lists", () => {
     const explorer =
       html.match(

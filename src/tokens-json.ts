@@ -124,7 +124,7 @@ const GLOWS: Record<string, Glow> = {
     usage: "Footer glow only (top-right of the dark footer).",
   },
   "glow-inverse": {
-    base: "tile-theming-mcp",
+    base: "tile-3",
     opacity: "opacity-muted",
     stop: 62,
     usage: "Ambient glow for the dark AI and enterprise bands only.",

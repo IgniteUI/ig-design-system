@@ -83,9 +83,9 @@ const SAME_AS: [token: string, base: string][] = [
   ["table-header-sub-highlight-color", "color-action-on"],
   ["color-link-utility-hover", "color-action-text"],
   ["color-focus-default", "color-action-text"],
-  ["tile-cli-mcp", "color-accent-brand"],
-  ["tile-agent-skills", "color-accent-ai"],
-  ["tile-extended-3", "color-action-default"],
+  ["tile-1", "color-accent-brand"],
+  ["tile-2", "color-accent-ai"],
+  ["tile-7", "color-action-default"],
   ["color-link-inverse", "color-accent-inverse"],
   ["footer-icon", "footer-text"],
 ];
@@ -221,7 +221,7 @@ export const derivedColors = (declarations: Declaration[]) => {
 ${SCOPED} {
 ${lines.join("\n")}
 }
-[data-ig="icon-tile"] { --tile-fill: var(--tile-cli-mcp); --tile-on: hsla(from color(from var(--tile-fill) var(--y-contrast)) h 0 l / 1); }
+[data-ig="icon-tile"] { --tile-fill: var(--tile-1); --tile-on: hsla(from color(from var(--tile-fill) var(--y-contrast)) h 0 l / 1); }
 `;
   return { css, record };
 };

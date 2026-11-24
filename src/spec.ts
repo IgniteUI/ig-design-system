@@ -312,37 +312,37 @@ export const ALIAS: Record<string, AliasEntry> = {
   "fw-wpf-background": ["ig-primary-100", "WPF framework pill fill."],
   "fw-wpf-border": ["ig-primary-200", "WPF framework pill border."],
   // icon tiles
-  "tile-cli-mcp": [
+  "tile-1": [
     "ig-info-seed",
-    "Icon tile fill — CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph.",
+    "Icon tile fill 1 of 8; a grid of icon tiles takes the fills in order. Now: CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph.",
   ],
-  "tile-agent-skills": [
+  "tile-2": [
     "ig-secondary-seed",
-    "Icon tile fill — Agent Skills on the AI toolchain row.",
+    "Icon tile fill 2 of 8; a grid of icon tiles takes the fills in order. Now: Agent Skills on the AI toolchain row.",
   ],
-  "tile-theming-mcp": [
+  "tile-3": [
     "ig-pink-400",
-    "Icon tile fill — Theming MCP on the AI toolchain row.",
+    "Icon tile fill 3 of 8; a grid of icon tiles takes the fills in order. Now: Theming MCP on the AI toolchain row.",
   ],
-  "tile-ai-scaffolding": [
+  "tile-4": [
     "ig-success-400",
-    "Icon tile fill — AI Scaffolding on the AI toolchain row.",
+    "Icon tile fill 4 of 8; a grid of icon tiles takes the fills in order. Now: AI Scaffolding on the AI toolchain row.",
   ],
-  "tile-extended-1": [
+  "tile-5": [
     "ig-cyan-200",
-    "Extended icon tile fill for grids longer than four tiles.",
+    "Icon tile fill 5 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles.",
   ],
-  "tile-extended-2": [
+  "tile-6": [
     "ig-warn-200",
-    "Extended icon tile fill for grids longer than four tiles.",
+    "Icon tile fill 6 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles.",
   ],
-  "tile-extended-3": [
+  "tile-7": [
     "ig-primary-seed",
-    "Extended icon tile fill for grids longer than four tiles.",
+    "Icon tile fill 7 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles.",
   ],
-  "tile-extended-4": [
+  "tile-8": [
     "ig-dark-surface-500",
-    "Extended icon tile fill for grids longer than four tiles.",
+    "Icon tile fill 8 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles.",
   ],
 };
 
@@ -440,10 +440,10 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "opacity-subtle",
     "Soft fill in the secondary accent: a second category beside `color-surface-tint`.",
   ],
-  "color-surface-tint-performance": [
+  "color-surface-tint-category": [
     "color-accent-inverse-performance",
     "opacity-subtle",
-    "Soft fill in the alternative accent: a third category beside `color-surface-tint`.",
+    "Soft fill for a third category, beside `color-surface-tint` and `color-surface-tint-ai`.",
   ],
   "color-surface-inverse-chip": [
     "color-surface-inverse",
