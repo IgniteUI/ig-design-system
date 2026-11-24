@@ -414,12 +414,12 @@ describe("the spacing explorer of the guide", () => {
   it.each([
     ["padding", ".card"],
     ["margin", ".stack"],
-    ["gap", ".row"],
+    ["gap", ".lower"],
   ])("marks the %s with stripes and names its token", async (kind, part) => {
     const { page } = await open("");
     await page.click(`[data-spacing-explorer] button[data-pick="${kind}"]`);
     const marked = await page.$eval(
-      `[data-spacing-explorer] ${part}[data-part="${kind}"]`,
+      `[data-spacing-explorer] ${part}`,
       (el) => getComputedStyle(el).backgroundImage,
     );
     expect(marked).toContain("repeating-linear-gradient");

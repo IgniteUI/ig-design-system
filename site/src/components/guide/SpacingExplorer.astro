@@ -7,16 +7,30 @@ import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
 import { pick } from "@/lib/tokens.ts";
 
 const KINDS = [
-  { id: "padding", label: "Padding", token: "space-inset-lg", use: "Space inside a box, between its edge and its content." },
-  { id: "margin", label: "Margin", token: "space-stack-md", use: "Space between two blocks, one above the other." },
-  { id: "gap", label: "Gap", token: "space-gap-sm", use: "Space between items in a row or a grid." },
+  {
+    id: "padding",
+    label: "Padding",
+    token: "space-inset-lg",
+    use: "Space inside a box, between its edge and its content, on every side.",
+  },
+  {
+    id: "margin",
+    label: "Margin",
+    token: "space-stack-md",
+    use: "Space above or below a block. A margin to the left or right is a gap.",
+  },
+  {
+    id: "gap",
+    label: "Gap",
+    token: "space-gap-sm",
+    use: "Space between items: the lines inside a card, the buttons in a row, the cards side by side.",
+  },
 ];
 pick(tokens.spacing.tokens, KINDS.map((k) => k.token), "spacing");
 const first = "padding";
-const part = (id: string) => ({ "data-part": id, "data-current": id === first ? "" : undefined });
 ---
 
-<div class="explorer" data-explorer data-spacing-explorer>
+<div class="explorer" data-explorer data-spacing-explorer data-picked={first}>
   <div class="options" role="group" aria-label="Kind of space">
     {
       KINDS.map((k) => (
@@ -41,18 +55,25 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
 
   <div class="drawing">
     <ExampleTag many />
-    <div class="stack" aria-hidden="true" {...part("margin")}>
-      <div class="card" {...part("padding")}>
+    <div class="stack" aria-hidden="true">
+      <div class="card">
         <span class="title">Project settings</span>
         <span class="text">Choose who can edit the samples and the theme.</span>
-        <span class="row" {...part("gap")}>
+        <span class="row">
           <span class="button">Save</span>
           <span class="button quiet">Cancel</span>
+          <span class="rest" />
         </span>
       </div>
-      <div class="card" {...part("padding")}>
-        <span class="title">Billing</span>
-        <span class="text">Your plan renews on 1 March.</span>
+      <div class="lower">
+        <div class="card">
+          <span class="title">Billing</span>
+          <span class="text">Renews on 1 March.</span>
+        </div>
+        <div class="card">
+          <span class="title">Members</span>
+          <span class="text">12 people.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -143,23 +164,25 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
   .stack {
     display: grid;
     justify-self: center;
-    inline-size: min(100%, 26rem);
+    inline-size: min(100%, 28rem);
     border-radius: var(--igd-radius-card);
-    transition: background-color var(--igd-duration-fast) var(--igd-easing-default);
   }
 
   .card {
     display: grid;
-    justify-items: start;
-    gap: var(--igd-space-gap-xs);
+    gap: var(--igd-space-gap-sm);
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-card);
     background: var(--igd-color-surface-card);
   }
 
-  .card + .card {
+  .lower {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--igd-space-gap-sm);
     margin-block-start: var(--igd-space-stack-md);
+    border-radius: var(--igd-radius-card);
   }
 
   .title {
@@ -176,7 +199,12 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
     display: flex;
     flex-wrap: wrap;
     gap: var(--igd-space-gap-sm);
-    margin-block-start: var(--igd-space-stack-2xs);
+  }
+
+  /* The rest of the row after the buttons, pulled over the last gap, so only the gap between the buttons shows as a gap. */
+  .rest {
+    flex: 1;
+    margin-inline-start: calc(-1 * var(--igd-space-gap-sm));
   }
 
   .button {
@@ -196,21 +224,34 @@ const part = (id: string) => ({ "data-part": id, "data-current": id === first ? 
     color: var(--igd-color-action-text);
   }
 
-  /* Padding: a frame of stripes as wide as the padding, inside the card's border. */
-  .card[data-current] {
+  /* Padding: a frame of stripes as wide as the padding, inside each card's border. */
+  [data-picked="padding"] .card {
     background:
       linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) content-box,
       var(--stripes) padding-box;
   }
 
-  /* Margin: the stack shows stripes, and only the space between the cards is not covered by a card. */
-  .stack[data-current] {
+  /* Margin: the stack shows stripes, and the cards and the row below cover all of it but the margin between them. */
+  [data-picked="margin"] .stack {
     background: var(--stripes);
   }
 
-  /* Gap: the row shows stripes, and only the space between the buttons is not covered by a button. */
-  .row[data-current] {
+  [data-picked="margin"] .lower {
+    background: var(--igd-color-surface-page);
+  }
+
+  /* Gap: stripes behind the items of each card, each row and the cards side by side; the items cover all of it but the gaps. */
+  [data-picked="gap"] .card {
+    background:
+      var(--stripes) content-box,
+      linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) padding-box;
+  }
+
+  [data-picked="gap"] :is(.title, .text, .rest) {
+    background: var(--igd-color-surface-card);
+  }
+
+  [data-picked="gap"] :is(.row, .lower) {
     background: var(--stripes);
-    border-radius: var(--igd-radius-pill);
   }
 </style>

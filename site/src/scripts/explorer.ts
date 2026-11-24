@@ -3,6 +3,7 @@ for (const explorer of document.querySelectorAll<HTMLElement>(
   "[data-explorer]",
 )) {
   const choose = (token: string) => {
+    explorer.dataset.picked = token;
     for (const b of explorer.querySelectorAll("button[data-pick]"))
       b.setAttribute(
         "aria-pressed",
