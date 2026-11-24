@@ -11,7 +11,7 @@
 - `--igd-color-accent-inverse`: `#51bbee`. On-dark accent only: stat numbers on `color-surface-inverse`. Never on white. Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`.
 - `--igd-color-accent-inverse-alt`: `#3cc3b1`. On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white. Engine step 200 of the teal palette. Contrast 8.19:1 on `color-surface-inverse`.
 - `--igd-color-action-default`: `{ig-primary-seed}`. The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`. Contrast 5.25:1 on `color-surface-page`.
-- `--igd-color-action-hover`: `{ig-info-500}`. Link hover on light surfaces (colour shift only, no underline). Contrast 5.41:1 on `color-surface-page`.
+- `--igd-color-action-hover`: `{ig-primary-700}`. Link hover on light surfaces (colour shift only, no underline). Contrast 7.03:1 on `color-surface-page`.
 - `--igd-color-action-fill-hover`: `{ig-primary-700}`. Filled-button hover: the primary fill moves to this and nothing else changes. A step `color-action-on` reads on: darker under a white label, primary step 400 under a black one.
 - `--igd-color-action-active`: `{ig-primary-800}`. Inline link press state on light surfaces.
 - `--igd-color-action-text`: `{ig-primary-600}`. The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-surface-page`, 4.82:1 on `color-surface-tint`, 5.24:1 on `color-surface-card`, 4.89:1 on `color-surface-subtle`.
@@ -19,7 +19,7 @@
 - `--igd-color-link-utility`: `{ig-info-500}`. Links in the utility row above the nav, on `color-surface-page`. Contrast 5.41:1 on `color-surface-page`, 5.05:1 on `color-surface-subtle`.
 - `--igd-color-link-utility-hover`: `{color-action-text}`. Utility-row link hover. Contrast 5.24:1 on `color-surface-page`.
 - `--igd-color-link-inverse`: `#51bbee`. Inline links on dark surfaces (`color-surface-inverse`). Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`.
-- `--igd-color-link-inverse-hover`: `#fbfbfb`. Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`.
+- `--igd-color-link-inverse-hover`: `#95d5f7`. Hover of `color-link-inverse`: colour shift only. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-surface-inverse`.
 - `--igd-footer-link`: `#d7dade`. Footer column links on the footer gradient. Engine step 600 of the dark palette's gray ramp. Contrast 11.07:1 on `color-surface-inverse-raised`.
 - `--igd-footer-link-hover`: `#fbfbfb`. Footer link hover. Engine step 900 of the dark palette's gray ramp.
 - `--igd-color-focus-default`: `{color-action-text}`. Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only. Contrast 5.24:1 on `color-surface-page`.

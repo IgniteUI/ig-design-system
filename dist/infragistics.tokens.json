@@ -1259,8 +1259,8 @@
       "$description": "The engine’s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`. Contrast 5.25:1 on `color-surface-page`."
     },
     "color-action-hover": {
-      "$value": "{color.ig-info-500}",
-      "$description": "Link hover on light surfaces (colour shift only, no underline). Contrast 5.41:1 on `color-surface-page`."
+      "$value": "{color.ig-primary-700}",
+      "$description": "Link hover on light surfaces (colour shift only, no underline). Contrast 7.03:1 on `color-surface-page`."
     },
     "color-action-fill-hover": {
       "$value": "{color.ig-primary-700}",
@@ -1310,13 +1310,13 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.9843,
-          0.9843,
-          0.9843
+          0.5843,
+          0.8353,
+          0.9686
         ],
-        "hex": "#fbfbfb"
+        "hex": "#95d5f7"
       },
-      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-surface-inverse`."
+      "$description": "Hover of `color-link-inverse`: colour shift only. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-surface-inverse`."
     },
     "footer-link": {
       "$value": {

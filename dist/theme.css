@@ -714,14 +714,14 @@
   /* state tokens: derived from their base. Override a base and its states follow. */
   --igd-color-action-fill-hover: oklch(from var(--igd-color-action-default) calc(l + -0.0719) calc(c * 0.8229) calc(h + 0.07));
   --igd-color-action-active: oklch(from var(--igd-color-action-default) calc(l + -0.1271) calc(c * 0.6811) calc(h + -0.15));
-  --igd-color-action-hover: oklch(from var(--igd-color-action-text) calc(l + -0.0191) calc(c * 0.6566) calc(h + -13.81));
+  --igd-color-action-hover: oklch(from var(--igd-color-action-text) calc(l + -0.0685) calc(c * 0.9384) calc(h + 0.06));
   --igd-color-link-utility: oklch(from var(--igd-color-action-text) calc(l + -0.0191) calc(c * 0.6566) calc(h + -13.81));
   --igd-color-surface-tint: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
   --igd-color-surface-tint-strong: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.9395 + var(--igd-theme-dark) * 0.2786) calc(c * 0.1176 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 12.29));
   --igd-color-border-accent: oklch(from var(--igd-color-action-default) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
   --igd-color-accent-primary-hover: oklch(from var(--igd-color-accent-primary) calc(l + -0.0722) calc(c * 0.8392) calc(h + 0.16));
   --igd-color-accent-primary-active: oklch(from var(--igd-color-accent-primary) calc(l + -0.1450) calc(c * 0.7697) calc(h + 0.25));
-  --igd-color-link-inverse-hover: oklch(from var(--igd-color-link-inverse) calc(l + 0.2371) calc(c * 0.0000) calc(h + 0));
+  --igd-color-link-inverse-hover: oklch(from var(--igd-color-link-inverse) calc(l + 0.0909) calc(c * 0.6634) calc(h + -0.39));
   --igd-color-focus-inverse: oklch(from var(--igd-color-link-inverse) calc(l + 0.0909) calc(c * 0.6634) calc(h + -0.39));
   --igd-footer-focus: oklch(from var(--igd-color-link-inverse) calc(l + 0.0909) calc(c * 0.6634) calc(h + -0.39));
   --igd-footer-link-hover: oklch(from var(--igd-footer-link) calc(l + 0.1009) calc(c * 0.0000) calc(h + 0));

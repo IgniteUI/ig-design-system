@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { assertSameColor, resolvedValue, stateFormula } from "./derived.ts";
+import {
+  assertSameColor,
+  resolvedValue,
+  stateFamilyErrors,
+  stateFormula,
+} from "./derived.ts";
+import { ALIAS } from "./spec.ts";
 
 describe("assertSameColor", () => {
   it("rejects a token listed as equal to a base that has another colour", () => {
@@ -51,5 +57,57 @@ describe("stateFormula", () => {
       kc: 1,
       dh: 0,
     });
+  });
+});
+
+describe("stateFamilyErrors", () => {
+  const alias: Record<string, [string, string]> = {
+    "link-text": ["ig-primary-600", ""],
+    "link-hover": ["ig-info-500", ""],
+    "link-active": ["ig-primary-800", ""],
+    "link-focus": ["link-text", ""],
+    "dark-link": ["ig-sky-200", ""],
+    "dark-link-hover": ["ig-dark-sky-100", ""],
+    "badge-background": ["ig-info-100", ""],
+  };
+
+  it("reports a state that reads another family than its base, with the fix", () => {
+    expect(stateFamilyErrors([["link-hover", "link-text"]], alias)).toEqual([
+      "link-hover is a state of link-text and reads the info family, but link-text reads primary. A state stays in the family of its base: alias link-hover to a step of ig-primary in ALIAS in src/spec.ts.",
+    ]);
+  });
+
+  it("accepts a state on another step of its base's family, directly or through an alias", () => {
+    expect(
+      stateFamilyErrors(
+        [
+          ["link-active", "link-text"],
+          ["link-focus", "link-text"],
+        ],
+        alias,
+      ),
+    ).toEqual([]);
+  });
+
+  it("counts a dark palette as its light family", () => {
+    expect(
+      stateFamilyErrors([["dark-link-hover", "dark-link"]], alias),
+    ).toEqual([]);
+  });
+
+  it("leaves a token that is not a state alone, even when its family differs", () => {
+    expect(
+      stateFamilyErrors([["badge-background", "link-text"]], alias),
+    ).toEqual([]);
+  });
+
+  it("finds no state of the spec that leaves its base's family", () => {
+    const pairs = [
+      ["color-action-hover", "color-action-text"],
+      ["color-link-inverse-hover", "color-link-inverse"],
+      ["color-action-fill-hover", "color-action-default"],
+      ["color-action-active", "color-action-default"],
+    ] as [string, string][];
+    expect(stateFamilyErrors(pairs, ALIAS)).toEqual([]);
   });
 });

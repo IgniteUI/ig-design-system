@@ -34,7 +34,7 @@ export const ALIAS: Record<string, AliasEntry> = {
     "The engine\u2019s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`.",
   ],
   "color-action-hover": [
-    "ig-info-500",
+    "ig-primary-700",
     "Link hover on light surfaces (colour shift only, no underline).",
   ],
   "color-action-fill-hover": [
@@ -63,7 +63,7 @@ export const ALIAS: Record<string, AliasEntry> = {
     "Inline links on dark surfaces (`color-surface-inverse`).",
   ],
   "color-link-inverse-hover": [
-    "ig-dark-gray-900",
+    "ig-sky-100",
     "Hover of `color-link-inverse`: colour shift only.",
   ],
   "footer-link": [

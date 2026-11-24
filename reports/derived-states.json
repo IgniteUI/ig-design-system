@@ -13,9 +13,9 @@
   },
   "color-action-hover": {
     "base": "color-action-text",
-    "dl": -0.0191,
-    "kc": 0.6566,
-    "dh": -13.81
+    "dl": -0.0685,
+    "kc": 0.9384,
+    "dh": 0.06
   },
   "color-link-utility": {
     "base": "color-action-text",
@@ -55,9 +55,9 @@
   },
   "color-link-inverse-hover": {
     "base": "color-link-inverse",
-    "dl": 0.2371,
-    "kc": 0,
-    "dh": 0
+    "dl": 0.0909,
+    "kc": 0.6634,
+    "dh": -0.39
   },
   "color-focus-inverse": {
     "base": "color-link-inverse",

@@ -109,7 +109,7 @@
   --igd-color-accent-inverse: #51bbee;
   --igd-color-accent-inverse-alt: #3cc3b1;
   --igd-color-action-default: var(--ig-primary-seed);
-  --igd-color-action-hover: var(--ig-info-500);
+  --igd-color-action-hover: var(--ig-primary-700);
   --igd-color-action-fill-hover: var(--ig-primary-700);
   --igd-color-action-active: var(--ig-primary-800);
   --igd-color-action-text: var(--ig-primary-600);
@@ -117,7 +117,7 @@
   --igd-color-link-utility: var(--ig-info-500);
   --igd-color-link-utility-hover: var(--igd-color-action-text);
   --igd-color-link-inverse: #51bbee;
-  --igd-color-link-inverse-hover: #fbfbfb;
+  --igd-color-link-inverse-hover: #95d5f7;
   --igd-footer-link: #d7dade;
   --igd-footer-link-hover: #fbfbfb;
   --igd-color-focus-default: var(--igd-color-action-text);

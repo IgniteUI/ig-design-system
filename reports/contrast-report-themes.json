@@ -129,14 +129,14 @@
   {
    "fg": "color-link-inverse-hover",
    "bg": "color-surface-inverse",
-   "ratio": 17.25,
+   "ratio": 11.17,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-action-hover",
    "bg": "color-surface-page",
-   "ratio": 5.41,
+   "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
@@ -642,14 +642,14 @@
   {
    "fg": "color-link-inverse-hover",
    "bg": "color-surface-inverse",
-   "ratio": 17.25,
+   "ratio": 11.17,
    "min": 4.5,
    "ok": true
   },
   {
    "fg": "color-action-hover",
    "bg": "color-surface-page",
-   "ratio": 11.76,
+   "ratio": 9.92,
    "min": 4.5,
    "ok": true
   },
