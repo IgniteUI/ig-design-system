@@ -1,9 +1,10 @@
 ---
-// The logo page: the files, their colours and proportion as read from the files, the surfaces a logo sits on, and the usage rules.
+// The brand book: the name, the logo files and their rules, a logo beside a partner's, accessibility, and the sections still to be written.
 import Section from "@/components/layout/Section.astro";
 import LogoImage from "@/components/logo/LogoImage.astro";
 import SurfaceSample from "@/components/logo/SurfaceSample.astro";
 import UsagePicture from "@/components/logo/UsagePicture.astro";
+import { COBRAND_RULES, NAME_RULES, SOON, type SoonSection } from "@/data/brand.ts";
 import CopyName from "@/components/ui/CopyName.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import Readout from "@/components/ui/Readout.astro";
@@ -24,7 +25,13 @@ import { rgb } from "@/lib/logo.ts";
 import { href } from "@/lib/paths.ts";
 import { pick } from "@/lib/tokens.ts";
 
+const [whoWeAre, voice, trademarks] = SOON.foundation;
+const soon = (section: SoonSection) => ({ id: section.id, title: section.title, soon: true });
 const sections = {
+  whoWeAre: soon(whoWeAre),
+  voice: soon(voice),
+  name: { id: "name", title: "The name" },
+  trademarks: soon(trademarks),
   files: { id: "files", title: "The logo" },
   anatomy: { id: "anatomy", title: "Anatomy" },
   colours: { id: "colours", title: "Colours" },
@@ -32,6 +39,10 @@ const sections = {
   space: { id: "space", title: "Space and size" },
   rules: { id: "rules", title: "Do and don't" },
   type: { id: "type", title: "Typography" },
+  cobrand: { id: "cobrand", title: "Beside another logo" },
+  ...Object.fromEntries(SOON.visual.map((section) => [section.id, soon(section)])),
+  accessibility: { id: "accessibility", title: "Accessibility" },
+  ...Object.fromEntries(SOON.use.map((section) => [section.id, soon(section)])),
 };
 
 const colours: [hex: string, title: string, use: string][] = [
@@ -54,8 +65,38 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
 ---
 
 <SectionsLayout title="Brand book" current="logo" sections={Object.values(sections)}>
-  <h1>The Infragistics logo</h1>
-  <p class="intro">Which file to use, on what, how large, and what never to do with it.</p>
+  <h1>The Infragistics brand</h1>
+  <p class="intro">
+    How Infragistics writes its name and uses its logo. Sections marked Coming soon are not written yet; each says
+    what it will hold.
+  </p>
+
+  {
+    [whoWeAre, voice].map((section) => (
+      <Section {...soon(section)}>
+        <p class="lead">{section.expected}</p>
+      </Section>
+    ))
+  }
+
+  <Section {...sections.name}>
+    <p class="intro">The company is Infragistics. Write the name the same way everywhere.</p>
+    <ScrollTable label="How to write the name" head={["Write", "Not", "Rule"]}>
+      {
+        NAME_RULES.map((row) => (
+          <tr>
+            <th scope="row">{row.right}</th>
+            <td>{row.wrong}</td>
+            <td>{row.rule}</td>
+          </tr>
+        ))
+      }
+    </ScrollTable>
+  </Section>
+
+  <Section {...sections.trademarks}>
+    <p class="lead">{trademarks.expected}</p>
+  </Section>
 
   <Section {...sections.files}>
     <p class="intro">
@@ -243,8 +284,7 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
       <ul class="grid usage">{USAGES.filter((u) => !u.ok).map((usage) => <UsagePicture {...usage} />)}</ul>
     </div>
     <p class="lead after">
-      A case these rules do not cover, such as a partner logo beside it or a photo behind it? Ask before it is
-      published: <a href={`${repository}/issues/new`}>open an issue</a> and say where the logo goes.
+      A case these rules do not cover, such as a photo behind it? Ask before it is published: <a href={`${repository}/issues/new`}>open an issue</a> and say where the logo goes.
     </p>
   </Section>
 
@@ -270,9 +310,97 @@ const heading = tokens.type.families.display.split(",")[0].replace(/'/g, "");
       ]}
     />
   </Section>
+
+  <Section {...sections.cobrand}>
+    <p class="intro">
+      The logo of a partner, a customer or an event beside the Infragistics logo: two logos of the same weight,
+      apart.
+    </p>
+    <div class="cobrand" data-theme="light" aria-hidden="true">
+      <LogoImage logo="logo" height="var(--x)" decorative />
+      <span class="divider"></span>
+      <span class="partner">Partner logo</span>
+    </div>
+    <p class="lead">
+      In the drawing, Infragistics owns the material, so its logo comes first. The gap on each side of the rule is
+      half the height of the logo, its clear space.
+    </p>
+    <InfoCards items={COBRAND_RULES} />
+  </Section>
+
+  {
+    SOON.visual.map((section) => (
+      <Section {...soon(section)}>
+        <p class="lead">{section.expected}</p>
+      </Section>
+    ))
+  }
+
+  <Section {...sections.accessibility}>
+    <p class="intro">Everyone can read what the brand publishes, whatever their eyesight.</p>
+    <InfoCards
+      items={[
+        {
+          title: "Text",
+          html: "Every text colour of the design system reaches 4.5:1 against the surfaces it is meant for, the WCAG AA minimum; outlines and focus rings reach 3:1. The design system does not build when a pairing falls short, and a browser check measures them again in both variants of the theme.",
+        },
+        {
+          title: "The logo",
+          html: `The wordmark reaches ${MIN_CONTRAST}:1 against its surface, the minimum for a graphic. <a href="#backgrounds">Backgrounds</a> measures it on every surface.`,
+        },
+        {
+          title: "A name for the logo",
+          html: "A logo that stands alone is named Infragistics for a screen reader. A logo with the name already beside it is decorative and has no name of its own.",
+        },
+        {
+          title: "Not by colour alone",
+          html: "A link, a state or a chart series is told apart by a word, a line or a shape as well as by its colour.",
+        },
+      ]}
+    />
+  </Section>
+
+  {
+    SOON.use.map((section) => (
+      <Section {...soon(section)}>
+        <p class="lead">{section.expected}</p>
+      </Section>
+    ))
+  }
 </SectionsLayout>
 
 <style>
+  /* The co-branding drawing: the logo, a rule and a partner's logo, half the logo's height apart. */
+  .cobrand {
+    --x: min(var(--igd-space-3xl), 8vi);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--x) / 2);
+    margin-block-end: var(--igd-space-stack-md);
+    padding: var(--igd-space-inset-xl);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-subtle);
+    border-radius: var(--igd-radius-card);
+    background: var(--igd-color-surface-page);
+  }
+  .divider {
+    align-self: stretch;
+    border-inline-start: var(--igd-border-width-default) solid var(--igd-color-border-control);
+  }
+  /* As wide as a logo of the same height, and narrower when the drawing is. */
+  .partner {
+    display: grid;
+    place-items: center;
+    flex: 0 1 calc(var(--x) * 4);
+    min-inline-size: 0;
+    block-size: var(--x);
+    overflow: hidden;
+    padding-inline: var(--igd-space-inset-lg);
+    border: var(--igd-border-width-default) dashed var(--igd-color-border-control);
+    border-radius: var(--igd-radius-control);
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-body-sm-font-size);
+    white-space: nowrap;
+  }
   .grid {
     list-style: none;
     margin: 0;

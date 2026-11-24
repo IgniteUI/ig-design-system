@@ -2,7 +2,7 @@
 // The section list of a page. It marks the section in view, and takes a control above the list through its slot.
 interface Props {
   /** The sections, in order. A section with `sub` is a part of the section before it. */
-  sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean }[];
+  sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean; soon?: boolean }[];
   back?: { href: string; title: string };
   /** The pages this one belongs with, listed above the sections. */
   pages?: { href: string; title: string; current?: boolean }[];
@@ -33,6 +33,7 @@ const { sections, back, pages } = Astro.props;
         <li class:list={{ sub: section.sub }}>
           <a href={`#${section.id}`}>
             <span>{section.title}</span>
+            {section.soon && <span class="soon">Soon</span>}
             {section.count !== undefined && (
               <span class="count" data-count={section.count}>
                 {section.count}
@@ -120,7 +121,8 @@ const { sections, back, pages } = Astro.props;
     font-weight: var(--igd-font-weight-semibold);
   }
 
-  .sections a.current .count {
+  .sections a.current :is(.count, .soon) {
+    border-color: currentColor;
     color: inherit;
   }
 

@@ -194,6 +194,7 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - When a rule in `src/llms.ts` changes, change the same rule in `site/src/data/rules.ts`.
 - The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
 - The clear space (half the logo's height), the smallest sizes (16px) and the do and don't list on the Logo page are the rules for the logo. The owner approved them on 2026-11-23. The sizes are in `site/src/data/logo.ts`.
+- The brand book (the Logo page) also holds the name rules, the co-branding rules and the accessibility rules, in `site/src/data/brand.ts`; they wait for the owner's approval. A section with no content yet is listed in `SOON` there and renders as Coming soon with what it will hold; move it out of `SOON` once its content is written.
 - The site is light by default, whatever the system colour scheme. The theme switch in the top bar is an icon button; it stores the dark variant once chosen and removes it when switched back.
 - In the dark variant a sticky notice above the top bar says the variant is not final. Remove it once the dark variant is reviewed (see Open).
 - The selected row of the section list is filled with the action colour, as the selected row of the docs site's sidebar is. The filter of the Tokens page sits above that list.
