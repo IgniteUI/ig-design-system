@@ -9,7 +9,7 @@ import MessageExamples from "@/components/guide/MessageExamples.astro";
 import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
 import DarkNotice from "@/components/layout/DarkNotice.astro";
 import RulePair from "@/components/guide/RulePair.astro";
-import SpacingAnatomy from "@/components/guide/SpacingAnatomy.astro";
+import SpacingExplorer from "@/components/guide/SpacingExplorer.astro";
 import Stage from "@/components/guide/Stage.astro";
 import Steps from "@/components/guide/Steps.astro";
 import Section from "@/components/layout/Section.astro";
@@ -169,7 +169,8 @@ if (missing.length)
       Space comes from one scale of sizes, from very small to very large. You choose a size and say what the
       space is: padding inside a box, a margin between blocks, or a gap between items.
     </p>
-    <SpacingAnatomy />
+    <p class="lead">Pick a kind of space to see where it sits.</p>
+    <SpacingExplorer />
     <p class="lead">Widths, heights and offsets are not tokens. Type those as the layout needs them.</p>
     <p class="more"><a href={href("tokens/#spacing")}>The names and sizes of all {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
   </Section>

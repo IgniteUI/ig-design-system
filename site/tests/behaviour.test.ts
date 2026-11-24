@@ -410,6 +410,28 @@ describe("the type roles of the guide", () => {
   );
 });
 
+describe("the spacing explorer of the guide", () => {
+  it.each([
+    ["padding", ".card"],
+    ["margin", ".stack"],
+    ["gap", ".row"],
+  ])("marks the %s with stripes and names its token", async (kind, part) => {
+    const { page } = await open("");
+    await page.click(`[data-spacing-explorer] button[data-pick="${kind}"]`);
+    const marked = await page.$eval(
+      `[data-spacing-explorer] ${part}[data-part="${kind}"]`,
+      (el) => getComputedStyle(el).backgroundImage,
+    );
+    expect(marked).toContain("repeating-linear-gradient");
+    expect(
+      await page.textContent(
+        "[data-spacing-explorer] [data-info]:not([hidden]) button",
+      ),
+    ).toContain("--igd-space-");
+    await page.close();
+  });
+});
+
 describe("the colour explorer of the guide", () => {
   it("outlines every part that uses the picked colour and names its token", async () => {
     const { page } = await open("");

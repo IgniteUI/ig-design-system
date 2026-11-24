@@ -297,8 +297,8 @@ describe("the guide", () => {
 
   it("labels every drawn example as an example, not a real component", () => {
     const labels = html.match(/<p class="example"/g) ?? [];
-    // The colour page, two corner and shadow drawings, the messages, the light and dark cards and the dial preview.
-    expect(labels).toHaveLength(6);
+    // The colour page, the spacing cards, two corner and shadow drawings, the messages, the light and dark cards and the dial preview.
+    expect(labels).toHaveLength(7);
   });
 
   it("shows each message as an alert with an icon, a title and a text", () => {
