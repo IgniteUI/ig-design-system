@@ -17,7 +17,7 @@ const defaultOf = (values: [string, string][]) => values.find(([, value]) => val
       DIALS.map((dial) => (
         <div class="dial">
           <p class="name" id={`dial-${dial.label.toLowerCase()}`}>
-            {dial.label}
+            {dial.label} <code>{dial.property}</code>
           </p>
           <div class="options" role="group" aria-labelledby={`dial-${dial.label.toLowerCase()}`}>
             {dial.values.map(([label, value]) => (

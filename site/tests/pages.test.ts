@@ -184,15 +184,21 @@ describe("the Engine page", () => {
 describe("the guide", () => {
   const html = page("");
 
-  it("names each dial and its default in plain words, without its custom property", () => {
+  it("names each dial, its custom property and its default in plain words", () => {
     const panel =
       html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
     expect(
-      [...panel.matchAll(/<p class="name"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
-        (m) => m[1],
-      ),
-    ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
-    expect(panel).not.toMatch(/>[^<]*--ig-/);
+      [
+        ...panel.matchAll(
+          /<p class="name"[^>]*>\s*([^<]+?)\s*<code[^>]*>([^<]+)</g,
+        ),
+      ].map((m) => `${m[1]} ${m[2]}`),
+    ).toEqual([
+      "Size --ig-size",
+      "Spacing --ig-spacing",
+      "Roundness --ig-radius-factor",
+      "Shadow --ig-elevation-factor",
+    ]);
     expect(
       [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
         (m) => m[1],

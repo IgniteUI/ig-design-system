@@ -410,8 +410,10 @@ describe("the shape explorers of the guide", () => {
   it.each([
     [1280, "radius"],
     [390, "radius"],
+    [1280, "shadow"],
+    [390, "shadow"],
   ])(
-    "at %ipx put the use of the %s pick above its drawing",
+    "at %ipx put the token of the %s pick above its drawing",
     async (width, kind) => {
       const { page } = await open("", width);
       const [drawing, info] = await page.$$eval(
@@ -433,12 +435,16 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
-  it("show no token name, value or code sample in the guide", async () => {
+  it("name the token of the pick, and show no value or code sample", async () => {
     const { page } = await open("");
+    await page.click('.explorer.shadow button[data-pick="shadow-popover"]');
     expect(
-      await page
-        .locator("[data-shape-explorer] :is(code, output, pre)")
-        .count(),
+      await page.textContent(
+        ".explorer.shadow [data-info]:not([hidden]) button",
+      ),
+    ).toContain("shadow-popover");
+    expect(
+      await page.locator("[data-shape-explorer] :is(output, pre)").count(),
     ).toBe(0);
     await page.close();
   });
