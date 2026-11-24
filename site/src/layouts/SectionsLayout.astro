@@ -9,7 +9,7 @@ interface Props {
   /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
   current?: PageId;
   /** The sections of the page, in order. Each id is the id of an element on the page. */
-  sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean }[];
+  sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean; soon?: boolean }[];
   /** A link above the section list, back to the page this one belongs to. */
   back?: { href: string; title: string };
   /** The pages this one belongs with, listed above the sections. */

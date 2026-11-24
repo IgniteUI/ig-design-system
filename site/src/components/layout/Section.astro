@@ -6,14 +6,17 @@ interface Props {
   count?: number;
   /** What the count counts, for assistive technology. */
   unit?: string;
+  /** Marks a section whose content is not written yet. */
+  soon?: boolean;
 }
 
-const { id, title, count, unit = "tokens" } = Astro.props;
+const { id, title, count, unit = "tokens", soon = false } = Astro.props;
 ---
 
 <section id={id} tabindex="-1" aria-labelledby={`${id}-title`}>
   <h2 id={`${id}-title`}>
     {title}
+    {soon && <span class="soon">Coming soon</span>}
     {
       count !== undefined && (
         <span class="count" data-count={count}>

@@ -1493,6 +1493,34 @@ describe("the drawings of the logo page", () => {
     },
   );
 
+  it.each([320, 390, 1280])(
+    "at %ipx keep the partner logo half the logo's height from the rule, and inside the page",
+    async (width) => {
+      const { page } = await open("logo/", width);
+      const result = await page.evaluate(() => {
+        const logo = document.querySelector(".cobrand img");
+        const divider = document.querySelector(".cobrand .divider");
+        const partner = document.querySelector(".cobrand .partner");
+        if (!logo || !divider || !partner)
+          throw new Error("no co-branding drawing");
+        const [l, d, p] = [logo, divider, partner].map((e) =>
+          e.getBoundingClientRect(),
+        );
+        return {
+          before: (d.left - l.right) / l.height,
+          after: (p.left - d.right) / l.height,
+          partner: p.height / l.height,
+          inside: p.right <= document.documentElement.clientWidth,
+        };
+      });
+      expect(result.before).toBeCloseTo(0.5, 1);
+      expect(result.after).toBeCloseTo(0.5, 1);
+      expect(result.partner).toBeCloseTo(1, 1);
+      expect(result.inside).toBe(true);
+      await page.close();
+    },
+  );
+
   it.each([320, 390, 768, 1280])(
     "at %ipx show no logo under the smallest size in a picture that is right",
     async (width) => {

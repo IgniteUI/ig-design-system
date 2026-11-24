@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { TOKEN_FAMILIES } from "../../src/types.ts";
+import { COBRAND_RULES, NAME_RULES, SOON } from "../src/data/brand.ts";
 import { isEngine, readersOf } from "../src/lib/tokens.ts";
 import { DIST, page, ROUTES, source } from "./built.ts";
 
@@ -370,6 +371,55 @@ describe("the logo page", () => {
       /Smallest logo<\/th><td class="value"[^>]*>16px tall<\/td>/,
     );
     expect(html).not.toMatch(/draft|proposal/i);
+  });
+
+  it("marks each section still to be written as coming soon, in its heading and in the section list", () => {
+    const soon = Object.values(SOON).flat();
+    expect(soon.length).toBe(11);
+    for (const { id } of soon) {
+      expect(html).toMatch(
+        new RegExp(
+          `<h2 id="${id}-title"[^>]*>[^<]*<span class="soon"[^>]*>Coming soon</span>`,
+        ),
+      );
+      expect(html).toMatch(
+        new RegExp(
+          `href="#${id}"[^>]*>\\s*<span[^>]*>[^<]+</span>\\s*<span class="soon"[^>]*>Soon</span>`,
+        ),
+      );
+    }
+  });
+
+  it("says under each section still to be written what it will hold", () => {
+    for (const { id, expected } of Object.values(SOON).flat()) {
+      const section = html
+        .slice(html.indexOf(`id="${id}"`))
+        .split("</section>")[0];
+      expect(section.replace(/&#39;/g, "'")).toContain(expected);
+    }
+  });
+
+  it("marks no written section as coming soon", () => {
+    for (const id of ["name", "files", "cobrand", "accessibility"])
+      expect(html).not.toMatch(
+        new RegExp(`<h2 id="${id}-title"[^>]*>[^<]*<span class="soon"`),
+      );
+  });
+
+  it("writes the name with the right and the wrong form of each rule", () => {
+    for (const { right, wrong } of NAME_RULES)
+      expect(html).toMatch(
+        new RegExp(
+          `<th scope="row"[^>]*>${right}</th>\\s*<td[^>]*>${wrong}</td>`,
+        ),
+      );
+    expect(html).toContain("Infragistics, Inc.");
+  });
+
+  it("gives the rules for a logo beside a partner's, and no longer sends that case to an issue", () => {
+    for (const { title } of COBRAND_RULES)
+      expect(html).toContain(`>${title}</h3>`);
+    expect(html).not.toContain("a partner logo beside it");
   });
 });
 

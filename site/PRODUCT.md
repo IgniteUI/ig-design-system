@@ -37,7 +37,7 @@ The site is built from the design system it documents. Every value on it is read
 
 ## Capabilities and Constraints
 
-- Pages: the guide, Tokens, Logo, and one page per Markdown document (`ADOPTING.md`, `MIGRATION.md`, `CHANGELOG.md`).
+- Pages: the guide, Tokens, Engine, the Brand book (the Logo page: the name, the logo, co-branding and accessibility, with the sections still to be written marked Coming soon), and one page per Markdown document (`ADOPTING.md`, `MIGRATION.md`, `CHANGELOG.md`).
 - Built with Astro as a static site. Nothing the build writes is committed.
 - Nothing the site shows is typed twice. Tokens come from `dist/tokens.json`, documents from their Markdown files, the package name and repository from `package.json`.
 - The site is light by default, whatever the system colour scheme. A switch in the top bar turns on the dark variant of the theme.
