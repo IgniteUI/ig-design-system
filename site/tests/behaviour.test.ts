@@ -379,7 +379,7 @@ describe("the usage samples of the Tokens page", () => {
     ["type", '<h3 class="igd-type-title-sm">Card title</h3>'],
     ["spacing", "padding: var(--igd-space-inset-lg);"],
     ["radius", "border-radius: var(--igd-radius-card);"],
-    ["shadow", "box-shadow: var(--igd-shadow-raised);"],
+    ["shadow", "box-shadow: var(--igd-shadow-card-hover);"],
   ])("show how to write a %s token", async (id, line) => {
     const { page } = await open("tokens/");
     expect(await page.textContent(`#${id} pre code`)).toContain(line);
@@ -513,7 +513,7 @@ describe("the shape explorers of the guide", () => {
     const { page } = await open("");
     expect(
       await page.textContent(
-        '.explorer.shadow button[data-pick="shadow-raised"]',
+        '.explorer.shadow button[data-pick="shadow-card-hover"]',
       ),
     ).toContain("A card under the mouse pointer.");
     await page.close();

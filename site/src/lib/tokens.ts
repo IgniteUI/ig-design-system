@@ -69,11 +69,11 @@ export const rampOf = (family: Token[]) => {
       );
 };
 
-/** Whether a token is one the others are built from: a palette step, a raw spacing step or an engine elevation. */
+/** Whether a token is one the others are built from: a palette step, a raw spacing step or an engine elevation, plain or tinted. */
 export const isEngine = (name: string) =>
   /^ig-/.test(name) ||
   /^space-\d?[a-z]+$/.test(name) ||
-  /^elevation-\d+$/.test(name);
+  /^elevation-(?:tint-)?\d+$/.test(name);
 
 const REFERENCE = /^\{([\w-]+)\}$/;
 

@@ -162,7 +162,7 @@
    "ok": true
   },
   {
-   "fg": "color-accent-inverse-alt",
+   "fg": "color-accent-inverse-performance",
    "bg": "color-surface-inverse",
    "ratio": 8.19,
    "min": 4.5,
@@ -675,7 +675,7 @@
    "ok": true
   },
   {
-   "fg": "color-accent-inverse-alt",
+   "fg": "color-accent-inverse-performance",
    "bg": "color-surface-inverse",
    "ratio": 8.19,
    "min": 4.5,

@@ -253,7 +253,7 @@ export const SHAPE_PICKS: Record<
       use: "A card nobody is pointing at. It stays flat; its thin border marks its edge.",
     },
     {
-      token: "shadow-raised",
+      token: "shadow-card-hover",
       label: "Hover",
       use: "A card under the mouse pointer. It lifts, and does not move or grow.",
     },

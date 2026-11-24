@@ -14,7 +14,7 @@ interface Props {
 const { kind } = Astro.props;
 const picks = SHAPE_PICKS[kind];
 pick(kind === "radius" ? tokens.radius.tokens : tokens.shadow.tokens, picks.map((p) => p.token), kind);
-const first = kind === "radius" ? "radius-card" : "shadow-raised";
+const first = kind === "radius" ? "radius-card" : "shadow-card-hover";
 const part = (token: string) => ({ "data-part": token, "data-current": token === first ? "" : undefined });
 ---
 

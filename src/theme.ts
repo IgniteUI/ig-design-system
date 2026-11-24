@@ -147,8 +147,8 @@ ${[
       `  --${name}: hsl(from var(--${base}) h s l / var(--${opacity}));`,
   ),
 ].join("\n")}
-  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary)) border-box;
-  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-primary) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-inverse) h s l / var(--opacity-faint)));
+  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-brand), var(--color-accent-ai)) border-box;
+  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-brand) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-inverse) h s l / var(--opacity-faint)));
   --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);
   --container-gutter: clamp(var(--space-lg), 4vw, var(--space-4xl)); /* @kind spacing */
   --space-section: ${sectionSpace()}; /* @kind spacing */
@@ -215,7 +215,7 @@ const KEYFRAMES_AND_UTILITIES = `
   50%      { transform: translateY(calc(-1 * var(--space-xs))); }
 }
 @keyframes igd-app-shimmer {
-  0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-primary) h s l / var(--opacity-heavy))); opacity: 1; }
+  0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-brand) h s l / var(--opacity-heavy))); opacity: 1; }
   50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-inverse) h s l / var(--opacity-heavy))); opacity: 1; }
 }
 

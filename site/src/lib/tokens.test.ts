@@ -103,15 +103,21 @@ describe("the engine tokens", () => {
     { name: "loop-b", value: "{loop-a}", usage: "" },
   ];
 
-  it("counts a palette step, a raw spacing step and an engine elevation as engine tokens, and a role not", () => {
+  it("counts a palette step, a raw spacing step and an engine elevation, plain or tinted, as engine tokens, and a role not", () => {
     expect(
-      ["ig-gray-500", "space-md", "space-2xl", "elevation-8"].every(isEngine),
+      [
+        "ig-gray-500",
+        "space-md",
+        "space-2xl",
+        "elevation-8",
+        "elevation-tint-13",
+      ].every(isEngine),
     ).toBe(true);
     expect(
       [
         "space-inset-md",
         "color-text-muted",
-        "elevation-tint-1",
+        "shadow-action-md",
         "radius-tile",
       ].some(isEngine),
     ).toBe(false);

@@ -13,8 +13,8 @@ const DERIVED: [token: string, base: string][] = [
   ["color-surface-tint", "color-action-default"],
   ["color-surface-tint-strong", "color-action-default"],
   ["color-border-accent", "color-action-default"],
-  ["color-accent-primary-hover", "color-accent-primary"],
-  ["color-accent-primary-active", "color-accent-primary"],
+  ["color-accent-brand-hover", "color-accent-brand"],
+  ["color-accent-brand-active", "color-accent-brand"],
   ["color-link-inverse-hover", "color-link-inverse"],
   ["color-focus-inverse", "color-link-inverse"],
   ["footer-focus", "color-link-inverse"],
@@ -28,8 +28,8 @@ const DERIVED: [token: string, base: string][] = [
   ["fw-angular-border", "fw-angular-color"],
   ["fw-react-background", "fw-react-color"],
   ["fw-react-border", "fw-react-color"],
-  ["fw-blazor-background", "color-accent-secondary"],
-  ["fw-blazor-border", "color-accent-secondary"],
+  ["fw-blazor-background", "color-accent-ai"],
+  ["fw-blazor-border", "color-accent-ai"],
   ["fw-webcomponents-background", "color-action-default"],
   ["fw-webcomponents-border", "color-action-default"],
   ["fw-winforms-background", "color-action-default"],
@@ -83,9 +83,9 @@ const SAME_AS: [token: string, base: string][] = [
   ["table-header-sub-highlight-color", "color-action-on"],
   ["color-link-utility-hover", "color-action-text"],
   ["color-focus-default", "color-action-text"],
-  ["tile-1", "color-accent-primary"],
-  ["tile-2", "color-accent-secondary"],
-  ["tile-7", "color-action-default"],
+  ["tile-cli-mcp", "color-accent-brand"],
+  ["tile-agent-skills", "color-accent-ai"],
+  ["tile-extended-3", "color-action-default"],
   ["color-link-inverse", "color-accent-inverse"],
   ["footer-icon", "footer-text"],
 ];
@@ -221,7 +221,7 @@ export const derivedColors = (declarations: Declaration[]) => {
 ${SCOPED} {
 ${lines.join("\n")}
 }
-[data-ig="icon-tile"] { --tile-fill: var(--tile-1); --tile-on: hsla(from color(from var(--tile-fill) var(--y-contrast)) h 0 l / 1); }
+[data-ig="icon-tile"] { --tile-fill: var(--tile-cli-mcp); --tile-on: hsla(from color(from var(--tile-fill) var(--y-contrast)) h 0 l / 1); }
 `;
   return { css, record };
 };

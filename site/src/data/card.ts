@@ -9,7 +9,7 @@ export const CARD_RULE = `.card {
   border-radius: var(--igd-radius-card);
   background: var(--igd-color-surface-card);
   color: var(--igd-color-text-body);
-  box-shadow: var(--igd-shadow-raised);
+  box-shadow: var(--igd-shadow-card-hover);
 }`;
 
 /** The markup of the card, as the guide prints it. */

@@ -61,8 +61,8 @@ Why: an Ignite UI component on the same page reads the `--ig-*` names, so the pa
 ### 2. The accent palettes and the dark palette are built, not published
 
 - `src/palette-sets.ts` builds five extra palettes with the engine: pink, cyan, sky and teal for accent colours, and a dark palette.
-- Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-3: #e23b8f`, not `var(--ig-pink-400)`.
-- The spec still names the step (`"tile-3": ["ig-pink-400", …]`). That name is internal to the build.
+- Their ramps are not in `dist/`. A token that uses a step carries the colour itself: `--igd-tile-theming-mcp: #e23b8f`, not `var(--ig-pink-400)`.
+- The spec still names the step (`"tile-theming-mcp": ["ig-pink-400", …]`). That name is internal to the build.
 - The dark palette is handled the same way. There is no `--ig-dark-gray-<n>` or `--ig-dark-surface-<n>` in `dist/`.
   - The dark theme sets the engine's own names: `[data-theme="dark"] { --ig-gray-500: #bcc1c9; }`. The engine does the same for a dark palette.
   - A token for an area that is dark in both themes carries the colour: `--igd-color-surface-inverse: #0f172a`. The spec names the step as `ig-dark-surface-500`.
@@ -86,7 +86,7 @@ To add an accent colour: add a palette to `palette-sets.ts`, run `npm run palett
 
 - The seeds live in `src/palette-sets.ts`. Changing one means `npm run palettes` and `npm run build`.
 - There is no runtime seed change and no `seed.js`.
-- The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-alt`.
+- The success seed is green, `#028a54`, the one the docs sites had. Error has no seed in `palette-sets.ts`: it is the engine's default, `#ff134a`, which the docs sites also used. Why green: success is read as a status (the Do frame, a copied state), and the marketing site's teal `#0d9488` is a brand accent with its own token, `color-accent-inverse-performance`.
 - Text in the action colour, `color-action-text`, reads an engine step: `ig-primary-600` in the light theme and `ig-primary-200` in the dark one. Why: the engine solves each step to a fixed contrast against the surface for any seed, about 5.2:1 on white for step 600, so a step is safe as text and a seed is not.
 - The action fill, `color-action-default`, is the seed, and its label is the engine's contrast colour (decision 5). The fill is held to no contrast against the page: a `#ffee00` seed builds, with a black label on the fill and step 600 as text.
 - `compile()` in `src/sass.ts` stops the build when the engine warns, for example that a hue cannot reach the contrast a step asks for. Sass deprecation notices are ignored.
@@ -108,13 +108,16 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 - Do not switch to native CSS `contrast-color()` yet. It is Baseline only since April 2026 (Chrome 147, Firefox 146, Safari 26.0); Safari on iOS 18 does not have it, and there the label would fall back to the inherited text colour. Revisit in late 2027.
 - It does not apply to a brand colour used as text on a surface. That reads an engine step (decision 3), not black or white.
 
-### 6. Names carry a role, never a hue
+### 6. Names carry a role, never a hue, a shape or a brand family
 
-- Semantic and component names have no colour word: `color-accent-primary`, `tile-1` … `tile-8`, `glow-inverse`. The exception is `window-dot-red`, `-amber` and `-green`, the three dots of a mock window.
+- Semantic and component names have no colour word: `color-accent-brand`, `tile-cli-mcp` … `tile-extended-4`, `glow-inverse`. The exception is `window-dot-red`, `-amber` and `-green`, the three dots of a mock window.
+- A name says what the value is for, not how it looks: no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`), no vague `-alt` and no bare number for a role (`tile-agent-skills`, not `tile-2`). A size on a scale (`space-inset-lg`, `size-icon-sm`) is fine.
+- No semantic name uses `primary` or `secondary`, which are engine family names: `color-text-strong` and `color-accent-brand`, not `color-text-primary` and `color-accent-primary`.
+- A state colour stays in the family of its base (`stateFamilyErrors` in `src/derived.ts`); the build stops otherwise.
 - The `color-` category word stays on the semantic tier, so `color-border-default` cannot be mistaken for `border-width-default`.
 - Semantic and component names in `tokens.json` and in the DTCG file carry no prefix. The prefix belongs to CSS. An engine name keeps its `ig-`.
 
-Why: a seed can change, and a token called "blue" would then be another colour.
+Why: a seed can change, and a token called "blue" would then be another colour. The same goes for a shape: if actions stop being pills, `radius-action` keeps its name and changes its value. The owner decided the role names on 2026-11-24.
 
 ### 7. A type style is named for its role, and the large ones are fluid
 
@@ -149,7 +152,7 @@ Considered and not done: the engine lets you register more type slots, through `
 ### 8. Use the engine, not a copy of it
 
 - Colours come from `palette()`, contrast ratios from `contrast()`, the contrast variables from `adaptive-contrast()`, spacing and sizes from `pad()` and `sizable()`, radii from `border-radius()`, shadows from `elevations()` and `box-shadow()`, type from `typography()`.
-- `shadow-raised`, `shadow-overlay` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. `shadow-popover` and `shadow-panel` are listed and compiled the same way. Why not an elevation level: the engine's indigo elevation levels are far heavier than the site's shadows, and loading them changed every card and screenshot. The tinted shadows, `shadow-popover-filter` and the raw `elevation-*` tokens are still engine levels. `shadow-popover-filter` is not the filter form of `shadow-panel`: `drop-shadow()` has no spread, and the panel's layers depend on a negative spread.
+- `shadow-card-hover`, `shadow-screenshot` and `shadow-floating` are the shadows www.infragistics.com ships, listed in `SHADOW` in `src/spec.ts` and compiled with the engine's `box-shadow()`, so they follow `--ig-elevation-factor`. `shadow-popover` and `shadow-panel` are listed and compiled the same way. Why not an elevation level: the engine's indigo elevation levels are far heavier than the site's shadows, and loading them changed every card and screenshot. The tinted shadows, `shadow-popover-filter` and the raw `elevation-*` tokens are still engine levels. `shadow-popover-filter` is not the filter form of `shadow-panel`: `drop-shadow()` has no spread, and the panel's layers depend on a negative spread.
 - The build starts no MCP server and no browser. Three gates use one: `gates-derived.ts`, `gates-themes.ts` and `resolve.ts`.
 - The main palette is built with `palette()` in full, and `theme.css` declares every custom property it emits for the light palette. Ignite UI components depend on every shade of the built-in families: primary, secondary, gray, surface, info, success, warn and error. Do not trim it.
 

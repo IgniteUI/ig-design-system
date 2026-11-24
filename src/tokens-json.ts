@@ -104,34 +104,33 @@ type Glow = {
 };
 // stop is where the glow reaches transparent, in percent of its radius.
 const GLOWS: Record<string, Glow> = {
-  "glow-primary": {
-    base: "color-accent-primary",
+  "glow-brand": {
+    base: "color-accent-brand",
     opacity: "opacity-muted",
     stop: 62,
     usage:
       "Ambient radial glow behind hero and section content, bleeding off the edges, `pointer-events:none`.",
   },
-  "glow-secondary": {
-    base: "color-accent-secondary",
+  "glow-ai": {
+    base: "color-accent-ai",
     opacity: "opacity-muted",
     stop: 62,
-    usage:
-      "Ambient radial glow partnered with `glow-primary` on light sections.",
+    usage: "Ambient radial glow partnered with `glow-brand` on light sections.",
   },
-  "glow-secondary-strong": {
-    base: "color-accent-secondary",
+  "glow-footer": {
+    base: "color-accent-ai",
     opacity: "opacity-heavy",
     stop: 62,
     usage: "Footer glow only (top-right of the dark footer).",
   },
   "glow-inverse": {
-    base: "tile-3",
+    base: "tile-theming-mcp",
     opacity: "opacity-muted",
     stop: 62,
     usage: "Ambient glow for the dark AI and enterprise bands only.",
   },
-  "glow-inverse-alt": {
-    base: "color-accent-inverse-alt",
+  "glow-inverse-partner": {
+    base: "color-accent-inverse-performance",
     opacity: "opacity-soft",
     stop: 68,
     usage: "Ambient glow for the dark AI and enterprise bands and the footer.",
@@ -147,8 +146,8 @@ export const gradients = (colorOf: ColorOf): Record<string, GradientEntry> => ({
       "The site footer’s own 155° gradient — one of the two dark surfaces in the system.",
   },
   "gradient-brand": {
-    snapshot: `linear-gradient(92deg, ${colorOf("color-accent-primary")}, ${colorOf("color-accent-secondary")})`,
-    live: "linear-gradient(92deg, var(--color-accent-primary), var(--color-accent-secondary))",
+    snapshot: `linear-gradient(92deg, ${colorOf("color-accent-brand")}, ${colorOf("color-accent-ai")})`,
+    live: "linear-gradient(92deg, var(--color-accent-brand), var(--color-accent-ai))",
     usage:
       "The 92° blue→violet, clipped to one headline fragment per section. Never a background fill, button or tile.",
   },
@@ -236,7 +235,7 @@ export const tokensJson = (parts: TokenParts): Tokens => ({
     ],
   },
   shadow: {
-    note: "`shadow-raised`, `shadow-overlay`, `shadow-floating`, `shadow-popover`, `shadow-panel` and `shadow-glass` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
+    note: "`shadow-card-hover`, `shadow-screenshot`, `shadow-floating`, `shadow-popover`, `shadow-panel` and `shadow-chip` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
     tokens: [
       ...Object.entries(parts.shadows).map(([name, { snapshot, usage }]) => ({
         name,

@@ -5,27 +5,27 @@
 export type AliasEntry = [engineToken: string, usage: string];
 export const ALIAS: Record<string, AliasEntry> = {
   // brand + action
-  "color-accent-primary": [
+  "color-accent-brand": [
     "ig-info-seed",
     "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white.",
   ],
-  "color-accent-primary-hover": [
+  "color-accent-brand-hover": [
     "ig-info-400",
-    "Hover step of `color-accent-primary`.",
+    "Hover step of `color-accent-brand`.",
   ],
-  "color-accent-primary-active": [
+  "color-accent-brand-active": [
     "ig-info-500",
-    "Press state step of `color-accent-primary`.",
+    "Press state step of `color-accent-brand`.",
   ],
-  "color-accent-secondary": [
+  "color-accent-ai": [
     "ig-secondary-seed",
-    "Gradient partner to `color-accent-primary` and the AI marker. Never a fill on its own.",
+    "Gradient partner to `color-accent-brand` and the AI marker. Never a fill on its own.",
   ],
   "color-accent-inverse": [
     "ig-sky-200",
     "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white.",
   ],
-  "color-accent-inverse-alt": [
+  "color-accent-inverse-performance": [
     "ig-teal-200",
     "On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white.",
   ],
@@ -312,35 +312,35 @@ export const ALIAS: Record<string, AliasEntry> = {
   "fw-wpf-background": ["ig-primary-100", "WPF framework pill fill."],
   "fw-wpf-border": ["ig-primary-200", "WPF framework pill border."],
   // icon tiles
-  "tile-1": [
+  "tile-cli-mcp": [
     "ig-info-seed",
     "Icon tile fill — CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph.",
   ],
-  "tile-2": [
+  "tile-agent-skills": [
     "ig-secondary-seed",
     "Icon tile fill — Agent Skills on the AI toolchain row.",
   ],
-  "tile-3": [
+  "tile-theming-mcp": [
     "ig-pink-400",
     "Icon tile fill — Theming MCP on the AI toolchain row.",
   ],
-  "tile-4": [
+  "tile-ai-scaffolding": [
     "ig-success-400",
     "Icon tile fill — AI Scaffolding on the AI toolchain row.",
   ],
-  "tile-5": [
+  "tile-extended-1": [
     "ig-cyan-200",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
-  "tile-6": [
+  "tile-extended-2": [
     "ig-warn-200",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
-  "tile-7": [
+  "tile-extended-3": [
     "ig-primary-seed",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
-  "tile-8": [
+  "tile-extended-4": [
     "ig-dark-surface-500",
     "Extended icon tile fill for grids longer than four tiles.",
   ],
@@ -379,17 +379,17 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "Border of the `color-action-subtle` capsule.",
   ],
   "color-emphasis-border": [
-    "color-accent-primary",
+    "color-accent-brand",
     "opacity-heavy",
     "Border of emphasised cards and the release strip at rest.",
   ],
   "color-emphasis-ring": [
-    "color-accent-primary",
+    "color-accent-brand",
     "opacity-soft",
     "Inner ring of the release strip at rest.",
   ],
   "color-emphasis-ring-hover": [
-    "color-accent-primary",
+    "color-accent-brand",
     "opacity-strong",
     "Inner ring of the release strip on hover.",
   ],
@@ -435,19 +435,19 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "opacity-strong",
     "Premium status badge border.",
   ],
-  "color-surface-tint-secondary": [
-    "color-accent-secondary",
+  "color-surface-tint-ai": [
+    "color-accent-ai",
     "opacity-subtle",
     "Soft fill in the secondary accent: a second category beside `color-surface-tint`.",
   ],
-  "color-surface-tint-alt": [
-    "color-accent-inverse-alt",
+  "color-surface-tint-performance": [
+    "color-accent-inverse-performance",
     "opacity-subtle",
     "Soft fill in the alternative accent: a third category beside `color-surface-tint`.",
   ],
-  "color-surface-inverse-glass": [
+  "color-surface-inverse-chip": [
     "color-surface-inverse",
-    "opacity-glass",
+    "opacity-chip",
     "Translucent dark chip that floats over a screenshot.",
   ],
   "color-feedback-info-surface": [
@@ -500,7 +500,7 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "opacity-subtle",
     "Footer input fill (stacked newsletter).",
   ],
-  "footer-field-pill-background": [
+  "footer-field-inline-background": [
     "footer-background",
     "opacity-field",
     "Footer input fill inside the pill field.",
@@ -673,14 +673,14 @@ export type ShadowLayer = [
   alpha: number,
 ];
 export const SHADOW: Record<string, ShadowLayer[]> = {
-  "shadow-raised": [
+  "shadow-card-hover": [
     [10, 30, -5, "color-shadow", 0.08],
     [4, 10, -5, "color-shadow", 0.04],
   ],
-  "shadow-overlay": [[44, 90, -34, "color-surface-inverse", 0.4]],
+  "shadow-screenshot": [[44, 90, -34, "color-surface-inverse", 0.4]],
   "shadow-floating": [[16, 32, -12, "color-surface-inverse", 0.4]],
   "shadow-popover": [[26, 50, -22, "color-surface-inverse", 0.22]],
-  "shadow-glass": [[24, 50, -12, "color-shadow", 0.6]],
+  "shadow-chip": [[24, 50, -12, "color-shadow", 0.6]],
   "shadow-panel": [
     [-2, 8, 0, "color-surface-inverse", 0.04],
     [18, 40, -12, "color-surface-inverse", 0.28],
@@ -703,7 +703,7 @@ export const OPACITY = {
   "opacity-strong": [0.25, "Capsule borders and scrims."],
   "opacity-heavy": [0.4, "Emphasis borders and strong glows."],
   "opacity-field": [0.6, "Input fill on the dark footer."],
-  "opacity-glass": [0.82, "Dark chips over a screenshot."],
+  "opacity-chip": [0.82, "Dark chips over a screenshot."],
   "opacity-nav": [0.96, "Sticky nav background."],
   "opacity-disabled": [0.45, "Disabled controls."],
 } satisfies Record<string, OpacityEntry>;
@@ -837,7 +837,7 @@ export const TYPE: TypeRow[] = [
     tracking: "0",
     transform: "none",
     usage:
-      "Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title.",
+      "Stat badge values: `color-accent-inverse` or `color-accent-inverse-performance` on `color-surface-inverse`, `color-text-muted` on light; newsletter title.",
     sample: "100K+ Rows",
   },
   {
@@ -1067,7 +1067,7 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-text-inverse", "color-surface-inverse"],
   ["color-text-inverse-muted", "color-surface-inverse"],
   ["color-accent-inverse", "color-surface-inverse"],
-  ["color-accent-inverse-alt", "color-surface-inverse"],
+  ["color-accent-inverse-performance", "color-surface-inverse"],
   ["color-link-inverse", "color-surface-inverse"],
   ["color-focus-inverse", "color-surface-inverse"],
   ["footer-link", "color-surface-inverse-raised"],

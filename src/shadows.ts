@@ -108,7 +108,7 @@ export const dropShadows = (elevation: string) => {
 };
 
 const ringOf = (opacity: OpacityName) => {
-  const [r, g, b] = hexToRgb(hexOf("color-accent-primary"));
+  const [r, g, b] = hexToRgb(hexOf("color-accent-brand"));
   return `rgba(${r},${g},${b},${OPACITY[opacity][0]})`;
 };
 
@@ -136,24 +136,24 @@ export const semanticShadows = (
       usage:
         "Cards at rest — flat; a card is defined by its hairline `color-border-default`. Engine elevation 0.",
     },
-    "shadow-raised": siteShadow(
-      "shadow-raised",
+    "shadow-card-hover": siteShadow(
+      "shadow-card-hover",
       "Card hover: cards lift shadow only, no translate or scale.",
     ),
-    "shadow-accent-lg": tintedShadow(
+    "shadow-action-lg": tintedShadow(
       16,
       "Primary CTA and its hover (no shadow change on hover). Engine elevation 16 tinted with `color-action-default`.",
     ),
-    "shadow-accent-sm": tintedShadow(
+    "shadow-action-sm": tintedShadow(
       1,
       "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`.",
     ),
-    "shadow-overlay": siteShadow(
-      "shadow-overlay",
+    "shadow-screenshot": siteShadow(
+      "shadow-screenshot",
       "Screenshots inside a BrowserFrame.",
     ),
     "shadow-floating": siteShadow("shadow-floating", "Floating stat badges."),
-    "shadow-accent-md": tintedShadow(
+    "shadow-action-md": tintedShadow(
       13,
       "Bundle cards with the gradient border. Engine elevation 13 tinted with `color-action-default`.",
     ),
@@ -169,9 +169,9 @@ export const semanticShadows = (
       usage:
         "Release strip on hover. Engine elevation 16 tinted with `color-action-default`.",
     },
-    "shadow-glass": siteShadow(
-      "shadow-glass",
-      "Dark glass chips over a screenshot, with `color-surface-inverse-glass`.",
+    "shadow-chip": siteShadow(
+      "shadow-chip",
+      "Dark glass chips over a screenshot, with `color-surface-inverse-chip`.",
     ),
     "shadow-popover": siteShadow(
       "shadow-popover",

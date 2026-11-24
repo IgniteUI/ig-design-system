@@ -1214,21 +1214,21 @@
       },
       "$description": "Engine surface role `overlay` (light variant)."
     },
-    "color-accent-primary": {
+    "color-accent-brand": {
       "$value": "{color.ig-info-seed}",
       "$description": "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white."
     },
-    "color-accent-primary-hover": {
+    "color-accent-brand-hover": {
       "$value": "{color.ig-info-400}",
-      "$description": "Hover step of `color-accent-primary`."
+      "$description": "Hover step of `color-accent-brand`."
     },
-    "color-accent-primary-active": {
+    "color-accent-brand-active": {
       "$value": "{color.ig-info-500}",
-      "$description": "Press state step of `color-accent-primary`."
+      "$description": "Press state step of `color-accent-brand`."
     },
-    "color-accent-secondary": {
+    "color-accent-ai": {
       "$value": "{color.ig-secondary-seed}",
-      "$description": "Gradient partner to `color-accent-primary` and the AI marker. Never a fill on its own."
+      "$description": "Gradient partner to `color-accent-brand` and the AI marker. Never a fill on its own."
     },
     "color-accent-inverse": {
       "$value": {
@@ -1242,7 +1242,7 @@
       },
       "$description": "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white. Engine step 200 of the sky palette. Contrast 8.24:1 on `color-surface-inverse`."
     },
-    "color-accent-inverse-alt": {
+    "color-accent-inverse-performance": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -1782,15 +1782,15 @@
       "$value": "{color.ig-primary-200}",
       "$description": "WPF framework pill border."
     },
-    "tile-1": {
+    "tile-cli-mcp": {
       "$value": "{color.ig-info-seed}",
       "$description": "Icon tile fill — CLI MCP on the AI toolchain row. Flat, never a gradient; white glyph."
     },
-    "tile-2": {
+    "tile-agent-skills": {
       "$value": "{color.ig-secondary-seed}",
       "$description": "Icon tile fill — Agent Skills on the AI toolchain row."
     },
-    "tile-3": {
+    "tile-theming-mcp": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -1802,11 +1802,11 @@
       },
       "$description": "Icon tile fill — Theming MCP on the AI toolchain row. Engine step 400 of the pink palette."
     },
-    "tile-4": {
+    "tile-ai-scaffolding": {
       "$value": "{color.ig-success-400}",
       "$description": "Icon tile fill — AI Scaffolding on the AI toolchain row."
     },
-    "tile-5": {
+    "tile-extended-1": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -1818,15 +1818,15 @@
       },
       "$description": "Extended icon tile fill for grids longer than four tiles. Engine step 200 of the cyan palette."
     },
-    "tile-6": {
+    "tile-extended-2": {
       "$value": "{color.ig-warn-200}",
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
-    "tile-7": {
+    "tile-extended-3": {
       "$value": "{color.ig-primary-seed}",
       "$description": "Extended icon tile fill for grids longer than four tiles."
     },
-    "tile-8": {
+    "tile-extended-4": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -1875,7 +1875,7 @@
         "alpha": 0.4,
         "hex": "#0099ff"
       },
-      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-primary` at `opacity-heavy`."
+      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-brand` at `opacity-heavy`."
     },
     "color-emphasis-ring": {
       "$value": {
@@ -1888,7 +1888,7 @@
         "alpha": 0.12,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip at rest. Live: `color-accent-primary` at `opacity-soft`."
+      "$description": "Inner ring of the release strip at rest. Live: `color-accent-brand` at `opacity-soft`."
     },
     "color-emphasis-ring-hover": {
       "$value": {
@@ -1901,7 +1901,7 @@
         "alpha": 0.25,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip on hover. Live: `color-accent-primary` at `opacity-strong`."
+      "$description": "Inner ring of the release strip on hover. Live: `color-accent-brand` at `opacity-strong`."
     },
     "badge-oss-background": {
       "$value": {
@@ -2033,7 +2033,7 @@
       },
       "$description": "Premium status badge border. Live: `badge-premium-color` at `opacity-strong`."
     },
-    "color-surface-tint-secondary": {
+    "color-surface-tint-ai": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2044,9 +2044,9 @@
         "alpha": 0.08,
         "hex": "#9810fa"
       },
-      "$description": "Soft fill in the secondary accent: a second category beside `color-surface-tint`. Live: `color-accent-secondary` at `opacity-subtle`."
+      "$description": "Soft fill in the secondary accent: a second category beside `color-surface-tint`. Live: `color-accent-ai` at `opacity-subtle`."
     },
-    "color-surface-tint-alt": {
+    "color-surface-tint-performance": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2057,9 +2057,9 @@
         "alpha": 0.08,
         "hex": "#3cc3b1"
       },
-      "$description": "Soft fill in the alternative accent: a third category beside `color-surface-tint`. Live: `color-accent-inverse-alt` at `opacity-subtle`."
+      "$description": "Soft fill in the alternative accent: a third category beside `color-surface-tint`. Live: `color-accent-inverse-performance` at `opacity-subtle`."
     },
-    "color-surface-inverse-glass": {
+    "color-surface-inverse-chip": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2070,7 +2070,7 @@
         "alpha": 0.82,
         "hex": "#0f172a"
       },
-      "$description": "Translucent dark chip that floats over a screenshot. Live: `color-surface-inverse` at `opacity-glass`."
+      "$description": "Translucent dark chip that floats over a screenshot. Live: `color-surface-inverse` at `opacity-chip`."
     },
     "color-feedback-info-surface": {
       "$value": {
@@ -2202,7 +2202,7 @@
       },
       "$description": "Footer input fill (stacked newsletter). Live: `color-text-inverse` at `opacity-subtle`."
     },
-    "footer-field-pill-background": {
+    "footer-field-inline-background": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -2878,7 +2878,7 @@
       "$value": 0.6,
       "$description": "Input fill on the dark footer."
     },
-    "opacity-glass": {
+    "opacity-chip": {
       "$value": 0.82,
       "$description": "Dark chips over a screenshot."
     },
@@ -2981,7 +2981,7 @@
   },
   "shadow": {
     "$type": "shadow",
-    "shadow-raised": {
+    "shadow-card-hover": {
       "$value": [
         {
           "color": {
@@ -3042,7 +3042,7 @@
       ],
       "$description": "Card hover: cards lift shadow only, no translate or scale."
     },
-    "shadow-accent-lg": {
+    "shadow-action-lg": {
       "$value": [
         {
           "color": {
@@ -3131,7 +3131,7 @@
       ],
       "$description": "Primary CTA and its hover (no shadow change on hover). Engine elevation 16 tinted with `color-action-default`."
     },
-    "shadow-accent-sm": {
+    "shadow-action-sm": {
       "$value": [
         {
           "color": {
@@ -3220,7 +3220,7 @@
       ],
       "$description": "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`."
     },
-    "shadow-overlay": {
+    "shadow-screenshot": {
       "$value": {
         "color": {
           "colorSpace": "srgb",
@@ -3282,7 +3282,7 @@
       },
       "$description": "Floating stat badges."
     },
-    "shadow-accent-md": {
+    "shadow-action-md": {
       "$value": [
         {
           "color": {
@@ -3607,7 +3607,7 @@
       ],
       "$description": "Release strip on hover. Engine elevation 16 tinted with `color-action-default`."
     },
-    "shadow-glass": {
+    "shadow-chip": {
       "$value": {
         "color": {
           "colorSpace": "srgb",
@@ -3636,7 +3636,7 @@
           "unit": "px"
         }
       },
-      "$description": "Dark glass chips over a screenshot, with `color-surface-inverse-glass`."
+      "$description": "Dark glass chips over a screenshot, with `color-surface-inverse-chip`."
     },
     "shadow-popover": {
       "$value": {
@@ -5646,7 +5646,7 @@
         },
         "lineHeight": 1.1
       },
-      "$description": "Stat badge values: `color-accent-inverse` or `color-accent-inverse-alt` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. Engine slot `h4`."
+      "$description": "Stat badge values: `color-accent-inverse` or `color-accent-inverse-performance` on `color-surface-inverse`, `color-text-muted` on light; newsletter title. Engine slot `h4`."
     },
     "type-title-md": {
       "$value": {
@@ -6137,15 +6137,15 @@
           "value": "none",
           "reason": "no shadow"
         },
-        "glow-primary": {
+        "glow-brand": {
           "value": "radial-gradient(circle, rgba(0,153,255,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-secondary": {
+        "glow-ai": {
           "value": "radial-gradient(circle, rgba(152,16,250,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-secondary-strong": {
+        "glow-footer": {
           "value": "radial-gradient(circle, rgba(152,16,250,0.4), transparent 62%)",
           "reason": "a radial glow"
         },
@@ -6153,7 +6153,7 @@
           "value": "radial-gradient(circle, rgba(226,59,143,0.16), transparent 62%)",
           "reason": "a radial glow"
         },
-        "glow-inverse-alt": {
+        "glow-inverse-partner": {
           "value": "radial-gradient(circle, rgba(60,195,177,0.12), transparent 68%)",
           "reason": "a radial glow"
         }

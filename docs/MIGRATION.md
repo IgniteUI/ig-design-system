@@ -52,12 +52,12 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 
 | Before | Now |
 |---|---|
-| `--ig-blue` | `--igd-color-accent-primary` |
-| `--ig-blue-hover` | `--igd-color-accent-primary-hover` |
-| `--ig-blue-press` | `--igd-color-accent-primary-active` |
-| `--ig-violet` | `--igd-color-accent-secondary` |
+| `--ig-blue` | `--igd-color-accent-brand` |
+| `--ig-blue-hover` | `--igd-color-accent-brand-hover` |
+| `--ig-blue-press` | `--igd-color-accent-brand-active` |
+| `--ig-violet` | `--igd-color-accent-ai` |
 | `--ig-sky` | `--igd-color-accent-inverse` |
-| `--ig-teal` | `--igd-color-accent-inverse-alt` |
+| `--ig-teal` | `--igd-color-accent-inverse-performance` |
 | `--action` | `--igd-color-action-default` |
 | `--action-hover` | `--igd-color-action-hover` |
 | `--action-hover-fill` | `--igd-color-action-fill-hover` |
@@ -114,7 +114,7 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--surface-nav` | `--igd-nav-background` |
 | `--footer-bg` | `--igd-footer-background` |
 | `--footer-field` | `--igd-footer-field-background` |
-| `--footer-field-pill` | `--igd-footer-field-pill-background` |
+| `--footer-field-pill` | `--igd-footer-field-inline-background` |
 | `--footer-check-bg` | `--igd-footer-check-background` |
 | `--footer-soc-hover-bg` | `--igd-footer-social-hover-background` |
 | `--footer-soc-hover-border` | `--igd-footer-social-hover-border` |
@@ -243,13 +243,13 @@ In a component, pick the role for the property: padding → `--igd-space-inset-{
 | `--border-gradient-bundle` | `--igd-gradient-border-bundle` |
 | `--shadow-card` | `--igd-shadow-none` |
 | `--shadow-catalog-card` | `--igd-shadow-none` |
-| `--shadow-card-hover` | `--igd-shadow-raised` |
-| `--shadow-cta` | `--igd-shadow-accent-lg` |
-| `--shadow-cta-hover` | `--igd-shadow-accent-lg` |
-| `--shadow-pill-hover` | `--igd-shadow-accent-sm` |
-| `--shadow-media` | `--igd-shadow-overlay` |
+| `--shadow-card-hover` | `--igd-shadow-card-hover` |
+| `--shadow-cta` | `--igd-shadow-action-lg` |
+| `--shadow-cta-hover` | `--igd-shadow-action-lg` |
+| `--shadow-pill-hover` | `--igd-shadow-action-sm` |
+| `--shadow-media` | `--igd-shadow-screenshot` |
 | `--shadow-badge` | `--igd-shadow-floating` |
-| `--shadow-bundle` | `--igd-shadow-accent-md` |
+| `--shadow-bundle` | `--igd-shadow-action-md` |
 | `--shadow-release` | `--igd-callout-release-shadow` |
 | `--shadow-release-hover` | `--igd-callout-release-shadow-hover` |
 | `--shadow-panel-filter` | `--igd-shadow-popover-filter` |

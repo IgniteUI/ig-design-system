@@ -1,10 +1,10 @@
 import React from 'react';
 
 const FILLS = {
-  1: 'var(--igd-tile-1)', 2: 'var(--igd-tile-2)',
-  3: 'var(--igd-tile-3)', 4: 'var(--igd-tile-4)',
-  5: 'var(--igd-tile-5)', 6: 'var(--igd-tile-6)',
-  7: 'var(--igd-tile-7)', 8: 'var(--igd-tile-8)',
+  1: 'var(--igd-tile-cli-mcp)', 2: 'var(--igd-tile-agent-skills)',
+  3: 'var(--igd-tile-theming-mcp)', 4: 'var(--igd-tile-ai-scaffolding)',
+  5: 'var(--igd-tile-extended-1)', 6: 'var(--igd-tile-extended-2)',
+  7: 'var(--igd-tile-extended-3)', 8: 'var(--igd-tile-extended-4)',
 };
 
 // size is a name from the shared control scale: 'sm' | 'md' | 'lg' | 'xl'  (--igd-size-control-*), or 'tile' (default, --igd-size-tile).

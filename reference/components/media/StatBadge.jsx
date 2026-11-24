@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ACCENTS = { inverse: 'var(--igd-color-accent-inverse)', 'inverse-alt': 'var(--igd-color-accent-inverse-alt)', primary: 'var(--igd-color-accent-primary)', secondary: 'var(--igd-color-accent-secondary)' };
+const ACCENTS = { inverse: 'var(--igd-color-accent-inverse)', 'inverse-alt': 'var(--igd-color-accent-inverse-performance)', primary: 'var(--igd-color-accent-brand)', secondary: 'var(--igd-color-accent-ai)' };
 const OFF = 'calc(-1 * var(--igd-stat-badge-offset))';
 const POS = {
   'top-left': { top: OFF, left: OFF }, 'top-right': { top: OFF, right: OFF },

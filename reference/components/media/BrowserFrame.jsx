@@ -7,7 +7,7 @@ export function BrowserFrame({ src, alt = '', children, bleed = false, style, ..
     <div style={{
       width: bleed ? 'calc(100% + max(var(--igd-space-4xl), (100vw - var(--igd-bleed-width)) / 2))' : '100%',
       borderRadius: 'var(--igd-radius-card)', overflow: 'hidden',
-      border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', boxShadow: 'var(--igd-shadow-overlay)',
+      border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', boxShadow: 'var(--igd-shadow-screenshot)',
       background: 'var(--igd-color-surface-page)', ...style,
     }} {...rest}>
       <div style={{
