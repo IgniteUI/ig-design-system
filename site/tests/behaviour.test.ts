@@ -360,6 +360,51 @@ describe("the guide", () => {
   });
 });
 
+describe("the shape explorers of the guide", () => {
+  it("show the corner of the element picked, by its button or by pointing at it in the drawing", async () => {
+    const { page } = await open("");
+    const shown = () =>
+      page.$eval(
+        ".explorer.radius",
+        (el) =>
+          [...el.querySelectorAll<HTMLElement>("[data-info]")].find(
+            (i) => !i.hidden,
+          )?.dataset.info,
+      );
+    expect(await shown()).toBe("radius-lg");
+    await page.click('.explorer.radius button[data-pick="radius-full"]');
+    expect(await shown()).toBe("radius-full");
+    expect(
+      await page.getAttribute(
+        '.explorer.radius [data-part="radius-full"]',
+        "data-current",
+      ),
+    ).toBe("");
+    await page.hover('.explorer.radius [data-part="radius-xs"]');
+    expect(await shown()).toBe("radius-xs");
+    expect(
+      await page.getAttribute(
+        '.explorer.radius button[data-pick="radius-xs"]',
+        "aria-pressed",
+      ),
+    ).toBe("true");
+    await page.close();
+  });
+
+  it("lift the card to the shadow picked", async () => {
+    const { page } = await open("");
+    const shadow = () =>
+      page.$eval("[data-lift]", (el) => getComputedStyle(el).boxShadow);
+    await page.click('.explorer.shadow button[data-pick="shadow-none"]');
+    await page.waitForTimeout(400);
+    expect(await shadow()).toBe("none");
+    await page.click('.explorer.shadow button[data-pick="shadow-panel"]');
+    await page.waitForTimeout(400);
+    expect(await shadow()).not.toBe("none");
+    await page.close();
+  });
+});
+
 describe("the dials of the guide", () => {
   it.each([1280, 800, 640])(
     "at %ipx keep the card's two buttons on one row at Double spacing",

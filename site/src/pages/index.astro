@@ -3,6 +3,7 @@
 import DemoCard from "@/components/guide/DemoCard.astro";
 import DemoForm from "@/components/guide/DemoForm.astro";
 import Dials from "@/components/guide/Dials.astro";
+import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
 import DarkNotice from "@/components/layout/DarkNotice.astro";
 import RulePair from "@/components/guide/RulePair.astro";
 import SpacingAnatomy from "@/components/guide/SpacingAnatomy.astro";
@@ -21,7 +22,7 @@ import Readout from "@/components/ui/Readout.astro";
 import ScrollTable from "@/components/ui/ScrollTable.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import { CARD_MARKUP, CARD_RULE } from "@/data/card.ts";
-import { COLOUR_PICKS, SHAPE_PICKS, SPACE_PICKS, TYPE_USES } from "@/data/guide.ts";
+import { COLOUR_PICKS, SPACE_PICKS, TYPE_USES } from "@/data/guide.ts";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import { RULES, ruleId } from "@/data/rules.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
@@ -221,27 +222,16 @@ const property = { fill: "background", text: "color", outline: "border-color" };
     </p>
     <div class="group">
       <h3 id="shape-corners">Corners</h3>
-      <TokenGrid>
-        {
-          pick(tokens.radius.tokens, SHAPE_PICKS.radius.map((p) => p.token), "radius").map((token, i) => (
-            <TokenCard token={token} preview="shape" property="border-radius" readout="length" use={SHAPE_PICKS.radius[i].use} />
-          ))
-        }
-      </TokenGrid>
+      <p class="lead">Pick an element, or point at it in the drawing, to see the corner it takes.</p>
+      <ShapeExplorer kind="radius" />
     </div>
     <div class="group">
       <h3 id="shape-shadows">Shadows</h3>
       <p class="lead">
-        A shadow lifts a surface off the page. In the dark variant surfaces separate by tone, so a shadow adds
-        little there.
+        A shadow lifts a surface off the page. Pick where a card sits to see its shadow. In the dark variant
+        surfaces separate by tone, so a shadow adds little there.
       </p>
-      <TokenGrid roomy>
-        {
-          pick(tokens.shadow.tokens, SHAPE_PICKS.shadow.map((p) => p.token), "shadow").map((token, i) => (
-            <TokenCard token={token} preview="lifted" property="box-shadow" use={SHAPE_PICKS.shadow[i].use} />
-          ))
-        }
-      </TokenGrid>
+      <ShapeExplorer kind="shadow" />
     </div>
     <p class="more">
       <a href={href("tokens/#radius")}>All corners</a> · <a href={href("tokens/#shadow")}>All shadows</a>
@@ -277,7 +267,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
         sets no dial.
       </p>
       <Dials target="dial-stage">
-        <Stage id="dial-stage">
+        <Stage id="dial-stage" label="Example only: these are not real components">
           <DemoCard title="One card, four dials">
             Padding now: <Readout token="space-inset-lg" kind="length" />, corner:{" "}
             <Readout token="radius-lg" kind="length" />

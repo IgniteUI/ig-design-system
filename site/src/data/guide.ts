@@ -148,27 +148,57 @@ export const TYPE_USES: Record<string, string> = {
   "type-body-2xs": "The smallest label, such as the line under a badge.",
 };
 
-/** The radius and shadow roles the guide shows, each with its plain use. */
+/** The radius and shadow roles the guide shows, each with the label of its button and its plain use. */
 export const SHAPE_PICKS: Record<
   "radius" | "shadow",
-  { token: string; use: string }[]
+  { token: string; label: string; use: string }[]
 > = {
   radius: [
-    { token: "radius-xs", use: "A checkbox or a small tag." },
-    { token: "radius-sm", use: "A small element, such as a badge." },
-    { token: "radius-md", use: "An icon tile or a row in a menu." },
-    { token: "radius-lg", use: "A card or a picture frame." },
-    { token: "radius-xl", use: "A large card that stands out." },
+    {
+      token: "radius-xs",
+      label: "Checkbox",
+      use: "A checkbox or a small tag.",
+    },
+    {
+      token: "radius-sm",
+      label: "Badge",
+      use: "A small element, such as a badge.",
+    },
+    {
+      token: "radius-md",
+      label: "Menu row",
+      use: "An icon tile or a row in a menu.",
+    },
+    { token: "radius-lg", label: "Card", use: "A card or a picture frame." },
+    {
+      token: "radius-xl",
+      label: "Large card",
+      use: "A large card that stands out.",
+    },
     {
       token: "radius-full",
+      label: "Button",
       use: "A button, a chip, anything shaped like a pill.",
     },
   ],
   shadow: [
-    { token: "shadow-raised", use: "A card under the pointer." },
-    { token: "shadow-floating", use: "A badge that floats over a picture." },
-    { token: "shadow-popover", use: "A dropdown menu." },
-    { token: "shadow-panel", use: "An open navigation panel." },
+    {
+      token: "shadow-none",
+      label: "At rest",
+      use: "A card at rest: flat, with its hairline border.",
+    },
+    {
+      token: "shadow-raised",
+      label: "Under the pointer",
+      use: "A card under the pointer.",
+    },
+    {
+      token: "shadow-floating",
+      label: "Floating",
+      use: "A badge that floats over a picture.",
+    },
+    { token: "shadow-popover", label: "Dropdown", use: "A dropdown menu." },
+    { token: "shadow-panel", label: "Panel", use: "An open navigation panel." },
   ],
 };
 
