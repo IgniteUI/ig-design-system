@@ -1,0 +1,148 @@
+---
+// The Engine page: the palette, the raw spacing steps and the engine's elevations, each with the tokens that read it.
+import Section from "@/components/layout/Section.astro";
+import PaletteRamp from "@/components/tokens/PaletteRamp.astro";
+import TokenCard from "@/components/tokens/TokenCard.astro";
+import TokenFilter from "@/components/tokens/TokenFilter.astro";
+import TokenGrid from "@/components/tokens/TokenGrid.astro";
+import TokenRow from "@/components/tokens/TokenRow.astro";
+import CopyFormat from "@/components/ui/CopyFormat.astro";
+import ScrollTable from "@/components/ui/ScrollTable.astro";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { cssVar, tokens } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+import { groupColours, isEngine, PALETTE_FAMILIES, rampOf, readersOf } from "@/lib/tokens.ts";
+
+const all = Object.values(tokens).flatMap((v) =>
+  v && typeof v === "object" && "tokens" in v ? (v.tokens as typeof tokens.color.tokens) : [],
+);
+const readers = readersOf(all);
+const { raw } = groupColours(tokens.color.tokens);
+const ramps = PALETTE_FAMILIES.map((family) => {
+  const steps = rampOf(raw[family] ?? []);
+  return { family, steps, accents: (raw[family] ?? []).filter((t) => !steps.includes(t)) };
+}).filter((r) => r.steps.length);
+const everyStep = ramps.flatMap((r) => [...r.steps, ...r.accents]);
+const stepCount = everyStep.length;
+const readCount = everyStep.filter((s) => readers[s.name]?.length).length;
+const steps = tokens.spacing.tokens.filter((t) => isEngine(t.name));
+const elevations = tokens.shadow.tokens.filter((t) => isEngine(t.name));
+
+const sections = {
+  palette: { id: "palette", title: "Palette", count: stepCount },
+  spacing: { id: "spacing", title: "Spacing steps", count: steps.length },
+  elevation: { id: "elevation", title: "Elevations", count: elevations.length },
+};
+---
+
+<SectionsLayout title="Engine" current="engine" sections={Object.values(sections)}>
+  <TokenFilter slot="nav" placeholder="Filter, e.g. gray-500" label="Filter the engine by name, value or token" />
+
+  <h1>Engine</h1>
+  <div data-filter-rest>
+    <p class="warning">
+      These are the values the tokens are built from. Do not write them in a site: use the token that reads
+      them, from the <a href={href("tokens/")}>Tokens</a> page.
+    </p>
+    <p class="intro">
+      igniteui-theming solves each palette step for contrast and builds the elevations. The check reports a
+      palette step anywhere in a site, and a spacing step used for padding, a margin or a gap.
+    </p>
+    <CopyFormat />
+  </div>
+
+  <Section {...sections.palette}>
+    <p class="intro">
+      Each step is labelled in its contrast colour, with the number of tokens that read it under it. A family
+      built from a seed shows its accent steps and the seed below its shades. {readCount} of the {stepCount}
+      steps are read.
+    </p>
+    <p class="lead">
+      The counts are those of the light variant. In the dark one the gray and surface families hold other
+      values, and some text colours read a lighter step of their family.
+    </p>
+    <ul class="ramps">{ramps.map((ramp) => <PaletteRamp {...ramp} readers={readers} />)}</ul>
+  </Section>
+
+  <Section {...sections.spacing}>
+    <p class="intro">
+      The raw steps. A site uses the roles built on them: <code>space-inset-*</code> for padding, <code
+        >space-stack-*</code
+      > for vertical margins, <code>space-gap-*</code> for gaps.
+    </p>
+    <ScrollTable label="Spacing steps" head={["Step", "Value", "Read by"]}>
+      {
+        steps.map((token) => (
+          <TokenRow token={token} value="length">
+            <span class="bar" style={`inline-size: var(${cssVar(token.name)})`} />
+            <span class="roles">
+              {(readers[token.name] ?? []).map((t, i) => (
+                <>
+                  {i > 0 && ", "}
+                  <a href={href(`tokens/?q=${t.name}`)}><code>{cssVar(t.name)}</code></a>
+                </>
+              ))}
+            </span>
+          </TokenRow>
+        ))
+      }
+    </ScrollTable>
+  </Section>
+
+  <Section {...sections.elevation}>
+    <p class="intro">
+      The engine's levels, from its indigo preset. A site uses a <a href={href("tokens/#shadow")}>shadow token</a>
+      instead.
+    </p>
+    <TokenGrid roomy>
+      {elevations.map((token) => <TokenCard token={token} preview="lifted" property="box-shadow" written />)}
+    </TokenGrid>
+  </Section>
+
+  <p class="empty" hidden data-filter-empty>
+    Nothing matches. Try a family, such as <code>gray</code>, a step, such as <code>500</code>, or a token,
+    such as <code>text-muted</code>.
+  </p>
+</SectionsLayout>
+
+<style>
+  [data-filter-rest] {
+    margin-block-end: var(--igd-space-stack-3xl);
+  }
+
+  .warning {
+    max-inline-size: 38rem;
+    margin-block: 0 var(--igd-space-stack-md);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-md);
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .ramps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--igd-space-gap-md);
+  }
+
+  .bar {
+    display: block;
+    block-size: var(--igd-space-sm);
+    margin-block-end: var(--igd-space-stack-2xs);
+    background: var(--igd-color-action-default);
+    border-radius: var(--igd-radius-xs);
+  }
+
+  .roles {
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .empty {
+    padding-block: var(--igd-space-inset-3xl);
+    color: var(--igd-color-text-secondary);
+  }
+</style>

@@ -42,7 +42,7 @@ const { current } = Astro.props;
 <style>
   .top {
     position: sticky;
-    inset-block-start: 0;
+    inset-block-start: var(--notice-block-size, 0px);
     z-index: var(--igd-z-index-sticky);
     display: flex;
     flex-wrap: wrap;
@@ -152,7 +152,24 @@ const { current } = Astro.props;
     }
   }
 
-  /* breakpoint-sm: a bar that scrolls away with the page, with the symbol standing for the logo and the name. It wraps on the narrowest screen. */
+  /* breakpoint-lg: the symbol stands for the logo, so the name and the pages stay on one row. */
+  @media (max-width: 1024px) {
+    .logo.light,
+    :global([data-theme="dark"]) .logo.dark {
+      display: none;
+    }
+
+    .logo.mark {
+      display: block;
+    }
+
+    .brand span {
+      padding-inline-start: 0;
+      border: 0;
+    }
+  }
+
+  /* breakpoint-sm: a bar that scrolls away with the page, with the symbol standing for the logo and the name, and the pages on a row of their own. */
   @media (max-width: 640px) {
     .top {
       position: static;
@@ -178,6 +195,9 @@ const { current } = Astro.props;
     }
 
     nav {
+      order: 1;
+      flex-basis: 100%;
+      flex-wrap: wrap;
       gap: 0;
     }
 

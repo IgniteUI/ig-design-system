@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { TOKEN_FAMILIES } from "../../src/types.ts";
+import { isEngine, readersOf } from "../src/lib/tokens.ts";
 import { DIST, page, ROUTES, source } from "./built.ts";
 
 const tokens = JSON.parse(source("dist/tokens.json"));
@@ -15,7 +16,8 @@ describe("every page", () => {
       const broken: string[] = [];
       for (const [, url] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
         if (/^(https?:|data:|mailto:)/.test(url)) continue;
-        const [file, hash] = url.split("#");
+        const [address, hash] = url.split("#");
+        const file = address.split("?")[0];
         const target = file ? path.join(DIST, file) : path.join(DIST, route);
         const index =
           fs.existsSync(target) && fs.statSync(target).isDirectory()
@@ -51,6 +53,7 @@ describe("every page", () => {
   it("marks the open page in the top bar", () => {
     expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Guide/);
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
+    expect(page("engine/")).toMatch(/aria-current="page"[^>]*>\s*Engine/);
     expect(page("logo/")).toMatch(
       /aria-current="page"[^>]*>\s*Brand book\s*<span[^>]*>Beta<\/span>/,
     );
@@ -79,13 +82,23 @@ describe("the Tokens page", () => {
   const shown = new Set(
     [...html.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
   );
+  const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
+    tokens[f].tokens.map((t: { name: string }) => t.name),
+  );
 
-  it("shows every semantic and component token of tokens.json", () => {
-    const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
-      tokens[f].tokens.map((t: { name: string }) => t.name),
-    );
-    expect(listed.filter((n) => !n.startsWith("ig-") && !shown.has(n))).toEqual(
-      [],
+  it("shows every token of tokens.json that is not on the Engine page", () => {
+    expect(listed.filter((n) => !isEngine(n) && !shown.has(n))).toEqual([]);
+  });
+
+  it("shows no token of the Engine page", () => {
+    expect([...shown].filter((n) => isEngine(n))).toEqual([]);
+  });
+
+  it("names the engine step a colour is built from and links to it", () => {
+    const card =
+      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+    expect(card).toMatch(
+      /From <a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
     );
   });
 
@@ -95,14 +108,76 @@ describe("the Tokens page", () => {
     );
     expect(roles.filter((n) => !shown.has(n))).toEqual([]);
   });
+});
 
-  it("lists the surface in the engine palette by its four roles", () => {
+describe("the Engine page", () => {
+  const html = page("engine/");
+  const shown = new Set(
+    [...html.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
+  );
+
+  it("shows every palette step, raw spacing step and engine elevation of tokens.json", () => {
+    const listed: string[] = TOKEN_FAMILIES.flatMap((f) =>
+      tokens[f].tokens.map((t: { name: string }) => t.name),
+    );
+    expect(
+      listed.filter(
+        (n) => isEngine(n) && !n.endsWith("-contrast") && !shown.has(n),
+      ),
+    ).toEqual([]);
+  });
+
+  it("says first that a site does not write these values", () => {
+    const main = html.match(/<main.*?<\/main>/s)?.[0] ?? "";
+    expect(main.search(/Do not write them in a site/)).toBeLessThan(
+      main.indexOf("data-token="),
+    );
+  });
+
+  it("lists the surface in the palette by its four roles", () => {
     for (const role of ["base", "sunken", "raised", "overlay"])
       expect(html).toContain(`data-copy="var(--ig-surface-${role})"`);
   });
 
   it("lists a shaded family by its ten numbered shades", () => {
     expect(html.match(/data-copy="var\(--ig-gray-\d+\)"/g)).toHaveLength(10);
+  });
+
+  it("lists under a palette step the tokens that read it, each linked to its filter on the Tokens page", () => {
+    const row =
+      html.match(
+        /<li[^>]*data-filter-group[^>]*>\s*<span class="family"[^>]*><span[^>]*>--ig-<\/span>gray.*?<\/dl>/s,
+      )?.[0] ?? "";
+    expect(row).toMatch(
+      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-text-muted"[^>]*><code[^>]*>--igd-color-text-muted<\/code><\/a>/s,
+    );
+  });
+
+  it("counts the readers of a step in its label, and says when no token reads it", () => {
+    const readers = readersOf(TOKEN_FAMILIES.flatMap((f) => tokens[f].tokens));
+    const n = readers["ig-gray-500"].length;
+    expect(html).toContain(
+      `aria-label="Copy var(--ig-gray-500). Read by ${n} ${n === 1 ? "token" : "tokens"}."`,
+    );
+    const unread = tokens.color.tokens.find(
+      (t: { name: string }) =>
+        /^ig-[a-z]+-\d+$/.test(t.name) && !readers[t.name],
+    );
+    expect(html).toContain(
+      `aria-label="Copy var(--${unread.name}). No token reads it."`,
+    );
+  });
+
+  it("lists under a spacing step the roles that read it", () => {
+    const row =
+      html.match(/<tr[^>]*data-token="space-md".*?<\/tr>/s)?.[0] ?? "";
+    expect(row).toContain('href="/tokens/?q=space-inset-md"');
+  });
+
+  it("makes each palette step findable and copyable by its bare name", () => {
+    expect(html).toMatch(
+      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy-alt="--ig-primary-500"/,
+    );
   });
 });
 
@@ -309,12 +384,6 @@ describe("the Tokens page, by tier", () => {
       html.match(/<tr[^>]*data-token="border-width-default".*?<\/tr>/s)?.[0] ??
       "";
     expect(row).toContain("1px (0.0625rem)");
-  });
-
-  it("makes each step of the engine palette findable and copyable by its bare name", () => {
-    expect(html).toMatch(
-      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy-alt="--ig-primary-500"/,
-    );
   });
 });
 

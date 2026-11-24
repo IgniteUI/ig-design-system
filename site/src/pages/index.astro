@@ -34,7 +34,7 @@ import {
   tokens,
 } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
-import { pick } from "@/lib/tokens.ts";
+import { isEngine, pick } from "@/lib/tokens.ts";
 
 const sections = {
   idea: { id: "idea", title: "The idea" },
@@ -130,7 +130,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
         {
           href: href("tokens/"),
           title: "I am looking for one token",
-          text: "The Tokens page lists every token and filters by name or use.",
+          text: "The Tokens page lists every token a site may use and filters by name or use.",
         },
       ]}
     />
@@ -209,7 +209,7 @@ const property = { fill: "background", text: "color", outline: "border-color" };
       }
     </ScrollTable>
     <p class="lead">Widths, heights and offsets are not tokens. Type those as the layout needs them.</p>
-    <p class="more"><a href={href("tokens/#spacing")}>All {tokens.spacing.tokens.length} spacing tokens</a></p>
+    <p class="more"><a href={href("tokens/#spacing")}>All {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
   </Section>
 
   <Section {...sections.shape}>

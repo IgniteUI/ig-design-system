@@ -1,7 +1,6 @@
 ---
-// The Tokens page: every token of tokens.json with its rendered value, and a filter to find one.
+// The Tokens page: every token a site may use, with its rendered value, and a filter to find one.
 import Section from "@/components/layout/Section.astro";
-import PaletteRamp from "@/components/tokens/PaletteRamp.astro";
 import TokenCard from "@/components/tokens/TokenCard.astro";
 import TokenFilter from "@/components/tokens/TokenFilter.astro";
 import TokenGrid from "@/components/tokens/TokenGrid.astro";
@@ -11,17 +10,16 @@ import CopyFormat from "@/components/ui/CopyFormat.astro";
 import ScrollTable from "@/components/ui/ScrollTable.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
-import { cssVar, tokens } from "@/lib/design-system.ts";
-import { COLOUR_GROUPS, groupColours, PALETTE_FAMILIES, previewOf, rampOf } from "@/lib/tokens.ts";
+import { tokens } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+import { COLOUR_GROUPS, engineOf, groupColours, isEngine, previewOf } from "@/lib/tokens.ts";
 
-const { raw, semantic, component } = groupColours(tokens.color.tokens);
+const { semantic, component } = groupColours(tokens.color.tokens);
 const groups = [...COLOUR_GROUPS, ["other", "Other"] as [string, string]].filter(([key]) => semantic[key]);
-const ramps = PALETTE_FAMILIES.map((family) => ({ family, steps: rampOf(raw[family] ?? []) })).filter(
-  (r) => r.steps.length,
-);
+const fromOf = (token: (typeof tokens.color.tokens)[number]) => engineOf(token, tokens.color.tokens);
 const styles = tokens.type.groups.flatMap((g) => g.styles);
-const steps = tokens.spacing.tokens.filter((t) => /^space-\d?[a-z]+$/.test(t.name));
-const roles = tokens.spacing.tokens.filter((t) => !steps.includes(t));
+const roles = tokens.spacing.tokens.filter((t) => !isEngine(t.name));
+const shadows = tokens.shadow.tokens.filter((t) => !isEngine(t.name));
 const other = [
   ...tokens.opacity.tokens,
   ...tokens.weight.tokens,
@@ -36,11 +34,10 @@ const surfaceOf = (name: string) => (name.includes("-inverse") ? "color-surface-
 
 const sections = {
   colour: { id: "colour", title: "Colour", count: Object.values(semantic).flat().length + component.length },
-  palette: { id: "palette", title: "Engine palette", count: ramps.reduce((n, r) => n + r.steps.length, 0) },
   type: { id: "type", title: "Type", count: styles.length, unit: "roles" },
-  spacing: { id: "spacing", title: "Spacing", count: tokens.spacing.tokens.length },
+  spacing: { id: "spacing", title: "Spacing", count: roles.length },
   radius: { id: "radius", title: "Radius", count: tokens.radius.tokens.length },
-  shadow: { id: "shadow", title: "Shadow", count: tokens.shadow.tokens.length },
+  shadow: { id: "shadow", title: "Shadow", count: shadows.length },
   gradient: { id: "gradient", title: "Gradient", count: tokens.gradient.tokens.length },
   size: { id: "size", title: "Size", count: tokens.size.tokens.length },
   other: { id: "other", title: "Opacity, weight, layers, breakpoints", count: other.length },
@@ -52,7 +49,7 @@ const sections = {
 
   <h1>Tokens</h1>
   <div data-filter-rest>
-  <p class="intro">Every token, with what it is for and the value it has on this page right now.</p>
+  <p class="intro">Every token a site may use, with what it is for and the value it has on this page right now.</p>
   <dl class="tiers">
     <div>
       <dt>Use these</dt>
@@ -67,7 +64,10 @@ const sections = {
     </div>
     <div>
       <dt>Do not use</dt>
-      <dd>The engine palette. The design system builds the other colours from it, and the check reports it in a site.</dd>
+      <dd>
+        The palette, the raw spacing steps and the engine's elevations. The tokens are built from them, and they
+        are on the <a href={href("engine/")}>Engine</a> page.
+      </dd>
     </div>
   </dl>
   <p class="lead">
@@ -91,6 +91,7 @@ const sections = {
                 property={property[LABELS[token.name] ? "text" : previewOf(key)]}
                 readout="colour"
                 on={LABELS[token.name] ?? (previewOf(key) === "text" ? surfaceOf(token.name) : undefined)}
+                from={fromOf(token)}
               />
             ))}
           </TokenGrid>
@@ -106,17 +107,13 @@ const sections = {
         <span class="open">Hide the {component.length} component colours</span>
       </summary>
       <TokenGrid>
-        {component.map((token) => <TokenCard token={token} preview="fill" property="background" readout="colour" />)}
+        {
+          component.map((token) => (
+            <TokenCard token={token} preview="fill" property="background" readout="colour" from={fromOf(token)} />
+          ))
+        }
       </TokenGrid>
     </details>
-  </Section>
-
-  <Section {...sections.palette}>
-    <p class="intro">
-      The raw tier, under the engine's names: the shades of each family and the roles of the surface. Only the
-      design system reaches in here. Each step is labelled in its contrast colour.
-    </p>
-    <ul class="ramps">{ramps.map((ramp) => <PaletteRamp {...ramp} />)}</ul>
   </Section>
 
   <Section {...sections.type}>
@@ -134,19 +131,10 @@ const sections = {
 
   <Section {...sections.spacing}>
     <p class="intro">
-      The raw steps. A component uses the roles built on them: <code>space-inset-*</code> for padding, <code
-        >space-stack-*</code
-      > for vertical margins, <code>space-gap-*</code> for gaps.
+      <code>space-inset-*</code> for padding, <code>space-stack-*</code> for vertical margins, <code
+        >space-gap-*</code
+      > for gaps. Each reads a <a href={href("engine/#spacing")}>raw step</a>.
     </p>
-    <ScrollTable label="Spacing steps" head={["Step", "Value", "Size"]}>
-      {
-        steps.map((token) => (
-          <TokenRow token={token} value="length">
-            <span class="bar" style={`inline-size: var(${cssVar(token.name)})`} />
-          </TokenRow>
-        ))
-      }
-    </ScrollTable>
     <ScrollTable label="Spacing roles" head={["Role", "Value", "Use"]}>
       {roles.map((token) => <TokenRow token={token} value="length" />)}
     </ScrollTable>
@@ -165,12 +153,12 @@ const sections = {
 
   <Section {...sections.shadow}>
     <p class="intro">
-      Built from the engine's elevations. The accent shadows and the tinted elevations take the action colour. In
+      Built from the engine's <a href={href("engine/#elevation")}>elevations</a>. The accent shadows and the tinted elevations take the action colour. In
       the dark variant of the theme surfaces separate by tone, so a shadow adds little there.
     </p>
     <TokenGrid roomy>
       {
-        tokens.shadow.tokens.map((token) => (
+        shadows.map((token) => (
           <TokenCard
             token={token}
             preview="lifted"
@@ -301,23 +289,10 @@ const sections = {
     margin-block: 0 var(--igd-space-stack-md);
   }
 
-  .ramps,
   .specimens {
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-
-  .ramps {
-    display: grid;
-    gap: var(--igd-space-gap-sm);
-  }
-
-  .bar {
-    display: block;
-    block-size: var(--igd-space-sm);
-    background: var(--igd-color-action-default);
-    border-radius: var(--igd-radius-xs);
   }
 
   .empty {

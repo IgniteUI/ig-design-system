@@ -5,6 +5,7 @@ import CopyName from "@/components/ui/CopyName.astro";
 import Note from "@/components/ui/Note.astro";
 import Readout from "@/components/ui/Readout.astro";
 import { cssVar, prefixOf, type Token } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
 
 interface Props {
   token: Token;
@@ -20,9 +21,11 @@ interface Props {
   on?: string;
   /** Show the value as it is written, for a token with no single rendered value, such as a shadow. */
   written?: boolean;
+  /** The engine token the value is built from, linked to its place on the Engine page. */
+  from?: string;
 }
 
-const { token, preview, property, readout, use, on, written = false } = Astro.props;
+const { token, preview, property, readout, use, on, written = false, from } = Astro.props;
 const custom = cssVar(token.name);
 const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
@@ -35,6 +38,13 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
   <CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} />
   {readout && <Readout token={token.name} kind={readout} />}
   {written && <code class="written">{token.value}</code>}
+  {
+    from && (
+      <p class="from">
+        From <a href={href(`engine/#${from}`)}><code>{cssVar(from)}</code></a>
+      </p>
+    )
+  }
 </li>
 
 <style>
@@ -61,6 +71,13 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
   .written {
     color: var(--igd-color-text-secondary);
     overflow-wrap: anywhere;
+  }
+
+  .from {
+    margin: 0;
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-body-xs-font-size);
+    line-height: var(--igd-type-body-xs-line-height);
   }
 
   .preview {
