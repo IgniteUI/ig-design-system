@@ -275,6 +275,13 @@ describe("the guide", () => {
     expect(role).not.toContain("--igd-type-display-lg-");
   });
 
+  it("gives corners and shadows a section each, as the Tokens page does", () => {
+    const list = html.match(/data-section-list.*?<\/ul>/s)?.[0] ?? "";
+    expect(list).toContain('href="#corners"');
+    expect(list).toContain('href="#shadows"');
+    expect(list).not.toContain('href="#shape"');
+  });
+
   it("says why a name says its job, with the two kinds of name that use a position", () => {
     const part = html.match(/id="idea-names".*?What do you need\?/s)?.[0] ?? "";
     expect(part).toMatch(/not <code[^>]*>radius-pill<\/code>/);

@@ -40,7 +40,8 @@ const sections = {
   colour: { id: "colour", title: "Colour" },
   type: { id: "type", title: "Type" },
   spacing: { id: "spacing", title: "Spacing" },
-  shape: { id: "shape", title: "Shape" },
+  corners: { id: "corners", title: "Corners" },
+  shadows: { id: "shadows", title: "Shadows" },
   themes: { id: "themes", title: "Variants and dials" },
   component: { id: "component", title: "Build a component" },
   rules: { id: "rules", title: "The rules in detail" },
@@ -133,7 +134,7 @@ if (missing.length)
         {
           href: "#colour",
           title: "I brief or design a page",
-          text: "Read Colour, Type, Spacing and Shape. Each name says what it is for.",
+          text: "Read Colour, Type, Spacing, Corners and Shadows. Each name says what it is for.",
         },
         {
           href: "#component",
@@ -201,27 +202,24 @@ if (missing.length)
     <p class="more"><a href={href("tokens/#spacing")}>The names and sizes of all {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
   </Section>
 
-  <Section {...sections.shape}>
+  <Section {...sections.corners}>
     <p class="intro">
-      Corners and shadows are named by what they sit on. A card takes the card radius; a button is always a
-      pill.
+      A corner is named for what it sits on. A card takes the card radius; every action takes the action radius,
+      fully round today.
     </p>
-    <div class="group">
-      <h3 id="shape-corners">Corners</h3>
-      <p class="lead">Pick an element to see the corner it takes.</p>
-      <ShapeExplorer kind="radius" />
-    </div>
-    <div class="group">
-      <h3 id="shape-shadows">Shadows</h3>
-      <p class="lead">
-        A shadow lifts a surface off the page. Pick a situation to see the shadow it takes. In the dark variant
-        surfaces separate by tone, so a shadow adds little there.
-      </p>
-      <ShapeExplorer kind="shadow" />
-    </div>
-    <p class="more">
-      The names and values of <a href={href("tokens/#radius")}>all corners</a> and <a href={href("tokens/#shadow")}>all shadows</a>
+    <p class="lead">Pick an element to see the corner it takes.</p>
+    <ShapeExplorer kind="radius" />
+    <p class="more"><a href={href("tokens/#radius")}>The names and values of all corners</a></p>
+  </Section>
+
+  <Section {...sections.shadows}>
+    <p class="intro">
+      A shadow lifts a surface off the page, and is named for where that surface sits. In the dark variant
+      surfaces separate by tone, so a shadow adds little there.
     </p>
+    <p class="lead">Pick a situation to see the shadow it takes.</p>
+    <ShapeExplorer kind="shadow" />
+    <p class="more"><a href={href("tokens/#shadow")}>The names and values of all shadows</a></p>
   </Section>
 
   <Section {...sections.themes}>
