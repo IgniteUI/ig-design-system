@@ -15,6 +15,7 @@ The first version.
 - Two type sets: the default, with the sizes [www.infragistics.com](https://www.infragistics.com) ships, and `docs`, selected with `data-igd-type="docs"`.
 - Feedback colours for error, success, warning and info, each with an `-inverse` for dark surfaces and a tinted `-surface`.
 - The `ig-design-system check` command and the reusable workflow `.github/workflows/check-site.yml`, which check a site's source: no unknown token, no raw palette step read or declared, spacing roles for padding, margins and gaps.
-- `llms.txt` and `llms-full.txt`, generated on every build, for AI agents working with the tokens.
+- `llms.txt` and `llms-full.txt`, generated on every build, for AI agents working with the tokens, importable as `ig-design-system/llms.txt` and `ig-design-system/llms-full.txt`. `ig-design-system/package.json` is exported too.
+- Node.js 22 or newer for the `ig-design-system` command.
 - The dials `--ig-size`, `--ig-spacing`, `--ig-radius-factor` and `--ig-elevation-factor` take effect on the root and on a `data-ig-scope` element. A component marks its root with `data-ig-scope`.
 - The package has no dependencies. It is built with `igniteui-theming` 30.2.

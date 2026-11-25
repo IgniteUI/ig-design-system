@@ -96,7 +96,6 @@ ${example ? `\n## Writing a component\n\nThe same in every framework and every r
 
 - [llms-full.txt](llms-full.txt): every token with its value and what it is for
 - [README.md](README.md): the files, the token tiers, theming, the checks
-- [AGENTS.md](AGENTS.md): how to work in this repository, and the reason behind every decision
 - [CHANGELOG.md](CHANGELOG.md): what each version changes
 - [dist/tokens.json](dist/tokens.json): the tokens as data
 - [docs/examples/card.html](docs/examples/card.html): a component written to the rules, in plain HTML and CSS
