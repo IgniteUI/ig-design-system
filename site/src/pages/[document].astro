@@ -42,7 +42,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
 }));
 ---
 
-<SectionsLayout title={title} sections={sections} pages={pages} back={{ href: href("#setup"), title: "Back to the guide" }}>
+<SectionsLayout title={title} current="developers" sections={sections} pages={pages} back={{ href: href("#setup"), title: "Back to the guide" }}>
   {
     document?.filter && (
       <TokenFilter

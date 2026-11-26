@@ -59,6 +59,16 @@ describe("every page", () => {
       /aria-current="page"[^>]*>\s*Brand book\s*<span[^>]*>Beta<\/span>/,
     );
   });
+
+  it.each(["adopting/", "migration/", "changelog/"])(
+    "marks Developers in the top bar on /%s, and Developers opens the first document",
+    (route) => {
+      const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
+      expect(header).toMatch(
+        /<a href="\/adopting\/" aria-current="page"[^>]*>\s*Developers\s*</,
+      );
+    },
+  );
   it.each(ROUTES)(
     "/%s ends with the footer, which names the package and its version",
     (route) => {
@@ -459,11 +469,6 @@ describe("the documents", () => {
       );
     },
   );
-
-  it.each(documents)("/%s marks no page of the top bar as open", (slug) => {
-    const header = page(slug).match(/<header.*?<\/header>/s)?.[0] ?? "";
-    expect(header).not.toContain("aria-current");
-  });
 
   it.each(documents)(
     "/%s ends with links to the other documents and to the Tokens page",

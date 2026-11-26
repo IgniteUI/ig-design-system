@@ -1,19 +1,5 @@
 // The pages of the site and the documents it publishes.
 
-/** The pages the top bar lists, in order. `path` is from the site root. A page with `beta` carries a Beta label. */
-export const PAGES: readonly {
-  id: "guide" | "tokens" | "engine" | "logo";
-  path: string;
-  title: string;
-  beta?: boolean;
-}[] = [
-  { id: "guide", path: "", title: "Guide" },
-  { id: "tokens", path: "tokens/", title: "Tokens" },
-  { id: "engine", path: "engine/", title: "Engine" },
-  { id: "logo", path: "logo/", title: "Brand book", beta: true },
-];
-export type PageId = (typeof PAGES)[number]["id"];
-
 /**
  * The Markdown documents of the package the site publishes as pages. `file` is from the repository root.
  * `title` is the first-level heading of the file; the build stops when they differ. `filter` adds a filter over the document's tables.
@@ -45,3 +31,21 @@ export const DOCUMENTS: readonly {
     summary: "Every release and what it changes.",
   },
 ];
+
+/**
+ * The pages the top bar lists, in order. `path` is from the site root. A page with `beta` carries a Beta label.
+ * Developers opens the first document; the top bar marks it on every document page.
+ */
+export const PAGES: readonly {
+  id: "guide" | "tokens" | "engine" | "logo" | "developers";
+  path: string;
+  title: string;
+  beta?: boolean;
+}[] = [
+  { id: "guide", path: "", title: "Guide" },
+  { id: "tokens", path: "tokens/", title: "Tokens" },
+  { id: "engine", path: "engine/", title: "Engine" },
+  { id: "logo", path: "logo/", title: "Brand book", beta: true },
+  { id: "developers", path: `${DOCUMENTS[0].slug}/`, title: "Developers" },
+];
+export type PageId = (typeof PAGES)[number]["id"];
