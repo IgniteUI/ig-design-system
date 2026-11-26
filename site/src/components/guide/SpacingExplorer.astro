@@ -1,10 +1,9 @@
 ---
 // Shows the three kinds of space on two drawn cards: pick padding, margin or gap and that space is filled with a striped tint
-// where it sits, with the name of its token above. Each option says what its space is for.
+// where it sits. Each option names its token and says what its space is for.
 import ExampleLayout from "@/components/guide/ExampleLayout.astro";
 import ExampleTag from "@/components/guide/ExampleTag.astro";
 import OptionList from "@/components/guide/OptionList.astro";
-import CopyName from "@/components/ui/CopyName.astro";
 import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
 import { pick } from "@/lib/tokens.ts";
 
@@ -35,21 +34,18 @@ const first = "padding";
 <ExampleLayout class="explorer" data-explorer data-spacing-explorer data-picked={first}>
   <div class="options" slot="controls">
     <OptionList
-      options={KINDS.map((k) => ({ pick: k.id, label: k.label, use: k.use, swatch: "var(--stripes)" }))}
+      options={KINDS.map((k) => ({
+        pick: k.id,
+        label: k.label,
+        use: k.use,
+        swatch: "var(--stripes)",
+        name: { text: cssVar(k.token), prefix: prefixOf(cssVar(k.token)), copy: `var(${cssVar(k.token)})` },
+      }))}
       first={first}
       label="Kind of space"
     />
   </div>
 
-  <div class="info" slot="info">
-    {
-      KINDS.map((k) => (
-        <div data-info={k.id} hidden={k.id !== first}>
-          <CopyName name={cssVar(k.token)} prefix={prefixOf(cssVar(k.token))} copy={`var(${cssVar(k.token)})`} />
-        </div>
-      ))
-    }
-  </div>
 
   <div class="drawing">
     <ExampleTag many />
@@ -92,10 +88,6 @@ const first = "padding";
     );
   }
 
-  .info > div {
-    display: grid;
-    gap: var(--igd-space-gap-3xs);
-  }
 
 
   .drawing {

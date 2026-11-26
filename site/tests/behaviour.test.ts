@@ -458,7 +458,7 @@ describe("the spacing explorer of the guide", () => {
     expect(marked).toContain("repeating-linear-gradient");
     expect(
       await page.textContent(
-        "[data-spacing-explorer] [data-info]:not([hidden]) button",
+        '[data-spacing-explorer] .option:has([aria-pressed="true"]) [data-copy]',
       ),
     ).toContain("--igd-space-");
     await page.close();
@@ -480,7 +480,7 @@ describe("the colour explorer of the guide", () => {
     ).toBe(2);
     expect(
       await page.textContent(
-        "[data-colour-explorer] [data-info]:not([hidden]) button",
+        '[data-colour-explorer] .option:has([aria-pressed="true"]) [data-copy]',
       ),
     ).toContain("color-action-on");
     await page.close();
@@ -506,9 +506,8 @@ describe("the shape explorers of the guide", () => {
       page.$eval(
         ".explorer.radius",
         (el) =>
-          [...el.querySelectorAll<HTMLElement>("[data-info]")].find(
-            (i) => !i.hidden,
-          )?.dataset.info,
+          el.querySelector<HTMLElement>('button[aria-pressed="true"]')?.dataset
+            .pick,
       );
     expect(await shown()).toBe("radius-card");
     await page.click('.explorer.radius button[data-pick="radius-action"]');
@@ -524,30 +523,24 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
-  it.each([
-    [1280, "radius"],
-    [390, "radius"],
-    [1280, "shadow"],
-    [390, "shadow"],
-  ])(
-    "at %ipx put the token of the %s pick above its drawing",
-    async (width, kind) => {
-      const { page } = await open("", width);
-      const box = (part: string) =>
-        page.$eval(`.explorer.${kind} ${part}`, (el) =>
-          el.getBoundingClientRect().toJSON(),
-        );
-      const [drawing, info] = [await box(".drawing"), await box(".info")];
-      expect(info.bottom).toBeLessThanOrEqual(drawing.top);
-      await page.close();
-    },
-  );
+  it("names the token under the title of each option, above its use", async () => {
+    const { page } = await open("");
+    const order = await page.$eval(
+      '.explorer.radius .option:has([data-pick="radius-card"])',
+      (el) =>
+        ["strong", "[data-copy]", ".use"].map(
+          (part) => el.querySelector(part)?.getBoundingClientRect().top ?? 0,
+        ),
+    );
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    await page.close();
+  });
 
   it("says what each shadow is for on its option", async () => {
     const { page } = await open("");
     expect(
       await page.textContent(
-        '.explorer.shadow button[data-pick="shadow-card-hover"]',
+        '.explorer.shadow .option:has([data-pick="shadow-card-hover"])',
       ),
     ).toContain("A card under the mouse pointer.");
     await page.close();
@@ -558,7 +551,7 @@ describe("the shape explorers of the guide", () => {
     await page.click('.explorer.shadow button[data-pick="shadow-popover"]');
     expect(
       await page.textContent(
-        ".explorer.shadow [data-info]:not([hidden]) button",
+        '.explorer.shadow .option:has([aria-pressed="true"]) [data-copy]',
       ),
     ).toContain("shadow-popover");
     expect(

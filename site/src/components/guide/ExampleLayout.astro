@@ -20,8 +20,10 @@ const { class: className, ...attributes } = Astro.props;
 </div>
 
 <style>
+  /* The text after an example keeps its distance from it. */
   .frame {
     container-type: inline-size;
+    margin-block-end: var(--igd-space-stack-xl);
   }
 
   .example {

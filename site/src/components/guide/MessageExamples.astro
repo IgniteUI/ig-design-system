@@ -57,16 +57,17 @@ const MESSAGES = [
 
   .messages {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
     gap: var(--igd-space-gap-lg) var(--igd-space-gap-md);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  /* Every message in a row takes the height of the tallest. */
   .messages > li {
     display: grid;
-    align-content: start;
+    grid-template-rows: 1fr;
     gap: var(--igd-space-gap-xs);
     min-inline-size: 0;
   }

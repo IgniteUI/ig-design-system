@@ -1,8 +1,18 @@
 ---
-// The options of an example of Concepts: one card per option, with a short label and its plain use, the picked one pressed.
-// A button sets data-pick; scripts/explorer.ts reacts to it. `swatch` puts a colour sample before the label.
+// The options of an example of Concepts: one card per option, with a short label, the copyable name of its token and its
+// plain use, the picked one pressed. The pick button sets data-pick; scripts/explorer.ts reacts to it.
+// `swatch` puts a colour sample before the label; `after` follows the name, such as the element a type role is for.
+import CopyName from "@/components/ui/CopyName.astro";
+
 interface Props {
-  options: { pick: string; label: string; use: string; swatch?: string }[];
+  options: {
+    pick: string;
+    label: string;
+    use: string;
+    swatch?: string;
+    name?: { text: string; prefix: string; copy: string };
+    after?: string;
+  }[];
   /** The option pressed at first. */
   first: string;
   /** Names the group for assistive technology, such as "Kind of space". */
@@ -15,13 +25,21 @@ const { options, first, label } = Astro.props;
 <div data-ig-scope class="option-list" role="group" aria-label={label}>
   {
     options.map((o) => (
-      <button type="button" data-pick={o.pick} aria-pressed={o.pick === first ? "true" : "false"}>
-        <strong>
-          {o.swatch && <span class="swatch" style={`background: ${o.swatch}`} />}
-          {o.label}
-        </strong>
+      <div class="option">
+        <button type="button" data-pick={o.pick} aria-pressed={o.pick === first ? "true" : "false"}>
+          <strong>
+            {o.swatch && <span class="swatch" style={`background: ${o.swatch}`} />}
+            {o.label}
+          </strong>
+        </button>
+        {o.name && (
+          <span class="name">
+            <CopyName name={o.name.text} prefix={o.name.prefix} copy={o.name.copy} />
+            {o.after && <span class="after">{o.after}</span>}
+          </span>
+        )}
         <span class="use">{o.use}</span>
-      </button>
+      </div>
     ))
   }
 </div>
@@ -33,17 +51,46 @@ const { options, first, label } = Astro.props;
     gap: var(--igd-space-gap-xs);
   }
 
-  button {
+  /* The pick button covers the whole card; the name stays above it so its own button takes the click. */
+  .option {
+    position: relative;
     display: grid;
     gap: var(--igd-space-gap-3xs);
     padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
     border-radius: var(--igd-radius-tile);
-    background: transparent;
     color: var(--igd-color-text-ui);
-    font: inherit;
-    text-align: start;
+  }
+
+  button[data-pick] {
+    all: unset;
     cursor: pointer;
+  }
+
+  button[data-pick]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  button[data-pick]:focus-visible::after {
+    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+    outline-offset: var(--igd-focus-ring-offset);
+  }
+
+  .name {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-2xs);
+    min-inline-size: 0;
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .after {
+    color: var(--igd-color-text-muted);
   }
 
   strong {
@@ -69,18 +116,18 @@ const { options, first, label } = Astro.props;
   }
 
   @media (hover: hover) {
-    button:hover {
+    .option:hover {
       background: var(--igd-color-surface-subtle);
     }
   }
 
   /* The picked option: the tint and text colour the menus mark the open page with, and the action colour as its border. */
-  button[aria-pressed="true"] {
+  .option:has([aria-pressed="true"]) {
     border-color: var(--igd-color-action-default);
     background: var(--igd-color-surface-tint);
   }
 
-  button[aria-pressed="true"] :is(strong, .use) {
+  .option:has([aria-pressed="true"]) :is(strong, .use) {
     color: var(--igd-color-action-text);
   }
 </style>
