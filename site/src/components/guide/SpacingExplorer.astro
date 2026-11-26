@@ -1,6 +1,7 @@
 ---
 // Shows the three kinds of space on two drawn cards: pick padding, margin or gap and that space is filled with a striped tint
 // where it sits, with its use and the name of its token above.
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
 import ExampleTag from "@/components/guide/ExampleTag.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
@@ -30,8 +31,8 @@ pick(tokens.spacing.tokens, KINDS.map((k) => k.token), "spacing");
 const first = "padding";
 ---
 
-<div class="explorer" data-explorer data-spacing-explorer data-picked={first}>
-  <div class="options" role="group" aria-label="Kind of space">
+<ExampleLayout class="explorer" data-explorer data-spacing-explorer data-picked={first}>
+  <div class="options" slot="controls" role="group" aria-label="Kind of space">
     {
       KINDS.map((k) => (
         <button type="button" data-pick={k.id} aria-pressed={k.id === first ? "true" : "false"}>
@@ -42,7 +43,7 @@ const first = "padding";
     }
   </div>
 
-  <div class="info">
+  <div class="info" slot="info">
     {
       KINDS.map((k) => (
         <div data-info={k.id} hidden={k.id !== first}>
@@ -77,23 +78,21 @@ const first = "padding";
       </div>
     </div>
   </div>
-</div>
+</ExampleLayout>
 
 <script>
   import "@/scripts/explorer.ts";
 </script>
 
 <style>
-  .explorer {
+  /* The stripes that mark a kind of space, on its option and in the drawing. */
+  .options,
+  .drawing {
     --stripes: repeating-linear-gradient(
       -45deg,
       var(--igd-color-border-accent) 0 var(--igd-space-3xs),
       var(--igd-color-surface-tint) var(--igd-space-3xs) var(--igd-space-xs)
     );
-
-    display: grid;
-    gap: var(--igd-space-gap-md);
-    margin-block-end: var(--igd-space-stack-lg);
   }
 
   .options {

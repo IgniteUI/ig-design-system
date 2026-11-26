@@ -1,6 +1,7 @@
 ---
 // Picks a colour by its job: a list of colours by group beside a small drawn page, where every part that uses the picked
 // colour is outlined, with its use and the name of its token above the page.
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
 import ExampleTag from "@/components/guide/ExampleTag.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import { COLOUR_PICKS } from "@/data/guide.ts";
@@ -46,8 +47,8 @@ const first = "color-text-muted";
 const part = (token: string) => ({ "data-part": token, "data-current": token === first ? "" : undefined });
 ---
 
-<div class="explorer" data-explorer data-colour-explorer>
-  <div class="options">
+<ExampleLayout class="explorer" data-explorer data-colour-explorer>
+  <div class="options" slot="controls">
     {
       groups.map((group) => (
         <div class="colour-group" role="group" aria-labelledby={`${group.id}-pick`}>
@@ -67,7 +68,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     }
   </div>
 
-  <div class="info">
+  <div class="info" slot="info">
     {
       picks.map((p) => (
         <div data-info={p.token} hidden={p.token !== first}>
@@ -115,44 +116,24 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     </div>
     </div>
   </div>
-</div>
+</ExampleLayout>
 
 <script>
   import "@/scripts/explorer.ts";
 </script>
 
 <style>
-  .explorer {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "options" "info" "drawing";
-    gap: var(--igd-space-gap-md);
-    margin-block-end: var(--igd-space-stack-2xl);
-  }
-
-  /* breakpoint-lg: the list of colours sits beside the page. */
-  @media (min-width: 1024px) {
-    .explorer {
-      grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
-      grid-template-areas: "options info" "options drawing";
-      grid-template-rows: auto 1fr;
-    }
-  }
-
   .options {
-    grid-area: options;
     display: grid;
     align-content: start;
     gap: var(--igd-space-gap-md);
   }
 
   .info {
-    grid-area: info;
     min-inline-size: 0;
   }
 
   .drawing {
-    grid-area: drawing;
     display: grid;
     gap: var(--igd-space-gap-xs);
     min-inline-size: 0;

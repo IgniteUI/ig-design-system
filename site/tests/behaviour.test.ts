@@ -409,6 +409,26 @@ describe("the type roles of the guide", () => {
   );
 });
 
+describe("the interactive examples of the guide", () => {
+  it("at 1280px put their controls on the left and what they change on the right, all at the same edge", async () => {
+    const { page } = await open("", 1280);
+    const edges = await page.$$eval("[data-example-layout]", (all) =>
+      all.map((example) => {
+        const box = (part: string) =>
+          example.querySelector(`:scope > ${part}`)?.getBoundingClientRect();
+        return {
+          controls: box(".controls")?.right,
+          result: box(".result")?.left,
+        };
+      }),
+    );
+    expect(edges).toHaveLength(5);
+    for (const e of edges) expect(e.controls).toBeLessThan(e.result ?? 0);
+    expect(new Set(edges.map((e) => Math.round(e.result ?? 0))).size).toBe(1);
+    await page.close();
+  });
+});
+
 describe("the spacing explorer of the guide", () => {
   it.each([
     ["padding", ".card"],
@@ -499,10 +519,11 @@ describe("the shape explorers of the guide", () => {
     "at %ipx put the token of the %s pick above its drawing",
     async (width, kind) => {
       const { page } = await open("", width);
-      const [drawing, info] = await page.$$eval(
-        `.explorer.${kind} .drawing, .explorer.${kind} .info`,
-        (all) => all.map((el) => el.getBoundingClientRect().toJSON()),
-      );
+      const box = (part: string) =>
+        page.$eval(`.explorer.${kind} ${part}`, (el) =>
+          el.getBoundingClientRect().toJSON(),
+        );
+      const [drawing, info] = [await box(".drawing"), await box(".info")];
       expect(info.bottom).toBeLessThanOrEqual(drawing.top);
       await page.close();
     },

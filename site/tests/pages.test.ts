@@ -304,9 +304,7 @@ describe("the guide", () => {
 
   it("draws a part of the page for every colour the colour explorer lists", () => {
     const explorer =
-      html.match(
-        /data-colour-explorer.*?<\/div>\s*<\/div>\s*<\/div>\s*<\/div>/s,
-      )?.[0] ?? "";
+      html.match(/data-colour-explorer.*?id="colour-messages"/s)?.[0] ?? "";
     const picks = [...explorer.matchAll(/data-pick="([^"]+)"/g)].map(
       (m) => m[1],
     );

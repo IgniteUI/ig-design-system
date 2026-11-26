@@ -1,5 +1,6 @@
 ---
 // A control panel beside the live card: each dial is one row of options that sets it on the card, with its default named below.
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
 import { DIALS } from "@/data/guide.ts";
 
 interface Props {
@@ -11,8 +12,8 @@ const { target } = Astro.props;
 const defaultOf = (values: [string, string][]) => values.find(([, value]) => value === "")?.[0];
 ---
 
-<div class="lab">
-  <div class="panel" data-dials={target}>
+<ExampleLayout class="lab">
+  <div class="panel" slot="controls" data-dials={target}>
     {
       DIALS.map((dial) => (
         <div class="dial">
@@ -39,37 +40,23 @@ const defaultOf = (values: [string, string][]) => values.find(([, value]) => val
     }
     <button type="button" class="reset" data-dial-reset>Reset the dials</button>
   </div>
-  <slot />
-</div>
+  <div class="stage-slot"><slot /></div>
+</ExampleLayout>
 
 <script>
   import "@/scripts/dials.ts";
 </script>
 
 <style>
-  .lab {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-    gap: var(--igd-space-gap-lg);
-  }
-
-  /* breakpoint-xl: with room for both, the panel sits beside the card, so a press and its effect are in view together. */
-  @media (min-width: 1280px) {
-    .lab {
-      grid-template-columns: minmax(18rem, 22rem) minmax(0, 1fr);
-    }
-  }
-
   /* The examples fill their stage, a dashed outline with no fill of its own, so a change of padding or corner shows across their whole width. */
-  .lab > :global(.stage) {
+  .stage-slot > :global(.stage) {
     justify-items: stretch;
     border-style: dashed;
     border-color: var(--igd-color-border-default);
     background: transparent;
   }
 
-  .lab > :global(.stage .card) {
+  .stage-slot > :global(.stage .card) {
     max-inline-size: none;
   }
 

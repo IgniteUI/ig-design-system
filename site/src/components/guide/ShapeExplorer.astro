@@ -1,6 +1,7 @@
 ---
 // Picks a corner or a shadow by what it sits on: a row of options, a drawing that shows the chosen one, and the name of its token.
 // For corners the drawing is a small interface; for shadows it is one card that lifts.
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
 import ExampleTag from "@/components/guide/ExampleTag.astro";
 import CopyName from "@/components/ui/CopyName.astro";
 import { SHAPE_PICKS } from "@/data/guide.ts";
@@ -18,9 +19,8 @@ const first = kind === "radius" ? "radius-card" : "shadow-card-hover";
 const part = (token: string) => ({ "data-part": token, "data-current": token === first ? "" : undefined });
 ---
 
-<div class:list={["explorer", kind]} data-explorer data-shape-explorer>
-  <div class="body">
-  <div class="options" role="group" aria-label={kind === "radius" ? "Corner of" : "Shadow of"}>
+<ExampleLayout class={`explorer ${kind}`} data-explorer data-shape-explorer>
+  <div class="options" slot="controls" role="group" aria-label={kind === "radius" ? "Corner of" : "Shadow of"}>
     {
       picks.map((p) => (
         <button type="button" data-pick={p.token} aria-pressed={p.token === first ? "true" : "false"}>
@@ -37,6 +37,16 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     }
   </div>
 
+  <div class="info" slot="info">
+    {
+      picks.map((p) => (
+        <div data-info={p.token} hidden={p.token !== first}>
+          {kind === "radius" && <p class="use">{p.use}</p>}
+          <CopyName name={cssVar(p.token)} prefix={prefixOf(cssVar(p.token))} copy={`var(${cssVar(p.token)})`} />
+        </div>
+      ))
+    }
+  </div>
   <div class="drawing">
     <ExampleTag />
     <div class="drawn" aria-hidden="true">
@@ -64,52 +74,13 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     }
     </div>
   </div>
-
-  <div class="info">
-    {
-      picks.map((p) => (
-        <div data-info={p.token} hidden={p.token !== first}>
-          {kind === "radius" && <p class="use">{p.use}</p>}
-          <CopyName name={cssVar(p.token)} prefix={prefixOf(cssVar(p.token))} copy={`var(${cssVar(p.token)})`} />
-        </div>
-      ))
-    }
-  </div>
-  </div>
-</div>
+</ExampleLayout>
 
 <script>
   import "@/scripts/explorer.ts";
 </script>
 
 <style>
-  .explorer {
-    display: grid;
-    gap: var(--igd-space-gap-md);
-    container-type: inline-size;
-  }
-
-  /* The token of the pick sits above the drawing at every width. The shadow options, each with its meaning,
-     form a list beside the card where there is room. */
-  .body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "options" "info" "drawing";
-    gap: var(--igd-space-gap-md);
-  }
-
-  .options {
-    grid-area: options;
-  }
-
-  .drawing {
-    grid-area: drawing;
-  }
-
-  .info {
-    grid-area: info;
-  }
-
   /* A grid item takes the width of its widest line by default; a long name wraps inside it instead. */
   .options,
   .drawing,
@@ -122,21 +93,14 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     gap: var(--igd-space-gap-3xs);
   }
 
-  @container (inline-size >= 40rem) {
-    .shadow .body {
-      grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
-      grid-template-areas: "options info" "options drawing";
-      grid-template-rows: auto 1fr;
-    }
-  }
 
-  .shadow .options {
+  :global(.shadow) .options {
     display: grid;
     align-content: start;
     gap: var(--igd-space-gap-xs);
   }
 
-  .shadow .options button {
+  :global(.shadow) .options button {
     display: grid;
     gap: var(--igd-space-gap-3xs);
     padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
@@ -294,7 +258,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     transition: box-shadow var(--igd-duration-slow) var(--igd-easing-default);
   }
 
-  .shadow .drawing {
+  :global(.shadow) .drawing {
     padding-block: var(--igd-space-inset-4xl);
   }
 
