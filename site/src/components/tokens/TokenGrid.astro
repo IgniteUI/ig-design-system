@@ -20,6 +20,12 @@ const { roomy = false } = Astro.props;
     gap: var(--igd-space-gap-md);
   }
 
+  /* The list view: one row per token. */
+  :global([data-view="list"]) ul {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
   .roomy {
     gap: var(--igd-space-gap-xl);
   }

@@ -18,11 +18,11 @@ const { style, use, plain = false, element } = Astro.props;
 const className = `igd-${style.name}`;
 ---
 
-<li data-ig-scope data-token={style.name} class:list={{ plain }}>
+<li data-ig-scope id={style.name} data-token={style.name} class:list={{ plain }}>
   {
     !plain && (
       <div class="spec">
-        <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
+        <CopyName name={`.${className}`} prefix=".igd-" />
         <output data-type={className} />
       </div>
     )
@@ -34,7 +34,7 @@ const className = `igd-${style.name}`;
       plain && (
         <ul class="names" aria-label={`The class of ${style.name} and its element`}>
           <li>
-            <CopyName name={`.${className}`} prefix=".igd-" copy={className} />
+            <CopyName name={`.${className}`} prefix=".igd-" />
           </li>
           {element && (
             <li class="element">

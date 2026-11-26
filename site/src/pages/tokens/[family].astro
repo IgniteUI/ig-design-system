@@ -1,0 +1,345 @@
+---
+// A page of Tokens: one family of tokens, with its rendered values, how a site writes it, and a filter to find one.
+import Section from "@/components/layout/Section.astro";
+import TokenCard from "@/components/tokens/TokenCard.astro";
+import TokenFilter from "@/components/tokens/TokenFilter.astro";
+import TokenGrid from "@/components/tokens/TokenGrid.astro";
+import TokenRow from "@/components/tokens/TokenRow.astro";
+import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
+import ScrollTable from "@/components/ui/ScrollTable.astro";
+import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
+import { TOKEN_FAMILY_PAGES, type TokenFamilyId } from "@/data/navigation.ts";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { tokens } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+import { COLOUR_GROUPS, engineOf, groupColours, isEngine, previewOf } from "@/lib/tokens.ts";
+
+export function getStaticPaths() {
+  return TOKEN_FAMILY_PAGES.map((f) => ({ params: { family: f.id } }));
+}
+
+const family = Astro.params.family as TokenFamilyId;
+const title = TOKEN_FAMILY_PAGES.find((f) => f.id === family)?.title ?? family;
+
+const { semantic, component } = groupColours(tokens.color.tokens);
+const groups = [...COLOUR_GROUPS, ["other", "Other"] as [string, string]].filter(([key]) => semantic[key]);
+const fromOf = (token: (typeof tokens.color.tokens)[number]) => engineOf(token, tokens.color.tokens);
+const styles = tokens.type.groups.flatMap((g) => g.styles);
+const roles = tokens.spacing.tokens.filter((t) => !isEngine(t.name));
+const shadows = tokens.shadow.tokens.filter((t) => !isEngine(t.name));
+const other = [
+  ...tokens.opacity.tokens,
+  ...tokens.weight.tokens,
+  ...tokens.zIndex.tokens,
+  ...tokens.breakpoint.tokens,
+];
+const property = { fill: "background", text: "color", outline: "border-color" };
+// A colour of a label is shown as text on the fill it labels.
+const LABELS: Record<string, string> = { "color-action-on": "color-action-default" };
+// A colour used for text is shown as text: the text and link groups, a name with "text", and a label.
+const isText = (name: string, key: string) => Boolean(LABELS[name]) || previewOf(key) === "text" || /(^|-)text(-|$)/.test(name);
+// A text colour made for a dark surface is shown on one.
+const surfaceOf = (name: string) => (name.includes("-inverse") ? "color-surface-inverse" : undefined);
+
+const all = { id: "tokens", title: "The tokens" };
+const SECTIONS: Record<TokenFamilyId, { id: string; title: string; count?: number; unit?: string }[]> = {
+  colour: [
+    ...groups.map(([key, groupTitle]) => ({ id: `colour-${key}`, title: groupTitle, count: semantic[key].length })),
+    { id: "colour-component", title: "Component colours", count: component.length },
+  ],
+  type: [{ id: "tokens", title: "The roles", count: styles.length, unit: "roles" }],
+  spacing: [{ id: "tokens", title: "The roles", count: roles.length }],
+  radius: [{ ...all, count: tokens.radius.tokens.length }],
+  shadow: [{ ...all, count: shadows.length }],
+  gradient: [{ ...all, count: tokens.gradient.tokens.length }],
+  size: [{ ...all, count: tokens.size.tokens.length }],
+  other: [{ ...all, count: other.length }],
+};
+const sections = SECTIONS[family];
+---
+
+<SectionsLayout title={`${title} tokens`} sections={sections} menu="tokens">
+  <TokenFilter slot="nav" />
+
+  <h1>{title}</h1>
+  <div data-filter-rest>
+    {family === "colour" && (
+      <p class="intro">
+        Site code uses these. A name says what the colour is for. A name with <code>-inverse</code> is for an
+        area that stays dark in both variants, such as the footer; its preview sits on that dark surface.
+      </p>
+    )}
+    {family === "type" && (
+      <p class="intro">
+        {styles.length} roles. The readout is the size, line height and weight as rendered right now: resize the
+        window or switch the type set.
+      </p>
+    )}
+    {family === "spacing" && (
+      <p class="intro">
+        <code>space-inset-*</code> for padding, <code>space-stack-*</code> for vertical margins,{" "}
+        <code>space-gap-*</code> for gaps. Each reads a <a href={href("engine/#spacing")}>raw step</a>.
+      </p>
+    )}
+    {family === "radius" && <p class="intro">Each role has a design value and a range it stays within.</p>}
+    {family === "shadow" && (
+      <p class="intro">
+        Built from the engine's <a href={href("engine/#elevation")}>elevations</a>. The accent shadows and the tinted
+        elevations take the action colour. In the dark variant of the theme surfaces separate by tone, so a shadow
+        adds little there.
+      </p>
+    )}
+    {family === "gradient" && (
+      <p class="intro">
+        Four uses only: clipped headline text, the wash and glows behind the first section of a page, the dark bands,
+        and the footer.
+      </p>
+    )}
+    {family === "size" && (
+      <p class="intro">
+        Control heights, icon sizes, widths and letter spacing. A length is shown in pixels at the default text size,
+        with the value as written beside it.
+      </p>
+    )}
+    {family === "other" && (
+      <p class="intro">
+        Four small scales: how see-through a layer is, how heavy text is, which layer sits on top, and the widths at
+        which a layout changes.
+      </p>
+    )}
+    <p class="lead">
+      Click a name to copy it. Press <kbd>/</kbd> to filter by name, value or use, and <kbd>Esc</kbd> to clear.
+    </p>
+  </div>
+
+
+  <div data-view="list">
+  {
+    family === "colour" && (
+      <div id="colour-tokens">
+        {groups.map(([key, groupTitle]) => (
+          <Section id={`colour-${key}`} title={groupTitle} count={semantic[key].length}>
+            <div class="group" data-filter-group>
+              <TokenGrid>
+                {semantic[key].map((token) => (
+                  <TokenCard
+                    token={token}
+                    preview={isText(token.name, key) ? "text" : previewOf(key)}
+                    property={property[isText(token.name, key) ? "text" : previewOf(key)]}
+                    readout="colour"
+                    on={LABELS[token.name] ?? (isText(token.name, key) ? surfaceOf(token.name) : undefined)}
+                    from={fromOf(token)}
+                  />
+                ))}
+              </TokenGrid>
+            </div>
+          </Section>
+        ))}
+        <Section id="colour-component" title="Component colours" count={component.length}>
+          <p class="lead">Each belongs to one part of the site. A page does not reuse it elsewhere.</p>
+          <details class="group fold" data-filter-group>
+            <summary>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5l4.5 4.5L6 12.5" /></svg>
+              <span class="closed">Show the {component.length} component colours</span>
+              <span class="open">Hide the {component.length} component colours</span>
+            </summary>
+            <TokenGrid>
+              {component.map((token) => (
+                <TokenCard token={token} preview="fill" property="background" readout="colour" from={fromOf(token)} />
+              ))}
+            </TokenGrid>
+          </details>
+        </Section>
+      </div>
+    )
+  }
+
+  {
+    family === "type" && (
+      <Section id="tokens" title="The roles" count={styles.length} unit="roles">
+        <p class="lead">
+          Most pages use the default sizes. A documentation page uses the smaller <code>docs</code> set: press the
+          button to see it.
+        </p>
+        <p class="switches"><TypeSetToggle target="type-specimens" /></p>
+        <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
+      </Section>
+    )
+  }
+
+  {
+    family === "spacing" && (
+      <Section id="tokens" title="The roles" count={roles.length}>
+        <ScrollTable label="Spacing roles" head={["Role", "Value", "Use"]}>
+          {roles.map((token) => <TokenRow token={token} value="length" />)}
+        </ScrollTable>
+      </Section>
+    )
+  }
+
+  {
+    family === "radius" && (
+      <Section {...all} count={tokens.radius.tokens.length}>
+        <TokenGrid>
+          {tokens.radius.tokens.map((token) => (
+            <TokenCard token={token} preview="shape" property="border-radius" readout="length" />
+          ))}
+        </TokenGrid>
+      </Section>
+    )
+  }
+
+  {
+    family === "shadow" && (
+      <Section {...all} count={shadows.length}>
+        <TokenGrid roomy>
+          {shadows.map((token) => (
+            <TokenCard
+              token={token}
+              preview="lifted"
+              property={token.name.endsWith("-filter") ? "filter" : "box-shadow"}
+              written
+            />
+          ))}
+        </TokenGrid>
+      </Section>
+    )
+  }
+
+  {
+    family === "gradient" && (
+      <Section {...all} count={tokens.gradient.tokens.length}>
+        <TokenGrid>
+          {tokens.gradient.tokens.map((token) => (
+            <TokenCard token={token} preview="fill" property="background" written />
+          ))}
+        </TokenGrid>
+      </Section>
+    )
+  }
+
+  {
+    family === "size" && (
+      <Section {...all} count={tokens.size.tokens.length}>
+        <ScrollTable label="Size tokens" head={["Token", "Value", "Use"]}>
+          {tokens.size.tokens.map((token) => <TokenRow token={token} value="written" />)}
+        </ScrollTable>
+      </Section>
+    )
+  }
+
+  {
+    family === "other" && (
+      <Section {...all} count={other.length}>
+        <ScrollTable label="Opacity, weight, layer and breakpoint tokens" head={["Token", "Value", "Use"]}>
+          {other.map((token) => <TokenRow token={token} value="written" />)}
+        </ScrollTable>
+      </Section>
+    )
+  }
+
+  </div>
+
+  <p class="empty" hidden data-filter-empty>
+    No token matches. Try a shorter word, such as <code>hover</code> or <code>inset</code>, or a value, such as{" "}
+    <code>#155dfc</code> or <code>16px</code>.
+  </p>
+</SectionsLayout>
+
+<style>
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--igd-field-min-width), 1fr));
+    gap: var(--igd-space-gap-xl);
+    margin-block: 0 var(--igd-space-stack-lg);
+    padding-block: var(--igd-space-inset-md);
+    border-block: var(--igd-border-width-default) solid var(--igd-color-border-default);
+  }
+
+  .tiers dt {
+    color: var(--igd-color-text-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  .tiers dd {
+    margin: 0;
+    color: var(--igd-color-text-body);
+    font-size: var(--igd-type-body-sm-font-size);
+    line-height: var(--igd-type-body-sm-line-height);
+  }
+
+  [data-filter-rest] {
+    margin-block-end: var(--igd-space-stack-3xl);
+  }
+
+  kbd {
+    padding: 0 var(--igd-space-inset-2xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-control);
+    font-family: var(--igd-font-mono);
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .fold summary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--igd-space-gap-xs);
+    min-block-size: var(--igd-size-control-lg);
+    margin-block-end: var(--igd-space-stack-sm);
+    padding-inline: var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-action);
+    color: var(--igd-color-text-ui);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .fold summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fold summary:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  .fold svg {
+    inline-size: var(--igd-size-icon-sm);
+    block-size: var(--igd-size-icon-sm);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--igd-size-icon-stroke-strong);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: rotate var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  .fold[open] svg {
+    rotate: 90deg;
+  }
+
+  .fold[open] .closed,
+  .fold:not([open]) .open {
+    display: none;
+  }
+
+  .switches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-xs);
+    margin-block: 0 var(--igd-space-stack-md);
+  }
+
+  .specimens {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .empty {
+    padding-block: var(--igd-space-inset-3xl);
+    color: var(--igd-color-text-body);
+  }
+</style>

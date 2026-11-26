@@ -22,7 +22,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 <ExampleLayout class={`explorer ${kind}`} data-explorer data-shape-explorer>
   <div class="options" slot="controls">
     <OptionList
-      options={picks.map((p) => ({ pick: p.token, label: p.label, use: p.use, name: { text: cssVar(p.token), prefix: prefixOf(cssVar(p.token)), copy: `var(${cssVar(p.token)})` } }))}
+      options={picks.map((p) => ({ pick: p.token, label: p.label, use: p.use, name: { text: cssVar(p.token), prefix: prefixOf(cssVar(p.token)) } }))}
       first={first}
       label={kind === "radius" ? "Corner of" : "Shadow of"}
     />

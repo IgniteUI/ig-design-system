@@ -1,16 +1,22 @@
 ---
-// The menu of the Guide: its pages and documents, the open one marked. A list on the left; a wrapping row above the page below breakpoint-lg.
-import { GUIDE_PAGES } from "@/data/navigation.ts";
+// The menu of a section of the site, such as the Guide or Tokens: its pages, the open one marked.
+// A list on the left; a wrapping row above the page below breakpoint-lg.
+import { MENUS, type MenuId } from "@/data/navigation.ts";
 import { href } from "@/lib/paths.ts";
 
+interface Props {
+  menu: MenuId;
+}
+
+const { title, pages } = MENUS[Astro.props.menu];
 const here = Astro.url.pathname;
 ---
 
-<nav data-ig-scope class="guide-nav" aria-label="Guide">
-  <p class="title">Guide</p>
+<nav data-ig-scope class="side-nav" aria-label={title}>
+  <p class="title">{title}</p>
   <ul>
     {
-      GUIDE_PAGES.map((page) => (
+      pages.map((page) => (
         <li>
           <a href={href(page.path)} aria-current={here === href(page.path) ? "page" : undefined}>
             {page.title}
@@ -22,9 +28,11 @@ const here = Astro.url.pathname;
 </nav>
 
 <style>
-  .guide-nav {
+  .side-nav {
     grid-area: pages;
     align-self: start;
+    position: sticky;
+    inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-xl));
   }
 
   .title {
@@ -69,7 +77,8 @@ const here = Astro.url.pathname;
 
   /* breakpoint-lg */
   @media (max-width: 1024px) {
-    .guide-nav {
+    .side-nav {
+      position: static;
       padding-block: var(--igd-space-inset-md) var(--igd-space-inset-sm);
       border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
     }

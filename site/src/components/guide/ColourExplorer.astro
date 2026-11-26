@@ -59,7 +59,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
               label: p.label,
               use: p.use,
               swatch: `var(${cssVar(p.token)})`,
-              name: { text: cssVar(p.token), prefix: prefixOf(cssVar(p.token)), copy: `var(${cssVar(p.token)})` },
+              name: { text: cssVar(p.token), prefix: prefixOf(cssVar(p.token)) },
             }))}
             first={first}
             label={group.title}

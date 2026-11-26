@@ -1,30 +1,32 @@
 ---
 // A page of sections: the section list on the left, the content on the right.
-// A Guide page has the Guide's menu on the left, the content, and its sections as "On this page" on the right.
-import GuideNav from "@/components/layout/GuideNav.astro";
+// A page of a section with a menu, the Guide or Tokens, has that menu on the left, the content, and its sections as
+// "On this page" on the right.
+import SideNav from "@/components/layout/SideNav.astro";
 import SectionNav from "@/components/layout/SectionNav.astro";
-import type { PageId } from "@/data/navigation.ts";
+import type { MenuId, PageId } from "@/data/navigation.ts";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title?: string;
-  /** The page the top bar marks as open. A page the top bar does not list leaves it out. A Guide page marks Guide. */
+  /** The page the top bar marks as open. A page the top bar does not list leaves it out. A page with a menu marks its section. */
   current?: PageId;
   /** The sections of the page, in order. Each id is the id of an element on the page. */
   sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean; soon?: boolean }[];
-  /** A page of the Guide: the Guide's menu on the left, the sections on the right. */
-  guide?: boolean;
+  /** The section the page belongs to: its menu on the left, the sections on the right. */
+  menu?: MenuId;
 }
 
-const { title, current, sections, guide = false } = Astro.props;
+const { title, current, sections, menu } = Astro.props;
 ---
 
-<BaseLayout title={title} current={guide ? "guide" : current}>
+<BaseLayout title={title} current={menu ?? current}>
   <slot name="bar" slot="bar" />
   <slot name="switches" slot="switches" />
-  <div class:list={["layout", { guide }]}>
-    {guide && <GuideNav />}
-    <SectionNav sections={sections} heading={guide ? "On this page" : undefined}><slot name="nav" /></SectionNav>
+  <div class:list={["layout", { "with-menu": menu }]}>
+    <SectionNav sections={sections} heading={menu ? "On this page" : undefined}><slot name="nav" /></SectionNav>
+    {/* After the sticky section list, so Tab reaches the list and its filter before the menu. */}
+    {menu && <SideNav menu={menu} />}
     <main id="content" tabindex="-1">
       <slot />
     </main>
@@ -45,24 +47,24 @@ const { title, current, sections, guide = false } = Astro.props;
     outline: none;
   }
 
-  /* The Guide's menu and the content; the sections sit under the menu until there is room for a third column. */
-  .guide {
+  /* The menu and the content; the sections sit under the menu until there is room for a third column. */
+  .with-menu {
     grid-template-areas: "pages main" "toc main";
     grid-template-rows: auto 1fr;
     row-gap: var(--igd-space-gap-xl);
   }
 
-  .guide > main {
+  .with-menu > main {
     grid-area: main;
   }
 
-  .guide > :global([data-section-nav]) {
+  .with-menu > :global([data-section-nav]) {
     grid-area: toc;
   }
 
   /* breakpoint-xl */
   @media (min-width: 1280px) {
-    .guide {
+    .with-menu {
       grid-template-columns: minmax(12rem, 14rem) minmax(0, 1fr) minmax(12rem, 14rem);
       grid-template-areas: "pages main toc";
       grid-template-rows: auto;
@@ -78,7 +80,7 @@ const { title, current, sections, guide = false } = Astro.props;
       padding-block-start: 0;
     }
 
-    .guide {
+    .with-menu {
       grid-template-areas: "pages" "toc" "main";
       grid-template-rows: auto;
     }

@@ -77,12 +77,11 @@ export const documentMarkdown = ({ documents, base }) => {
           if (!is(parent, "td") || !PUBLISHED.test(name)) return;
           const first = ctx.parent(parent).children.findIndex((cell) => cell.type === "element");
           if (ctx.indexOf(parent) === first) return;
-          const copy = name.startsWith("--") ? `var(${name})` : name.replace(/^\./, "");
           ctx.wrapNode(
             node,
             el(
               "button",
-              { type: "button", className: ["copy-name"], dataCopy: copy, dataCopyAlt: name, ariaLabel: `Copy ${copy}` },
+              { type: "button", className: ["copy-name"], dataCopy: name, ariaLabel: `Copy ${name}` },
               [COPY_MARK],
             ),
           );

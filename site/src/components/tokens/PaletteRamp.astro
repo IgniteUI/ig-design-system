@@ -31,8 +31,7 @@ const count = (step: Token) => readers[step.name]?.length ?? 0;
             <button
               type="button"
               style={`background: var(${cssVar(step.name)}); color: var(${cssVar(`${step.name}-contrast`)})`}
-              data-copy={`var(${cssVar(step.name)})`}
-              data-copy-alt={cssVar(step.name)}
+              data-copy={cssVar(step.name)}
               data-colour-title={cssVar(step.name)}
               aria-label={`Copy var(${cssVar(step.name)}). ${count(step) ? `Read by ${count(step)} ${count(step) === 1 ? "token" : "tokens"}.` : "No token reads it."}`}
             >

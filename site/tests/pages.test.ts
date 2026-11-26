@@ -4,7 +4,14 @@ import { describe, expect, it } from "vitest";
 import { TOKEN_FAMILIES } from "../../src/types.ts";
 import { COBRAND_RULES, NAME_RULES, SOON } from "../src/data/brand.ts";
 import { isEngine, readersOf } from "../src/lib/tokens.ts";
-import { DIST, GUIDE_ROUTES, page, ROUTES, source } from "./built.ts";
+import {
+  DIST,
+  GUIDE_ROUTES,
+  page,
+  ROUTES,
+  source,
+  tokenPages,
+} from "./built.ts";
 
 const tokens = JSON.parse(source("dist/tokens.json"));
 const pkg = JSON.parse(source("package.json"));
@@ -75,7 +82,7 @@ describe("every page", () => {
     (route) => {
       const html = page(route);
       const menu =
-        html.match(/<nav[^>]*class="guide-nav"[^>]*>.*?<\/nav>/s)?.[0] ?? "";
+        html.match(/<nav[^>]*class="side-nav"[^>]*>.*?<\/nav>/s)?.[0] ?? "";
       expect(menu.match(/<a /g)).toHaveLength(GUIDE_ROUTES.length);
       expect(menu).toContain(`href="/${route}" aria-current="page"`);
       expect(html).not.toContain("Back to the guide");
@@ -110,7 +117,7 @@ describe("every page", () => {
 });
 
 describe("the Tokens page", () => {
-  const html = page("tokens/");
+  const html = tokenPages();
   const shown = new Set(
     [...html.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
   );
@@ -168,11 +175,11 @@ describe("the Engine page", () => {
 
   it("lists the surface in the palette by its four roles", () => {
     for (const role of ["base", "sunken", "raised", "overlay"])
-      expect(html).toContain(`data-copy="var(--ig-surface-${role})"`);
+      expect(html).toContain(`data-copy="--ig-surface-${role}"`);
   });
 
   it("lists a shaded family by its ten numbered shades", () => {
-    expect(html.match(/data-copy="var\(--ig-gray-\d+\)"/g)).toHaveLength(10);
+    expect(html.match(/data-copy="--ig-gray-\d+"/g)).toHaveLength(10);
   });
 
   it("lists under a palette step the tokens that read it, each linked to its filter on the Tokens page", () => {
@@ -216,9 +223,9 @@ describe("the Engine page", () => {
     expect(row).toContain('href="/tokens/?q=space-inset-md"');
   });
 
-  it("makes each palette step findable and copyable by its bare name", () => {
+  it("makes each palette step findable, and copies the name it shows", () => {
     expect(html).toMatch(
-      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy-alt="--ig-primary-500"/,
+      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy="--ig-primary-500"/,
     );
   });
 });
@@ -282,7 +289,7 @@ describe("the guide", () => {
   it("names the class of each type role and the element it is meant for", () => {
     const role =
       html.match(/data-pick="type-display-lg".*?class="use"/s)?.[0] ?? "";
-    expect(role).toContain('data-copy-alt=".igd-type-display-lg"');
+    expect(role).toContain('data-copy=".igd-type-display-lg"');
     expect(role).toContain("on &lt;h1&gt;");
     expect(role).not.toContain("--igd-type-display-lg-");
   });
@@ -547,10 +554,10 @@ describe("the pages of the Guide", () => {
 });
 
 describe("the Tokens page, by tier", () => {
-  const html = page("tokens/");
+  const html = tokenPages();
 
   it("says which tokens to use, which belong to one component and which not to use", () => {
-    const legend = html.match(/<dl.*?<\/dl>/s)?.[0] ?? "";
+    const legend = page("tokens/").match(/<dl.*?<\/dl>/s)?.[0] ?? "";
     expect(
       [...legend.matchAll(/<dt[^>]*>([^<]*)<\/dt>/g)].map((m) => m[1].trim()),
     ).toEqual(["Use these", "One component only", "Do not use"]);

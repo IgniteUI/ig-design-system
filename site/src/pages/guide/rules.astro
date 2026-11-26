@@ -24,7 +24,7 @@ const plural = (word: string, rules: { number: number }[]) =>
   `${word}${rules.length > 1 ? "s" : ""} ${listOf(rules.map((r) => r.number))}`;
 ---
 
-<SectionsLayout title="Rules" sections={sections} guide>
+<SectionsLayout title="Rules" sections={sections} menu="guide">
   <h1>Rules</h1>
   <p class="intro">
     Each rule with an example of what to write and what not to. The check command reports{" "}

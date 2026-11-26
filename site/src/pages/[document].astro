@@ -2,7 +2,6 @@
 // One page per Markdown document of the package. The file is rendered as it is; its second-level headings are the sections.
 import { getCollection, render } from "astro:content";
 import TokenFilter from "@/components/tokens/TokenFilter.astro";
-import CopyFormat from "@/components/ui/CopyFormat.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
@@ -41,7 +40,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
 }));
 ---
 
-<SectionsLayout title={title} sections={sections} guide>
+<SectionsLayout title={title} sections={sections} menu="guide">
   {
     document?.filter && (
       <TokenFilter
@@ -55,10 +54,9 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
     document?.filter && (
       <div class="how" data-filter-rest>
         <p class="lead">
-          Click a new name to copy it, for CSS or as the name alone. Press <kbd>/</kbd> to filter the tables by an old
-          or a new name, and <kbd>Esc</kbd> to clear.
+          Click a new name to copy it. Press <kbd>/</kbd> to filter the tables by an old or a new name, and{" "}
+          <kbd>Esc</kbd> to clear.
         </p>
-        <CopyFormat />
       </div>
     )
   }

@@ -18,7 +18,7 @@ const listOf = (items: string[]) =>
   items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
 ---
 
-<SectionsLayout title="Set up a site" sections={Object.values(sections)} guide>
+<SectionsLayout title="Set up a site" sections={Object.values(sections)} menu="guide">
   <h1>Set up a site</h1>
   <p class="intro">
     For the developer who adds the design system to a site. It is CSS only: no framework code and no dependencies.

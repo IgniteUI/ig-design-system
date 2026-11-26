@@ -118,7 +118,7 @@ describe("the theme button", () => {
   it("keeps the dark variant on the next page once it is chosen, and returns to light when switched back", async () => {
     const { page } = await open("");
     await page.click("[data-theme-toggle]");
-    await page.goto(`${site.origin}/tokens/`);
+    await page.goto(`${site.origin}/tokens/colour/`);
     expect(await page.getAttribute("html", "data-theme")).toBe("dark");
     await page.click("[data-theme-toggle]");
     await page.reload();
@@ -195,7 +195,7 @@ describe("Tab through the sticky bars", () => {
   ])(
     "at %ipx in the %s variant moves focus through the top bar and the section list without scrolling the page",
     async (width, variant) => {
-      const { page } = await open("tokens/", width);
+      const { page } = await open("tokens/colour/", width);
       if (variant === "dark") await page.click("[data-theme-toggle]");
       await page.evaluate(() => {
         document.documentElement.style.scrollBehavior = "auto";
@@ -233,11 +233,11 @@ describe("the skip link", () => {
 
 describe("the section list", () => {
   it("tints the row of the section in view, as the top bar marks the open page", async () => {
-    const { page } = await open("tokens/");
-    await page.click('[data-section-nav] a[href="#spacing"]');
+    const { page } = await open("tokens/colour/");
+    await page.click('[data-section-nav] a[href="#colour-text"]');
     // The jump scrolls smoothly, and the row is marked once the scroll ends.
     await page.waitForSelector(
-      '[data-section-nav] a[href="#spacing"][aria-current="true"]',
+      '[data-section-nav] a[href="#colour-text"][aria-current="true"]',
     );
     const rows = await page.evaluate(() =>
       [
@@ -260,9 +260,9 @@ describe("the section list", () => {
       return colour;
     });
     expect(rows.filter((r) => r.fill === tint).map((r) => r.hash)).toEqual([
-      "#spacing",
+      "#colour-text",
     ]);
-    expect(rows.find((r) => r.hash === "#spacing")?.current).toBe("true");
+    expect(rows.find((r) => r.hash === "#colour-text")?.current).toBe("true");
     expect(rows.every((r) => r.border === "0px")).toBe(true);
     await page.close();
   });
@@ -323,7 +323,7 @@ describe("the section list on a phone", () => {
 });
 
 describe("the type set button", () => {
-  it.each(["", "tokens/"])(
+  it.each(["", "tokens/type/"])(
     "on /%s changes the type list only, not the rest of the page",
     async (route) => {
       const { page } = await open(route);
@@ -346,7 +346,7 @@ describe("the type set button", () => {
       expect(after.sample).not.toBe(before.sample);
       expect(after.heading).toBe(before.heading);
       expect(await page.getAttribute("html", "data-igd-type")).toBeNull();
-      if (route === "tokens/")
+      if (route === "tokens/type/")
         expect(
           await page.textContent('output[data-type="igd-type-display-lg"]'),
         ).toMatch(/^36px/);
@@ -371,20 +371,6 @@ describe("Concepts", () => {
     );
     expect(rule).toBeDefined();
     expect(printed?.trim()).toBe(rule?.trim());
-    await page.close();
-  });
-});
-
-describe("the usage samples of the Tokens page", () => {
-  it.each([
-    ["colour", "color: var(--igd-color-text-muted);"],
-    ["type", '<h3 class="igd-type-title-sm">Card title</h3>'],
-    ["spacing", "padding: var(--igd-space-inset-lg);"],
-    ["radius", "border-radius: var(--igd-radius-card);"],
-    ["shadow", "box-shadow: var(--igd-shadow-card-hover);"],
-  ])("show how to write a %s token", async (id, line) => {
-    const { page } = await open("tokens/");
-    expect(await page.textContent(`#${id} pre code`)).toContain(line);
     await page.close();
   });
 });
@@ -729,7 +715,7 @@ describe("the dials of the guide", () => {
 
 describe("the filter of the Tokens page", () => {
   it("sits above the section list, not in the top bar", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     expect(await page.locator("[data-section-nav] [data-filter]").count()).toBe(
       1,
     );
@@ -738,7 +724,7 @@ describe("the filter of the Tokens page", () => {
   });
 
   it("keeps the tokens whose name or note has the word, and counts them", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const all = await page.locator("[data-token]:visible").count();
     await page.fill("[data-filter]", "hover");
     const kept = await page.locator("[data-token]:not([hidden])").count();
@@ -755,10 +741,11 @@ describe("the filter of the Tokens page", () => {
   });
 
   it("writes the rendered value beside a token", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     expect(
       await page.textContent('[data-token="color-action-default"] output'),
     ).toMatch(/^#[0-9a-f]{6}$/);
+    await page.goto(`${site.origin}/tokens/spacing/`);
     expect(await page.textContent('[data-token="space-inset-md"] output')).toBe(
       "16px",
     );
@@ -820,40 +807,24 @@ describe("the logo page", () => {
 });
 
 describe("a copy button", () => {
-  it("copies the custom property and reports it", async () => {
+  it("copies the name it shows and reports it", async () => {
     const context = await browser.newContext({
       permissions: ["clipboard-read", "clipboard-write"],
     });
     const page = await context.newPage();
-    await page.goto(`${site.origin}/tokens/`);
+    await page.goto(`${site.origin}/tokens/colour/`);
     await page.click('[data-token="color-text-muted"] button[data-copy]');
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--igd-color-text-muted)",
+      "--igd-color-text-muted",
     );
     expect(await page.textContent("[data-toast]")).toBe(
-      "Copied var(--igd-color-text-muted)",
-    );
-    await context.close();
-  });
-  it("copies the bare name when Alt is held, and says what a click copies", async () => {
-    const context = await browser.newContext({
-      permissions: ["clipboard-read", "clipboard-write"],
-    });
-    const page = await context.newPage();
-    await page.goto(`${site.origin}/tokens/`);
-    const button = '[data-token="color-text-muted"] button[data-copy]';
-    expect(await page.getAttribute(button, "aria-label")).toBe(
-      "Copy var(--igd-color-text-muted)",
-    );
-    await page.click(button, { modifiers: ["Alt"] });
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-color-text-muted",
+      "Copied --igd-color-text-muted",
     );
     await context.close();
   });
 
   it("says what to do when the copy fails", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.evaluate(() => {
       Object.defineProperty(navigator, "clipboard", {
         value: { writeText: () => Promise.reject(new Error("denied")) },
@@ -861,7 +832,7 @@ describe("a copy button", () => {
     });
     await page.click('[data-token="color-text-muted"] button[data-copy]');
     expect(await page.textContent("[data-toast]")).toBe(
-      "Could not copy var(--igd-color-text-muted). Select the text and copy it by hand.",
+      "Could not copy --igd-color-text-muted. Select the text and copy it by hand.",
     );
     await page.close();
   });
@@ -893,7 +864,7 @@ const contrast = (page: Page, a: string, b: string) =>
 
 describe("a jump to a section on a narrow screen", () => {
   it.each([
-    ["tokens/", "#spacing", 390],
+    ["tokens/colour/", "#colour-text", 390],
     ["logo/", "#rules", 390],
     ["adopting/", "#5-check-it", 390],
     ["", "#type", 800],
@@ -927,7 +898,7 @@ describe("a jump to a section on a narrow screen", () => {
 
 describe("keyboard focus on the Tokens page", () => {
   it("draws the focus ring on a control that opens a note and on the fold of the component colours", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const ring = (selector: string) =>
       page.evaluate((selector) => {
         const el = document.querySelector<HTMLElement>(selector);
@@ -942,7 +913,7 @@ describe("keyboard focus on the Tokens page", () => {
   });
 
   it("names the fold of the component colours with what it shows", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     expect(
       (
         await page.locator("details.fold summary .closed").textContent()
@@ -954,7 +925,7 @@ describe("keyboard focus on the Tokens page", () => {
 
 describe("the tables of the Tokens page on a phone", () => {
   it("keep every token name whole: a name breaks only after a hyphen", async () => {
-    const { page } = await open("tokens/", 390);
+    const { page } = await open("tokens/colour/", 390);
     const broken = await page.evaluate(() =>
       [
         ...document.querySelectorAll<HTMLElement>(
@@ -978,7 +949,7 @@ describe("the tables of the Tokens page on a phone", () => {
 
 describe("the filter of the Tokens page, beyond names", () => {
   it("finds a token by its rendered value", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.fill("[data-filter]", "#155dfc");
     expect(
       await page.locator('[data-token="color-action-default"]').isVisible(),
@@ -990,10 +961,10 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("counts the matches of each section in the section list, and puts the totals back", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/radius/");
     const count = () =>
       page
-        .locator('[data-section-list] a[href="#radius"] .count')
+        .locator('[data-section-list] a[href="#tokens"] .count')
         .evaluate((el) => el.firstChild?.textContent?.trim());
     const total = await count();
     await page.fill("[data-filter]", "radius-action");
@@ -1004,7 +975,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("opens the component colours for a match there, and closes them again when cleared", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const open_ = () =>
       page
         .locator("details.fold")
@@ -1018,7 +989,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("applies the filter of the address, and writes the filter to it", async () => {
-    const { page } = await open("tokens/?q=radius-action");
+    const { page } = await open("tokens/radius/?q=radius-action");
     await page.waitForFunction(
       () =>
         document.querySelector("[data-filter-matches]")?.textContent ===
@@ -1030,7 +1001,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("shows the first match when the reader filters from further down the page", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.evaluate(() => {
       document.documentElement.style.scrollBehavior = "auto";
       document.getElementById("size")?.scrollIntoView();
@@ -1050,7 +1021,7 @@ describe("the filter of the Tokens page, beyond names", () => {
 
 describe("a preview on the Tokens page", () => {
   it("shows a text colour for dark surfaces on the dark surface, readable", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const colours = await page
       .locator('[data-token="color-text-inverse"] .preview')
       .evaluate((el) => {
@@ -1139,19 +1110,13 @@ describe("the migration guide", () => {
     await page.close();
   });
 
-  it("copies a new name for CSS, and the bare name with Alt and Enter", async () => {
+  it("copies a new name exactly as it shows it", async () => {
     const context = await browser.newContext({
       permissions: ["clipboard-read", "clipboard-write"],
     });
     const page = await context.newPage();
     await page.goto(`${site.origin}/migration/`);
-    const button = 'button[data-copy="var(--igd-radius-action)"]';
-    await page.click(button);
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--igd-radius-action)",
-    );
-    await page.focus(button);
-    await page.keyboard.press("Alt+Enter");
+    await page.click('button[data-copy="--igd-radius-action"]');
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
       "--igd-radius-action",
     );
@@ -1328,7 +1293,7 @@ describe("the active state", () => {
     const styles = await page.evaluate(() =>
       [
         'header nav a[aria-current="page"]',
-        'nav.guide-nav a[aria-current="page"]',
+        'nav.side-nav a[aria-current="page"]',
         '[data-section-list] a[aria-current="true"]',
       ].map((selector) => {
         const el = document.querySelector(selector);
@@ -1362,7 +1327,7 @@ describe("the section being read", () => {
   it.each([
     ["", "colour", 1280],
     ["", "colour", 390],
-    ["tokens/", "shadow", 1280],
+    ["tokens/colour/", "colour-surface", 1280],
   ])(
     "on /%s is #%s while its content fills the screen, not the section after it",
     async (route, id, width) => {
@@ -1419,53 +1384,9 @@ describe("the section being read", () => {
   });
 });
 
-describe("the Copy as switch", () => {
-  it("makes a click copy the name alone, on this page and the next, and names the button for it", async () => {
-    const context = await browser.newContext({
-      permissions: ["clipboard-read", "clipboard-write"],
-    });
-    const page = await context.newPage();
-    await page.goto(`${site.origin}/tokens/`);
-    const button = '[data-token="color-text-muted"] button[data-copy]';
-    await page.click('button[data-copy-format="name"]');
-    expect(await page.getAttribute(button, "aria-label")).toBe(
-      "Copy --igd-color-text-muted",
-    );
-    await page.click(button);
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-color-text-muted",
-    );
-    await page.goto(`${site.origin}/engine/`);
-    expect(
-      await page.getAttribute(
-        'button[data-copy-format="name"]',
-        "aria-pressed",
-      ),
-    ).toBe("true");
-    const step = '[data-token="ig-gray-500"] button';
-    await page.click(step);
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--ig-gray-500",
-    );
-    await page.click(step, { modifiers: ["Alt"] });
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--ig-gray-500)",
-    );
-    await context.close();
-  });
-
-  it("is on every page that has name buttons", async () => {
-    for (const route of ["tokens/", "engine/", "migration/"]) {
-      const { page } = await open(route);
-      expect(await page.locator("button[data-copy-format]").count()).toBe(2);
-      await page.close();
-    }
-  });
-});
-
 describe("a filter, where the result shows", () => {
   it("finds a value from the address, once the values are written", async () => {
-    const { page } = await open("tokens/?q=%23155dfc");
+    const { page } = await open("tokens/colour/?q=%23155dfc");
     await page.waitForFunction(() =>
       /^\d+ match/.test(
         document.querySelector("[data-filter-matches]")?.textContent ?? "",
@@ -1479,7 +1400,7 @@ describe("a filter, where the result shows", () => {
   });
 
   it("follows the theme: a value of the dark variant is found after the switch", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.click("[data-theme-toggle]");
     const dark =
       (
@@ -1502,7 +1423,7 @@ describe("a filter, where the result shows", () => {
   });
 
   it.each([
-    ["tokens/", "gap", "[data-token]:not([hidden])"],
+    ["tokens/spacing/", "gap", "[data-token]:not([hidden])"],
     ["migration/", "radius", "article tbody tr:not([hidden])"],
   ])(
     "on /%s at 390px puts the first match on the first screen",
@@ -1528,7 +1449,7 @@ describe("a filter, where the result shows", () => {
   });
 
   it("clears with Escape wherever the focus is", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/radius/");
     await page.fill("[data-filter]", "radius-action");
     await page.focus('[data-token="radius-action"] button[data-copy]');
     await page.keyboard.press("Escape");
@@ -1642,11 +1563,11 @@ describe("the drawings of the logo page", () => {
 describe("a page of the Guide on a narrow screen", () => {
   it("lists the pages of the Guide above its text and marks itself", async () => {
     const { page } = await open("adopting/", 390);
-    const links = page.locator("nav.guide-nav a");
+    const links = page.locator("nav.side-nav a");
     expect(await links.count()).toBe(6);
     expect(await links.first().isVisible()).toBe(true);
     expect(
-      await page.locator('nav.guide-nav a[aria-current="page"]').textContent(),
+      await page.locator('nav.side-nav a[aria-current="page"]').textContent(),
     ).toContain("Moving a site onto the design system");
     await page.close();
   });

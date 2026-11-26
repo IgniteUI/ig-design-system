@@ -10,7 +10,7 @@ interface Props {
     label: string;
     use: string;
     swatch?: string;
-    name?: { text: string; prefix: string; copy: string };
+    name?: { text: string; prefix: string };
     after?: string;
   }[];
   /** The option pressed at first. */
@@ -34,7 +34,7 @@ const { options, first, label } = Astro.props;
         </button>
         {o.name && (
           <span class="name">
-            <CopyName name={o.name.text} prefix={o.name.prefix} copy={o.name.copy} />
+            <CopyName name={o.name.text} prefix={o.name.prefix} />
             {o.after && <span class="after">{o.after}</span>}
           </span>
         )}

@@ -146,7 +146,7 @@ if (missing.length)
       <p class="lead">{messages.lead}</p>
       <MessageExamples />
     </div>
-    <p class="more"><a href={href("tokens/#colour")}>The names and values of all {colours.length} colours</a></p>
+    <p class="more"><a href={href("tokens/colour/")}>The names and values of all {colours.length} colours</a></p>
   </Section>
 
   <Section {...sections.type}>
@@ -161,7 +161,7 @@ if (missing.length)
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
-    <p class="more"><a href={href("tokens/#type")}>The names and sizes of all {styles.length} type roles</a></p>
+    <p class="more"><a href={href("tokens/type/")}>The names and sizes of all {styles.length} type roles</a></p>
   </Section>
 
   <Section {...sections.spacing}>
@@ -172,7 +172,7 @@ if (missing.length)
     <p class="lead">Pick a kind of space to see where it sits.</p>
     <SpacingExplorer />
     <p class="lead">Widths, heights and offsets are not tokens. Type those as the layout needs them.</p>
-    <p class="more"><a href={href("tokens/#spacing")}>The names and sizes of all {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
+    <p class="more"><a href={href("tokens/spacing/")}>The names and sizes of all {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
   </Section>
 
   <Section {...sections.corners}>
@@ -182,7 +182,7 @@ if (missing.length)
     </p>
     <p class="lead">Pick an element to see the corner it takes.</p>
     <ShapeExplorer kind="radius" />
-    <p class="more"><a href={href("tokens/#radius")}>The names and values of all corners</a></p>
+    <p class="more"><a href={href("tokens/radius/")}>The names and values of all corners</a></p>
   </Section>
 
   <Section {...sections.shadows}>
@@ -192,7 +192,7 @@ if (missing.length)
     </p>
     <p class="lead">Pick a situation to see the shadow it takes.</p>
     <ShapeExplorer kind="shadow" />
-    <p class="more"><a href={href("tokens/#shadow")}>The names and values of all shadows</a></p>
+    <p class="more"><a href={href("tokens/shadow/")}>The names and values of all shadows</a></p>
   </Section>
 
   <Section {...sections.themes}>

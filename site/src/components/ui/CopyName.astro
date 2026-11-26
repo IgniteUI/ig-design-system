@@ -1,20 +1,16 @@
 ---
-// A name as a button that copies a value, with the prefix of the name dimmed and a copy mark after it.
+// A name as a button that copies exactly the name it shows, with the prefix of the name dimmed and a copy mark after it.
 interface Props {
-  /** The text shown. */
+  /** The text shown and copied. */
   name: string;
   /** The part at the start of `name` to dim, such as "--igd-". */
   prefix?: string;
-  /** The text copied. Defaults to the name. */
-  copy?: string;
-  /** The text copied when Alt is held. Defaults to the name, when it differs from `copy`. */
-  alt?: string;
 }
 
-const { name, prefix = "", copy = name, alt = name === copy ? undefined : name } = Astro.props;
+const { name, prefix = "" } = Astro.props;
 ---
 
-<button data-ig-scope type="button" data-copy={copy} data-copy-alt={alt} aria-label={`Copy ${copy}`}>
+<button data-ig-scope type="button" data-copy={name} aria-label={`Copy ${name}`}>
   <span class="text"><span class="prefix">{prefix}</span>{name.slice(prefix.length)}</span>
   <svg viewBox="0 0 16 16" aria-hidden="true">
     <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
