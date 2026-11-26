@@ -16,8 +16,8 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 | `dist/theme.css` | The live layer: tokens that follow the theming dials, state colours derived from their base token, the dark variant and the type classes. Load it second. |
 | `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
 | `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
-| `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use, plus the custom properties only the stylesheets declare. Generated on every build. |
-| `AGENTS.md`, `CHANGELOG.md`, `docs/ADOPTING.md`, `docs/MIGRATION.md` | Shipped beside `dist/`, because `llms.txt` links to them. |
+| `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use, plus the custom properties only the stylesheets declare. Generated on every build. Importable as `ig-design-system/llms.txt` and `ig-design-system/llms-full.txt`. |
+| `CHANGELOG.md`, `docs/ADOPTING.md`, `docs/MIGRATION.md` | Shipped beside `dist/`, because `llms.txt` links to them. `AGENTS.md`, the guide to working in this repository, is not shipped: an agent in a site reads `llms.txt`. |
 | `dist/cli/` | The compiled `ig-design-system` command. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
@@ -218,7 +218,7 @@ To change a token, edit `src/spec.ts` (or the generator) and rebuild. The tables
 
 ## Build
 
-Building the package requires Node 22.18 or newer. A site that only runs the compiled `ig-design-system` command needs Node 20 or newer. The generator and the checks are TypeScript and Node runs them directly, with no build step. The sources use erasable syntax only (no `enum`, no `namespace`, no parameter properties) and import each other with the `.ts` extension.
+Building the package requires Node 22.18 or newer. A site that only runs the compiled `ig-design-system` command needs Node 22 or newer; Node 20 reached its end of life in April 2026. The generator and the checks are TypeScript and Node runs them directly, with no build step. The sources use erasable syntax only (no `enum`, no `namespace`, no parameter properties) and import each other with the `.ts` extension.
 
 ```sh
 npm ci

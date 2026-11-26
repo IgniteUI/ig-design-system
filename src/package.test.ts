@@ -39,6 +39,21 @@ describe("the published package", () => {
       );
   });
 
+  it("exports its manifest and the two files for AI agents", () => {
+    expect(pkg.exports["./package.json"]).toBe("./package.json");
+    expect(pkg.exports["./llms.txt"]).toBe("./llms.txt");
+    expect(pkg.exports["./llms-full.txt"]).toBe("./llms-full.txt");
+  });
+
+  it("does not ship AGENTS.md, the guide to working in this repository, and llms.txt does not link to it", () => {
+    expect(pkg.files).not.toContain("AGENTS.md");
+    expect(fs.readFileSync("llms.txt", "utf8")).not.toContain("AGENTS.md");
+  });
+
+  it("asks for a Node.js version that is still supported", () => {
+    expect(pkg.engines.node).toBe(">=22");
+  });
+
   it("is not private and names its licence", () => {
     expect(pkg.private).toBeUndefined();
     expect(pkg.license).toBe("MIT");

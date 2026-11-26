@@ -22,13 +22,12 @@
   ],
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "files": [
     "dist",
     "llms.txt",
     "llms-full.txt",
-    "AGENTS.md",
     "CHANGELOG.md",
     "docs/ADOPTING.md",
     "docs/examples",
@@ -46,7 +45,10 @@
     "./base.css": "./dist/base.css",
     "./fonts.css": "./dist/fonts.css",
     "./tokens.json": "./dist/tokens.json",
-    "./tokens.dtcg.json": "./dist/infragistics.tokens.json"
+    "./tokens.dtcg.json": "./dist/infragistics.tokens.json",
+    "./llms.txt": "./llms.txt",
+    "./llms-full.txt": "./llms-full.txt",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "node src/make.ts && node src/migration.ts docs/MIGRATION.md && node src/namespace.ts && node src/dtcg.ts dist/tokens.json dist/theme.css dist/infragistics.tokens.json && tsc -p tsconfig.cli.json && node src/llms.ts dist/tokens.json package.json llms.txt llms-full.txt dist/tokens.css dist/theme.css",
