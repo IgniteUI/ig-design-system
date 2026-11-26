@@ -1,6 +1,6 @@
 # Documentation site
 
-The site of `ig-design-system`: the guide, the tokens, the logo and the documents. An [Astro](https://astro.build) project. It is not part of the npm package.
+The site of `ig-design-system`: Concepts, the Guide with its documents, the tokens, the engine and the brand book. An [Astro](https://astro.build) project. It is not part of the npm package.
 
 ## Commands
 
@@ -41,7 +41,8 @@ The package must be built first: the site reads `../dist/`. `dist/` is committed
 
 - **A page:** add `src/pages/<name>.astro` with `SectionsLayout`, and a line in `PAGES` in `src/data/navigation.ts` to list it in the top bar. Add its route to `ROUTES` in `tests/built.ts`.
 - **A Markdown document as a page:** add a line to `DOCUMENTS` in `src/data/navigation.ts`. The file is rendered as it is.
-- **A featured token in the guide:** add its name to a list in `src/data/guide.ts`. A name that is not in `tokens.json` stops the build.
+- **A page of the Guide:** add `src/pages/guide/<name>.astro` with `SectionsLayout` and `guide`, a line in `GUIDE_PAGES` in `src/data/navigation.ts`, and its route to `ROUTES` and `GUIDE_ROUTES` in `tests/built.ts`.
+- **A featured token in Concepts:** add its name to a list in `src/data/guide.ts`. A name that is not in `tokens.json` stops the build.
 - **A behaviour:** add a script in `src/scripts/` and import it from the component that needs it. Dispatch `changed()` from `events.ts` when rendered values may have moved.
 
 ## Publishing

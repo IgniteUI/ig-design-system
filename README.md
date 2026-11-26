@@ -46,11 +46,12 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 | Page | What it is |
 |---|---|
-| Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the light and dark variants and the four dials on a live card, the steps to build a component with the example card, the rules as do and don't pairs with what the check command reports, and how to set up a site. |
+| Concepts (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, each with its token's name, and the light and dark variants and the four dials on a live card. |
+| Guide (`/guide/`, `/guide/component/`, `/guide/rules/`) | For a developer: set up a site, build a component with the example card, and the rules as do and don't pairs with what the check command reports. |
 | Tokens (`/tokens/`) | Every token a site may write, with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
 | Engine (`/engine/`) | What the tokens are built from: the palette, the raw spacing steps and the engine's elevations, each with the tokens that read it. A site does not write these. |
 | Brand book (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes, a do and don't list, the name, co-branding and accessibility rules, and the sections still to write. |
-| Developers (`/adopting/`, `/migration/`, `/changelog/`) | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files. The top bar's Developers opens the first; a row of tabs switches between the three. `site/integrations/document-markdown.mjs`, a plugin of Astro's Markdown processor, links the documents to each other as pages, adds a copy button to a code sample, and makes a new name in a table a copy button. |
+| Guide documents (`/adopting/`, `/migration/`, `/changelog/`) | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files. Every Guide page lists the Guide's pages and documents on the left and its own sections under On this page. `site/integrations/document-markdown.mjs`, a plugin of Astro's Markdown processor, links the documents to each other as pages, adds a copy button to a code sample, and makes a new name in a table a copy button. |
 
 Nothing the site shows is typed twice. The pages read `dist/tokens.json`, the Markdown files, `package.json`, the rules in `src/rules.ts`, the check rules in `checks/rules.ts` and the example card in `docs/examples/` at build time, and nothing the build writes is committed. Change a token, a document or a rule in one place and the next build shows it.
 
@@ -198,7 +199,7 @@ The command exits non-zero when it finds something. It does not report:
 - widths, heights and offsets, which are typed by hand
 - Markdown files
 
-`checks/rules.ts` holds both lists. The command's `--help`, `llms.txt` and the guide print them from there, and a test fails when this table and list differ from it.
+`checks/rules.ts` holds both lists. The command's `--help`, `llms.txt` and the Guide's Rules page print them from there, and a test fails when this table and list differ from it.
 
 In CI, a site calls the reusable workflow:
 
@@ -223,7 +224,7 @@ dist/        the generated package (committed, so a site can use it without buil
 reports/     the contrast pairings and derived-colour data the gates read, and the contrast report of the last check run
 reference/   React reference components and their stylesheet. They prove the tokens and feed the checks; they are not part of the package
 docs/        ADOPTING.md: moving a site onto the package; MIGRATION.md: old token names to new ones;
-             examples/card.html and card.css: one component written to the rules in plain HTML and CSS, quoted in llms.txt, printed by the guide and checked by npm test
+             examples/card.html and card.css: one component written to the rules in plain HTML and CSS, quoted in llms.txt, shown by the Guide's Build a component page and checked by npm test
 AGENTS.md    the decisions behind the code and the reason for each
 ```
 

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { TOKEN_FAMILIES } from "../../src/types.ts";
 import { COBRAND_RULES, NAME_RULES, SOON } from "../src/data/brand.ts";
 import { isEngine, readersOf } from "../src/lib/tokens.ts";
-import { DIST, page, ROUTES, source } from "./built.ts";
+import { DIST, GUIDE_ROUTES, page, ROUTES, source } from "./built.ts";
 
 const tokens = JSON.parse(source("dist/tokens.json"));
 const pkg = JSON.parse(source("package.json"));
@@ -52,7 +52,7 @@ describe("every page", () => {
   );
 
   it("marks the open page in the top bar", () => {
-    expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Guide/);
+    expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Concepts/);
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
     expect(page("engine/")).toMatch(/aria-current="page"[^>]*>\s*Engine/);
     expect(page("logo/")).toMatch(
@@ -60,12 +60,33 @@ describe("every page", () => {
     );
   });
 
-  it.each(["adopting/", "migration/", "changelog/"])(
-    "marks Developers in the top bar on /%s, and Developers opens the first document",
+  it.each(GUIDE_ROUTES)(
+    "marks Guide in the top bar on /%s, and Guide opens Set up a site",
     (route) => {
       const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
       expect(header).toMatch(
-        /<a href="\/adopting\/" aria-current="page"[^>]*>\s*Developers\s*</,
+        /<a href="\/guide\/" aria-current="page"[^>]*>\s*Guide\s*</,
+      );
+    },
+  );
+
+  it.each(GUIDE_ROUTES)(
+    "/%s lists every page of the Guide in one menu, marks itself, and has no link back to Concepts",
+    (route) => {
+      const html = page(route);
+      const menu =
+        html.match(/<nav class="guide-nav"[^>]*>.*?<\/nav>/s)?.[0] ?? "";
+      expect(menu.match(/<a /g)).toHaveLength(GUIDE_ROUTES.length);
+      expect(menu).toContain(`href="/${route}" aria-current="page"`);
+      expect(html).not.toContain("Back to the guide");
+    },
+  );
+
+  it.each(GUIDE_ROUTES)(
+    "/%s lists its sections under On this page",
+    (route) => {
+      expect(page(route)).toMatch(
+        /<nav aria-label="On this page"[^>]*>\s*<p class="heading"[^>]*>On this page<\/p>/,
       );
     },
   );
@@ -252,28 +273,9 @@ describe("the guide", () => {
     ).toEqual(["Large", "Normal", "Standard", "Normal"]);
   });
 
-  it("prints the install and check commands with the package's name", () => {
-    expect(html).toContain(`npm install ${pkg.name}`);
-    expect(html).toContain(`npx ${pkg.name} check src`);
-  });
-
-  it("names the optional stylesheets in a sentence, each as code", () => {
-    expect(html).toMatch(
-      /<\/strong> <code[^>]*>fonts\.css<\/code> and <code[^>]*>base\.css<\/code> are optional\./,
-    );
-  });
-
   it("shows a featured colour with its plain use, not its technical note", () => {
     expect(html).toMatch(
       /data-info="color-action-default".*?The fill of the main button\./s,
-    );
-  });
-
-  it("titles each rule in plain words, with the code under it", () => {
-    const rule = html.match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
-    expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
-    expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
-      rule.indexOf("color: var(--igd-color-text-muted);"),
     );
   });
 
@@ -457,18 +459,6 @@ describe("the documents", () => {
   );
 
   it.each(documents)(
-    "/%s lists the three documents beside its sections and marks itself",
-    (slug, file) => {
-      const list =
-        page(slug).match(/<ul[^>]*aria-label="Documents".*?<\/ul>/s)?.[0] ?? "";
-      expect(list.match(/<a /g)).toHaveLength(3);
-      expect(list).toMatch(
-        new RegExp(`aria-current="page"[^>]*>\\s*${titleOf(file)}\\s*<`),
-      );
-    },
-  );
-
-  it.each(documents)(
     "/%s ends with links to the other documents and to the Tokens page",
     (slug) => {
       const next = page(slug).match(/<aside.*?<\/aside>/s)?.[0] ?? "";
@@ -503,6 +493,8 @@ describe("the documents", () => {
       ...source("docs/MIGRATION.md").matchAll(/^### (.+)$/gm),
     ].map((m) => m[1]);
     expect(headings).toEqual([
+      "Naming convention",
+      "Spacing scale",
       "Colour",
       "Size and layout",
       "Radius",
@@ -512,6 +504,45 @@ describe("the documents", () => {
       "Shadow and effects",
       "Type styles",
     ]);
+  });
+});
+
+describe("the pages of the Guide", () => {
+  it("prints the install and check commands with the package's name on Set up a site", () => {
+    expect(page("guide/")).toContain(`npm install ${pkg.name}`);
+    expect(page("guide/")).toContain(`npx ${pkg.name} check src`);
+  });
+
+  it("names the optional stylesheets in a sentence, each as code", () => {
+    expect(page("guide/")).toMatch(
+      /<code[^>]*>fonts\.css<\/code> and <code[^>]*>base\.css<\/code> are optional\./,
+    );
+  });
+
+  it("titles each rule in plain words, with the code under it", () => {
+    const rule = page("guide/rules/").match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
+    expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
+    expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
+      rule.indexOf("color: var(--igd-color-text-muted);"),
+    );
+  });
+
+  it("says which rules the check reports, with a space before the list", () => {
+    expect(page("guide/rules/")).toMatch(
+      /The check command reports rules 1 and 2, and rules 3 and 4 with <code[^>]*>--strict<\/code>\./,
+    );
+  });
+
+  it("shows the example card of the package live on Build a component", () => {
+    expect(page("guide/component/")).toMatch(
+      /<iframe[^>]*src="\/docs\/examples\/card\.html"/,
+    );
+  });
+
+  it("opens the migration guide with the move from the prototype as its first version", () => {
+    expect(source("docs/MIGRATION.md")).toMatch(
+      /^# Migration guide\n\n[^\n]+\n\n## From the prototype to 1\.0\n/,
+    );
   });
 });
 

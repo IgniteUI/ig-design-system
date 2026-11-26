@@ -3,29 +3,15 @@
 interface Props {
   /** The sections, in order. A section with `sub` is a part of the section before it. */
   sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean; soon?: boolean }[];
-  back?: { href: string; title: string };
-  /** The pages this one belongs with, listed above the sections. */
-  pages?: { href: string; title: string; current?: boolean }[];
+  /** A heading above the list, such as "On this page". It also names the list. */
+  heading?: string;
 }
 
-const { sections, back, pages } = Astro.props;
+const { sections, heading } = Astro.props;
 ---
 
-<nav aria-label="Sections" data-section-nav>
-  {back && <a class="back" href={back.href}>{back.title}</a>}
-  {
-    pages && (
-      <ul class="pages" aria-label="Documents">
-        {pages.map((page) => (
-          <li>
-            <a href={page.href} aria-current={page.current ? "page" : undefined}>
-              {page.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+<nav aria-label={heading ?? "Sections"} data-section-nav>
+  {heading && <p class="heading">{heading}</p>}
   <slot />
   <ul class="sections" data-section-list>
     {
@@ -63,12 +49,14 @@ const { sections, back, pages } = Astro.props;
     margin: calc(-1 * calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset)));
   }
 
-  .back {
-    display: block;
-    margin-block-end: var(--igd-space-stack-md);
+  .heading {
+    margin: 0 0 var(--igd-space-stack-xs);
     padding-inline: var(--igd-space-inset-sm);
-    font-size: var(--igd-type-body-sm-font-size);
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-eyebrow-font-size);
     font-weight: var(--igd-font-weight-semibold);
+    letter-spacing: var(--igd-letter-spacing-label);
+    text-transform: uppercase;
   }
 
   ul {
@@ -77,12 +65,6 @@ const { sections, back, pages } = Astro.props;
     padding: 0;
     display: grid;
     gap: var(--igd-space-gap-3xs);
-  }
-
-  .pages {
-    margin-block-end: var(--igd-space-stack-md);
-    padding-block-end: var(--igd-space-inset-md);
-    border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
   }
 
   /* Positioned, so the text for assistive technology stays inside the row when it scrolls sideways. */
@@ -108,11 +90,6 @@ const { sections, back, pages } = Astro.props;
     }
   }
 
-  .pages a[aria-current="page"] {
-    color: var(--igd-color-text-heading);
-    font-weight: var(--igd-font-weight-semibold);
-  }
-
   /* The selected row of the docs site's sidebar: the action fill under its label. */
   .sections a.current,
   .sections a.current:hover {
@@ -132,7 +109,7 @@ const { sections, back, pages } = Astro.props;
       inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px));
       z-index: var(--igd-z-index-sticky);
       display: grid;
-      grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr);
       align-items: center;
       gap: var(--igd-space-gap-xs);
       max-block-size: none;
@@ -143,26 +120,12 @@ const { sections, back, pages } = Astro.props;
       border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
     }
 
-    /* A control with no link beside it takes the whole row. */
-    nav > :global(:first-child:not(.back)) {
-      grid-column: 1 / -1;
-    }
-
-    .back {
-      margin: 0;
-      padding: var(--igd-space-inset-xs) var(--igd-space-inset-sm);
-      border: var(--igd-border-width-default) solid var(--igd-color-border-default);
-      border-radius: var(--igd-radius-action);
-      white-space: nowrap;
-    }
-
-    .pages {
+    .heading {
       display: none;
     }
 
     /* A soft edge shows on the side that has more of the row to scroll to. */
     .sections {
-      grid-column: 1 / -1;
       min-inline-size: 0;
       /* Room inside the scrolling row for the focus ring of its links. */
       padding: calc(var(--igd-focus-ring-width) + var(--igd-focus-ring-offset));
@@ -176,12 +139,6 @@ const { sections, back, pages } = Astro.props;
         linear-gradient(270deg, var(--igd-color-surface-page) 30%, transparent) right / var(--igd-space-2xl) 100% no-repeat local,
         linear-gradient(90deg, var(--igd-color-border-default), transparent) left / var(--igd-space-sm) 100% no-repeat scroll,
         linear-gradient(270deg, var(--igd-color-border-default), transparent) right / var(--igd-space-sm) 100% no-repeat scroll;
-    }
-
-    /* With no control between them, the link and the row share one line. */
-    .back + .pages + .sections,
-    .back + .sections {
-      grid-column: 2;
     }
 
     .sections a {
@@ -207,14 +164,9 @@ const { sections, back, pages } = Astro.props;
   }
 
   @media (pointer: coarse) {
-    li a,
-    .back {
+    li a {
       align-items: center;
       min-block-size: var(--igd-size-control-lg);
-    }
-
-    .back {
-      display: flex;
     }
   }
 </style>

@@ -278,13 +278,13 @@ describe("the section list on a phone", () => {
       const { page } = await open("", width);
       await page.evaluate(() => {
         document.documentElement.style.scrollBehavior = "auto";
-        document.getElementById("rules")?.scrollIntoView();
+        document.getElementById("themes")?.scrollIntoView();
       });
       await page.waitForFunction(
         () =>
           document
             .querySelector('[data-section-nav] a[aria-current="true"]')
-            ?.getAttribute("href") === "#rules",
+            ?.getAttribute("href") === "#themes",
       );
       const result = await page.evaluate(() => {
         const nav = document.querySelector("[data-section-nav]");
@@ -355,17 +355,20 @@ describe("the type set button", () => {
   );
 });
 
-describe("the guide", () => {
-  it("prints the card stylesheet the page itself uses", async () => {
+describe("Concepts", () => {
+  it("takes its cards' rules from the stylesheet Build a component prints", async () => {
     const { page } = await open("");
-    const { rule, printed } = await page.evaluate(() => ({
-      rule: [...document.querySelectorAll("style")]
+    const rule = await page.evaluate(() =>
+      [...document.querySelectorAll("style")]
         .map((style) => style.textContent ?? "")
         .find((css) => css.includes(".card:hover {")),
-      printed: [...document.querySelectorAll("pre code")]
+    );
+    await page.goto(`${site.origin}/guide/component/`);
+    const printed = await page.evaluate(() =>
+      [...document.querySelectorAll("pre code")]
         .map((code) => code.textContent ?? "")
         .find((code) => code.includes(".card:hover {")),
-    }));
+    );
     expect(rule).toBeDefined();
     expect(printed?.trim()).toBe(rule?.trim());
     await page.close();
@@ -1317,8 +1320,8 @@ describe("the guide, without a hero", () => {
 
 describe("the section being read", () => {
   it.each([
-    ["", "rules", 1280],
-    ["", "rules", 390],
+    ["", "colour", 1280],
+    ["", "colour", 390],
     ["tokens/", "shadow", 1280],
   ])(
     "on /%s is #%s while its content fills the screen, not the section after it",
@@ -1596,14 +1599,14 @@ describe("the drawings of the logo page", () => {
   });
 });
 
-describe("a document on a narrow screen", () => {
-  it("lists the three documents above its text and marks itself", async () => {
+describe("a page of the Guide on a narrow screen", () => {
+  it("lists the pages of the Guide above its text and marks itself", async () => {
     const { page } = await open("adopting/", 390);
-    const links = page.locator("nav.documents a");
-    expect(await links.count()).toBe(3);
+    const links = page.locator("nav.guide-nav a");
+    expect(await links.count()).toBe(6);
     expect(await links.first().isVisible()).toBe(true);
     expect(
-      await page.locator('nav.documents a[aria-current="page"]').textContent(),
+      await page.locator('nav.guide-nav a[aria-current="page"]').textContent(),
     ).toContain("Moving a site onto the design system");
     await page.close();
   });

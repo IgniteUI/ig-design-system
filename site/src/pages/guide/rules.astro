@@ -1,0 +1,60 @@
+---
+// A page of the Guide: each rule with a pair of examples, and what the check command does not report.
+import RulePair from "@/components/guide/RulePair.astro";
+import Section from "@/components/layout/Section.astro";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { CHECKS, NOT_CHECKED, RULES } from "@/lib/design-system.ts";
+import { prose } from "@/lib/text.ts";
+
+const ruleId = (index: number) => `rule-${index + 1}`;
+const sections = [
+  { id: "rules", title: "The rules" },
+  ...RULES.map((rule, i) => ({ id: ruleId(i), title: rule.title.replace(/\.$/, ""), sub: true })),
+  { id: "unchecked", title: "What the check does not report" },
+];
+// The rules the check command reports, by their number on the page; the strict ones apart.
+const numbered = RULES.map((rule, i) => ({ ...rule, number: i + 1 }));
+const strictOf = (rule: (typeof numbered)[number]) => CHECKS.find((c) => c.id === rule.check)?.strict;
+const checked = numbered.filter((r) => r.check);
+const strictOnly = checked.filter((r) => strictOf(r));
+const lenient = checked.filter((r) => !strictOf(r));
+const listOf = (items: (string | number)[]) =>
+  items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+const plural = (word: string, rules: { number: number }[]) =>
+  `${word}${rules.length > 1 ? "s" : ""} ${listOf(rules.map((r) => r.number))}`;
+---
+
+<SectionsLayout title="Rules" sections={sections} guide>
+  <h1>Rules</h1>
+  <p class="intro">
+    Each rule with an example of what to write and what not to. The check command reports{" "}
+    {plural("rule", lenient)}{strictOnly.length > 0 && <>, and {plural("rule", strictOnly)} with <code>--strict</code></>}.
+  </p>
+
+  <Section id="rules" title="The rules">
+    <ol class="rules">{RULES.map((rule, i) => <RulePair {...rule} id={ruleId(i)} number={i + 1} />)}</ol>
+  </Section>
+
+  <Section id="unchecked" title="What the check does not report">
+    <ul class="unchecked">{NOT_CHECKED.map((n) => <li set:html={prose(n.text)} />)}</ul>
+  </Section>
+</SectionsLayout>
+
+<style>
+  .rules {
+    display: grid;
+    gap: var(--igd-space-gap-3xl);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .unchecked {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+    max-inline-size: 38rem;
+    margin: 0;
+    padding-inline-start: var(--igd-space-inset-lg);
+    color: var(--igd-color-text-body);
+  }
+</style>

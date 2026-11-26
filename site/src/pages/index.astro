@@ -1,5 +1,5 @@
 ---
-// The guide: the design system in plain words, with live examples built on the tokens.
+// Concepts: the design system in plain words, with live examples built on the tokens.
 import DemoCard from "@/components/guide/DemoCard.astro";
 import DemoForm from "@/components/guide/DemoForm.astro";
 import ColourExplorer from "@/components/guide/ColourExplorer.astro";
@@ -8,35 +8,18 @@ import ExampleTag from "@/components/guide/ExampleTag.astro";
 import MessageExamples from "@/components/guide/MessageExamples.astro";
 import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
 import DarkNotice from "@/components/layout/DarkNotice.astro";
-import RulePair from "@/components/guide/RulePair.astro";
 import SpacingExplorer from "@/components/guide/SpacingExplorer.astro";
 import Stage from "@/components/guide/Stage.astro";
-import Steps from "@/components/guide/Steps.astro";
 import Section from "@/components/layout/Section.astro";
 import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
-import CodeBlock from "@/components/ui/CodeBlock.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import { COLOUR_PICKS, TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
-import { DOCUMENTS } from "@/data/navigation.ts";
+import { GUIDE_PAGES } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
-import {
-  CARD_CSS,
-  CARD_HTML,
-  CHECKS,
-  checkCommand,
-  cssVar,
-  NOT_CHECKED,
-  RULES,
-  installCommand,
-  packageName,
-  repository,
-  STYLESHEETS,
-  tokens,
-} from "@/lib/design-system.ts";
+import { CARD_CSS, cssVar, repository, tokens } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
-import { prose } from "@/lib/text.ts";
 import { isEngine, pick } from "@/lib/tokens.ts";
 
 const sections = {
@@ -47,9 +30,6 @@ const sections = {
   corners: { id: "corners", title: "Corners" },
   shadows: { id: "shadows", title: "Shadows" },
   themes: { id: "themes", title: "Variants and dials" },
-  component: { id: "component", title: "Build a component" },
-  rules: { id: "rules", title: "The rules in detail" },
-  setup: { id: "setup", title: "Set up a site" },
   help: { id: "help", title: "Something missing?" },
 };
 
@@ -65,20 +45,9 @@ const rawOf = (token: { name: string; value: string }) => {
     );
   return cssVar(raw);
 };
-// The rules the check command reports, by their number on the page; the strict ones apart.
-const numbered = RULES.map((rule, i) => ({ ...rule, number: i + 1 }));
-const strictOf = (rule: (typeof numbered)[number]) => CHECKS.find((c) => c.id === rule.check)?.strict;
-const checked = numbered.filter((r) => r.check);
-const strictOnly = checked.filter((r) => strictOf(r));
-const lenient = checked.filter((r) => !strictOf(r));
-const listOf = (items: (string | number)[]) =>
-  items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
-const plural = (word: string, rules: { number: number }[]) =>
-  `${word}${rules.length > 1 ? "s" : ""} ${listOf(rules.map((r) => r.number))}`;
 const styles = tokens.type.groups.flatMap((g) => g.styles);
 const tiles = colours.filter((t) => /^tile-\d+$/.test(t.name));
 const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
-const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
 const missing = styles.filter((style) => !TYPE_USES[style.name] || !TYPE_ELEMENTS[style.name]).map((style) => style.name);
 if (missing.length)
   throw new Error(
@@ -86,14 +55,15 @@ if (missing.length)
   );
 ---
 
-<SectionsLayout current="guide" sections={Object.values(sections)}>
+<SectionsLayout current="concepts" sections={Object.values(sections)}>
   <style is:inline set:html={CARD_CSS}></style>
 
   <h1>The Infragistics design system</h1>
   <p class="intro">
-    Every colour, size and space of the Infragistics sites has a name that says what it is for. This guide shows
-    what the system offers, in plain words and pictures, then how to build with it and set up a site. The
-    names and values are on the <a href={href("tokens/")}>Tokens</a> page.
+    Every colour, size and space of the Infragistics sites has a name that says what it is for. This page shows
+    what the system offers, in plain words and pictures. The names and values are on the <a href={href("tokens/")}
+      >Tokens</a
+    > page; how to build with it is in the <a href={href(GUIDE_PAGES[0].path)}>Guide</a>.
   </p>
 
   <Section {...sections.idea}>
@@ -143,14 +113,14 @@ if (missing.length)
           text: "Read Colour, Type, Spacing, Corners and Shadows. Each name says what it is for.",
         },
         {
-          href: "#component",
+          href: href(GUIDE_PAGES[1].path),
           title: "I build a page or a component",
-          text: "Read Build a component and The rules in detail.",
+          text: "The Guide: build a component, and the rules with what to write and what not to.",
         },
         {
-          href: "#setup",
+          href: href(GUIDE_PAGES[0].path),
           title: "I set up a site",
-          text: "Install the package, load the stylesheets, run the check.",
+          text: "The Guide: install the package, load the stylesheets, run the check.",
         },
         {
           href: href("tokens/"),
@@ -270,78 +240,6 @@ if (missing.length)
     </div>
   </Section>
 
-  <Section {...sections.component}>
-    <p class="intro">The same four steps in plain HTML, Astro, React, Angular or a web component.</p>
-    <Steps>
-      <li>
-        <strong>Mark the root.</strong> Put <code>data-ig-scope</code> on the outermost element of the component.
-        A dial set anywhere above it then reaches it.
-      </li>
-      <li>
-        <strong>Colour by job.</strong> Text reads a <code>color-text-*</code> token, a background a <code
-          >color-surface-*</code
-        > token, a line a <code>color-border-*</code> token.
-      </li>
-      <li>
-        <strong>Space by role.</strong> Padding is <code>space-inset-*</code>, a vertical margin <code
-          >space-stack-*</code
-        >, a gap or an inline margin <code>space-gap-*</code>.
-      </li>
-      <li>
-        <strong>Set text with a class.</strong>{" "}
-        <code>igd-type-title-sm</code> on a card title, <code>igd-type-body-md</code> on its text.
-      </li>
-    </Steps>
-    <p class="lead">The cards on this page take their rules from this stylesheet, <code>docs/examples/card.css</code> in the package:</p>
-    <CodeBlock code={CARD_CSS} lang="css" label="the card's stylesheet" />
-    <p class="lead">This page loads it with the stylesheets of the design system and shows two cards:</p>
-    <CodeBlock code={CARD_HTML} lang="html" label="the example page" />
-    <p class="more"><a href={href("docs/examples/card.html")}>Open the example page</a>. Use the Back button of the browser to return.</p>
-  </Section>
-
-  <Section {...sections.rules}>
-    <p class="intro">
-      Each rule with an example of what to write and what not to. The check command reports
-      {plural("rule", lenient)}{strictOnly.length > 0 && <>, and {plural("rule", strictOnly)} with <code>--strict</code></>}.
-    </p>
-    <ol class="rules">{RULES.map((rule, i) => <RulePair {...rule} id={`rule-${i + 1}`} number={i + 1} />)}</ol>
-    <p class="lead">The check command does not report:</p>
-    <ul class="unchecked">{NOT_CHECKED.map((n) => <li set:html={prose(n.text)} />)}</ul>
-  </Section>
-
-  <Section {...sections.setup}>
-    <p class="intro">
-      For the developer who adds the design system to a site. It is CSS only: no framework code and no
-      dependencies.
-    </p>
-    <Steps>
-      <li>
-        <strong>Install the package.</strong>
-        <CodeBlock code={installCommand(packageName)} lang="sh" label="the install command" />
-      </li>
-      <li>
-        <strong>Load the stylesheets before the site's own styles, in this order.</strong>{" "}
-        {optional.map((file, i) => [i > 0 && " and ", <code>{file}</code>])} are optional.
-        <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} lang="css" label="the imports" />
-      </li>
-      <li>
-        <strong>Check the site.</strong> The command reports {listOf(CHECKS.filter((c) => !c.strict).map((c) => c.reports))},
-        and fails the build when it finds one.
-        <CodeBlock code={checkCommand(packageName)} lang="sh" label="the check command" />
-      </li>
-    </Steps>
-    <LinkCards
-      items={[
-        ...DOCUMENTS.map((d) => ({ href: href(`${d.slug}/`), title: d.title, text: d.summary })),
-        {
-          href: href("llms.txt"),
-          title: "For AI agents",
-          text: "`llms.txt` holds the rules; `llms-full.txt` every token.",
-        },
-      ]}
-    />
-  </Section>
-
   <Section {...sections.help}>
     <p class="intro">
       If no token fits what you need, do not pick the closest one. Ask: the answer is either a token you
@@ -371,8 +269,7 @@ if (missing.length)
 
 <style>
   /* A lead pulls up to the heading above it; a lead after a demo keeps its distance from the demo. */
-  .names,
-  .unchecked {
+  .names {
     display: grid;
     gap: var(--igd-space-gap-xs);
     max-inline-size: 38rem;
@@ -396,8 +293,7 @@ if (missing.length)
     margin-block: 0 var(--igd-space-stack-md);
   }
 
-  .specimens,
-  .rules {
+  .specimens {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -407,10 +303,6 @@ if (missing.length)
     margin-block-end: var(--igd-space-stack-md);
   }
 
-  .rules {
-    display: grid;
-    gap: var(--igd-space-gap-3xl);
-  }
 
   .themes {
     display: grid;

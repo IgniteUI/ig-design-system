@@ -20,6 +20,19 @@ export const ROUTES = [
   "tokens/",
   "engine/",
   "logo/",
+  "guide/",
+  "guide/component/",
+  "guide/rules/",
+  "adopting/",
+  "migration/",
+  "changelog/",
+];
+
+/** The pages of the Guide, as their routes from the site root. */
+export const GUIDE_ROUTES = [
+  "guide/",
+  "guide/component/",
+  "guide/rules/",
   "adopting/",
   "migration/",
   "changelog/",

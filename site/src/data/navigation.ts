@@ -21,7 +21,7 @@ export const DOCUMENTS: readonly {
     file: "docs/MIGRATION.md",
     slug: "migration",
     title: "Migration guide",
-    summary: "For a developer. Each old token name and its replacement.",
+    summary: "What to change in a site when you move to a new major version.",
     filter: true,
   },
   {
@@ -33,19 +33,47 @@ export const DOCUMENTS: readonly {
 ];
 
 /**
- * The pages the top bar lists, in order. `path` is from the site root. A page with `beta` carries a Beta label.
- * Developers opens the first document; the top bar marks it on every document page.
+ * The pages of the Guide, in order: its own pages, then the documents. `path` is from the site root.
+ * The Guide's menu lists them, and the top bar marks Guide on each.
  */
+export const GUIDE_PAGES: readonly {
+  path: string;
+  title: string;
+  summary: string;
+}[] = [
+  {
+    path: "guide/",
+    title: "Set up a site",
+    summary: "Install the package, load the stylesheets, run the check.",
+  },
+  {
+    path: "guide/component/",
+    title: "Build a component",
+    summary: "The four steps, and a card written to the rules.",
+  },
+  {
+    path: "guide/rules/",
+    title: "Rules",
+    summary: "What to write and what not to, and what the check reports.",
+  },
+  ...DOCUMENTS.map((d) => ({
+    path: `${d.slug}/`,
+    title: d.title,
+    summary: d.summary,
+  })),
+];
+
+/** The pages the top bar lists, in order. `path` is from the site root. A page with `beta` carries a Beta label. */
 export const PAGES: readonly {
-  id: "guide" | "tokens" | "engine" | "logo" | "developers";
+  id: "concepts" | "guide" | "tokens" | "engine" | "logo";
   path: string;
   title: string;
   beta?: boolean;
 }[] = [
-  { id: "guide", path: "", title: "Guide" },
+  { id: "concepts", path: "", title: "Concepts" },
+  { id: "guide", path: GUIDE_PAGES[0].path, title: "Guide" },
   { id: "tokens", path: "tokens/", title: "Tokens" },
   { id: "engine", path: "engine/", title: "Engine" },
   { id: "logo", path: "logo/", title: "Brand book", beta: true },
-  { id: "developers", path: `${DOCUMENTS[0].slug}/`, title: "Developers" },
 ];
 export type PageId = (typeof PAGES)[number]["id"];

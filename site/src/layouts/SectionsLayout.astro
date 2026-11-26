@@ -1,29 +1,30 @@
 ---
 // A page of sections: the section list on the left, the content on the right.
+// A Guide page has the Guide's menu on the left, the content, and its sections as "On this page" on the right.
+import GuideNav from "@/components/layout/GuideNav.astro";
 import SectionNav from "@/components/layout/SectionNav.astro";
 import type { PageId } from "@/data/navigation.ts";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title?: string;
-  /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
+  /** The page the top bar marks as open. A page the top bar does not list leaves it out. A Guide page marks Guide. */
   current?: PageId;
   /** The sections of the page, in order. Each id is the id of an element on the page. */
   sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean; soon?: boolean }[];
-  /** A link above the section list, back to the page this one belongs to. */
-  back?: { href: string; title: string };
-  /** The pages this one belongs with, listed above the sections. */
-  pages?: { href: string; title: string; current?: boolean }[];
+  /** A page of the Guide: the Guide's menu on the left, the sections on the right. */
+  guide?: boolean;
 }
 
-const { title, current, sections, back, pages } = Astro.props;
+const { title, current, sections, guide = false } = Astro.props;
 ---
 
-<BaseLayout title={title} current={current}>
+<BaseLayout title={title} current={guide ? "guide" : current}>
   <slot name="bar" slot="bar" />
   <slot name="switches" slot="switches" />
-  <div class="layout">
-    <SectionNav sections={sections} back={back} pages={pages}><slot name="nav" /></SectionNav>
+  <div class:list={["layout", { guide }]}>
+    {guide && <GuideNav />}
+    <SectionNav sections={sections} heading={guide ? "On this page" : undefined}><slot name="nav" /></SectionNav>
     <main id="content" tabindex="-1">
       <slot />
     </main>
@@ -44,12 +45,42 @@ const { title, current, sections, back, pages } = Astro.props;
     outline: none;
   }
 
+  /* The Guide's menu and the content; the sections sit under the menu until there is room for a third column. */
+  .guide {
+    grid-template-areas: "pages main" "toc main";
+    grid-template-rows: auto 1fr;
+    row-gap: var(--igd-space-gap-xl);
+  }
+
+  .guide > main {
+    grid-area: main;
+  }
+
+  .guide > :global([data-section-nav]) {
+    grid-area: toc;
+  }
+
+  /* breakpoint-xl */
+  @media (min-width: 1280px) {
+    .guide {
+      grid-template-columns: minmax(12rem, 14rem) minmax(0, 1fr) minmax(12rem, 14rem);
+      grid-template-areas: "pages main toc";
+      grid-template-rows: auto;
+      column-gap: var(--igd-space-gap-2xl);
+    }
+  }
+
   /* breakpoint-lg */
   @media (max-width: 1024px) {
     .layout {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--igd-space-gap-lg);
       padding-block-start: 0;
+    }
+
+    .guide {
+      grid-template-areas: "pages" "toc" "main";
+      grid-template-rows: auto;
     }
   }
 </style>
