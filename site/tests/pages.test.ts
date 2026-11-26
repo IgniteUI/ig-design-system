@@ -203,7 +203,9 @@ describe("the guide", () => {
         (m) => m[1],
       ),
     ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
-    expect(panel.replace(/<[^>]+>/g, " ")).not.toContain("--ig-");
+    expect(
+      [...panel.matchAll(/>([^<]*)</g)].map((m) => m[1]).join(" "),
+    ).not.toContain("--ig-");
     expect(
       [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
         (m) => m[1],
@@ -316,9 +318,11 @@ describe("the guide", () => {
         /<section[^>]*id="colour".*?<section[^>]*id="component"/s,
       )?.[0] ?? "";
     expect(visual).toContain('id="themes"');
+    // The text between tags, outside <style> blocks.
     const text = visual
-      .replace(/<style[^>]*>.*?<\/style>/gs, "")
-      .replace(/<[^>]+>/g, " ");
+      .split(/<style[^>]*>[\s\S]*?<\/style>/)
+      .flatMap((part) => [...part.matchAll(/>([^<]*)</g)].map((m) => m[1]))
+      .join(" ");
     expect(text).not.toMatch(/--igd?-|igd-type-/);
     expect(visual).not.toContain("<code");
     expect(visual).not.toContain("data-copy");
