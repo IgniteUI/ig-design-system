@@ -232,7 +232,7 @@ describe("the skip link", () => {
 });
 
 describe("the section list", () => {
-  it("fills the row of the section in view with the action colour", async () => {
+  it("tints the row of the section in view, as the top bar marks the open page", async () => {
     const { page } = await open("tokens/");
     await page.click('[data-section-nav] a[href="#spacing"]');
     // The jump scrolls smoothly, and the row is marked once the scroll ends.
@@ -251,15 +251,15 @@ describe("the section list", () => {
         current: a.getAttribute("aria-current"),
       })),
     );
-    const action = await page.evaluate(() => {
+    const tint = await page.evaluate(() => {
       const probe = document.createElement("i");
-      probe.style.backgroundColor = "var(--igd-color-action-default)";
+      probe.style.backgroundColor = "var(--igd-color-surface-tint)";
       document.body.appendChild(probe);
       const colour = getComputedStyle(probe).backgroundColor;
       probe.remove();
       return colour;
     });
-    expect(rows.filter((r) => r.fill === action).map((r) => r.hash)).toEqual([
+    expect(rows.filter((r) => r.fill === tint).map((r) => r.hash)).toEqual([
       "#spacing",
     ]);
     expect(rows.find((r) => r.hash === "#spacing")?.current).toBe("true");
@@ -1318,7 +1318,43 @@ describe("the guide, without a hero", () => {
   });
 });
 
+describe("the active state", () => {
+  it("is one style in the top bar, the Guide's menu and On this page", async () => {
+    const { page } = await open("guide/", 1440);
+    const styles = await page.evaluate(() =>
+      [
+        'header nav a[aria-current="page"]',
+        'nav.guide-nav a[aria-current="page"]',
+        '[data-section-list] a[aria-current="true"]',
+      ].map((selector) => {
+        const el = document.querySelector(selector);
+        if (!el) throw new Error(`no ${selector}`);
+        const s = getComputedStyle(el);
+        return `${s.backgroundColor} ${s.color}`;
+      }),
+    );
+    expect(new Set(styles).size).toBe(1);
+    await page.close();
+  });
+});
+
 describe("the section being read", () => {
+  it.each(["#load", "#check"])(
+    "on a short Guide page is %s after a click on its link, though the page ends before it reaches the top",
+    async (hash) => {
+      const { page } = await open("guide/", 1440);
+      await page.click(`[data-section-list] a[href="${hash}"]`);
+      await page.waitForTimeout(600);
+      expect(
+        await page.getAttribute(
+          '[data-section-list] a[aria-current="true"]',
+          "href",
+        ),
+      ).toBe(hash);
+      await page.close();
+    },
+  );
+
   it.each([
     ["", "colour", 1280],
     ["", "colour", 390],

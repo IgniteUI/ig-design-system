@@ -9,6 +9,8 @@ const header = document.querySelector<HTMLElement>("header");
 const notice = document.querySelector<HTMLElement>("[data-dark-notice]");
 const row = matchMedia("(max-width: 1024px)");
 let current: HTMLAnchorElement | undefined;
+// The link last clicked, until the reader scrolls by hand. At the end of the page it stays marked while its section is in view.
+let clicked: HTMLAnchorElement | undefined;
 
 // Brings a link into view when its list scrolls sideways, without moving the page.
 const reveal = (link: HTMLElement) => {
@@ -42,6 +44,9 @@ const mark = () => {
     )
       found = a;
   });
+  const target = clicked && targets[links.indexOf(clicked)];
+  if (ended && target && target.getBoundingClientRect().top < innerHeight)
+    found = clicked;
   if (found === current) return;
   current = found;
   for (const a of links) {
@@ -82,6 +87,18 @@ if (nav) {
   offset();
 }
 if (links.length) {
+  for (const a of links)
+    a.addEventListener("click", () => {
+      clicked = a;
+    });
+  for (const type of ["wheel", "touchmove", "keydown"])
+    addEventListener(
+      type,
+      () => {
+        clicked = undefined;
+      },
+      { passive: true },
+    );
   let queued = false;
   addEventListener(
     "scroll",
