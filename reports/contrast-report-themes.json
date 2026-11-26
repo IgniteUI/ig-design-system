@@ -23,7 +23,7 @@
   },
   {
    "fg": "color-foreground-subtle",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 7.03,
    "min": 4.5,
    "ok": true
@@ -44,7 +44,7 @@
   },
   {
    "fg": "color-foreground-faint",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 4.62,
    "min": 4.5,
    "ok": true
@@ -79,7 +79,7 @@
   },
   {
    "fg": "color-foreground-action",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 4.89,
    "min": 4.5,
    "ok": true
@@ -352,7 +352,7 @@
   },
   {
    "fg": "color-foreground-error",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 5.05,
    "min": 4.5,
    "ok": true
@@ -366,15 +366,8 @@
   },
   {
    "fg": "color-foreground-control",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 9.74,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-subtle",
-   "bg": "color-background-recessed",
-   "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
@@ -494,7 +487,7 @@
   },
   {
    "fg": "color-foreground-subtle",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 13.6,
    "min": 4.5,
    "ok": true
@@ -515,7 +508,7 @@
   },
   {
    "fg": "color-foreground-faint",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 10.55,
    "min": 4.5,
    "ok": true
@@ -550,7 +543,7 @@
   },
   {
    "fg": "color-foreground-action",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 13.27,
    "min": 4.5,
    "ok": true
@@ -823,7 +816,7 @@
   },
   {
    "fg": "color-foreground-error",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 11.88,
    "min": 4.5,
    "ok": true
@@ -837,15 +830,8 @@
   },
   {
    "fg": "color-foreground-control",
-   "bg": "color-background-band",
+   "bg": "color-background-subtle",
    "ratio": 16.11,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-subtle",
-   "bg": "color-background-recessed",
-   "ratio": 13.6,
    "min": 4.5,
    "ok": true
   },

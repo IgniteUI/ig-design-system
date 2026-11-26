@@ -438,7 +438,7 @@
   --igd-elevation-24: var(--ig-elevation-24);
   --igd-footer-background-gradient: linear-gradient(155deg, var(--igd-color-background-inverse-raised) 0%, #121a2c 42%, var(--igd-footer-background) 100%);
   --igd-gradient-brand: linear-gradient(92deg, var(--igd-color-accent-brand), var(--igd-color-accent-ai));
-  --igd-gradient-hero: linear-gradient(180deg, var(--igd-color-background-wash), var(--igd-color-background-page));
+  --igd-gradient-hero: linear-gradient(180deg, var(--igd-color-background-subtle), var(--igd-color-background-page));
   --igd-glow-brand: radial-gradient(circle, hsl(from var(--igd-color-accent-brand) h s l / var(--igd-opacity-muted)), transparent 62%);
   --igd-glow-ai: radial-gradient(circle, hsl(from var(--igd-color-accent-ai) h s l / var(--igd-opacity-muted)), transparent 62%);
   --igd-glow-footer: radial-gradient(circle, hsl(from var(--igd-color-accent-ai) h s l / var(--igd-opacity-heavy)), transparent 62%);
@@ -758,10 +758,8 @@
   --igd-color-foreground-faint: var(--ig-gray-500);
   --igd-color-foreground-decorative: var(--ig-gray-400);
   --igd-color-background-page: var(--ig-surface-base);
-  --igd-color-background-wash: var(--ig-surface-sunken);
-  --igd-color-background-band: var(--ig-surface-sunken);
+  --igd-color-background-subtle: var(--ig-surface-sunken);
   --igd-color-background-card: var(--ig-surface-raised);
-  --igd-color-background-recessed: var(--ig-surface-sunken);
   --igd-color-border-default: var(--ig-gray-200);
   --igd-color-border-subtle: var(--ig-gray-100);
   --igd-color-border-control: var(--ig-gray-500);

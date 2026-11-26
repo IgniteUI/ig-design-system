@@ -21,7 +21,7 @@ const BASES = [
   "color-foreground-heading",
   "color-foreground-inverse",
   "color-foreground-faint",
-  "color-background-band",
+  "color-background-subtle",
   "footer-foreground-faint",
   "footer-foreground",
   "shadow-card-hover",

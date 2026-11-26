@@ -55,7 +55,7 @@ export const COLOUR_PICKS: ColourGroup[] = [
         use: "The page background.",
       },
       {
-        token: "color-background-band",
+        token: "color-background-subtle",
         label: "Band",
         use: "A section band that alternates with the page.",
       },

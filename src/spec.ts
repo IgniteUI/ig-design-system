@@ -134,13 +134,9 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   // surfaces
   "color-background-page": ["ig-surface-base", "The page's background."],
-  "color-background-wash": [
+  "color-background-subtle": [
     "ig-surface-sunken",
-    "The colour the wash behind the first section of a page starts from (`gradient-hero`).",
-  ],
-  "color-background-band": [
-    "ig-surface-sunken",
-    "A band that sets a section apart from the page, and quiet fills such as a title bar or a chip at rest.",
+    "A quiet fill set apart from the page: a section band, a title bar, a chip or a Coming soon pill at rest, and the colour the wash behind the first section of a page starts from (`gradient-hero`).",
   ],
   "color-background-card": ["ig-surface-raised", "The fill of a card."],
   "color-background-tint": [
@@ -162,10 +158,6 @@ export const ALIAS: Record<string, AliasEntry> = {
   "color-background-tint-strong": [
     "ig-primary-100",
     "A stronger `color-background-tint`: the release strip on hover, the open nav trigger.",
-  ],
-  "color-background-recessed": [
-    "ig-surface-sunken",
-    "A fill set back from the page, such as a Coming soon pill: lighter grey in the light variant and a deeper navy in the dark one.",
   ],
   // footer
   "footer-background": [
@@ -998,15 +990,15 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-foreground-heading", "color-background-page"],
   ["color-foreground-default", "color-background-page"],
   ["color-foreground-subtle", "color-background-page"],
-  ["color-foreground-subtle", "color-background-band"],
+  ["color-foreground-subtle", "color-background-subtle"],
   ["color-foreground-control", "color-background-page"],
   ["color-foreground-faint", "color-background-page"],
-  ["color-foreground-faint", "color-background-band"],
+  ["color-foreground-faint", "color-background-subtle"],
   ["color-foreground-action", "color-background-page"],
   ["color-foreground-link", "color-background-page"],
   ["color-foreground-action", "color-background-tint"],
   ["color-foreground-action", "color-background-card"],
-  ["color-foreground-action", "color-background-band"],
+  ["color-foreground-action", "color-background-subtle"],
   ["color-foreground-on-action", "color-background-action"],
   ["color-foreground-on-action", "color-background-action-hover"],
   ["color-foreground-faint", "color-background-card"],
@@ -1045,8 +1037,7 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-focus-ring-inverse", "color-background-inverse", 3],
   ["color-background-action", "color-background-page", 1],
   ["color-foreground-error", "color-background-page"],
-  ["color-foreground-error", "color-background-band"],
+  ["color-foreground-error", "color-background-subtle"],
   ["color-focus-ring", "color-background-page", 3],
-  ["color-foreground-control", "color-background-band"],
-  ["color-foreground-subtle", "color-background-recessed"],
+  ["color-foreground-control", "color-background-subtle"],
 ];

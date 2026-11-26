@@ -13,7 +13,7 @@
 - `--igd-color-background-action`: `{ig-primary-seed}`. The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. The fill of every action: the primary CTA, with `color-foreground-on-action` as its label. Text in the action colour is `color-foreground-action`. Contrast 5.25:1 on `color-background-page`.
 - `--igd-color-foreground-link-hover`: `{ig-primary-700}`. A link on hover, on a light surface. The colour changes; no underline appears. Contrast 7.03:1 on `color-background-page`.
 - `--igd-color-background-action-hover`: `{ig-primary-700}`. The main button's fill on hover; nothing else about the button changes. A step `color-foreground-on-action` reads on: darker under a white label, primary step 400 under a black one.
-- `--igd-color-foreground-action`: `{ig-primary-600}`. Text, an icon or a thin line in the action colour on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-background-page`, 4.82:1 on `color-background-tint`, 5.24:1 on `color-background-card`, 4.89:1 on `color-background-band`.
+- `--igd-color-foreground-action`: `{ig-primary-600}`. Text, an icon or a thin line in the action colour on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-background-page`, 4.82:1 on `color-background-tint`, 5.24:1 on `color-background-card`, 4.89:1 on `color-background-subtle`.
 - `--igd-color-foreground-link`: `{ig-primary-600}`. A link in text, on a light surface. The same steps as `color-foreground-action`, named for the link so a link reads it. Contrast 5.24:1 on `color-background-page`.
 - `--igd-color-foreground-on-action`: `#ffffff`. The label and icon on a `color-background-action` fill: black or white, whichever reads on it (the engine’s adaptive contrast). Contrast 5.25:1 on `color-background-action`, 7.03:1 on `color-background-action-hover`.
 - `--igd-color-foreground-link-inverse`: `#51bbee`. Inline links on dark surfaces (`color-background-inverse`). Engine step 200 of the sky palette. Contrast 8.24:1 on `color-background-inverse`.
@@ -23,13 +23,13 @@
 - `--igd-color-focus-ring-inverse`: `#95d5f7`. The keyboard focus ring in an area that stays dark, such as the footer. `base.css` uses it inside an element with `data-on-dark`. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-background-inverse`, 11.17:1 on `color-background-inverse`.
 - `--igd-color-foreground-heading`: `{ig-gray-900}`. Headings, h1 to h6. Contrast 17.79:1 on `color-background-page`.
 - `--igd-color-foreground-default`: `{ig-gray-800}`. Body text: the default colour of the page's text, and the labels of secondary buttons. Contrast 13.8:1 on `color-background-page`.
-- `--igd-color-foreground-subtle`: `{ig-gray-600}`. Supporting text: the paragraph under a heading, the text of the utility bar, nav triggers at rest. Contrast 7.53:1 on `color-background-page`, 7.03:1 on `color-background-band`, 7.03:1 on `color-background-recessed`.
-- `--igd-color-foreground-control`: `{ig-gray-700}`. Text in controls: the nav, buttons, list rows, chips. Contrast 10.43:1 on `color-background-page`, 9.74:1 on `color-background-band`.
-- `--igd-color-foreground-faint`: `{ig-gray-500}`. Captions and small labels: card descriptions, counts. No body text is lighter than this. Contrast 4.94:1 on `color-background-page`, 4.62:1 on `color-background-band`, 4.94:1 on `color-background-card`, 4.55:1 on `color-background-tint`.
+- `--igd-color-foreground-subtle`: `{ig-gray-600}`. Supporting text: the paragraph under a heading, the text of the utility bar, nav triggers at rest. Contrast 7.53:1 on `color-background-page`, 7.03:1 on `color-background-subtle`.
+- `--igd-color-foreground-control`: `{ig-gray-700}`. Text in controls: the nav, buttons, list rows, chips. Contrast 10.43:1 on `color-background-page`, 9.74:1 on `color-background-subtle`.
+- `--igd-color-foreground-faint`: `{ig-gray-500}`. Captions and small labels: card descriptions, counts. No body text is lighter than this. Contrast 4.94:1 on `color-background-page`, 4.62:1 on `color-background-subtle`, 4.94:1 on `color-background-card`, 4.55:1 on `color-background-tint`.
 - `--igd-color-foreground-inverse`: `#fbfbfb`. Text and icons on a dark area. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-background-inverse`.
 - `--igd-color-foreground-inverse-faint`: `#9da5af`. Captions and small labels on a dark area. Engine step 400 of the dark palette's gray ramp. Contrast 7.17:1 on `color-background-inverse`.
 - `--igd-color-foreground-decorative`: `{ig-gray-400}`. A decorative mark that carries no meaning, such as the caret in the nav row. It is lighter than 3:1 on purpose, so it never holds information. Contrast 2.59:1 on `color-background-page`.
-- `--igd-color-foreground-error`: `{ig-error-500}`. Validation text and border on light surfaces. Contrast 5.41:1 on `color-background-page`, 5.05:1 on `color-background-band`.
+- `--igd-color-foreground-error`: `{ig-error-500}`. Validation text and border on light surfaces. Contrast 5.41:1 on `color-background-page`, 5.05:1 on `color-background-subtle`.
 - `--igd-color-foreground-info`: `{ig-primary-700}`. Informational text and icons on light surfaces: a note, a tip. Contrast 7.03:1 on `color-background-page`, 6.47:1 on `color-background-tint`.
 - `--igd-color-foreground-warning-inverse`: `{ig-warn-200}`. Warning text and icons on dark surfaces. Contrast 8.23:1 on `color-background-inverse`.
 - `--igd-color-foreground-info-inverse`: `{ig-primary-300}`. Informational text and icons on dark surfaces. Contrast 9.59:1 on `color-background-inverse`.
@@ -38,15 +38,13 @@
 - `--igd-color-foreground-warning`: `{ig-warn-500}`. Warning text and icons on light surfaces. Contrast 5.41:1 on `color-background-page`.
 - `--igd-color-foreground-error-inverse`: `{ig-error-300}`. Validation text and border on the dark footer. Contrast 5.28:1 on `color-background-inverse-raised`.
 - `--igd-color-background-page`: `{ig-surface-base}`. The page's background.
-- `--igd-color-background-wash`: `{ig-surface-sunken}`. The colour the wash behind the first section of a page starts from (`gradient-hero`).
-- `--igd-color-background-band`: `{ig-surface-sunken}`. A band that sets a section apart from the page, and quiet fills such as a title bar or a chip at rest.
+- `--igd-color-background-subtle`: `{ig-surface-sunken}`. A quiet fill set apart from the page: a section band, a title bar, a chip or a Coming soon pill at rest, and the colour the wash behind the first section of a page starts from (`gradient-hero`).
 - `--igd-color-background-card`: `{ig-surface-raised}`. The fill of a card.
 - `--igd-color-background-tint`: `{ig-primary-50}`. Soft blue fill: tinted chips, callouts, the catalog band, release strip at rest and monogram badges.
 - `--igd-color-background-inverse-raised`: `#1c2435`. The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient. Engine step 200 of the dark palette's surface ramp.
 - `--igd-color-background-inverse-sunken`: `#070e1d`. The darkest dark surface: the deepest part of a dark area, such as the end of the footer gradient. Engine step 900 of the dark palette's surface ramp.
 - `--igd-color-background-inverse`: `#0f172a`. The dark area of a light page: a dark band, a table header, a stat panel. Engine step 500 of the dark palette's surface ramp.
 - `--igd-color-background-tint-strong`: `{ig-primary-100}`. A stronger `color-background-tint`: the release strip on hover, the open nav trigger.
-- `--igd-color-background-recessed`: `{ig-surface-sunken}`. A fill set back from the page, such as a Coming soon pill: lighter grey in the light variant and a deeper navy in the dark one.
 - `--igd-footer-background`: `{color-background-inverse-sunken}`. Footer gradient end; flat fallback for `footer-background-gradient`.
 - `--igd-footer-foreground`: `#bcc1c9`. Footer body copy, legal links and social glyphs. Engine step 500 of the dark palette's gray ramp. Contrast 8.58:1 on `color-background-inverse-raised`.
 - `--igd-footer-foreground-strong`: `#f6f7f8`. Footer sub-group labels (Web, Desktop, Bundles) and legal-link emphasis. Engine step 800 of the dark palette's gray ramp. Contrast 14.47:1 on `color-background-inverse-raised`.

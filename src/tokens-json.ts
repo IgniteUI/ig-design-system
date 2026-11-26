@@ -152,8 +152,8 @@ export const gradients = (colorOf: ColorOf): Record<string, GradientEntry> => ({
       "The 92° blue→violet, clipped to one headline fragment per section. Never a background fill, button or tile.",
   },
   "gradient-hero": {
-    snapshot: `linear-gradient(180deg, ${colorOf("color-background-wash")}, ${colorOf("color-background-page")})`,
-    live: "linear-gradient(180deg, var(--color-background-wash), var(--color-background-page))",
+    snapshot: `linear-gradient(180deg, ${colorOf("color-background-subtle")}, ${colorOf("color-background-page")})`,
+    live: "linear-gradient(180deg, var(--color-background-subtle), var(--color-background-page))",
     usage: "The hero wash behind the homepage hero.",
   },
   ...Object.fromEntries(

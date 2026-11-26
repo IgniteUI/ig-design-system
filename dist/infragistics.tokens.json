@@ -1268,7 +1268,7 @@
     },
     "color-foreground-action": {
       "$value": "{color.ig-primary-600}",
-      "$description": "Text, an icon or a thin line in the action colour on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-background-page`, 4.82:1 on `color-background-tint`, 5.24:1 on `color-background-card`, 4.89:1 on `color-background-band`."
+      "$description": "Text, an icon or a thin line in the action colour on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-background-page`, 4.82:1 on `color-background-tint`, 5.24:1 on `color-background-card`, 4.89:1 on `color-background-subtle`."
     },
     "color-foreground-link": {
       "$value": "{color.ig-primary-600}",
@@ -1348,15 +1348,15 @@
     },
     "color-foreground-subtle": {
       "$value": "{color.ig-gray-600}",
-      "$description": "Supporting text: the paragraph under a heading, the text of the utility bar, nav triggers at rest. Contrast 7.53:1 on `color-background-page`, 7.03:1 on `color-background-band`, 7.03:1 on `color-background-recessed`."
+      "$description": "Supporting text: the paragraph under a heading, the text of the utility bar, nav triggers at rest. Contrast 7.53:1 on `color-background-page`, 7.03:1 on `color-background-subtle`."
     },
     "color-foreground-control": {
       "$value": "{color.ig-gray-700}",
-      "$description": "Text in controls: the nav, buttons, list rows, chips. Contrast 10.43:1 on `color-background-page`, 9.74:1 on `color-background-band`."
+      "$description": "Text in controls: the nav, buttons, list rows, chips. Contrast 10.43:1 on `color-background-page`, 9.74:1 on `color-background-subtle`."
     },
     "color-foreground-faint": {
       "$value": "{color.ig-gray-500}",
-      "$description": "Captions and small labels: card descriptions, counts. No body text is lighter than this. Contrast 4.94:1 on `color-background-page`, 4.62:1 on `color-background-band`, 4.94:1 on `color-background-card`, 4.55:1 on `color-background-tint`."
+      "$description": "Captions and small labels: card descriptions, counts. No body text is lighter than this. Contrast 4.94:1 on `color-background-page`, 4.62:1 on `color-background-subtle`, 4.94:1 on `color-background-card`, 4.55:1 on `color-background-tint`."
     },
     "color-foreground-inverse": {
       "$value": {
@@ -1388,7 +1388,7 @@
     },
     "color-foreground-error": {
       "$value": "{color.ig-error-500}",
-      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-background-page`, 5.05:1 on `color-background-band`."
+      "$description": "Validation text and border on light surfaces. Contrast 5.41:1 on `color-background-page`, 5.05:1 on `color-background-subtle`."
     },
     "color-foreground-info": {
       "$value": "{color.ig-primary-700}",
@@ -1422,13 +1422,9 @@
       "$value": "{color.ig-surface-base}",
       "$description": "The page's background."
     },
-    "color-background-wash": {
+    "color-background-subtle": {
       "$value": "{color.ig-surface-sunken}",
-      "$description": "The colour the wash behind the first section of a page starts from (`gradient-hero`)."
-    },
-    "color-background-band": {
-      "$value": "{color.ig-surface-sunken}",
-      "$description": "A band that sets a section apart from the page, and quiet fills such as a title bar or a chip at rest."
+      "$description": "A quiet fill set apart from the page: a section band, a title bar, a chip or a Coming soon pill at rest, and the colour the wash behind the first section of a page starts from (`gradient-hero`)."
     },
     "color-background-card": {
       "$value": "{color.ig-surface-raised}",
@@ -1477,10 +1473,6 @@
     "color-background-tint-strong": {
       "$value": "{color.ig-primary-100}",
       "$description": "A stronger `color-background-tint`: the release strip on hover, the open nav trigger."
-    },
-    "color-background-recessed": {
-      "$value": "{color.ig-surface-sunken}",
-      "$description": "A fill set back from the page, such as a Coming soon pill: lighter grey in the light variant and a deeper navy in the dark one."
     },
     "footer-background": {
       "$value": "{color.color-background-inverse-sunken}",

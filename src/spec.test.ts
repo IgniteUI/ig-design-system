@@ -74,7 +74,7 @@ describe("CONTRAST_PAIRS", () => {
       "color-background-page",
       "color-background-tint",
       "color-background-card",
-      "color-background-band",
+      "color-background-subtle",
     ]);
   });
 

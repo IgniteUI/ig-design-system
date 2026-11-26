@@ -12,7 +12,7 @@ export function BrowserFrame({ src, alt = '', children, bleed = false, style, ..
     }} {...rest}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-sm)',
-        borderBottom: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', background: 'var(--igd-color-background-band)',
+        borderBottom: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', background: 'var(--igd-color-background-subtle)',
       }}>
         {DOTS.map(c => (
           <span key={c} style={{ width: 'var(--igd-window-dot-size)', height: 'var(--igd-window-dot-size)', borderRadius: '50%', background: c }} />

@@ -15,7 +15,7 @@ pick(tokens.color.tokens, picks.map((p) => p.token), "colour");
 // The parts of the drawing, by token. The build stops when a listed colour has no part or a part has no listed colour.
 const PARTS = [
   "color-background-page",
-  "color-background-band",
+  "color-background-subtle",
   "color-background-card",
   "color-background-tint",
   "color-foreground-heading",
@@ -74,7 +74,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     <ExampleTag />
     <div aria-hidden="true">
     <div class="page" {...part("color-background-page")}>
-      <div class="band" {...part("color-background-band")}>
+      <div class="band" {...part("color-background-subtle")}>
         <div class="card" {...part("color-background-card")}>
           <span class="tint" {...part("color-background-tint")}>New</span>
           <span class="heading" {...part("color-foreground-heading")}>Project settings</span>
@@ -168,7 +168,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   .band {
     padding: var(--igd-space-inset-lg);
     border-radius: var(--igd-radius-tile);
-    background: var(--igd-color-background-band);
+    background: var(--igd-color-background-subtle);
   }
 
   .card {

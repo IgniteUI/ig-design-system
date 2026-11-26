@@ -23,7 +23,7 @@ export function CalloutStrip({ kind = 'default', title, body, action, style, ...
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-md)', padding: 'var(--igd-space-inset-xl) var(--igd-space-inset-xl)',
-      borderRadius: 'var(--igd-radius-card-featured)', background: 'var(--igd-color-background-band)',
+      borderRadius: 'var(--igd-radius-card-featured)', background: 'var(--igd-color-background-subtle)',
       border: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', flexWrap: 'wrap', ...style,
     }} {...divRest}>
       <div style={{ flex: 1, minWidth: 'var(--igd-callout-min-width)' }}>

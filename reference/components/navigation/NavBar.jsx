@@ -89,7 +89,7 @@ export function NavPanelCard({ title, tint = 'var(--igd-color-background-tint)',
 
 export function NavLink({ href, icon: lead, label, desc, level = 1, soon, external, style }) {
   const fontSize = level === 3 ? 'var(--igd-type-body-md-font-size)' : 'var(--igd-type-title-md-font-size)';
-  const pill = soon && <span className="igd-type-eyebrow" style={{ display: 'inline-flex', padding: 'var(--igd-space-inset-3xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-action)', background: 'var(--igd-color-background-recessed)', border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', textTransform: 'none', letterSpacing: 'normal', color: 'var(--igd-color-foreground-subtle)', whiteSpace: 'nowrap' }}>Coming Soon</span>;
+  const pill = soon && <span className="igd-type-eyebrow" style={{ display: 'inline-flex', padding: 'var(--igd-space-inset-3xs) var(--igd-space-inset-xs)', borderRadius: 'var(--igd-radius-action)', background: 'var(--igd-color-background-subtle)', border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', textTransform: 'none', letterSpacing: 'normal', color: 'var(--igd-color-foreground-subtle)', whiteSpace: 'nowrap' }}>Coming Soon</span>;
   if (soon || !href) return <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--igd-space-gap-2xs) var(--igd-space-gap-xs)', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-sm)', marginLeft: 'calc(-1 * var(--igd-space-gap-sm))', fontSize, fontWeight: 'var(--igd-font-weight-semibold)', color: 'var(--igd-color-foreground-subtle)', ...style }}>{lead}{label}{pill}</div>;
   const x = external ? { target: '_blank', rel: 'noopener' } : {};
   return (

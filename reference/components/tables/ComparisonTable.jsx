@@ -57,7 +57,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
       {showDetail && <div role="columnheader" style={{ padding: headPad, ...caps, color: 'var(--igd-table-header-detail-foreground)' }}>Detail</div>}
     </div>
   ) : (
-    <div role="row" style={{ ...row, background: 'var(--igd-color-background-band)', alignItems: 'stretch' }}>
+    <div role="row" style={{ ...row, background: 'var(--igd-color-background-subtle)', alignItems: 'stretch' }}>
       <div role="columnheader" style={{ padding: 'var(--igd-space-inset-xl)', ...caps, color: 'var(--igd-color-foreground-subtle)', display: 'flex', alignItems: 'flex-end' }}>{label ?? 'Feature'}</div>
       {columns.map((c, i) => (
         <div role="columnheader" key={i} style={{ background: tint(i), display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
@@ -77,7 +77,7 @@ export function ComparisonTable({ variant = 'comparison', label, columns = [], g
           return (
             <div role="rowgroup" key={gi}>
               {g.name && (
-                <div role="row" style={{ background: 'var(--igd-color-background-band)', borderTop: BORDER }}>
+                <div role="row" style={{ background: 'var(--igd-color-background-subtle)', borderTop: BORDER }}>
                   <div role="cell" style={{ padding: 0 }}>
                     {React.createElement(canCollapse ? 'button' : 'div', {
                       type: canCollapse ? 'button' : undefined,

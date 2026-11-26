@@ -136,15 +136,13 @@
   --igd-color-foreground-warning: var(--ig-warn-500);
   --igd-color-foreground-error-inverse: var(--ig-error-300);
   --igd-color-background-page: var(--ig-surface-base);
-  --igd-color-background-wash: var(--ig-surface-sunken);
-  --igd-color-background-band: var(--ig-surface-sunken);
+  --igd-color-background-subtle: var(--ig-surface-sunken);
   --igd-color-background-card: var(--ig-surface-raised);
   --igd-color-background-tint: var(--ig-primary-50);
   --igd-color-background-inverse-raised: #1c2435;
   --igd-color-background-inverse-sunken: #070e1d;
   --igd-color-background-inverse: #0f172a;
   --igd-color-background-tint-strong: var(--ig-primary-100);
-  --igd-color-background-recessed: var(--ig-surface-sunken);
   --igd-footer-background: var(--igd-color-background-inverse-sunken);
   --igd-footer-foreground: #bcc1c9;
   --igd-footer-foreground-strong: #f6f7f8;
