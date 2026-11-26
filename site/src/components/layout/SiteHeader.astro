@@ -63,7 +63,7 @@ const { current } = Astro.props;
     font-size: var(--igd-type-title-md-font-size);
     line-height: var(--igd-type-title-md-line-height);
     font-weight: var(--igd-type-title-md-font-weight);
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .brand span {
@@ -96,7 +96,7 @@ const { current } = Astro.props;
   nav a {
     padding: var(--igd-space-inset-2xs) var(--igd-space-inset-sm);
     border-radius: var(--igd-radius-action);
-    color: var(--igd-color-text-ui);
+    color: var(--igd-color-foreground-control);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
   }
@@ -112,7 +112,7 @@ const { current } = Astro.props;
     padding: 0 var(--igd-space-inset-2xs);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
     border-radius: var(--igd-radius-action);
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
     font-size: var(--igd-type-body-2xs-font-size);
     font-weight: var(--igd-font-weight-semibold);
     letter-spacing: var(--igd-letter-spacing-label);
@@ -120,13 +120,13 @@ const { current } = Astro.props;
   }
 
   nav a:hover {
-    background: var(--igd-color-surface-subtle);
-    color: var(--igd-color-text-heading);
+    background: var(--igd-color-background-band);
+    color: var(--igd-color-foreground-heading);
   }
 
   nav a[aria-current="page"] {
-    background: var(--igd-color-surface-tint);
-    color: var(--igd-color-action-text);
+    background: var(--igd-color-background-tint);
+    color: var(--igd-color-foreground-action);
   }
 
   .bar {

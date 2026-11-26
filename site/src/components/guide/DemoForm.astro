@@ -54,7 +54,7 @@ const { id } = Astro.props;
     font-family: var(--igd-font-body);
     text-transform: none;
     letter-spacing: normal;
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .row {
@@ -69,7 +69,7 @@ const { id } = Astro.props;
   }
 
   label {
-    color: var(--igd-color-text-ui);
+    color: var(--igd-color-foreground-control);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
   }
@@ -81,14 +81,14 @@ const { id } = Astro.props;
     padding: var(--igd-space-inset-2xs) var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
     border-radius: var(--igd-radius-badge);
-    background: var(--igd-color-surface-card);
-    color: var(--igd-color-text-strong);
+    background: var(--igd-color-background-card);
+    color: var(--igd-color-foreground-default);
     font: inherit;
   }
 
   input:not([type="checkbox"]):focus-visible,
   select:focus-visible {
-    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-ring);
     outline-offset: var(--igd-focus-ring-offset);
   }
 
@@ -111,7 +111,7 @@ const { id } = Astro.props;
     inline-size: var(--igd-size-icon-sm);
     block-size: 100%;
     fill: none;
-    stroke: var(--igd-color-text-ui);
+    stroke: var(--igd-color-foreground-control);
     stroke-width: var(--igd-size-icon-stroke-strong);
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -129,7 +129,7 @@ const { id } = Astro.props;
     inline-size: var(--igd-size-icon-md);
     block-size: var(--igd-size-icon-md);
     margin: 0;
-    accent-color: var(--igd-color-action-default);
+    accent-color: var(--igd-color-background-action);
   }
 
   .actions {

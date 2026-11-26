@@ -135,7 +135,9 @@ describe("the Tokens page", () => {
 
   it("names the engine step a colour is built from and links to it", () => {
     const card =
-      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+      html.match(
+        /<li[^>]*data-token="color-foreground-faint".*?<\/li>/s,
+      )?.[0] ?? "";
     expect(card).toMatch(
       /From <a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
     );
@@ -188,13 +190,13 @@ describe("the Engine page", () => {
         /<li[^>]*data-filter-group[^>]*>\s*<span class="family"[^>]*><span[^>]*>--ig-<\/span>gray.*?<\/dl>/s,
       )?.[0] ?? "";
     expect(row).toMatch(
-      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-text-muted"[^>]*>.*?<code[^>]*>--igd-color-text-muted<\/code>\s*<\/a>/s,
+      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-foreground-faint"[^>]*>.*?<code[^>]*>--igd-color-foreground-faint<\/code>\s*<\/a>/s,
     );
   });
 
   it("shows each token that reads a step with a swatch in its own colour", () => {
     expect(html).toMatch(
-      /<a href="\/tokens\/\?q=color-text-muted"[^>]*>\s*<span class="swatch" style="background: var\(--igd-color-text-muted\)"/,
+      /<a href="\/tokens\/\?q=color-foreground-faint"[^>]*>\s*<span class="swatch" style="background: var\(--igd-color-foreground-faint\)"/,
     );
   });
 
@@ -282,7 +284,7 @@ describe("the guide", () => {
 
   it("shows a featured colour with its plain use on its option, not its technical note", () => {
     expect(html).toMatch(
-      /data-pick="color-action-default".*?The fill of the main button\./s,
+      /data-pick="color-background-action".*?The fill of the main button\./s,
     );
   });
 
@@ -566,7 +568,7 @@ describe("the pages of the Guide", () => {
     const rule = page("guide/rules/").match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
     expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
     expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
-      rule.indexOf("color: var(--igd-color-text-muted);"),
+      rule.indexOf("color: var(--igd-color-foreground-faint);"),
     );
   });
 
@@ -601,7 +603,9 @@ describe("the Tokens page, by tier", () => {
 
   it("shows what a token is for before its name", () => {
     const card =
-      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+      html.match(
+        /<li[^>]*data-token="color-foreground-faint".*?<\/li>/s,
+      )?.[0] ?? "";
     expect(card.indexOf("<p")).toBeGreaterThan(-1);
     expect(card.indexOf("<p")).toBeLessThan(card.indexOf("data-copy="));
   });

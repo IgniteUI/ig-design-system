@@ -1,42 +1,30 @@
 {
-  "color-action-fill-hover": {
-    "base": "color-action-default",
+  "color-background-action-hover": {
+    "base": "color-background-action",
     "dl": -0.0719,
     "kc": 0.8229,
     "dh": 0.07
   },
-  "color-action-active": {
-    "base": "color-action-default",
-    "dl": -0.1271,
-    "kc": 0.6811,
-    "dh": -0.15
-  },
-  "color-action-hover": {
-    "base": "color-action-text",
+  "color-foreground-link-hover": {
+    "base": "color-foreground-action",
     "dl": -0.0685,
     "kc": 0.9384,
     "dh": 0.06
   },
-  "color-link-utility": {
-    "base": "color-action-text",
-    "dl": -0.0191,
-    "kc": 0.6566,
-    "dh": -13.81
-  },
-  "color-surface-tint": {
-    "base": "color-action-default",
+  "color-background-tint": {
+    "base": "color-background-action",
     "l": 0.9717,
     "kc": 0.0436,
     "dh": 17.61
   },
-  "color-surface-tint-strong": {
-    "base": "color-action-default",
+  "color-background-tint-strong": {
+    "base": "color-background-action",
     "l": 0.9395,
     "kc": 0.1176,
     "dh": 12.29
   },
-  "color-border-accent": {
-    "base": "color-action-default",
+  "color-border-action": {
+    "base": "color-background-action",
     "l": 0.881,
     "kc": 0.236,
     "dh": 10.49
@@ -53,172 +41,162 @@
     "kc": 0.7697,
     "dh": 0.25
   },
-  "color-link-inverse-hover": {
-    "base": "color-link-inverse",
+  "color-foreground-link-inverse-hover": {
+    "base": "color-foreground-link-inverse",
     "dl": 0.0909,
     "kc": 0.6634,
     "dh": -0.39
   },
-  "color-focus-inverse": {
-    "base": "color-link-inverse",
+  "color-focus-ring-inverse": {
+    "base": "color-foreground-link-inverse",
     "dl": 0.0909,
     "kc": 0.6634,
     "dh": -0.39
   },
-  "footer-focus": {
-    "base": "color-link-inverse",
+  "footer-focus-ring": {
+    "base": "color-foreground-link-inverse",
     "dl": 0.0909,
     "kc": 0.6634,
     "dh": -0.39
   },
-  "footer-link-hover": {
-    "base": "footer-link",
-    "dl": 0.1009,
-    "kc": 0,
-    "dh": 0
-  },
-  "color-feedback-error-inverse": {
-    "base": "color-feedback-error-default",
+  "color-foreground-error-inverse": {
+    "base": "color-foreground-error",
     "dl": 0.148,
     "kc": 0.9185,
     "dh": 0.2
   },
-  "color-feedback-success-inverse": {
-    "base": "color-feedback-success-default",
+  "color-foreground-success-inverse": {
+    "base": "color-foreground-success",
     "dl": 0.2159,
     "kc": 1.4955,
     "dh": -0.33
   },
-  "color-feedback-warning-inverse": {
-    "base": "color-feedback-warning-default",
+  "color-foreground-warning-inverse": {
+    "base": "color-foreground-warning",
     "dl": 0.2338,
     "kc": 1.2097,
     "dh": -0.37
   },
-  "color-feedback-info-inverse": {
-    "base": "color-feedback-info-default",
+  "color-foreground-info-inverse": {
+    "base": "color-foreground-info",
     "dl": 0.3293,
     "kc": 0.4856,
     "dh": 7.74
   },
   "badge-bundle-background": {
-    "base": "badge-bundle-color",
+    "base": "badge-bundle-foreground",
     "l": 0.9755,
     "kc": 0.0507,
     "dh": 5.81
   },
-  "fw-angular-background": {
-    "base": "fw-angular-color",
+  "framework-angular-background": {
+    "base": "framework-angular-base",
     "l": 0.946,
     "kc": 0.1342,
     "dh": 6.18
   },
-  "fw-angular-border": {
-    "base": "fw-angular-color",
+  "framework-angular-border": {
+    "base": "framework-angular-base",
     "l": 0.8563,
     "kc": 0.4165,
     "dh": 4.89
   },
-  "fw-react-background": {
-    "base": "fw-react-color",
+  "framework-react-background": {
+    "base": "framework-react-base",
     "l": 0.9392,
     "kc": 0.3684,
     "dh": 2.63
   },
-  "fw-react-border": {
-    "base": "fw-react-color",
+  "framework-react-border": {
+    "base": "framework-react-base",
     "l": 0.8371,
     "kc": 1.0737,
     "dh": 0.47
   },
-  "fw-blazor-background": {
+  "framework-blazor-background": {
     "base": "color-accent-ai",
     "l": 0.9755,
     "kc": 0.0395,
     "dh": 6.03
   },
-  "fw-blazor-border": {
+  "framework-blazor-border": {
     "base": "color-accent-ai",
     "l": 0.904,
     "kc": 0.2125,
     "dh": 6.41
   },
-  "fw-webcomponents-background": {
-    "base": "color-action-default",
+  "framework-webcomponents-background": {
+    "base": "color-background-action",
     "l": 0.9717,
     "kc": 0.0436,
     "dh": 17.61
   },
-  "fw-webcomponents-border": {
-    "base": "color-action-default",
+  "framework-webcomponents-border": {
+    "base": "color-background-action",
     "l": 0.881,
     "kc": 0.236,
     "dh": 10.49
   },
-  "fw-winforms-background": {
-    "base": "color-action-default",
+  "framework-winforms-background": {
+    "base": "color-background-action",
     "l": 0.9717,
     "kc": 0.0436,
     "dh": 17.61
   },
-  "fw-winforms-border": {
-    "base": "color-action-default",
+  "framework-winforms-border": {
+    "base": "color-background-action",
     "l": 0.881,
     "kc": 0.236,
     "dh": 10.49
   },
-  "fw-wpf-background": {
-    "base": "color-action-default",
+  "framework-wpf-background": {
+    "base": "color-background-action",
     "l": 0.9395,
     "kc": 0.1176,
     "dh": 12.29
   },
-  "fw-wpf-border": {
-    "base": "color-action-default",
+  "framework-wpf-border": {
+    "base": "color-background-action",
     "l": 0.881,
     "kc": 0.236,
     "dh": 10.49
   },
   "table-mark-partial-background": {
-    "base": "table-mark-partial-color",
+    "base": "table-mark-partial-foreground",
     "l": 0.85,
     "kc": 1.7546,
     "dh": -0.29
   },
-  "footer-heading": {
-    "base": "footer-text",
+  "footer-foreground-faint": {
+    "base": "footer-foreground",
     "dl": -0.0907,
     "kc": 1.3685,
     "dh": -5.88
   },
-  "footer-link": {
-    "base": "footer-text",
+  "footer-link-foreground": {
+    "base": "footer-foreground",
     "dl": 0.0778,
     "kc": 0.5091,
     "dh": -4.35
   },
-  "footer-strong": {
-    "base": "footer-text",
+  "footer-foreground-strong": {
+    "base": "footer-foreground",
     "dl": 0.1662,
     "kc": 0.1365,
     "dh": 0
   },
-  "color-text-inverse-muted": {
-    "base": "color-text-inverse",
+  "color-foreground-inverse-faint": {
+    "base": "color-foreground-inverse",
     "dl": -0.2694,
     "kc": 1,
     "dh": 0
   },
-  "table-header-sub-highlight-color": {
-    "base": "color-action-on",
+  "table-header-sub-foreground-highlighted": {
+    "base": "color-foreground-on-action",
     "alias": true
   },
-  "color-link-utility-hover": {
-    "base": "color-action-text",
-    "alias": true
-  },
-  "color-focus-default": {
-    "base": "color-action-text",
+  "color-focus-ring": {
+    "base": "color-foreground-action",
     "alias": true
   },
   "tile-1": {
@@ -230,15 +208,11 @@
     "alias": true
   },
   "tile-7": {
-    "base": "color-action-default",
+    "base": "color-background-action",
     "alias": true
   },
-  "color-link-inverse": {
-    "base": "color-accent-inverse",
-    "alias": true
-  },
-  "footer-icon": {
-    "base": "footer-text",
+  "color-foreground-link-inverse": {
+    "base": "color-accent-inverse-1",
     "alias": true
   }
 }

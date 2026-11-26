@@ -9,7 +9,10 @@ import {
   unknownTokens,
 } from "./site.ts";
 
-const known = new Set(["--igd-color-text-strong", "--igd-space-inset-md"]);
+const known = new Set([
+  "--igd-color-foreground-default",
+  "--igd-space-inset-md",
+]);
 const roles = new Set(["--igd-space-gap-md", "--igd-space-stack-md"]);
 
 describe("unknownTokens", () => {
@@ -24,7 +27,7 @@ describe("unknownTokens", () => {
     const site = new Set([...known, "--igd-aside-padding"]);
     expect(
       unknownTokens(
-        "a { color: var(--igd-color-text-strong); padding: var(--igd-aside-padding); }",
+        "a { color: var(--igd-color-foreground-default); padding: var(--igd-aside-padding); }",
         site,
       ),
     ).toEqual([]);
@@ -206,7 +209,7 @@ describe("the full message of each rule", () => {
 
   it("names a semantic token to read in place of a palette step", () => {
     expect(rawPaletteReads("a { color: var(--ig-gray-700); }")[0].message).toBe(
-      "--ig-gray-700 is a raw palette step. Read a semantic token, such as --igd-color-text-strong or --igd-color-border-default.",
+      "--ig-gray-700 is a raw palette step. Read a semantic token, such as --igd-color-foreground-default or --igd-color-border-default.",
     );
   });
 

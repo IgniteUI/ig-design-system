@@ -88,7 +88,7 @@ describe("contrastRows", () => {
 describe("assertPairingsPass", () => {
   const row = (fg: string, ratio: number, min = 4.5) => ({
     fg,
-    bg: "color-surface-page",
+    bg: "color-background-page",
     ratio,
     min,
     ok: ratio >= min,
@@ -96,21 +96,23 @@ describe("assertPairingsPass", () => {
 
   it("rejects a pairing below its minimum and names it", () => {
     expect(() =>
-      assertPairingsPass([row("color-text-muted", 3.9), row("x", 9)]),
+      assertPairingsPass([row("color-foreground-faint", 3.9), row("x", 9)]),
     ).toThrow(
-      "1 contrast pairing(s) are below their minimum: color-text-muted on color-surface-page is 3.9:1, needs 4.5:1. Pick a darker or lighter step for the token in src/spec.ts.",
+      "1 contrast pairing(s) are below their minimum: color-foreground-faint on color-background-page is 3.9:1, needs 4.5:1. Pick a darker or lighter step for the token in src/spec.ts.",
     );
   });
 
   it("accepts pairings at or above their minimum", () => {
     expect(() =>
-      assertPairingsPass([row("color-text-muted", 4.5), row("x", 3, 3)]),
+      assertPairingsPass([row("color-foreground-faint", 4.5), row("x", 3, 3)]),
     ).not.toThrow();
   });
 
   it("holds text in the action colour to the text minimum", () => {
-    expect(() => assertPairingsPass([row("color-action-text", 4.4)])).toThrow(
-      "color-action-text on color-surface-page is 4.4:1, needs 4.5:1",
+    expect(() =>
+      assertPairingsPass([row("color-foreground-action", 4.4)]),
+    ).toThrow(
+      "color-foreground-action on color-background-page is 4.4:1, needs 4.5:1",
     );
   });
 });

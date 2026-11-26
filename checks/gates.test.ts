@@ -36,31 +36,34 @@ describe("checks/gates-themes.ts", () => {
   it("fails a text colour that falls below its minimum", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n:root, [data-theme] { --igd-color-text-muted: var(--ig-gray-300); }\n`,
+        `${t}\n:root, [data-theme] { --igd-color-foreground-faint: var(--ig-gray-300); }\n`,
     );
     const r = run("gates-themes.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("color-text-muted");
+    expect(r.out).toContain("color-foreground-faint");
   }, 60000);
 
   it("fails a pairing that is below its minimum in the dark theme only", () => {
     const dir = brokenDist(
-      (t) => `${t}\n[data-theme="dark"] { --igd-color-text-muted: #333333; }\n`,
+      (t) =>
+        `${t}\n[data-theme="dark"] { --igd-color-foreground-faint: #333333; }\n`,
     );
     const r = run("gates-themes.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("dark: color-text-muted");
-    expect(r.out).not.toContain("light: color-text-muted");
+    expect(r.out).toContain("dark: color-foreground-faint");
+    expect(r.out).not.toContain("light: color-foreground-faint");
   }, 60000);
 
   it("fails the action label on a hover fill it does not read on", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-action-fill-hover: #9ec1ff; }\n`,
+        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-background-action-hover: #9ec1ff; }\n`,
     );
     const r = run("gates-themes.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("color-action-on on color-action-fill-hover");
+    expect(r.out).toContain(
+      "color-foreground-on-action on color-background-action-hover",
+    );
   }, 60000);
 
   it("measures feedback text over its tint, and the tint over the page", () => {
@@ -70,7 +73,7 @@ describe("checks/gates-themes.ts", () => {
     const r = run("gates-themes.ts", dir);
     expect(r.code).toBe(1);
     expect(r.out).toContain(
-      "light: color-feedback-error-default on color-feedback-error-surface",
+      "light: color-foreground-error on color-background-error",
     );
   }, 60000);
 });
@@ -79,11 +82,11 @@ describe("checks/gates-derived.ts", () => {
   it("fails a state colour that no longer follows its base", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-action-fill-hover: #123456; }\n`,
+        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-background-action-hover: #123456; }\n`,
     );
     const r = run("gates-derived.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("color-action-fill-hover");
+    expect(r.out).toContain("color-background-action-hover");
   }, 60000);
 });
 
@@ -91,22 +94,24 @@ describe("checks/resolve.ts", () => {
   it("fails a token that points at a custom property that does not exist", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-text-strong: var(--igd-missing); }\n`,
+        `${t}\n:root, [data-ig-scope], [data-theme] { --igd-color-foreground-default: var(--igd-missing); }\n`,
     );
     const r = run("resolve.ts", dir);
     expect(r.code).toBe(1);
-    expect(r.out).toContain("--igd-color-text-strong resolves to nothing");
+    expect(r.out).toContain(
+      "--igd-color-foreground-default resolves to nothing",
+    );
   }, 60000);
 
   it("fails a token that resolves to nothing in the dark theme only", () => {
     const dir = brokenDist(
       (t) =>
-        `${t}\n[data-theme="dark"] { --igd-color-text-strong: var(--igd-missing); }\n`,
+        `${t}\n[data-theme="dark"] { --igd-color-foreground-default: var(--igd-missing); }\n`,
     );
     const r = run("resolve.ts", dir);
     expect(r.code).toBe(1);
     expect(r.out).toContain(
-      "UNRESOLVED dark: --igd-color-text-strong resolves to nothing",
+      "UNRESOLVED dark: --igd-color-foreground-default resolves to nothing",
     );
     expect(r.out).not.toContain("UNRESOLVED light");
   }, 60000);

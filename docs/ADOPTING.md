@@ -35,7 +35,7 @@ A site that renders Ignite UI components keeps `sizing()` and `spacing()`, or se
 
 Do this in two passes. The first is small and proves the look; the second is mechanical.
 
-1. **Alias.** Keep the site's names and give each the design system token as its value: `--site-ink: var(--igd-color-text-heading);`. Nothing else in the site changes.
+1. **Alias.** Keep the site's names and give each the design system token as its value: `--site-ink: var(--igd-color-foreground-heading);`. Nothing else in the site changes.
 2. **Rename.** Replace every read of an old name with the design system name, then delete the aliases.
 
 Choosing the token:

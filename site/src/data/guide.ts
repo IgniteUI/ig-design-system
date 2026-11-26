@@ -22,19 +22,23 @@ export const COLOUR_PICKS: ColourGroup[] = [
     title: "Text",
     lead: "Four strengths of text. Body copy never goes lighter than muted.",
     picks: [
-      { token: "color-text-heading", label: "Heading", use: "Headlines." },
       {
-        token: "color-text-strong",
+        token: "color-foreground-heading",
+        label: "Heading",
+        use: "Headlines.",
+      },
+      {
+        token: "color-foreground-default",
         label: "Strong text",
         use: "Strong text and the default text of a page.",
       },
       {
-        token: "color-text-body",
+        token: "color-foreground-subtle",
         label: "Body text",
         use: "Body copy and the paragraph under a heading.",
       },
       {
-        token: "color-text-muted",
+        token: "color-foreground-faint",
         label: "Muted text",
         use: "Captions, card descriptions and small labels.",
       },
@@ -46,22 +50,22 @@ export const COLOUR_PICKS: ColourGroup[] = [
     lead: "The page, a band that alternates with it, a card and a soft tint.",
     picks: [
       {
-        token: "color-surface-page",
+        token: "color-background-page",
         label: "Page",
         use: "The page background.",
       },
       {
-        token: "color-surface-subtle",
+        token: "color-background-band",
         label: "Band",
         use: "A section band that alternates with the page.",
       },
       {
-        token: "color-surface-card",
+        token: "color-background-card",
         label: "Card",
         use: "The fill of a card.",
       },
       {
-        token: "color-surface-tint",
+        token: "color-background-tint",
         label: "Tint",
         use: "A soft tint behind a chip or a callout.",
       },
@@ -73,22 +77,22 @@ export const COLOUR_PICKS: ColourGroup[] = [
     lead: "Inverse means for an area that is dark in both variants of the theme, such as the footer, a table header or a stat panel. It is not the dark variant. Each inverse colour is shown here on the inverse surface it is made for.",
     picks: [
       {
-        token: "color-surface-inverse",
+        token: "color-background-inverse",
         label: "Dark area",
         use: "An area that stays dark in both variants of the theme, such as a footer. Inverse does not mean the dark variant.",
       },
       {
-        token: "color-text-inverse",
+        token: "color-foreground-inverse",
         label: "Text",
         use: "Text in a dark area.",
       },
       {
-        token: "color-text-inverse-muted",
+        token: "color-foreground-inverse-faint",
         label: "Quiet text",
         use: "Labels and quieter text in a dark area.",
       },
       {
-        token: "color-link-inverse",
+        token: "color-foreground-link-inverse",
         label: "Link",
         use: "A link in a dark area.",
       },
@@ -100,24 +104,24 @@ export const COLOUR_PICKS: ColourGroup[] = [
     lead: "One action colour. A filled button uses the fill and its label; a link or an outline uses the text colour.",
     picks: [
       {
-        token: "color-action-default",
+        token: "color-background-action",
         label: "Button",
         use: "The fill of the main button.",
       },
       {
-        token: "color-action-on",
+        token: "color-foreground-on-action",
         label: "Button label",
         use: "The label on that fill.",
       },
       {
-        token: "color-action-text",
+        token: "color-foreground-action",
         label: "Link",
         use: "A link, an outline button label, a short label in the action colour.",
       },
       {
-        token: "color-action-fill-hover",
+        token: "color-background-action-hover",
         label: "Button hover",
-        use: "The fill of the main button under the pointer.",
+        use: "The fill of the main button on hover.",
       },
     ],
   },
@@ -149,22 +153,22 @@ export const COLOUR_PICKS: ColourGroup[] = [
     lead: "Error, success, warning and information, as a site shows them: an icon and a title in the message colour, on a soft tint of it.",
     picks: [
       {
-        token: "color-feedback-error-default",
+        token: "color-foreground-error",
         label: "Error",
         use: "An error message.",
       },
       {
-        token: "color-feedback-success-default",
+        token: "color-foreground-success",
         label: "Success",
         use: "A confirmation.",
       },
       {
-        token: "color-feedback-warning-default",
+        token: "color-foreground-warning",
         label: "Warning",
         use: "A warning.",
       },
       {
-        token: "color-feedback-info-default",
+        token: "color-foreground-info",
         label: "Information",
         use: "A note or a tip.",
       },
@@ -256,7 +260,7 @@ export const SHAPE_PICKS: Record<
     {
       token: "shadow-card-hover",
       label: "Hover",
-      use: "A card under the mouse pointer. It lifts, and does not move or grow.",
+      use: "A card on hover. It lifts, and does not move or grow.",
     },
     {
       token: "shadow-floating",

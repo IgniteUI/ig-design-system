@@ -41,7 +41,7 @@ const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
 
   p {
     margin: 0;
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
     font-size: var(--igd-type-body-sm-font-size);
     line-height: var(--igd-type-body-sm-line-height);
   }
@@ -53,13 +53,13 @@ const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
     padding: var(--igd-space-inset-lg);
     overflow: clip;
     container-type: inline-size;
-    border: var(--igd-border-width-strong) solid var(--igd-color-feedback-success-default);
+    border: var(--igd-border-width-strong) solid var(--igd-color-foreground-success);
     border-radius: var(--igd-radius-card);
-    background: var(--igd-color-surface-page);
+    background: var(--igd-color-background-page);
   }
 
   .picture.wrong {
-    border-color: var(--igd-color-feedback-error-default);
+    border-color: var(--igd-color-foreground-error);
   }
 
   .plate {
@@ -67,7 +67,7 @@ const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
     place-items: center;
     padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
     border-radius: var(--igd-radius-tile);
-    background: var(--igd-color-surface-inverse);
+    background: var(--igd-color-background-inverse);
   }
 
   .plate.busy {
@@ -81,7 +81,7 @@ const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
     align-items: center;
     font-family: var(--igd-font-display);
     font-weight: var(--igd-font-weight-bold);
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     white-space: nowrap;
   }
 
@@ -110,7 +110,7 @@ const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
   .retype {
     gap: var(--igd-space-gap-xs);
     font-size: var(--igd-type-title-md-font-size);
-    color: var(--igd-color-text-muted);
+    color: var(--igd-color-foreground-faint);
   }
 
   .stretch :global(img) {
@@ -126,7 +126,7 @@ const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
   }
 
   .effect :global(img) {
-    filter: drop-shadow(0 var(--igd-space-2xs) var(--igd-space-2xs) var(--igd-color-text-heading));
+    filter: drop-shadow(0 var(--igd-space-2xs) var(--igd-space-2xs) var(--igd-color-foreground-heading));
   }
 
   .crop {

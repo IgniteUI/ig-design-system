@@ -42,9 +42,9 @@ const { inline = false } = Astro.props;
     border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
     /* The warning tint is see-through, so it is laid over the page colour to hide what scrolls beneath. */
     background:
-      linear-gradient(var(--igd-color-feedback-warning-surface), var(--igd-color-feedback-warning-surface)),
-      var(--igd-color-surface-page);
-    color: var(--igd-color-text-strong);
+      linear-gradient(var(--igd-color-background-warning), var(--igd-color-background-warning)),
+      var(--igd-color-background-page);
+    color: var(--igd-color-foreground-default);
     font-size: var(--igd-type-body-sm-font-size);
     line-height: var(--igd-type-body-sm-line-height);
   }
@@ -59,7 +59,7 @@ const { inline = false } = Astro.props;
     block-size: var(--igd-size-icon-md);
     margin-block-start: var(--igd-space-stack-3xs);
     fill: none;
-    stroke: var(--igd-color-feedback-warning-default);
+    stroke: var(--igd-color-foreground-warning);
     stroke-width: var(--igd-size-icon-stroke-strong);
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -76,6 +76,6 @@ const { inline = false } = Astro.props;
   }
 
   strong {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 </style>

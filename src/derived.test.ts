@@ -24,7 +24,7 @@ describe("assertSameColor", () => {
 describe("resolvedValue", () => {
   const declared = new Map([
     ["ig-primary-500", "#4c7dfe"],
-    ["color-action-hover", "var(--ig-primary-500)"],
+    ["color-foreground-link-hover", "var(--ig-primary-500)"],
     ["broken", "var(--nowhere)"],
   ]);
 
@@ -39,7 +39,9 @@ describe("resolvedValue", () => {
   });
 
   it("follows a var() reference to the colour", () => {
-    expect(resolvedValue(declared, "color-action-hover")).toBe("#4c7dfe");
+    expect(resolvedValue(declared, "color-foreground-link-hover")).toBe(
+      "#4c7dfe",
+    );
   });
 });
 
@@ -103,10 +105,9 @@ describe("stateFamilyErrors", () => {
 
   it("finds no state of the spec that leaves its base's family", () => {
     const pairs = [
-      ["color-action-hover", "color-action-text"],
-      ["color-link-inverse-hover", "color-link-inverse"],
-      ["color-action-fill-hover", "color-action-default"],
-      ["color-action-active", "color-action-default"],
+      ["color-foreground-link-hover", "color-foreground-action"],
+      ["color-foreground-link-inverse-hover", "color-foreground-link-inverse"],
+      ["color-background-action-hover", "color-background-action"],
     ] as [string, string][];
     expect(stateFamilyErrors(pairs, ALIAS)).toEqual([]);
   });

@@ -1,21 +1,18 @@
 // Sorts and looks up the tokens of tokens.json for the pages.
 import type { Token } from "./design-system.ts";
 
-/** The semantic colour groups, in the order the Tokens page lists them. */
+/** The semantic colour groups, by the property word that follows `color-`, in the order the Tokens page lists them. */
 export const COLOUR_GROUPS: [key: string, title: string][] = [
-  ["action", "Action"],
-  ["text", "Text"],
-  ["surface", "Surface"],
+  ["foreground", "Foreground"],
+  ["background", "Background"],
   ["border", "Border"],
-  ["accent", "Accent"],
-  ["link", "Link"],
   ["focus", "Focus"],
-  ["feedback", "Feedback"],
+  ["accent", "Accent"],
 ];
 
 /** How a colour is previewed: as text, as an outline, or as a fill. */
 export type Preview = "fill" | "text" | "outline";
-const TEXT_GROUPS = ["text", "link"];
+const TEXT_GROUPS = ["foreground"];
 const OUTLINE_GROUPS = ["border", "focus"];
 
 /** The preview a semantic colour group gets. */

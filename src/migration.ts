@@ -56,7 +56,7 @@ Three tiers, role-based names, no colour words in semantic names (the three \`wi
 2. **Semantic** (\`--igd-color-*\`, \`--igd-space-*\`, \`--igd-radius-*\`, \`--igd-size-*\`, \`--igd-shadow-*\`, \`--igd-font-weight-*\`, \`--igd-opacity-*\`, \`--igd-z-index-*\`, \`--igd-breakpoint-*\`): what a value is for. Use these in product code.
 3. **Component** (\`--igd-footer-*\`, \`--igd-table-*\`, \`--igd-fw-*\`, \`--igd-badge-*\`, \`--igd-tile-*\`, \`--igd-callout-*\`): a decision made for one component, defined from the semantic tier.
 
-Colour roles read \`color-{role}-{variant}-{state}\`: \`color-action-default\`, \`color-action-hover\`, \`color-text-muted\`, \`color-surface-tint\`, \`color-border-control\`, \`color-feedback-error-default\`.
+Colour names read \`color-{property}-{job}-{emphasis}-{state}\`, the property being \`foreground\`, \`background\`, \`border\`, \`focus\` or \`accent\`: \`color-background-action\`, \`color-foreground-link-hover\`, \`color-foreground-faint\`, \`color-background-tint\`, \`color-border-control\`, \`color-foreground-error\`.
 
 ### Spacing scale
 

@@ -25,9 +25,9 @@ export const tintedElevations = (rgb: number[]) => {
 export const siteShadowsSass = () => {
   const tints: Record<string, string> = {
     "color-shadow": "0, 0, 0",
-    "color-surface-inverse": hexToRgb(hexOf("color-surface-inverse")).join(
-      ", ",
-    ),
+    "color-background-inverse": hexToRgb(
+      hexOf("color-background-inverse"),
+    ).join(", "),
   };
   const declarations = Object.entries(SHADOW).map(([name, layers]) => {
     const list = layers
@@ -81,7 +81,7 @@ export const withShadowColorToken = (shadow: string) =>
 export const withActionColorToken = (shadow: string, rgb: number[]) =>
   shadow.replace(
     new RegExp(`rgba\\(${rgb.join(", ")}, ([\\d.]+)\\)`, "g"),
-    "hsl(from var(--color-action-default) h s l / $1)",
+    "hsl(from var(--color-background-action) h s l / $1)",
   );
 
 /** The layers of a compiled elevation as drop-shadow() functions, live and static. The spread is dropped. */
@@ -142,11 +142,11 @@ export const semanticShadows = (
     ),
     "shadow-action-lg": tintedShadow(
       16,
-      "Primary CTA and its hover (no shadow change on hover). Engine elevation 16 tinted with `color-action-default`.",
+      "Primary CTA and its hover (no shadow change on hover). Engine elevation 16 tinted with `color-background-action`.",
     ),
     "shadow-action-sm": tintedShadow(
       1,
-      "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-action-default`.",
+      "Framework pill hover — the only hover change on a pill. Engine elevation 1 tinted with `color-background-action`.",
     ),
     "shadow-screenshot": siteShadow(
       "shadow-screenshot",
@@ -155,23 +155,23 @@ export const semanticShadows = (
     "shadow-floating": siteShadow("shadow-floating", "Floating stat badges."),
     "shadow-action-md": tintedShadow(
       13,
-      "Bundle cards with the gradient border. Engine elevation 13 tinted with `color-action-default`.",
+      "Bundle cards with the gradient border. Engine elevation 13 tinted with `color-background-action`.",
     ),
     "callout-release-shadow": {
-      live: "inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring), var(--elevation-tint-13)",
+      live: "inset 0 0 0 var(--border-width-default) var(--release-strip-ring), var(--elevation-tint-13)",
       snapshot: `inset 0 0 0 1px ${ringOf("opacity-soft")}, ${staticShadow(tinted[13])}`,
       usage:
-        "Release strip at rest. Engine elevation 13 tinted with `color-action-default`.",
+        "Release strip at rest. Engine elevation 13 tinted with `color-background-action`.",
     },
     "callout-release-shadow-hover": {
-      live: "inset 0 0 0 var(--border-width-default) var(--color-emphasis-ring-hover), var(--elevation-tint-16)",
+      live: "inset 0 0 0 var(--border-width-default) var(--release-strip-ring-hover), var(--elevation-tint-16)",
       snapshot: `inset 0 0 0 1px ${ringOf("opacity-strong")}, ${staticShadow(tinted[16])}`,
       usage:
-        "Release strip on hover. Engine elevation 16 tinted with `color-action-default`.",
+        "Release strip on hover. Engine elevation 16 tinted with `color-background-action`.",
     },
     "shadow-chip": siteShadow(
       "shadow-chip",
-      "Dark glass chips over a screenshot, with `color-surface-inverse-chip`.",
+      "Dark glass chips over a screenshot, with `color-background-inverse-overlay`.",
     ),
     "shadow-popover": siteShadow(
       "shadow-popover",

@@ -66,15 +66,15 @@ export const SURFACES: {
   title: string;
   theme: "light" | "dark";
 }[] = [
-  { token: "color-surface-page", title: "The page", theme: "light" },
-  { token: "color-surface-subtle", title: "A section band", theme: "light" },
-  { token: "color-surface-card", title: "A card", theme: "light" },
-  { token: "color-surface-tint", title: "A tinted area", theme: "light" },
-  { token: "color-surface-page", title: "The page", theme: "dark" },
-  { token: "color-surface-subtle", title: "A section band", theme: "dark" },
-  { token: "color-surface-card", title: "A card", theme: "dark" },
+  { token: "color-background-page", title: "The page", theme: "light" },
+  { token: "color-background-band", title: "A section band", theme: "light" },
+  { token: "color-background-card", title: "A card", theme: "light" },
+  { token: "color-background-tint", title: "A tinted area", theme: "light" },
+  { token: "color-background-page", title: "The page", theme: "dark" },
+  { token: "color-background-band", title: "A section band", theme: "dark" },
+  { token: "color-background-card", title: "A card", theme: "dark" },
   {
-    token: "color-surface-inverse",
+    token: "color-background-inverse",
     title: "A dark area on a light page",
     theme: "dark",
   },

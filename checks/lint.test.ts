@@ -7,7 +7,7 @@ describe("findLiterals", () => {
   it("accepts a line that only uses tokens", () => {
     expect(
       findLiterals(
-        'padding: "var(--space-inset-md)", color: "var(--color-text-strong)"',
+        'padding: "var(--space-inset-md)", color: "var(--color-foreground-default)"',
       ),
     ).toEqual([]);
   });

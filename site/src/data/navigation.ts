@@ -56,6 +56,11 @@ export const GUIDE_PAGES: readonly {
     title: "Rules",
     summary: "What to write and what not to, and what the check reports.",
   },
+  {
+    path: "guide/naming/",
+    title: "Naming tokens",
+    summary: "How a token name is built, and how to name a new one.",
+  },
   ...DOCUMENTS.map((d) => ({
     path: `${d.slug}/`,
     title: d.title,

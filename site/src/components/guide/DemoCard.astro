@@ -30,7 +30,7 @@ const { title } = Astro.props;
     border: var(--igd-border-width-default) solid var(--igd-badge-new-border);
     border-radius: var(--igd-radius-action);
     background: var(--igd-badge-new-background);
-    color: var(--igd-badge-new-color);
+    color: var(--igd-badge-new-foreground);
     font-size: var(--igd-type-body-2xs-font-size);
     font-weight: var(--igd-font-weight-semibold);
     letter-spacing: var(--igd-letter-spacing-badge);
@@ -42,7 +42,7 @@ const { title } = Astro.props;
     font-family: var(--igd-font-body);
     text-transform: none;
     letter-spacing: normal;
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   p {
@@ -50,7 +50,7 @@ const { title } = Astro.props;
   }
 
   p :global(output) {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .actions {

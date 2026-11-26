@@ -32,12 +32,12 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 ```css
 .promo-button {
-  background: var(--igd-color-action-default);
-  color: var(--igd-color-action-on);
+  background: var(--igd-color-background-action);
+  color: var(--igd-color-foreground-on-action);
   padding: var(--igd-space-inset-sm) var(--igd-space-inset-xl);
   border-radius: var(--igd-radius-action);
 }
-.promo-button:hover { background: var(--igd-color-action-fill-hover); }
+.promo-button:hover { background: var(--igd-color-background-action-hover); }
 ```
 
 ## Documentation site
@@ -82,9 +82,21 @@ Semantic and component names in `tokens.json` and in the DTCG file carry no pref
 
 The classes and keyframes the package defines follow the same rule: `.igd-type-display-lg` … `.igd-type-body-2xs` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
-**Colour** names follow `color-{role}-{variant}-{state}`, for example `color-action-default` (`--igd-color-action-default` in CSS), `color-text-muted`, `color-surface-tint`. No semantic or component name carries a hue, with one exception, `window-dot-red`, `-amber` and `-green`, which name the three dots of a mock window: the accents are `color-accent-brand`, `-ai`, `-inverse` and `-inverse-performance`, the icon tile fills are `tile-1` … `tile-8`, and the glows take the name of the accent they derive from.
+**How to read a colour name.** `color-{property}-{job}-{emphasis}-{state}`, read as a sentence: `color-foreground-link-hover` is the foreground colour of a link, on hover. A component's own colour reads `{component}-{part}-{property}-{state}`: `badge-new-foreground`.
 
-**Why names say the job.** A name is written into every site that uses it; a value is written once, in this package. So a name says what the value is for, never how it looks: no hue, no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`), no `-alt`, no product name and no `primary` or `secondary`, which are the engine's family names (`color-text-strong`, not `color-text-primary`). When the look changes, the value changes and every site keeps working. Two kinds of name use a position, because there the position is the role: a scale (`space-inset-lg`, `font-weight-bold`), where a component picks a step by need, and an ordered set (`tile-1` … `tile-8`), where a grid takes the colours in order. A hue appears only in the raw tier, where the name says what the value is. Use `color-action-default` for fills and `color-action-text` for anything drawn on a surface (links, outline labels, focus rings).
+| Word | Means |
+|---|---|
+| `foreground` | anything drawn on a background: text, icons, lines inside a component |
+| `background` | a fill: a page, a band, a card, a button |
+| `border` | the edge of a box or a control |
+| `focus` | the keyboard focus ring |
+| `accent` | a brand colour for graphics: gradients, tiles, stat numbers |
+
+Emphasis, strongest first: `strong`, `default`, `subtle`, `faint`; `inverse` is for an area that stays dark in both variants, such as the footer, and never goes on a light surface. A state comes last: `hover`, `active` (pressed), `selected`, `disabled`. A colour on a fill says so: `color-foreground-on-action` is the label on `color-background-action`. A name never uses `text`, `icon` or `surface` (it says `foreground` or `background`), `muted` (`faint` or `subtle`), or `primary`, `secondary` and `alt` (it says the job). `src/naming.ts` holds these lists, and a test fails on a colour name outside them.
+
+No semantic or component name carries a hue, with one exception, `window-dot-red`, `-amber` and `-green`, which name the three dots of a mock window: the accents are `color-accent-brand`, `-ai`, `-inverse-1` and `-inverse-2`, the icon tile fills are `tile-1` … `tile-8`, and the glows take the name of the accent they derive from.
+
+**Why names say the job.** A name is written into every site that uses it; a value is written once, in this package. So a name says what the value is for, never how it looks: no hue, no shape (`radius-action`, not `radius-pill`), no material (`shadow-chip`, not `shadow-glass`), no `-alt`, no product name and no `primary` or `secondary`, which are the engine's family names (`color-foreground-default`, not `color-text-primary`). When the look changes, the value changes and every site keeps working. Two kinds of name use a position, because there the position is the role: a scale (`space-inset-lg`, `font-weight-bold`), where a component picks a step by need, and an ordered set (`tile-1` … `tile-8`), where a grid takes the colours in order. A hue appears only in the raw tier, where the name says what the value is. Use `color-background-action` for fills and `color-foreground-action` for anything drawn on a surface (links, outline labels, focus rings).
 
 **Type** has 15 styles, each named for its role. The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`.
 
@@ -151,13 +163,13 @@ A token is calculated where it is declared: on the root and on each `data-ig-sco
 | `data-ig-scope` | a component root, or a region that carries its own dials or base colours |
 | `data-igd-type="docs"` | the type roles at documentation sizes, on the page or on one region |
 
-**Brand colours.** `IGD_SEED_PRIMARY` and `IGD_SEED_SECONDARY` replace a seed for one build; CI builds the system with two other brand colours on every pull request and runs every gate on the result. The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action fill, `color-action-default`, is the seed, and its label is the engine's contrast colour: black or white, whichever reads on the seed. The hover fill, `color-action-fill-hover`, is a step that label still reads on: primary step 700 under a white label, step 400 under a black one. Text in the action colour, `color-action-text`, reads primary step 600, because the engine solves each step to a fixed contrast for any seed (about 5.2:1 on white for step 600). The build stops when the engine warns that a seed or a scale cannot give a step its contrast.
+**Brand colours.** `IGD_SEED_PRIMARY` and `IGD_SEED_SECONDARY` replace a seed for one build; CI builds the system with two other brand colours on every pull request and runs every gate on the result. The brand colours are a build input. The seeds live in `src/palette-sets.ts` (primary `#155dfc`, secondary `#9810fa`, info `#0099ff`); change one, run `npm run palettes` and `npm run build`, and the engine solves the whole ramp again for contrast. Nothing re-derives a ramp in the browser. The action fill, `color-background-action`, is the seed, and its label is the engine's contrast colour: black or white, whichever reads on the seed. The hover fill, `color-background-action-hover`, is a step that label still reads on: primary step 700 under a white label, step 400 under a black one. Text in the action colour, `color-foreground-action`, reads primary step 600, because the engine solves each step to a fixed contrast for any seed (about 5.2:1 on white for step 600). The build stops when the engine warns that a seed or a scale cannot give a step its contrast.
 
 **Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. Text in the action colour or a status colour is not derived: it reads one engine step in the light variant and a lighter step of the same family in the dark variant. Fills keep the exact colour with a black or white label.
 
 **Dark variant.** Built from the engine's dark palette. `[data-theme="dark"]` gives the engine's gray shades and surface roles their dark-palette values; every semantic name keeps its meaning.
 
-**Dark areas.** An area that is dark in both variants uses the inverse surfaces: `color-surface-inverse-raised` (lightest), `color-surface-inverse` and `color-surface-inverse-sunken` (darkest), with `color-text-inverse` on top.
+**Dark areas.** An area that is dark in both variants uses the inverse surfaces: `color-background-inverse-raised` (lightest), `color-background-inverse` and `color-background-inverse-sunken` (darkest), with `color-foreground-inverse` on top.
 
 ## Checks
 

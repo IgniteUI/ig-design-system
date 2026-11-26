@@ -1,0 +1,159 @@
+---
+// A page of the Guide: how a token name is built, the words of each part, and the steps to name a new one.
+import Steps from "@/components/guide/Steps.astro";
+import Section from "@/components/layout/Section.astro";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { EMPHASIS, EXAMPLES, NEW_NAME_STEPS, NOT_USED, PARTS, PROPERTIES, STATES } from "@/lib/design-system.ts";
+
+const sections = [
+  { id: "anatomy", title: "Anatomy of a name" },
+  { id: "words", title: "The words" },
+  { id: "new", title: "Naming a new token" },
+];
+// The part each word of an example plays, so the drawing labels it.
+const partOf = (word: string, i: number, all: string[]) => {
+  if (i === 0) return all[0] === "color" ? "color" : "component";
+  if (PROPERTIES.some((p) => p.word === word)) return "property";
+  if (EMPHASIS.some((e) => e.word === word)) return "emphasis";
+  if (STATES.some((s) => s.word === word)) return "state";
+  return all[0] === "color" ? "job" : i === all.length - 1 ? "property" : "part";
+};
+---
+
+<SectionsLayout title="Naming tokens" sections={sections} menu="guide">
+  <h1>Naming tokens</h1>
+  <p class="intro">
+    Every token name is built from the same parts, in the same order, so a person and an AI agent can tell from the
+    name alone where a value goes and what it is for.
+  </p>
+
+  <Section id="anatomy" title="Anatomy of a name">
+    <p class="lead">
+      A colour reads <code>color-{"{property}"}-{"{job}"}-{"{emphasis}"}-{"{state}"}</code>. Read it as a sentence.
+    </p>
+    <ul class="examples">
+      {
+        EXAMPLES.map((e) => (
+          <li>
+            <p class="name" aria-label={e.name}>
+              {e.parts.map((word, i) => (
+                <span class:list={["part", partOf(word, i, e.parts)]}>
+                  <code>{word}</code>
+                  <span class="label">{partOf(word, i, e.parts)}</span>
+                </span>
+              ))}
+            </p>
+            <p class="reads">{e.reads}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <dl class="parts">
+      {
+        PARTS.map((p) => (
+          <div>
+            <dt>{p.part}</dt>
+            <dd>{p.says}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="lead">
+      A colour only one component uses reads <code>{"{component}"}-{"{part}"}-{"{property}"}-{"{state}"}</code>, such
+      as <code>badge-new-foreground</code>.
+    </p>
+  </Section>
+
+  <Section id="words" title="The words">
+    <h3>Property</h3>
+    <dl class="words">{PROPERTIES.map((w) => <div><dt><code>{w.word}</code></dt><dd>{w.means}</dd></div>)}</dl>
+    <h3>Emphasis</h3>
+    <dl class="words">{EMPHASIS.map((w) => <div><dt><code>{w.word}</code></dt><dd>{w.means}</dd></div>)}</dl>
+    <h3>State</h3>
+    <dl class="words">{STATES.map((w) => <div><dt><code>{w.word}</code></dt><dd>{w.means}</dd></div>)}</dl>
+    <h3>Words a name does not use</h3>
+    <dl class="words">
+      {Object.entries(NOT_USED).map(([word, use]) => <div><dt><code>{word}</code></dt><dd>says {use}</dd></div>)}
+    </dl>
+  </Section>
+
+  <Section id="new" title="Naming a new token">
+    <Steps>{NEW_NAME_STEPS.map((step) => <li>{step}</li>)}</Steps>
+  </Section>
+</SectionsLayout>
+
+<style>
+  .examples {
+    display: grid;
+    gap: var(--igd-space-gap-md);
+    margin: 0 0 var(--igd-space-stack-lg);
+    padding: 0;
+    list-style: none;
+  }
+
+  .examples li {
+    display: grid;
+    gap: var(--igd-space-gap-2xs);
+    padding: var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-card);
+    background: var(--igd-color-background-card);
+  }
+
+  .name {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--igd-space-gap-2xs);
+    margin: 0;
+  }
+
+  .part {
+    display: grid;
+    justify-items: center;
+    gap: var(--igd-space-gap-3xs);
+    padding: var(--igd-space-inset-2xs) var(--igd-space-inset-xs);
+    border-radius: var(--igd-radius-control);
+    background: var(--igd-color-background-tint);
+  }
+
+  .part code {
+    color: var(--igd-color-foreground-heading);
+    font-size: var(--igd-type-body-md-font-size);
+  }
+
+  .label {
+    color: var(--igd-color-foreground-faint);
+    font-size: var(--igd-type-body-2xs-font-size);
+    text-transform: uppercase;
+    letter-spacing: var(--igd-letter-spacing-label);
+  }
+
+  .reads {
+    margin: 0;
+    color: var(--igd-color-foreground-subtle);
+  }
+
+  .parts,
+  .words {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+    margin: 0 0 var(--igd-space-stack-lg);
+  }
+
+  .parts div,
+  .words div {
+    display: grid;
+    grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr);
+    gap: var(--igd-space-gap-md);
+  }
+
+  dt {
+    color: var(--igd-color-foreground-heading);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--igd-color-foreground-subtle);
+  }
+</style>

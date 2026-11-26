@@ -8,11 +8,11 @@ export function BrowserFrame({ src, alt = '', children, bleed = false, style, ..
       width: bleed ? 'calc(100% + max(var(--igd-space-4xl), (100vw - var(--igd-bleed-width)) / 2))' : '100%',
       borderRadius: 'var(--igd-radius-card)', overflow: 'hidden',
       border: 'var(--igd-border-width-default) solid var(--igd-color-border-default)', boxShadow: 'var(--igd-shadow-screenshot)',
-      background: 'var(--igd-color-surface-page)', ...style,
+      background: 'var(--igd-color-background-page)', ...style,
     }} {...rest}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: 'var(--igd-space-gap-xs)', padding: 'var(--igd-space-inset-xs) var(--igd-space-inset-sm)',
-        borderBottom: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', background: 'var(--igd-color-surface-subtle)',
+        borderBottom: 'var(--igd-border-width-default) solid var(--igd-color-border-subtle)', background: 'var(--igd-color-background-band)',
       }}>
         {DOTS.map(c => (
           <span key={c} style={{ width: 'var(--igd-window-dot-size)', height: 'var(--igd-window-dot-size)', borderRadius: '50%', background: c }} />

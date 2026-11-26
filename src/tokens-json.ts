@@ -130,7 +130,7 @@ const GLOWS: Record<string, Glow> = {
     usage: "Ambient glow for the dark AI and enterprise bands only.",
   },
   "glow-inverse-partner": {
-    base: "color-accent-inverse-performance",
+    base: "color-accent-inverse-2",
     opacity: "opacity-soft",
     stop: 68,
     usage: "Ambient glow for the dark AI and enterprise bands and the footer.",
@@ -140,8 +140,8 @@ const GLOWS: Record<string, Glow> = {
 /** The gradients and glows, by token name, in the order tokens.json lists them. */
 export const gradients = (colorOf: ColorOf): Record<string, GradientEntry> => ({
   "footer-background-gradient": {
-    snapshot: `linear-gradient(155deg, ${colorOf("color-surface-inverse-raised")} 0%, ${colorOf("ig-dark-surface-400")} 42%, ${colorOf("footer-background")} 100%)`,
-    live: `linear-gradient(155deg, var(--color-surface-inverse-raised) 0%, ${colorOf("ig-dark-surface-400")} 42%, var(--footer-background) 100%)`,
+    snapshot: `linear-gradient(155deg, ${colorOf("color-background-inverse-raised")} 0%, ${colorOf("ig-dark-surface-400")} 42%, ${colorOf("footer-background")} 100%)`,
+    live: `linear-gradient(155deg, var(--color-background-inverse-raised) 0%, ${colorOf("ig-dark-surface-400")} 42%, var(--footer-background) 100%)`,
     usage:
       "The site footer’s own 155° gradient — one of the two dark surfaces in the system.",
   },
@@ -152,8 +152,8 @@ export const gradients = (colorOf: ColorOf): Record<string, GradientEntry> => ({
       "The 92° blue→violet, clipped to one headline fragment per section. Never a background fill, button or tile.",
   },
   "gradient-hero": {
-    snapshot: `linear-gradient(180deg, ${colorOf("color-surface-hero")}, ${colorOf("color-surface-page")})`,
-    live: "linear-gradient(180deg, var(--color-surface-hero), var(--color-surface-page))",
+    snapshot: `linear-gradient(180deg, ${colorOf("color-background-wash")}, ${colorOf("color-background-page")})`,
+    live: "linear-gradient(180deg, var(--color-background-wash), var(--color-background-page))",
     usage: "The hero wash behind the homepage hero.",
   },
   ...Object.fromEntries(
@@ -235,7 +235,7 @@ export const tokensJson = (parts: TokenParts): Tokens => ({
     ],
   },
   shadow: {
-    note: "`shadow-card-hover`, `shadow-screenshot`, `shadow-floating`, `shadow-popover`, `shadow-panel` and `shadow-chip` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-action-default` as umbra, penumbra and ambient colour. theme.css keeps them live.",
+    note: "`shadow-card-hover`, `shadow-screenshot`, `shadow-floating`, `shadow-popover`, `shadow-panel` and `shadow-chip` are the shadows www.infragistics.com ships, compiled with the engine's box-shadow(). The rest are resolved from igniteui-theming elevations (indigo preset) at --ig-elevation-factor 1; tinted levels use the same preset with `color-background-action` as umbra, penumbra and ambient colour. theme.css keeps them live.",
     tokens: [
       ...Object.entries(parts.shadows).map(([name, { snapshot, usage }]) => ({
         name,

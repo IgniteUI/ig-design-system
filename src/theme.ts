@@ -147,9 +147,9 @@ ${[
       `  --${name}: hsl(from var(--${base}) h s l / var(--${opacity}));`,
   ),
 ].join("\n")}
-  --gradient-border-bundle: linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box, linear-gradient(135deg, var(--color-accent-brand), var(--color-accent-ai)) border-box;
-  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-brand) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-inverse) h s l / var(--opacity-faint)));
-  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-text-inverse) h s l / var(--opacity-faint)), transparent);
+  --gradient-border-bundle: linear-gradient(var(--color-background-card), var(--color-background-card)) padding-box, linear-gradient(135deg, var(--color-accent-brand), var(--color-accent-ai)) border-box;
+  --gradient-emphasis: linear-gradient(180deg, hsl(from var(--color-accent-brand) h s l / var(--opacity-subtle)), hsl(from var(--color-accent-inverse-1) h s l / var(--opacity-faint)));
+  --footer-card-background: linear-gradient(180deg, hsl(from var(--color-foreground-inverse) h s l / var(--opacity-faint)), transparent);
   --container-gutter: clamp(var(--space-lg), 4vw, var(--space-4xl)); /* @kind spacing */
   --space-section: ${sectionSpace()}; /* @kind spacing */
   --layout-split: 0.95fr 1.05fr; /* @kind other */
@@ -216,7 +216,7 @@ const KEYFRAMES_AND_UTILITIES = `
 }
 @keyframes igd-app-shimmer {
   0%, 100% { filter: drop-shadow(0 var(--space-xs) var(--space-md) hsl(from var(--color-accent-brand) h s l / var(--opacity-heavy))); opacity: 1; }
-  50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-inverse) h s l / var(--opacity-heavy))); opacity: 1; }
+  50%      { filter: drop-shadow(0 var(--space-xs) var(--space-xl) hsl(from var(--color-accent-inverse-1) h s l / var(--opacity-heavy))); opacity: 1; }
 }
 
 /* Breakpoints (media queries cannot read custom properties; generated from tokens.json breakpoint family) */
@@ -229,7 +229,7 @@ const GRAY_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
 const themes = () => {
   const neutralRoles = Object.entries(ALIAS).filter(
     ([name, [step]]) =>
-      /^ig-(gray|surface)-/.test(step) && name !== "color-action-on",
+      /^ig-(gray|surface)-/.test(step) && name !== "color-foreground-on-action",
   );
   return `
 /* ===== 6. themes ===== */
@@ -257,7 +257,7 @@ ${[
   ),
 ].join("\n")}
 }
-[data-theme] { background-color: var(--color-surface-page); color: var(--color-text-strong); }
+[data-theme] { background-color: var(--color-background-page); color: var(--color-foreground-default); }
 `;
 };
 

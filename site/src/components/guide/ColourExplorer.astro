@@ -14,25 +14,25 @@ pick(tokens.color.tokens, picks.map((p) => p.token), "colour");
 
 // The parts of the drawing, by token. The build stops when a listed colour has no part or a part has no listed colour.
 const PARTS = [
-  "color-surface-page",
-  "color-surface-subtle",
-  "color-surface-card",
-  "color-surface-tint",
-  "color-text-heading",
-  "color-text-strong",
-  "color-text-body",
-  "color-text-muted",
-  "color-action-text",
+  "color-background-page",
+  "color-background-band",
+  "color-background-card",
+  "color-background-tint",
+  "color-foreground-heading",
+  "color-foreground-default",
+  "color-foreground-subtle",
+  "color-foreground-faint",
+  "color-foreground-action",
   "color-border-subtle",
   "color-border-control",
   "color-border-default",
-  "color-action-default",
-  "color-action-on",
-  "color-action-fill-hover",
-  "color-surface-inverse",
-  "color-text-inverse",
-  "color-text-inverse-muted",
-  "color-link-inverse",
+  "color-background-action",
+  "color-foreground-on-action",
+  "color-background-action-hover",
+  "color-background-inverse",
+  "color-foreground-inverse",
+  "color-foreground-inverse-faint",
+  "color-foreground-link-inverse",
 ];
 const unmatched = [
   ...picks.filter((p) => !PARTS.includes(p.token)).map((p) => p.token),
@@ -43,7 +43,7 @@ if (unmatched.length)
     `The colour explorer draws no part for, or lists no colour for: ${unmatched.join(", ")}. Match COLOUR_PICKS in site/src/data/guide.ts and PARTS in ColourExplorer.astro.`,
   );
 
-const first = "color-text-muted";
+const first = "color-foreground-faint";
 const part = (token: string) => ({ "data-part": token, "data-current": token === first ? "" : undefined });
 ---
 
@@ -73,36 +73,36 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   <div class="drawing">
     <ExampleTag />
     <div aria-hidden="true">
-    <div class="page" {...part("color-surface-page")}>
-      <div class="band" {...part("color-surface-subtle")}>
-        <div class="card" {...part("color-surface-card")}>
-          <span class="tint" {...part("color-surface-tint")}>New</span>
-          <span class="heading" {...part("color-text-heading")}>Project settings</span>
-          <span class="strong" {...part("color-text-strong")}>Choose who can edit this project.</span>
-          <span class="body" {...part("color-text-body")}>
+    <div class="page" {...part("color-background-page")}>
+      <div class="band" {...part("color-background-band")}>
+        <div class="card" {...part("color-background-card")}>
+          <span class="tint" {...part("color-background-tint")}>New</span>
+          <span class="heading" {...part("color-foreground-heading")}>Project settings</span>
+          <span class="strong" {...part("color-foreground-default")}>Choose who can edit this project.</span>
+          <span class="body" {...part("color-foreground-subtle")}>
             Members can change the samples and the theme. Viewers can only read them.
           </span>
-          <span class="muted" {...part("color-text-muted")}>Updated 2 hours ago</span>
-          <span class="link" {...part("color-action-text")}>Read about roles</span>
+          <span class="muted" {...part("color-foreground-faint")}>Updated 2 hours ago</span>
+          <span class="link" {...part("color-foreground-action")}>Read about roles</span>
           <span class="divider" {...part("color-border-subtle")} />
           <span class="row">
             <span class="field" {...part("color-border-control")}>Search members</span>
             <span class="chip" {...part("color-border-default")}>Angular</span>
           </span>
           <span class="row">
-            <span class="button" {...part("color-action-default")}>
-              <span {...part("color-action-on")}>Save</span>
+            <span class="button" {...part("color-background-action")}>
+              <span {...part("color-foreground-on-action")}>Save</span>
             </span>
-            <span class="button hover" {...part("color-action-fill-hover")}>
-              <span {...part("color-action-on")}>Hovered</span>
+            <span class="button hover" {...part("color-background-action-hover")}>
+              <span {...part("color-foreground-on-action")}>Hovered</span>
             </span>
           </span>
         </div>
       </div>
-      <div class="footer" {...part("color-surface-inverse")}>
-        <span class="footer-title" {...part("color-text-inverse")}>Infragistics</span>
-        <span {...part("color-text-inverse-muted")}>Stays dark in both variants</span>
-        <span class="footer-link" {...part("color-link-inverse")}>Contact us</span>
+      <div class="footer" {...part("color-background-inverse")}>
+        <span class="footer-title" {...part("color-foreground-inverse")}>Infragistics</span>
+        <span {...part("color-foreground-inverse-faint")}>Stays dark in both variants</span>
+        <span class="footer-link-foreground" {...part("color-foreground-link-inverse")}>Contact us</span>
       </div>
     </div>
     </div>
@@ -134,7 +134,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
 
   .group-title {
     margin: 0;
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
   }
@@ -149,11 +149,11 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
   }
 
   [data-part][data-current] {
-    outline-color: var(--igd-color-focus-default);
+    outline-color: var(--igd-color-focus-ring);
   }
 
   .footer [data-part][data-current] {
-    outline-color: var(--igd-color-focus-inverse);
+    outline-color: var(--igd-color-focus-ring-inverse);
   }
 
   .page {
@@ -161,14 +161,14 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
     border-radius: var(--igd-radius-card);
-    background: var(--igd-color-surface-page);
+    background: var(--igd-color-background-page);
     gap: var(--igd-space-gap-md);
   }
 
   .band {
     padding: var(--igd-space-inset-lg);
     border-radius: var(--igd-radius-tile);
-    background: var(--igd-color-surface-subtle);
+    background: var(--igd-color-background-band);
   }
 
   .card {
@@ -179,43 +179,43 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-card);
-    background: var(--igd-color-surface-card);
+    background: var(--igd-color-background-card);
   }
 
   .tint {
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
     border-radius: var(--igd-radius-action);
-    background: var(--igd-color-surface-tint);
-    color: var(--igd-color-action-text);
+    background: var(--igd-color-background-tint);
+    color: var(--igd-color-foreground-action);
     font-size: var(--igd-type-body-2xs-font-size);
     font-weight: var(--igd-font-weight-semibold);
     text-transform: uppercase;
   }
 
   .heading {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     font-family: var(--igd-font-display);
     font-size: var(--igd-type-title-sm-font-size);
     font-weight: var(--igd-font-weight-bold);
   }
 
   .strong {
-    color: var(--igd-color-text-strong);
+    color: var(--igd-color-foreground-default);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .body {
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
   .muted {
-    color: var(--igd-color-text-muted);
+    color: var(--igd-color-foreground-faint);
     font-size: var(--igd-type-body-xs-font-size);
   }
 
   .link {
-    color: var(--igd-color-action-text);
+    color: var(--igd-color-foreground-action);
     font-weight: var(--igd-font-weight-semibold);
     text-decoration: underline;
   }
@@ -241,7 +241,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     padding: 0 var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
     border-radius: var(--igd-radius-badge);
-    color: var(--igd-color-text-muted);
+    color: var(--igd-color-foreground-faint);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -249,7 +249,7 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-sm);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-action);
-    color: var(--igd-color-text-ui);
+    color: var(--igd-color-foreground-control);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -259,13 +259,13 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-lg);
     border-radius: var(--igd-radius-action);
-    background: var(--igd-color-action-default);
-    color: var(--igd-color-action-on);
+    background: var(--igd-color-background-action);
+    color: var(--igd-color-foreground-on-action);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .button.hover {
-    background: var(--igd-color-action-fill-hover);
+    background: var(--igd-color-background-action-hover);
   }
 
   .footer {
@@ -275,18 +275,18 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     gap: var(--igd-space-gap-xs) var(--igd-space-gap-md);
     padding: var(--igd-space-inset-md) var(--igd-space-inset-lg);
     border-radius: var(--igd-radius-tile);
-    background: var(--igd-color-surface-inverse);
-    color: var(--igd-color-text-inverse-muted);
+    background: var(--igd-color-background-inverse);
+    color: var(--igd-color-foreground-inverse-faint);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
   .footer-title {
-    color: var(--igd-color-text-inverse);
+    color: var(--igd-color-foreground-inverse);
     font-weight: var(--igd-font-weight-semibold);
   }
 
-  .footer-link {
-    color: var(--igd-color-link-inverse);
+  .footer-link-foreground {
+    color: var(--igd-color-foreground-link-inverse);
     text-decoration: underline;
   }
 </style>

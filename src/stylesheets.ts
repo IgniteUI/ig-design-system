@@ -62,16 +62,16 @@ export const baseCss = () => `/* Infragistics Design System — base.css
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background: var(--color-surface-page);
+  background: var(--color-background-page);
   font-family: var(--font-body);
   font-size: var(--type-body-md-font-size);
   line-height: var(--type-body-md-line-height);
-  color: var(--color-text-strong);
+  color: var(--color-foreground-default);
   text-wrap: pretty;
 }
-a { color: var(--color-action-text); text-decoration: none; }
-a:hover { color: var(--color-action-hover); }
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-heading); margin: 0; }
+a { color: var(--color-foreground-link); text-decoration: none; }
+a:hover { color: var(--color-foreground-link-hover); }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-foreground-heading); margin: 0; }
 code, pre { font-family: var(--font-mono); }
 
 /* Keyboard focus. Mouse users never see this; keyboard users always do.
@@ -79,11 +79,11 @@ code, pre { font-family: var(--font-mono); }
 :focus { outline: none; }
 a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible,
 input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-default);
+  outline: var(--focus-ring-width) solid var(--color-focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 [data-on-dark] a:focus-visible, [data-on-dark] button:focus-visible,
 [data-on-dark] summary:focus-visible, [data-on-dark] [tabindex]:focus-visible {
-  outline-color: var(--color-focus-inverse);
+  outline-color: var(--color-focus-ring-inverse);
 }
 `;

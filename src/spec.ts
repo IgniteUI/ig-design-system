@@ -9,195 +9,182 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-info-seed",
     "Brand accent: gradient start, icon tile fill, glow source. Not a CTA fill and never text on white.",
   ],
-  "color-accent-brand-hover": [
-    "ig-info-400",
-    "Hover step of `color-accent-brand`.",
-  ],
+  "color-accent-brand-hover": ["ig-info-400", "`color-accent-brand` on hover."],
   "color-accent-brand-active": [
     "ig-info-500",
-    "Press state step of `color-accent-brand`.",
+    "`color-accent-brand` while pressed.",
   ],
   "color-accent-ai": [
     "ig-secondary-seed",
     "Gradient partner to `color-accent-brand` and the AI marker. Never a fill on its own.",
   ],
-  "color-accent-inverse": [
+  "color-accent-inverse-1": [
     "ig-sky-200",
-    "On-dark accent only: stat numbers on `color-surface-inverse`. Never on white.",
+    "The first accent for a dark area: stat numbers. Never on a light surface. Never on white.",
   ],
-  "color-accent-inverse-performance": [
+  "color-accent-inverse-2": [
     "ig-teal-200",
-    "On-dark accent only: performance stat numbers on `color-surface-inverse`. Never on white.",
+    "The second accent for a dark area, beside `color-accent-inverse-1`: a second set of stat numbers. Never on a light surface. Never on white.",
   ],
-  "color-action-default": [
+  "color-background-action": [
     "ig-primary-seed",
-    "The engine\u2019s primary seed itself (--ig-primary-seed), not a fitted shade. The fill of every action: the primary CTA, with `color-action-on` as its label. Text in the action colour is `color-action-text`.",
+    "The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. The fill of every action: the primary CTA, with `color-foreground-on-action` as its label. Text in the action colour is `color-foreground-action`.",
   ],
-  "color-action-hover": [
+  "color-foreground-link-hover": [
     "ig-primary-700",
-    "Link hover on light surfaces (colour shift only, no underline).",
+    "A link on hover, on a light surface. The colour changes; no underline appears.",
   ],
-  "color-action-fill-hover": [
+  "color-background-action-hover": [
     "ig-primary-700",
-    "Filled-button hover: the primary fill moves to this and nothing else changes. A step `color-action-on` reads on: darker under a white label, primary step 400 under a black one.",
+    "The main button's fill on hover; nothing else about the button changes. A step `color-foreground-on-action` reads on: darker under a white label, primary step 400 under a black one.",
   ],
-  "color-action-active": [
-    "ig-primary-800",
-    "Inline link press state on light surfaces.",
-  ],
-  "color-action-text": [
+  "color-foreground-action": [
     "ig-primary-600",
-    "The action colour when it is text, an icon or a thin line on a surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed.",
+    "Text, an icon or a thin line in the action colour on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed.",
   ],
-  "color-action-on": [
+  "color-foreground-link": [
+    "ig-primary-600",
+    "A link in text, on a light surface. The same steps as `color-foreground-action`, named for the link so a link reads it.",
+  ],
+  "color-foreground-on-action": [
     "ig-surface-base",
-    "Label and icon colour on `color-action-default` fills: black or white, whichever reads on the fill (the engine\u2019s adaptive contrast).",
+    "The label and icon on a `color-background-action` fill: black or white, whichever reads on it (the engine\u2019s adaptive contrast).",
   ],
-  "color-link-utility": [
-    "ig-info-500",
-    "Links in the utility row above the nav, on `color-surface-page`.",
-  ],
-  "color-link-utility-hover": ["color-action-text", "Utility-row link hover."],
-  "color-link-inverse": [
+  "color-foreground-link-inverse": [
     "ig-sky-200",
-    "Inline links on dark surfaces (`color-surface-inverse`).",
+    "Inline links on dark surfaces (`color-background-inverse`).",
   ],
-  "color-link-inverse-hover": [
+  "color-foreground-link-inverse-hover": [
     "ig-sky-100",
-    "Hover of `color-link-inverse`: colour shift only.",
+    "Hover of `color-foreground-link-inverse`: colour shift only.",
   ],
-  "footer-link": [
+  "footer-link-foreground": [
     "ig-dark-gray-600",
     "Footer column links on the footer gradient.",
   ],
-  "footer-link-hover": ["ig-dark-gray-900", "Footer link hover."],
-  "color-focus-default": [
-    "color-action-text",
-    "Keyboard focus outline on light surfaces, `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only.",
+  "color-focus-ring": [
+    "color-foreground-action",
+    "The keyboard focus ring on a light surface: `focus-ring-width` at `focus-ring-offset`, `:focus-visible` only.",
   ],
-  "color-focus-inverse": [
+  "color-focus-ring-inverse": [
     "ig-sky-100",
-    "Keyboard focus outline inside a `data-on-dark` section.",
+    "The keyboard focus ring in an area that stays dark, such as the footer. `base.css` uses it inside an element with `data-on-dark`.",
   ],
   // text
-  "color-text-heading": [
-    "ig-gray-900",
-    "Headlines h1–h6 on `color-surface-page` and the catalog band.",
-  ],
-  "color-text-strong": [
+  "color-foreground-heading": ["ig-gray-900", "Headings, h1 to h6."],
+  "color-foreground-default": [
     "ig-gray-800",
-    "Strong text and secondary-button labels on `color-surface-page`; the body default in base styles.",
+    "Body text: the default colour of the page's text, and the labels of secondary buttons.",
   ],
-  "color-text-body": [
+  "color-foreground-subtle": [
     "ig-gray-600",
-    "Body and lead copy, utility-bar text and nav triggers at rest, on `color-surface-page` and `color-surface-subtle`.",
+    "Supporting text: the paragraph under a heading, the text of the utility bar, nav triggers at rest.",
   ],
-  "color-text-ui": [
+  "color-foreground-control": [
     "ig-gray-700",
-    "UI text — nav, buttons, list rows, chips — on `color-surface-page`.",
+    "Text in controls: the nav, buttons, list rows, chips.",
   ],
-  "color-text-muted": [
+  "color-foreground-faint": [
     "ig-gray-500",
-    "Muted copy, nano labels, card descriptions and catalog counts; body copy never goes lighter.",
+    "Captions and small labels: card descriptions, counts. No body text is lighter than this.",
   ],
-  "color-text-inverse": [
+  "color-foreground-inverse": [
     "ig-dark-gray-900",
-    "Text on `color-surface-inverse`.",
+    "Text and icons on a dark area.",
   ],
-  "color-text-inverse-muted": [
+  "color-foreground-inverse-faint": [
     "ig-dark-gray-400",
-    "Stat-badge labels and muted copy on `color-surface-inverse`.",
+    "Captions and small labels on a dark area.",
   ],
-  "color-icon-subtle": [
+  "color-foreground-decorative": [
     "ig-gray-400",
-    "The caret in the nav row (decorative, below the 3:1 icon floor, kept as in the source).",
+    "A decorative mark that carries no meaning, such as the caret in the nav row. It is lighter than 3:1 on purpose, so it never holds information.",
   ],
-  "color-feedback-error-default": [
+  "color-foreground-error": [
     "ig-error-500",
     "Validation text and border on light surfaces.",
   ],
-  "color-feedback-info-default": [
+  "color-foreground-info": [
     "ig-primary-700",
     "Informational text and icons on light surfaces: a note, a tip.",
   ],
-  "color-feedback-warning-inverse": [
+  "color-foreground-warning-inverse": [
     "ig-warn-200",
     "Warning text and icons on dark surfaces.",
   ],
-  "color-feedback-info-inverse": [
+  "color-foreground-info-inverse": [
     "ig-primary-300",
     "Informational text and icons on dark surfaces.",
   ],
-  "color-feedback-success-inverse": [
+  "color-foreground-success-inverse": [
     "ig-success-300",
     "Success icons on dark surfaces, such as a code block.",
   ],
-  "color-feedback-success-default": [
+  "color-foreground-success": [
     "ig-success-600",
     "Success text and icons on light surfaces: a confirmed state, a check mark.",
   ],
-  "color-feedback-warning-default": [
+  "color-foreground-warning": [
     "ig-warn-500",
     "Warning text and icons on light surfaces.",
   ],
-  "color-feedback-error-inverse": [
+  "color-foreground-error-inverse": [
     "ig-error-300",
     "Validation text and border on the dark footer.",
   ],
   // surfaces
-  "color-surface-page": ["ig-surface-base", "Page background; flat."],
-  "color-surface-hero": [
+  "color-background-page": ["ig-surface-base", "The page's background."],
+  "color-background-wash": [
     "ig-surface-sunken",
-    "Top of the hero wash (`gradient-hero`).",
+    "The colour the wash behind the first section of a page starts from (`gradient-hero`).",
   ],
-  "color-surface-subtle": [
+  "color-background-band": [
     "ig-surface-sunken",
-    "Alternating section bands, BrowserFrame title bar, callout strips and chips at rest.",
+    "A band that sets a section apart from the page, and quiet fills such as a title bar or a chip at rest.",
   ],
-  "color-surface-card": ["ig-surface-raised", "Marketing card fill."],
-  "color-surface-tint": [
+  "color-background-card": ["ig-surface-raised", "The fill of a card."],
+  "color-background-tint": [
     "ig-primary-50",
     "Soft blue fill: tinted chips, callouts, the catalog band, release strip at rest and monogram badges.",
   ],
-  "color-surface-inverse-raised": [
+  "color-background-inverse-raised": [
     "ig-dark-surface-200",
     "The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient.",
   ],
-  "color-surface-inverse-sunken": [
+  "color-background-inverse-sunken": [
     "ig-dark-surface-900",
     "The darkest dark surface: the deepest part of a dark area, such as the end of the footer gradient.",
   ],
-  "color-surface-inverse": [
+  "color-background-inverse": [
     "ig-dark-surface-500",
-    "The one dark treatment: stat badges, table header and dark stat panels (the engine dark-variant surface).",
+    "The dark area of a light page: a dark band, a table header, a stat panel.",
   ],
-  "color-surface-tint-strong": [
+  "color-background-tint-strong": [
     "ig-primary-100",
-    "Release strip on hover; also the open nav trigger.",
+    "A stronger `color-background-tint`: the release strip on hover, the open nav trigger.",
   ],
-  "color-surface-muted": [
+  "color-background-recessed": [
     "ig-surface-sunken",
-    '"Coming soon" pill fill: a recessed surface, lighter grey in the light variant and a deeper navy in the dark one.',
+    "A fill set back from the page, such as a Coming soon pill: lighter grey in the light variant and a deeper navy in the dark one.",
   ],
   // footer
   "footer-background": [
-    "color-surface-inverse-sunken",
+    "color-background-inverse-sunken",
     "Footer gradient end; flat fallback for `footer-background-gradient`.",
   ],
-  "footer-text": [
+  "footer-foreground": [
     "ig-dark-gray-500",
     "Footer body copy, legal links and social glyphs.",
   ],
-  "footer-strong": [
+  "footer-foreground-strong": [
     "ig-dark-gray-800",
     "Footer sub-group labels (Web, Desktop, Bundles) and legal-link emphasis.",
   ],
-  "footer-heading": [
+  "footer-foreground-faint": [
     "ig-dark-gray-400",
     "Footer 12px uppercase group labels, placeholder and copyright.",
   ],
-  "footer-icon": ["ig-dark-gray-500", "Footer social icons."],
-  "footer-focus": ["ig-sky-100", "Keyboard focus ring inside the footer."],
+  "footer-focus-ring": ["ig-sky-100", "Keyboard focus ring inside the footer."],
   // borders
   "color-border-default": [
     "ig-gray-200",
@@ -205,43 +192,31 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "color-border-subtle": [
     "ig-gray-100",
-    "Hairline under the nav; default catalog-card border.",
+    "A quieter line: under the nav, around a catalog card.",
   ],
   "color-border-control": [
     "ig-gray-500",
     "Border of a form control (input, checkbox) on light surfaces. 3:1 against the page, the WCAG 1.4.11 minimum.",
   ],
-  "color-border-accent": [
+  "color-border-action": [
     "ig-primary-200",
-    "Blue-tinted borders: soft blue fills, outline buttons and the release label.",
+    "The border in the action colour: around a soft blue fill, an outline button, the release label.",
   ],
   // badges, tables
   "badge-bundle-background": [
     "ig-secondary-50",
     "Bundle badge fill (top-right of a ProductCard).",
   ],
-  "badge-bundle-color": [
+  "badge-bundle-foreground": [
     "ig-secondary-700",
     "Bundle badge label on `badge-bundle-background`.",
   ],
-  "badge-new-color": [
+  "badge-new-foreground": [
     "ig-success-600",
     "New status badge label on `badge-new-background`.",
   ],
-  "badge-updated-color": [
-    "ig-primary-700",
-    "Updated status badge label on `badge-updated-background`.",
-  ],
-  "badge-preview-color": [
-    "ig-warn-500",
-    "Preview status badge label on `badge-preview-background`.",
-  ],
-  "badge-premium-color": [
-    "ig-secondary-700",
-    "Premium status badge label on `badge-premium-background`.",
-  ],
   "rating-star": ["ig-warn-200", "Filled star of a rating. Decorative."],
-  "badge-oss-color": [
+  "badge-oss-foreground": [
     "ig-success-600",
     "OSS tag label on `badge-oss-background`.",
   ],
@@ -249,12 +224,15 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-gray-200",
     'Comparison table "Yes" mark fill.',
   ],
-  "table-mark-yes-color": ["ig-gray-700", 'Comparison table "Yes" mark glyph.'],
+  "table-mark-yes-foreground": [
+    "ig-gray-700",
+    'Comparison table "Yes" mark glyph.',
+  ],
   "table-mark-partial-background": [
     "ig-warn-100",
     'Comparison table "Partial" and "Gated" mark fill.',
   ],
-  "table-mark-partial-color": [
+  "table-mark-partial-foreground": [
     "ig-warn-800",
     'Comparison table "Partial" and "Gated" mark glyph.',
   ],
@@ -262,58 +240,67 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-gray-100",
     'Comparison table "No" mark fill.',
   ],
-  "table-mark-no-color": ["ig-gray-600", 'Comparison table "No" mark glyph.'],
-  "table-header-sub-color": [
+  "table-mark-no-foreground": [
+    "ig-gray-600",
+    'Comparison table "No" mark glyph.',
+  ],
+  "table-header-sub-foreground": [
     "ig-dark-gray-400",
-    "Sub-label under a comparison column name, on `color-surface-inverse`.",
+    "Sub-label under a comparison column name, on `color-background-inverse`.",
   ],
-  "table-header-sub-highlight-color": [
-    "color-action-on",
-    "Sub-label on the highlighted column header (`color-action-default` fill).",
+  "table-header-sub-foreground-highlighted": [
+    "color-foreground-on-action",
+    "Sub-label on the highlighted column header (`color-background-action` fill).",
   ],
-  "table-header-detail-color": [
+  "table-header-detail-foreground": [
     "ig-dark-gray-600",
-    'The "Detail" column header on `color-surface-inverse`.',
+    'The "Detail" column header on `color-background-inverse`.',
   ],
   "window-dot-red": ["ig-error-300", "BrowserFrame window dot."],
   "window-dot-amber": ["ig-warn-200", "BrowserFrame window dot."],
   "window-dot-green": ["ig-success-300", "BrowserFrame window dot."],
   // framework pills
-  "fw-angular-color": [
+  "framework-angular-base": [
     "ig-pink-500",
     "Angular framework base colour. The pill fill and border derive from it.",
   ],
-  "fw-react-color": [
+  "framework-react-base": [
     "ig-cyan-500",
     "React framework base colour. The pill fill and border derive from it.",
   ],
-  "fw-angular-background": [
+  "framework-angular-background": [
     "ig-pink-50",
     "Angular framework pill fill; holds on hover.",
   ],
-  "fw-angular-border": ["ig-pink-100", "Angular framework pill border."],
-  "fw-react-background": ["ig-cyan-50", "React framework pill fill."],
-  "fw-react-border": ["ig-cyan-100", "React framework pill border."],
-  "fw-webcomponents-background": [
+  "framework-angular-border": ["ig-pink-100", "Angular framework pill border."],
+  "framework-react-background": ["ig-cyan-50", "React framework pill fill."],
+  "framework-react-border": ["ig-cyan-100", "React framework pill border."],
+  "framework-webcomponents-background": [
     "ig-primary-50",
     "Web Components framework pill fill.",
   ],
-  "fw-webcomponents-border": [
+  "framework-webcomponents-border": [
     "ig-primary-200",
     "Web Components framework pill border.",
   ],
-  "fw-winforms-background": [
+  "framework-winforms-background": [
     "ig-primary-50",
     "Windows Forms framework pill fill (shares the Web Components tint).",
   ],
-  "fw-winforms-border": [
+  "framework-winforms-border": [
     "ig-primary-200",
     "Windows Forms framework pill border.",
   ],
-  "fw-blazor-background": ["ig-secondary-50", "Blazor framework pill fill."],
-  "fw-blazor-border": ["ig-secondary-200", "Blazor framework pill border."],
-  "fw-wpf-background": ["ig-primary-100", "WPF framework pill fill."],
-  "fw-wpf-border": ["ig-primary-200", "WPF framework pill border."],
+  "framework-blazor-background": [
+    "ig-secondary-50",
+    "Blazor framework pill fill.",
+  ],
+  "framework-blazor-border": [
+    "ig-secondary-200",
+    "Blazor framework pill border.",
+  ],
+  "framework-wpf-background": ["ig-primary-100", "WPF framework pill fill."],
+  "framework-wpf-border": ["ig-primary-200", "WPF framework pill border."],
   // icon tiles
   "tile-1": [
     "ig-info-seed",
@@ -352,154 +339,115 @@ export const ALIAS: Record<string, AliasEntry> = {
 // ---- dark variant: text token -> the engine step it reads under [data-theme="dark"] ---------------
 // Each is a lighter step of the family its alias in ALIAS names.
 export const DARK_STEP: Record<string, string> = {
-  "color-action-text": "ig-primary-200",
-  "color-feedback-error-default": "ig-error-100",
-  "color-feedback-success-default": "ig-success-50",
-  "color-feedback-warning-default": "ig-warn-100",
-  "color-feedback-info-default": "ig-primary-200",
-  "badge-bundle-color": "ig-secondary-200",
-  "badge-new-color": "ig-success-50",
-  "badge-updated-color": "ig-primary-200",
-  "badge-preview-color": "ig-warn-100",
-  "badge-premium-color": "ig-secondary-200",
-  "badge-oss-color": "ig-success-50",
-  "table-mark-partial-color": "ig-warn-50",
-  "fw-angular-color": "ig-pink-100",
-  "fw-react-color": "ig-cyan-50",
+  "color-foreground-action": "ig-primary-200",
+  "color-foreground-link": "ig-primary-200",
+  "color-foreground-error": "ig-error-100",
+  "color-foreground-success": "ig-success-50",
+  "color-foreground-warning": "ig-warn-100",
+  "color-foreground-info": "ig-primary-200",
+  "badge-bundle-foreground": "ig-secondary-200",
+  "badge-new-foreground": "ig-success-50",
+  "badge-oss-foreground": "ig-success-50",
+  "table-mark-partial-foreground": "ig-warn-50",
+  "framework-angular-base": "ig-pink-100",
+  "framework-react-base": "ig-cyan-50",
 };
 
 // ---- translucent colours: live = hsl(from <base> h s l / <opacity token>) ----------------------
 export type AlphaEntry = [base: string, opacity: OpacityName, usage: string];
 export const ALPHA: Record<string, AlphaEntry> = {
-  "color-action-subtle": [
-    "color-action-default",
-    "opacity-subtle",
-    "Tinted capsule fill behind `color-action-default` text.",
-  ],
-  "color-action-subtle-border": [
-    "color-action-default",
-    "opacity-strong",
-    "Border of the `color-action-subtle` capsule.",
-  ],
-  "color-emphasis-border": [
+  "release-strip-border": [
     "color-accent-brand",
     "opacity-heavy",
     "Border of emphasised cards and the release strip at rest.",
   ],
-  "color-emphasis-ring": [
+  "release-strip-ring": [
     "color-accent-brand",
     "opacity-soft",
     "Inner ring of the release strip at rest.",
   ],
-  "color-emphasis-ring-hover": [
+  "release-strip-ring-hover": [
     "color-accent-brand",
     "opacity-strong",
     "Inner ring of the release strip on hover.",
   ],
-  "badge-oss-background": ["badge-oss-color", "opacity-soft", "OSS tag fill."],
-  "badge-oss-border": ["badge-oss-color", "opacity-strong", "OSS tag border."],
+  "badge-oss-background": [
+    "badge-oss-foreground",
+    "opacity-soft",
+    "OSS tag fill.",
+  ],
   "badge-new-background": [
-    "badge-new-color",
+    "badge-new-foreground",
     "opacity-soft",
     "New status badge fill.",
   ],
   "badge-new-border": [
-    "badge-new-color",
+    "badge-new-foreground",
     "opacity-strong",
     "New status badge border.",
   ],
-  "badge-updated-background": [
-    "badge-updated-color",
-    "opacity-soft",
-    "Updated status badge fill.",
-  ],
-  "badge-updated-border": [
-    "badge-updated-color",
-    "opacity-strong",
-    "Updated status badge border.",
-  ],
-  "badge-preview-background": [
-    "badge-preview-color",
-    "opacity-soft",
-    "Preview status badge fill.",
-  ],
-  "badge-preview-border": [
-    "badge-preview-color",
-    "opacity-strong",
-    "Preview status badge border.",
-  ],
-  "badge-premium-background": [
-    "badge-premium-color",
-    "opacity-soft",
-    "Premium status badge fill.",
-  ],
-  "badge-premium-border": [
-    "badge-premium-color",
-    "opacity-strong",
-    "Premium status badge border.",
-  ],
-  "color-surface-tint-ai": [
+  "color-background-category-2": [
     "color-accent-ai",
     "opacity-subtle",
-    "Soft fill in the secondary accent: a second category beside `color-surface-tint`.",
+    "The soft fill of a second category, beside `color-background-tint`.",
   ],
-  "color-surface-tint-category": [
-    "color-accent-inverse-performance",
+  "color-background-category-3": [
+    "color-accent-inverse-2",
     "opacity-subtle",
-    "Soft fill for a third category, beside `color-surface-tint` and `color-surface-tint-ai`.",
+    "The soft fill of a third category, beside `color-background-tint` and `color-background-category-2`.",
   ],
-  "color-surface-inverse-chip": [
-    "color-surface-inverse",
+  "color-background-inverse-overlay": [
+    "color-background-inverse",
     "opacity-chip",
-    "Translucent dark chip that floats over a screenshot.",
+    "A see-through dark fill for a chip over a picture.",
   ],
-  "color-feedback-info-surface": [
-    "color-feedback-info-default",
+  "color-background-info": [
+    "color-foreground-info",
     "opacity-subtle",
-    "Tinted fill behind `color-feedback-info-default` text.",
+    "Tinted fill behind `color-foreground-info` text.",
   ],
-  "color-feedback-error-surface": [
-    "color-feedback-error-default",
+  "color-background-error": [
+    "color-foreground-error",
     "opacity-subtle",
-    "Tinted fill behind `color-feedback-error-default` text.",
+    "Tinted fill behind `color-foreground-error` text.",
   ],
-  "color-feedback-success-surface": [
-    "color-feedback-success-default",
+  "color-background-success": [
+    "color-foreground-success",
     "opacity-subtle",
-    "Tinted fill behind `color-feedback-success-default` text.",
+    "Tinted fill behind `color-foreground-success` text.",
   ],
-  "color-feedback-warning-surface": [
-    "color-feedback-warning-default",
+  "color-background-warning": [
+    "color-foreground-warning",
     "opacity-subtle",
-    "Tinted fill behind `color-feedback-warning-default` text.",
+    "Tinted fill behind `color-foreground-warning` text.",
   ],
   "nav-background": [
-    "color-surface-page",
+    "color-background-page",
     "opacity-nav",
     "Sticky nav background, under `nav-backdrop-blur`.",
   ],
-  "color-overlay-scrim": [
-    "color-surface-inverse",
+  "color-background-scrim": [
+    "color-background-inverse",
     "opacity-strong",
-    "Page dimmer behind an open nav panel.",
+    "Dims the page behind an open panel.",
   ],
-  "footer-rule": [
-    "color-text-inverse",
+  "footer-border-subtle": [
+    "color-foreground-inverse",
     "opacity-subtle",
     "Footer hairline rules.",
   ],
-  "footer-rule-strong": [
-    "color-text-inverse",
+  "footer-border": [
+    "color-foreground-inverse",
     "opacity-muted",
     "Footer legal-link dividers and form control borders.",
   ],
   "footer-card-border": [
-    "color-text-inverse",
+    "color-foreground-inverse",
     "opacity-subtle",
     "Border of the footer newsletter card.",
   ],
   "footer-field-background": [
-    "color-text-inverse",
+    "color-foreground-inverse",
     "opacity-subtle",
     "Footer input fill (stacked newsletter).",
   ],
@@ -509,22 +457,22 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "Footer input fill inside the pill field.",
   ],
   "footer-check-background": [
-    "color-text-inverse",
+    "color-foreground-inverse",
     "opacity-faint",
     "Footer checkbox fill, unchecked.",
   ],
   "footer-check-border": [
-    "color-text-inverse",
+    "color-foreground-inverse",
     "opacity-heavy",
     "Footer checkbox border, unchecked.",
   ],
-  "footer-social-hover-background": [
-    "color-link-inverse",
+  "footer-social-background-hover": [
+    "color-foreground-link-inverse",
     "opacity-muted",
     "Social button fill on hover.",
   ],
-  "footer-social-hover-border": [
-    "color-focus-inverse",
+  "footer-social-border-hover": [
+    "color-focus-ring-inverse",
     "opacity-heavy",
     "Social button border on hover.",
   ],
@@ -569,7 +517,7 @@ export const SIZE: Record<string, SizeEntry> = {
   "border-width-strong": [1.5, "Checkbox and gradient-border strokes."],
   "focus-ring-width": [
     3,
-    "Width of the `color-focus-default` outline on `:focus-visible`.",
+    "Width of the `color-focus-ring` outline on `:focus-visible`.",
   ],
   "focus-ring-offset": [
     2,
@@ -672,7 +620,7 @@ export type ShadowLayer = [
   y: number,
   blur: number,
   spread: number,
-  tint: "color-shadow" | "color-surface-inverse",
+  tint: "color-shadow" | "color-background-inverse",
   alpha: number,
 ];
 export const SHADOW: Record<string, ShadowLayer[]> = {
@@ -680,14 +628,14 @@ export const SHADOW: Record<string, ShadowLayer[]> = {
     [10, 30, -5, "color-shadow", 0.08],
     [4, 10, -5, "color-shadow", 0.04],
   ],
-  "shadow-screenshot": [[44, 90, -34, "color-surface-inverse", 0.4]],
-  "shadow-floating": [[16, 32, -12, "color-surface-inverse", 0.4]],
-  "shadow-popover": [[26, 50, -22, "color-surface-inverse", 0.22]],
+  "shadow-screenshot": [[44, 90, -34, "color-background-inverse", 0.4]],
+  "shadow-floating": [[16, 32, -12, "color-background-inverse", 0.4]],
+  "shadow-popover": [[26, 50, -22, "color-background-inverse", 0.22]],
   "shadow-chip": [[24, 50, -12, "color-shadow", 0.6]],
   "shadow-panel": [
-    [-2, 8, 0, "color-surface-inverse", 0.04],
-    [18, 40, -12, "color-surface-inverse", 0.28],
-    [40, 80, -24, "color-surface-inverse", 0.3],
+    [-2, 8, 0, "color-background-inverse", 0.04],
+    [18, 40, -12, "color-background-inverse", 0.28],
+    [40, 80, -24, "color-background-inverse", 0.3],
   ],
 };
 // Vertical padding of a page section: the two spacing steps it runs between, and the container widths it grows across.
@@ -799,7 +747,7 @@ export const TYPE: TypeRow[] = [
     weight: 900,
     tracking: "-0.0257em",
     transform: "none",
-    usage: "Homepage hero only, in `color-text-heading`.",
+    usage: "Homepage hero only, in `color-foreground-heading`.",
     sample: "Enterprise UI Components, Accelerated by AI",
   },
   {
@@ -812,7 +760,7 @@ export const TYPE: TypeRow[] = [
     weight: 800,
     tracking: "-0.0256em",
     transform: "none",
-    usage: "Section heads, in `color-text-heading`.",
+    usage: "Section heads, in `color-foreground-heading`.",
     sample: "Meet the Industry’s Fastest Data Grid",
   },
   {
@@ -826,7 +774,7 @@ export const TYPE: TypeRow[] = [
     tracking: "-0.0222em",
     transform: "none",
     usage:
-      "Sub-section and panel heads; `color-text-inverse` on dark. There is no h7.",
+      "Sub-section and panel heads; `color-foreground-inverse` on dark. There is no h7.",
     sample: "Sales Dashboard",
   },
   {
@@ -840,7 +788,7 @@ export const TYPE: TypeRow[] = [
     tracking: "0",
     transform: "none",
     usage:
-      "Stat badge values: `color-accent-inverse` or `color-accent-inverse-performance` on `color-surface-inverse`, `color-text-muted` on light; newsletter title.",
+      "Stat badge values: `color-accent-inverse-1` or `color-accent-inverse-2` on `color-background-inverse`, `color-foreground-faint` on light; newsletter title.",
     sample: "100K+ Rows",
   },
   {
@@ -853,7 +801,7 @@ export const TYPE: TypeRow[] = [
     weight: 800,
     tracking: "-0.0167em",
     transform: "none",
-    usage: "Product names in a catalog card, in `color-text-heading`.",
+    usage: "Product names in a catalog card, in `color-foreground-heading`.",
     sample: "Ignite UI",
   },
   {
@@ -867,7 +815,7 @@ export const TYPE: TypeRow[] = [
     tracking: "0",
     transform: "none",
     usage:
-      "Card titles, sentence case, in `color-text-heading` — body face, not the display face.",
+      "Card titles, sentence case, in `color-foreground-heading` — body face, not the display face.",
     sample: "Query Builder",
   },
   {
@@ -880,7 +828,7 @@ export const TYPE: TypeRow[] = [
     weight: 400,
     tracking: "0",
     transform: "none",
-    usage: "Lead under an h1 or h2, in `color-text-body`.",
+    usage: "Lead under an h1 or h2, in `color-foreground-subtle`.",
     sample:
       "Build enterprise applications with 300+ framework agnostic UI components.",
   },
@@ -907,7 +855,7 @@ export const TYPE: TypeRow[] = [
     weight: 400,
     tracking: "0",
     transform: "none",
-    usage: "Running prose, in `color-text-body`.",
+    usage: "Running prose, in `color-foreground-subtle`.",
     sample: "Enterprise-grade virtualization renders 100,000 rows without lag.",
   },
   {
@@ -920,7 +868,7 @@ export const TYPE: TypeRow[] = [
     weight: 400,
     tracking: "0",
     transform: "none",
-    usage: "Nav, buttons and list rows, in `color-text-ui`.",
+    usage: "Nav, buttons and list rows, in `color-foreground-control`.",
     sample: "Advanced virtualization and hundreds of built-in features.",
   },
   {
@@ -959,7 +907,7 @@ export const TYPE: TypeRow[] = [
     weight: 600,
     tracking: "0.16em",
     transform: "uppercase",
-    usage: "Eyebrows: ALL CAPS, in `color-action-text`.",
+    usage: "Eyebrows: ALL CAPS, in `color-foreground-action`.",
     sample: "DEVELOPER TOOLS",
   },
   {
@@ -985,7 +933,7 @@ export const TYPE: TypeRow[] = [
     weight: 400,
     tracking: "0",
     transform: "none",
-    usage: "Badge sublabels and nano meta labels (`color-text-muted`).",
+    usage: "Badge sublabels and nano meta labels (`color-foreground-faint`).",
     sample: "Fastest grid",
   },
 ];
@@ -1047,64 +995,58 @@ export const SIZE_RATIO: Record<"small" | "medium" | "large", number> = {
 // The colour pairings measured for contrast: [text or outline, background, minimum ratio]. The minimum is 4.5 unless given.
 export type ContrastPair = [fg: string, bg: string, min?: number];
 export const CONTRAST_PAIRS: ContrastPair[] = [
-  ["color-text-heading", "color-surface-page"],
-  ["color-text-strong", "color-surface-page"],
-  ["color-text-body", "color-surface-page"],
-  ["color-text-body", "color-surface-subtle"],
-  ["color-text-ui", "color-surface-page"],
-  ["color-text-muted", "color-surface-page"],
-  ["color-text-muted", "color-surface-subtle"],
-  ["color-action-text", "color-surface-page"],
-  ["color-action-text", "color-surface-tint"],
-  ["color-action-text", "color-surface-card"],
-  ["color-action-text", "color-surface-subtle"],
-  ["color-action-on", "color-action-default"],
-  ["color-action-on", "color-action-fill-hover"],
-  ["color-text-muted", "color-surface-card"],
-  ["color-text-muted", "color-surface-tint"],
-  ["color-link-utility", "color-surface-page"],
-  ["color-link-utility", "color-surface-subtle"],
-  ["color-link-utility-hover", "color-surface-page"],
-  ["color-link-inverse-hover", "color-surface-inverse"],
-  ["color-action-hover", "color-surface-page"],
-  ["color-text-inverse", "color-surface-inverse"],
-  ["color-text-inverse-muted", "color-surface-inverse"],
-  ["color-accent-inverse", "color-surface-inverse"],
-  ["color-accent-inverse-performance", "color-surface-inverse"],
-  ["color-link-inverse", "color-surface-inverse"],
-  ["color-focus-inverse", "color-surface-inverse"],
-  ["footer-link", "color-surface-inverse-raised"],
-  ["footer-text", "color-surface-inverse-raised"],
-  ["footer-strong", "color-surface-inverse-raised"],
-  ["footer-heading", "color-surface-inverse-raised"],
-  ["footer-icon", "color-surface-inverse-raised"],
-  ["color-feedback-error-inverse", "color-surface-inverse-raised"],
-  ["badge-bundle-color", "badge-bundle-background"],
-  ["badge-oss-color", "color-surface-page"],
-  ["badge-new-color", "color-surface-page"],
-  ["badge-updated-color", "color-surface-page"],
-  ["badge-preview-color", "color-surface-page"],
-  ["badge-premium-color", "color-surface-page"],
-  ["color-feedback-success-default", "color-surface-page"],
-  ["color-feedback-info-default", "color-surface-page"],
-  ["color-feedback-info-default", "color-surface-tint"],
-  ["color-feedback-success-inverse", "color-surface-inverse", 3],
-  ["color-feedback-warning-inverse", "color-surface-inverse"],
-  ["color-feedback-info-inverse", "color-surface-inverse"],
-  ["color-feedback-warning-default", "color-surface-page"],
-  ["table-mark-yes-color", "table-mark-yes-background"],
-  ["table-mark-partial-color", "table-mark-partial-background"],
-  ["table-mark-no-color", "table-mark-no-background"],
-  ["table-header-sub-color", "color-surface-inverse"],
-  ["table-header-sub-highlight-color", "color-action-default"],
-  ["table-header-detail-color", "color-surface-inverse"],
-  ["color-icon-subtle", "color-surface-page", 1],
-  ["color-border-control", "color-surface-page", 3],
-  ["color-focus-inverse", "color-surface-inverse", 3],
-  ["color-action-default", "color-surface-page", 1],
-  ["color-feedback-error-default", "color-surface-page"],
-  ["color-feedback-error-default", "color-surface-subtle"],
-  ["color-focus-default", "color-surface-page", 3],
-  ["color-text-ui", "color-surface-subtle"],
-  ["color-text-body", "color-surface-muted"],
+  ["color-foreground-heading", "color-background-page"],
+  ["color-foreground-default", "color-background-page"],
+  ["color-foreground-subtle", "color-background-page"],
+  ["color-foreground-subtle", "color-background-band"],
+  ["color-foreground-control", "color-background-page"],
+  ["color-foreground-faint", "color-background-page"],
+  ["color-foreground-faint", "color-background-band"],
+  ["color-foreground-action", "color-background-page"],
+  ["color-foreground-link", "color-background-page"],
+  ["color-foreground-action", "color-background-tint"],
+  ["color-foreground-action", "color-background-card"],
+  ["color-foreground-action", "color-background-band"],
+  ["color-foreground-on-action", "color-background-action"],
+  ["color-foreground-on-action", "color-background-action-hover"],
+  ["color-foreground-faint", "color-background-card"],
+  ["color-foreground-faint", "color-background-tint"],
+  ["color-foreground-link-inverse-hover", "color-background-inverse"],
+  ["color-foreground-link-hover", "color-background-page"],
+  ["color-foreground-inverse", "color-background-inverse"],
+  ["color-foreground-inverse-faint", "color-background-inverse"],
+  ["color-accent-inverse-1", "color-background-inverse"],
+  ["color-accent-inverse-2", "color-background-inverse"],
+  ["color-foreground-link-inverse", "color-background-inverse"],
+  ["color-focus-ring-inverse", "color-background-inverse"],
+  ["footer-link-foreground", "color-background-inverse-raised"],
+  ["footer-foreground", "color-background-inverse-raised"],
+  ["footer-foreground-strong", "color-background-inverse-raised"],
+  ["footer-foreground-faint", "color-background-inverse-raised"],
+  ["color-foreground-error-inverse", "color-background-inverse-raised"],
+  ["badge-bundle-foreground", "badge-bundle-background"],
+  ["badge-oss-foreground", "color-background-page"],
+  ["badge-new-foreground", "color-background-page"],
+  ["color-foreground-success", "color-background-page"],
+  ["color-foreground-info", "color-background-page"],
+  ["color-foreground-info", "color-background-tint"],
+  ["color-foreground-success-inverse", "color-background-inverse", 3],
+  ["color-foreground-warning-inverse", "color-background-inverse"],
+  ["color-foreground-info-inverse", "color-background-inverse"],
+  ["color-foreground-warning", "color-background-page"],
+  ["table-mark-yes-foreground", "table-mark-yes-background"],
+  ["table-mark-partial-foreground", "table-mark-partial-background"],
+  ["table-mark-no-foreground", "table-mark-no-background"],
+  ["table-header-sub-foreground", "color-background-inverse"],
+  ["table-header-sub-foreground-highlighted", "color-background-action"],
+  ["table-header-detail-foreground", "color-background-inverse"],
+  ["color-foreground-decorative", "color-background-page", 1],
+  ["color-border-control", "color-background-page", 3],
+  ["color-focus-ring-inverse", "color-background-inverse", 3],
+  ["color-background-action", "color-background-page", 1],
+  ["color-foreground-error", "color-background-page"],
+  ["color-foreground-error", "color-background-band"],
+  ["color-focus-ring", "color-background-page", 3],
+  ["color-foreground-control", "color-background-band"],
+  ["color-foreground-subtle", "color-background-recessed"],
 ];

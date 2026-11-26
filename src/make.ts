@@ -78,8 +78,8 @@ const guard = compiledGuard();
 const actionOn = actionOnColor(guard);
 const hoverStep = actionFillHoverStep(actionOn);
 const published: Record<string, string> = {
-  "color-action-on": actionOn,
-  ...(hoverStep && { "color-action-fill-hover": hexOf(hoverStep) }),
+  "color-foreground-on-action": actionOn,
+  ...(hoverStep && { "color-background-action-hover": hexOf(hoverStep) }),
 };
 const colorOf = (name: string) => hexOf(name, published);
 const contrast = measuredContrast(colorOf);

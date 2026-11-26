@@ -248,10 +248,10 @@ describe("the skip link", () => {
 describe("the section list", () => {
   it("tints the row of the section in view, as the top bar marks the open page", async () => {
     const { page } = await open("tokens/colour/");
-    await page.click('[data-section-nav] a[href="#colour-text"]');
+    await page.click('[data-section-nav] a[href="#colour-foreground"]');
     // The jump scrolls smoothly, and the row is marked once the scroll ends.
     await page.waitForSelector(
-      '[data-section-nav] a[href="#colour-text"][aria-current="true"]',
+      '[data-section-nav] a[href="#colour-foreground"][aria-current="true"]',
     );
     const rows = await page.evaluate(() =>
       [
@@ -267,16 +267,18 @@ describe("the section list", () => {
     );
     const tint = await page.evaluate(() => {
       const probe = document.createElement("i");
-      probe.style.backgroundColor = "var(--igd-color-surface-tint)";
+      probe.style.backgroundColor = "var(--igd-color-background-tint)";
       document.body.appendChild(probe);
       const colour = getComputedStyle(probe).backgroundColor;
       probe.remove();
       return colour;
     });
     expect(rows.filter((r) => r.fill === tint).map((r) => r.hash)).toEqual([
-      "#colour-text",
+      "#colour-foreground",
     ]);
-    expect(rows.find((r) => r.hash === "#colour-text")?.current).toBe("true");
+    expect(rows.find((r) => r.hash === "#colour-foreground")?.current).toBe(
+      "true",
+    );
     expect(rows.every((r) => r.border === "0px")).toBe(true);
     await page.close();
   });
@@ -508,12 +510,12 @@ describe("the colour explorer of the guide", () => {
   it("outlines every part that uses the picked colour and names its token", async () => {
     const { page } = await open("concepts/");
     await page.click(
-      '[data-colour-explorer] button[data-pick="color-action-on"]',
+      '[data-colour-explorer] button[data-pick="color-foreground-on-action"]',
     );
     expect(
       await page
         .locator(
-          '[data-colour-explorer] [data-part="color-action-on"][data-current]',
+          '[data-colour-explorer] [data-part="color-foreground-on-action"][data-current]',
         )
         .count(),
     ).toBe(2);
@@ -522,16 +524,18 @@ describe("the colour explorer of the guide", () => {
         '[data-colour-explorer] .option:has([aria-pressed="true"]) [data-copy]',
         "data-copy",
       ),
-    ).toContain("color-action-on");
+    ).toContain("color-foreground-on-action");
     await page.close();
   });
 
   it("keeps the pick when the pointer moves over the page, so nothing above it moves", async () => {
     const { page } = await open("concepts/");
-    await page.hover('[data-colour-explorer] [data-part="color-link-inverse"]');
+    await page.hover(
+      '[data-colour-explorer] [data-part="color-foreground-link-inverse"]',
+    );
     expect(
       await page.getAttribute(
-        '[data-colour-explorer] button[data-pick="color-text-muted"]',
+        '[data-colour-explorer] button[data-pick="color-foreground-faint"]',
         "aria-pressed",
       ),
     ).toBe("true");
@@ -582,7 +586,7 @@ describe("the shape explorers of the guide", () => {
       await page.textContent(
         '.explorer.shadow .option:has([data-pick="shadow-card-hover"])',
       ),
-    ).toContain("A card under the mouse pointer.");
+    ).toContain("A card on hover.");
     await page.close();
   });
 
@@ -798,7 +802,7 @@ describe("the filter of the Tokens page", () => {
   it("writes the rendered value beside a token", async () => {
     const { page } = await open("tokens/colour/");
     expect(
-      await page.textContent('[data-token="color-action-default"] output'),
+      await page.textContent('[data-token="color-background-action"] output'),
     ).toMatch(/^#[0-9a-f]{6}$/);
     await page.goto(`${site.origin}/tokens/spacing/`);
     expect(await page.textContent('[data-token="space-inset-md"] output')).toBe(
@@ -868,12 +872,12 @@ describe("a copy button", () => {
     });
     const page = await context.newPage();
     await page.goto(`${site.origin}/tokens/colour/`);
-    await page.click('[data-token="color-text-muted"] button[data-copy]');
+    await page.click('[data-token="color-foreground-faint"] button[data-copy]');
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-color-text-muted",
+      "--igd-color-foreground-faint",
     );
     expect(await page.textContent("[data-toast]")).toBe(
-      "Copied --igd-color-text-muted",
+      "Copied --igd-color-foreground-faint",
     );
     await context.close();
   });
@@ -885,9 +889,9 @@ describe("a copy button", () => {
         value: { writeText: () => Promise.reject(new Error("denied")) },
       });
     });
-    await page.click('[data-token="color-text-muted"] button[data-copy]');
+    await page.click('[data-token="color-foreground-faint"] button[data-copy]');
     expect(await page.textContent("[data-toast]")).toBe(
-      "Could not copy --igd-color-text-muted. Select the text and copy it by hand.",
+      "Could not copy --igd-color-foreground-faint. Select the text and copy it by hand.",
     );
     await page.close();
   });
@@ -919,7 +923,7 @@ const contrast = (page: Page, a: string, b: string) =>
 
 describe("a jump to a section on a narrow screen", () => {
   it.each([
-    ["tokens/colour/", "#colour-text", 390],
+    ["tokens/colour/", "#colour-foreground", 390],
     ["logo/", "#rules", 390],
     ["adopting/", "#5-check-it", 390],
     ["concepts/", "#type", 800],
@@ -1007,7 +1011,7 @@ describe("the filter of the Tokens page, beyond names", () => {
     const { page } = await open("tokens/colour/");
     await page.fill("[data-filter]", "#155dfc");
     expect(
-      await page.locator('[data-token="color-action-default"]').isVisible(),
+      await page.locator('[data-token="color-background-action"]').isVisible(),
     ).toBe(true);
     expect(await page.textContent("[data-filter-matches]")).toMatch(
       /^\d+ match/,
@@ -1064,7 +1068,7 @@ describe("the filter of the Tokens page, beyond names", () => {
     await page.fill("[data-filter]", "action");
     expect(
       await page
-        .locator('[data-token="color-action-default"]')
+        .locator('[data-token="color-background-action"]')
         .evaluate((el) => {
           const box = el.getBoundingClientRect();
           return box.top >= 0 && box.top < innerHeight;
@@ -1078,7 +1082,7 @@ describe("a preview on the Tokens page", () => {
   it("shows a text colour for dark surfaces on the dark surface, readable", async () => {
     const { page } = await open("tokens/colour/");
     const colours = await page
-      .locator('[data-token="color-text-inverse"] .preview')
+      .locator('[data-token="color-foreground-inverse"] .preview')
       .evaluate((el) => {
         const style = getComputedStyle(el);
         return [style.color, style.backgroundColor];
@@ -1232,7 +1236,7 @@ describe("a code sample of a document", () => {
       const frame = comment?.closest(".code");
       if (!comment || !frame) throw new Error("no comment in a code sample");
       const probe = document.createElement("i");
-      probe.style.color = "var(--igd-color-surface-inverse)";
+      probe.style.color = "var(--igd-color-background-inverse)";
       document.body.appendChild(probe);
       const surface = getComputedStyle(probe).color;
       probe.remove();
@@ -1382,7 +1386,7 @@ describe("the section being read", () => {
   it.each([
     ["concepts/", "colour", 1280],
     ["concepts/", "colour", 390],
-    ["tokens/colour/", "colour-surface", 1280],
+    ["tokens/colour/", "colour-background", 1280],
   ])(
     "on /%s is #%s while its content fills the screen, not the section after it",
     async (route, id, width) => {
@@ -1448,7 +1452,7 @@ describe("a filter, where the result shows", () => {
       ),
     );
     expect(
-      await page.locator('[data-token="color-action-default"]').isVisible(),
+      await page.locator('[data-token="color-background-action"]').isVisible(),
     ).toBe(true);
     expect(await page.locator("[data-filter-empty]").isVisible()).toBe(false);
     await page.close();
@@ -1459,18 +1463,20 @@ describe("a filter, where the result shows", () => {
     await page.click("[data-theme-toggle]");
     const dark =
       (
-        await page.textContent('[data-token="color-action-hover"] output')
+        await page.textContent(
+          '[data-token="color-foreground-link-hover"] output',
+        )
       )?.trim() ?? "";
     await page.click("[data-theme-toggle]");
     await page.fill("[data-filter]", dark);
     const light = await page
-      .locator('[data-token="color-action-hover"]')
+      .locator('[data-token="color-foreground-link-hover"]')
       .isVisible();
     await page.click("[data-theme-toggle]");
     await page.waitForFunction(
       () =>
         !document.querySelector<HTMLElement>(
-          '[data-token="color-action-hover"]',
+          '[data-token="color-foreground-link-hover"]',
         )?.hidden,
     );
     expect(light).toBe(false);
@@ -1619,7 +1625,7 @@ describe("a page of the Guide on a narrow screen", () => {
   it("lists the pages of the Guide above its text and marks itself", async () => {
     const { page } = await open("adopting/", 390);
     const links = page.locator("nav.side-nav a");
-    expect(await links.count()).toBe(6);
+    expect(await links.count()).toBe(7);
     expect(await links.first().isVisible()).toBe(true);
     expect(
       await page.locator('nav.side-nav a[aria-current="page"]').textContent(),

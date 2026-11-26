@@ -3,8 +3,8 @@ import { lead, prose } from "./text.ts";
 
 describe("prose", () => {
   it("turns a backticked name into a code element", () => {
-    expect(prose("Label on `color-action-default` fills.")).toBe(
-      "Label on <code>color-action-default</code> fills.",
+    expect(prose("Label on `color-background-action` fills.")).toBe(
+      "Label on <code>color-background-action</code> fills.",
     );
   });
 

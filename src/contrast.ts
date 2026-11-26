@@ -10,7 +10,7 @@ const TEXT_MIN = 4.5;
 
 /** The Sass source of the guard stylesheet: the luminance of the action fill and the engine's contrast thresholds. */
 export const guardSass = () => `@use 'igniteui-theming' as *;
-.guard { --luminance: #{luminance(${hexOf("color-action-default")})}; }
+.guard { --luminance: #{luminance(${hexOf("color-background-action")})}; }
 .adaptive { @include adaptive-contrast('aa'); }
 `;
 
@@ -102,19 +102,19 @@ export const ratioNotes = (rows: ContrastRow[]) => {
 /** The pairings the browser gate measures in both themes: reports/contrast-pairs.json. */
 export const themePairs = (): ContrastPair[] => [
   ...CONTRAST_PAIRS,
-  ["color-text-heading", "color-surface-card"],
-  ["color-text-strong", "color-surface-tint"],
-  ["color-text-heading", "color-surface-tint"],
-  ["color-text-body", "color-surface-card"],
-  ["color-text-ui", "fw-webcomponents-background"],
-  ["color-text-ui", "fw-angular-background"],
-  ["color-text-ui", "fw-react-background"],
-  ["color-text-ui", "fw-blazor-background"],
-  ["color-focus-default", "color-surface-page", 3],
-  ["color-feedback-error-default", "color-feedback-error-surface"],
-  ["color-feedback-success-default", "color-feedback-success-surface"],
-  ["color-feedback-warning-default", "color-feedback-warning-surface"],
-  ["color-feedback-info-default", "color-feedback-info-surface"],
+  ["color-foreground-heading", "color-background-card"],
+  ["color-foreground-default", "color-background-tint"],
+  ["color-foreground-heading", "color-background-tint"],
+  ["color-foreground-subtle", "color-background-card"],
+  ["color-foreground-control", "framework-webcomponents-background"],
+  ["color-foreground-control", "framework-angular-background"],
+  ["color-foreground-control", "framework-react-background"],
+  ["color-foreground-control", "framework-blazor-background"],
+  ["color-focus-ring", "color-background-page", 3],
+  ["color-foreground-error", "color-background-error"],
+  ["color-foreground-success", "color-background-success"],
+  ["color-foreground-warning", "color-background-warning"],
+  ["color-foreground-info", "color-background-info"],
 ];
 
 /** The measured pairings that are below their minimum. */
