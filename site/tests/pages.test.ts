@@ -507,7 +507,8 @@ describe("the components of the site", () => {
         .split("---")
         .slice(2)
         .join("---")
-        .replace(/<(script|style)[\s\S]*?<\/\1>/g, "");
+        // The markup before the component's script and style blocks.
+        .split(/<(?:script|style)\b/)[0];
       const root = body.match(/<[A-Za-z][^>]*>/)?.[0] ?? "";
       expect(/^<[A-Z]/.test(root) || root.includes("data-ig-scope"), root).toBe(
         true,
