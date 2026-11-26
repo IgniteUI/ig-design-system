@@ -25,9 +25,11 @@ interface Props {
   from?: string;
   /** Shows the preview and the use only, without the name and the value, as the guide does. */
   plain?: boolean;
+  /** A short label after the name, such as "On dark only". */
+  tag?: string;
 }
 
-const { token, preview, property, readout, use, on, written = false, from, plain = false } = Astro.props;
+const { token, preview, property, readout, use, on, written = false, from, plain = false, tag } = Astro.props;
 const custom = cssVar(token.name);
 const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
@@ -38,6 +40,7 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
   </span>
   {use ? <p class="use">{use}</p> : <Note text={token.usage} about={token.name} />}
   {!plain && <CopyName name={custom} prefix={prefixOf(custom)} />}
+  {tag && <span class="tag">{tag}</span>}
   {!plain && readout && <Readout token={token.name} kind={readout} />}
   {written && <code class="written">{token.value}</code>}
   {
@@ -191,5 +194,20 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
     font-family: var(--igd-font-display);
     font-size: var(--igd-type-title-md-font-size);
     font-weight: var(--igd-font-weight-bold);
+  }
+
+  .tag {
+    justify-self: start;
+    padding: 0 var(--igd-space-inset-xs);
+    border-radius: var(--igd-radius-badge);
+    background: var(--igd-color-surface-inverse);
+    color: var(--igd-color-text-inverse);
+    font-size: var(--igd-type-body-2xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+  }
+
+  :global([data-view="list"]) .tag {
+    grid-column: 2;
+    grid-row: 3;
   }
 </style>

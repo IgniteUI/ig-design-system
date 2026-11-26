@@ -37,7 +37,10 @@ const property = { fill: "background", text: "color", outline: "border-color" };
 // A colour of a label is shown as text on the fill it labels.
 const LABELS: Record<string, string> = { "color-action-on": "color-action-default" };
 // A colour used for text is shown as text: the text and link groups, a name with "text", and a label.
-const isText = (name: string, key: string) => Boolean(LABELS[name]) || previewOf(key) === "text" || /(^|-)text(-|$)/.test(name);
+// A colour for a dark area, such as a footer or a stat panel: every -inverse name but the dark surfaces themselves.
+const onDark = (name: string) => name.includes("-inverse") && !name.startsWith("color-surface-");
+const isText = (name: string, key: string) =>
+  Boolean(LABELS[name]) || previewOf(key) === "text" || /(^|-)text(-|$)/.test(name) || (onDark(name) && previewOf(key) !== "outline");
 // A text colour made for a dark surface is shown on one.
 const surfaceOf = (name: string) => (name.includes("-inverse") ? "color-surface-inverse" : undefined);
 
@@ -65,8 +68,10 @@ const sections = SECTIONS[family];
   <div data-filter-rest>
     {family === "colour" && (
       <p class="intro">
-        Site code uses these. A name says what the colour is for. A name with <code>-inverse</code> is for an
-        area that stays dark in both variants, such as the footer; its preview sits on that dark surface.
+        Site code uses these. A name says what the colour is for. A name with <code>-inverse</code> is for an area
+        that stays dark in both variants, such as the footer, a stat panel or a dark band: use it on{" "}
+        <code>color-surface-inverse</code> and its raised and sunken levels, never on a light surface. Those rows say
+        On dark only, and their preview sits on the dark surface.
       </p>
     )}
     {family === "type" && (
@@ -127,7 +132,8 @@ const sections = SECTIONS[family];
                     preview={isText(token.name, key) ? "text" : previewOf(key)}
                     property={property[isText(token.name, key) ? "text" : previewOf(key)]}
                     readout="colour"
-                    on={LABELS[token.name] ?? (isText(token.name, key) ? surfaceOf(token.name) : undefined)}
+                    on={LABELS[token.name] ?? (isText(token.name, key) || onDark(token.name) ? surfaceOf(token.name) : undefined)}
+                    tag={onDark(token.name) ? "On dark only" : undefined}
                     from={fromOf(token)}
                   />
                 ))}
