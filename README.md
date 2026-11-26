@@ -42,7 +42,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 ## Documentation site
 
-`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `fonts.css`, `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark variant. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
+`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `fonts.css`, `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark variant. `site/README.md` says how it is built and published.
 
 | Page | What it is |
 |---|---|
@@ -258,7 +258,7 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Releases
 
-A version is a GitHub Release with the tag `X.Y.Z`: `.github/workflows/release.yml` runs every CI job on the tag and publishes to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes. A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` take a major version.
+A version is a GitHub Release with the tag `X.Y.Z`: `.github/workflows/release.yml` runs every CI job on the tag and publishes to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes and what takes a major version.
 
 ## Licence
 
