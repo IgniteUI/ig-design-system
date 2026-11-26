@@ -425,9 +425,20 @@ describe("the interactive examples of the guide", () => {
         };
       }),
     );
-    expect(edges).toHaveLength(5);
+    expect(edges).toHaveLength(7);
     for (const e of edges) expect(e.controls).toBeLessThan(e.result ?? 0);
     expect(new Set(edges.map((e) => Math.round(e.result ?? 0))).size).toBe(1);
+    await page.close();
+  });
+});
+
+describe("the variant explorer of Concepts", () => {
+  it("puts the card in the variant picked", async () => {
+    const { page } = await open("");
+    const stage = "[data-variant-explorer] [data-variant]";
+    expect(await page.getAttribute(stage, "data-theme")).toBe("light");
+    await page.click('[data-variant-explorer] button[data-pick="dark"]');
+    expect(await page.getAttribute(stage, "data-theme")).toBe("dark");
     await page.close();
   });
 });

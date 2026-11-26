@@ -7,14 +7,13 @@ import Dials from "@/components/guide/Dials.astro";
 import ExampleTag from "@/components/guide/ExampleTag.astro";
 import MessageExamples from "@/components/guide/MessageExamples.astro";
 import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
-import DarkNotice from "@/components/layout/DarkNotice.astro";
 import SpacingExplorer from "@/components/guide/SpacingExplorer.astro";
 import Stage from "@/components/guide/Stage.astro";
 import Section from "@/components/layout/Section.astro";
-import TypeSpecimen from "@/components/tokens/TypeSpecimen.astro";
+import TypeExplorer from "@/components/guide/TypeExplorer.astro";
+import VariantExplorer from "@/components/guide/VariantExplorer.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
-import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
 import { COLOUR_PICKS, TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
 import { GUIDE_PAGES } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
@@ -158,8 +157,7 @@ if (missing.length)
     <p class="lead">
       Most pages use the default sizes. A documentation page uses a smaller set: press the button to see it.
     </p>
-    <p class="switches"><TypeSetToggle target="type-specimens" /></p>
-    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} element={TYPE_ELEMENTS[style.name]} plain />)}</ul>
+    <TypeExplorer />
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
@@ -206,18 +204,9 @@ if (missing.length)
       <h3 id="themes-light-dark">Light and dark</h3>
       <p class="lead">
         The button at the top of this page switches the whole page. A region can also carry its own variant:
-        these two cards are the same markup.
+        pick one for this card.
       </p>
-      <DarkNotice inline />
-      <ExampleTag many />
-      <div class="themes">
-        <Stage data-theme="light" label="Light variant">
-          <DemoCard title="Light variant">Every colour takes its light value.</DemoCard>
-        </Stage>
-        <Stage data-theme="dark" label="Dark variant">
-          <DemoCard title="Dark variant">The same names, the dark values.</DemoCard>
-        </Stage>
-      </div>
+      <VariantExplorer />
     </div>
     <div class="group">
       <h3 id="themes-dials">Dials</h3>
@@ -286,28 +275,9 @@ if (missing.length)
     margin-block-start: var(--igd-space-stack-md);
   }
 
-  .switches {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--igd-space-gap-xs);
-    margin-block: 0 var(--igd-space-stack-md);
-  }
-
-  .specimens {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .specimens {
-    margin-block-end: var(--igd-space-stack-md);
-  }
 
 
-  .themes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--igd-field-min-width), 1fr));
-    gap: var(--igd-space-gap-md);
-  }
+
+
 
 </style>

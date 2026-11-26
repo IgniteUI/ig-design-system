@@ -1,5 +1,5 @@
 ---
-// An interactive example of the guide: its controls on the left, and what they change on the right, the info above the drawing.
+// An interactive example of Concepts: its controls on the left, and what they change on the right, the info above the drawing.
 // Below 48rem of content width the three stack in that order. Attributes and the class go on the root element.
 interface Props {
   class?: string;
@@ -38,14 +38,16 @@ const { class: className, ...attributes } = Astro.props;
     min-inline-size: 0;
   }
 
-  /* The drawing fills the height beside its controls. */
-  .result > :global(:last-child) {
-    flex: 1;
-  }
-
+  /* Beside a longer list of options, the result stays in view under the top bar while the list scrolls. */
   @container (inline-size >= 48rem) {
     .example {
       grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .result {
+      position: sticky;
+      inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-md));
     }
   }
 </style>

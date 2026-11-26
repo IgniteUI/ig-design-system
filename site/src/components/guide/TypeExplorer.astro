@@ -1,0 +1,113 @@
+---
+// Picks a type role by its job: a list of roles, each with its use, beside every role set in its own style, where the
+// picked one is outlined, with its class and element above. A button switches the drawing to another type set.
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
+import ExampleTag from "@/components/guide/ExampleTag.astro";
+import OptionList from "@/components/guide/OptionList.astro";
+import CopyName from "@/components/ui/CopyName.astro";
+import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
+import { TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
+import { tokens } from "@/lib/design-system.ts";
+
+const styles = tokens.type.groups.flatMap((g) => g.styles);
+const role = (name: string) => name.replace(/^type-/, "");
+const first = "type-title-sm";
+---
+
+<ExampleLayout class="explorer" data-explorer data-type-explorer>
+  <div class="options" slot="controls">
+    <OptionList
+      options={styles.map((s) => ({ pick: s.name, label: role(s.name), use: TYPE_USES[s.name] }))}
+      first={first}
+      label="Type role"
+    />
+  </div>
+
+  <div class="info" slot="info">
+    {
+      styles.map((s) => (
+        <div data-info={s.name} hidden={s.name !== first}>
+          <CopyName name={`.igd-${s.name}`} prefix=".igd-" copy={`igd-${s.name}`} />
+          <span class="element">
+            on <code>{`<${TYPE_ELEMENTS[s.name]}>`}</code>
+          </span>
+        </div>
+      ))
+    }
+    <p class="switches"><TypeSetToggle target="type-drawing" /></p>
+  </div>
+
+  <div class="drawing" id="type-drawing">
+    <ExampleTag many />
+    <div class="samples" aria-hidden="true">
+      {
+        styles.map((s) => (
+          <p class:list={["sample", `igd-${s.name}`]} data-type-sample={`igd-${s.name}`} data-part={s.name} data-current={s.name === first ? "" : undefined}>
+            {s.sample}
+          </p>
+        ))
+      }
+    </div>
+  </div>
+</ExampleLayout>
+
+<script>
+  import "@/scripts/explorer.ts";
+</script>
+
+<style>
+  .info {
+    display: grid;
+    gap: var(--igd-space-gap-sm);
+    min-inline-size: 0;
+  }
+
+  .info > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-xs);
+  }
+
+  .element {
+    color: var(--igd-color-text-muted);
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  .switches {
+    margin: 0;
+  }
+
+  .drawing {
+    display: grid;
+    gap: var(--igd-space-gap-md);
+    min-inline-size: 0;
+    padding: var(--igd-space-inset-md) var(--igd-space-inset-md) var(--igd-space-inset-xl);
+    border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
+    border-radius: var(--igd-radius-card);
+    container-type: inline-size;
+  }
+
+  .samples {
+    display: grid;
+    gap: var(--igd-space-gap-sm);
+  }
+
+  .sample {
+    margin: 0;
+    color: var(--igd-color-text-heading);
+    overflow-wrap: anywhere;
+  }
+
+  /* The picked role is outlined in the focus colour. */
+  [data-part] {
+    border-radius: var(--igd-radius-control);
+    outline: var(--igd-focus-ring-width) solid transparent;
+    outline-offset: var(--igd-focus-ring-offset);
+    transition: outline-color var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  [data-part][data-current] {
+    outline-color: var(--igd-color-focus-default);
+  }
+</style>

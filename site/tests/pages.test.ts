@@ -255,7 +255,7 @@ describe("the guide", () => {
 
   it("says beside the dark example, in either variant, that the dark variant is not final", () => {
     const group =
-      html.match(/id="themes-light-dark".*?<div class="themes"/s)?.[0] ?? "";
+      html.match(/id="themes-light-dark".*?id="themes-dials"/s)?.[0] ?? "";
     expect(group).toMatch(/<p class="notice inline"[^>]*role="note"/);
     expect(group).toContain("The dark variant is not final.");
     expect(group).not.toContain("data-dark-notice");
@@ -273,15 +273,15 @@ describe("the guide", () => {
     ).toEqual(["Large", "Normal", "Standard", "Normal"]);
   });
 
-  it("shows a featured colour with its plain use, not its technical note", () => {
+  it("shows a featured colour with its plain use on its option, not its technical note", () => {
     expect(html).toMatch(
-      /data-info="color-action-default".*?The fill of the main button\./s,
+      /data-pick="color-action-default".*?The fill of the main button\./s,
     );
   });
 
   it("names the class of each type role and the element it is meant for", () => {
     const role =
-      html.match(/<li[^>]*data-token="type-display-lg".*?<\/ul>/s)?.[0] ?? "";
+      html.match(/data-info="type-display-lg".*?<\/div>/s)?.[0] ?? "";
     expect(role).toContain('data-copy-alt=".igd-type-display-lg"');
     expect(role).toContain("on <code");
     expect(role).toContain("&lt;h1&gt;");
@@ -329,8 +329,8 @@ describe("the guide", () => {
 
   it("labels every drawn example as an example, not a real component", () => {
     const labels = html.match(/<p class="example"/g) ?? [];
-    // The colour page, the spacing cards, two corner and shadow drawings, the messages, the light and dark cards and the dial preview.
-    expect(labels).toHaveLength(7);
+    // The colour page, the type roles, the spacing cards, the corner and shadow drawings, the messages, the variant card and the dial preview.
+    expect(labels).toHaveLength(8);
   });
 
   it("shows each message as an alert with an icon, a title and a text", () => {
