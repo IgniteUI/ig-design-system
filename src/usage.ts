@@ -1,4 +1,4 @@
-// What a site does to use the package: the stylesheets in load order and the two commands. The guide and llms.txt print these.
+// What a site does to use the package: the stylesheets in load order, the dials and the two commands. The guide and llms.txt print these.
 
 /** The stylesheets of the package, in the order a site loads them. */
 export const STYLESHEETS = [
@@ -15,13 +15,21 @@ export const STYLESHEETS = [
   {
     file: "theme.css",
     optional: false,
-    note: "the live layer: dials, derived state colours, the dark theme, type roles.",
+    note: "the live layer: dials, derived state colours, the dark variant, type roles.",
   },
   {
     file: "base.css",
     optional: true,
     note: "Element styles for a site that has none.",
   },
+] as const;
+
+/** The dials a site sets on the page or on a `data-ig-scope` element. They are the engine's; the package leaves them unset. */
+export const DIALS = [
+  "--ig-size",
+  "--ig-spacing",
+  "--ig-radius-factor",
+  "--ig-elevation-factor",
 ] as const;
 
 /** The command that installs the package. */

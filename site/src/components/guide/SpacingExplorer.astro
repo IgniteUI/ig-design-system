@@ -2,8 +2,7 @@
 // Shows the three kinds of space on two drawn cards: pick padding, margin or gap and that space is filled with a striped tint
 // where it sits, with its use and the name of its token above.
 import ExampleTag from "@/components/guide/ExampleTag.astro";
-import CopyName from "@/components/ui/CopyName.astro";
-import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
+import { tokens } from "@/lib/design-system.ts";
 import { pick } from "@/lib/tokens.ts";
 
 const KINDS = [
@@ -47,7 +46,6 @@ const first = "padding";
       KINDS.map((k) => (
         <div data-info={k.id} hidden={k.id !== first}>
           <p class="use">{k.use}</p>
-          <CopyName name={cssVar(k.token)} prefix={prefixOf(cssVar(k.token))} copy={`var(${cssVar(k.token)})`} />
         </div>
       ))
     }

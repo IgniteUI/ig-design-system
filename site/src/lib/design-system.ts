@@ -1,17 +1,28 @@
 // The one door from the site to the package: its token data, its manifest and the facts the package's own generators share.
+
 import tokensJson from "@root/dist/tokens.json";
+import cardCss from "@root/docs/examples/card.css?raw";
+import cardHtml from "@root/docs/examples/card.html?raw";
 import manifest from "@root/package.json";
 import type { Tokens } from "@root/src/types.ts";
+
+export { CHECKS, NOT_CHECKED } from "@root/checks/rules.ts";
+export { RULES } from "@root/src/rules.ts";
 
 export type { Token, Tokens, TypeStyle } from "@root/src/types.ts";
 export {
   checkCommand,
+  DIALS,
   installCommand,
   STYLESHEETS,
 } from "@root/src/usage.ts";
 
 /** Every token, as dist/tokens.json lists them. */
 export const tokens = tokensJson as unknown as Tokens;
+
+/** The example card of the package: its stylesheet and its page, as docs/examples holds them. */
+export const CARD_CSS: string = cardCss;
+export const CARD_HTML: string = cardHtml;
 
 /** The name of the npm package. */
 export const packageName: string = manifest.name;

@@ -195,21 +195,15 @@ describe("the Engine page", () => {
 describe("the guide", () => {
   const html = page("");
 
-  it("names each dial, its custom property and its default in plain words", () => {
+  it("names each dial in plain words, with its default, and not its custom property", () => {
     const panel =
       html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
     expect(
-      [
-        ...panel.matchAll(
-          /<p class="name"[^>]*>\s*([^<]+?)\s*<code[^>]*>([^<]+)</g,
-        ),
-      ].map((m) => `${m[1]} ${m[2]}`),
-    ).toEqual([
-      "Size --ig-size",
-      "Spacing --ig-spacing",
-      "Roundness --ig-radius-factor",
-      "Shadow --ig-elevation-factor",
-    ]);
+      [...panel.matchAll(/<p class="name"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
+        (m) => m[1],
+      ),
+    ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
+    expect(panel.replace(/<[^>]+>/g, " ")).not.toContain("--ig-");
     expect(
       [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
         (m) => m[1],
@@ -267,13 +261,12 @@ describe("the guide", () => {
     );
   });
 
-  it("names the class of each type role and the element it is meant for", () => {
+  it("shows each type role with its sample and its plain use, without its class", () => {
     const role =
-      html.match(/<li[^>]*data-token="type-display-lg".*?<\/ul>/s)?.[0] ?? "";
-    expect(role).toContain('data-copy-alt=".igd-type-display-lg"');
-    expect(role).toContain("on <code");
-    expect(role).toContain("&lt;h1&gt;");
-    expect(role).not.toContain("--igd-type-display-lg-");
+      html.match(/<li[^>]*data-token="type-display-lg".*?<\/li>/s)?.[0] ?? "";
+    expect(role).toContain('class="use"');
+    expect(role).not.toContain("data-copy");
+    expect(role).not.toContain("<code");
   });
 
   it("gives corners and shadows a section each, as the Tokens page does", () => {
@@ -283,11 +276,12 @@ describe("the guide", () => {
     expect(list).not.toContain('href="#shape"');
   });
 
-  it("says why a name says its job, with the two kinds of name that use a position", () => {
+  it("says why a name says its job, in plain words, with the two kinds of name that use a position", () => {
     const part = html.match(/id="idea-names".*?What do you need\?/s)?.[0] ?? "";
-    expect(part).toMatch(/not <code[^>]*>radius-pill<\/code>/);
+    expect(part).toContain("not the pill radius");
     expect(part).toContain("an ordered set");
-    expect(part).toMatch(/such as <code[^>]*>space-inset-lg/);
+    expect(part).toContain("8 colours of product tiles");
+    expect(part).not.toContain("<code");
     expect(page("tokens/")).toContain('href="/#idea-names"');
   });
 
@@ -310,15 +304,24 @@ describe("the guide", () => {
     expect(html).toContain("Inverse does not mean the dark variant.");
   });
 
-  it("names the message colour and its tint under each message, not the palette steps behind them", () => {
+  it("shows each message without the names of its tokens", () => {
     const messages = html.match(/<ul class="messages".*?<\/ul>/s)?.[0] ?? "";
-    expect(messages).toContain(
-      'data-copy-alt="--igd-color-feedback-error-default"',
-    );
-    expect(messages).toContain(
-      'data-copy-alt="--igd-color-feedback-error-surface"',
-    );
-    expect(messages).not.toContain("--ig-error");
+    expect(messages).not.toContain("data-copy");
+    expect(messages).not.toMatch(/--igd?-/);
+  });
+
+  it("shows no token name or code in its visual sections, from Colour to Variants and dials", () => {
+    const visual =
+      html.match(
+        /<section[^>]*id="colour".*?<section[^>]*id="component"/s,
+      )?.[0] ?? "";
+    expect(visual).toContain('id="themes"');
+    const text = visual
+      .replace(/<style[^>]*>.*?<\/style>/gs, "")
+      .replace(/<[^>]+>/g, " ");
+    expect(text).not.toMatch(/--igd?-|igd-type-/);
+    expect(visual).not.toContain("<code");
+    expect(visual).not.toContain("data-copy");
   });
 
   it("labels every drawn example as an example, not a real component", () => {

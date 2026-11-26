@@ -1,0 +1,31 @@
+/* A card written to the rules of the design system. card.html loads it; the guide and llms.txt print it. */
+.card {
+  display: grid;
+  /* Widths, heights and offsets are not tokens. */
+  max-width: 24rem;
+  /* Roles, not raw steps: inset for padding, gap for gaps, stack for vertical margins. */
+  gap: var(--igd-space-gap-sm);
+  padding: var(--igd-space-inset-lg);
+  border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+  border-radius: var(--igd-radius-card);
+  background: var(--igd-color-surface-card);
+  color: var(--igd-color-text-strong);
+}
+
+.card:hover {
+  box-shadow: var(--igd-shadow-card-hover);
+}
+
+.card__title {
+  margin: 0;
+  color: var(--igd-color-text-heading);
+}
+
+/* Text in the action colour reads color-action-text; its hover is a token too. */
+.card__link {
+  color: var(--igd-color-action-text);
+}
+
+.card__link:hover {
+  color: var(--igd-color-action-hover);
+}

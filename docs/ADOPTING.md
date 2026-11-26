@@ -57,7 +57,15 @@ Choosing the token:
 npx ig-design-system check src
 ```
 
-Run it on the site's source. It reports a token that does not exist, a raw palette step that is read or declared, and a raw spacing step.
+Run it on the site's source. It reports:
+
+- `unknown-token`: a var(--igd-*) that neither the design system nor the site declares
+- `raw-palette`: a palette step that site code reads, such as var(--ig-gray-700)
+- `palette-override`: a palette step that site code declares, such as --ig-primary-500
+- `spacing-role`: a raw spacing step on padding, a margin or a gap, where a spacing role belongs
+- `colour-literal`: a hex colour typed in by hand (only with `--strict`)
+
+`--ignore <text>` skips every path that contains the text.
 
 In CI, a site calls the reusable workflow of this package:
 

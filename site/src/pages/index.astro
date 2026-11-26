@@ -18,14 +18,17 @@ import CodeBlock from "@/components/ui/CodeBlock.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
-import { CARD_MARKUP, CARD_RULE } from "@/data/card.ts";
-import { COLOUR_PICKS, TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
+import { COLOUR_PICKS, TYPE_USES } from "@/data/guide.ts";
 import { DOCUMENTS } from "@/data/navigation.ts";
-import { RULES, ruleId } from "@/data/rules.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
 import {
+  CARD_CSS,
+  CARD_HTML,
+  CHECKS,
   checkCommand,
   cssVar,
+  NOT_CHECKED,
+  RULES,
   installCommand,
   packageName,
   repository,
@@ -33,6 +36,7 @@ import {
   tokens,
 } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
+import { prose } from "@/lib/text.ts";
 import { isEngine, pick } from "@/lib/tokens.ts";
 
 const sections = {
@@ -61,18 +65,29 @@ const rawOf = (token: { name: string; value: string }) => {
     );
   return cssVar(raw);
 };
+// The rules the check command reports, by their number on the page; the strict ones apart.
+const numbered = RULES.map((rule, i) => ({ ...rule, number: i + 1 }));
+const strictOf = (rule: (typeof numbered)[number]) => CHECKS.find((c) => c.id === rule.check)?.strict;
+const checked = numbered.filter((r) => r.check);
+const strictOnly = checked.filter((r) => strictOf(r));
+const lenient = checked.filter((r) => !strictOf(r));
+const listOf = (items: (string | number)[]) =>
+  items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+const plural = (word: string, rules: { number: number }[]) =>
+  `${word}${rules.length > 1 ? "s" : ""} ${listOf(rules.map((r) => r.number))}`;
 const styles = tokens.type.groups.flatMap((g) => g.styles);
+const tiles = colours.filter((t) => /^tile-\d+$/.test(t.name));
 const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
 const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
-const missing = styles.filter((style) => !TYPE_USES[style.name] || !TYPE_ELEMENTS[style.name]).map((style) => style.name);
+const missing = styles.filter((style) => !TYPE_USES[style.name]).map((style) => style.name);
 if (missing.length)
   throw new Error(
-    `The guide has no plain use or element for ${missing.join(", ")}. Add one to TYPE_USES and TYPE_ELEMENTS in site/src/data/guide.ts.`,
+    `The guide has no plain use for ${missing.join(", ")}. Add one to TYPE_USES in site/src/data/guide.ts.`,
   );
 ---
 
 <SectionsLayout current="guide" sections={Object.values(sections)}>
-  <style is:inline set:html={CARD_RULE}></style>
+  <style is:inline set:html={CARD_CSS}></style>
 
   <h1>The Infragistics design system</h1>
   <p class="intro">
@@ -109,24 +124,15 @@ if (missing.length)
       edited.
     </p>
     <ul class="names">
-      <li>
-        <code>radius-action</code>, not <code>radius-pill</code>: if buttons stop being pills, the name is still
-        right.
-      </li>
-      <li>
-        <code>color-text-strong</code>, not <code>color-text-primary</code>: primary is the name of a colour family,
-        and this text does not use it.
-      </li>
-      <li>
-        <code>shadow-chip</code>, not <code>shadow-glass</code>: a name says where the value goes, not what it
-        looks like.
-      </li>
+      <li>The corner of a button is the action radius, not the pill radius: if buttons stop being pills, the name is still right.</li>
+      <li>The colour of strong text is not called primary: primary is the name of a colour family, and this text does not use it.</li>
+      <li>The shadow of a chip is named for the chip, not for a glass look: a name says where the value goes, not what it looks like.</li>
     </ul>
     <p class="lead">
-      Two kinds of name use a position, because there the position is the job. A scale, such as{" "}
-      <code>space-inset-lg</code>, where you pick a step by how much you need. And an ordered set, such as{" "}
-      <code>tile-1</code> to <code>tile-8</code>, where a grid takes the colours in order whatever product each
-      tile shows.
+      Two kinds of name use a position, because there the position is the job. A scale, such as the sizes of
+      padding from small to large, where you pick a step by how much you need. And an ordered set, such as the
+      {tiles.length} colours of product tiles, where a grid takes the colours in order whatever product each tile
+      shows.
     </p>
     <h3 class="plain">What do you need?</h3>
     <LinkCards
@@ -180,11 +186,10 @@ if (missing.length)
       and line height together, so text set in it always looks the same.
     </p>
     <p class="lead">
-      The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set:
-      press the button to see it.
+      Most pages use the default sizes. A documentation page uses a smaller set: press the button to see it.
     </p>
     <p class="switches"><TypeSetToggle target="type-specimens" /></p>
-    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} element={TYPE_ELEMENTS[style.name]} plain />)}</ul>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} plain />)}</ul>
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
@@ -258,7 +263,10 @@ if (missing.length)
           <DemoForm id="dial-form" />
         </Stage>
       </Dials>
-      <p class="lead after">A site sets a dial once, on the page or on one region. A component never sets one.</p>
+      <p class="lead after">
+        The card takes its shadow on hover, as cards do: hover it to see the shadow dial. A site sets a dial once,
+        on the page or on one region. A component never sets one.
+      </p>
     </div>
   </Section>
 
@@ -277,25 +285,28 @@ if (missing.length)
       <li>
         <strong>Space by role.</strong> Padding is <code>space-inset-*</code>, a vertical margin <code
           >space-stack-*</code
-        >, a gap <code>space-gap-*</code>.
+        >, a gap or an inline margin <code>space-gap-*</code>.
       </li>
       <li>
         <strong>Set text with a class.</strong>{" "}
         <code>igd-type-title-sm</code> on a card title, <code>igd-type-body-md</code> on its text.
       </li>
     </Steps>
-    <p class="lead">This is the whole stylesheet of the card used on this page:</p>
-    <CodeBlock code={CARD_RULE} lang="css" label="the card's stylesheet" />
-    <CodeBlock code={CARD_MARKUP} lang="html" label="the card's markup" />
-    <p class="more"><a href={href("docs/examples/card.html")}>Open another card as one HTML file</a>, written to the same rules. Use the Back button of the browser to return.</p>
+    <p class="lead">The cards on this page take their rules from this stylesheet, <code>docs/examples/card.css</code> in the package:</p>
+    <CodeBlock code={CARD_CSS} lang="css" label="the card's stylesheet" />
+    <p class="lead">This page loads it with the stylesheets of the design system and shows two cards:</p>
+    <CodeBlock code={CARD_HTML} lang="html" label="the example page" />
+    <p class="more"><a href={href("docs/examples/card.html")}>Open the example page</a>. Use the Back button of the browser to return.</p>
   </Section>
 
   <Section {...sections.rules}>
     <p class="intro">
-      Each rule with an example of what to write and what not to. The check command reports rules 1 to 3; rule
-      3 with <code>--strict</code>.
+      Each rule with an example of what to write and what not to. The check command reports
+      {plural("rule", lenient)}{strictOnly.length > 0 && <>, and {plural("rule", strictOnly)} with <code>--strict</code></>}.
     </p>
-    <ol class="rules">{RULES.map((rule, i) => <RulePair {...rule} id={ruleId(i)} number={i + 1} />)}</ol>
+    <ol class="rules">{RULES.map((rule, i) => <RulePair {...rule} id={`rule-${i + 1}`} number={i + 1} />)}</ol>
+    <p class="lead">The check command does not report:</p>
+    <ul class="unchecked">{NOT_CHECKED.map((n) => <li set:html={prose(n.text)} />)}</ul>
   </Section>
 
   <Section {...sections.setup}>
@@ -314,8 +325,8 @@ if (missing.length)
         <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} lang="css" label="the imports" />
       </li>
       <li>
-        <strong>Check the site.</strong> The command reports an unknown token, a palette step and a raw spacing
-        step, and fails the build when it finds one.
+        <strong>Check the site.</strong> The command reports {listOf(CHECKS.filter((c) => !c.strict).map((c) => c.reports))},
+        and fails the build when it finds one.
         <CodeBlock code={checkCommand(packageName)} lang="sh" label="the check command" />
       </li>
     </Steps>
@@ -360,7 +371,8 @@ if (missing.length)
 
 <style>
   /* A lead pulls up to the heading above it; a lead after a demo keeps its distance from the demo. */
-  .names {
+  .names,
+  .unchecked {
     display: grid;
     gap: var(--igd-space-gap-xs);
     max-inline-size: 38rem;

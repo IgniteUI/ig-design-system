@@ -1,35 +1,44 @@
-// The rules of the design system: each in plain words, with a pair of examples. The bad examples are wrong on purpose, so the site command skips this file.
+// The rules for code that uses the tokens, each in plain words with a pair of examples. The site and llms.txt print them.
+import type { CheckId } from "../checks/rules.ts";
 
-/** A rule: what to do in plain words, why, and what to write and not to write. Backticks in `why` become code. */
-export const RULES: {
+/**
+ * A rule: what to do in plain words, why, and what to write and not to write. Backticks in `why` become code.
+ * `check` names the rule of the check command that reports `bad`; a rule without one is not checked.
+ */
+export const RULES: readonly {
   title: string;
   why: string;
   good: string;
   bad: string;
+  check?: CheckId;
 }[] = [
   {
     title: "Choose a colour by its job.",
-    why: "Text, a background, a line and a button each have their own colours. A palette step such as `--ig-gray-600` is raw material for the design system and has no dark value of its own.",
+    why: "Text, a background, a line and a button each have their own colours. A palette step such as `--ig-gray-600` is raw material: it names a shade, not a job, so it is wrong as soon as the design changes.",
     good: "color: var(--igd-color-text-muted);",
     bad: "color: var(--ig-gray-600);",
+    check: "raw-palette",
   },
   {
     title: "Say what a space is.",
-    why: "Padding, a vertical margin and a gap each have their own sizes. Naming the kind of space lets padding and gaps be tuned apart later.",
+    why: "Padding, a vertical margin and a gap or an inline margin each have their own sizes. Naming the kind of space lets padding and gaps be tuned apart later.",
     good: "padding: var(--igd-space-inset-md);",
     bad: "padding: var(--igd-space-md);",
+    check: "spacing-role",
   },
   {
     title: "Never type a colour.",
     why: "Not even one that looks right. When no colour fits, say which one is missing.",
     good: "color: var(--igd-color-action-text);",
     bad: "color: #1a5fff;",
+    check: "colour-literal",
   },
   {
     title: "Use one name for both variants of the theme.",
     why: "A colour already has a light and a dark value and switches by itself. Do not write the light and the dark variant by hand.",
     good: "background: var(--igd-color-surface-card);",
     bad: "background: light-dark(#fff, #1c1c1c);",
+    check: "colour-literal",
   },
   {
     title: "Resize with a dial, never inside a component.",
@@ -44,6 +53,3 @@ export const RULES: {
     bad: "max-width: var(--igd-space-6xl);",
   },
 ];
-
-/** The id of the element that shows a rule in detail, from its place in RULES. */
-export const ruleId = (index: number) => `rule-${index + 1}`;

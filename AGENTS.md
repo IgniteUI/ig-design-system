@@ -41,9 +41,10 @@ Add a token: add it to `src/spec.ts`, add its pairings to `CONTRAST_PAIRS` there
 | `src/theme.ts`, `src/derived.ts` | The text of `theme.css`; `derived.ts` is its derived-colour section. |
 | `src/namespace.ts` | Adds `--igd-` to every custom property in `dist/*.css` that is not engine output. |
 | `src/migration.ts`, `src/dtcg.ts`, `src/llms.ts` | Write `docs/MIGRATION.md`, `dist/infragistics.tokens.json` and the two llms files. |
-| `src/usage.ts` | The stylesheets in load order and the install and check commands. `llms.txt` and the site print them from here. |
+| `src/usage.ts` | The stylesheets in load order, the dials, and the install and check commands. `llms.txt` and the site print them from here. |
+| `src/rules.ts` | The rules for code that uses the tokens, each with a do and a don't. `llms.txt` and the guide print them; a test runs each through the check command. |
 | `site/` | The documentation site, an Astro project with its own `package.json`. It reads `dist/tokens.json`, the Markdown documents and `package.json`. |
-| `checks/cli.ts`, `checks/site.ts` | The site command, compiled to `dist/cli/` by `tsc -p tsconfig.cli.json`. |
+| `checks/cli.ts`, `checks/site.ts`, `checks/rules.ts` | The site command, its rules and the list of what it reports and does not, compiled with the modules they import to `dist/cli/` by `tsc -p tsconfig.cli.json`. |
 
 ## Decisions
 
@@ -182,7 +183,7 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 ### 10. The documentation is an Astro site, and nothing it shows is typed twice
 
 - `site/` is an Astro project. It is not part of the npm package and has its own `package.json`, lockfile and tests. The package keeps no dependencies.
-- The site reads its facts where they live: tokens from `dist/tokens.json`, the documents from `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, the package name and repository from `package.json`, the stylesheet order and the commands from `src/usage.ts`. `site/src/lib/design-system.ts` is the one module that imports from outside `site/`.
+- The site reads its facts where they live: tokens from `dist/tokens.json`, the documents from `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, the package name and repository from `package.json`, the stylesheet order, the dials and the commands from `src/usage.ts`, the rules from `src/rules.ts`, what the check reports from `checks/rules.ts`, and the example card from `docs/examples/`. `site/src/lib/design-system.ts` is the one module that imports from outside `site/`.
 - Nothing the site builds is committed. `site/dist/` is ignored; the Pages workflow builds it.
 - A new kind of token gets a section on the Tokens page. The page reads the rendered value in the browser, so it cannot disagree with the stylesheets. A test fails when a token of `tokens.json` is on neither the Tokens page nor the Engine page.
 - The Tokens page lists what a site may write. The Engine page lists what the tokens are built from: the palette, the raw spacing steps and the engine's elevations (`isEngine()` in `site/src/lib/tokens.ts`). Under each step it lists the tokens that read it, and a colour card on the Tokens page links to the step it reads. Why: the owner decided on 2026-11-24 that values a site must not write do not sit beside the ones it may.
@@ -190,8 +191,8 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - A note shows its first sentence and folds the rest, so a row of cards stays even. Write the first sentence of a usage note in `src/spec.ts` to stand on its own.
 - The guide shows a chosen few tokens with a plain use each, listed in `site/src/data/guide.ts`. A name there that `tokens.json` does not have stops the build.
 - A Markdown document becomes a page by a line in `DOCUMENTS` in `site/src/data/navigation.ts`. Do not link a reader of the site to a Markdown file on GitHub: a test fails on such a link.
-- The guide prints bad examples on purpose, in `site/src/data/rules.ts`, so the site command skips that one file. It runs on the rest of `site/src`, and `check-vars` runs on the built pages.
-- When a rule in `src/llms.ts` changes, change the same rule in `site/src/data/rules.ts`.
+- The guide prints the rules of `src/rules.ts`, bad examples included, so `site/src` holds none and the site command runs on all of it. `check-vars` runs on the built pages.
+- The guide shows no token names or code in its visual sections; names, values and code samples are on the Tokens page. The developer sections at the end (Build a component, The rules in detail, Set up a site) keep their code. The owner decided this on 2026-11-24.
 - The logo files are in `site/src/assets/logos/`, as copies of the files the marketing site ships in `public/assets/logos/`. Do not redraw or recolour them; copy them again when the logo changes. The colours and the proportion on the Logo page are read from the files.
 - The clear space (half the logo's height), the smallest sizes (16px) and the do and don't list on the Logo page are the rules for the logo. The owner approved them on 2026-11-23. The sizes are in `site/src/data/logo.ts`.
 - The brand book (the Logo page) also holds the name rules, the co-branding rules and the accessibility rules, in `site/src/data/brand.ts`; they wait for the owner's approval. A section with no content yet is listed in `SOON` there and renders as Coming soon with what it will hold; move it out of `SOON` once its content is written.
@@ -235,11 +236,11 @@ Nothing below is decided. Ask the owner before acting on one.
 
 - `llms.txt` and `llms-full.txt` are generated by `src/llms.ts` from `dist/tokens.json`, the two stylesheets and `package.json`, as the last build step, and are published with the package, importable as `ig-design-system/llms.txt`. Do not edit them; change the generator. CI fails when they differ from what the build writes.
 - This file is not published. It guides work in this repository, and an agent in a site that installs the package must not follow its commands; that agent reads `llms.txt`, which does not link here.
-- `llms.txt` holds the rules for code that uses the tokens. When a rule in this file changes what a site may write, change the text in `src/llms.ts` in the same pull request.
+- `llms.txt` holds the rules for code that uses the tokens, from `src/rules.ts`, and what the check reports, from `checks/rules.ts`. When a rule in this file changes what a site may write, change `src/rules.ts` in the same pull request.
 
 ## The site command
 
-- `checks/cli.ts` is the `ig-design-system` command a site runs on its own source; its rules are in `checks/site.ts`. `tsc -p tsconfig.cli.json` compiles them to `dist/cli/`, because Node does not run a `.ts` file from `node_modules`. The compiled files are committed with the rest of `dist/`.
+- `checks/cli.ts` is the `ig-design-system` command a site runs on its own source; its rules are in `checks/site.ts`, and the list of what it reports and does not report is in `checks/rules.ts`. `tsc -p tsconfig.cli.json` compiles them and the modules they import to `dist/cli/`, because Node does not run a `.ts` file from `node_modules`. The compiled files are committed with the rest of `dist/`.
 - The rules a site is held to: no unknown `--igd-*` token, no raw palette step read or declared, spacing roles for padding, margins and gaps. A `var()` with a fallback is not reported: a component uses it as a hook a page may set.
 - Widths, heights and offsets are not checked. The owner decided they are not part of the design system.
 - `.github/workflows/check-site.yml` is the reusable workflow a site calls. A site pins it to a release tag.
@@ -253,6 +254,12 @@ Nothing below is decided. Ask the owner before acting on one.
 - Add the release's entry to `CHANGELOG.md` in the pull request that makes the change.
 - The package has no dependencies. `igniteui-theming` and the font packages are build inputs, so they are `devDependencies`. A test fails when a dependency is added.
 - The fonts in `dist/fonts/` are copied from the `@fontsource-variable` packages at build time, each with its SIL Open Font License. Do not add a font file by hand.
+
+## Keeping the documentation true
+
+- A fact lives in one module and every page, file and help text reads it from there: tokens in `dist/tokens.json`, the stylesheets, dials and commands in `src/usage.ts`, the rules in `src/rules.ts`, the check rules in `checks/rules.ts`, the example card in `docs/examples/`.
+- A Markdown file cannot import a module, so `src/docs.test.ts` compares `README.md` and `docs/ADOPTING.md` with those modules: the check rules, the files the package ships, the type tables and the inputs of the reusable workflow. When it fails, change the document, or the module if the document was right.
+- Do not write a number or a state that nothing checks: "8 steps", "not on npm yet", "until the first release". Say it without the number, or add it to `src/docs.test.ts`.
 
 ## Working here
 

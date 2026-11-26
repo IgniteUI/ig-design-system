@@ -178,8 +178,8 @@ const sections = {
     </p>
     <CodeBlock code={USAGE.type.code} lang={USAGE.type.lang} label="how to use the type tokens" />
     <p class="lead">
-      The marketing site uses the default sizes. A documentation page uses the smaller <code>docs</code> set: press
-      the button to see it.
+      Most pages use the default sizes. A documentation page uses the smaller <code>docs</code> set: press the
+      button to see it.
     </p>
     <p class="switches"><TypeSetToggle target="type-specimens" /></p>
     <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
@@ -230,7 +230,7 @@ const sections = {
   </Section>
 
   <Section {...sections.gradient}>
-    <p class="intro">Three uses only: clipped headline text, the hero wash and glows, and the footer.</p>
+    <p class="intro">Four uses only: clipped headline text, the wash and glows behind the first section of a page, the dark bands, and the footer.</p>
     <TokenGrid>
       {tokens.gradient.tokens.map((token) => <TokenCard token={token} preview="fill" property="background" written />)}
     </TokenGrid>
