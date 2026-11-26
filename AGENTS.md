@@ -122,18 +122,18 @@ Why: nobody picks a state colour by hand, and a region can carry its own colours
 - The `color-` category word stays on the semantic tier, so `color-border-default` cannot be mistaken for `border-width-default`.
 - To name a new token, follow `NEW_NAME_STEPS` in `src/naming.ts`; the Guide's Naming tokens page (`site/src/pages/guide/naming.astro`) shows the anatomy and the same steps. Add the name to `src/spec.ts` and run `npm test`: the naming test fails on a word outside the lists.
 - A colour name reads `color-{property}-{job}-{emphasis}-{state}`, the property being `foreground`, `background`, `border`, `focus` or `accent`; the README's "How to read a colour name" and `src/naming.ts` hold the words, and a test fails on a name outside them. Why: a person and an agent can tell from the name alone where a colour goes and what it is for; `foreground` covers text and icons because one colour serves both. The owner decided these names on 2026-11-26, before 1.0.0, after comparing eight design systems.
-- Semantic and component names in `tokens.json` and in the DTCG file carry no prefix. The prefix belongs to CSS. An engine name keeps its `ig-`.
+- Names in `tokens.json` and the DTCG file carry no prefix, as the README's Token tiers says.
 
 Why: a name is written into every site that uses it, and a value is written once, here. A token called "blue" is wrong the day the seed changes; `radius-pill` is wrong the day actions stop being pills; `tile-agent-skills` is wrong the day that product is renamed. Each of those forces a rename in every site. A role name stays right, and only the value changes. The owner decided the role names on 2026-11-24.
 
 ### 7. A type style is named for its role, and the large ones are fluid
 
 - `src/spec.ts` lists 15 type styles. Each has a role name (`display-lg`, `title-sm`, `eyebrow`) and the engine slot that holds it.
-- The class is `.igd-type-{role}` and its variables are `--igd-type-{role}-{property}`. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h6-font-size)`.
+- The class and variable names are in the README under Type. A role reads its engine slot: `--igd-type-title-sm-font-size: var(--ig-h6-font-size)`.
 - The engine has 13 type slots by default, and Ignite UI components read those 13. `body-xs` and `body-2xs` have none, so their variables hold the compiled values and no `--ig-` variable exists for them.
 - The heading slots are 52, 43, 23, 26, 18 and 16px from `h1` to `h6` in the default set, and 36, 24, 20, 18, 16, 14px in the `docs` set. In the default set `h4`, the stat number, is larger than `h3`, so an Ignite UI component that reads the slots as a heading scale gets those two out of order. The docs set, which is where Ignite UI components render today, descends.
 - Line height is unitless.
-- Four roles are fluid: `display-lg`, `display-md`, `display-sm` and `lead`. Each grows in a straight line from its minimum in a 360px container to its full size in a 1280px one. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
+- The four fluid roles are listed in the README under Type; each grows in a straight line between its two sizes. `TYPE_MIN` and `TYPE_FLUID_RANGE` in `src/spec.ts` hold the numbers; `src/fluid.ts` builds the `clamp()`.
 - The width is read in `cqi`: the width of the nearest query container, or of the viewport when the text is in none.
 - The type classes are in `theme.css` only.
 - The sizes in `TYPE` are the marketing site's. `TYPE_SETS` holds a second set, `docs`, with a value for every role. `data-igd-type="docs"` on the page or on a region selects it. A set changes size, line height, weight, letter spacing and case; the face of a role does not change.
@@ -173,8 +173,8 @@ Known gap: the engine's elevation presets cannot take a CSS colour such as `hsl(
 - The package does not set `--ig-size`, `--ig-spacing`, `--ig-elevation-factor` or `--ig-radius-factor`. Each token falls back to its design value.
 - Every token that reads a dial (spacing, sizes, radii, the neutral elevations) is declared on `:root, [data-ig-scope]`. A dial takes effect on the root and on a `data-ig-scope` element, nowhere else.
 - The size flags the engine's `sizable()` emits, `--component-size` and `--is-small`, `-medium`, `-large`, are published as `--igd-component-size` and `--igd-is-*`. Why: an Ignite UI component sets those names on its own host, and a document rule on `[data-ig-scope]` beats a `:host` rule. With the engine's names, `data-ig-scope` on an `igc-input` made it 48px tall where it was 40px.
-- Every component built on the design system puts `data-ig-scope` on its root element, in any framework and any repository, whether or not it is an Ignite UI component. A component with shadow DOM puts it on its host element. `docs/examples/card.html` shows a whole component written to the rules in plain HTML and CSS; `llms.txt` quotes it and `npm test` opens it in a browser. Change the example when a rule for components changes.
-- A link in `base.css` is `color-foreground-action`, not `color-background-action`. The fill colour is not safe as text: it was about 3.4:1 on the dark page.
+- Every component built on the design system puts `data-ig-scope` on its root element, in any framework and any repository, whether or not it is an Ignite UI component. `docs/examples/card.html` shows a whole component written to the rules in plain HTML and CSS; `llms.txt` quotes it and `npm test` opens it in a browser. Change the example when a rule for components changes.
+- A link in `base.css` is `color-foreground-link`, not `color-background-action`. The fill colour is not safe as text: it was about 3.4:1 on the dark page.
 
 Why apart: a docs site has its own element styles. Loaded on top of it, the element rules reset heading margins, removed link underlines and changed the body size. That was seen in the `igniteui-astro-components` playground.
 
@@ -208,7 +208,6 @@ Why no dials: they are the engine's, so an Ignite UI component reads them. With 
 - In the dark variant a sticky notice above the top bar says the variant is not final. Remove it once the dark variant is reviewed (see Open).
 - The top bar, the Guide's menu and the section list mark the open page or the section being read the same way: `color-background-tint` behind it and `color-foreground-action` on it. The owner chose one active state on 2026-11-26. The filter of a Tokens page sits above its section list.
 - A type set button switches one element, the type list beside it, never the page.
-- Astro removes the whitespace between two inline elements. Write `{" "}` where a space must stay.
 
 Why Astro: the pages were strings built by TypeScript generators, and their HTML was committed. Every change rewrote the generated files, and a Markdown document needed patching to become a page. The owner decided on 2026-11-23 to move the site to Astro, the tool the other documentation sites use.
 

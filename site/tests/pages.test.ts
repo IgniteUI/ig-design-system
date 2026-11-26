@@ -446,13 +446,9 @@ describe("the documents", () => {
   );
 
   it.each(documents)(
-    "/%s ends with links to the other documents and to the Tokens page",
+    "/%s does not repeat the links of the Guide's menu at its end",
     (slug) => {
-      const next = page(slug).match(/<aside.*?<\/aside>/s)?.[0] ?? "";
-      for (const [other] of documents)
-        if (other !== slug) expect(next).toContain(`href="/${other}"`);
-      expect(next).not.toContain(`href="/${slug}"`);
-      expect(next).toContain('href="/tokens/"');
+      expect(page(slug)).not.toContain("Read next");
     },
   );
 

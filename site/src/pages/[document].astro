@@ -2,10 +2,8 @@
 // One page per Markdown document of the package. The file is rendered as it is; its second-level headings are the sections.
 import { getCollection, render } from "astro:content";
 import TokenFilter from "@/components/tokens/TokenFilter.astro";
-import LinkCards from "@/components/ui/LinkCards.astro";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
-import { href } from "@/lib/paths.ts";
 
 export async function getStaticPaths() {
   const documents = await getCollection("documents");
@@ -33,11 +31,6 @@ if (document && document.title !== title)
 const sections = headings
   .filter((h) => h.depth === 2 || h.depth === 3)
   .map((h) => ({ id: h.slug, title: h.text, sub: h.depth === 3 }));
-const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
-  href: href(`${d.slug}/`),
-  title: d.title,
-  text: d.summary,
-}));
 ---
 
 <SectionsLayout title={title} sections={sections} menu="guide">
@@ -62,15 +55,6 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
   }
   <article class="prose" data-filter-scope={document?.filter ? "" : undefined}><Content /></article>
   <p class="empty" hidden data-filter-empty>No name matches. Try a shorter word, such as <code>radius</code>.</p>
-  <aside aria-labelledby="read-next">
-    <h2 id="read-next">Read next</h2>
-    <LinkCards
-      items={[
-        ...others,
-        { href: href("tokens/"), title: "Tokens", text: "Every token a site may use, with what it is for and its value." },
-      ]}
-    />
-  </aside>
 </SectionsLayout>
 
 <script>
@@ -95,8 +79,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
     line-height: var(--igd-type-lead-line-height);
   }
 
-  .prose :global(h2),
-  aside h2 {
+  .prose :global(h2) {
     margin-block: var(--igd-space-stack-4xl) var(--igd-space-stack-md);
     font-size: var(--igd-type-display-sm-font-size);
     line-height: var(--igd-type-display-sm-line-height);

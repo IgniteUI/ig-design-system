@@ -90,8 +90,7 @@ const sections = SECTIONS[family];
     {family === "shadow" && (
       <p class="intro">
         Built from the engine's <a href={href("engine/#elevation")}>elevations</a>. The accent shadows and the tinted
-        elevations take the action colour. In the dark variant of the theme surfaces separate by tone, so a shadow
-        adds little there.
+        elevations take the action colour.
       </p>
     )}
     {family === "gradient" && (
@@ -112,9 +111,6 @@ const sections = SECTIONS[family];
         which a layout changes.
       </p>
     )}
-    <p class="lead">
-      Click a name to copy it. Press <kbd>/</kbd> to filter by name, value or use, and <kbd>Esc</kbd> to clear.
-    </p>
   </div>
 
 
@@ -163,10 +159,6 @@ const sections = SECTIONS[family];
   {
     family === "type" && (
       <Section id="tokens" title="The roles" count={styles.length} unit="roles">
-        <p class="lead">
-          Most pages use the default sizes. A documentation page uses the smaller <code>docs</code> set: press the
-          button to see it.
-        </p>
         <p class="switches"><TypeSetToggle target="type-specimens" /></p>
         <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} />)}</ul>
       </Section>
