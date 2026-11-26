@@ -1,9 +1,6 @@
 ---
-// Four messages as a site shows them: an icon and a title in the message colour, a short text, on the message's own tint,
-// each with the names of the two tokens it uses.
+// Four messages as a site shows them: an icon and a title in the message colour, a short text, on the message's own tint.
 import ExampleTag from "@/components/guide/ExampleTag.astro";
-import CopyName from "@/components/ui/CopyName.astro";
-import { cssVar, prefixOf } from "@/lib/design-system.ts";
 
 const MESSAGES = [
   {
@@ -46,19 +43,6 @@ const MESSAGES = [
               <p>{m.text}</p>
             </div>
           </div>
-          <dl class="names">
-            {[
-              ["Icon and title", `color-feedback-${m.kind}-default`],
-              ["Background", `color-feedback-${m.kind}-surface`],
-            ].map(([role, token]) => (
-              <div>
-                <dt>{role}</dt>
-                <dd>
-                  <CopyName name={cssVar(token)} prefix={prefixOf(cssVar(token))} copy={`var(${cssVar(token)})`} />
-                </dd>
-              </div>
-            ))}
-          </dl>
         </li>
       ))
     }
@@ -139,18 +123,4 @@ const MESSAGES = [
     font-weight: var(--igd-font-weight-semibold);
   }
 
-  .names {
-    display: grid;
-    gap: var(--igd-space-gap-3xs);
-    margin: 0;
-    font-size: var(--igd-type-body-xs-font-size);
-  }
-
-  .names dt {
-    color: var(--igd-color-text-muted);
-  }
-
-  .names dd {
-    margin: 0;
-  }
 </style>

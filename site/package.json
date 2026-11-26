@@ -13,7 +13,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "test": "vitest run",
-    "check:tokens": "node ../checks/check-vars.ts ../dist/tokens.css ../dist/theme.css dist && node ../dist/cli/checks/cli.js check src --ignore src/data/rules.ts",
+    "check:tokens": "node ../checks/check-vars.ts ../dist/tokens.css ../dist/theme.css dist && node ../dist/cli/checks/cli.js check src",
     "verify": "npm run build && npm run check:tokens && npm test"
   },
   "devDependencies": {

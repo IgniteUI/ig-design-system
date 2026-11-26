@@ -4,18 +4,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { CHECKS, SOURCES } from "./rules.js";
 import { checkText, declaredNames } from "./site.js";
 import { walk } from "./walk.js";
-const SOURCES = /\.(css|scss|sass|astro|jsx|tsx|ts|js|mjs|html|vue|svelte|mdx)$/;
 const SKIPPED = new Set(["node_modules", "dist", ".astro", ".git", "build"]);
 const HELP = `ig-design-system check <dir or file> [...] [--ignore <text>] [--strict]
 
 Rules:
-  unknown-token     a var(--igd-*) that neither the design system nor the site declares
-  raw-palette       site code reads a palette step, such as var(--ig-gray-700)
-  palette-override  site code declares a palette step, such as --ig-primary-500
-  spacing-role      padding, a margin or a gap uses a raw step, not a spacing role
-  colour-literal    a hex colour typed in by hand (only with --strict)
+${CHECKS.map((c) => `  ${c.id.padEnd(18)}${c.reports}${c.strict ? " (only with --strict)" : ""}`).join("\n")}
 
 Options:
   --ignore <text>   skip every path that contains <text>; repeat it for more

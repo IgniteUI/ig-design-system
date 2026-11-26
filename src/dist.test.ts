@@ -152,8 +152,9 @@ describe("the token inventory", () => {
   });
 });
 
-describe("docs/examples/card.html", () => {
+describe("docs/examples/card.html and card.css", () => {
   const card = fs.readFileSync("docs/examples/card.html", "utf8");
+  const cardCss = fs.readFileSync("docs/examples/card.css", "utf8");
 
   it("marks the root element of each card with data-ig-scope", () => {
     const roots = card.match(/<article [^>]*>/g) ?? [];
@@ -168,12 +169,19 @@ describe("docs/examples/card.html", () => {
       expect(theme, c).toMatch(new RegExp(`\\.${c}\\s*[{,]`));
   });
 
+  it("loads card.css", () => {
+    expect(card).toContain('<link rel="stylesheet" href="card.css">');
+  });
+
   it("reads only custom properties the stylesheets declare", () => {
     expect(undefinedVars(card, defined)).toEqual([]);
+    expect(undefinedVars(cardCss, defined)).toEqual([]);
   });
 
   it("is quoted whole in llms.txt", () => {
-    expect(fs.readFileSync("llms.txt", "utf8")).toContain(card.trim());
+    const llms = fs.readFileSync("llms.txt", "utf8");
+    expect(llms).toContain(card.trim());
+    expect(llms).toContain(cardCss.trim());
   });
 });
 

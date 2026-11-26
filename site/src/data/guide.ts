@@ -1,4 +1,5 @@
 // What the guide shows: the tokens it features with a plain use each, and the dials of the live card.
+import { DIALS as PACKAGE_DIALS } from "@/lib/design-system.ts";
 
 /** A featured colour: the token, the short label of its button and the plain use the guide prints. */
 type ColourPick = {
@@ -190,25 +191,6 @@ export const TYPE_USES: Record<string, string> = {
   "type-body-2xs": "The smallest label, such as the line under a badge.",
 };
 
-/** The element each type role is meant for. A role of tokens.json that is missing here stops the build. */
-export const TYPE_ELEMENTS: Record<string, string> = {
-  "type-display-lg": "h1",
-  "type-display-md": "h2",
-  "type-display-sm": "h3",
-  "type-stat": "p",
-  "type-title-md": "h3",
-  "type-title-sm": "h3",
-  "type-lead": "p",
-  "type-label-lg": "button",
-  "type-body-lg": "p",
-  "type-body-md": "li",
-  "type-label-md": "button",
-  "type-body-sm": "p",
-  "type-eyebrow": "p",
-  "type-body-xs": "small",
-  "type-body-2xs": "span",
-};
-
 /** The radius and shadow roles the guide shows, each with the label of its button and its plain use. */
 export const SHAPE_PICKS: Record<
   "radius" | "shadow",
@@ -324,3 +306,10 @@ export const DIALS: {
     ],
   },
 ];
+
+// Stops the build when the live card's dials differ from the dials of the package.
+const dialNames = DIALS.map((d) => d.property);
+if (dialNames.join() !== PACKAGE_DIALS.join())
+  throw new Error(
+    `The guide's dials (${dialNames.join(", ")}) differ from DIALS in src/usage.ts (${PACKAGE_DIALS.join(", ")}). Add or remove one in site/src/data/guide.ts.`,
+  );

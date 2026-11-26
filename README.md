@@ -17,7 +17,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 | `dist/base.css` | Optional. Element styles built on the tokens: page, headings, links, code, keyboard focus. Load it third on a site that has no element styles of its own; a docs site leaves it out. |
 | `dist/fonts.css` | Optional. The `@font-face` rules for the three faces in `dist/fonts/`. Load it on a site that does not already load Plus Jakarta Sans, DM Sans and JetBrains Mono; a site that gets them from Google Fonts leaves it out. |
 | `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use, plus the custom properties only the stylesheets declare. Generated on every build. Importable as `ig-design-system/llms.txt` and `ig-design-system/llms-full.txt`. |
-| `CHANGELOG.md`, `docs/ADOPTING.md`, `docs/MIGRATION.md` | Shipped beside `dist/`, because `llms.txt` links to them. `AGENTS.md`, the guide to working in this repository, is not shipped: an agent in a site reads `llms.txt`. |
+| `CHANGELOG.md`, `docs/ADOPTING.md`, `docs/MIGRATION.md`, `docs/examples/` | Shipped beside `dist/`, because `llms.txt` links to them. `docs/examples/` holds a card written to the rules: `card.html` and its stylesheet `card.css`. `AGENTS.md`, the guide to working in this repository, is not shipped: an agent in a site reads `llms.txt`. |
 | `dist/cli/` | The compiled `ig-design-system` command. |
 | `dist/tokens.json` | The token source: names, values and what each token is for. |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
@@ -42,22 +42,25 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 ## Documentation site
 
-`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark variant. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
+`site/` is the documentation site, built with [Astro](https://astro.build). It uses the package as a site would: `fonts.css`, `tokens.css`, `theme.css`, `base.css`, and no colour or spacing of its own. It is light by default; the icon button in the top bar switches to the dark variant. `.github/workflows/pages.yml` builds it and publishes it to GitHub Pages.
 
 | Page | What it is |
 |---|---|
-| Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the light and dark variants and the four dials on a live card, the steps to build a component, six do and don't pairs, and how to set up a site. |
-| Tokens (`/tokens/`) | Every token in `tokens.json` with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
-| Logo (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes and a do and don't list. |
+| Guide (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, the light and dark variants and the four dials on a live card, the steps to build a component with the example card, the rules as do and don't pairs with what the check command reports, and how to set up a site. |
+| Tokens (`/tokens/`) | Every token a site may write, with the value it has on the page. A filter matches a token's name and its note; a click on a name copies `var(--igd-…)`. A button turns on the `docs` type set. |
+| Engine (`/engine/`) | What the tokens are built from: the palette, the raw spacing steps and the engine's elevations, each with the tokens that read it. A site does not write these. |
+| Brand book (`/logo/`) | The three logo files, their colours and proportion read from the files, the surfaces a logo sits on with the measured contrast, clear space, smallest sizes, a do and don't list, the name, co-branding and accessibility rules, and the sections still to write. |
 | `/adopting/`, `/migration/`, `/changelog/` | `docs/ADOPTING.md`, `docs/MIGRATION.md` and `CHANGELOG.md`, rendered from the files. `site/integrations/document-markdown.mjs`, a plugin of Astro's Markdown processor, links the documents to each other as pages, adds a copy button to a code sample, and makes a new name in a table a copy button. |
 
-Nothing the site shows is typed twice. The pages read `dist/tokens.json`, the Markdown files and `package.json` at build time, and nothing the build writes is committed. Change a token, a document or a rule in one place and the next build shows it.
+Nothing the site shows is typed twice. The pages read `dist/tokens.json`, the Markdown files, `package.json`, the rules in `src/rules.ts`, the check rules in `checks/rules.ts` and the example card in `docs/examples/` at build time, and nothing the build writes is committed. Change a token, a document or a rule in one place and the next build shows it.
 
 ```sh
 npm run site:install   # once: install the site's own dependencies
 npm run site:dev       # the site at http://localhost:4321, rebuilt as files change
 npm run site:verify    # type-check, build, check the tokens the site uses, test the built pages
 ```
+
+The site needs the Node version in `site/package.json` under `engines`.
 
 `site/README.md` describes the folders and how to add a page.
 
@@ -73,7 +76,7 @@ Every token the design system defines is published as `--igd-*`, so it cannot co
 
 Semantic and component names in `tokens.json` and in the DTCG file carry no prefix: the prefix belongs to CSS. An engine name keeps its `ig-`, as in `ig-primary-500`.
 
-**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark variant and for the areas that stay dark in both variants. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads 11 steps of the four accent palettes and 8 steps of the dark ramps outside the dark variant, so publishing 64 variables was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
+**Accent and dark palettes.** Five more palettes are built with the engine: pink, cyan, sky and teal for accent colours, and a dark palette for the dark variant and for the areas that stay dark in both variants. Their ramps are not published. A token that uses a step carries the colour itself (`--igd-tile-3: #e23b8f`), and its description names the step. The theme reads a few steps of each, so publishing the full ramps was not worth their size. They are still built, not typed in, because each colour in use is a step the engine solved for contrast, not a seed.
 
 The classes and keyframes the package defines follow the same rule: `.igd-type-display-lg` … `.igd-type-body-2xs` for the 15 type styles, `.igd-hide-below-md`, and the `igd-float` and `igd-app-shimmer` keyframes.
 
@@ -150,7 +153,7 @@ A token is calculated where it is declared: on the root and on each `data-ig-sco
 
 **Derived colours.** Hover, active, focus, tint and shadow colours are computed from their base token, so nobody picks them by hand. Override a base token, on the page or on a `data-ig-scope` region, and its states follow. Text in the action colour or a status colour is not derived: it reads one engine step in the light variant and a lighter step of the same family in the dark variant. Fills keep the exact colour with a black or white label.
 
-**Dark theme.** Built from the engine's dark palette. `[data-theme="dark"]` gives the engine's gray shades and surface roles their dark-palette values; every semantic name keeps its meaning.
+**Dark variant.** Built from the engine's dark palette. `[data-theme="dark"]` gives the engine's gray shades and surface roles their dark-palette values; every semantic name keeps its meaning.
 
 **Dark areas.** An area that is dark in both variants uses the inverse surfaces: `color-surface-inverse-raised` (lightest), `color-surface-inverse` and `color-surface-inverse-sunken` (darkest), with `color-text-inverse` on top.
 
@@ -178,15 +181,24 @@ npx ig-design-system check src
 npx ig-design-system check src --ignore src/vendor --strict
 ```
 
-| Rule | What it stops |
+| Rule | What it reports |
 |---|---|
-| `unknown-token` | A `var(--igd-*)` that neither the design system nor the site declares. A `var()` with a fallback is a hook a page may set, and is skipped. |
-| `raw-palette` | Site code that reads a palette step, such as `var(--ig-gray-700)`. A site reads semantic tokens. |
-| `palette-override` | Site code that declares a palette step, such as `--ig-primary-500`, which replaces the colour under every token built on it. |
-| `spacing-role` | Padding, a margin or a gap that uses a raw step, not `space-inset-*`, `space-stack-*` or `space-gap-*`. |
-| `colour-literal` | A hex colour typed in as a value. Only with `--strict`. |
+| `unknown-token` | a var(--igd-*) that neither the design system nor the site declares |
+| `raw-palette` | a palette step that site code reads, such as var(--ig-gray-700) |
+| `palette-override` | a palette step that site code declares, such as --ig-primary-500 |
+| `spacing-role` | a raw spacing step on padding, a margin or a gap, where a spacing role belongs |
+| `colour-literal` | a hex colour typed in by hand (only with `--strict`) |
 
-Widths, heights and offsets are not checked: they are not part of the design system. The command exits non-zero when it finds something.
+The command exits non-zero when it finds something. It does not report:
+
+- a `var()` with a fallback, which it reads as a hook a page may set; a typo in its name goes unreported
+- a spacing role in the wrong property, such as a gap role on padding
+- a design-system token set on an element
+- a raw spacing step inside an HTML `style` attribute
+- widths, heights and offsets, which are typed by hand
+- Markdown files
+
+`checks/rules.ts` holds both lists. The command's `--help`, `llms.txt` and the guide print them from there, and a test fails when this table and list differ from it.
 
 In CI, a site calls the reusable workflow:
 
@@ -198,6 +210,7 @@ jobs:
       paths: src
 ```
 
+The workflow takes `paths`, `ignore`, `strict`, `working-directory` and `node-version`, and installs the site's dependencies with `npm ci`, so the site needs a `package-lock.json`.
 
 ## Repository layout
 
@@ -210,7 +223,7 @@ dist/        the generated package (committed, so a site can use it without buil
 reports/     the contrast pairings and derived-colour data the gates read, and the contrast report of the last check run
 reference/   React reference components and their stylesheet. They prove the tokens and feed the checks; they are not part of the package
 docs/        ADOPTING.md: moving a site onto the package; MIGRATION.md: old token names to new ones;
-             examples/card.html: one component written to the rules in plain HTML and CSS, quoted in llms.txt and checked by npm test
+             examples/card.html and card.css: one component written to the rules in plain HTML and CSS, quoted in llms.txt, printed by the guide and checked by npm test
 AGENTS.md    the decisions behind the code and the reason for each
 ```
 
@@ -243,7 +256,7 @@ The generator takes its numbers from the engine: `palette()` for the colours, `c
 
 ## Releases
 
-No release exists yet. A version will be a GitHub Release with the tag `X.Y.Z`: `.github/workflows/release.yml` then runs every CI job on the tag and publishes to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes. A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` take a major version.
+A version is a GitHub Release with the tag `X.Y.Z`: `.github/workflows/release.yml` runs every CI job on the tag and publishes to npm; nobody publishes by hand. `CHANGELOG.md` lists what each version changes. A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` take a major version.
 
 ## Licence
 

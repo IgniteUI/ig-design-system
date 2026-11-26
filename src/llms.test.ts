@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
+import { CHECKS, NOT_CHECKED } from "../checks/rules.ts";
 import { llmsFullTxt, llmsTxt, type Tokens } from "./llms.ts";
+import { RULES } from "./rules.ts";
+import { DIALS } from "./usage.ts";
 
 const pkg = {
   name: "ig-design-system",
@@ -52,6 +55,7 @@ const tokens: Tokens = {
 };
 
 const text_ = () => llmsTxt(tokens, pkg);
+const pkg_ = JSON.parse(fs.readFileSync("package.json", "utf8"));
 
 describe("llmsTxt", () => {
   const text = llmsTxt(tokens, pkg);
@@ -70,18 +74,47 @@ describe("llmsTxt", () => {
     );
   });
 
-  it("links only to files that exist in the repository", () => {
+  it("links only to files the package ships", () => {
+    const shipped = (file: string) =>
+      file === "README.md" ||
+      (pkg_.files as string[]).some(
+        (f) => file === f || file.startsWith(`${f}/`),
+      );
     for (const [, file] of text.matchAll(/\]\(([^)]+)\)/g))
-      if (file !== "llms-full.txt")
-        expect(fs.existsSync(file), file).toBe(true);
+      expect(shipped(file), file).toBe(true);
+  });
+
+  it("prints each rule of src/rules.ts with its examples", () => {
+    for (const r of RULES) {
+      expect(text).toContain(`**${r.title}**`);
+      expect(text).toContain(`Write \`${r.good}\`, not \`${r.bad}\`.`);
+    }
+  });
+
+  it("prints what the check command reports and what it does not", () => {
+    for (const c of CHECKS)
+      expect(text).toContain(`- \`${c.id}\`: ${c.reports}`);
+    for (const n of NOT_CHECKED) expect(text).toContain(`- ${n.text}\n`);
+  });
+
+  it("names every dial", () => {
+    for (const d of DIALS) expect(text).toContain(`\`${d}\``);
+  });
+
+  it("counts the type roles of tokens.json", () => {
+    expect(text).toContain("- Type: 1 roles");
   });
 });
 
 describe("the example component", () => {
   it("is quoted in llms.txt when one is given", () => {
-    const withExample = llmsTxt(tokens, pkg, "<article data-ig-scope />\n");
+    const withExample = llmsTxt(tokens, pkg, {
+      html: "<article data-ig-scope />\n",
+      css: ".card { display: grid; }\n",
+    });
     expect(withExample).toContain("## Writing a component");
     expect(withExample).toContain("```html\n<article data-ig-scope />\n```");
+    expect(withExample).toContain("```css\n.card { display: grid; }\n```");
     expect(text_()).not.toContain("## Writing a component");
   });
 });

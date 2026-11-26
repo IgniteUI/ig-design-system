@@ -1,5 +1,5 @@
 ---
-// The card the guide uses as its example component. The page that uses it adds CARD_RULE, the rule of its root, which the guide also prints.
+// The card the guide uses as its example component. The page that uses it adds docs/examples/card.css, which the guide also prints.
 import ButtonPicture from "@/components/guide/ButtonPicture.astro";
 
 interface Props {
@@ -22,7 +22,6 @@ const { title } = Astro.props;
 <style>
   .card {
     inline-size: 100%;
-    max-inline-size: 24rem;
   }
 
   .badge {
