@@ -139,7 +139,7 @@ describe("the Tokens page", () => {
         /<li[^>]*data-token="color-foreground-faint".*?<\/li>/s,
       )?.[0] ?? "";
     expect(card).toMatch(
-      /From <a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
+      /Engine step<\/span>\s*<a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
     );
   });
 
@@ -546,6 +546,27 @@ describe("the landing page", () => {
       expect(page(route)).toMatch(/<a[^>]*class="brand" href="\/"/);
     },
   );
+});
+
+describe("the source of a colour on the Tokens pages", () => {
+  it("labels every colour row with where it comes from", () => {
+    const html = page("tokens/colour/");
+    const rows =
+      html.match(/<li[^>]*data-token="[^"]+"[^>]*>.*?<\/li>/gs) ?? [];
+    expect(rows.length).toBeGreaterThan(90);
+    const unlabelled = rows.filter((r) => !/class="origin [a-z]+"/.test(r));
+    expect(unlabelled).toEqual([]);
+  });
+
+  it("names an unpublished palette step as not published, and a see-through colour by its base and opacity", () => {
+    const html = page("tokens/colour/");
+    expect(html).toMatch(
+      /Engine palette<\/span>[^<]*<span[^>]*>\s*dark surface 500/,
+    );
+    expect(html).toMatch(
+      /Derived<\/span>.*?color-foreground-error<\/code><\/a>\s*at 8%/s,
+    );
+  });
 });
 
 describe("the pages of the Guide", () => {

@@ -7,6 +7,7 @@ import { cssVar } from "./namespace.ts";
 import { EMPHASIS, NOT_USED, PROPERTIES, STATES } from "./naming.ts";
 import { fromRoot } from "./paths.ts";
 import { RULES } from "./rules.ts";
+import { sourceText } from "./source.ts";
 import {
   type Tokens as FullTokens,
   TOKEN_FAMILIES,
@@ -187,7 +188,10 @@ export const llmsFullTxt = (
     .map(({ title, family }) => {
       const own = family.tokens.filter((t) => !isEngine(t));
       const lines = own
-        .map((t) => `- \`${cssVar(t.name)}\`: \`${t.value}\`. ${t.usage}`)
+        .map(
+          (t) =>
+            `- \`${cssVar(t.name)}\`: \`${t.value}\`. ${t.usage}${t.source ? ` From ${sourceText(t.source)}.` : ""}${t.follows ? ` Follows \`${t.follows}\` in the browser.` : ""}`,
+        )
         .join("\n");
       return `## ${title}\n\n${family.note ? `${family.note}\n\n` : ""}${lines}`;
     })

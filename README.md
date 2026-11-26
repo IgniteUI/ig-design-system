@@ -19,7 +19,7 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 | `llms.txt`, `llms-full.txt` | For AI agents: the rules for code that uses the tokens, and every token with its value and use, plus the custom properties only the stylesheets declare. Generated on every build. Importable as `ig-design-system/llms.txt` and `ig-design-system/llms-full.txt`. |
 | `CHANGELOG.md`, `docs/ADOPTING.md`, `docs/MIGRATION.md`, `docs/examples/` | Shipped beside `dist/`, because `llms.txt` links to them. `docs/examples/` holds a card written to the rules: `card.html` and its stylesheet `card.css`. `AGENTS.md`, the guide to working in this repository, is not shipped: an agent in a site reads `llms.txt`. |
 | `dist/cli/` | The compiled `ig-design-system` command. |
-| `dist/tokens.json` | The token source: names, values and what each token is for. |
+| `dist/tokens.json` | The token source: names, values, what each token is for, and where each colour comes from (`source`: an engine step, a palette step the package does not publish, another token, another token at an opacity, or the engine's adaptive contrast). |
 | `dist/infragistics.tokens.json` | The same tokens in the Design Tokens Community Group format (2025.10), for design tools and native platforms. |
 | `dist/fonts/` | Plus Jakarta Sans, DM Sans and JetBrains Mono (variable, Latin), each with its SIL Open Font License. |
 

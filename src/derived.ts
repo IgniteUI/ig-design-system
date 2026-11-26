@@ -5,7 +5,7 @@ import type { Declaration } from "./stylesheets.ts";
 import { SCOPED } from "./theme.ts";
 
 /** A state token and the base token it is derived from. */
-const DERIVED: [token: string, base: string][] = [
+export const DERIVED: [token: string, base: string][] = [
   ["color-background-action-hover", "color-background-action"],
   ["color-foreground-link-hover", "color-foreground-action"],
   ["color-background-tint", "color-background-action"],

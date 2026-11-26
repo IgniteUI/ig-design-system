@@ -20,15 +20,15 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "color-accent-inverse-1": [
     "ig-sky-200",
-    "The first accent for a dark area: stat numbers. Never on a light surface. Never on white.",
+    "The first accent for a dark area: stat numbers. Never on a light surface.",
   ],
   "color-accent-inverse-2": [
     "ig-teal-200",
-    "The second accent for a dark area, beside `color-accent-inverse-1`: a second set of stat numbers. Never on a light surface. Never on white.",
+    "The second accent for a dark area, beside `color-accent-inverse-1`: a second set of stat numbers. Never on a light surface.",
   ],
   "color-background-action": [
     "ig-primary-seed",
-    "The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. The fill of every action: the primary CTA, with `color-foreground-on-action` as its label. Text in the action colour is `color-foreground-action`.",
+    "The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. Its label is `color-foreground-on-action`. Text in the action colour is `color-foreground-action`.",
   ],
   "color-foreground-link-hover": [
     "ig-primary-700",
@@ -48,7 +48,7 @@ export const ALIAS: Record<string, AliasEntry> = {
   ],
   "color-foreground-on-action": [
     "ig-surface-base",
-    "The label and icon on a `color-background-action` fill: black or white, whichever reads on it (the engine\u2019s adaptive contrast).",
+    "The label and icon on a `color-background-action` fill: black or white, whichever reads on it.",
   ],
   "color-foreground-link-inverse": [
     "ig-sky-200",

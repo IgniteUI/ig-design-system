@@ -1,17 +1,24 @@
 // Builds the content of dist/tokens.json: every token with its default value and its usage note.
 import { hexToRgb } from "./color.ts";
+import { DERIVED } from "./derived.ts";
 import {
   isUnpublishedStep,
   LIGHT_PALETTE,
   SEED_FAMILIES,
   SHADE_FAMILIES,
   SURFACE_ROLES,
-  unpublishedStepNote,
 } from "./engine-colors.ts";
 import type { ShadowEntry } from "./shadows.ts";
 import { staticShadow, TINTED_LEVELS } from "./shadows.ts";
 import * as spec from "./spec.ts";
-import type { Font, Token, Tokens, TypeGroup, TypeSetStyle } from "./types.ts";
+import type {
+  Font,
+  Source,
+  Token,
+  Tokens,
+  TypeGroup,
+  TypeSetStyle,
+} from "./types.ts";
 import { rem } from "./units.ts";
 
 type ColorOf = (name: string) => string;
@@ -63,6 +70,23 @@ export const paletteTokens = (): Token[] => {
   return [...shades, ...seeds, ...surfaces];
 };
 
+// The base a state colour follows in the browser.
+const FOLLOWS = new Map(DERIVED);
+
+/** Where an ALIAS colour comes from, from the step or token it names. */
+export const sourceOf = (name: string, step: string): Source => {
+  if (name === "color-foreground-on-action")
+    return { kind: "contrast", on: "color-background-action" };
+  const accent = step.match(/^ig-(pink|cyan|sky|teal)-(\w+)$/);
+  if (accent) return { kind: "palette", palette: accent[1], step: accent[2] };
+  const dark = step.match(/^ig-dark-(gray|surface)-(\w+)$/);
+  if (dark)
+    return { kind: "palette", palette: `dark ${dark[1]}`, step: dark[2] };
+  return step.startsWith("ig-")
+    ? { kind: "step", step }
+    : { kind: "token", token: step };
+};
+
 /** The semantic and component colours in ALIAS. A token on an unpublished step, or one the build computes, carries the colour itself. */
 export const aliasTokens = (
   colorOf: ColorOf,
@@ -76,8 +100,9 @@ export const aliasTokens = (
       (isUnpublishedStep(step) ? colorOf(step) : `{${step}}`),
     usage:
       usage +
-      unpublishedStepNote(step) +
       (ratioNotes[name] ? ` Contrast ${ratioNotes[name].join(", ")}.` : ""),
+    source: sourceOf(name, step),
+    ...(FOLLOWS.has(name) ? { follows: FOLLOWS.get(name) } : {}),
   }));
 
 const rgba = (colorOf: ColorOf, base: string, opacity: spec.OpacityName) => {
@@ -90,7 +115,12 @@ export const alphaTokens = (colorOf: ColorOf): Token[] =>
   Object.entries(spec.ALPHA).map(([name, [base, opacity, usage]]) => ({
     name,
     value: rgba(colorOf, base, opacity),
-    usage: `${usage} Live: \`${base}\` at \`${opacity}\`.`,
+    usage,
+    source: {
+      kind: "opacity",
+      token: base,
+      percent: Math.round(spec.OPACITY[opacity][0] * 100),
+    },
   }));
 
 /** live is the value in theme.css, built on tokens; snapshot is the value in tokens.json. */

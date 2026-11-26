@@ -54,3 +54,17 @@ describe("the naming rules in the documents", () => {
     }
   });
 });
+
+describe("where a colour comes from", () => {
+  const all = JSON.parse(fs.readFileSync("dist/tokens.json", "utf8")).color
+    .tokens as { name: string; source?: { kind: string } }[];
+
+  it.each(all.filter((t) => !t.name.startsWith("ig-")).map((t) => [t.name, t]))(
+    "%s names its source",
+    (_, t) => {
+      expect(["step", "palette", "token", "opacity", "contrast"]).toContain(
+        t.source?.kind,
+      );
+    },
+  );
+});

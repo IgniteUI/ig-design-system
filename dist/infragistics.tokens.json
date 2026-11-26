@@ -1240,7 +1240,7 @@
         ],
         "hex": "#51bbee"
       },
-      "$description": "The first accent for a dark area: stat numbers. Never on a light surface. Never on white. Engine step 200 of the sky palette. Contrast 8.24:1 on `color-background-inverse`."
+      "$description": "The first accent for a dark area: stat numbers. Never on a light surface. Contrast 8.24:1 on `color-background-inverse`."
     },
     "color-accent-inverse-2": {
       "$value": {
@@ -1252,11 +1252,11 @@
         ],
         "hex": "#3cc3b1"
       },
-      "$description": "The second accent for a dark area, beside `color-accent-inverse-1`: a second set of stat numbers. Never on a light surface. Never on white. Engine step 200 of the teal palette. Contrast 8.19:1 on `color-background-inverse`."
+      "$description": "The second accent for a dark area, beside `color-accent-inverse-1`: a second set of stat numbers. Never on a light surface. Contrast 8.19:1 on `color-background-inverse`."
     },
     "color-background-action": {
       "$value": "{color.ig-primary-seed}",
-      "$description": "The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. The fill of every action: the primary CTA, with `color-foreground-on-action` as its label. Text in the action colour is `color-foreground-action`. Contrast 5.25:1 on `color-background-page`."
+      "$description": "The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. Its label is `color-foreground-on-action`. Text in the action colour is `color-foreground-action`. Contrast 5.25:1 on `color-background-page`."
     },
     "color-foreground-link-hover": {
       "$value": "{color.ig-primary-700}",
@@ -1284,7 +1284,7 @@
         ],
         "hex": "#ffffff"
       },
-      "$description": "The label and icon on a `color-background-action` fill: black or white, whichever reads on it (the engine’s adaptive contrast). Contrast 5.25:1 on `color-background-action`, 7.03:1 on `color-background-action-hover`."
+      "$description": "The label and icon on a `color-background-action` fill: black or white, whichever reads on it. Contrast 5.25:1 on `color-background-action`, 7.03:1 on `color-background-action-hover`."
     },
     "color-foreground-link-inverse": {
       "$value": {
@@ -1296,7 +1296,7 @@
         ],
         "hex": "#51bbee"
       },
-      "$description": "Inline links on dark surfaces (`color-background-inverse`). Engine step 200 of the sky palette. Contrast 8.24:1 on `color-background-inverse`."
+      "$description": "Inline links on dark surfaces (`color-background-inverse`). Contrast 8.24:1 on `color-background-inverse`."
     },
     "color-foreground-link-inverse-hover": {
       "$value": {
@@ -1308,7 +1308,7 @@
         ],
         "hex": "#95d5f7"
       },
-      "$description": "Hover of `color-foreground-link-inverse`: colour shift only. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-background-inverse`."
+      "$description": "Hover of `color-foreground-link-inverse`: colour shift only. Contrast 11.17:1 on `color-background-inverse`."
     },
     "footer-link-foreground": {
       "$value": {
@@ -1320,7 +1320,7 @@
         ],
         "hex": "#d7dade"
       },
-      "$description": "Footer column links on the footer gradient. Engine step 600 of the dark palette's gray ramp. Contrast 11.07:1 on `color-background-inverse-raised`."
+      "$description": "Footer column links on the footer gradient. Contrast 11.07:1 on `color-background-inverse-raised`."
     },
     "color-focus-ring": {
       "$value": "{color.color-foreground-action}",
@@ -1336,7 +1336,7 @@
         ],
         "hex": "#95d5f7"
       },
-      "$description": "The keyboard focus ring in an area that stays dark, such as the footer. `base.css` uses it inside an element with `data-on-dark`. Engine step 100 of the sky palette. Contrast 11.17:1 on `color-background-inverse`, 11.17:1 on `color-background-inverse`."
+      "$description": "The keyboard focus ring in an area that stays dark, such as the footer. `base.css` uses it inside an element with `data-on-dark`. Contrast 11.17:1 on `color-background-inverse`, 11.17:1 on `color-background-inverse`."
     },
     "color-foreground-heading": {
       "$value": "{color.ig-gray-900}",
@@ -1368,7 +1368,7 @@
         ],
         "hex": "#fbfbfb"
       },
-      "$description": "Text and icons on a dark area. Engine step 900 of the dark palette's gray ramp. Contrast 17.25:1 on `color-background-inverse`."
+      "$description": "Text and icons on a dark area. Contrast 17.25:1 on `color-background-inverse`."
     },
     "color-foreground-inverse-faint": {
       "$value": {
@@ -1380,7 +1380,7 @@
         ],
         "hex": "#9da5af"
       },
-      "$description": "Captions and small labels on a dark area. Engine step 400 of the dark palette's gray ramp. Contrast 7.17:1 on `color-background-inverse`."
+      "$description": "Captions and small labels on a dark area. Contrast 7.17:1 on `color-background-inverse`."
     },
     "color-foreground-decorative": {
       "$value": "{color.ig-gray-400}",
@@ -1444,7 +1444,7 @@
         ],
         "hex": "#1c2435"
       },
-      "$description": "The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient. Engine step 200 of the dark palette's surface ramp."
+      "$description": "The lightest dark surface: where a dark area lifts towards the light, such as the start of the footer gradient."
     },
     "color-background-inverse-sunken": {
       "$value": {
@@ -1456,7 +1456,7 @@
         ],
         "hex": "#070e1d"
       },
-      "$description": "The darkest dark surface: the deepest part of a dark area, such as the end of the footer gradient. Engine step 900 of the dark palette's surface ramp."
+      "$description": "The darkest dark surface: the deepest part of a dark area, such as the end of the footer gradient."
     },
     "color-background-inverse": {
       "$value": {
@@ -1468,7 +1468,7 @@
         ],
         "hex": "#0f172a"
       },
-      "$description": "The dark area of a light page: a dark band, a table header, a stat panel. Engine step 500 of the dark palette's surface ramp."
+      "$description": "The dark area of a light page: a dark band, a table header, a stat panel."
     },
     "color-background-tint-strong": {
       "$value": "{color.ig-primary-100}",
@@ -1488,7 +1488,7 @@
         ],
         "hex": "#bcc1c9"
       },
-      "$description": "Footer body copy, legal links and social glyphs. Engine step 500 of the dark palette's gray ramp. Contrast 8.58:1 on `color-background-inverse-raised`."
+      "$description": "Footer body copy, legal links and social glyphs. Contrast 8.58:1 on `color-background-inverse-raised`."
     },
     "footer-foreground-strong": {
       "$value": {
@@ -1500,7 +1500,7 @@
         ],
         "hex": "#f6f7f8"
       },
-      "$description": "Footer sub-group labels (Web, Desktop, Bundles) and legal-link emphasis. Engine step 800 of the dark palette's gray ramp. Contrast 14.47:1 on `color-background-inverse-raised`."
+      "$description": "Footer sub-group labels (Web, Desktop, Bundles) and legal-link emphasis. Contrast 14.47:1 on `color-background-inverse-raised`."
     },
     "footer-foreground-faint": {
       "$value": {
@@ -1512,7 +1512,7 @@
         ],
         "hex": "#9da5af"
       },
-      "$description": "Footer 12px uppercase group labels, placeholder and copyright. Engine step 400 of the dark palette's gray ramp. Contrast 6.23:1 on `color-background-inverse-raised`."
+      "$description": "Footer 12px uppercase group labels, placeholder and copyright. Contrast 6.23:1 on `color-background-inverse-raised`."
     },
     "footer-focus-ring": {
       "$value": {
@@ -1524,7 +1524,7 @@
         ],
         "hex": "#95d5f7"
       },
-      "$description": "Keyboard focus ring inside the footer. Engine step 100 of the sky palette."
+      "$description": "Keyboard focus ring inside the footer."
     },
     "color-border-default": {
       "$value": "{color.ig-gray-200}",
@@ -1596,7 +1596,7 @@
         ],
         "hex": "#9da5af"
       },
-      "$description": "Sub-label under a comparison column name, on `color-background-inverse`. Engine step 400 of the dark palette's gray ramp. Contrast 7.17:1 on `color-background-inverse`."
+      "$description": "Sub-label under a comparison column name, on `color-background-inverse`. Contrast 7.17:1 on `color-background-inverse`."
     },
     "table-header-sub-foreground-highlighted": {
       "$value": "{color.color-foreground-on-action}",
@@ -1612,7 +1612,7 @@
         ],
         "hex": "#d7dade"
       },
-      "$description": "The \"Detail\" column header on `color-background-inverse`. Engine step 600 of the dark palette's gray ramp. Contrast 12.73:1 on `color-background-inverse`."
+      "$description": "The \"Detail\" column header on `color-background-inverse`. Contrast 12.73:1 on `color-background-inverse`."
     },
     "window-dot-red": {
       "$value": "{color.ig-error-300}",
@@ -1644,7 +1644,7 @@
         ],
         "hex": "#e23b8f"
       },
-      "$description": "Icon tile fill 3 of 8; a grid of icon tiles takes the fills in order. Now: Theming MCP on the AI toolchain row. Engine step 400 of the pink palette."
+      "$description": "Icon tile fill 3 of 8; a grid of icon tiles takes the fills in order. Now: Theming MCP on the AI toolchain row."
     },
     "tile-4": {
       "$value": "{color.ig-success-400}",
@@ -1660,7 +1660,7 @@
         ],
         "hex": "#39bfdc"
       },
-      "$description": "Icon tile fill 5 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles. Engine step 200 of the cyan palette."
+      "$description": "Icon tile fill 5 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles."
     },
     "tile-6": {
       "$value": "{color.ig-warn-200}",
@@ -1680,7 +1680,7 @@
         ],
         "hex": "#0f172a"
       },
-      "$description": "Icon tile fill 8 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles. Engine step 500 of the dark palette's surface ramp."
+      "$description": "Icon tile fill 8 of 8; a grid of icon tiles takes the fills in order. Now: used when a grid has more than four tiles."
     },
     "release-strip-border": {
       "$value": {
@@ -1693,7 +1693,7 @@
         "alpha": 0.4,
         "hex": "#0099ff"
       },
-      "$description": "Border of emphasised cards and the release strip at rest. Live: `color-accent-brand` at `opacity-heavy`."
+      "$description": "Border of emphasised cards and the release strip at rest."
     },
     "release-strip-ring": {
       "$value": {
@@ -1706,7 +1706,7 @@
         "alpha": 0.12,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip at rest. Live: `color-accent-brand` at `opacity-soft`."
+      "$description": "Inner ring of the release strip at rest."
     },
     "release-strip-ring-hover": {
       "$value": {
@@ -1719,7 +1719,7 @@
         "alpha": 0.25,
         "hex": "#0099ff"
       },
-      "$description": "Inner ring of the release strip on hover. Live: `color-accent-brand` at `opacity-strong`."
+      "$description": "Inner ring of the release strip on hover."
     },
     "badge-oss-background": {
       "$value": {
@@ -1732,7 +1732,7 @@
         "alpha": 0.12,
         "hex": "#06633c"
       },
-      "$description": "OSS tag fill. Live: `badge-oss-foreground` at `opacity-soft`."
+      "$description": "OSS tag fill."
     },
     "badge-new-background": {
       "$value": {
@@ -1745,7 +1745,7 @@
         "alpha": 0.12,
         "hex": "#06633c"
       },
-      "$description": "New status badge fill. Live: `badge-new-foreground` at `opacity-soft`."
+      "$description": "New status badge fill."
     },
     "badge-new-border": {
       "$value": {
@@ -1758,7 +1758,7 @@
         "alpha": 0.25,
         "hex": "#06633c"
       },
-      "$description": "New status badge border. Live: `badge-new-foreground` at `opacity-strong`."
+      "$description": "New status badge border."
     },
     "color-background-category-2": {
       "$value": {
@@ -1771,7 +1771,7 @@
         "alpha": 0.08,
         "hex": "#9810fa"
       },
-      "$description": "The soft fill of a second category, beside `color-background-tint`. Live: `color-accent-ai` at `opacity-subtle`."
+      "$description": "The soft fill of a second category, beside `color-background-tint`."
     },
     "color-background-category-3": {
       "$value": {
@@ -1784,7 +1784,7 @@
         "alpha": 0.08,
         "hex": "#3cc3b1"
       },
-      "$description": "The soft fill of a third category, beside `color-background-tint` and `color-background-category-2`. Live: `color-accent-inverse-2` at `opacity-subtle`."
+      "$description": "The soft fill of a third category, beside `color-background-tint` and `color-background-category-2`."
     },
     "color-background-inverse-overlay": {
       "$value": {
@@ -1797,7 +1797,7 @@
         "alpha": 0.82,
         "hex": "#0f172a"
       },
-      "$description": "A see-through dark fill for a chip over a picture. Live: `color-background-inverse` at `opacity-chip`."
+      "$description": "A see-through dark fill for a chip over a picture."
     },
     "color-background-info": {
       "$value": {
@@ -1810,7 +1810,7 @@
         "alpha": 0.08,
         "hex": "#164ecb"
       },
-      "$description": "Tinted fill behind `color-foreground-info` text. Live: `color-foreground-info` at `opacity-subtle`."
+      "$description": "Tinted fill behind `color-foreground-info` text."
     },
     "color-background-error": {
       "$value": {
@@ -1823,7 +1823,7 @@
         "alpha": 0.08,
         "hex": "#cf1b3e"
       },
-      "$description": "Tinted fill behind `color-foreground-error` text. Live: `color-foreground-error` at `opacity-subtle`."
+      "$description": "Tinted fill behind `color-foreground-error` text."
     },
     "color-background-success": {
       "$value": {
@@ -1836,7 +1836,7 @@
         "alpha": 0.08,
         "hex": "#06633c"
       },
-      "$description": "Tinted fill behind `color-foreground-success` text. Live: `color-foreground-success` at `opacity-subtle`."
+      "$description": "Tinted fill behind `color-foreground-success` text."
     },
     "color-background-warning": {
       "$value": {
@@ -1849,7 +1849,7 @@
         "alpha": 0.08,
         "hex": "#955e01"
       },
-      "$description": "Tinted fill behind `color-foreground-warning` text. Live: `color-foreground-warning` at `opacity-subtle`."
+      "$description": "Tinted fill behind `color-foreground-warning` text."
     },
     "nav-background": {
       "$value": {
@@ -1862,7 +1862,7 @@
         "alpha": 0.96,
         "hex": "#ffffff"
       },
-      "$description": "Sticky nav background, under `nav-backdrop-blur`. Live: `color-background-page` at `opacity-nav`."
+      "$description": "Sticky nav background, under `nav-backdrop-blur`."
     },
     "color-background-scrim": {
       "$value": {
@@ -1875,7 +1875,7 @@
         "alpha": 0.25,
         "hex": "#0f172a"
       },
-      "$description": "Dims the page behind an open panel. Live: `color-background-inverse` at `opacity-strong`."
+      "$description": "Dims the page behind an open panel."
     },
     "footer-border-subtle": {
       "$value": {
@@ -1888,7 +1888,7 @@
         "alpha": 0.08,
         "hex": "#fbfbfb"
       },
-      "$description": "Footer hairline rules. Live: `color-foreground-inverse` at `opacity-subtle`."
+      "$description": "Footer hairline rules."
     },
     "footer-border": {
       "$value": {
@@ -1901,7 +1901,7 @@
         "alpha": 0.16,
         "hex": "#fbfbfb"
       },
-      "$description": "Footer legal-link dividers and form control borders. Live: `color-foreground-inverse` at `opacity-muted`."
+      "$description": "Footer legal-link dividers and form control borders."
     },
     "footer-card-border": {
       "$value": {
@@ -1914,7 +1914,7 @@
         "alpha": 0.08,
         "hex": "#fbfbfb"
       },
-      "$description": "Border of the footer newsletter card. Live: `color-foreground-inverse` at `opacity-subtle`."
+      "$description": "Border of the footer newsletter card."
     },
     "footer-field-background": {
       "$value": {
@@ -1927,7 +1927,7 @@
         "alpha": 0.08,
         "hex": "#fbfbfb"
       },
-      "$description": "Footer input fill (stacked newsletter). Live: `color-foreground-inverse` at `opacity-subtle`."
+      "$description": "Footer input fill (stacked newsletter)."
     },
     "footer-field-inline-background": {
       "$value": {
@@ -1940,7 +1940,7 @@
         "alpha": 0.6,
         "hex": "#070e1d"
       },
-      "$description": "Footer input fill inside the pill field. Live: `footer-background` at `opacity-field`."
+      "$description": "Footer input fill inside the pill field."
     },
     "footer-check-background": {
       "$value": {
@@ -1953,7 +1953,7 @@
         "alpha": 0.04,
         "hex": "#fbfbfb"
       },
-      "$description": "Footer checkbox fill, unchecked. Live: `color-foreground-inverse` at `opacity-faint`."
+      "$description": "Footer checkbox fill, unchecked."
     },
     "footer-check-border": {
       "$value": {
@@ -1966,7 +1966,7 @@
         "alpha": 0.4,
         "hex": "#fbfbfb"
       },
-      "$description": "Footer checkbox border, unchecked. Live: `color-foreground-inverse` at `opacity-heavy`."
+      "$description": "Footer checkbox border, unchecked."
     },
     "footer-social-background-hover": {
       "$value": {
@@ -1979,7 +1979,7 @@
         "alpha": 0.16,
         "hex": "#51bbee"
       },
-      "$description": "Social button fill on hover. Live: `color-foreground-link-inverse` at `opacity-muted`."
+      "$description": "Social button fill on hover."
     },
     "footer-social-border-hover": {
       "$value": {
@@ -1992,7 +1992,7 @@
         "alpha": 0.4,
         "hex": "#95d5f7"
       },
-      "$description": "Social button border on hover. Live: `color-focus-ring-inverse` at `opacity-heavy`."
+      "$description": "Social button border on hover."
     }
   },
   "spacing": {

@@ -4,7 +4,7 @@
 import CopyName from "@/components/ui/CopyName.astro";
 import Note from "@/components/ui/Note.astro";
 import Readout from "@/components/ui/Readout.astro";
-import { cssVar, prefixOf, type Token } from "@/lib/design-system.ts";
+import { cssVar, prefixOf, SOURCE_LABEL, type Token } from "@/lib/design-system.ts";
 import { href } from "@/lib/paths.ts";
 
 interface Props {
@@ -21,15 +21,16 @@ interface Props {
   on?: string;
   /** Show the value as it is written, for a token with no single rendered value, such as a shadow. */
   written?: boolean;
-  /** The engine token the value is built from, linked to its place on the Engine page. */
-  from?: string;
   /** Shows the preview and the use only, without the name and the value, as the guide does. */
   plain?: boolean;
   /** A short label after the name, such as "On dark only". */
   tag?: string;
 }
 
-const { token, preview, property, readout, use, on, written = false, from, plain = false, tag } = Astro.props;
+const { token, preview, property, readout, use, on, written = false, plain = false, tag } = Astro.props;
+const source = token.source;
+// A token the source names, linked to its row; an engine step, to its place on the Engine page.
+const tokenLink = (name: string) => href(`tokens/colour/#${name}`);
 const custom = cssVar(token.name);
 const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
@@ -44,9 +45,48 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
   {!plain && readout && <Readout token={token.name} kind={readout} />}
   {written && <code class="written">{token.value}</code>}
   {
-    from && (
+    !plain && source && (
       <p class="from">
-        From <a href={href(`engine/#${from}`)}><code>{cssVar(from)}</code></a>
+        <span class:list={["origin", source.kind]}>{SOURCE_LABEL[source.kind]}</span>{" "}
+        {source.kind === "step" && (
+          <a href={href(`engine/#${source.step}`)}>
+            <code>{cssVar(source.step)}</code>
+          </a>
+        )}
+        {source.kind === "palette" && (
+          <span>
+            {source.palette} {source.step} <span class="hint">(not published)</span>
+          </span>
+        )}
+        {source.kind === "token" && (
+          <a href={tokenLink(source.token)}>
+            <code>{source.token}</code>
+          </a>
+        )}
+        {source.kind === "opacity" && (
+          <span>
+            <a href={tokenLink(source.token)}>
+              <code>{source.token}</code>
+            </a>{" "}
+            at {source.percent}%
+          </span>
+        )}
+        {source.kind === "contrast" && (
+          <span>
+            on{" "}
+            <a href={tokenLink(source.on)}>
+              <code>{source.on}</code>
+            </a>
+          </span>
+        )}
+        {token.follows && (
+          <span class="follows">
+            Follows{" "}
+            <a href={tokenLink(token.follows)}>
+              <code>{token.follows}</code>
+            </a>
+          </span>
+        )}
       </p>
     )
   }
@@ -209,5 +249,32 @@ const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on
   :global([data-view="list"]) .tag {
     grid-column: 2;
     grid-row: 3;
+  }
+
+  /* Where a colour comes from, as a label: the same look for every kind, so a reader learns it once. */
+  .origin {
+    display: inline-block;
+    margin-inline-end: var(--igd-space-gap-3xs);
+    padding: 0 var(--igd-space-inset-xs);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-badge);
+    color: var(--igd-color-foreground-subtle);
+    font-size: var(--igd-type-body-2xs-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    letter-spacing: var(--igd-letter-spacing-badge);
+    text-transform: uppercase;
+  }
+
+  .hint {
+    color: var(--igd-color-foreground-faint);
+  }
+
+  .follows {
+    display: block;
+  }
+
+  /* A name in a source stays on one line; the line breaks between words instead. */
+  .from code {
+    white-space: nowrap;
   }
 </style>
