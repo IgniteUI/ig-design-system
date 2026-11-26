@@ -12,6 +12,7 @@
 - `--igd-color-accent-inverse-2`: `#3cc3b1`. The second accent for a dark area, beside `color-accent-inverse-1`: a second set of stat numbers. Never on a light surface. Contrast 8.19:1 on `color-background-inverse`. From step 200 of the engine's teal palette, which the package does not publish.
 - `--igd-color-background-action`: `{ig-primary-seed}`. The fill of the main button and of every filled action. It is the primary seed itself, not a fitted shade. Its label is `color-foreground-on-action`. Text in the action colour is `color-foreground-action`. Contrast 5.25:1 on `color-background-page`. From the engine step `ig-primary-seed`.
 - `--igd-color-foreground-link-hover`: `{ig-primary-700}`. A link on hover, on a light surface. The colour changes; no underline appears. Contrast 7.03:1 on `color-background-page`. From the engine step `ig-primary-700`. Follows `color-foreground-action` in the browser.
+- `--igd-color-foreground-link-active`: `{ig-primary-800}`. A link while pressed, on a light surface. Contrast 8.8:1 on `color-background-page`. From the engine step `ig-primary-800`. Follows `color-foreground-action` in the browser.
 - `--igd-color-background-action-hover`: `{ig-primary-700}`. The main button's fill on hover; nothing else about the button changes. A step `color-foreground-on-action` reads on: darker under a white label, primary step 400 under a black one. From the engine step `ig-primary-700`. Follows `color-background-action` in the browser.
 - `--igd-color-foreground-action`: `{ig-primary-600}`. Text, an icon or a thin line in the action colour on a light surface: links, eyebrows, outline and ghost button labels, focus outlines. An engine step, which the engine solves to the same contrast for any seed. Contrast 5.24:1 on `color-background-page`, 4.82:1 on `color-background-tint`, 5.24:1 on `color-background-card`, 4.89:1 on `color-background-subtle`. From the engine step `ig-primary-600`.
 - `--igd-color-foreground-link`: `{ig-primary-600}`. A link in text, on a light surface. The same steps as `color-foreground-action`, named for the link so a link reads it. Contrast 5.24:1 on `color-background-page`. From the engine step `ig-primary-600`.
@@ -57,6 +58,9 @@
 - `--igd-badge-bundle-background`: `{ig-secondary-50}`. Bundle badge fill (top-right of a ProductCard). From the engine step `ig-secondary-50`. Follows `badge-bundle-foreground` in the browser.
 - `--igd-badge-bundle-foreground`: `{ig-secondary-700}`. Bundle badge label on `badge-bundle-background`. Contrast 6.64:1 on `badge-bundle-background`. From the engine step `ig-secondary-700`.
 - `--igd-badge-new-foreground`: `{ig-success-600}`. New status badge label on `badge-new-background`. Contrast 7.35:1 on `color-background-page`. From the engine step `ig-success-600`.
+- `--igd-badge-updated-foreground`: `{ig-primary-700}`. The label of the Updated badge, on `badge-updated-background`. Contrast 7.03:1 on `color-background-page`. From the engine step `ig-primary-700`.
+- `--igd-badge-preview-foreground`: `{ig-warn-500}`. The label of the Preview badge, on `badge-preview-background`. Contrast 5.41:1 on `color-background-page`. From the engine step `ig-warn-500`.
+- `--igd-badge-premium-foreground`: `{ig-secondary-700}`. The label of the Premium badge, on `badge-premium-background`. Contrast 7.15:1 on `color-background-page`. From the engine step `ig-secondary-700`.
 - `--igd-rating-star`: `{ig-warn-200}`. Filled star of a rating. Decorative. From the engine step `ig-warn-200`.
 - `--igd-badge-oss-foreground`: `{ig-success-600}`. OSS tag label on `badge-oss-background`. Contrast 7.35:1 on `color-background-page`. From the engine step `ig-success-600`.
 - `--igd-table-mark-yes-background`: `{ig-gray-200}`. Comparison table "Yes" mark fill. From the engine step `ig-gray-200`.
@@ -83,6 +87,12 @@
 - `--igd-release-strip-ring`: `rgba(0,153,255,0.12)`. Inner ring of the release strip at rest. From `color-accent-brand` at 12%.
 - `--igd-release-strip-ring-hover`: `rgba(0,153,255,0.25)`. Inner ring of the release strip on hover. From `color-accent-brand` at 25%.
 - `--igd-badge-oss-background`: `rgba(6,99,60,0.12)`. OSS tag fill. From `badge-oss-foreground` at 12%.
+- `--igd-badge-updated-background`: `rgba(22,78,203,0.12)`. The fill of the Updated badge. From `badge-updated-foreground` at 12%.
+- `--igd-badge-updated-border`: `rgba(22,78,203,0.25)`. The border of the Updated badge. From `badge-updated-foreground` at 25%.
+- `--igd-badge-preview-background`: `rgba(149,94,1,0.12)`. The fill of the Preview badge. From `badge-preview-foreground` at 12%.
+- `--igd-badge-preview-border`: `rgba(149,94,1,0.25)`. The border of the Preview badge. From `badge-preview-foreground` at 25%.
+- `--igd-badge-premium-background`: `rgba(123,39,197,0.12)`. The fill of the Premium badge. From `badge-premium-foreground` at 12%.
+- `--igd-badge-premium-border`: `rgba(123,39,197,0.25)`. The border of the Premium badge. From `badge-premium-foreground` at 25%.
 - `--igd-badge-new-background`: `rgba(6,99,60,0.12)`. New status badge fill. From `badge-new-foreground` at 12%.
 - `--igd-badge-new-border`: `rgba(6,99,60,0.25)`. New status badge border. From `badge-new-foreground` at 25%.
 - `--igd-color-background-category-2`: `rgba(152,16,250,0.08)`. The soft fill of a second category, beside `color-background-tint`. From `color-accent-ai` at 8%.

@@ -64,6 +64,34 @@
    "ok": true
   },
   {
+   "fg": "color-foreground-link-active",
+   "bg": "color-background-page",
+   "ratio": 8.8,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-updated-foreground",
+   "bg": "color-background-page",
+   "ratio": 7.03,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-preview-foreground",
+   "bg": "color-background-page",
+   "ratio": 5.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-premium-foreground",
+   "bg": "color-background-page",
+   "ratio": 7.15,
+   "min": 4.5,
+   "ok": true
+  },
+  {
    "fg": "color-foreground-action",
    "bg": "color-background-tint",
    "ratio": 4.82,
@@ -496,6 +524,34 @@
    "fg": "color-foreground-link",
    "bg": "color-background-page",
    "ratio": 12.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-foreground-link-active",
+   "bg": "color-background-page",
+   "ratio": 8.22,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-updated-foreground",
+   "bg": "color-background-page",
+   "ratio": 12.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-preview-foreground",
+   "bg": "color-background-page",
+   "ratio": 11.14,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "badge-premium-foreground",
+   "bg": "color-background-page",
+   "ratio": 13.17,
    "min": 4.5,
    "ok": true
   },

@@ -8,6 +8,7 @@ import { SCOPED } from "./theme.ts";
 export const DERIVED: [token: string, base: string][] = [
   ["color-background-action-hover", "color-background-action"],
   ["color-foreground-link-hover", "color-foreground-action"],
+  ["color-foreground-link-active", "color-foreground-action"],
   ["color-background-tint", "color-background-action"],
   ["color-background-tint-strong", "color-background-action"],
   ["color-border-action", "color-background-action"],

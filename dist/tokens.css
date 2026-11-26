@@ -110,6 +110,7 @@
   --igd-color-accent-inverse-2: #3cc3b1;
   --igd-color-background-action: var(--ig-primary-seed);
   --igd-color-foreground-link-hover: var(--ig-primary-700);
+  --igd-color-foreground-link-active: var(--ig-primary-800);
   --igd-color-background-action-hover: var(--ig-primary-700);
   --igd-color-foreground-action: var(--ig-primary-600);
   --igd-color-foreground-link: var(--ig-primary-600);
@@ -155,6 +156,9 @@
   --igd-badge-bundle-background: var(--ig-secondary-50);
   --igd-badge-bundle-foreground: var(--ig-secondary-700);
   --igd-badge-new-foreground: var(--ig-success-600);
+  --igd-badge-updated-foreground: var(--ig-primary-700);
+  --igd-badge-preview-foreground: var(--ig-warn-500);
+  --igd-badge-premium-foreground: var(--ig-secondary-700);
   --igd-rating-star: var(--ig-warn-200);
   --igd-badge-oss-foreground: var(--ig-success-600);
   --igd-table-mark-yes-background: var(--ig-gray-200);
@@ -181,6 +185,12 @@
   --igd-release-strip-ring: rgba(0,153,255,0.12);
   --igd-release-strip-ring-hover: rgba(0,153,255,0.25);
   --igd-badge-oss-background: rgba(6,99,60,0.12);
+  --igd-badge-updated-background: rgba(22,78,203,0.12);
+  --igd-badge-updated-border: rgba(22,78,203,0.25);
+  --igd-badge-preview-background: rgba(149,94,1,0.12);
+  --igd-badge-preview-border: rgba(149,94,1,0.25);
+  --igd-badge-premium-background: rgba(123,39,197,0.12);
+  --igd-badge-premium-border: rgba(123,39,197,0.25);
   --igd-badge-new-background: rgba(6,99,60,0.12);
   --igd-badge-new-border: rgba(6,99,60,0.25);
   --igd-color-background-category-2: rgba(152,16,250,0.08);

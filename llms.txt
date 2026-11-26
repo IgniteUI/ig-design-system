@@ -77,7 +77,7 @@ Emphasis: `strong` (more contrast than the default), `default` (the usual choice
 
 ## What is in it
 
-- Colour: 99 tokens, plus 101 engine palette steps a site does not read
+- Colour: 109 tokens, plus 101 engine palette steps a site does not read
 - Spacing: 45 tokens
 - Radius: 7 tokens
 - Size: 40 tokens

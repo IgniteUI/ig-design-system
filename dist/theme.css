@@ -448,6 +448,12 @@
   --igd-release-strip-ring: hsl(from var(--igd-color-accent-brand) h s l / var(--igd-opacity-soft));
   --igd-release-strip-ring-hover: hsl(from var(--igd-color-accent-brand) h s l / var(--igd-opacity-strong));
   --igd-badge-oss-background: hsl(from var(--igd-badge-oss-foreground) h s l / var(--igd-opacity-soft));
+  --igd-badge-updated-background: hsl(from var(--igd-badge-updated-foreground) h s l / var(--igd-opacity-soft));
+  --igd-badge-updated-border: hsl(from var(--igd-badge-updated-foreground) h s l / var(--igd-opacity-strong));
+  --igd-badge-preview-background: hsl(from var(--igd-badge-preview-foreground) h s l / var(--igd-opacity-soft));
+  --igd-badge-preview-border: hsl(from var(--igd-badge-preview-foreground) h s l / var(--igd-opacity-strong));
+  --igd-badge-premium-background: hsl(from var(--igd-badge-premium-foreground) h s l / var(--igd-opacity-soft));
+  --igd-badge-premium-border: hsl(from var(--igd-badge-premium-foreground) h s l / var(--igd-opacity-strong));
   --igd-badge-new-background: hsl(from var(--igd-badge-new-foreground) h s l / var(--igd-opacity-soft));
   --igd-badge-new-border: hsl(from var(--igd-badge-new-foreground) h s l / var(--igd-opacity-strong));
   --igd-color-background-category-2: hsl(from var(--igd-color-accent-ai) h s l / var(--igd-opacity-subtle));
@@ -705,6 +711,7 @@
   /* state tokens: derived from their base. Override a base and its states follow. */
   --igd-color-background-action-hover: oklch(from var(--igd-color-background-action) calc(l + -0.0719) calc(c * 0.8229) calc(h + 0.07));
   --igd-color-foreground-link-hover: oklch(from var(--igd-color-foreground-action) calc(l + -0.0685) calc(c * 0.9384) calc(h + 0.06));
+  --igd-color-foreground-link-active: oklch(from var(--igd-color-foreground-action) calc(l + -0.1237) calc(c * 0.7768) calc(h + -0.16));
   --igd-color-background-tint: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
   --igd-color-background-tint-strong: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.9395 + var(--igd-theme-dark) * 0.2786) calc(c * 0.1176 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 12.29));
   --igd-color-border-action: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
@@ -782,6 +789,9 @@
   --igd-color-foreground-info: var(--ig-primary-200);
   --igd-badge-bundle-foreground: var(--ig-secondary-200);
   --igd-badge-new-foreground: var(--ig-success-50);
+  --igd-badge-updated-foreground: var(--ig-primary-200);
+  --igd-badge-preview-foreground: var(--ig-warn-100);
+  --igd-badge-premium-foreground: var(--ig-secondary-200);
   --igd-badge-oss-foreground: var(--ig-success-50);
   --igd-table-mark-partial-foreground: var(--ig-warn-50);
 }

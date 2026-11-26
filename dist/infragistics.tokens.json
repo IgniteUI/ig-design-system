@@ -1262,6 +1262,10 @@
       "$value": "{color.ig-primary-700}",
       "$description": "A link on hover, on a light surface. The colour changes; no underline appears. Contrast 7.03:1 on `color-background-page`."
     },
+    "color-foreground-link-active": {
+      "$value": "{color.ig-primary-800}",
+      "$description": "A link while pressed, on a light surface. Contrast 8.8:1 on `color-background-page`."
+    },
     "color-background-action-hover": {
       "$value": "{color.ig-primary-700}",
       "$description": "The main button's fill on hover; nothing else about the button changes. A step `color-foreground-on-action` reads on: darker under a white label, primary step 400 under a black one."
@@ -1554,6 +1558,18 @@
       "$value": "{color.ig-success-600}",
       "$description": "New status badge label on `badge-new-background`. Contrast 7.35:1 on `color-background-page`."
     },
+    "badge-updated-foreground": {
+      "$value": "{color.ig-primary-700}",
+      "$description": "The label of the Updated badge, on `badge-updated-background`. Contrast 7.03:1 on `color-background-page`."
+    },
+    "badge-preview-foreground": {
+      "$value": "{color.ig-warn-500}",
+      "$description": "The label of the Preview badge, on `badge-preview-background`. Contrast 5.41:1 on `color-background-page`."
+    },
+    "badge-premium-foreground": {
+      "$value": "{color.ig-secondary-700}",
+      "$description": "The label of the Premium badge, on `badge-premium-background`. Contrast 7.15:1 on `color-background-page`."
+    },
     "rating-star": {
       "$value": "{color.ig-warn-200}",
       "$description": "Filled star of a rating. Decorative."
@@ -1733,6 +1749,84 @@
         "hex": "#06633c"
       },
       "$description": "OSS tag fill."
+    },
+    "badge-updated-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0863,
+          0.3059,
+          0.7961
+        ],
+        "alpha": 0.12,
+        "hex": "#164ecb"
+      },
+      "$description": "The fill of the Updated badge."
+    },
+    "badge-updated-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0863,
+          0.3059,
+          0.7961
+        ],
+        "alpha": 0.25,
+        "hex": "#164ecb"
+      },
+      "$description": "The border of the Updated badge."
+    },
+    "badge-preview-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.3686,
+          0.0039
+        ],
+        "alpha": 0.12,
+        "hex": "#955e01"
+      },
+      "$description": "The fill of the Preview badge."
+    },
+    "badge-preview-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5843,
+          0.3686,
+          0.0039
+        ],
+        "alpha": 0.25,
+        "hex": "#955e01"
+      },
+      "$description": "The border of the Preview badge."
+    },
+    "badge-premium-background": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4824,
+          0.1529,
+          0.7725
+        ],
+        "alpha": 0.12,
+        "hex": "#7b27c5"
+      },
+      "$description": "The fill of the Premium badge."
+    },
+    "badge-premium-border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4824,
+          0.1529,
+          0.7725
+        ],
+        "alpha": 0.25,
+        "hex": "#7b27c5"
+      },
+      "$description": "The border of the Premium badge."
     },
     "badge-new-background": {
       "$value": {

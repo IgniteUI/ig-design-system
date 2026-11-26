@@ -65,7 +65,7 @@ The other renames, by kind:
 | `--action` | `--igd-color-background-action` |
 | `--action-hover` | `--igd-color-foreground-link-hover` |
 | `--action-hover-fill` | `--igd-color-background-action-hover` |
-| `--action-press` | `--igd-color-foreground-link-hover` |
+| `--action-press` | `--igd-color-foreground-link-active` |
 | `--on-action` | `--igd-color-foreground-on-action` |
 | `--action-soft` | `--igd-color-background-tint` |
 | `--action-soft-border` | `--igd-color-border-action` |

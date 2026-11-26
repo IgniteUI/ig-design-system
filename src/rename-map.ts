@@ -9,7 +9,7 @@ export const COLOR = {
   action: "color-background-action",
   "action-hover": "color-foreground-link-hover",
   "action-hover-fill": "color-background-action-hover",
-  "action-press": "color-foreground-link-hover",
+  "action-press": "color-foreground-link-active",
   "on-action": "color-foreground-on-action",
   "action-soft": "color-background-tint",
   "action-soft-border": "color-border-action",
