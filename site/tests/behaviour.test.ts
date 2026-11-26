@@ -386,31 +386,53 @@ describe("the usage samples of the Tokens page", () => {
   });
 });
 
-describe("the spacing explorer of the guide", () => {
-  it.each([
-    ["padding", ".card"],
-    ["margin", ".stack"],
-    ["gap", ".lower"],
-  ])(
-    "marks the %s with stripes and says what it is for, without its token",
-    async (kind, part) => {
-      const { page } = await open("");
-      await page.click(`[data-spacing-explorer] button[data-pick="${kind}"]`);
-      const marked = await page.$eval(
-        `[data-spacing-explorer] ${part}`,
-        (el) => getComputedStyle(el).backgroundImage,
+describe("the type roles of the guide", () => {
+  it.each([1280, 390, 320])(
+    "at %ipx keep every class name on one line",
+    async (width) => {
+      const { page } = await open("", width);
+      const wrapped = await page.$$eval(
+        "#type-specimens .names button .text",
+        (all) =>
+          all.filter((el) => {
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            const lines = new Set(
+              [...range.getClientRects()].map((r) => Math.round(r.top)),
+            );
+            return lines.size > 1;
+          }).length,
       );
-      expect(marked).toContain("repeating-linear-gradient");
-      const info = "[data-spacing-explorer] [data-info]:not([hidden])";
-      expect((await page.textContent(`${info} .use`))?.trim()).not.toBe("");
-      expect(await page.locator(`${info} button`).count()).toBe(0);
+      expect(wrapped).toBe(0);
       await page.close();
     },
   );
 });
 
+describe("the spacing explorer of the guide", () => {
+  it.each([
+    ["padding", ".card"],
+    ["margin", ".stack"],
+    ["gap", ".lower"],
+  ])("marks the %s with stripes and names its token", async (kind, part) => {
+    const { page } = await open("");
+    await page.click(`[data-spacing-explorer] button[data-pick="${kind}"]`);
+    const marked = await page.$eval(
+      `[data-spacing-explorer] ${part}`,
+      (el) => getComputedStyle(el).backgroundImage,
+    );
+    expect(marked).toContain("repeating-linear-gradient");
+    expect(
+      await page.textContent(
+        "[data-spacing-explorer] [data-info]:not([hidden]) button",
+      ),
+    ).toContain("--igd-space-");
+    await page.close();
+  });
+});
+
 describe("the colour explorer of the guide", () => {
-  it("outlines every part that uses the picked colour and says its use, without its token", async () => {
+  it("outlines every part that uses the picked colour and names its token", async () => {
     const { page } = await open("");
     await page.click(
       '[data-colour-explorer] button[data-pick="color-action-on"]',
@@ -422,9 +444,11 @@ describe("the colour explorer of the guide", () => {
         )
         .count(),
     ).toBe(2);
-    const info = "[data-colour-explorer] [data-info]:not([hidden])";
-    expect((await page.textContent(`${info} .use`))?.trim()).not.toBe("");
-    expect(await page.locator(`${info} button`).count()).toBe(0);
+    expect(
+      await page.textContent(
+        "[data-colour-explorer] [data-info]:not([hidden]) button",
+      ),
+    ).toContain("color-action-on");
     await page.close();
   });
 
@@ -469,8 +493,10 @@ describe("the shape explorers of the guide", () => {
   it.each([
     [1280, "radius"],
     [390, "radius"],
+    [1280, "shadow"],
+    [390, "shadow"],
   ])(
-    "at %ipx put the use of the %s pick above its drawing",
+    "at %ipx put the token of the %s pick above its drawing",
     async (width, kind) => {
       const { page } = await open("", width);
       const [drawing, info] = await page.$$eval(
@@ -492,13 +518,16 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
-  it("show no token name, value or code sample", async () => {
+  it("name the token of the pick, and show no value or code sample", async () => {
     const { page } = await open("");
     await page.click('.explorer.shadow button[data-pick="shadow-popover"]');
     expect(
-      await page
-        .locator("[data-shape-explorer] :is(output, pre, button[data-copy])")
-        .count(),
+      await page.textContent(
+        ".explorer.shadow [data-info]:not([hidden]) button",
+      ),
+    ).toContain("shadow-popover");
+    expect(
+      await page.locator("[data-shape-explorer] :is(output, pre)").count(),
     ).toBe(0);
     await page.close();
   });

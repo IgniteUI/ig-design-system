@@ -2,8 +2,9 @@
 // Picks a corner or a shadow by what it sits on: a row of options, a drawing that shows the chosen one, and the name of its token.
 // For corners the drawing is a small interface; for shadows it is one card that lifts.
 import ExampleTag from "@/components/guide/ExampleTag.astro";
+import CopyName from "@/components/ui/CopyName.astro";
 import { SHAPE_PICKS } from "@/data/guide.ts";
-import { cssVar, tokens } from "@/lib/design-system.ts";
+import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
 import { pick } from "@/lib/tokens.ts";
 
 interface Props {
@@ -64,17 +65,16 @@ const part = (token: string) => ({ "data-part": token, "data-current": token ===
     </div>
   </div>
 
-  {
-    kind === "radius" && (
-      <div class="info">
-        {picks.map((p) => (
-          <div data-info={p.token} hidden={p.token !== first}>
-            <p class="use">{p.use}</p>
-          </div>
-        ))}
-      </div>
-    )
-  }
+  <div class="info">
+    {
+      picks.map((p) => (
+        <div data-info={p.token} hidden={p.token !== first}>
+          {kind === "radius" && <p class="use">{p.use}</p>}
+          <CopyName name={cssVar(p.token)} prefix={prefixOf(cssVar(p.token))} copy={`var(${cssVar(p.token)})`} />
+        </div>
+      ))
+    }
+  </div>
   </div>
 </div>
 

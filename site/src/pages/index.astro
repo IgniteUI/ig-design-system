@@ -18,7 +18,7 @@ import CodeBlock from "@/components/ui/CodeBlock.astro";
 import InfoCards from "@/components/ui/InfoCards.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
 import TypeSetToggle from "@/components/ui/TypeSetToggle.astro";
-import { COLOUR_PICKS, TYPE_USES } from "@/data/guide.ts";
+import { COLOUR_PICKS, TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
 import {
@@ -79,10 +79,10 @@ const styles = tokens.type.groups.flatMap((g) => g.styles);
 const tiles = colours.filter((t) => /^tile-\d+$/.test(t.name));
 const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
 const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
-const missing = styles.filter((style) => !TYPE_USES[style.name]).map((style) => style.name);
+const missing = styles.filter((style) => !TYPE_USES[style.name] || !TYPE_ELEMENTS[style.name]).map((style) => style.name);
 if (missing.length)
   throw new Error(
-    `The guide has no plain use for ${missing.join(", ")}. Add one to TYPE_USES in site/src/data/guide.ts.`,
+    `The guide has no plain use or element for ${missing.join(", ")}. Add one to TYPE_USES and TYPE_ELEMENTS in site/src/data/guide.ts.`,
   );
 ---
 
@@ -189,7 +189,7 @@ if (missing.length)
       Most pages use the default sizes. A documentation page uses a smaller set: press the button to see it.
     </p>
     <p class="switches"><TypeSetToggle target="type-specimens" /></p>
-    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} plain />)}</ul>
+    <ul class="specimens" id="type-specimens">{styles.map((style) => <TypeSpecimen style={style} use={TYPE_USES[style.name]} element={TYPE_ELEMENTS[style.name]} plain />)}</ul>
     <p class="lead">
       Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
     </p>
