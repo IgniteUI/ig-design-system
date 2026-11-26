@@ -14,7 +14,7 @@ const { logo, height = "var(--igd-logo-height)", decorative = false } = Astro.pr
 const { image, alt } = LOGOS[logo];
 ---
 
-<img
+<img data-ig-scope
   src={image.src}
   width={image.width}
   height={image.height}

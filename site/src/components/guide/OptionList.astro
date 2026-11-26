@@ -12,7 +12,7 @@ interface Props {
 const { options, first, label } = Astro.props;
 ---
 
-<div class="option-list" role="group" aria-label={label}>
+<div data-ig-scope class="option-list" role="group" aria-label={label}>
   {
     options.map((o) => (
       <button type="button" data-pick={o.pick} aria-pressed={o.pick === first ? "true" : "false"}>

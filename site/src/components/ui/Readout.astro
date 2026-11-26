@@ -12,7 +12,7 @@ const { token, kind } = Astro.props;
 const attribute = { [`data-${kind}`]: cssVar(token) };
 ---
 
-<output {...attribute}></output>
+<output data-ig-scope {...attribute}></output>
 
 <script>
   import "@/scripts/readouts.ts";

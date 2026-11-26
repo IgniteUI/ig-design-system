@@ -10,7 +10,7 @@ interface Props {
 const { sections, heading } = Astro.props;
 ---
 
-<nav aria-label={heading ?? "Sections"} data-section-nav>
+<nav data-ig-scope aria-label={heading ?? "Sections"} data-section-nav>
   {heading && <p class="heading">{heading}</p>}
   <slot />
   <ul class="sections" data-section-list>

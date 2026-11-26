@@ -10,7 +10,7 @@ interface Props {
 const { placeholder = "Filter tokens, e.g. border", label = "Filter tokens by name, value or use" } = Astro.props;
 ---
 
-<div class="filter">
+<div data-ig-scope class="filter">
   <input type="search" placeholder={placeholder} aria-label={label} autocomplete="off" spellcheck="false" data-filter />
   <span role="status" data-filter-matches></span>
 </div>

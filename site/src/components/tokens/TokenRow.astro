@@ -18,7 +18,7 @@ const rem = token.value.match(/^(-?[\d.]+)rem$/);
 const written = rem ? `${Math.round(Number(rem[1]) * 16 * 100) / 100}px (${token.value})` : token.value;
 ---
 
-<tr data-token={token.name} role="row">
+<tr data-ig-scope data-token={token.name} role="row">
   <th scope="row" role="rowheader"><CopyName name={custom} prefix={prefixOf(custom)} copy={`var(${custom})`} /></th>
   <td class="value" role="cell">{value === "length" ? <Readout token={token.name} kind="length" /> : written}</td>
   <td role="cell">

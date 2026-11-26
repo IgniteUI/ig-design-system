@@ -15,7 +15,7 @@ const { treatment, ok, rule } = Astro.props;
 const beside = `max(${SMALLEST.logo}px, min(var(--igd-logo-height), 6cqi))`;
 ---
 
-<li>
+<li data-ig-scope>
   <div class:list={["picture", { wrong: !ok }]} data-theme="light">
     {treatment === "on-dark" && <span class="plate" data-theme="dark"><LogoImage logo="dark" decorative /></span>}
     {treatment === "wrong-dark" && <span class="plate" data-theme="dark"><LogoImage logo="logo" decorative /></span>}

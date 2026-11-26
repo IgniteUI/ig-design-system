@@ -8,7 +8,7 @@ interface Props {
 const { roomy = false } = Astro.props;
 ---
 
-<ul class:list={{ roomy }}><slot /></ul>
+<ul data-ig-scope class:list={{ roomy }}><slot /></ul>
 
 <style>
   ul {

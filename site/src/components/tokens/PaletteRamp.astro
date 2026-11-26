@@ -20,7 +20,7 @@ const label = (step: Token) => step.name.split("-").pop();
 const count = (step: Token) => readers[step.name]?.length ?? 0;
 ---
 
-<li class="family-row" data-filter-group>
+<li data-ig-scope class="family-row" data-filter-group>
   <span class="family"><span>--ig-</span>{family}</span>
   <div class="steps">
     {rows.map((row, r) => (

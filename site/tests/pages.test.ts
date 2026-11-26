@@ -75,7 +75,7 @@ describe("every page", () => {
     (route) => {
       const html = page(route);
       const menu =
-        html.match(/<nav class="guide-nav"[^>]*>.*?<\/nav>/s)?.[0] ?? "";
+        html.match(/<nav[^>]*class="guide-nav"[^>]*>.*?<\/nav>/s)?.[0] ?? "";
       expect(menu.match(/<a /g)).toHaveLength(GUIDE_ROUTES.length);
       expect(menu).toContain(`href="/${route}" aria-current="page"`);
       expect(html).not.toContain("Back to the guide");
@@ -86,7 +86,7 @@ describe("every page", () => {
     "/%s lists its sections under On this page",
     (route) => {
       expect(page(route)).toMatch(
-        /<nav aria-label="On this page"[^>]*>\s*<p class="heading"[^>]*>On this page<\/p>/,
+        /<nav[^>]*aria-label="On this page"[^>]*>\s*<p class="heading"[^>]*>On this page<\/p>/,
       );
     },
   );
@@ -256,7 +256,7 @@ describe("the guide", () => {
   it("says beside the dark example, in either variant, that the dark variant is not final", () => {
     const group =
       html.match(/id="themes-light-dark".*?id="themes-dials"/s)?.[0] ?? "";
-    expect(group).toMatch(/<p class="notice inline"[^>]*role="note"/);
+    expect(group).toMatch(/<p[^>]*class="notice inline"[^>]*role="note"/);
     expect(group).toContain("The dark variant is not final.");
     expect(group).not.toContain("data-dark-notice");
   });
@@ -328,7 +328,7 @@ describe("the guide", () => {
   });
 
   it("labels every drawn example as an example, not a real component", () => {
-    const labels = html.match(/<p class="example"/g) ?? [];
+    const labels = html.match(/<p[^>]*class="example"/g) ?? [];
     // The colour page, the type roles, the spacing cards, the corner and shadow drawings, the messages, the variant card and the dial preview.
     expect(labels).toHaveLength(8);
   });
@@ -505,6 +505,30 @@ describe("the documents", () => {
       "Type styles",
     ]);
   });
+});
+
+describe("the components of the site", () => {
+  const dir = path.join(path.dirname(DIST), "src/components");
+  const files = fs
+    .readdirSync(dir, { recursive: true })
+    .map(String)
+    .filter((f) => f.endsWith(".astro"));
+
+  it.each(files)(
+    "%s marks its root with data-ig-scope, or its root is a component that does",
+    (file) => {
+      const body = fs
+        .readFileSync(path.join(dir, file), "utf8")
+        .split("---")
+        .slice(2)
+        .join("---")
+        .replace(/<(script|style)[\s\S]*?<\/\1>/g, "");
+      const root = body.match(/<[A-Za-z][^>]*>/)?.[0] ?? "";
+      expect(/^<[A-Z]/.test(root) || root.includes("data-ig-scope"), root).toBe(
+        true,
+      );
+    },
+  );
 });
 
 describe("the pages of the Guide", () => {

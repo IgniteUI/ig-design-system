@@ -32,7 +32,7 @@ const custom = cssVar(token.name);
 const style = [`${property}: var(${custom})`, on && `background: var(${cssVar(on)})`].filter(Boolean).join("; ");
 ---
 
-<li data-token={token.name}>
+<li data-ig-scope data-token={token.name}>
   <span class:list={["preview", preview]} style={style} aria-hidden="true">
     {preview === "text" && "Aa"}
   </span>

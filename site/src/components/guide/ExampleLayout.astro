@@ -9,7 +9,7 @@ interface Props {
 const { class: className, ...attributes } = Astro.props;
 ---
 
-<div class="frame">
+<div data-ig-scope class="frame">
   <div class:list={["example", className]} data-example-layout {...attributes}>
     <div class="controls"><slot name="controls" /></div>
     <div class="result">

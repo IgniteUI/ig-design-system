@@ -10,7 +10,7 @@ interface Props extends HTMLAttributes<"div"> {
 const { label, ...rest } = Astro.props;
 ---
 
-<div class="stage" {...rest}>
+<div data-ig-scope class="stage" {...rest}>
   {label && <span class="tag">{label}</span>}
   <slot />
 </div>

@@ -14,7 +14,7 @@ interface Props {
 const { name, prefix = "", copy = name, alt = name === copy ? undefined : name } = Astro.props;
 ---
 
-<button type="button" data-copy={copy} data-copy-alt={alt} aria-label={`Copy ${copy}`}>
+<button data-ig-scope type="button" data-copy={copy} data-copy-alt={alt} aria-label={`Copy ${copy}`}>
   <span class="text"><span class="prefix">{prefix}</span>{name.slice(prefix.length)}</span>
   <svg viewBox="0 0 16 16" aria-hidden="true">
     <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
