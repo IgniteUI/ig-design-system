@@ -252,21 +252,22 @@ export const ALIAS: Record<string, AliasEntry> = {
   "window-dot-amber": ["ig-warn-200", "BrowserFrame window dot."],
   "window-dot-green": ["ig-success-300", "BrowserFrame window dot."],
   // framework pills
+  // Angular's and React's own colours, typed: a rebrand of ours never moves another company's brand.
   "framework-angular-base": [
-    "ig-pink-500",
-    "Angular framework base colour. The pill fill and border derive from it.",
+    "#c42579",
+    "Angular's brand colour on the Angular pill. The pill fill and border derive from it.",
   ],
   "framework-react-base": [
-    "ig-cyan-500",
-    "React framework base colour. The pill fill and border derive from it.",
+    "#017589",
+    "React's brand colour on the React pill. The pill fill and border derive from it.",
   ],
   "framework-angular-background": [
-    "ig-pink-50",
-    "Angular framework pill fill; holds on hover.",
+    "#fee6ec",
+    "The fill of the Angular pill; it holds on hover.",
   ],
-  "framework-angular-border": ["ig-pink-100", "Angular framework pill border."],
-  "framework-react-background": ["ig-cyan-50", "React framework pill fill."],
-  "framework-react-border": ["ig-cyan-100", "React framework pill border."],
+  "framework-angular-border": ["#ffb9ce", "The border of the Angular pill."],
+  "framework-react-background": ["#d3f1fa", "The fill of the React pill."],
+  "framework-react-border": ["#78daf2", "The border of the React pill."],
   "framework-webcomponents-background": [
     "ig-primary-50",
     "Web Components framework pill fill.",
@@ -341,8 +342,8 @@ export const DARK_STEP: Record<string, string> = {
   "badge-new-foreground": "ig-success-50",
   "badge-oss-foreground": "ig-success-50",
   "table-mark-partial-foreground": "ig-warn-50",
-  "framework-angular-base": "ig-pink-100",
-  "framework-react-base": "ig-cyan-50",
+  "framework-angular-base": "#ffb9ce",
+  "framework-react-base": "#d3f1fa",
 };
 
 // ---- translucent colours: live = hsl(from <base> h s l / <opacity token>) ----------------------

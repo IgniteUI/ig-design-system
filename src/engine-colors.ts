@@ -58,10 +58,14 @@ export const engineHex = (name: string): string | null => {
 };
 
 /** The hex colour a token or engine step resolves to. `published` holds the values the build computes in place of an alias. */
+/** A colour typed as a hex value: a brand colour that is not ours, such as Angular's. */
+export const isLiteral = (value: string) => /^#[0-9a-f]{6}$/i.test(value);
+
 export const hexOf = (
   name: string,
   published: Record<string, string> = {},
 ): string => {
+  if (isLiteral(name)) return name.toLowerCase();
   if (published[name]) return published[name];
   const alias = ALIAS[name];
   if (alias) return hexOf(alias[0], published);
@@ -72,10 +76,12 @@ export const hexOf = (
 
 /** True for a step of an accent palette or of the dark palette: the token that uses it carries the colour itself. */
 export const isUnpublishedStep = (step: string) =>
-  ACCENT_STEP.test(step) || DARK_STEP.test(step);
+  ACCENT_STEP.test(step) || DARK_STEP.test(step) || isLiteral(step);
 
 /** The sentence a token note gets when its step is not published, or an empty string. */
 export const unpublishedStepNote = (step: string) => {
+  if (isLiteral(step))
+    return " A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.";
   if (ACCENT_STEP.test(step))
     return ` Engine step ${step.replace(ACCENT_STEP, "$2 of the $1 palette")}.`;
   if (DARK_STEP.test(step))

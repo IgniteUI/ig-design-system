@@ -54,3 +54,23 @@ describe("the naming rules in the documents", () => {
     }
   });
 });
+
+describe("a brand colour that is not ours", () => {
+  const all = JSON.parse(fs.readFileSync("dist/tokens.json", "utf8")).color
+    .tokens as { name: string; value: string; usage: string }[];
+  const thirdParty = all.filter((t) =>
+    /^framework-(angular|react)-/.test(t.name),
+  );
+
+  it("covers the Angular and React pills", () => {
+    expect(thirdParty).toHaveLength(6);
+  });
+
+  it.each(thirdParty.map((t) => [t.name, t]))(
+    "%s is typed, not read from our palettes, and says so",
+    (_, t) => {
+      expect(t.value).toMatch(/^#[0-9a-f]{6}$/);
+      expect(t.usage).toContain("A brand colour that is not ours");
+    },
+  );
+});

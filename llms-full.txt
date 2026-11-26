@@ -71,12 +71,12 @@
 - `--igd-window-dot-red`: `{ig-error-300}`. BrowserFrame window dot.
 - `--igd-window-dot-amber`: `{ig-warn-200}`. BrowserFrame window dot.
 - `--igd-window-dot-green`: `{ig-success-300}`. BrowserFrame window dot.
-- `--igd-framework-angular-base`: `#c42579`. Angular framework base colour. The pill fill and border derive from it. Engine step 500 of the pink palette.
-- `--igd-framework-react-base`: `#017589`. React framework base colour. The pill fill and border derive from it. Engine step 500 of the cyan palette.
-- `--igd-framework-angular-background`: `#fee6ec`. Angular framework pill fill; holds on hover. Engine step 50 of the pink palette.
-- `--igd-framework-angular-border`: `#ffb9ce`. Angular framework pill border. Engine step 100 of the pink palette.
-- `--igd-framework-react-background`: `#d3f1fa`. React framework pill fill. Engine step 50 of the cyan palette.
-- `--igd-framework-react-border`: `#78daf2`. React framework pill border. Engine step 100 of the cyan palette.
+- `--igd-framework-angular-base`: `#c42579`. Angular's brand colour on the Angular pill. The pill fill and border derive from it. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.
+- `--igd-framework-react-base`: `#017589`. React's brand colour on the React pill. The pill fill and border derive from it. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.
+- `--igd-framework-angular-background`: `#fee6ec`. The fill of the Angular pill; it holds on hover. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.
+- `--igd-framework-angular-border`: `#ffb9ce`. The border of the Angular pill. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.
+- `--igd-framework-react-background`: `#d3f1fa`. The fill of the React pill. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.
+- `--igd-framework-react-border`: `#78daf2`. The border of the React pill. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it.
 - `--igd-framework-webcomponents-background`: `{ig-primary-50}`. Web Components framework pill fill.
 - `--igd-framework-webcomponents-border`: `{ig-primary-200}`. Web Components framework pill border.
 - `--igd-framework-winforms-background`: `{ig-primary-50}`. Windows Forms framework pill fill (shares the Web Components tint).

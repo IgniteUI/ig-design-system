@@ -1636,7 +1636,7 @@
         ],
         "hex": "#c42579"
       },
-      "$description": "Angular framework base colour. The pill fill and border derive from it. Engine step 500 of the pink palette."
+      "$description": "Angular's brand colour on the Angular pill. The pill fill and border derive from it. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it."
     },
     "framework-react-base": {
       "$value": {
@@ -1648,7 +1648,7 @@
         ],
         "hex": "#017589"
       },
-      "$description": "React framework base colour. The pill fill and border derive from it. Engine step 500 of the cyan palette."
+      "$description": "React's brand colour on the React pill. The pill fill and border derive from it. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it."
     },
     "framework-angular-background": {
       "$value": {
@@ -1660,7 +1660,7 @@
         ],
         "hex": "#fee6ec"
       },
-      "$description": "Angular framework pill fill; holds on hover. Engine step 50 of the pink palette."
+      "$description": "The fill of the Angular pill; it holds on hover. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it."
     },
     "framework-angular-border": {
       "$value": {
@@ -1672,7 +1672,7 @@
         ],
         "hex": "#ffb9ce"
       },
-      "$description": "Angular framework pill border. Engine step 100 of the pink palette."
+      "$description": "The border of the Angular pill. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it."
     },
     "framework-react-background": {
       "$value": {
@@ -1684,7 +1684,7 @@
         ],
         "hex": "#d3f1fa"
       },
-      "$description": "React framework pill fill. Engine step 50 of the cyan palette."
+      "$description": "The fill of the React pill. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it."
     },
     "framework-react-border": {
       "$value": {
@@ -1696,7 +1696,7 @@
         ],
         "hex": "#78daf2"
       },
-      "$description": "React framework pill border. Engine step 100 of the cyan palette."
+      "$description": "The border of the React pill. A brand colour that is not ours, typed as it is: our palettes and seeds do not change it."
     },
     "framework-webcomponents-background": {
       "$value": "{color.ig-primary-50}",
