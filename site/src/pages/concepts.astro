@@ -35,7 +35,7 @@ const sections = {
 const colours = tokens.color.tokens.filter((t) => !t.name.startsWith("ig-"));
 const messages = COLOUR_PICKS.find((g) => g.id === "colour-messages") ?? { lead: "" };
 // The token "The idea" uses as its example, and the raw token its value points at.
-const [example] = pick(colours, ["color-text-muted"], "colour");
+const [example] = pick(colours, ["color-foreground-faint"], "colour");
 const rawOf = (token: { name: string; value: string }) => {
   const raw = token.value.match(/^\{([\w-]+)\}$/)?.[1];
   if (!raw)
@@ -238,7 +238,7 @@ if (missing.length)
     max-inline-size: 38rem;
     margin-block: 0 var(--igd-space-stack-md);
     padding-inline-start: var(--igd-space-inset-lg);
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
   }
 
   .group > .lead:not(.after) {

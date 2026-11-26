@@ -31,7 +31,11 @@ const tokens: Tokens = {
   color: family(
     [
       { name: "ig-gray-500", value: "#68717d", usage: "Engine step." },
-      { name: "color-text-strong", value: "#2a2d33", usage: "Body text." },
+      {
+        name: "color-foreground-default",
+        value: "#2a2d33",
+        usage: "Body text.",
+      },
     ],
     "Semantic colours.",
   ),
@@ -124,7 +128,7 @@ describe("llmsFullTxt", () => {
 
   it("lists a token as its custom property with its value and usage", () => {
     expect(text).toContain(
-      "- `--igd-color-text-strong`: `#2a2d33`. Body text.",
+      "- `--igd-color-foreground-default`: `#2a2d33`. Body text.",
     );
   });
 
@@ -145,7 +149,7 @@ describe("llmsFullTxt", () => {
 
 describe("the custom properties only the stylesheets declare", () => {
   const css =
-    ":root { --igd-color-text-strong: #2a2d33; --igd-duration-fast: 160ms; --igd-type-lead-font-size: 1rem; }\n[data-theme] { --igd-duration-fast: 200ms; --ig-size: 2; }";
+    ":root { --igd-color-foreground-default: #2a2d33; --igd-duration-fast: 160ms; --igd-type-lead-font-size: 1rem; }\n[data-theme] { --igd-duration-fast: 200ms; --ig-size: 2; }";
 
   it("are listed with their first value, without the tokens in tokens.json, the type roles and the engine names", () => {
     const text = llmsFullTxt(tokens, pkg, css);
@@ -154,7 +158,7 @@ describe("the custom properties only the stylesheets declare", () => {
     expect(text).not.toContain("200ms");
     expect(text).not.toContain("--igd-type-lead-font-size");
     expect(text).not.toContain("--ig-size");
-    expect(text.split("--igd-color-text-strong")).toHaveLength(2);
+    expect(text.split("--igd-color-foreground-default")).toHaveLength(2);
   });
 
   it("have no section when there is none", () => {

@@ -10,20 +10,20 @@ const ROOT = path.join(import.meta.dirname, "..");
 const OUT = path.join(process.argv[2] ?? path.join(ROOT, "dist"), "/");
 const REP = path.join(ROOT, "reports/");
 const BASES = [
-  "color-action-default",
-  "color-action-text",
+  "color-background-action",
+  "color-foreground-action",
   "color-accent-brand",
-  "color-accent-inverse",
-  "color-link-inverse",
-  "footer-link",
-  "color-feedback-error-default",
-  "badge-bundle-color",
-  "color-text-heading",
-  "color-text-inverse",
-  "color-text-muted",
-  "color-surface-subtle",
-  "footer-heading",
-  "footer-text",
+  "color-accent-inverse-1",
+  "color-foreground-link-inverse",
+  "footer-link-foreground",
+  "color-foreground-error",
+  "badge-bundle-foreground",
+  "color-foreground-heading",
+  "color-foreground-inverse",
+  "color-foreground-faint",
+  "color-background-subtle",
+  "footer-foreground-faint",
+  "footer-foreground",
   "shadow-card-hover",
 ];
 // A light and a dark probe: a token follows its base when either one moves it.

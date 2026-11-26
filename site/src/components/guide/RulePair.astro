@@ -42,20 +42,20 @@ const { id, number, title, why, good, bad } = Astro.props;
     line-height: var(--igd-type-title-md-line-height);
     letter-spacing: normal;
     text-transform: none;
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .number {
     font-family: var(--igd-font-mono);
     font-size: var(--igd-type-body-sm-font-size);
     font-weight: var(--igd-font-weight-semibold);
-    color: var(--igd-color-action-text);
+    color: var(--igd-color-foreground-action);
   }
 
   p {
     margin: 0;
     max-inline-size: 33rem;
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
   }
 
   /* A name stays on one line. */
@@ -77,15 +77,15 @@ const { id, number, title, why, good, bad } = Astro.props;
     padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
     border-radius: var(--igd-radius-tile);
     overflow-wrap: anywhere;
-    background: var(--igd-color-feedback-success-surface);
+    background: var(--igd-color-background-success);
   }
 
   .pair > .dont {
-    background: var(--igd-color-feedback-error-surface);
+    background: var(--igd-color-background-error);
   }
 
   code {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     font-size: var(--igd-type-body-sm-font-size);
   }
 

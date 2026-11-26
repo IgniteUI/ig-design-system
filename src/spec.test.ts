@@ -39,7 +39,7 @@ describe("DARK_STEP", () => {
     const text = Object.entries(ALIAS)
       .filter(
         ([name, [step]]) =>
-          /^color-action-text$|^color-feedback-[a-z]+-default$|-color$/.test(
+          /^color-foreground-action$|^color-feedback-[a-z]+-default$|-color$/.test(
             name,
           ) && /^ig-(?!gray-|surface-|dark-)[a-z]+-\d+$/.test(step),
       )
@@ -68,20 +68,20 @@ describe("CONTRAST_PAIRS", () => {
 
   it("holds text in the action colour to 4.5:1 on the four light surfaces", () => {
     const surfaces = CONTRAST_PAIRS.filter(
-      ([fg, , min = 4.5]) => fg === "color-action-text" && min === 4.5,
+      ([fg, , min = 4.5]) => fg === "color-foreground-action" && min === 4.5,
     ).map(([, bg]) => bg);
     expect(surfaces).toEqual([
-      "color-surface-page",
-      "color-surface-tint",
-      "color-surface-card",
-      "color-surface-subtle",
+      "color-background-page",
+      "color-background-tint",
+      "color-background-card",
+      "color-background-subtle",
     ]);
   });
 
   it("holds the action fill to no minimum against the page", () => {
     expect(
-      CONTRAST_PAIRS.filter(([fg]) => fg === "color-action-default"),
-    ).toEqual([["color-action-default", "color-surface-page", 1]]);
+      CONTRAST_PAIRS.filter(([fg]) => fg === "color-background-action"),
+    ).toEqual([["color-background-action", "color-background-page", 1]]);
   });
 
   it("measures every text colour that aliases a palette step against at least one background", () => {

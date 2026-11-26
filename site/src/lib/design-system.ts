@@ -7,7 +7,17 @@ import manifest from "@root/package.json";
 import type { Tokens } from "@root/src/types.ts";
 
 export { CHECKS, NOT_CHECKED } from "@root/checks/rules.ts";
+export {
+  EMPHASIS,
+  EXAMPLES,
+  NEW_NAME_STEPS,
+  NOT_USED,
+  PARTS,
+  PROPERTIES,
+  STATES,
+} from "@root/src/naming.ts";
 export { RULES } from "@root/src/rules.ts";
+export { SOURCE_LABEL } from "@root/src/source.ts";
 
 export type { Token, Tokens, TypeStyle } from "@root/src/types.ts";
 export {

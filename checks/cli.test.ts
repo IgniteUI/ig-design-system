@@ -21,7 +21,7 @@ beforeAll(() => {
   fs.mkdirSync(path.join(dir, "empty"));
   fs.writeFileSync(
     path.join(dir, "src/clean.css"),
-    "a { color: var(--igd-color-text-strong); padding: var(--igd-space-inset-md); }\n",
+    "a { color: var(--igd-color-foreground-default); padding: var(--igd-space-inset-md); }\n",
   );
   fs.writeFileSync(
     path.join(dir, "src/vendor/bad.css"),

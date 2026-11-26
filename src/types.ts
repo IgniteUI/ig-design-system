@@ -16,7 +16,22 @@ export const TOKEN_FAMILIES = [
 ] as const;
 export type TokenFamilyName = (typeof TOKEN_FAMILIES)[number];
 
-export type Token = { name: string; value: string; usage: string };
+/** Where a colour comes from: a published engine step, a step of a palette the package does not publish, another token, another token at an opacity, or the engine's adaptive contrast on a fill. */
+export type Source =
+  | { kind: "step"; step: string }
+  | { kind: "palette"; palette: string; step: string }
+  | { kind: "token"; token: string }
+  | { kind: "opacity"; token: string; percent: number }
+  | { kind: "contrast"; on: string };
+export type Token = {
+  name: string;
+  value: string;
+  usage: string;
+  /** Where a colour comes from. */
+  source?: Source;
+  /** The token a state colour follows in the browser, through a formula in theme.css. */
+  follows?: string;
+};
 export type TokenFamily = { note?: string; tokens: Token[] };
 export type Font = {
   family: string;

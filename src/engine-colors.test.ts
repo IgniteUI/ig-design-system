@@ -9,13 +9,15 @@ describe("hexOf", () => {
   });
 
   it("follows an alias to its engine step", () => {
-    expect(hexOf("color-action-default")).toBe(engineHex("ig-primary-seed"));
+    expect(hexOf("color-background-action")).toBe(engineHex("ig-primary-seed"));
   });
 
   it("returns a published value in place of the alias", () => {
-    expect(hexOf("color-action-on", { "color-action-on": "#000000" })).toBe(
-      "#000000",
-    );
+    expect(
+      hexOf("color-foreground-on-action", {
+        "color-foreground-on-action": "#000000",
+      }),
+    ).toBe("#000000");
   });
 });
 

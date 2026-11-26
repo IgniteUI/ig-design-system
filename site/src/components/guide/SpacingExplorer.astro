@@ -83,8 +83,8 @@ const first = "padding";
   .drawing {
     --stripes: repeating-linear-gradient(
       -45deg,
-      var(--igd-color-border-accent) 0 var(--igd-space-3xs),
-      var(--igd-color-surface-tint) var(--igd-space-3xs) var(--igd-space-xs)
+      var(--igd-color-border-action) 0 var(--igd-space-3xs),
+      var(--igd-color-background-tint) var(--igd-space-3xs) var(--igd-space-xs)
     );
   }
 
@@ -111,7 +111,7 @@ const first = "padding";
     padding: var(--igd-space-inset-lg);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-card);
-    background: var(--igd-color-surface-card);
+    background: var(--igd-color-background-card);
   }
 
   .lower {
@@ -123,12 +123,12 @@ const first = "padding";
   }
 
   .title {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .text {
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -149,22 +149,22 @@ const first = "padding";
     align-items: center;
     min-block-size: var(--igd-size-control-sm);
     padding: 0 var(--igd-space-inset-lg);
-    border: var(--igd-border-width-default) solid var(--igd-color-action-default);
+    border: var(--igd-border-width-default) solid var(--igd-color-background-action);
     border-radius: var(--igd-radius-action);
-    background: var(--igd-color-action-default);
-    color: var(--igd-color-action-on);
+    background: var(--igd-color-background-action);
+    color: var(--igd-color-foreground-on-action);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .button.quiet {
-    background: var(--igd-color-surface-card);
-    color: var(--igd-color-action-text);
+    background: var(--igd-color-background-card);
+    color: var(--igd-color-foreground-action);
   }
 
   /* Padding: a frame of stripes as wide as the padding, inside each card's border. */
   [data-picked="padding"] .card {
     background:
-      linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) content-box,
+      linear-gradient(var(--igd-color-background-card), var(--igd-color-background-card)) content-box,
       var(--stripes) padding-box;
   }
 
@@ -174,18 +174,18 @@ const first = "padding";
   }
 
   [data-picked="margin"] .lower {
-    background: var(--igd-color-surface-page);
+    background: var(--igd-color-background-page);
   }
 
   /* Gap: stripes behind the items of each card, each row and the cards side by side; the items cover all of it but the gaps. */
   [data-picked="gap"] .card {
     background:
       var(--stripes) content-box,
-      linear-gradient(var(--igd-color-surface-card), var(--igd-color-surface-card)) padding-box;
+      linear-gradient(var(--igd-color-background-card), var(--igd-color-background-card)) padding-box;
   }
 
   [data-picked="gap"] :is(.title, .text, .rest) {
-    background: var(--igd-color-surface-card);
+    background: var(--igd-color-background-card);
   }
 
   [data-picked="gap"] :is(.row, .lower) {

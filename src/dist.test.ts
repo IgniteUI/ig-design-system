@@ -95,12 +95,18 @@ describe("dist/base.css", () => {
     expect(read_.filter((n) => !/^(igd|ig)-/.test(n))).toEqual([]);
   });
 
-  it("colours a link with color-action-text, which is safe as text in both themes", () => {
+  it("colours a link with color-foreground-link, the same steps as the action text colour, which is safe as text in both themes", () => {
     expect(base).toMatch(
-      /\ba\s*\{[^}]*color:\s*var\(--igd-color-action-text\)/,
+      /\ba\s*\{[^}]*color:\s*var\(--igd-color-foreground-link\)/,
+    );
+    const all = JSON.parse(fs.readFileSync("dist/tokens.json", "utf8")).color
+      .tokens as { name: string; value: string }[];
+    const value = (n: string) => all.find((t) => t.name === n)?.value;
+    expect(value("color-foreground-link")).toBe(
+      value("color-foreground-action"),
     );
     expect(base).not.toMatch(
-      /\ba\s*\{[^}]*color:\s*var\(--igd-color-action-default\)/,
+      /\ba\s*\{[^}]*color:\s*var\(--igd-color-background-action\)/,
     );
   });
 });
@@ -112,7 +118,7 @@ describe("the focus ring of dist/base.css", () => {
     )?.[1] ?? "";
   const onDark =
     base.match(
-      /([^{}]+)\{[^}]*outline-color:\s*var\(--igd-color-focus-inverse\)/,
+      /([^{}]+)\{[^}]*outline-color:\s*var\(--igd-color-focus-ring-inverse\)/,
     )?.[1] ?? "";
 
   it.each([

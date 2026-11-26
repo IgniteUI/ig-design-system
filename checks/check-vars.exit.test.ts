@@ -24,7 +24,10 @@ describe("checks/check-vars.ts as a gate", () => {
 
   it("exits 0 when every token a file reads exists", () => {
     const file = path.join(dir, "good.css");
-    fs.writeFileSync(file, "a { color: var(--igd-color-text-strong); }\n");
+    fs.writeFileSync(
+      file,
+      "a { color: var(--igd-color-foreground-default); }\n",
+    );
     expect(run(file).status).toBe(0);
   });
 });

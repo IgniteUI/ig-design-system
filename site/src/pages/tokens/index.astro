@@ -31,7 +31,7 @@ const results = TOKEN_FAMILY_PAGES.flatMap((f) =>
 );
 // A few live samples on each family card.
 const SAMPLES: Partial<Record<TokenFamilyId, string[]>> = {
-  colour: ["color-action-default", "color-text-heading", "color-surface-tint", "color-feedback-success-default"],
+  colour: ["color-background-action", "color-foreground-heading", "color-background-tint", "color-foreground-success"],
   radius: ["radius-control", "radius-card", "radius-action"],
   shadow: ["shadow-card-hover"],
   gradient: ["gradient-brand"],
@@ -135,13 +135,13 @@ const sections = [
   }
 
   .tiers dt {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .tiers dd {
     margin: 0;
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
     font-size: var(--igd-type-body-sm-font-size);
     line-height: var(--igd-type-body-sm-line-height);
   }
@@ -152,14 +152,14 @@ const sections = [
     padding-inline: var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-control);
     border-radius: var(--igd-radius-action);
-    background: var(--igd-color-surface-card);
-    color: var(--igd-color-text-strong);
+    background: var(--igd-color-background-card);
+    color: var(--igd-color-foreground-default);
     font: inherit;
   }
 
   .count {
     margin-block: var(--igd-space-stack-xs) var(--igd-space-stack-md);
-    color: var(--igd-color-text-muted);
+    color: var(--igd-color-foreground-faint);
     font-size: var(--igd-type-body-sm-font-size);
   }
 
@@ -189,7 +189,7 @@ const sections = [
 
   .family,
   .usage {
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
   }
 
   /* breakpoint-md */
@@ -219,17 +219,17 @@ const sections = [
     padding: var(--igd-space-inset-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-card);
-    background: var(--igd-color-surface-card);
-    color: var(--igd-color-text-body);
+    background: var(--igd-color-background-card);
+    color: var(--igd-color-foreground-subtle);
     text-decoration: none;
   }
 
   .families a:hover {
-    border-color: var(--igd-color-action-default);
+    border-color: var(--igd-color-background-action);
   }
 
   .families strong {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .members {
@@ -254,12 +254,12 @@ const sections = [
   }
 
   .radius {
-    background: var(--igd-color-surface-tint);
+    background: var(--igd-color-background-tint);
   }
 
   .shadow {
     border-radius: var(--igd-radius-control);
-    background: var(--igd-color-surface-card);
+    background: var(--igd-color-background-card);
   }
 
   .gradient {

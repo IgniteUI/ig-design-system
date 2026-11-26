@@ -4,8 +4,10 @@ import fs from "node:fs";
 import { CHECKS, NOT_CHECKED } from "../checks/rules.ts";
 import { isMain } from "./main.ts";
 import { cssVar } from "./namespace.ts";
+import { EMPHASIS, NOT_USED, PROPERTIES, STATES } from "./naming.ts";
 import { fromRoot } from "./paths.ts";
 import { RULES } from "./rules.ts";
+import { sourceText } from "./source.ts";
 import {
   type Tokens as FullTokens,
   TOKEN_FAMILIES,
@@ -112,7 +114,7 @@ Also:
 - Hover, active and focus colours are derived from their base token. Override the base on a scope and the states follow.
 - A component puts \`data-ig-scope\` on its root element, so a dial (${sentence(DIALS.map(code))}) set on any ancestor reaches it. Set a dial on the root or on a \`data-ig-scope\` element.
 - When no token fits, do not invent a value that looks like one. Say which token is missing.
-- Do not add a fallback to a token read, \`var(--igd-color-text-body, #333)\`: the check skips a \`var()\` with a fallback, so a typo in its name goes unreported.
+- Do not add a fallback to a token read, \`var(--igd-color-foreground-subtle, #333)\`: the check skips a \`var()\` with a fallback, so a typo in its name goes unreported.
 
 ## Checking a site
 
@@ -123,6 +125,18 @@ ${CHECKS.map((c) => `- \`${c.id}\`: ${c.reports}${c.strict ? " (only with `--str
 \`--ignore <text>\` skips every path that contains the text. The check does not report:
 
 ${NOT_CHECKED.map((n) => `- ${n.text}`).join("\n")}
+
+## How to read a colour name
+
+\`color-{property}-{job}-{emphasis}-{state}\`, read as a sentence: \`color-foreground-link-hover\` is the foreground colour of a link, on hover. A component's own colour reads \`{component}-{part}-{property}-{state}\`: \`badge-new-foreground\`.
+
+${PROPERTIES.map((p) => `- \`${p.word}\`: ${p.means}`).join("\n")}
+
+Emphasis: ${EMPHASIS.map((e) => `\`${e.word}\` (${e.means})`).join(", ")}. A state comes last: ${STATES.map((s) => `\`${s.word}\` (${s.means})`).join(", ")}. A colour on a fill says so: \`color-foreground-on-action\` is the label on \`color-background-action\`. A name never uses ${Object.entries(
+    NOT_USED,
+  )
+    .map(([w, use]) => `\`${w}\` (it says ${use})`)
+    .join(", ")}.
 
 ## What is in it
 
@@ -174,7 +188,10 @@ export const llmsFullTxt = (
     .map(({ title, family }) => {
       const own = family.tokens.filter((t) => !isEngine(t));
       const lines = own
-        .map((t) => `- \`${cssVar(t.name)}\`: \`${t.value}\`. ${t.usage}`)
+        .map(
+          (t) =>
+            `- \`${cssVar(t.name)}\`: \`${t.value}\`. ${t.usage}${t.source ? ` From ${sourceText(t.source)}.` : ""}${t.follows ? ` Follows \`${t.follows}\` in the browser.` : ""}`,
+        )
         .join("\n");
       return `## ${title}\n\n${family.note ? `${family.note}\n\n` : ""}${lines}`;
     })

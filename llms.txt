@@ -28,10 +28,10 @@ A documentation site puts `data-igd-type="docs"` on `<html>` for the smaller typ
 
 ## Rules for code that uses the tokens
 
-1. **Choose a colour by its job.** Text, a background, a line and a button each have their own colours. A palette step such as `--ig-gray-600` is raw material: it names a shade, not a job, so it is wrong as soon as the design changes. Write `color: var(--igd-color-text-muted);`, not `color: var(--ig-gray-600);`. The check reports it as `raw-palette`.
+1. **Choose a colour by its job.** Text, a background, a line and a button each have their own colours. A palette step such as `--ig-gray-600` is raw material: it names a shade, not a job, so it is wrong as soon as the design changes. Write `color: var(--igd-color-foreground-faint);`, not `color: var(--ig-gray-600);`. The check reports it as `raw-palette`.
 2. **Say what a space is.** Padding, a vertical margin and a gap or an inline margin each have their own sizes. Naming the kind of space lets padding and gaps be tuned apart later. Write `padding: var(--igd-space-inset-md);`, not `padding: var(--igd-space-md);`. The check reports it as `spacing-role`.
-3. **Never type a colour.** Not even one that looks right. When no colour fits, say which one is missing. Write `color: var(--igd-color-action-text);`, not `color: #1a5fff;`. The check reports it as `colour-literal`, only with `--strict`.
-4. **Use one name for both variants of the theme.** A colour already has a light and a dark value and switches by itself. Do not write the light and the dark variant by hand. Write `background: var(--igd-color-surface-card);`, not `background: light-dark(#fff, #1c1c1c);`. The check reports it as `colour-literal`, only with `--strict`.
+3. **Never type a colour.** Not even one that looks right. When no colour fits, say which one is missing. Write `color: var(--igd-color-foreground-action);`, not `color: #1a5fff;`. The check reports it as `colour-literal`, only with `--strict`.
+4. **Use one name for both variants of the theme.** A colour already has a light and a dark value and switches by itself. Do not write the light and the dark variant by hand. Write `background: var(--igd-color-background-card);`, not `background: light-dark(#fff, #1c1c1c);`. The check reports it as `colour-literal`, only with `--strict`.
 5. **Resize with a dial, never inside a component.** A dial on the page or on one region makes everything in it denser, rounder or flatter at once. A component never changes a size step itself. Write `<section style="--ig-spacing: 0.5">`, not `.card { --igd-space-md: 8px; }`. The check does not report it.
 6. **Widths and heights are yours to type.** They belong to the layout, not to the design system. Do not borrow a spacing step for a size. Write `max-width: 24rem;`, not `max-width: var(--igd-space-6xl);`. The check does not report it.
 
@@ -42,7 +42,7 @@ Also:
 - Hover, active and focus colours are derived from their base token. Override the base on a scope and the states follow.
 - A component puts `data-ig-scope` on its root element, so a dial (`--ig-size`, `--ig-spacing`, `--ig-radius-factor` and `--ig-elevation-factor`) set on any ancestor reaches it. Set a dial on the root or on a `data-ig-scope` element.
 - When no token fits, do not invent a value that looks like one. Say which token is missing.
-- Do not add a fallback to a token read, `var(--igd-color-text-body, #333)`: the check skips a `var()` with a fallback, so a typo in its name goes unreported.
+- Do not add a fallback to a token read, `var(--igd-color-foreground-subtle, #333)`: the check skips a `var()` with a fallback, so a typo in its name goes unreported.
 
 ## Checking a site
 
@@ -63,9 +63,21 @@ Run `npx ig-design-system check src`. It exits with 1 when it finds:
 - widths, heights and offsets, which are typed by hand
 - Markdown files
 
+## How to read a colour name
+
+`color-{property}-{job}-{emphasis}-{state}`, read as a sentence: `color-foreground-link-hover` is the foreground colour of a link, on hover. A component's own colour reads `{component}-{part}-{property}-{state}`: `badge-new-foreground`.
+
+- `foreground`: anything drawn on a background: text, icons, lines inside a component
+- `background`: a fill: a page, a band, a card, a button
+- `border`: the edge of a box or a control
+- `focus`: the keyboard focus ring
+- `accent`: a brand colour for graphics: gradients, tiles, stat numbers
+
+Emphasis: `strong` (more contrast than the default), `default` (the usual choice), `subtle` (less contrast: supporting text, a quiet line), `faint` (the least contrast: captions, small labels), `inverse` (for an area that stays dark in both variants, such as the footer; never on a light surface). A state comes last: `hover` (on hover), `active` (while pressed), `selected` (chosen, such as the current tab), `disabled` (not available). A colour on a fill says so: `color-foreground-on-action` is the label on `color-background-action`. A name never uses `text` (it says foreground), `icon` (it says foreground), `surface` (it says background), `muted` (it says faint or subtle), `primary` (it says a job word, such as action), `secondary` (it says a job word), `alt` (it says a job word), `pressed` (it says active).
+
 ## What is in it
 
-- Colour: 131 tokens, plus 101 engine palette steps a site does not read
+- Colour: 99 tokens, plus 101 engine palette steps a site does not read
 - Spacing: 45 tokens
 - Radius: 7 tokens
 - Size: 40 tokens
@@ -99,8 +111,8 @@ The same in every framework and every repository: plain HTML, Astro, React, Angu
   padding: var(--igd-space-inset-lg);
   border: var(--igd-border-width-default) solid var(--igd-color-border-default);
   border-radius: var(--igd-radius-card);
-  background: var(--igd-color-surface-card);
-  color: var(--igd-color-text-strong);
+  background: var(--igd-color-background-card);
+  color: var(--igd-color-foreground-default);
 }
 
 .card:hover {
@@ -109,16 +121,16 @@ The same in every framework and every repository: plain HTML, Astro, React, Angu
 
 .card__title {
   margin: 0;
-  color: var(--igd-color-text-heading);
+  color: var(--igd-color-foreground-heading);
 }
 
-/* Text in the action colour reads color-action-text; its hover is a token too. */
+/* Text in the action colour reads color-foreground-action; its hover is a token too. */
 .card__link {
-  color: var(--igd-color-action-text);
+  color: var(--igd-color-foreground-action);
 }
 
 .card__link:hover {
-  color: var(--igd-color-action-hover);
+  color: var(--igd-color-foreground-link-hover);
 }
 ```
 

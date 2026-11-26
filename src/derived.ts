@@ -5,44 +5,29 @@ import type { Declaration } from "./stylesheets.ts";
 import { SCOPED } from "./theme.ts";
 
 /** A state token and the base token it is derived from. */
-const DERIVED: [token: string, base: string][] = [
-  ["color-action-fill-hover", "color-action-default"],
-  ["color-action-active", "color-action-default"],
-  ["color-action-hover", "color-action-text"],
-  ["color-link-utility", "color-action-text"],
-  ["color-surface-tint", "color-action-default"],
-  ["color-surface-tint-strong", "color-action-default"],
-  ["color-border-accent", "color-action-default"],
+export const DERIVED: [token: string, base: string][] = [
+  ["color-background-action-hover", "color-background-action"],
+  ["color-foreground-link-hover", "color-foreground-action"],
+  ["color-background-tint", "color-background-action"],
+  ["color-background-tint-strong", "color-background-action"],
+  ["color-border-action", "color-background-action"],
   ["color-accent-brand-hover", "color-accent-brand"],
   ["color-accent-brand-active", "color-accent-brand"],
-  ["color-link-inverse-hover", "color-link-inverse"],
-  ["color-focus-inverse", "color-link-inverse"],
-  ["footer-focus", "color-link-inverse"],
-  ["footer-link-hover", "footer-link"],
-  ["color-feedback-error-inverse", "color-feedback-error-default"],
-  ["color-feedback-success-inverse", "color-feedback-success-default"],
-  ["color-feedback-warning-inverse", "color-feedback-warning-default"],
-  ["color-feedback-info-inverse", "color-feedback-info-default"],
-  ["badge-bundle-background", "badge-bundle-color"],
-  ["fw-angular-background", "fw-angular-color"],
-  ["fw-angular-border", "fw-angular-color"],
-  ["fw-react-background", "fw-react-color"],
-  ["fw-react-border", "fw-react-color"],
-  ["fw-blazor-background", "color-accent-ai"],
-  ["fw-blazor-border", "color-accent-ai"],
-  ["fw-webcomponents-background", "color-action-default"],
-  ["fw-webcomponents-border", "color-action-default"],
-  ["fw-winforms-background", "color-action-default"],
-  ["fw-winforms-border", "color-action-default"],
-  ["fw-wpf-background", "color-action-default"],
-  ["fw-wpf-border", "color-action-default"],
-  ["table-mark-partial-background", "table-mark-partial-color"],
-  ["footer-heading", "footer-text"],
-  ["footer-link", "footer-text"],
-  ["footer-strong", "footer-text"],
-  ["color-text-inverse-muted", "color-text-inverse"],
+  ["color-foreground-link-inverse-hover", "color-foreground-link-inverse"],
+  ["color-focus-ring-inverse", "color-foreground-link-inverse"],
+  ["footer-focus-ring", "color-foreground-link-inverse"],
+  ["color-foreground-error-inverse", "color-foreground-error"],
+  ["color-foreground-success-inverse", "color-foreground-success"],
+  ["color-foreground-warning-inverse", "color-foreground-warning"],
+  ["color-foreground-info-inverse", "color-foreground-info"],
+  ["badge-bundle-background", "badge-bundle-foreground"],
+  ["table-mark-partial-background", "table-mark-partial-foreground"],
+  ["footer-foreground-faint", "footer-foreground"],
+  ["footer-link-foreground", "footer-foreground"],
+  ["footer-foreground-strong", "footer-foreground"],
+  ["color-foreground-inverse-faint", "color-foreground-inverse"],
 ];
-// A state token: the same element under the pointer, pressed or focused.
+// A state token: the same element on hover, pressed or focused.
 const STATE = /-(?:hover|active|pressed|focus)$/;
 
 /** The engine family a token reads through its aliases, such as "primary" for ig-primary-600; a dark palette counts as its light family. */
@@ -80,14 +65,12 @@ export const stateFamilyErrors = (
 
 /** A token that equals its base token. */
 const SAME_AS: [token: string, base: string][] = [
-  ["table-header-sub-highlight-color", "color-action-on"],
-  ["color-link-utility-hover", "color-action-text"],
-  ["color-focus-default", "color-action-text"],
+  ["table-header-sub-foreground-highlighted", "color-foreground-on-action"],
+  ["color-focus-ring", "color-foreground-action"],
   ["tile-1", "color-accent-brand"],
   ["tile-2", "color-accent-ai"],
-  ["tile-7", "color-action-default"],
-  ["color-link-inverse", "color-accent-inverse"],
-  ["footer-icon", "footer-text"],
+  ["tile-7", "color-background-action"],
+  ["color-foreground-link-inverse", "color-accent-inverse-1"],
 ];
 
 // The theme switch: 0 in the light theme, 1 under [data-theme="dark"].
@@ -213,7 +196,7 @@ export const derivedColors = (declarations: Declaration[]) => {
   }
   lines.push(
     "  /* label on the action fill: the engine's adaptive-contrast(), black or white by luminance at the WCAG AA threshold */",
-    "  --color-action-on: hsla(from color(from var(--color-action-default) var(--y-contrast)) h 0 l / 1);",
+    "  --color-foreground-on-action: hsla(from color(from var(--color-background-action) var(--y-contrast)) h 0 l / 1);",
   );
   const css = `
 /* ===== 5. derived colour ===== */

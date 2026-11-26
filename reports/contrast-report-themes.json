@@ -1,512 +1,435 @@
 {
  "light": [
   {
-   "fg": "color-text-heading",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-heading",
+   "bg": "color-background-page",
    "ratio": 17.79,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-strong",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-default",
+   "bg": "color-background-page",
    "ratio": 13.8,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-subtle",
+   "bg": "color-background-page",
    "ratio": 7.53,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-subtle",
+   "bg": "color-background-subtle",
    "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-ui",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-control",
+   "bg": "color-background-page",
    "ratio": 10.43,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-page",
    "ratio": 4.94,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-subtle",
    "ratio": 4.62,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-action",
+   "bg": "color-background-page",
    "ratio": 5.24,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-link",
+   "bg": "color-background-page",
+   "ratio": 5.24,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-foreground-action",
+   "bg": "color-background-tint",
    "ratio": 4.82,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-action",
+   "bg": "color-background-card",
    "ratio": 5.24,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-action",
+   "bg": "color-background-subtle",
    "ratio": 4.89,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-on",
-   "bg": "color-action-default",
+   "fg": "color-foreground-on-action",
+   "bg": "color-background-action",
    "ratio": 5.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-on",
-   "bg": "color-action-fill-hover",
+   "fg": "color-foreground-on-action",
+   "bg": "color-background-action-hover",
    "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-card",
    "ratio": 4.94,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-tint",
    "ratio": 4.55,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-link-utility",
-   "bg": "color-surface-page",
-   "ratio": 5.41,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-link-utility",
-   "bg": "color-surface-subtle",
-   "ratio": 5.05,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-link-utility-hover",
-   "bg": "color-surface-page",
-   "ratio": 5.24,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-link-inverse-hover",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-link-inverse-hover",
+   "bg": "color-background-inverse",
    "ratio": 11.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-hover",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-link-hover",
+   "bg": "color-background-page",
    "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-inverse",
+   "bg": "color-background-inverse",
    "ratio": 17.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-inverse-muted",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-inverse-faint",
+   "bg": "color-background-inverse",
    "ratio": 7.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-accent-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-accent-inverse-1",
+   "bg": "color-background-inverse",
    "ratio": 8.24,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-accent-inverse-performance",
-   "bg": "color-surface-inverse",
+   "fg": "color-accent-inverse-2",
+   "bg": "color-background-inverse",
    "ratio": 8.19,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-link-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-link-inverse",
+   "bg": "color-background-inverse",
    "ratio": 8.24,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-focus-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-focus-ring-inverse",
+   "bg": "color-background-inverse",
    "ratio": 11.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-link",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-link-foreground",
+   "bg": "color-background-inverse-raised",
    "ratio": 11.07,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-text",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-foreground",
+   "bg": "color-background-inverse-raised",
    "ratio": 8.58,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-strong",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-foreground-strong",
+   "bg": "color-background-inverse-raised",
    "ratio": 14.47,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-heading",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-foreground-faint",
+   "bg": "color-background-inverse-raised",
    "ratio": 6.23,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-icon",
-   "bg": "color-surface-inverse-raised",
-   "ratio": 8.58,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-error-inverse",
-   "bg": "color-surface-inverse-raised",
+   "fg": "color-foreground-error-inverse",
+   "bg": "color-background-inverse-raised",
    "ratio": 5.28,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-bundle-color",
+   "fg": "badge-bundle-foreground",
    "bg": "badge-bundle-background",
    "ratio": 6.64,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-oss-color",
-   "bg": "color-surface-page",
+   "fg": "badge-oss-foreground",
+   "bg": "color-background-page",
    "ratio": 7.35,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-new-color",
-   "bg": "color-surface-page",
+   "fg": "badge-new-foreground",
+   "bg": "color-background-page",
    "ratio": 7.35,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-updated-color",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-success",
+   "bg": "color-background-page",
+   "ratio": 7.35,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-foreground-info",
+   "bg": "color-background-page",
    "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-preview-color",
-   "bg": "color-surface-page",
-   "ratio": 5.41,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "badge-premium-color",
-   "bg": "color-surface-page",
-   "ratio": 7.15,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-success-default",
-   "bg": "color-surface-page",
-   "ratio": 7.35,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-info-default",
-   "bg": "color-surface-page",
-   "ratio": 7.03,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-info-default",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-info",
+   "bg": "color-background-tint",
    "ratio": 6.47,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-success-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-success-inverse",
+   "bg": "color-background-inverse",
    "ratio": 6.07,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-feedback-warning-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-warning-inverse",
+   "bg": "color-background-inverse",
    "ratio": 8.23,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-info-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-info-inverse",
+   "bg": "color-background-inverse",
    "ratio": 9.59,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-warning-default",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-warning",
+   "bg": "color-background-page",
    "ratio": 5.41,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-mark-yes-color",
+   "fg": "table-mark-yes-foreground",
    "bg": "table-mark-yes-background",
    "ratio": 8.52,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-mark-partial-color",
+   "fg": "table-mark-partial-foreground",
    "bg": "table-mark-partial-background",
    "ratio": 8.4,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-mark-no-color",
+   "fg": "table-mark-no-foreground",
    "bg": "table-mark-no-background",
    "ratio": 6.74,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-header-sub-color",
-   "bg": "color-surface-inverse",
+   "fg": "table-header-sub-foreground",
+   "bg": "color-background-inverse",
    "ratio": 7.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-header-sub-highlight-color",
-   "bg": "color-action-default",
+   "fg": "table-header-sub-foreground-highlighted",
+   "bg": "color-background-action",
    "ratio": 5.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-header-detail-color",
-   "bg": "color-surface-inverse",
+   "fg": "table-header-detail-foreground",
+   "bg": "color-background-inverse",
    "ratio": 12.73,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-icon-subtle",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-decorative",
+   "bg": "color-background-page",
    "ratio": 2.59,
    "min": 1,
    "ok": true
   },
   {
    "fg": "color-border-control",
-   "bg": "color-surface-page",
+   "bg": "color-background-page",
    "ratio": 4.94,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-focus-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-focus-ring-inverse",
+   "bg": "color-background-inverse",
    "ratio": 11.17,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-action-default",
-   "bg": "color-surface-page",
+   "fg": "color-background-action",
+   "bg": "color-background-page",
    "ratio": 5.25,
    "min": 1,
    "ok": true
   },
   {
-   "fg": "color-feedback-error-default",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-error",
+   "bg": "color-background-page",
    "ratio": 5.41,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-error-default",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-error",
+   "bg": "color-background-subtle",
    "ratio": 5.05,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-focus-default",
-   "bg": "color-surface-page",
+   "fg": "color-focus-ring",
+   "bg": "color-background-page",
    "ratio": 5.24,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-text-ui",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-control",
+   "bg": "color-background-subtle",
    "ratio": 9.74,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-muted",
-   "ratio": 7.03,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-heading",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-heading",
+   "bg": "color-background-card",
    "ratio": 17.79,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-strong",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-default",
+   "bg": "color-background-tint",
    "ratio": 12.7,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-heading",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-heading",
+   "bg": "color-background-tint",
    "ratio": 16.37,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-subtle",
+   "bg": "color-background-card",
    "ratio": 7.53,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-ui",
-   "bg": "fw-webcomponents-background",
-   "ratio": 9.6,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-ui",
-   "bg": "fw-angular-background",
-   "ratio": 8.82,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-ui",
-   "bg": "fw-react-background",
-   "ratio": 8.81,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-ui",
-   "bg": "fw-blazor-background",
-   "ratio": 9.69,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-focus-default",
-   "bg": "color-surface-page",
+   "fg": "color-focus-ring",
+   "bg": "color-background-page",
    "ratio": 5.24,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-feedback-error-default",
-   "bg": "color-feedback-error-surface",
+   "fg": "color-foreground-error",
+   "bg": "color-background-error",
    "ratio": 4.76,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-success-default",
-   "bg": "color-feedback-success-surface",
+   "fg": "color-foreground-success",
+   "bg": "color-background-success",
    "ratio": 6.51,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-warning-default",
-   "bg": "color-feedback-warning-surface",
+   "fg": "color-foreground-warning",
+   "bg": "color-background-warning",
    "ratio": 4.86,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-info-default",
-   "bg": "color-feedback-info-surface",
+   "fg": "color-foreground-info",
+   "bg": "color-background-info",
    "ratio": 6.22,
    "min": 4.5,
    "ok": true
@@ -514,512 +437,435 @@
  ],
  "dark": [
   {
-   "fg": "color-text-heading",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-heading",
+   "bg": "color-background-page",
    "ratio": 17.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-strong",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-default",
+   "bg": "color-background-page",
    "ratio": 16.64,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-subtle",
+   "bg": "color-background-page",
    "ratio": 12.73,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-subtle",
+   "bg": "color-background-subtle",
    "ratio": 13.6,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-ui",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-control",
+   "bg": "color-background-page",
    "ratio": 15.07,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-page",
    "ratio": 9.87,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-subtle",
    "ratio": 10.55,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-action",
+   "bg": "color-background-page",
    "ratio": 12.41,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-link",
+   "bg": "color-background-page",
+   "ratio": 12.41,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-foreground-action",
+   "bg": "color-background-tint",
    "ratio": 11.59,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-action",
+   "bg": "color-background-card",
    "ratio": 11.44,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-text",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-action",
+   "bg": "color-background-subtle",
    "ratio": 13.27,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-on",
-   "bg": "color-action-default",
+   "fg": "color-foreground-on-action",
+   "bg": "color-background-action",
    "ratio": 5.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-on",
-   "bg": "color-action-fill-hover",
+   "fg": "color-foreground-on-action",
+   "bg": "color-background-action-hover",
    "ratio": 7.03,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-card",
    "ratio": 9.1,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-muted",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-faint",
+   "bg": "color-background-tint",
    "ratio": 9.21,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-link-utility",
-   "bg": "color-surface-page",
-   "ratio": 11.76,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-link-utility",
-   "bg": "color-surface-subtle",
-   "ratio": 12.57,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-link-utility-hover",
-   "bg": "color-surface-page",
-   "ratio": 12.41,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-link-inverse-hover",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-link-inverse-hover",
+   "bg": "color-background-inverse",
    "ratio": 11.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-action-hover",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-link-hover",
+   "bg": "color-background-page",
    "ratio": 9.92,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-inverse",
+   "bg": "color-background-inverse",
    "ratio": 17.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-inverse-muted",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-inverse-faint",
+   "bg": "color-background-inverse",
    "ratio": 7.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-accent-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-accent-inverse-1",
+   "bg": "color-background-inverse",
    "ratio": 8.24,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-accent-inverse-performance",
-   "bg": "color-surface-inverse",
+   "fg": "color-accent-inverse-2",
+   "bg": "color-background-inverse",
    "ratio": 8.19,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-link-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-link-inverse",
+   "bg": "color-background-inverse",
    "ratio": 8.24,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-focus-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-focus-ring-inverse",
+   "bg": "color-background-inverse",
    "ratio": 11.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-link",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-link-foreground",
+   "bg": "color-background-inverse-raised",
    "ratio": 11.07,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-text",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-foreground",
+   "bg": "color-background-inverse-raised",
    "ratio": 8.58,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-strong",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-foreground-strong",
+   "bg": "color-background-inverse-raised",
    "ratio": 14.47,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-heading",
-   "bg": "color-surface-inverse-raised",
+   "fg": "footer-foreground-faint",
+   "bg": "color-background-inverse-raised",
    "ratio": 6.23,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "footer-icon",
-   "bg": "color-surface-inverse-raised",
-   "ratio": 8.58,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-error-inverse",
-   "bg": "color-surface-inverse-raised",
+   "fg": "color-foreground-error-inverse",
+   "bg": "color-background-inverse-raised",
    "ratio": 13.64,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-bundle-color",
+   "fg": "badge-bundle-foreground",
    "bg": "badge-bundle-background",
    "ratio": 12.44,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-oss-color",
-   "bg": "color-surface-page",
+   "fg": "badge-oss-foreground",
+   "bg": "color-background-page",
    "ratio": 15.15,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-new-color",
-   "bg": "color-surface-page",
+   "fg": "badge-new-foreground",
+   "bg": "color-background-page",
    "ratio": 15.15,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-updated-color",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-success",
+   "bg": "color-background-page",
+   "ratio": 15.15,
+   "min": 4.5,
+   "ok": true
+  },
+  {
+   "fg": "color-foreground-info",
+   "bg": "color-background-page",
    "ratio": 12.41,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "badge-preview-color",
-   "bg": "color-surface-page",
-   "ratio": 11.14,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "badge-premium-color",
-   "bg": "color-surface-page",
-   "ratio": 13.17,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-success-default",
-   "bg": "color-surface-page",
-   "ratio": 15.15,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-info-default",
-   "bg": "color-surface-page",
-   "ratio": 12.41,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-feedback-info-default",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-info",
+   "bg": "color-background-tint",
    "ratio": 11.59,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-success-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-success-inverse",
+   "bg": "color-background-inverse",
    "ratio": 15.69,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-feedback-warning-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-warning-inverse",
+   "bg": "color-background-inverse",
    "ratio": 15.62,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-info-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-foreground-info-inverse",
+   "bg": "color-background-inverse",
    "ratio": 17.51,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-warning-default",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-warning",
+   "bg": "color-background-page",
    "ratio": 11.14,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-mark-yes-color",
+   "fg": "table-mark-yes-foreground",
    "bg": "table-mark-yes-background",
    "ratio": 5.07,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-mark-partial-color",
+   "fg": "table-mark-partial-foreground",
    "bg": "table-mark-partial-background",
    "ratio": 8.13,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-mark-no-color",
+   "fg": "table-mark-no-foreground",
    "bg": "table-mark-no-background",
    "ratio": 7.21,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-header-sub-color",
-   "bg": "color-surface-inverse",
+   "fg": "table-header-sub-foreground",
+   "bg": "color-background-inverse",
    "ratio": 7.17,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-header-sub-highlight-color",
-   "bg": "color-action-default",
+   "fg": "table-header-sub-foreground-highlighted",
+   "bg": "color-background-action",
    "ratio": 5.25,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "table-header-detail-color",
-   "bg": "color-surface-inverse",
+   "fg": "table-header-detail-foreground",
+   "bg": "color-background-inverse",
    "ratio": 12.73,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-icon-subtle",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-decorative",
+   "bg": "color-background-page",
    "ratio": 7.17,
    "min": 1,
    "ok": true
   },
   {
    "fg": "color-border-control",
-   "bg": "color-surface-page",
+   "bg": "color-background-page",
    "ratio": 9.87,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-focus-inverse",
-   "bg": "color-surface-inverse",
+   "fg": "color-focus-ring-inverse",
+   "bg": "color-background-inverse",
    "ratio": 11.17,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-action-default",
-   "bg": "color-surface-page",
+   "fg": "color-background-action",
+   "bg": "color-background-page",
    "ratio": 3.4,
    "min": 1,
    "ok": true
   },
   {
-   "fg": "color-feedback-error-default",
-   "bg": "color-surface-page",
+   "fg": "color-foreground-error",
+   "bg": "color-background-page",
    "ratio": 11.12,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-error-default",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-error",
+   "bg": "color-background-subtle",
    "ratio": 11.88,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-focus-default",
-   "bg": "color-surface-page",
+   "fg": "color-focus-ring",
+   "bg": "color-background-page",
    "ratio": 12.41,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-text-ui",
-   "bg": "color-surface-subtle",
+   "fg": "color-foreground-control",
+   "bg": "color-background-subtle",
    "ratio": 16.11,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-muted",
-   "ratio": 13.6,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-heading",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-heading",
+   "bg": "color-background-card",
    "ratio": 15.9,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-strong",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-default",
+   "bg": "color-background-tint",
    "ratio": 15.54,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-heading",
-   "bg": "color-surface-tint",
+   "fg": "color-foreground-heading",
+   "bg": "color-background-tint",
    "ratio": 16.11,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-body",
-   "bg": "color-surface-card",
+   "fg": "color-foreground-subtle",
+   "bg": "color-background-card",
    "ratio": 11.73,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-text-ui",
-   "bg": "fw-webcomponents-background",
-   "ratio": 14.07,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-ui",
-   "bg": "fw-angular-background",
-   "ratio": 12.81,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-ui",
-   "bg": "fw-react-background",
-   "ratio": 12.29,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-text-ui",
-   "bg": "fw-blazor-background",
-   "ratio": 14.26,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-focus-default",
-   "bg": "color-surface-page",
+   "fg": "color-focus-ring",
+   "bg": "color-background-page",
    "ratio": 12.41,
    "min": 3,
    "ok": true
   },
   {
-   "fg": "color-feedback-error-default",
-   "bg": "color-feedback-error-surface",
+   "fg": "color-foreground-error",
+   "bg": "color-background-error",
    "ratio": 9.56,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-success-default",
-   "bg": "color-feedback-success-surface",
+   "fg": "color-foreground-success",
+   "bg": "color-background-success",
    "ratio": 12.54,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-warning-default",
-   "bg": "color-feedback-warning-surface",
+   "fg": "color-foreground-warning",
+   "bg": "color-background-warning",
    "ratio": 9.65,
    "min": 4.5,
    "ok": true
   },
   {
-   "fg": "color-feedback-info-default",
-   "bg": "color-feedback-info-surface",
+   "fg": "color-foreground-info",
+   "bg": "color-background-info",
    "ratio": 10.5,
    "min": 4.5,
    "ok": true

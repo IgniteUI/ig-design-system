@@ -31,14 +31,14 @@ beforeAll(async () => {
   await page.setContent(`<style>${css}
     .box { padding: var(--igd-space-inset-md); margin-left: var(--igd-size-control-md);
       border-radius: var(--igd-radius-card); box-shadow: var(--igd-elevation-8); }
-    .fill { background: var(--igd-color-action-fill-hover); }</style>
+    .fill { background: var(--igd-color-background-action-hover); }</style>
     <div id="default" class="box"></div>
     <div style="${DIALS}"><div id="plain" class="box"></div></div>
     <div style="${DIALS}"><div id="host" class="box" data-ig-scope></div></div>
     <div data-ig-scope style="${DIALS}"><div id="region" class="box"></div>
       <div data-ig-scope style="--ig-spacing: 1"><div id="nested" class="box"></div></div></div>
-    <div style="--igd-color-action-default: #b91c1c"><div id="plain-colour" class="fill"></div></div>
-    <div data-ig-scope style="--igd-color-action-default: #b91c1c"><div id="scope-colour" class="fill"></div></div>
+    <div style="--igd-color-background-action: #b91c1c"><div id="plain-colour" class="fill"></div></div>
+    <div data-ig-scope style="--igd-color-background-action: #b91c1c"><div id="scope-colour" class="fill"></div></div>
     <div id="default-colour" class="fill"></div>
     <div data-theme="dark"><div id="dark"></div><div data-theme="light" id="light"></div></div>`);
 }, 60000);

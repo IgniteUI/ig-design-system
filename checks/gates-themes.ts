@@ -53,7 +53,7 @@ const THEMES = ["light", "dark"];
         e.style.color = `var(--${n.startsWith("ig-") ? n : `igd-${n}`})`;
         return getComputedStyle(e).color;
       };
-      const page = css("color-surface-page");
+      const page = css("color-background-page");
       // Paints the colours in order on one pixel, so a translucent one is seen over those below it.
       const rgb = (...layers: string[]) => {
         k.clearRect(0, 0, 1, 1);

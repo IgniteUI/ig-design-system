@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ACCENTS = { inverse: 'var(--igd-color-accent-inverse)', 'inverse-alt': 'var(--igd-color-accent-inverse-performance)', primary: 'var(--igd-color-accent-brand)', secondary: 'var(--igd-color-accent-ai)' };
+const ACCENTS = { inverse: 'var(--igd-color-accent-inverse-1)', 'inverse-alt': 'var(--igd-color-accent-inverse-2)', primary: 'var(--igd-color-accent-brand)', secondary: 'var(--igd-color-accent-ai)' };
 const OFF = 'calc(-1 * var(--igd-stat-badge-offset))';
 const POS = {
   'top-left': { top: OFF, left: OFF }, 'top-right': { top: OFF, right: OFF },
@@ -13,13 +13,13 @@ export function StatBadge({ value, label, accent = 'inverse', position = 'top-le
   return (
     <div style={{
       position: 'absolute', ...POS[position], zIndex: 'var(--igd-z-index-media)',
-      background: 'var(--igd-color-surface-inverse)', borderRadius: 'var(--igd-radius-tile)',
+      background: 'var(--igd-color-background-inverse)', borderRadius: 'var(--igd-radius-tile)',
       padding: 'var(--igd-space-inset-sm) var(--igd-space-inset-md)', boxShadow: 'var(--igd-shadow-floating)',
       animation: 'igd-float var(--igd-duration-float) ease-in-out infinite',
       animationDuration: duration != null ? duration + 's' : undefined, ...style,
     }} {...rest}>
       <div className="igd-type-stat" style={{ color: ACCENTS[accent] || accent, whiteSpace: 'nowrap' }}>{value}</div>
-      <div className="igd-type-body-2xs" style={{ color: 'var(--igd-color-text-inverse-muted)' }}>{label}</div>
+      <div className="igd-type-body-2xs" style={{ color: 'var(--igd-color-foreground-inverse-faint)' }}>{label}</div>
     </div>
   );
 }

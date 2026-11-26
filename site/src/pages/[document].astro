@@ -65,7 +65,7 @@ const sections = headings
   /* A measure a reader can follow; tables and code take the full width. */
   .prose :global(:is(p, ul, ol)) {
     max-inline-size: 33rem;
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
   }
 
   .prose :global(p) {
@@ -92,7 +92,7 @@ const sections = headings
     font-size: var(--igd-type-title-md-font-size);
     letter-spacing: normal;
     text-transform: none;
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .prose :global(:is(ul, ol)) {
@@ -109,15 +109,15 @@ const sections = headings
   }
 
   .prose :global(strong) {
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
     font-weight: var(--igd-font-weight-semibold);
   }
 
   .prose :global(:not(pre) > code) {
     padding: 0 var(--igd-space-inset-3xs);
     border-radius: var(--igd-radius-control);
-    background: var(--igd-color-surface-subtle);
-    color: var(--igd-color-text-strong);
+    background: var(--igd-color-background-subtle);
+    color: var(--igd-color-foreground-default);
   }
 
   /* A name stays on one line. */
@@ -131,7 +131,7 @@ const sections = headings
     margin-block: 0 var(--igd-space-stack-md);
     border: var(--igd-border-width-default) solid var(--igd-color-border-default);
     border-radius: var(--igd-radius-tile);
-    background: var(--igd-color-surface-inverse);
+    background: var(--igd-color-background-inverse);
   }
 
   .prose :global(pre) {
@@ -154,10 +154,10 @@ const sections = headings
     inset-inline-end: var(--igd-space-xs);
     min-block-size: var(--igd-space-xl);
     padding: var(--igd-space-inset-3xs) var(--igd-space-inset-sm);
-    border: var(--igd-border-width-default) solid var(--igd-color-text-inverse-muted);
+    border: var(--igd-border-width-default) solid var(--igd-color-foreground-inverse-faint);
     border-radius: var(--igd-radius-action);
-    background: var(--igd-color-surface-inverse-raised);
-    color: var(--igd-color-text-inverse);
+    background: var(--igd-color-background-inverse-raised);
+    color: var(--igd-color-foreground-inverse);
     font-size: var(--igd-type-body-xs-font-size);
     cursor: copy;
   }
@@ -177,7 +177,7 @@ const sections = headings
   .prose :global(th) {
     font-size: var(--igd-type-body-xs-font-size);
     font-weight: var(--igd-font-weight-semibold);
-    color: var(--igd-color-text-muted);
+    color: var(--igd-color-foreground-faint);
   }
 
   .prose :global(td code) {
@@ -200,7 +200,7 @@ const sections = headings
 
   .prose :global(.copy-name code) {
     background: transparent;
-    color: var(--igd-color-text-heading);
+    color: var(--igd-color-foreground-heading);
   }
 
   .prose :global(.copy-name svg) {
@@ -208,14 +208,14 @@ const sections = headings
     inline-size: var(--igd-size-icon-xs);
     block-size: var(--igd-size-icon-xs);
     fill: none;
-    stroke: var(--igd-color-text-muted);
+    stroke: var(--igd-color-foreground-faint);
     stroke-width: var(--igd-size-icon-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .prose :global(.copy-name:hover) {
-    background: var(--igd-color-surface-tint);
+    background: var(--igd-color-background-tint);
   }
 
   .how {
@@ -232,7 +232,7 @@ const sections = headings
 
   .empty {
     padding-block: var(--igd-space-inset-3xl);
-    color: var(--igd-color-text-body);
+    color: var(--igd-color-foreground-subtle);
   }
 
   /* breakpoint-lg up: the column headings of a long table stay in view under the top bar. */
@@ -240,7 +240,7 @@ const sections = headings
     .prose :global(thead th) {
       position: sticky;
       inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px));
-      background: var(--igd-color-surface-page);
+      background: var(--igd-color-background-page);
     }
   }
 
@@ -275,7 +275,7 @@ const sections = headings
     .prose :global(td::before) {
       content: attr(data-label);
       font-size: var(--igd-type-body-xs-font-size);
-      color: var(--igd-color-text-muted);
+      color: var(--igd-color-foreground-faint);
     }
 
     .prose :global(td code.name) {

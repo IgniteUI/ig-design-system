@@ -15,37 +15,41 @@ describe("groupColours", () => {
   const { raw, semantic, component } = groupColours([
     t("ig-primary-500"),
     t("ig-gray-900"),
-    t("color-action-default"),
-    t("color-text-muted"),
-    t("color-overlay-scrim"),
-    t("footer-link"),
+    t("color-background-action"),
+    t("color-foreground-faint"),
+    t("color-background-scrim"),
+    t("color-unknown-thing"),
+    t("footer-link-foreground"),
   ]);
 
   it("puts an engine name in its family", () => {
     expect(Object.keys(raw)).toEqual(["primary", "gray"]);
   });
 
-  it("groups a semantic colour by its role", () => {
-    expect(semantic.action.map((x) => x.name)).toEqual([
-      "color-action-default",
+  it("groups a semantic colour by the property word after color-", () => {
+    expect(semantic.background.map((x) => x.name)).toEqual([
+      "color-background-action",
+      "color-background-scrim",
     ]);
-    expect(semantic.text.map((x) => x.name)).toEqual(["color-text-muted"]);
+    expect(semantic.foreground.map((x) => x.name)).toEqual([
+      "color-foreground-faint",
+    ]);
   });
 
-  it("puts a semantic colour with no listed role under other", () => {
-    expect(semantic.other.map((x) => x.name)).toEqual(["color-overlay-scrim"]);
+  it("puts a semantic colour with no listed property under other", () => {
+    expect(semantic.other.map((x) => x.name)).toEqual(["color-unknown-thing"]);
   });
 
   it("puts every other colour in the component tier", () => {
-    expect(component.map((x) => x.name)).toEqual(["footer-link"]);
+    expect(component.map((x) => x.name)).toEqual(["footer-link-foreground"]);
   });
 });
 
 describe("previewOf", () => {
-  it("previews text and links as text, borders and focus as an outline, the rest as a fill", () => {
+  it("previews a foreground as text, borders and focus as an outline, the rest as a fill", () => {
     expect(
-      ["text", "link", "border", "focus", "surface"].map(previewOf),
-    ).toEqual(["text", "text", "outline", "outline", "fill"]);
+      ["foreground", "border", "focus", "background", "accent"].map(previewOf),
+    ).toEqual(["text", "outline", "outline", "fill", "fill"]);
   });
 });
 
@@ -93,12 +97,16 @@ describe("pick", () => {
 describe("the engine tokens", () => {
   const all = [
     { name: "ig-gray-500", value: "#68717d", usage: "" },
-    { name: "color-text-muted", value: "{ig-gray-500}", usage: "" },
-    { name: "caption-color", value: "{color-text-muted}", usage: "" },
+    { name: "color-foreground-faint", value: "{ig-gray-500}", usage: "" },
+    { name: "caption-color", value: "{color-foreground-faint}", usage: "" },
     { name: "space-md", value: "1rem", usage: "" },
     { name: "space-inset-md", value: "{space-md}", usage: "" },
-    { name: "color-surface-inverse", value: "#0f172a", usage: "" },
-    { name: "footer-background", value: "{color-surface-inverse}", usage: "" },
+    { name: "color-background-inverse", value: "#0f172a", usage: "" },
+    {
+      name: "footer-background",
+      value: "{color-background-inverse}",
+      usage: "",
+    },
     { name: "loop-a", value: "{loop-b}", usage: "" },
     { name: "loop-b", value: "{loop-a}", usage: "" },
   ];
@@ -116,7 +124,7 @@ describe("the engine tokens", () => {
     expect(
       [
         "space-inset-md",
-        "color-text-muted",
+        "color-foreground-faint",
         "shadow-action-md",
         "radius-tile",
       ].some(isEngine),
@@ -135,7 +143,7 @@ describe("the engine tokens", () => {
   it("lists each engine token's readers, direct and through a reference", () => {
     const readers = readersOf(all);
     expect(readers["ig-gray-500"].map((t) => t.name)).toEqual([
-      "color-text-muted",
+      "color-foreground-faint",
       "caption-color",
     ]);
     expect(readers["space-md"].map((t) => t.name)).toEqual(["space-inset-md"]);

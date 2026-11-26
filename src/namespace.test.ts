@@ -3,8 +3,8 @@ import { cssVar, ns } from "./namespace.ts";
 
 describe("ns", () => {
   it("prefixes a design system custom property", () => {
-    expect(ns("--color-action-default: #155dfc;")).toBe(
-      "--igd-color-action-default: #155dfc;",
+    expect(ns("--color-background-action: #155dfc;")).toBe(
+      "--igd-color-background-action: #155dfc;",
     );
   });
 
@@ -57,6 +57,8 @@ describe("cssVar", () => {
   });
 
   it("adds the published prefix to a design system name", () => {
-    expect(cssVar("color-text-muted")).toBe("--igd-color-text-muted");
+    expect(cssVar("color-foreground-faint")).toBe(
+      "--igd-color-foreground-faint",
+    );
   });
 });

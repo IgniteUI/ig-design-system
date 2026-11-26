@@ -15,7 +15,7 @@ export const RULES: readonly {
   {
     title: "Choose a colour by its job.",
     why: "Text, a background, a line and a button each have their own colours. A palette step such as `--ig-gray-600` is raw material: it names a shade, not a job, so it is wrong as soon as the design changes.",
-    good: "color: var(--igd-color-text-muted);",
+    good: "color: var(--igd-color-foreground-faint);",
     bad: "color: var(--ig-gray-600);",
     check: "raw-palette",
   },
@@ -29,14 +29,14 @@ export const RULES: readonly {
   {
     title: "Never type a colour.",
     why: "Not even one that looks right. When no colour fits, say which one is missing.",
-    good: "color: var(--igd-color-action-text);",
+    good: "color: var(--igd-color-foreground-action);",
     bad: "color: #1a5fff;",
     check: "colour-literal",
   },
   {
     title: "Use one name for both variants of the theme.",
     why: "A colour already has a light and a dark value and switches by itself. Do not write the light and the dark variant by hand.",
-    good: "background: var(--igd-color-surface-card);",
+    good: "background: var(--igd-color-background-card);",
     bad: "background: light-dark(#fff, #1c1c1c);",
     check: "colour-literal",
   },

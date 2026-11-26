@@ -135,9 +135,11 @@ describe("the Tokens page", () => {
 
   it("names the engine step a colour is built from and links to it", () => {
     const card =
-      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+      html.match(
+        /<li[^>]*data-token="color-foreground-faint".*?<\/li>/s,
+      )?.[0] ?? "";
     expect(card).toMatch(
-      /From <a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
+      /Engine step<\/span>\s*<a href="\/engine\/#ig-gray-500"[^>]*><code[^>]*>--ig-gray-500<\/code><\/a>/,
     );
   });
 
@@ -188,13 +190,13 @@ describe("the Engine page", () => {
         /<li[^>]*data-filter-group[^>]*>\s*<span class="family"[^>]*><span[^>]*>--ig-<\/span>gray.*?<\/dl>/s,
       )?.[0] ?? "";
     expect(row).toMatch(
-      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-text-muted"[^>]*>.*?<code[^>]*>--igd-color-text-muted<\/code>\s*<\/a>/s,
+      /<dt[^>]*>500<\/dt>\s*<dd[^>]*>.*?<a href="\/tokens\/\?q=color-foreground-faint"[^>]*>.*?<code[^>]*>--igd-color-foreground-faint<\/code>\s*<\/a>/s,
     );
   });
 
   it("shows each token that reads a step with a swatch in its own colour", () => {
     expect(html).toMatch(
-      /<a href="\/tokens\/\?q=color-text-muted"[^>]*>\s*<span class="swatch" style="background: var\(--igd-color-text-muted\)"/,
+      /<a href="\/tokens\/\?q=color-foreground-faint"[^>]*>\s*<span class="swatch" style="background: var\(--igd-color-foreground-faint\)"/,
     );
   });
 
@@ -282,7 +284,7 @@ describe("the guide", () => {
 
   it("shows a featured colour with its plain use on its option, not its technical note", () => {
     expect(html).toMatch(
-      /data-pick="color-action-default".*?The fill of the main button\./s,
+      /data-pick="color-background-action".*?The fill of the main button\./s,
     );
   });
 
@@ -546,6 +548,27 @@ describe("the landing page", () => {
   );
 });
 
+describe("the source of a colour on the Tokens pages", () => {
+  it("labels every colour row with where it comes from", () => {
+    const html = page("tokens/colour/");
+    const rows =
+      html.match(/<li[^>]*data-token="[^"]+"[^>]*>.*?<\/li>/gs) ?? [];
+    expect(rows.length).toBeGreaterThan(90);
+    const unlabelled = rows.filter((r) => !/class="origin [a-z]+"/.test(r));
+    expect(unlabelled).toEqual([]);
+  });
+
+  it("names an unpublished palette step as not published, and a see-through colour by its base and opacity", () => {
+    const html = page("tokens/colour/");
+    expect(html).toMatch(
+      /Engine palette<\/span>[^<]*<span[^>]*>\s*dark surface 500/,
+    );
+    expect(html).toMatch(
+      /Derived<\/span>.*?color-foreground-error<\/code><\/a>\s*at 8%/s,
+    );
+  });
+});
+
 describe("the pages of the Guide", () => {
   it("prints the install and check commands with the package's name on Set up a site", () => {
     expect(page("guide/")).toContain(`npm install ${pkg.name}`);
@@ -562,7 +585,7 @@ describe("the pages of the Guide", () => {
     const rule = page("guide/rules/").match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
     expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
     expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
-      rule.indexOf("color: var(--igd-color-text-muted);"),
+      rule.indexOf("color: var(--igd-color-foreground-faint);"),
     );
   });
 
@@ -597,7 +620,9 @@ describe("the Tokens page, by tier", () => {
 
   it("shows what a token is for before its name", () => {
     const card =
-      html.match(/<li[^>]*data-token="color-text-muted".*?<\/li>/s)?.[0] ?? "";
+      html.match(
+        /<li[^>]*data-token="color-foreground-faint".*?<\/li>/s,
+      )?.[0] ?? "";
     expect(card.indexOf("<p")).toBeGreaterThan(-1);
     expect(card.indexOf("<p")).toBeLessThan(card.indexOf("data-copy="));
   });
