@@ -718,18 +718,6 @@
   --igd-color-foreground-warning-inverse: oklch(from var(--igd-color-foreground-warning) calc(l + 0.2338) calc(c * 1.2097) calc(h + -0.37));
   --igd-color-foreground-info-inverse: oklch(from var(--igd-color-foreground-info) calc(l + 0.3293) calc(c * 0.4856) calc(h + 7.74));
   --igd-badge-bundle-background: oklch(from var(--igd-badge-bundle-foreground) calc((1 - var(--igd-theme-dark)) * 0.9755 + var(--igd-theme-dark) * 0.2319) calc(c * 0.0507 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 5.81));
-  --igd-framework-angular-background: oklch(from var(--igd-framework-angular-base) calc((1 - var(--igd-theme-dark)) * 0.9460 + var(--igd-theme-dark) * 0.2702) calc(c * 0.1342 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.18));
-  --igd-framework-angular-border: oklch(from var(--igd-framework-angular-base) calc((1 - var(--igd-theme-dark)) * 0.8563 + var(--igd-theme-dark) * 0.3869) calc(c * 0.4165 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 4.89));
-  --igd-framework-react-background: oklch(from var(--igd-framework-react-base) calc((1 - var(--igd-theme-dark)) * 0.9392 + var(--igd-theme-dark) * 0.2790) calc(c * 0.3684 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 2.63));
-  --igd-framework-react-border: oklch(from var(--igd-framework-react-base) calc((1 - var(--igd-theme-dark)) * 0.8371 + var(--igd-theme-dark) * 0.4117) calc(c * 1.0737 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 0.47));
-  --igd-framework-blazor-background: oklch(from var(--igd-color-accent-ai) calc((1 - var(--igd-theme-dark)) * 0.9755 + var(--igd-theme-dark) * 0.2319) calc(c * 0.0395 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.03));
-  --igd-framework-blazor-border: oklch(from var(--igd-color-accent-ai) calc((1 - var(--igd-theme-dark)) * 0.9040 + var(--igd-theme-dark) * 0.3248) calc(c * 0.2125 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 6.41));
-  --igd-framework-webcomponents-background: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
-  --igd-framework-webcomponents-border: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
-  --igd-framework-winforms-background: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.9717 + var(--igd-theme-dark) * 0.2368) calc(c * 0.0436 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 17.61));
-  --igd-framework-winforms-border: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
-  --igd-framework-wpf-background: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.9395 + var(--igd-theme-dark) * 0.2786) calc(c * 0.1176 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 12.29));
-  --igd-framework-wpf-border: oklch(from var(--igd-color-background-action) calc((1 - var(--igd-theme-dark)) * 0.8810 + var(--igd-theme-dark) * 0.3547) calc(c * 0.2360 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + 10.49));
   --igd-table-mark-partial-background: oklch(from var(--igd-table-mark-partial-foreground) calc((1 - var(--igd-theme-dark)) * 0.8500 + var(--igd-theme-dark) * 0.3949) calc(c * 1.7546 * (1 + 1.5 * var(--igd-theme-dark))) calc(h + -0.29));
   --igd-footer-foreground-faint: oklch(from var(--igd-footer-foreground) calc(l + -0.0907) calc(c * 1.3685) calc(h + -5.88));
   --igd-footer-link-foreground: oklch(from var(--igd-footer-foreground) calc(l + 0.0778) calc(c * 0.5091) calc(h + -4.35));
@@ -796,7 +784,5 @@
   --igd-badge-new-foreground: var(--ig-success-50);
   --igd-badge-oss-foreground: var(--ig-success-50);
   --igd-table-mark-partial-foreground: var(--ig-warn-50);
-  --igd-framework-angular-base: #ffb9ce;
-  --igd-framework-react-base: #d3f1fa;
 }
 [data-theme] { background-color: var(--igd-color-background-page); color: var(--igd-color-foreground-default); }

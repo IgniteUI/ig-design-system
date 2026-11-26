@@ -137,13 +137,13 @@ The other renames, by kind:
 | `--table-head-sub` | `--igd-table-header-sub-foreground` |
 | `--table-head-sub-ours` | `--igd-table-header-sub-foreground-highlighted` |
 | `--table-head-detail` | `--igd-table-header-detail-foreground` |
-| `--fw-angular-bg` | `--igd-framework-angular-background` |
-| `--fw-react-bg` | `--igd-framework-react-background` |
-| `--fw-wc-bg` | `--igd-framework-webcomponents-background` |
-| `--fw-wc-border` | `--igd-framework-webcomponents-border` |
-| `--fw-winforms-bg` | `--igd-framework-winforms-background` |
-| `--fw-blazor-bg` | `--igd-framework-blazor-background` |
-| `--fw-wpf-bg` | `--igd-framework-wpf-background` |
+| `--fw-angular-bg` | `--igd-color-background-card` |
+| `--fw-react-bg` | `--igd-color-background-card` |
+| `--fw-wc-bg` | `--igd-color-background-card` |
+| `--fw-wc-border` | `--igd-color-border-default` |
+| `--fw-winforms-bg` | `--igd-color-background-card` |
+| `--fw-blazor-bg` | `--igd-color-background-card` |
+| `--fw-wpf-bg` | `--igd-color-background-card` |
 
 ### Size and layout
 

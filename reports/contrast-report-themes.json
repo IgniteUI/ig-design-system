@@ -400,34 +400,6 @@
    "ok": true
   },
   {
-   "fg": "color-foreground-control",
-   "bg": "framework-webcomponents-background",
-   "ratio": 9.6,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-angular-background",
-   "ratio": 8.82,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-react-background",
-   "ratio": 8.81,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-blazor-background",
-   "ratio": 9.69,
-   "min": 4.5,
-   "ok": true
-  },
-  {
    "fg": "color-focus-ring",
    "bg": "color-background-page",
    "ratio": 5.24,
@@ -860,34 +832,6 @@
    "fg": "color-foreground-subtle",
    "bg": "color-background-card",
    "ratio": 11.73,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-webcomponents-background",
-   "ratio": 14.07,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-angular-background",
-   "ratio": 12.81,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-react-background",
-   "ratio": 12.29,
-   "min": 4.5,
-   "ok": true
-  },
-  {
-   "fg": "color-foreground-control",
-   "bg": "framework-blazor-background",
-   "ratio": 14.26,
    "min": 4.5,
    "ok": true
   },

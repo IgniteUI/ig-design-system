@@ -252,48 +252,6 @@ export const ALIAS: Record<string, AliasEntry> = {
   "window-dot-amber": ["ig-warn-200", "BrowserFrame window dot."],
   "window-dot-green": ["ig-success-300", "BrowserFrame window dot."],
   // framework pills
-  // Angular's and React's own colours, typed: a rebrand of ours never moves another company's brand.
-  "framework-angular-base": [
-    "#c42579",
-    "Angular's brand colour on the Angular pill. The pill fill and border derive from it.",
-  ],
-  "framework-react-base": [
-    "#017589",
-    "React's brand colour on the React pill. The pill fill and border derive from it.",
-  ],
-  "framework-angular-background": [
-    "#fee6ec",
-    "The fill of the Angular pill; it holds on hover.",
-  ],
-  "framework-angular-border": ["#ffb9ce", "The border of the Angular pill."],
-  "framework-react-background": ["#d3f1fa", "The fill of the React pill."],
-  "framework-react-border": ["#78daf2", "The border of the React pill."],
-  "framework-webcomponents-background": [
-    "ig-primary-50",
-    "Web Components framework pill fill.",
-  ],
-  "framework-webcomponents-border": [
-    "ig-primary-200",
-    "Web Components framework pill border.",
-  ],
-  "framework-winforms-background": [
-    "ig-primary-50",
-    "Windows Forms framework pill fill (shares the Web Components tint).",
-  ],
-  "framework-winforms-border": [
-    "ig-primary-200",
-    "Windows Forms framework pill border.",
-  ],
-  "framework-blazor-background": [
-    "ig-secondary-50",
-    "Blazor framework pill fill.",
-  ],
-  "framework-blazor-border": [
-    "ig-secondary-200",
-    "Blazor framework pill border.",
-  ],
-  "framework-wpf-background": ["ig-primary-100", "WPF framework pill fill."],
-  "framework-wpf-border": ["ig-primary-200", "WPF framework pill border."],
   // icon tiles
   "tile-1": [
     "ig-info-seed",
@@ -342,8 +300,6 @@ export const DARK_STEP: Record<string, string> = {
   "badge-new-foreground": "ig-success-50",
   "badge-oss-foreground": "ig-success-50",
   "table-mark-partial-foreground": "ig-warn-50",
-  "framework-angular-base": "#ffb9ce",
-  "framework-react-base": "#d3f1fa",
 };
 
 // ---- translucent colours: live = hsl(from <base> h s l / <opacity token>) ----------------------

@@ -1,32 +1,29 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
-import { engineHex, isLiteral } from "./engine-colors.ts";
+import { engineHex } from "./engine-colors.ts";
 import { ALIAS, ALPHA, CONTRAST_PAIRS, DARK_STEP } from "./spec.ts";
 
 // The family of an engine step: `primary` of `ig-primary-600`.
 const family = (step: string) => step.replace(/^ig-([a-z]+)-\w+$/, "$1");
 
-// A brand colour that is not ours is typed in both variants; the engine rules below are for our own steps.
-const ours = (name: string) => !isLiteral(ALIAS[name]?.[0] ?? "");
-
 describe("DARK_STEP", () => {
   it("names only tokens that alias an engine step", () => {
     const unknown = Object.keys(DARK_STEP).filter(
-      (name) => ours(name) && engineHex(ALIAS[name]?.[0] ?? "") === null,
+      (name) => engineHex(ALIAS[name]?.[0] ?? "") === null,
     );
     expect(unknown).toEqual([]);
   });
 
   it("gives each token a step the palette has", () => {
     const missing = Object.entries(DARK_STEP).filter(
-      ([name, step]) => ours(name) && !engineHex(step),
+      ([, step]) => !engineHex(step),
     );
     expect(missing).toEqual([]);
   });
 
   it("keeps each token in the family of its light alias", () => {
     const moved = Object.entries(DARK_STEP).filter(
-      ([name, step]) => ours(name) && family(step) !== family(ALIAS[name][0]),
+      ([name, step]) => family(step) !== family(ALIAS[name][0]),
     );
     expect(moved).toEqual([]);
   });

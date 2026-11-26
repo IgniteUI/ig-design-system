@@ -40,13 +40,8 @@
 /* PlatformChip, FrameworkPill */
 [data-ig="platform-chip"] { display: inline-flex; align-items: center; text-decoration: none; font-weight: var(--igd-font-weight-semibold); padding: var(--igd-space-inset-xs) var(--igd-space-inset-sm); border-radius: var(--igd-radius-action); transition: all var(--igd-duration-chip) var(--igd-easing-default); border: var(--igd-border-width-default) solid var(--igd-color-border-default); background: var(--igd-color-background-subtle); color: var(--igd-color-foreground-action); }
 [data-ig="platform-chip"]:hover { border-color: var(--igd-color-background-action); background: var(--igd-color-background-action); color: var(--igd-color-foreground-on-action); }
-[data-ig="framework-pill"] { display: inline-flex; align-items: center; gap: var(--igd-space-gap-xs); padding: var(--igd-space-inset-xs) var(--igd-space-inset-md); border-radius: var(--igd-radius-action); text-decoration: none; white-space: nowrap; transition: var(--igd-transition-default); border: var(--igd-border-width-default) solid var(--igd-framework-angular-border); background: var(--igd-framework-angular-background); color: var(--igd-color-foreground-control); font-weight: var(--igd-font-weight-medium); box-shadow: none; }
+[data-ig="framework-pill"] { display: inline-flex; align-items: center; gap: var(--igd-space-gap-xs); padding: var(--igd-space-inset-xs) var(--igd-space-inset-md); border-radius: var(--igd-radius-action); text-decoration: none; white-space: nowrap; transition: var(--igd-transition-default); border: var(--igd-border-width-default) solid var(--igd-color-border-default); background: var(--igd-color-background-card); color: var(--igd-color-foreground-control); font-weight: var(--igd-font-weight-medium); box-shadow: none; }
 [data-ig="framework-pill"][data-size="lg"] { padding: var(--igd-space-inset-sm) var(--igd-space-inset-xl); }
-[data-ig="framework-pill"][data-fw="react"] { border-color: var(--igd-framework-react-border); background: var(--igd-framework-react-background); }
-[data-ig="framework-pill"][data-fw="webcomponents"] { border-color: var(--igd-framework-webcomponents-border); background: var(--igd-framework-webcomponents-background); }
-[data-ig="framework-pill"][data-fw="blazor"] { border-color: var(--igd-framework-blazor-border); background: var(--igd-framework-blazor-background); }
-[data-ig="framework-pill"][data-fw="winforms"] { border-color: var(--igd-framework-winforms-border); background: var(--igd-framework-winforms-background); }
-[data-ig="framework-pill"][data-fw="wpf"] { border-color: var(--igd-framework-wpf-border); background: var(--igd-framework-wpf-background); }
 [data-ig="framework-pill"]:hover { box-shadow: var(--igd-shadow-action-sm); }
 
 /* CalloutStrip (release) */
