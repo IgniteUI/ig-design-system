@@ -16,9 +16,11 @@ interface Props {
   title?: string;
   /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
   current?: PageId;
+  /** A page without the top bar, such as the landing page. */
+  bare?: boolean;
 }
 
-const { title, current } = Astro.props;
+const { title, current, bare = false } = Astro.props;
 const SITE = "Infragistics design system";
 ---
 
@@ -42,10 +44,14 @@ const SITE = "Infragistics design system";
   <body>
     <a class="skip" href="#content">Skip to the content</a>
     <DarkNotice />
-    <SiteHeader current={current}>
-      <slot name="bar" slot="bar" />
-      <slot name="switches" slot="switches" />
-    </SiteHeader>
+    {
+      !bare && (
+        <SiteHeader current={current}>
+          <slot name="bar" slot="bar" />
+          <slot name="switches" slot="switches" />
+        </SiteHeader>
+      )
+    }
     <slot />
     <SiteFooter />
     <Toast />

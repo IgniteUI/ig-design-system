@@ -1,0 +1,64 @@
+---
+// A page of the Guide: the four steps of a component on the design system, and the example card of the package.
+import Steps from "@/components/guide/Steps.astro";
+import Section from "@/components/layout/Section.astro";
+import CodeBlock from "@/components/ui/CodeBlock.astro";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { CARD_CSS, CARD_HTML } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+
+const sections = {
+  steps: { id: "steps", title: "The four steps" },
+  card: { id: "card", title: "The example card" },
+};
+---
+
+<SectionsLayout title="Build a component" sections={Object.values(sections)} menu="guide">
+  <h1>Build a component</h1>
+  <p class="intro">The same four steps in plain HTML, Astro, React, Angular or a web component.</p>
+
+  <Section {...sections.steps}>
+    <Steps>
+      <li>
+        <strong>Mark the root.</strong> Put <code>data-ig-scope</code> on the outermost element of the component.
+        A dial set anywhere above it then reaches it.
+      </li>
+      <li>
+        <strong>Colour by job.</strong> Text reads a <code>color-text-*</code> token, a background a <code
+          >color-surface-*</code
+        > token, a line a <code>color-border-*</code> token.
+      </li>
+      <li>
+        <strong>Space by role.</strong> Padding is <code>space-inset-*</code>, a vertical margin <code
+          >space-stack-*</code
+        >, a gap or an inline margin <code>space-gap-*</code>.
+      </li>
+      <li>
+        <strong>Set text with a class.</strong>{" "}
+        <code>igd-type-title-sm</code> on a card title, <code>igd-type-body-md</code> on its text.
+      </li>
+    </Steps>
+  </Section>
+
+  <Section {...sections.card}>
+    <p class="lead">
+      The package ships a card written to these steps: <code>docs/examples/card.html</code> and its stylesheet{" "}
+      <code>docs/examples/card.css</code>. Its second card sits in a section that sets two dials.
+    </p>
+    <iframe class="live" src={href("docs/examples/card.html")} title="The example card of the package" loading="lazy"
+    ></iframe>
+    <CodeBlock code={CARD_CSS} lang="css" label="the card's stylesheet" />
+    <CodeBlock code={CARD_HTML} lang="html" label="the example page" />
+  </Section>
+</SectionsLayout>
+
+<style>
+  .live {
+    display: block;
+    inline-size: 100%;
+    block-size: 26rem;
+    margin-block-end: var(--igd-space-stack-md);
+    border: var(--igd-border-width-default) dashed var(--igd-color-border-default);
+    border-radius: var(--igd-radius-card);
+  }
+</style>

@@ -17,13 +17,41 @@ export const page = (route: string) =>
 /** Every page of the built site, as its route from the site root. */
 export const ROUTES = [
   "",
+  "concepts/",
   "tokens/",
+  "tokens/colour/",
+  "tokens/type/",
+  "tokens/spacing/",
+  "tokens/radius/",
+  "tokens/shadow/",
+  "tokens/gradient/",
+  "tokens/size/",
+  "tokens/other/",
   "engine/",
   "logo/",
+  "guide/",
+  "guide/component/",
+  "guide/rules/",
   "adopting/",
   "migration/",
   "changelog/",
 ];
+
+/** The pages of the Guide, as their routes from the site root. */
+export const GUIDE_ROUTES = [
+  "guide/",
+  "guide/component/",
+  "guide/rules/",
+  "adopting/",
+  "migration/",
+  "changelog/",
+];
+
+/** The family pages of Tokens, as their routes from the site root. */
+export const TOKEN_ROUTES = ROUTES.filter((r) => /^tokens\/.+/.test(r));
+
+/** The HTML of every family page of Tokens, joined, for a test about the tokens wherever they are listed. */
+export const tokenPages = () => TOKEN_ROUTES.map((r) => page(r)).join("\n");
 
 /** The text of a file in the repository. */
 export const source = (file: string) =>

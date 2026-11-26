@@ -13,6 +13,9 @@ for (const explorer of document.querySelectorAll<HTMLElement>(
       p.toggleAttribute("data-current", p.dataset.part === token);
     for (const i of explorer.querySelectorAll<HTMLElement>("[data-info]"))
       i.hidden = i.dataset.info !== token;
+    explorer
+      .querySelector<HTMLElement>("[data-variant]")
+      ?.setAttribute("data-theme", token);
     const lift = explorer.querySelector<HTMLElement>("[data-lift]");
     if (lift) lift.style.boxShadow = `var(--igd-${token})`;
   };

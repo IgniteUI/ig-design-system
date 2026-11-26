@@ -1,8 +1,10 @@
 ---
 // Shows the three kinds of space on two drawn cards: pick padding, margin or gap and that space is filled with a striped tint
-// where it sits, with its use and the name of its token above.
+// where it sits. Each option names its token and says what its space is for.
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
 import ExampleTag from "@/components/guide/ExampleTag.astro";
-import { tokens } from "@/lib/design-system.ts";
+import OptionList from "@/components/guide/OptionList.astro";
+import { cssVar, prefixOf, tokens } from "@/lib/design-system.ts";
 import { pick } from "@/lib/tokens.ts";
 
 const KINDS = [
@@ -29,27 +31,21 @@ pick(tokens.spacing.tokens, KINDS.map((k) => k.token), "spacing");
 const first = "padding";
 ---
 
-<div class="explorer" data-explorer data-spacing-explorer data-picked={first}>
-  <div class="options" role="group" aria-label="Kind of space">
-    {
-      KINDS.map((k) => (
-        <button type="button" data-pick={k.id} aria-pressed={k.id === first ? "true" : "false"}>
-          <span class:list={["key", k.id]} />
-          {k.label}
-        </button>
-      ))
-    }
+<ExampleLayout class="explorer" data-explorer data-spacing-explorer data-picked={first}>
+  <div class="options" slot="controls">
+    <OptionList
+      options={KINDS.map((k) => ({
+        pick: k.id,
+        label: k.label,
+        use: k.use,
+        swatch: "var(--stripes)",
+        name: { text: cssVar(k.token), prefix: prefixOf(cssVar(k.token)) },
+      }))}
+      first={first}
+      label="Kind of space"
+    />
   </div>
 
-  <div class="info">
-    {
-      KINDS.map((k) => (
-        <div data-info={k.id} hidden={k.id !== first}>
-          <p class="use">{k.use}</p>
-        </div>
-      ))
-    }
-  </div>
 
   <div class="drawing">
     <ExampleTag many />
@@ -75,81 +71,24 @@ const first = "padding";
       </div>
     </div>
   </div>
-</div>
+</ExampleLayout>
 
 <script>
   import "@/scripts/explorer.ts";
 </script>
 
 <style>
-  .explorer {
+  /* The stripes that mark a kind of space, on its option and in the drawing. */
+  .options,
+  .drawing {
     --stripes: repeating-linear-gradient(
       -45deg,
       var(--igd-color-border-accent) 0 var(--igd-space-3xs),
       var(--igd-color-surface-tint) var(--igd-space-3xs) var(--igd-space-xs)
     );
-
-    display: grid;
-    gap: var(--igd-space-gap-md);
-    margin-block-end: var(--igd-space-stack-lg);
   }
 
-  .options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--igd-space-gap-xs);
-  }
 
-  .options button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--igd-space-gap-xs);
-    min-block-size: var(--igd-size-control-sm);
-    padding: 0 var(--igd-space-inset-md) 0 var(--igd-space-inset-sm);
-    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
-    border-radius: var(--igd-radius-action);
-    background: transparent;
-    color: var(--igd-color-text-ui);
-    font-size: var(--igd-type-body-sm-font-size);
-    font-weight: var(--igd-font-weight-semibold);
-    cursor: pointer;
-  }
-
-  .options button:hover {
-    background: var(--igd-color-surface-subtle);
-    color: var(--igd-color-text-heading);
-  }
-
-  .options button[aria-pressed="true"] {
-    border-color: var(--igd-color-action-default);
-    background: var(--igd-color-surface-tint);
-    color: var(--igd-color-action-text);
-  }
-
-  @media (pointer: coarse) {
-    .options button {
-      min-block-size: var(--igd-size-control-lg);
-    }
-  }
-
-  /* The key is a swatch of the stripes that mark the space. */
-  .key {
-    inline-size: var(--igd-size-icon-sm);
-    block-size: var(--igd-size-icon-sm);
-    border-radius: var(--igd-radius-control);
-    background: var(--stripes);
-  }
-
-  .info > div {
-    display: grid;
-    gap: var(--igd-space-gap-3xs);
-  }
-
-  .use {
-    margin: 0;
-    color: var(--igd-color-text-strong);
-    font-weight: var(--igd-font-weight-semibold);
-  }
 
   .drawing {
     display: grid;

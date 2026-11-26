@@ -1,0 +1,55 @@
+---
+// An interactive example of Concepts: its controls on the left, and what they change on the right, the info above the drawing.
+// Below 48rem of content width the three stack in that order. Attributes and the class go on the root element.
+interface Props {
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<div data-ig-scope class="frame">
+  <div class:list={["example", className]} data-example-layout {...attributes}>
+    <div class="controls"><slot name="controls" /></div>
+    <div class="result">
+      <slot name="info" />
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* The text after an example keeps its distance from it. */
+  .frame {
+    container-type: inline-size;
+    margin-block-end: var(--igd-space-stack-xl);
+  }
+
+  .example {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--igd-space-gap-lg);
+  }
+
+  .controls,
+  .result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--igd-space-gap-md);
+    min-inline-size: 0;
+  }
+
+  /* Beside a longer list of options, the result stays in view under the top bar while the list scrolls. */
+  @container (inline-size >= 48rem) {
+    .example {
+      grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .result {
+      position: sticky;
+      inset-block-start: calc(var(--igd-nav-height) + var(--notice-block-size, 0px) + var(--igd-space-stack-md));
+    }
+  }
+</style>

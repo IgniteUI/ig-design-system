@@ -14,7 +14,7 @@ const { text, about, short = false } = Astro.props;
 const [first, rest] = lead(text);
 ---
 
-{text && <p set:html={prose(first)} />}
+{text && <p data-ig-scope set:html={prose(first)} />}
 {
   rest && !short && (
     <details>

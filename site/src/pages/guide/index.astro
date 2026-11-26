@@ -1,0 +1,69 @@
+---
+// The first page of the Guide: install the package, load its stylesheets, check the site.
+import Section from "@/components/layout/Section.astro";
+import CodeBlock from "@/components/ui/CodeBlock.astro";
+import LinkCards from "@/components/ui/LinkCards.astro";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { CHECKS, checkCommand, installCommand, packageName, STYLESHEETS } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+
+const sections = {
+  install: { id: "install", title: "Install the package" },
+  load: { id: "load", title: "Load the stylesheets" },
+  check: { id: "check", title: "Check the site" },
+  agents: { id: "agents", title: "For AI agents" },
+};
+const optional = STYLESHEETS.filter((s) => s.optional).map((s) => s.file);
+const listOf = (items: string[]) =>
+  items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+---
+
+<SectionsLayout title="Set up a site" sections={Object.values(sections)} menu="guide">
+  <h1>Set up a site</h1>
+  <p class="intro">
+    For the developer who adds the design system to a site. It is CSS only: no framework code and no dependencies.
+  </p>
+
+  <Section {...sections.install}>
+    <CodeBlock code={installCommand(packageName)} lang="sh" label="the install command" />
+  </Section>
+
+  <Section {...sections.load}>
+    <p class="lead">
+      Load them before the site's own styles, in this order.{" "}
+      {optional.map((file, i) => [i > 0 && " and ", <code>{file}</code>])} are optional.
+    </p>
+    <CodeBlock code={STYLESHEETS.map((s) => `@import '${packageName}/${s.file}';`).join("\n")} lang="css" label="the imports" />
+    <p class="lead after">
+      A documentation site puts <code>data-igd-type="docs"</code> on <code>&lt;html&gt;</code> for the smaller type
+      set. <code>data-theme="dark"</code> selects the dark variant.
+    </p>
+  </Section>
+
+  <Section {...sections.check}>
+    <p class="lead">
+      The command reports {listOf(CHECKS.filter((c) => !c.strict).map((c) => c.reports))}, and fails the build when
+      it finds one. <a href={href("guide/rules/")}>Rules</a> lists what it reports and what it does not.
+    </p>
+    <CodeBlock code={checkCommand(packageName)} lang="sh" label="the check command" />
+  </Section>
+
+  <Section {...sections.agents}>
+    <LinkCards
+      items={[
+        {
+          href: href("llms.txt"),
+          title: "llms.txt",
+          text: "The rules for code that uses the tokens, and what the check reports.",
+        },
+        { href: href("llms-full.txt"), title: "llms-full.txt", text: "Every token with its value and what it is for." },
+      ]}
+    />
+  </Section>
+</SectionsLayout>
+
+<style>
+  .lead.after {
+    margin-block-start: var(--igd-space-stack-md);
+  }
+</style>

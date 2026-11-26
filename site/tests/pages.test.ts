@@ -4,7 +4,14 @@ import { describe, expect, it } from "vitest";
 import { TOKEN_FAMILIES } from "../../src/types.ts";
 import { COBRAND_RULES, NAME_RULES, SOON } from "../src/data/brand.ts";
 import { isEngine, readersOf } from "../src/lib/tokens.ts";
-import { DIST, page, ROUTES, source } from "./built.ts";
+import {
+  DIST,
+  GUIDE_ROUTES,
+  page,
+  ROUTES,
+  source,
+  tokenPages,
+} from "./built.ts";
 
 const tokens = JSON.parse(source("dist/tokens.json"));
 const pkg = JSON.parse(source("package.json"));
@@ -40,7 +47,7 @@ describe("every page", () => {
     expect(page(route)).not.toMatch(/href="https:\/\/github\.com[^"]*\.md"/);
   });
 
-  it.each(ROUTES)(
+  it.each(ROUTES.filter((r) => r !== ""))(
     "/%s carries the logo of each variant of the theme in the top bar, under one accessible name",
     (route) => {
       const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
@@ -52,13 +59,44 @@ describe("every page", () => {
   );
 
   it("marks the open page in the top bar", () => {
-    expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Guide/);
+    expect(page("concepts/")).toMatch(/aria-current="page"[^>]*>\s*Concepts/);
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
     expect(page("engine/")).toMatch(/aria-current="page"[^>]*>\s*Engine/);
     expect(page("logo/")).toMatch(
       /aria-current="page"[^>]*>\s*Brand book\s*<span[^>]*>Beta<\/span>/,
     );
   });
+
+  it.each(GUIDE_ROUTES)(
+    "marks Guide in the top bar on /%s, and Guide opens Set up a site",
+    (route) => {
+      const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
+      expect(header).toMatch(
+        /<a href="\/guide\/" aria-current="page"[^>]*>\s*Guide\s*</,
+      );
+    },
+  );
+
+  it.each(GUIDE_ROUTES)(
+    "/%s lists every page of the Guide in one menu, marks itself, and has no link back to Concepts",
+    (route) => {
+      const html = page(route);
+      const menu =
+        html.match(/<nav[^>]*class="side-nav"[^>]*>.*?<\/nav>/s)?.[0] ?? "";
+      expect(menu.match(/<a /g)).toHaveLength(GUIDE_ROUTES.length);
+      expect(menu).toContain(`href="/${route}" aria-current="page"`);
+      expect(html).not.toContain("Back to the guide");
+    },
+  );
+
+  it.each(GUIDE_ROUTES)(
+    "/%s lists its sections under On this page",
+    (route) => {
+      expect(page(route)).toMatch(
+        /<nav[^>]*aria-label="On this page"[^>]*>\s*<p class="heading"[^>]*>On this page<\/p>/,
+      );
+    },
+  );
   it.each(ROUTES)(
     "/%s ends with the footer, which names the package and its version",
     (route) => {
@@ -79,7 +117,7 @@ describe("every page", () => {
 });
 
 describe("the Tokens page", () => {
-  const html = page("tokens/");
+  const html = tokenPages();
   const shown = new Set(
     [...html.matchAll(/data-token="([^"]+)"/g)].map((m) => m[1]),
   );
@@ -137,11 +175,11 @@ describe("the Engine page", () => {
 
   it("lists the surface in the palette by its four roles", () => {
     for (const role of ["base", "sunken", "raised", "overlay"])
-      expect(html).toContain(`data-copy="var(--ig-surface-${role})"`);
+      expect(html).toContain(`data-copy="--ig-surface-${role}"`);
   });
 
   it("lists a shaded family by its ten numbered shades", () => {
-    expect(html.match(/data-copy="var\(--ig-gray-\d+\)"/g)).toHaveLength(10);
+    expect(html.match(/data-copy="--ig-gray-\d+"/g)).toHaveLength(10);
   });
 
   it("lists under a palette step the tokens that read it, each linked to its filter on the Tokens page", () => {
@@ -185,27 +223,31 @@ describe("the Engine page", () => {
     expect(row).toContain('href="/tokens/?q=space-inset-md"');
   });
 
-  it("makes each palette step findable and copyable by its bare name", () => {
+  it("makes each palette step findable, and copies the name it shows", () => {
     expect(html).toMatch(
-      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy-alt="--ig-primary-500"/,
+      /<li[^>]*data-token="ig-primary-500"[^>]*>\s*<button[^>]*data-copy="--ig-primary-500"/,
     );
   });
 });
 
 describe("the guide", () => {
-  const html = page("");
+  const html = page("concepts/");
 
-  it("names each dial in plain words, with its default, and not its custom property", () => {
+  it("names each dial, its custom property and its default in plain words", () => {
     const panel =
       html.match(/<div class="panel".*?data-dial-reset/s)?.[0] ?? "";
     expect(
-      [...panel.matchAll(/<p class="name"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
-        (m) => m[1],
-      ),
-    ).toEqual(["Size", "Spacing", "Roundness", "Shadow"]);
-    expect(
-      [...panel.matchAll(/>([^<]*)</g)].map((m) => m[1]).join(" "),
-    ).not.toContain("--ig-");
+      [
+        ...panel.matchAll(
+          /<p class="name"[^>]*>\s*([^<]+?)\s*<code[^>]*>([^<]+)</g,
+        ),
+      ].map((m) => `${m[1]} ${m[2]}`),
+    ).toEqual([
+      "Size --ig-size",
+      "Spacing --ig-spacing",
+      "Roundness --ig-radius-factor",
+      "Shadow --ig-elevation-factor",
+    ]);
     expect(
       [...panel.matchAll(/<p class="default"[^>]*>\s*([^<]+?)\s*<\/p>/g)].map(
         (m) => m[1],
@@ -220,8 +262,8 @@ describe("the guide", () => {
 
   it("says beside the dark example, in either variant, that the dark variant is not final", () => {
     const group =
-      html.match(/id="themes-light-dark".*?<div class="themes"/s)?.[0] ?? "";
-    expect(group).toMatch(/<p class="notice inline"[^>]*role="note"/);
+      html.match(/id="themes-light-dark".*?id="themes-dials"/s)?.[0] ?? "";
+    expect(group).toMatch(/<p[^>]*class="notice inline"[^>]*role="note"/);
     expect(group).toContain("The dark variant is not final.");
     expect(group).not.toContain("data-dark-notice");
   });
@@ -238,37 +280,20 @@ describe("the guide", () => {
     ).toEqual(["Large", "Normal", "Standard", "Normal"]);
   });
 
-  it("prints the install and check commands with the package's name", () => {
-    expect(html).toContain(`npm install ${pkg.name}`);
-    expect(html).toContain(`npx ${pkg.name} check src`);
-  });
-
-  it("names the optional stylesheets in a sentence, each as code", () => {
+  it("shows a featured colour with its plain use on its option, not its technical note", () => {
     expect(html).toMatch(
-      /<\/strong> <code[^>]*>fonts\.css<\/code> and <code[^>]*>base\.css<\/code> are optional\./,
+      /data-pick="color-action-default".*?The fill of the main button\./s,
     );
   });
 
-  it("shows a featured colour with its plain use, not its technical note", () => {
-    expect(html).toMatch(
-      /data-info="color-action-default".*?The fill of the main button\./s,
-    );
-  });
-
-  it("titles each rule in plain words, with the code under it", () => {
-    const rule = html.match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
-    expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
-    expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
-      rule.indexOf("color: var(--igd-color-text-muted);"),
-    );
-  });
-
-  it("shows each type role with its sample and its plain use, without its class", () => {
+  it("names the class of each type role and the element it is meant for", () => {
     const role =
-      html.match(/<li[^>]*data-token="type-display-lg".*?<\/li>/s)?.[0] ?? "";
-    expect(role).toContain('class="use"');
-    expect(role).not.toContain("data-copy");
-    expect(role).not.toContain("<code");
+      html.match(/data-pick="type-display-lg".*?<\/button>\s*<\/div>/s)?.[0] ??
+      "";
+    expect(role).toContain('data-copy=".igd-type-display-lg"');
+    expect(role).toContain('data-tip="Copy class"');
+    expect(role).toContain("on &lt;h1&gt;");
+    expect(role).not.toContain("--igd-type-display-lg-");
   });
 
   it("gives corners and shadows a section each, as the Tokens page does", () => {
@@ -279,19 +304,17 @@ describe("the guide", () => {
   });
 
   it("says why a name says its job, in plain words, with the two kinds of name that use a position", () => {
-    const part = html.match(/id="idea-names".*?What do you need\?/s)?.[0] ?? "";
+    const part = html.match(/id="idea-names".*?id="colour"/s)?.[0] ?? "";
     expect(part).toContain("not the pill radius");
     expect(part).toContain("an ordered set");
     expect(part).toContain("8 colours of product tiles");
     expect(part).not.toContain("<code");
-    expect(page("tokens/")).toContain('href="/#idea-names"');
+    expect(page("tokens/")).toContain('href="/concepts/#idea-names"');
   });
 
   it("draws a part of the page for every colour the colour explorer lists", () => {
     const explorer =
-      html.match(
-        /data-colour-explorer.*?<\/div>\s*<\/div>\s*<\/div>\s*<\/div>/s,
-      )?.[0] ?? "";
+      html.match(/data-colour-explorer.*?id="colour-messages"/s)?.[0] ?? "";
     const picks = [...explorer.matchAll(/data-pick="([^"]+)"/g)].map(
       (m) => m[1],
     );
@@ -312,26 +335,10 @@ describe("the guide", () => {
     expect(messages).not.toMatch(/--igd?-/);
   });
 
-  it("shows no token name or code in its visual sections, from Colour to Variants and dials", () => {
-    const visual =
-      html.match(
-        /<section[^>]*id="colour".*?<section[^>]*id="component"/s,
-      )?.[0] ?? "";
-    expect(visual).toContain('id="themes"');
-    // The text between tags, outside <style> blocks.
-    const text = visual
-      .split(/<style[^>]*>[\s\S]*?<\/style>/)
-      .flatMap((part) => [...part.matchAll(/>([^<]*)</g)].map((m) => m[1]))
-      .join(" ");
-    expect(text).not.toMatch(/--igd?-|igd-type-/);
-    expect(visual).not.toContain("<code");
-    expect(visual).not.toContain("data-copy");
-  });
-
   it("labels every drawn example as an example, not a real component", () => {
-    const labels = html.match(/<p class="example"/g) ?? [];
-    // The colour page, the spacing cards, two corner and shadow drawings, the messages, the light and dark cards and the dial preview.
-    expect(labels).toHaveLength(7);
+    const labels = html.match(/<p[^>]*class="example"/g) ?? [];
+    // The colour page, the type roles, the spacing cards, the corner and shadow drawings, the messages, the variant card and the dial preview.
+    expect(labels).toHaveLength(8);
   });
 
   it("shows each message as an alert with an icon, a title and a text", () => {
@@ -380,37 +387,14 @@ describe("the logo page", () => {
     expect(html).not.toMatch(/draft|proposal/i);
   });
 
-  it("marks each section still to be written as coming soon, in its heading and in the section list", () => {
+  it("shows no section that is not written yet, in the page or in the section list", () => {
     const soon = Object.values(SOON).flat();
-    expect(soon.length).toBe(11);
+    expect(soon.length).toBeGreaterThan(0);
     for (const { id } of soon) {
-      expect(html).toMatch(
-        new RegExp(
-          `<h2 id="${id}-title"[^>]*>[^<]*<span class="soon"[^>]*>Coming soon</span>`,
-        ),
-      );
-      expect(html).toMatch(
-        new RegExp(
-          `href="#${id}"[^>]*>\\s*<span[^>]*>[^<]+</span>\\s*<span class="soon"[^>]*>Soon</span>`,
-        ),
-      );
+      expect(html).not.toContain(`id="${id}"`);
+      expect(html).not.toContain(`href="#${id}"`);
     }
-  });
-
-  it("says under each section still to be written what it will hold", () => {
-    for (const { id, expected } of Object.values(SOON).flat()) {
-      const section = html
-        .slice(html.indexOf(`id="${id}"`))
-        .split("</section>")[0];
-      expect(section.replace(/&#39;/g, "'")).toContain(expected);
-    }
-  });
-
-  it("marks no written section as coming soon", () => {
-    for (const id of ["name", "files", "cobrand", "accessibility"])
-      expect(html).not.toMatch(
-        new RegExp(`<h2 id="${id}-title"[^>]*>[^<]*<span class="soon"`),
-      );
+    expect(html).not.toContain("Coming soon");
   });
 
   it("writes the name with the right and the wrong form of each rule", () => {
@@ -460,23 +444,6 @@ describe("the documents", () => {
   );
 
   it.each(documents)(
-    "/%s lists the three documents beside its sections and marks itself",
-    (slug, file) => {
-      const list =
-        page(slug).match(/<ul[^>]*aria-label="Documents".*?<\/ul>/s)?.[0] ?? "";
-      expect(list.match(/<a /g)).toHaveLength(3);
-      expect(list).toMatch(
-        new RegExp(`aria-current="page"[^>]*>\\s*${titleOf(file)}\\s*<`),
-      );
-    },
-  );
-
-  it.each(documents)("/%s marks no page of the top bar as open", (slug) => {
-    const header = page(slug).match(/<header.*?<\/header>/s)?.[0] ?? "";
-    expect(header).not.toContain("aria-current");
-  });
-
-  it.each(documents)(
     "/%s ends with links to the other documents and to the Tokens page",
     (slug) => {
       const next = page(slug).match(/<aside.*?<\/aside>/s)?.[0] ?? "";
@@ -511,6 +478,8 @@ describe("the documents", () => {
       ...source("docs/MIGRATION.md").matchAll(/^### (.+)$/gm),
     ].map((m) => m[1]);
     expect(headings).toEqual([
+      "Naming convention",
+      "Spacing scale",
       "Colour",
       "Size and layout",
       "Radius",
@@ -523,11 +492,108 @@ describe("the documents", () => {
   });
 });
 
+describe("the components of the site", () => {
+  const dir = path.join(path.dirname(DIST), "src/components");
+  const files = fs
+    .readdirSync(dir, { recursive: true })
+    .map(String)
+    .filter((f) => f.endsWith(".astro"));
+
+  it.each(files)(
+    "%s marks its root with data-ig-scope, or its root is a component that does",
+    (file) => {
+      const body = fs
+        .readFileSync(path.join(dir, file), "utf8")
+        .split("---")
+        .slice(2)
+        .join("---")
+        // The markup before the component's script and style blocks.
+        .split(/<(?:script|style)\b/)[0];
+      const root = body.match(/<[A-Za-z][^>]*>/)?.[0] ?? "";
+      expect(/^<[A-Z]/.test(root) || root.includes("data-ig-scope"), root).toBe(
+        true,
+      );
+    },
+  );
+});
+
+describe("the landing page", () => {
+  const html = page("");
+
+  it("has no top bar, and opens with the logo and the welcome", () => {
+    expect(html).not.toMatch(/<header[^>]*class="top"/);
+    expect(html).toMatch(/<img[^>]*class="logo light"[^>]*alt="Infragistics"/);
+    expect(html).toContain("<h1");
+    expect(html).toContain("The Infragistics design system");
+  });
+
+  it("asks what you need, with one card per part of the site, in order", () => {
+    const cards = [
+      ...(html.match(/<ul[^>]*class="needs".*?<\/ul>/s)?.[0] ?? "").matchAll(
+        /<a href="([^"]+)"[^>]*>\s*<strong[^>]*>([^<]+)<\/strong>/g,
+      ),
+    ].map((m) => `${m[2]} ${m[1]}`);
+    expect(cards).toEqual([
+      "I need guidance /guide/",
+      "I want to explore /concepts/",
+      "I need to learn /engine/",
+      "I need an asset /logo/",
+      "I am looking for a design token /tokens/",
+    ]);
+  });
+
+  it.each(ROUTES.filter((r) => r !== ""))(
+    "/%s leads back to it from the logo in the top bar",
+    (route) => {
+      expect(page(route)).toMatch(/<a[^>]*class="brand" href="\/"/);
+    },
+  );
+});
+
+describe("the pages of the Guide", () => {
+  it("prints the install and check commands with the package's name on Set up a site", () => {
+    expect(page("guide/")).toContain(`npm install ${pkg.name}`);
+    expect(page("guide/")).toContain(`npx ${pkg.name} check src`);
+  });
+
+  it("names the optional stylesheets in a sentence, each as code", () => {
+    expect(page("guide/")).toMatch(
+      /<code[^>]*>fonts\.css<\/code> and <code[^>]*>base\.css<\/code> are optional\./,
+    );
+  });
+
+  it("titles each rule in plain words, with the code under it", () => {
+    const rule = page("guide/rules/").match(/id="rule-1".*?<\/li>/s)?.[0] ?? "";
+    expect(rule.indexOf("Choose a colour by its job.")).toBeGreaterThan(-1);
+    expect(rule.indexOf("Choose a colour by its job.")).toBeLessThan(
+      rule.indexOf("color: var(--igd-color-text-muted);"),
+    );
+  });
+
+  it("says which rules the check reports, with a space before the list", () => {
+    expect(page("guide/rules/")).toMatch(
+      /The check command reports rules 1 and 2, and rules 3 and 4 with <code[^>]*>--strict<\/code>\./,
+    );
+  });
+
+  it("shows the example card of the package live on Build a component", () => {
+    expect(page("guide/component/")).toMatch(
+      /<iframe[^>]*src="\/docs\/examples\/card\.html"/,
+    );
+  });
+
+  it("opens the migration guide with the move from the prototype as its first version", () => {
+    expect(source("docs/MIGRATION.md")).toMatch(
+      /^# Migration guide\n\n[^\n]+\n\n## From the prototype to 1\.0\n/,
+    );
+  });
+});
+
 describe("the Tokens page, by tier", () => {
-  const html = page("tokens/");
+  const html = tokenPages();
 
   it("says which tokens to use, which belong to one component and which not to use", () => {
-    const legend = html.match(/<dl.*?<\/dl>/s)?.[0] ?? "";
+    const legend = page("tokens/").match(/<dl.*?<\/dl>/s)?.[0] ?? "";
     expect(
       [...legend.matchAll(/<dt[^>]*>([^<]*)<\/dt>/g)].map((m) => m[1].trim()),
     ).toEqual(["Use these", "One component only", "Do not use"]);

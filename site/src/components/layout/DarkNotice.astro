@@ -9,7 +9,7 @@ interface Props {
 const { inline = false } = Astro.props;
 ---
 
-<p class:list={["notice", { inline }]} role="note" data-dark-notice={inline ? undefined : ""}>
+<p data-ig-scope class:list={["notice", { inline }]} role="note" data-dark-notice={inline ? undefined : ""}>
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 3.5 2.5 20h19L12 3.5Z"></path>
     <path d="M12 10v4.5M12 17.25v.25"></path>

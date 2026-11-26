@@ -8,7 +8,7 @@ interface Props {
 const { many = false } = Astro.props;
 ---
 
-<p class="example">{many ? "Example only: these are not real components" : "Example only: not a real component"}</p>
+<p data-ig-scope class="example">{many ? "Example only: these are not real components" : "Example only: not a real component"}</p>
 
 <style>
   .example {

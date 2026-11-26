@@ -75,7 +75,7 @@ describe("every page in a browser", () => {
 
 describe("the theme button", () => {
   it("switches the page to the dark variant and shows the logo for dark surfaces", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const shown = () =>
       page.evaluate(() =>
         [...document.querySelectorAll<HTMLElement>("header .logo")]
@@ -93,7 +93,7 @@ describe("the theme button", () => {
   });
 
   it("is an icon button named for the variant of the theme it turns on", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const toggle = page.locator("[data-theme-toggle]");
     expect(await toggle.getAttribute("aria-label")).toBe(
       "Dark variant of the theme",
@@ -110,15 +110,15 @@ describe("the theme button", () => {
   });
 
   it("starts in the light variant even when the system is dark", async () => {
-    const { page } = await open("", 1280, "dark");
+    const { page } = await open("concepts/", 1280, "dark");
     expect(await page.getAttribute("html", "data-theme")).toBe("light");
     await page.close();
   });
 
   it("keeps the dark variant on the next page once it is chosen, and returns to light when switched back", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     await page.click("[data-theme-toggle]");
-    await page.goto(`${site.origin}/tokens/`);
+    await page.goto(`${site.origin}/tokens/colour/`);
     expect(await page.getAttribute("html", "data-theme")).toBe("dark");
     await page.click("[data-theme-toggle]");
     await page.reload();
@@ -129,7 +129,7 @@ describe("the theme button", () => {
 
 describe("the dark variant notice", () => {
   it("shows only in the dark variant, stays above the top bar while the page scrolls, and says the variant is not final", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const notice = page.locator("[data-dark-notice]");
     expect(await notice.isVisible()).toBe(false);
     await page.click("[data-theme-toggle]");
@@ -175,7 +175,7 @@ describe("the dark variant notice", () => {
   });
 
   it("does not scroll sideways at 320px", async () => {
-    const { page } = await open("", 320);
+    const { page } = await open("concepts/", 320);
     await page.click("[data-theme-toggle]");
     expect(
       await page.evaluate(
@@ -195,7 +195,7 @@ describe("Tab through the sticky bars", () => {
   ])(
     "at %ipx in the %s variant moves focus through the top bar and the section list without scrolling the page",
     async (width, variant) => {
-      const { page } = await open("tokens/", width);
+      const { page } = await open("tokens/colour/", width);
       if (variant === "dark") await page.click("[data-theme-toggle]");
       await page.evaluate(() => {
         document.documentElement.style.scrollBehavior = "auto";
@@ -216,9 +216,23 @@ describe("Tab through the sticky bars", () => {
   );
 });
 
+describe("the landing page", () => {
+  it("opens a page with the top bar from a card, and its logo leads back", async () => {
+    const { page } = await open("");
+    expect(await page.locator("header.top").count()).toBe(0);
+    await page.click('.needs a[href="/guide/"]');
+    await page.waitForURL(/\/guide\/$/);
+    expect(await page.locator("header.top").isVisible()).toBe(true);
+    await page.click("header.top a.brand");
+    await page.waitForURL(`${site.origin}/`);
+    expect(await page.locator(".needs a").count()).toBe(5);
+    await page.close();
+  });
+});
+
 describe("the skip link", () => {
   it("is the first Tab stop and moves focus to the content", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     await page.keyboard.press("Tab");
     expect(await page.evaluate(() => document.activeElement?.textContent)).toBe(
       "Skip to the content",
@@ -232,12 +246,12 @@ describe("the skip link", () => {
 });
 
 describe("the section list", () => {
-  it("fills the row of the section in view with the action colour", async () => {
-    const { page } = await open("tokens/");
-    await page.click('[data-section-nav] a[href="#spacing"]');
+  it("tints the row of the section in view, as the top bar marks the open page", async () => {
+    const { page } = await open("tokens/colour/");
+    await page.click('[data-section-nav] a[href="#colour-text"]');
     // The jump scrolls smoothly, and the row is marked once the scroll ends.
     await page.waitForSelector(
-      '[data-section-nav] a[href="#spacing"][aria-current="true"]',
+      '[data-section-nav] a[href="#colour-text"][aria-current="true"]',
     );
     const rows = await page.evaluate(() =>
       [
@@ -251,18 +265,18 @@ describe("the section list", () => {
         current: a.getAttribute("aria-current"),
       })),
     );
-    const action = await page.evaluate(() => {
+    const tint = await page.evaluate(() => {
       const probe = document.createElement("i");
-      probe.style.backgroundColor = "var(--igd-color-action-default)";
+      probe.style.backgroundColor = "var(--igd-color-surface-tint)";
       document.body.appendChild(probe);
       const colour = getComputedStyle(probe).backgroundColor;
       probe.remove();
       return colour;
     });
-    expect(rows.filter((r) => r.fill === action).map((r) => r.hash)).toEqual([
-      "#spacing",
+    expect(rows.filter((r) => r.fill === tint).map((r) => r.hash)).toEqual([
+      "#colour-text",
     ]);
-    expect(rows.find((r) => r.hash === "#spacing")?.current).toBe("true");
+    expect(rows.find((r) => r.hash === "#colour-text")?.current).toBe("true");
     expect(rows.every((r) => r.border === "0px")).toBe(true);
     await page.close();
   });
@@ -275,16 +289,16 @@ describe("the section list on a phone", () => {
   ])(
     "at %ipx stays %s, as one row, and keeps the section in view visible in it",
     async (width) => {
-      const { page } = await open("", width);
+      const { page } = await open("concepts/", width);
       await page.evaluate(() => {
         document.documentElement.style.scrollBehavior = "auto";
-        document.getElementById("rules")?.scrollIntoView();
+        document.getElementById("themes")?.scrollIntoView();
       });
       await page.waitForFunction(
         () =>
           document
             .querySelector('[data-section-nav] a[aria-current="true"]')
-            ?.getAttribute("href") === "#rules",
+            ?.getAttribute("href") === "#themes",
       );
       const result = await page.evaluate(() => {
         const nav = document.querySelector("[data-section-nav]");
@@ -323,7 +337,7 @@ describe("the section list on a phone", () => {
 });
 
 describe("the type set button", () => {
-  it.each(["", "tokens/"])(
+  it.each(["concepts/", "tokens/type/"])(
     "on /%s changes the type list only, not the rest of the page",
     async (route) => {
       const { page } = await open(route);
@@ -346,7 +360,7 @@ describe("the type set button", () => {
       expect(after.sample).not.toBe(before.sample);
       expect(after.heading).toBe(before.heading);
       expect(await page.getAttribute("html", "data-igd-type")).toBeNull();
-      if (route === "tokens/")
+      if (route === "tokens/type/")
         expect(
           await page.textContent('output[data-type="igd-type-display-lg"]'),
         ).toMatch(/^36px/);
@@ -355,33 +369,114 @@ describe("the type set button", () => {
   );
 });
 
-describe("the guide", () => {
-  it("prints the card stylesheet the page itself uses", async () => {
-    const { page } = await open("");
-    const { rule, printed } = await page.evaluate(() => ({
-      rule: [...document.querySelectorAll("style")]
+describe("Concepts", () => {
+  it("takes its cards' rules from the stylesheet Build a component prints", async () => {
+    const { page } = await open("concepts/");
+    const rule = await page.evaluate(() =>
+      [...document.querySelectorAll("style")]
         .map((style) => style.textContent ?? "")
         .find((css) => css.includes(".card:hover {")),
-      printed: [...document.querySelectorAll("pre code")]
+    );
+    await page.goto(`${site.origin}/guide/component/`);
+    const printed = await page.evaluate(() =>
+      [...document.querySelectorAll("pre code")]
         .map((code) => code.textContent ?? "")
         .find((code) => code.includes(".card:hover {")),
-    }));
+    );
     expect(rule).toBeDefined();
     expect(printed?.trim()).toBe(rule?.trim());
     await page.close();
   });
 });
 
-describe("the usage samples of the Tokens page", () => {
-  it.each([
-    ["colour", "color: var(--igd-color-text-muted);"],
-    ["type", '<h3 class="igd-type-title-sm">Card title</h3>'],
-    ["spacing", "padding: var(--igd-space-inset-lg);"],
-    ["radius", "border-radius: var(--igd-radius-card);"],
-    ["shadow", "box-shadow: var(--igd-shadow-card-hover);"],
-  ])("show how to write a %s token", async (id, line) => {
-    const { page } = await open("tokens/");
-    expect(await page.textContent(`#${id} pre code`)).toContain(line);
+describe("the type roles of the guide", () => {
+  it.each([1280, 390, 320])(
+    "at %ipx keep every class name on one line",
+    async (width) => {
+      const { page } = await open("concepts/", width);
+      const wrapped = await page.$$eval(
+        "#type-specimens .names button .text",
+        (all) =>
+          all.filter((el) => {
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            const lines = new Set(
+              [...range.getClientRects()].map((r) => Math.round(r.top)),
+            );
+            return lines.size > 1;
+          }).length,
+      );
+      expect(wrapped).toBe(0);
+      await page.close();
+    },
+  );
+});
+
+describe("the interactive examples of the guide", () => {
+  it("at 1280px put their controls on the left and what they change on the right, all at the same edge", async () => {
+    const { page } = await open("concepts/", 1280);
+    const edges = await page.$$eval("[data-example-layout]", (all) =>
+      all.map((example) => {
+        const box = (part: string) =>
+          example.querySelector(`:scope > ${part}`)?.getBoundingClientRect();
+        return {
+          controls: box(".controls")?.right,
+          result: box(".result")?.left,
+        };
+      }),
+    );
+    expect(edges).toHaveLength(7);
+    for (const e of edges) expect(e.controls).toBeLessThan(e.result ?? 0);
+    expect(new Set(edges.map((e) => Math.round(e.result ?? 0))).size).toBe(1);
+    await page.close();
+  });
+});
+
+describe("the option cards of Concepts", () => {
+  it("pick from anywhere on the card, the name included, and copy only from the corner button", async () => {
+    const context = await browser.newContext({
+      permissions: ["clipboard-read", "clipboard-write"],
+    });
+    const page = await context.newPage();
+    await page.goto(`${site.origin}/concepts/`);
+    const card = (pick: string) =>
+      `.explorer.shadow .option:has([data-pick="${pick}"])`;
+    await page.locator(card("shadow-panel")).scrollIntoViewIfNeeded();
+    const name = await page
+      .locator(`${card("shadow-panel")} code`)
+      .boundingBox();
+    if (!name) throw new Error("no name");
+    await page.mouse.click(name.x + name.width / 2, name.y + name.height / 2);
+    expect(
+      await page.getAttribute(
+        `${card("shadow-panel")} [data-pick]`,
+        "aria-pressed",
+      ),
+    ).toBe("true");
+    await page.click(`${card("shadow-popover")} .copy`);
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "--igd-shadow-popover",
+    );
+    expect(
+      await page.getAttribute(
+        `${card("shadow-popover")} [data-pick]`,
+        "aria-pressed",
+      ),
+    ).toBe("false");
+    expect(
+      await page.getAttribute(`${card("shadow-popover")} .copy`, "data-tip"),
+    ).toBe("Copy variable");
+    await context.close();
+  });
+});
+
+describe("the variant explorer of Concepts", () => {
+  it("puts the card in the variant picked", async () => {
+    const { page } = await open("concepts/");
+    const stage = "[data-variant-explorer] [data-variant]";
+    expect(await page.getAttribute(stage, "data-theme")).toBe("light");
+    await page.click('[data-variant-explorer] button[data-pick="dark"]');
+    expect(await page.getAttribute(stage, "data-theme")).toBe("dark");
     await page.close();
   });
 });
@@ -391,27 +486,27 @@ describe("the spacing explorer of the guide", () => {
     ["padding", ".card"],
     ["margin", ".stack"],
     ["gap", ".lower"],
-  ])(
-    "marks the %s with stripes and says what it is for, without its token",
-    async (kind, part) => {
-      const { page } = await open("");
-      await page.click(`[data-spacing-explorer] button[data-pick="${kind}"]`);
-      const marked = await page.$eval(
-        `[data-spacing-explorer] ${part}`,
-        (el) => getComputedStyle(el).backgroundImage,
-      );
-      expect(marked).toContain("repeating-linear-gradient");
-      const info = "[data-spacing-explorer] [data-info]:not([hidden])";
-      expect((await page.textContent(`${info} .use`))?.trim()).not.toBe("");
-      expect(await page.locator(`${info} button`).count()).toBe(0);
-      await page.close();
-    },
-  );
+  ])("marks the %s with stripes and names its token", async (kind, part) => {
+    const { page } = await open("concepts/");
+    await page.click(`[data-spacing-explorer] button[data-pick="${kind}"]`);
+    const marked = await page.$eval(
+      `[data-spacing-explorer] ${part}`,
+      (el) => getComputedStyle(el).backgroundImage,
+    );
+    expect(marked).toContain("repeating-linear-gradient");
+    expect(
+      await page.getAttribute(
+        '[data-spacing-explorer] .option:has([aria-pressed="true"]) [data-copy]',
+        "data-copy",
+      ),
+    ).toContain("--igd-space-");
+    await page.close();
+  });
 });
 
 describe("the colour explorer of the guide", () => {
-  it("outlines every part that uses the picked colour and says its use, without its token", async () => {
-    const { page } = await open("");
+  it("outlines every part that uses the picked colour and names its token", async () => {
+    const { page } = await open("concepts/");
     await page.click(
       '[data-colour-explorer] button[data-pick="color-action-on"]',
     );
@@ -422,14 +517,17 @@ describe("the colour explorer of the guide", () => {
         )
         .count(),
     ).toBe(2);
-    const info = "[data-colour-explorer] [data-info]:not([hidden])";
-    expect((await page.textContent(`${info} .use`))?.trim()).not.toBe("");
-    expect(await page.locator(`${info} button`).count()).toBe(0);
+    expect(
+      await page.getAttribute(
+        '[data-colour-explorer] .option:has([aria-pressed="true"]) [data-copy]',
+        "data-copy",
+      ),
+    ).toContain("color-action-on");
     await page.close();
   });
 
   it("keeps the pick when the pointer moves over the page, so nothing above it moves", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     await page.hover('[data-colour-explorer] [data-part="color-link-inverse"]');
     expect(
       await page.getAttribute(
@@ -443,14 +541,13 @@ describe("the colour explorer of the guide", () => {
 
 describe("the shape explorers of the guide", () => {
   it("show the corner of the element picked by its button, and keep it when the pointer moves over the drawing", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const shown = () =>
       page.$eval(
         ".explorer.radius",
         (el) =>
-          [...el.querySelectorAll<HTMLElement>("[data-info]")].find(
-            (i) => !i.hidden,
-          )?.dataset.info,
+          el.querySelector<HTMLElement>('button[aria-pressed="true"]')?.dataset
+            .pick,
       );
     expect(await shown()).toBe("radius-card");
     await page.click('.explorer.radius button[data-pick="radius-action"]');
@@ -466,45 +563,46 @@ describe("the shape explorers of the guide", () => {
     await page.close();
   });
 
-  it.each([
-    [1280, "radius"],
-    [390, "radius"],
-  ])(
-    "at %ipx put the use of the %s pick above its drawing",
-    async (width, kind) => {
-      const { page } = await open("", width);
-      const [drawing, info] = await page.$$eval(
-        `.explorer.${kind} .drawing, .explorer.${kind} .info`,
-        (all) => all.map((el) => el.getBoundingClientRect().toJSON()),
-      );
-      expect(info.bottom).toBeLessThanOrEqual(drawing.top);
-      await page.close();
-    },
-  );
+  it("names the token under the title of each option, above its use", async () => {
+    const { page } = await open("concepts/");
+    const order = await page.$eval(
+      '.explorer.radius .option:has([data-pick="radius-card"])',
+      (el) =>
+        ["strong", "code", ".use"].map(
+          (part) => el.querySelector(part)?.getBoundingClientRect().top ?? 0,
+        ),
+    );
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    await page.close();
+  });
 
   it("says what each shadow is for on its option", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     expect(
       await page.textContent(
-        '.explorer.shadow button[data-pick="shadow-card-hover"]',
+        '.explorer.shadow .option:has([data-pick="shadow-card-hover"])',
       ),
     ).toContain("A card under the mouse pointer.");
     await page.close();
   });
 
-  it("show no token name, value or code sample", async () => {
-    const { page } = await open("");
+  it("name the token of the pick, and show no value or code sample", async () => {
+    const { page } = await open("concepts/");
     await page.click('.explorer.shadow button[data-pick="shadow-popover"]');
     expect(
-      await page
-        .locator("[data-shape-explorer] :is(output, pre, button[data-copy])")
-        .count(),
+      await page.getAttribute(
+        '.explorer.shadow .option:has([aria-pressed="true"]) [data-copy]',
+        "data-copy",
+      ),
+    ).toContain("shadow-popover");
+    expect(
+      await page.locator("[data-shape-explorer] :is(output, pre)").count(),
     ).toBe(0);
     await page.close();
   });
 
   it("lift the card to the shadow picked", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const shadow = () =>
       page.$eval("[data-lift]", (el) => getComputedStyle(el).boxShadow);
     await page.click('.explorer.shadow button[data-pick="shadow-none"]');
@@ -521,7 +619,7 @@ describe("the dials of the guide", () => {
   it.each([1280, 800, 640])(
     "at %ipx keep the card's two buttons on one row at Double spacing",
     async (width) => {
-      const { page } = await open("", width);
+      const { page } = await open("concepts/", width);
       await page.click('button[data-dial="--ig-spacing"][data-value="2"]');
       const [first, second] = await page.$$eval(
         "#dial-stage .card:not(form) .actions > *",
@@ -533,7 +631,7 @@ describe("the dials of the guide", () => {
   );
 
   it("change the form beside the card: Small makes its fields shorter and Square makes their corners sharper, down to the 2px floor", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const field = "#dial-form-name";
     const measure = () =>
       page.$eval(field, (el) => {
@@ -559,7 +657,7 @@ describe("the dials of the guide", () => {
   ])(
     "tighten the spacing with the size: --ig-size %s gives a 16px step %s, as the Size line says",
     async (size, px) => {
-      const { page } = await open("");
+      const { page } = await open("concepts/");
       await page.click(`button[data-dial="--ig-size"][data-value="${size}"]`);
       expect(
         await page.evaluate(() => {
@@ -577,7 +675,7 @@ describe("the dials of the guide", () => {
   );
 
   it("keeps space between the card and the line under it", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     const gap = await page.evaluate(() => {
       const lab = document.getElementById("dial-stage")?.parentElement;
       const after = lab?.closest(".group")?.querySelector(".lead.after");
@@ -594,7 +692,7 @@ describe("the dials of the guide", () => {
     [1280, true],
     [800, false],
   ])("at %ipx puts the panel beside the card: %s", async (width, beside) => {
-    const { page } = await open("", width);
+    const { page } = await open("concepts/", width);
     const [panel, card] = await page.evaluate(() =>
       ["[data-dials]", "#dial-stage"].map((s) => {
         const r = document.querySelector(s)?.getBoundingClientRect();
@@ -607,7 +705,7 @@ describe("the dials of the guide", () => {
   });
 
   it("move the card, and no dial is set on the card", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     expect(await cardStyle(page)).toMatchObject({
       padding: "20px",
       radius: "16px",
@@ -637,7 +735,7 @@ describe("the dials of the guide", () => {
   });
 
   it("returns every dial to the design value with the reset button", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     await page.click('button[data-dial="--ig-spacing"][data-value="0.5"]');
     await page.click('button[data-dial="--ig-radius-factor"][data-value="0"]');
     await page.click("button[data-dial-reset]");
@@ -655,7 +753,7 @@ describe("the dials of the guide", () => {
   });
 
   it("keeps the card of a light region light when the page is dark", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     await page.click("[data-theme-toggle]");
     const fills = await page.evaluate(() =>
       [
@@ -672,7 +770,7 @@ describe("the dials of the guide", () => {
 
 describe("the filter of the Tokens page", () => {
   it("sits above the section list, not in the top bar", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     expect(await page.locator("[data-section-nav] [data-filter]").count()).toBe(
       1,
     );
@@ -681,7 +779,7 @@ describe("the filter of the Tokens page", () => {
   });
 
   it("keeps the tokens whose name or note has the word, and counts them", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const all = await page.locator("[data-token]:visible").count();
     await page.fill("[data-filter]", "hover");
     const kept = await page.locator("[data-token]:not([hidden])").count();
@@ -698,10 +796,11 @@ describe("the filter of the Tokens page", () => {
   });
 
   it("writes the rendered value beside a token", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     expect(
       await page.textContent('[data-token="color-action-default"] output'),
     ).toMatch(/^#[0-9a-f]{6}$/);
+    await page.goto(`${site.origin}/tokens/spacing/`);
     expect(await page.textContent('[data-token="space-inset-md"] output')).toBe(
       "16px",
     );
@@ -763,40 +862,24 @@ describe("the logo page", () => {
 });
 
 describe("a copy button", () => {
-  it("copies the custom property and reports it", async () => {
+  it("copies the name it shows and reports it", async () => {
     const context = await browser.newContext({
       permissions: ["clipboard-read", "clipboard-write"],
     });
     const page = await context.newPage();
-    await page.goto(`${site.origin}/tokens/`);
+    await page.goto(`${site.origin}/tokens/colour/`);
     await page.click('[data-token="color-text-muted"] button[data-copy]');
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--igd-color-text-muted)",
+      "--igd-color-text-muted",
     );
     expect(await page.textContent("[data-toast]")).toBe(
-      "Copied var(--igd-color-text-muted)",
-    );
-    await context.close();
-  });
-  it("copies the bare name when Alt is held, and says what a click copies", async () => {
-    const context = await browser.newContext({
-      permissions: ["clipboard-read", "clipboard-write"],
-    });
-    const page = await context.newPage();
-    await page.goto(`${site.origin}/tokens/`);
-    const button = '[data-token="color-text-muted"] button[data-copy]';
-    expect(await page.getAttribute(button, "aria-label")).toBe(
-      "Copy var(--igd-color-text-muted)",
-    );
-    await page.click(button, { modifiers: ["Alt"] });
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-color-text-muted",
+      "Copied --igd-color-text-muted",
     );
     await context.close();
   });
 
   it("says what to do when the copy fails", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.evaluate(() => {
       Object.defineProperty(navigator, "clipboard", {
         value: { writeText: () => Promise.reject(new Error("denied")) },
@@ -804,7 +887,7 @@ describe("a copy button", () => {
     });
     await page.click('[data-token="color-text-muted"] button[data-copy]');
     expect(await page.textContent("[data-toast]")).toBe(
-      "Could not copy var(--igd-color-text-muted). Select the text and copy it by hand.",
+      "Could not copy --igd-color-text-muted. Select the text and copy it by hand.",
     );
     await page.close();
   });
@@ -836,10 +919,10 @@ const contrast = (page: Page, a: string, b: string) =>
 
 describe("a jump to a section on a narrow screen", () => {
   it.each([
-    ["tokens/", "#spacing", 390],
+    ["tokens/colour/", "#colour-text", 390],
     ["logo/", "#rules", 390],
     ["adopting/", "#5-check-it", 390],
-    ["", "#type", 800],
+    ["concepts/", "#type", 800],
   ])(
     "/%s%s at %ipx shows the heading below the sticky rows",
     async (route, hash, width) => {
@@ -870,7 +953,7 @@ describe("a jump to a section on a narrow screen", () => {
 
 describe("keyboard focus on the Tokens page", () => {
   it("draws the focus ring on a control that opens a note and on the fold of the component colours", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const ring = (selector: string) =>
       page.evaluate((selector) => {
         const el = document.querySelector<HTMLElement>(selector);
@@ -885,7 +968,7 @@ describe("keyboard focus on the Tokens page", () => {
   });
 
   it("names the fold of the component colours with what it shows", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     expect(
       (
         await page.locator("details.fold summary .closed").textContent()
@@ -897,7 +980,7 @@ describe("keyboard focus on the Tokens page", () => {
 
 describe("the tables of the Tokens page on a phone", () => {
   it("keep every token name whole: a name breaks only after a hyphen", async () => {
-    const { page } = await open("tokens/", 390);
+    const { page } = await open("tokens/colour/", 390);
     const broken = await page.evaluate(() =>
       [
         ...document.querySelectorAll<HTMLElement>(
@@ -921,7 +1004,7 @@ describe("the tables of the Tokens page on a phone", () => {
 
 describe("the filter of the Tokens page, beyond names", () => {
   it("finds a token by its rendered value", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.fill("[data-filter]", "#155dfc");
     expect(
       await page.locator('[data-token="color-action-default"]').isVisible(),
@@ -933,10 +1016,10 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("counts the matches of each section in the section list, and puts the totals back", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/radius/");
     const count = () =>
       page
-        .locator('[data-section-list] a[href="#radius"] .count')
+        .locator('[data-section-list] a[href="#tokens"] .count')
         .evaluate((el) => el.firstChild?.textContent?.trim());
     const total = await count();
     await page.fill("[data-filter]", "radius-action");
@@ -947,7 +1030,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("opens the component colours for a match there, and closes them again when cleared", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const open_ = () =>
       page
         .locator("details.fold")
@@ -961,7 +1044,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("applies the filter of the address, and writes the filter to it", async () => {
-    const { page } = await open("tokens/?q=radius-action");
+    const { page } = await open("tokens/radius/?q=radius-action");
     await page.waitForFunction(
       () =>
         document.querySelector("[data-filter-matches]")?.textContent ===
@@ -973,7 +1056,7 @@ describe("the filter of the Tokens page, beyond names", () => {
   });
 
   it("shows the first match when the reader filters from further down the page", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.evaluate(() => {
       document.documentElement.style.scrollBehavior = "auto";
       document.getElementById("size")?.scrollIntoView();
@@ -993,7 +1076,7 @@ describe("the filter of the Tokens page, beyond names", () => {
 
 describe("a preview on the Tokens page", () => {
   it("shows a text colour for dark surfaces on the dark surface, readable", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     const colours = await page
       .locator('[data-token="color-text-inverse"] .preview')
       .evaluate((el) => {
@@ -1082,19 +1165,13 @@ describe("the migration guide", () => {
     await page.close();
   });
 
-  it("copies a new name for CSS, and the bare name with Alt and Enter", async () => {
+  it("copies a new name exactly as it shows it", async () => {
     const context = await browser.newContext({
       permissions: ["clipboard-read", "clipboard-write"],
     });
     const page = await context.newPage();
     await page.goto(`${site.origin}/migration/`);
-    const button = 'button[data-copy="var(--igd-radius-action)"]';
-    await page.click(button);
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--igd-radius-action)",
-    );
-    await page.focus(button);
-    await page.keyboard.press("Alt+Enter");
+    await page.click('button[data-copy="--igd-radius-action"]');
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
       "--igd-radius-action",
     );
@@ -1238,7 +1315,7 @@ describe("the focus ring", () => {
 
 describe("the guide, without a hero", () => {
   it("opens with its title and one line of text, as the other pages do", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     expect(await page.locator("main h1").count()).toBe(1);
     expect(await page.locator("h1").count()).toBe(1);
     expect(await page.locator("main > h1 + p.intro").count()).toBe(1);
@@ -1247,7 +1324,7 @@ describe("the guide, without a hero", () => {
   });
 
   it("draws the buttons of its example cards as pictures, not as links", async () => {
-    const { page } = await open("");
+    const { page } = await open("concepts/");
     expect(
       await page.locator("article.card a, article.card button").count(),
     ).toBe(0);
@@ -1255,7 +1332,7 @@ describe("the guide, without a hero", () => {
   });
 
   it("does not scroll sideways at 320px", async () => {
-    const { page } = await open("", 320);
+    const { page } = await open("concepts/", 320);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth - innerWidth,
@@ -1265,11 +1342,47 @@ describe("the guide, without a hero", () => {
   });
 });
 
+describe("the active state", () => {
+  it("is one style in the top bar, the Guide's menu and On this page", async () => {
+    const { page } = await open("guide/", 1440);
+    const styles = await page.evaluate(() =>
+      [
+        'header nav a[aria-current="page"]',
+        'nav.side-nav a[aria-current="page"]',
+        '[data-section-list] a[aria-current="true"]',
+      ].map((selector) => {
+        const el = document.querySelector(selector);
+        if (!el) throw new Error(`no ${selector}`);
+        const s = getComputedStyle(el);
+        return `${s.backgroundColor} ${s.color}`;
+      }),
+    );
+    expect(new Set(styles).size).toBe(1);
+    await page.close();
+  });
+});
+
 describe("the section being read", () => {
+  it.each(["#load", "#check"])(
+    "on a short Guide page is %s after a click on its link, though the page ends before it reaches the top",
+    async (hash) => {
+      const { page } = await open("guide/", 1440);
+      await page.click(`[data-section-list] a[href="${hash}"]`);
+      await page.waitForTimeout(600);
+      expect(
+        await page.getAttribute(
+          '[data-section-list] a[aria-current="true"]',
+          "href",
+        ),
+      ).toBe(hash);
+      await page.close();
+    },
+  );
+
   it.each([
-    ["", "rules", 1280],
-    ["", "rules", 390],
-    ["tokens/", "shadow", 1280],
+    ["concepts/", "colour", 1280],
+    ["concepts/", "colour", 390],
+    ["tokens/colour/", "colour-surface", 1280],
   ])(
     "on /%s is #%s while its content fills the screen, not the section after it",
     async (route, id, width) => {
@@ -1326,53 +1439,9 @@ describe("the section being read", () => {
   });
 });
 
-describe("the Copy as switch", () => {
-  it("makes a click copy the name alone, on this page and the next, and names the button for it", async () => {
-    const context = await browser.newContext({
-      permissions: ["clipboard-read", "clipboard-write"],
-    });
-    const page = await context.newPage();
-    await page.goto(`${site.origin}/tokens/`);
-    const button = '[data-token="color-text-muted"] button[data-copy]';
-    await page.click('button[data-copy-format="name"]');
-    expect(await page.getAttribute(button, "aria-label")).toBe(
-      "Copy --igd-color-text-muted",
-    );
-    await page.click(button);
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--igd-color-text-muted",
-    );
-    await page.goto(`${site.origin}/engine/`);
-    expect(
-      await page.getAttribute(
-        'button[data-copy-format="name"]',
-        "aria-pressed",
-      ),
-    ).toBe("true");
-    const step = '[data-token="ig-gray-500"] button';
-    await page.click(step);
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "--ig-gray-500",
-    );
-    await page.click(step, { modifiers: ["Alt"] });
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "var(--ig-gray-500)",
-    );
-    await context.close();
-  });
-
-  it("is on every page that has name buttons", async () => {
-    for (const route of ["tokens/", "engine/", "migration/"]) {
-      const { page } = await open(route);
-      expect(await page.locator("button[data-copy-format]").count()).toBe(2);
-      await page.close();
-    }
-  });
-});
-
 describe("a filter, where the result shows", () => {
   it("finds a value from the address, once the values are written", async () => {
-    const { page } = await open("tokens/?q=%23155dfc");
+    const { page } = await open("tokens/colour/?q=%23155dfc");
     await page.waitForFunction(() =>
       /^\d+ match/.test(
         document.querySelector("[data-filter-matches]")?.textContent ?? "",
@@ -1386,7 +1455,7 @@ describe("a filter, where the result shows", () => {
   });
 
   it("follows the theme: a value of the dark variant is found after the switch", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/colour/");
     await page.click("[data-theme-toggle]");
     const dark =
       (
@@ -1409,7 +1478,7 @@ describe("a filter, where the result shows", () => {
   });
 
   it.each([
-    ["tokens/", "gap", "[data-token]:not([hidden])"],
+    ["tokens/spacing/", "gap", "[data-token]:not([hidden])"],
     ["migration/", "radius", "article tbody tr:not([hidden])"],
   ])(
     "on /%s at 390px puts the first match on the first screen",
@@ -1435,7 +1504,7 @@ describe("a filter, where the result shows", () => {
   });
 
   it("clears with Escape wherever the focus is", async () => {
-    const { page } = await open("tokens/");
+    const { page } = await open("tokens/radius/");
     await page.fill("[data-filter]", "radius-action");
     await page.focus('[data-token="radius-action"] button[data-copy]');
     await page.keyboard.press("Escape");
@@ -1546,14 +1615,14 @@ describe("the drawings of the logo page", () => {
   });
 });
 
-describe("a document on a narrow screen", () => {
-  it("lists the three documents above its text and marks itself", async () => {
+describe("a page of the Guide on a narrow screen", () => {
+  it("lists the pages of the Guide above its text and marks itself", async () => {
     const { page } = await open("adopting/", 390);
-    const links = page.locator("nav.documents a");
-    expect(await links.count()).toBe(3);
+    const links = page.locator("nav.side-nav a");
+    expect(await links.count()).toBe(6);
     expect(await links.first().isVisible()).toBe(true);
     expect(
-      await page.locator('nav.documents a[aria-current="page"]').textContent(),
+      await page.locator('nav.side-nav a[aria-current="page"]').textContent(),
     ).toContain("Moving a site onto the design system");
     await page.close();
   });

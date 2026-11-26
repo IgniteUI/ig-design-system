@@ -7,7 +7,7 @@ interface Props {
 const { quiet = false } = Astro.props;
 ---
 
-<span class:list={["action", { quiet }]}><slot /></span>
+<span data-ig-scope class:list={["action", { quiet }]}><slot /></span>
 
 <style>
   .action {

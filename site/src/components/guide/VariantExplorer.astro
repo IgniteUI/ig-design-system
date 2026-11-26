@@ -1,0 +1,42 @@
+---
+// Picks a variant of the theme: Light or Dark beside one card, which takes the picked variant.
+import DemoCard from "@/components/guide/DemoCard.astro";
+import ExampleLayout from "@/components/guide/ExampleLayout.astro";
+import ExampleTag from "@/components/guide/ExampleTag.astro";
+import OptionList from "@/components/guide/OptionList.astro";
+import Stage from "@/components/guide/Stage.astro";
+import DarkNotice from "@/components/layout/DarkNotice.astro";
+
+const VARIANTS = [
+  { pick: "light", label: "Light", use: "The default. Every colour takes its light value." },
+  { pick: "dark", label: "Dark", use: "The same names, the dark values. The whole page or one region can take it." },
+];
+const first = "light";
+---
+
+<ExampleLayout class="explorer" data-explorer data-variant-explorer>
+  <div class="options" slot="controls">
+    <OptionList options={VARIANTS} first={first} label="Variant of the theme" />
+  </div>
+
+  <div class="info" slot="info"><DarkNotice inline /></div>
+
+  <div class="drawing">
+    <ExampleTag />
+    <Stage data-theme={first} data-variant>
+      <DemoCard title="One card, two variants">The same markup and the same names in both.</DemoCard>
+    </Stage>
+  </div>
+</ExampleLayout>
+
+<script>
+  import "@/scripts/explorer.ts";
+</script>
+
+<style>
+  .drawing {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+    min-inline-size: 0;
+  }
+</style>

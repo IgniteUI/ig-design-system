@@ -1,29 +1,32 @@
 ---
 // A page of sections: the section list on the left, the content on the right.
+// A page of a section with a menu, the Guide or Tokens, has that menu on the left, the content, and its sections as
+// "On this page" on the right.
+import SideNav from "@/components/layout/SideNav.astro";
 import SectionNav from "@/components/layout/SectionNav.astro";
-import type { PageId } from "@/data/navigation.ts";
+import type { MenuId, PageId } from "@/data/navigation.ts";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title?: string;
-  /** The page the top bar marks as open. A page the top bar does not list leaves it out. */
+  /** The page the top bar marks as open. A page the top bar does not list leaves it out. A page with a menu marks its section. */
   current?: PageId;
   /** The sections of the page, in order. Each id is the id of an element on the page. */
   sections: { id: string; title: string; count?: number; unit?: string; sub?: boolean; soon?: boolean }[];
-  /** A link above the section list, back to the page this one belongs to. */
-  back?: { href: string; title: string };
-  /** The pages this one belongs with, listed above the sections. */
-  pages?: { href: string; title: string; current?: boolean }[];
+  /** The section the page belongs to: its menu on the left, the sections on the right. */
+  menu?: MenuId;
 }
 
-const { title, current, sections, back, pages } = Astro.props;
+const { title, current, sections, menu } = Astro.props;
 ---
 
-<BaseLayout title={title} current={current}>
+<BaseLayout title={title} current={menu ?? current}>
   <slot name="bar" slot="bar" />
   <slot name="switches" slot="switches" />
-  <div class="layout">
-    <SectionNav sections={sections} back={back} pages={pages}><slot name="nav" /></SectionNav>
+  <div class:list={["layout", { "with-menu": menu }]}>
+    <SectionNav sections={sections} heading={menu ? "On this page" : undefined}><slot name="nav" /></SectionNav>
+    {/* After the sticky section list, so Tab reaches the list and its filter before the menu. */}
+    {menu && <SideNav menu={menu} />}
     <main id="content" tabindex="-1">
       <slot />
     </main>
@@ -44,12 +47,42 @@ const { title, current, sections, back, pages } = Astro.props;
     outline: none;
   }
 
+  /* The menu and the content; the sections sit under the menu until there is room for a third column. */
+  .with-menu {
+    grid-template-areas: "pages main" "toc main";
+    grid-template-rows: auto 1fr;
+    row-gap: var(--igd-space-gap-xl);
+  }
+
+  .with-menu > main {
+    grid-area: main;
+  }
+
+  .with-menu > :global([data-section-nav]) {
+    grid-area: toc;
+  }
+
+  /* breakpoint-xl */
+  @media (min-width: 1280px) {
+    .with-menu {
+      grid-template-columns: minmax(12rem, 14rem) minmax(0, 1fr) minmax(12rem, 14rem);
+      grid-template-areas: "pages main toc";
+      grid-template-rows: auto;
+      column-gap: var(--igd-space-gap-2xl);
+    }
+  }
+
   /* breakpoint-lg */
   @media (max-width: 1024px) {
     .layout {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--igd-space-gap-lg);
       padding-block-start: 0;
+    }
+
+    .with-menu {
+      grid-template-areas: "pages" "toc" "main";
+      grid-template-rows: auto;
     }
   }
 </style>

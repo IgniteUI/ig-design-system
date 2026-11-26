@@ -2,7 +2,6 @@
 // One page per Markdown document of the package. The file is rendered as it is; its second-level headings are the sections.
 import { getCollection, render } from "astro:content";
 import TokenFilter from "@/components/tokens/TokenFilter.astro";
-import CopyFormat from "@/components/ui/CopyFormat.astro";
 import LinkCards from "@/components/ui/LinkCards.astro";
 import { DOCUMENTS } from "@/data/navigation.ts";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
@@ -26,7 +25,7 @@ if (!title)
   throw new Error(
     `${entry.filePath} has no first-level heading. The page takes its title from it: start the file with "# Title".`,
   );
-// One name for a document everywhere: its heading, its card on the guide and its link in the footer.
+// One name for a document everywhere: its heading, its link in the Guide's menu and its link in the footer.
 if (document && document.title !== title)
   throw new Error(
     `${entry.filePath} is titled "${title}" but DOCUMENTS in site/src/data/navigation.ts calls it "${document.title}". Use the heading of the file as the title.`,
@@ -34,7 +33,6 @@ if (document && document.title !== title)
 const sections = headings
   .filter((h) => h.depth === 2 || h.depth === 3)
   .map((h) => ({ id: h.slug, title: h.text, sub: h.depth === 3 }));
-const pages = DOCUMENTS.map((d) => ({ href: href(`${d.slug}/`), title: d.title, current: d.slug === entry.id }));
 const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
   href: href(`${d.slug}/`),
   title: d.title,
@@ -42,7 +40,7 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
 }));
 ---
 
-<SectionsLayout title={title} sections={sections} pages={pages} back={{ href: href("#setup"), title: "Back to the guide" }}>
+<SectionsLayout title={title} sections={sections} menu="guide">
   {
     document?.filter && (
       <TokenFilter
@@ -52,23 +50,13 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
       />
     )
   }
-  <nav class="documents" aria-label="Documents">
-    {
-      pages.map((page) => (
-        <a href={page.href} aria-current={page.current ? "page" : undefined}>
-          {page.title}
-        </a>
-      ))
-    }
-  </nav>
   {
     document?.filter && (
       <div class="how" data-filter-rest>
         <p class="lead">
-          Click a new name to copy it, for CSS or as the name alone. Press <kbd>/</kbd> to filter the tables by an old
-          or a new name, and <kbd>Esc</kbd> to clear.
+          Click a new name to copy it. Press <kbd>/</kbd> to filter the tables by an old or a new name, and{" "}
+          <kbd>Esc</kbd> to clear.
         </p>
-        <CopyFormat />
       </div>
     )
   }
@@ -245,35 +233,6 @@ const others = DOCUMENTS.filter((d) => d.slug !== entry.id).map((d) => ({
 
   .prose :global(.copy-name:hover) {
     background: var(--igd-color-surface-tint);
-  }
-
-  /* breakpoint-lg and under: the documents are listed above the page, where the side list is a row of sections only. */
-  .documents {
-    display: none;
-  }
-
-  @media (max-width: 1024px) {
-    .documents {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--igd-space-gap-2xs) var(--igd-space-gap-lg);
-      margin-block-end: var(--igd-space-stack-lg);
-      padding-block-end: var(--igd-space-inset-sm);
-      border-block-end: var(--igd-border-width-default) solid var(--igd-color-border-default);
-      font-size: var(--igd-type-body-sm-font-size);
-    }
-
-    .documents a {
-      display: flex;
-      align-items: center;
-      min-block-size: var(--igd-size-control-lg);
-      color: var(--igd-color-text-body);
-    }
-
-    .documents a[aria-current="page"] {
-      color: var(--igd-color-text-heading);
-      font-weight: var(--igd-font-weight-semibold);
-    }
   }
 
   .how {

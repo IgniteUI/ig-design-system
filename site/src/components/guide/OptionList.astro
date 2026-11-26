@@ -1,0 +1,221 @@
+---
+// The options of an example of Concepts: one card per option, with a short label, the name of its token and its plain use,
+// the picked one pressed. A click anywhere on the card picks it; the copy button in its corner copies the name.
+// The pick button sets data-pick; scripts/explorer.ts reacts to it.
+// `swatch` puts a colour sample before the label; `after` follows the name, such as the element a type role is for.
+
+interface Props {
+  options: {
+    pick: string;
+    label: string;
+    use: string;
+    swatch?: string;
+    name?: { text: string; prefix: string };
+    after?: string;
+  }[];
+  /** The option pressed at first. */
+  first: string;
+  /** Names the group for assistive technology, such as "Kind of space". */
+  label: string;
+}
+
+const { options, first, label } = Astro.props;
+---
+
+<div data-ig-scope class="option-list" role="group" aria-label={label}>
+  {
+    options.map((o) => (
+      <div class="option">
+        <button type="button" data-pick={o.pick} aria-pressed={o.pick === first ? "true" : "false"}>
+          <strong>
+            {o.swatch && <span class="swatch" style={`background: ${o.swatch}`} />}
+            {o.label}
+          </strong>
+        </button>
+        {o.name && (
+          <span class="name">
+            <code>
+              <span class="prefix">{o.name.prefix}</span>
+              {o.name.text.slice(o.name.prefix.length)}
+            </code>
+            {o.after && <span class="after">{o.after}</span>}
+          </span>
+        )}
+        <span class="use">{o.use}</span>
+        {o.name && (
+          <button
+            type="button"
+            class="copy"
+            data-copy={o.name.text}
+            data-tip={o.name.text.startsWith(".") ? "Copy class" : "Copy variable"}
+            aria-label={`Copy ${o.name.text}`}
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+              <path d="M10.5 5.5v-2a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2" />
+            </svg>
+          </button>
+        )}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .option-list {
+    display: grid;
+    align-content: start;
+    gap: var(--igd-space-gap-xs);
+  }
+
+  /* The pick button covers the whole card, the name included; only the copy button sits above it. */
+  .option {
+    position: relative;
+    display: grid;
+    gap: var(--igd-space-gap-3xs);
+    padding: var(--igd-space-inset-sm) var(--igd-space-inset-md);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-control);
+    border-radius: var(--igd-radius-tile);
+    color: var(--igd-color-text-ui);
+  }
+
+  button[data-pick] {
+    all: unset;
+    cursor: pointer;
+  }
+
+  button[data-pick]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  button[data-pick]:focus-visible::after {
+    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+    outline-offset: var(--igd-focus-ring-offset);
+  }
+
+  .name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--igd-space-gap-2xs);
+    min-inline-size: 0;
+    font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  code {
+    color: var(--igd-color-text-strong);
+    font-family: var(--igd-font-mono);
+    overflow-wrap: anywhere;
+  }
+
+  .prefix {
+    color: var(--igd-color-text-muted);
+  }
+
+  /* The copy button, in the top right corner of the card, above the pick button. */
+  .option {
+    padding-inline-end: calc(var(--igd-space-inset-md) + var(--igd-size-control-sm));
+  }
+
+  .copy {
+    position: absolute;
+    inset-block-start: var(--igd-space-inset-xs);
+    inset-inline-end: var(--igd-space-inset-xs);
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    inline-size: var(--igd-size-control-sm);
+    block-size: var(--igd-size-control-sm);
+    padding: 0;
+    border: 0;
+    border-radius: var(--igd-radius-control);
+    background: transparent;
+    color: var(--igd-color-text-muted);
+    cursor: copy;
+  }
+
+  .copy:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  .copy:focus-visible {
+    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+    outline-offset: var(--igd-focus-ring-offset);
+  }
+
+  .copy svg {
+    inline-size: var(--igd-size-icon-sm);
+    block-size: var(--igd-size-icon-sm);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--igd-size-icon-stroke);
+  }
+
+  /* The tooltip: what a click does, above the button on hover and on keyboard focus. */
+  .copy::after {
+    content: attr(data-tip);
+    position: absolute;
+    inset-block-end: calc(100% + var(--igd-space-3xs));
+    inset-inline-end: 0;
+    padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
+    border-radius: var(--igd-radius-control);
+    background: var(--igd-color-surface-inverse);
+    color: var(--igd-color-text-inverse);
+    font-size: var(--igd-type-body-xs-font-size);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  .copy:hover::after,
+  .copy:focus-visible::after {
+    opacity: 1;
+  }
+
+  .after {
+    color: var(--igd-color-text-muted);
+  }
+
+  strong {
+    display: flex;
+    align-items: center;
+    gap: var(--igd-space-gap-xs);
+    font-size: var(--igd-type-body-sm-font-size);
+    font-weight: var(--igd-font-weight-semibold);
+    color: var(--igd-color-text-heading);
+  }
+
+  .use {
+    font-size: var(--igd-type-body-xs-font-size);
+    line-height: var(--igd-type-body-xs-line-height);
+  }
+
+  .swatch {
+    flex: none;
+    inline-size: var(--igd-size-icon-sm);
+    block-size: var(--igd-size-icon-sm);
+    border: var(--igd-border-width-default) solid var(--igd-color-border-default);
+    border-radius: var(--igd-radius-action);
+  }
+
+  @media (hover: hover) {
+    .option:hover {
+      background: var(--igd-color-surface-subtle);
+    }
+  }
+
+  /* The picked option: the tint and text colour the menus mark the open page with, and the action colour as its border. */
+  .option:has([aria-pressed="true"]) {
+    border-color: var(--igd-color-action-default);
+    background: var(--igd-color-surface-tint);
+  }
+
+  .option:has([aria-pressed="true"]) :is(strong, .use) {
+    color: var(--igd-color-action-text);
+  }
+</style>

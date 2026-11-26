@@ -14,7 +14,7 @@ interface Props {
 const { id, number, title, why, good, bad } = Astro.props;
 ---
 
-<li id={id} tabindex="-1">
+<li data-ig-scope id={id} tabindex="-1">
   <h3><span class="number">{number}<span class="sr">.</span></span> {title}</h3>
   <p set:html={prose(why)} />
   <div class="pair">

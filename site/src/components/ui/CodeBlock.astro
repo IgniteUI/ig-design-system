@@ -13,7 +13,7 @@ interface Props {
 const { code, lang, label } = Astro.props;
 ---
 
-<div class="code" data-on-dark>
+<div data-ig-scope class="code" data-on-dark>
   <Code code={code} lang={lang} theme="css-variables" />
   <button type="button" data-copy={code} data-copy-label="the code" aria-label={`Copy the code: ${label}`}>Copy</button>
 </div>

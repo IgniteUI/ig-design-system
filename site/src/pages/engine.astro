@@ -6,7 +6,6 @@ import TokenCard from "@/components/tokens/TokenCard.astro";
 import TokenFilter from "@/components/tokens/TokenFilter.astro";
 import TokenGrid from "@/components/tokens/TokenGrid.astro";
 import TokenRow from "@/components/tokens/TokenRow.astro";
-import CopyFormat from "@/components/ui/CopyFormat.astro";
 import ScrollTable from "@/components/ui/ScrollTable.astro";
 import SectionsLayout from "@/layouts/SectionsLayout.astro";
 import { cssVar, tokens } from "@/lib/design-system.ts";
@@ -48,7 +47,6 @@ const sections = {
       igniteui-theming solves each palette step for contrast and builds the elevations. The check reports a
       palette step anywhere in a site, and a spacing step used for padding, a margin or a gap.
     </p>
-    <CopyFormat />
   </div>
 
   <Section {...sections.palette}>
@@ -91,7 +89,7 @@ const sections = {
 
   <Section {...sections.elevation}>
     <p class="intro">
-      The engine's levels, from its indigo preset. A site uses a <a href={href("tokens/#shadow")}>shadow token</a>
+      The engine's levels, from its indigo preset. A site uses a <a href={href("tokens/shadow/")}>shadow token</a>
       instead.
     </p>
     <TokenGrid roomy>

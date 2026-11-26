@@ -11,7 +11,7 @@ interface Props {
 const { label, head } = Astro.props;
 ---
 
-<div class="table" role="region" aria-label={label} data-scroll-region>
+<div data-ig-scope class="table" role="region" aria-label={label} data-scroll-region>
   <table role="table">
     {
       head && (

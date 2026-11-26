@@ -1,8 +1,12 @@
 # Migration guide
 
-Old token names from the first design system prototype and their replacements. A site that never used the prototype does not need this page; see [Moving a site onto the design system](ADOPTING.md). Nothing from the old names is kept: no aliases, no deprecated files.
+What to change in a site when it moves to a new major version. A minor or a patch version needs no change. Each major version has a section here, the newest first; [the changelog](../CHANGELOG.md) lists everything each version changes. A site that adopts the design system for the first time starts with [Moving a site onto the design system](ADOPTING.md).
 
-## 1. Naming convention
+## From the prototype to 1.0
+
+The token names of the first design system prototype and their replacements. A site that never used the prototype skips this section. Nothing from the old names is kept: no aliases, no deprecated files.
+
+### Naming convention
 
 Three tiers, role-based names, no colour words in semantic names (the three `window-dot-*` tokens are the exception).
 
@@ -12,7 +16,7 @@ Three tiers, role-based names, no colour words in semantic names (the three `win
 
 Colour roles read `color-{role}-{variant}-{state}`: `color-action-default`, `color-action-hover`, `color-text-muted`, `color-surface-tint`, `color-border-control`, `color-feedback-error-default`.
 
-## 2. Spacing scale
+### Spacing scale
 
 The 25-step scale collapsed to 12 engine steps, and the steps are now named by size (`3xs` to `6xl`), not by pixel value, because the live value follows `--ig-spacing` and `--ig-size`. Steps that sat one or two pixels apart merged into their nearest neighbour. Components do not use the steps directly for padding, margins and gaps: they use the roles `--igd-space-inset-*`, `--igd-space-stack-*` and `--igd-space-gap-*`.
 
@@ -46,7 +50,7 @@ The 25-step scale collapsed to 12 engine steps, and the steps are now named by s
 
 In a component, pick the role for the property: padding → `--igd-space-inset-{size}`, vertical margins → `--igd-space-stack-{size}`, gap and inline margins → `--igd-space-gap-{size}`.
 
-## 3. Token renames
+The other renames, by kind:
 
 ### Colour
 

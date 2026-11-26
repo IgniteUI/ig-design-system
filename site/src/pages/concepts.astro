@@ -1,0 +1,257 @@
+---
+// Concepts: the design system in plain words, with live examples built on the tokens.
+import DemoCard from "@/components/guide/DemoCard.astro";
+import DemoForm from "@/components/guide/DemoForm.astro";
+import ColourExplorer from "@/components/guide/ColourExplorer.astro";
+import Dials from "@/components/guide/Dials.astro";
+import ExampleTag from "@/components/guide/ExampleTag.astro";
+import MessageExamples from "@/components/guide/MessageExamples.astro";
+import ShapeExplorer from "@/components/guide/ShapeExplorer.astro";
+import SpacingExplorer from "@/components/guide/SpacingExplorer.astro";
+import Stage from "@/components/guide/Stage.astro";
+import Section from "@/components/layout/Section.astro";
+import TypeExplorer from "@/components/guide/TypeExplorer.astro";
+import VariantExplorer from "@/components/guide/VariantExplorer.astro";
+import InfoCards from "@/components/ui/InfoCards.astro";
+import LinkCards from "@/components/ui/LinkCards.astro";
+import { COLOUR_PICKS, TYPE_ELEMENTS, TYPE_USES } from "@/data/guide.ts";
+import { GUIDE_PAGES } from "@/data/navigation.ts";
+import SectionsLayout from "@/layouts/SectionsLayout.astro";
+import { CARD_CSS, cssVar, repository, tokens } from "@/lib/design-system.ts";
+import { href } from "@/lib/paths.ts";
+import { isEngine, pick } from "@/lib/tokens.ts";
+
+const sections = {
+  idea: { id: "idea", title: "The idea" },
+  colour: { id: "colour", title: "Colour" },
+  type: { id: "type", title: "Type" },
+  spacing: { id: "spacing", title: "Spacing" },
+  corners: { id: "corners", title: "Corners" },
+  shadows: { id: "shadows", title: "Shadows" },
+  themes: { id: "themes", title: "Variants and dials" },
+  help: { id: "help", title: "Something missing?" },
+};
+
+const colours = tokens.color.tokens.filter((t) => !t.name.startsWith("ig-"));
+const messages = COLOUR_PICKS.find((g) => g.id === "colour-messages") ?? { lead: "" };
+// The token "The idea" uses as its example, and the raw token its value points at.
+const [example] = pick(colours, ["color-text-muted"], "colour");
+const rawOf = (token: { name: string; value: string }) => {
+  const raw = token.value.match(/^\{([\w-]+)\}$/)?.[1];
+  if (!raw)
+    throw new Error(
+      `The guide shows "${token.name}" as a name that points at a raw token, but its value is "${token.value}". Pick an example in site/src/pages/index.astro whose value is one raw token.`,
+    );
+  return cssVar(raw);
+};
+const styles = tokens.type.groups.flatMap((g) => g.styles);
+const tiles = colours.filter((t) => /^tile-\d+$/.test(t.name));
+const faces = Object.values(tokens.type.families).map((f) => f.split(",")[0].replace(/'/g, ""));
+const missing = styles.filter((style) => !TYPE_USES[style.name] || !TYPE_ELEMENTS[style.name]).map((style) => style.name);
+if (missing.length)
+  throw new Error(
+    `The guide has no plain use or element for ${missing.join(", ")}. Add one to TYPE_USES and TYPE_ELEMENTS in site/src/data/guide.ts.`,
+  );
+---
+
+<SectionsLayout current="concepts" sections={Object.values(sections)}>
+  <style is:inline set:html={CARD_CSS}></style>
+
+  <h1>Concepts</h1>
+  <p class="intro">
+    What the system offers, in plain words and live examples: the colours, type roles, spaces, corners, shadows
+    and dials. Every value is on the <a href={href("tokens/")}>Tokens</a> page; how to build with it is in the{" "}
+    <a href={href(GUIDE_PAGES[0].path)}>Guide</a>.
+  </p>
+
+  <Section {...sections.idea}>
+    <p class="intro">
+      A design token is a name for a design decision. The name says what the value is for, and the design
+      system holds the value.
+    </p>
+    <InfoCards
+      items={[
+        {
+          title: "A name, not a value",
+          html: `You write <code>${cssVar(example.name)}</code>, the colour of captions and small labels. You never write the raw value behind it, <output data-colour="${cssVar(example.name)}"></output> in this variant of the theme, and never the raw token, <code>${rawOf(example)}</code>. Both are forbidden: only the name stays right when the value changes.`,
+        },
+        {
+          title: "One source",
+          html: "Every site that reads these tokens looks like part of the Infragistics family. A change made here reaches each of them with the next version.",
+        },
+        {
+          title: "Checked for you",
+          html: "Every text colour is measured against its background in both variants of the theme, light and dark. A raw value or a raw token typed by hand is caught early by a check, so it never reaches a site.",
+        },
+      ]}
+    />
+    <h3 class="plain" id="idea-names">Why a name says its job</h3>
+    <p class="lead">
+      A name is written into every site that uses it; its value is written once, here. So a name says what the
+      value is for, never how it looks. When the look changes, only the value changes, and no site has to be
+      edited.
+    </p>
+    <ul class="names">
+      <li>The corner of a button is the action radius, not the pill radius: if buttons stop being pills, the name is still right.</li>
+      <li>The colour of strong text is not called primary: primary is the name of a colour family, and this text does not use it.</li>
+      <li>The shadow of a chip is named for the chip, not for a glass look: a name says where the value goes, not what it looks like.</li>
+    </ul>
+    <p class="lead">
+      Two kinds of name use a position, because there the position is the job. A scale, such as the sizes of
+      padding from small to large, where you pick a step by how much you need. And an ordered set, such as the
+      {tiles.length} colours of product tiles, where a grid takes the colours in order whatever product each tile
+      shows.
+    </p>
+  </Section>
+
+  <Section {...sections.colour}>
+    <p class="intro">
+      A colour is named for its job: text, a background, an action, a line or a message. Choose by the job,
+      never by the nearest shade. Each one has a value for the light variant of the theme and one for the dark variant, and
+      switches by itself.
+    </p>
+    <p class="lead">
+      Pick a colour to see where it goes on the page. An inverse colour is for an area that
+      stays dark in both variants, such as the footer.
+    </p>
+    <ColourExplorer />
+    <div class="group">
+      <h3 id="colour-messages">Messages</h3>
+      <p class="lead">{messages.lead}</p>
+      <MessageExamples />
+    </div>
+    <p class="more"><a href={href("tokens/colour/")}>The names and values of all {colours.length} colours</a></p>
+  </Section>
+
+  <Section {...sections.type}>
+    <p class="intro">
+      {styles.length} type roles, each named for its job on the page. A role carries the font, size, weight
+      and line height together, so text set in it always looks the same.
+    </p>
+    <p class="lead">
+      Most pages use the default sizes. A documentation page uses a smaller set: press the button to see it.
+    </p>
+    <TypeExplorer />
+    <p class="lead">
+      Three typefaces: {faces.join(", ")}. Headings use the first, text the second, code the third.
+    </p>
+    <p class="more"><a href={href("tokens/type/")}>The names and sizes of all {styles.length} type roles</a></p>
+  </Section>
+
+  <Section {...sections.spacing}>
+    <p class="intro">
+      Space comes from one scale of sizes, from very small to very large. You choose a size and say what the
+      space is: padding inside a box, a margin between blocks, or a gap between items.
+    </p>
+    <p class="lead">Pick a kind of space to see where it sits.</p>
+    <SpacingExplorer />
+    <p class="lead">Widths, heights and offsets are not tokens. Type those as the layout needs them.</p>
+    <p class="more"><a href={href("tokens/spacing/")}>The names and sizes of all {tokens.spacing.tokens.filter((t) => !isEngine(t.name)).length} spacing tokens</a></p>
+  </Section>
+
+  <Section {...sections.corners}>
+    <p class="intro">
+      A corner is named for what it sits on. A card takes the card radius; every action takes the action radius,
+      fully round today.
+    </p>
+    <p class="lead">Pick an element to see the corner it takes.</p>
+    <ShapeExplorer kind="radius" />
+    <p class="more"><a href={href("tokens/radius/")}>The names and values of all corners</a></p>
+  </Section>
+
+  <Section {...sections.shadows}>
+    <p class="intro">
+      A shadow lifts a surface off the page, and is named for where that surface sits. In the dark variant
+      surfaces separate by tone, so a shadow adds little there.
+    </p>
+    <p class="lead">Pick a situation to see the shadow it takes.</p>
+    <ShapeExplorer kind="shadow" />
+    <p class="more"><a href={href("tokens/shadow/")}>The names and values of all shadows</a></p>
+  </Section>
+
+  <Section {...sections.themes}>
+    <p class="intro">
+      The theme has two variants, light and dark. The same component looks right in both and at any density,
+      because it reads tokens. Nothing in it is written twice.
+    </p>
+    <div class="group">
+      <h3 id="themes-light-dark">Light and dark</h3>
+      <p class="lead">
+        The button at the top of this page switches the whole page. A region can also carry its own variant:
+        pick one for this card.
+      </p>
+      <VariantExplorer />
+    </div>
+    <div class="group">
+      <h3 id="themes-dials">Dials</h3>
+      <p class="lead">
+        Four dials change every token below them at once. Press a value and watch the card and the form: their
+        padding, corners, field heights and shadow follow, and no rule of either changes. The default is what a site gets when it
+        sets no dial.
+      </p>
+      <Dials target="dial-stage">
+        <Stage id="dial-stage">
+          <ExampleTag many />
+          <DemoCard title="One card, four dials">Press a dial and watch the padding and the corners.</DemoCard>
+          <DemoForm id="dial-form" />
+        </Stage>
+      </Dials>
+      <p class="lead after">
+        The card takes its shadow on hover, as cards do: hover it to see the shadow dial. A site sets a dial once,
+        on the page or on one region. A component never sets one.
+      </p>
+    </div>
+  </Section>
+
+  <Section {...sections.help}>
+    <p class="intro">
+      If no token fits what you need, do not pick the closest one. Ask: the answer is either a token you
+      missed or a new one for everybody.
+    </p>
+    <LinkCards
+      items={[
+        {
+          href: href("tokens/"),
+          title: "Search the tokens first",
+          text: "The filter matches a token's name and its use, so `hover` or `card` work.",
+        },
+        {
+          href: `${repository}/issues/new/choose`,
+          title: "Open an issue",
+          text: "Say what you are styling and which token is missing.",
+        },
+        {
+          href: repository,
+          title: "The repository",
+          text: "For developers: the source and the reason behind every decision.",
+        },
+      ]}
+    />
+  </Section>
+</SectionsLayout>
+
+<style>
+  /* A lead pulls up to the heading above it; a lead after a demo keeps its distance from the demo. */
+  .names {
+    display: grid;
+    gap: var(--igd-space-gap-xs);
+    max-inline-size: 38rem;
+    margin-block: 0 var(--igd-space-stack-md);
+    padding-inline-start: var(--igd-space-inset-lg);
+    color: var(--igd-color-text-body);
+  }
+
+  .group > .lead:not(.after) {
+    margin-block-start: calc(-1 * var(--igd-space-stack-2xs));
+  }
+
+  .lead.after {
+    margin-block-start: var(--igd-space-stack-md);
+  }
+
+
+
+
+
+
+</style>
