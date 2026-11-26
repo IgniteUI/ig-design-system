@@ -1,8 +1,8 @@
 ---
-// The options of an example of Concepts: one card per option, with a short label, the copyable name of its token and its
-// plain use, the picked one pressed. The pick button sets data-pick; scripts/explorer.ts reacts to it.
+// The options of an example of Concepts: one card per option, with a short label, the name of its token and its plain use,
+// the picked one pressed. A click anywhere on the card picks it; the copy button in its corner copies the name.
+// The pick button sets data-pick; scripts/explorer.ts reacts to it.
 // `swatch` puts a colour sample before the label; `after` follows the name, such as the element a type role is for.
-import CopyName from "@/components/ui/CopyName.astro";
 
 interface Props {
   options: {
@@ -34,11 +34,28 @@ const { options, first, label } = Astro.props;
         </button>
         {o.name && (
           <span class="name">
-            <CopyName name={o.name.text} prefix={o.name.prefix} />
+            <code>
+              <span class="prefix">{o.name.prefix}</span>
+              {o.name.text.slice(o.name.prefix.length)}
+            </code>
             {o.after && <span class="after">{o.after}</span>}
           </span>
         )}
         <span class="use">{o.use}</span>
+        {o.name && (
+          <button
+            type="button"
+            class="copy"
+            data-copy={o.name.text}
+            data-tip={o.name.text.startsWith(".") ? "Copy class" : "Copy variable"}
+            aria-label={`Copy ${o.name.text}`}
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+              <path d="M10.5 5.5v-2a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2" />
+            </svg>
+          </button>
+        )}
       </div>
     ))
   }
@@ -51,7 +68,7 @@ const { options, first, label } = Astro.props;
     gap: var(--igd-space-gap-xs);
   }
 
-  /* The pick button covers the whole card; the name stays above it so its own button takes the click. */
+  /* The pick button covers the whole card, the name included; only the copy button sits above it. */
   .option {
     position: relative;
     display: grid;
@@ -80,13 +97,84 @@ const { options, first, label } = Astro.props;
   }
 
   .name {
-    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--igd-space-gap-2xs);
     min-inline-size: 0;
     font-size: var(--igd-type-body-xs-font-size);
+  }
+
+  code {
+    color: var(--igd-color-text-strong);
+    font-family: var(--igd-font-mono);
+    overflow-wrap: anywhere;
+  }
+
+  .prefix {
+    color: var(--igd-color-text-muted);
+  }
+
+  /* The copy button, in the top right corner of the card, above the pick button. */
+  .option {
+    padding-inline-end: calc(var(--igd-space-inset-md) + var(--igd-size-control-sm));
+  }
+
+  .copy {
+    position: absolute;
+    inset-block-start: var(--igd-space-inset-xs);
+    inset-inline-end: var(--igd-space-inset-xs);
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    inline-size: var(--igd-size-control-sm);
+    block-size: var(--igd-size-control-sm);
+    padding: 0;
+    border: 0;
+    border-radius: var(--igd-radius-control);
+    background: transparent;
+    color: var(--igd-color-text-muted);
+    cursor: copy;
+  }
+
+  .copy:hover {
+    background: var(--igd-color-surface-subtle);
+    color: var(--igd-color-text-heading);
+  }
+
+  .copy:focus-visible {
+    outline: var(--igd-focus-ring-width) solid var(--igd-color-focus-default);
+    outline-offset: var(--igd-focus-ring-offset);
+  }
+
+  .copy svg {
+    inline-size: var(--igd-size-icon-sm);
+    block-size: var(--igd-size-icon-sm);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--igd-size-icon-stroke);
+  }
+
+  /* The tooltip: what a click does, above the button on hover and on keyboard focus. */
+  .copy::after {
+    content: attr(data-tip);
+    position: absolute;
+    inset-block-end: calc(100% + var(--igd-space-3xs));
+    inset-inline-end: 0;
+    padding: var(--igd-space-inset-3xs) var(--igd-space-inset-xs);
+    border-radius: var(--igd-radius-control);
+    background: var(--igd-color-surface-inverse);
+    color: var(--igd-color-text-inverse);
+    font-size: var(--igd-type-body-xs-font-size);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--igd-duration-fast) var(--igd-easing-default);
+  }
+
+  .copy:hover::after,
+  .copy:focus-visible::after {
+    opacity: 1;
   }
 
   .after {

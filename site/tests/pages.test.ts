@@ -288,8 +288,10 @@ describe("the guide", () => {
 
   it("names the class of each type role and the element it is meant for", () => {
     const role =
-      html.match(/data-pick="type-display-lg".*?class="use"/s)?.[0] ?? "";
+      html.match(/data-pick="type-display-lg".*?<\/button>\s*<\/div>/s)?.[0] ??
+      "";
     expect(role).toContain('data-copy=".igd-type-display-lg"');
+    expect(role).toContain('data-tip="Copy class"');
     expect(role).toContain("on &lt;h1&gt;");
     expect(role).not.toContain("--igd-type-display-lg-");
   });

@@ -432,6 +432,44 @@ describe("the interactive examples of the guide", () => {
   });
 });
 
+describe("the option cards of Concepts", () => {
+  it("pick from anywhere on the card, the name included, and copy only from the corner button", async () => {
+    const context = await browser.newContext({
+      permissions: ["clipboard-read", "clipboard-write"],
+    });
+    const page = await context.newPage();
+    await page.goto(`${site.origin}/concepts/`);
+    const card = (pick: string) =>
+      `.explorer.shadow .option:has([data-pick="${pick}"])`;
+    await page.locator(card("shadow-panel")).scrollIntoViewIfNeeded();
+    const name = await page
+      .locator(`${card("shadow-panel")} code`)
+      .boundingBox();
+    if (!name) throw new Error("no name");
+    await page.mouse.click(name.x + name.width / 2, name.y + name.height / 2);
+    expect(
+      await page.getAttribute(
+        `${card("shadow-panel")} [data-pick]`,
+        "aria-pressed",
+      ),
+    ).toBe("true");
+    await page.click(`${card("shadow-popover")} .copy`);
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "--igd-shadow-popover",
+    );
+    expect(
+      await page.getAttribute(
+        `${card("shadow-popover")} [data-pick]`,
+        "aria-pressed",
+      ),
+    ).toBe("false");
+    expect(
+      await page.getAttribute(`${card("shadow-popover")} .copy`, "data-tip"),
+    ).toBe("Copy variable");
+    await context.close();
+  });
+});
+
 describe("the variant explorer of Concepts", () => {
   it("puts the card in the variant picked", async () => {
     const { page } = await open("concepts/");
@@ -457,8 +495,9 @@ describe("the spacing explorer of the guide", () => {
     );
     expect(marked).toContain("repeating-linear-gradient");
     expect(
-      await page.textContent(
+      await page.getAttribute(
         '[data-spacing-explorer] .option:has([aria-pressed="true"]) [data-copy]',
+        "data-copy",
       ),
     ).toContain("--igd-space-");
     await page.close();
@@ -479,8 +518,9 @@ describe("the colour explorer of the guide", () => {
         .count(),
     ).toBe(2);
     expect(
-      await page.textContent(
+      await page.getAttribute(
         '[data-colour-explorer] .option:has([aria-pressed="true"]) [data-copy]',
+        "data-copy",
       ),
     ).toContain("color-action-on");
     await page.close();
@@ -528,7 +568,7 @@ describe("the shape explorers of the guide", () => {
     const order = await page.$eval(
       '.explorer.radius .option:has([data-pick="radius-card"])',
       (el) =>
-        ["strong", "[data-copy]", ".use"].map(
+        ["strong", "code", ".use"].map(
           (part) => el.querySelector(part)?.getBoundingClientRect().top ?? 0,
         ),
     );
@@ -550,8 +590,9 @@ describe("the shape explorers of the guide", () => {
     const { page } = await open("concepts/");
     await page.click('.explorer.shadow button[data-pick="shadow-popover"]');
     expect(
-      await page.textContent(
+      await page.getAttribute(
         '.explorer.shadow .option:has([aria-pressed="true"]) [data-copy]',
+        "data-copy",
       ),
     ).toContain("shadow-popover");
     expect(
