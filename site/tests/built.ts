@@ -17,6 +17,7 @@ export const page = (route: string) =>
 /** Every page of the built site, as its route from the site root. */
 export const ROUTES = [
   "",
+  "concepts/",
   "tokens/",
   "tokens/colour/",
   "tokens/type/",

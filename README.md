@@ -46,7 +46,8 @@ The stylesheets and the token data a site loads are in `dist/`. The package has 
 
 | Page | What it is |
 |---|---|
-| Concepts (`/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, each with its token's name, and the light and dark variants and the four dials on a live card. |
+| Landing (`/`) | The logo, a welcome and five cards, one per part of the site. It has no top bar; the logo in the top bar of every other page leads back to it. |
+| Concepts (`/concepts/`) | For someone who does not read the code: what a token is, the colours, type roles, spacing roles, corners and shadows to choose from, each with its token's name, and the light and dark variants and the four dials on a live card. |
 | Guide (`/guide/`, `/guide/component/`, `/guide/rules/`) | For a developer: set up a site, build a component with the example card, and the rules as do and don't pairs with what the check command reports. |
 | Tokens (`/tokens/` and `/tokens/<family>/`) | Every token a site may write, one page per family, each token a row with its preview, name, use and the value it has on the page; a text colour shows as text in that colour. The overview searches every family. A filter on each page matches a token's name, value and note; a click on a name copies the name as shown. A button turns on the `docs` type set. |
 | Engine (`/engine/`) | What the tokens are built from: the palette, the raw spacing steps and the engine's elevations, each with the tokens that read it. A site does not write these. |

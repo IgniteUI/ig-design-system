@@ -102,7 +102,7 @@ export const PAGES: readonly {
   title: string;
   beta?: boolean;
 }[] = [
-  { id: "concepts", path: "", title: "Concepts" },
+  { id: "concepts", path: "concepts/", title: "Concepts" },
   { id: "guide", path: GUIDE_PAGES[0].path, title: "Guide" },
   { id: "tokens", path: "tokens/", title: "Tokens" },
   { id: "engine", path: "engine/", title: "Engine" },

@@ -1,6 +1,6 @@
 # Documentation site
 
-The site of `ig-design-system`: Concepts, the Guide with its documents, the tokens, the engine and the brand book. An [Astro](https://astro.build) project. It is not part of the npm package.
+The site of `ig-design-system`: a landing page, Concepts, the Guide with its documents, the tokens, the engine and the brand book. An [Astro](https://astro.build) project. It is not part of the npm package.
 
 ## Commands
 

@@ -47,7 +47,7 @@ describe("every page", () => {
     expect(page(route)).not.toMatch(/href="https:\/\/github\.com[^"]*\.md"/);
   });
 
-  it.each(ROUTES)(
+  it.each(ROUTES.filter((r) => r !== ""))(
     "/%s carries the logo of each variant of the theme in the top bar, under one accessible name",
     (route) => {
       const header = page(route).match(/<header.*?<\/header>/s)?.[0] ?? "";
@@ -59,7 +59,7 @@ describe("every page", () => {
   );
 
   it("marks the open page in the top bar", () => {
-    expect(page("")).toMatch(/aria-current="page"[^>]*>\s*Concepts/);
+    expect(page("concepts/")).toMatch(/aria-current="page"[^>]*>\s*Concepts/);
     expect(page("tokens/")).toMatch(/aria-current="page"[^>]*>\s*Tokens/);
     expect(page("engine/")).toMatch(/aria-current="page"[^>]*>\s*Engine/);
     expect(page("logo/")).toMatch(
@@ -231,7 +231,7 @@ describe("the Engine page", () => {
 });
 
 describe("the guide", () => {
-  const html = page("");
+  const html = page("concepts/");
 
   it("names each dial, its custom property and its default in plain words", () => {
     const panel =
@@ -302,12 +302,12 @@ describe("the guide", () => {
   });
 
   it("says why a name says its job, in plain words, with the two kinds of name that use a position", () => {
-    const part = html.match(/id="idea-names".*?What do you need\?/s)?.[0] ?? "";
+    const part = html.match(/id="idea-names".*?id="colour"/s)?.[0] ?? "";
     expect(part).toContain("not the pill radius");
     expect(part).toContain("an ordered set");
     expect(part).toContain("8 colours of product tiles");
     expect(part).not.toContain("<code");
-    expect(page("tokens/")).toContain('href="/#idea-names"');
+    expect(page("tokens/")).toContain('href="/concepts/#idea-names"');
   });
 
   it("draws a part of the page for every colour the colour explorer lists", () => {
@@ -510,6 +510,39 @@ describe("the components of the site", () => {
       expect(/^<[A-Z]/.test(root) || root.includes("data-ig-scope"), root).toBe(
         true,
       );
+    },
+  );
+});
+
+describe("the landing page", () => {
+  const html = page("");
+
+  it("has no top bar, and opens with the logo and the welcome", () => {
+    expect(html).not.toMatch(/<header[^>]*class="top"/);
+    expect(html).toMatch(/<img[^>]*class="logo light"[^>]*alt="Infragistics"/);
+    expect(html).toContain("<h1");
+    expect(html).toContain("The Infragistics design system");
+  });
+
+  it("asks what you need, with one card per part of the site, in order", () => {
+    const cards = [
+      ...(html.match(/<ul[^>]*class="needs".*?<\/ul>/s)?.[0] ?? "").matchAll(
+        /<a href="([^"]+)"[^>]*>\s*<strong[^>]*>([^<]+)<\/strong>/g,
+      ),
+    ].map((m) => `${m[2]} ${m[1]}`);
+    expect(cards).toEqual([
+      "I need guidance /guide/",
+      "I want to explore /concepts/",
+      "I need to learn /engine/",
+      "I need an asset /logo/",
+      "I am looking for a design token /tokens/",
+    ]);
+  });
+
+  it.each(ROUTES.filter((r) => r !== ""))(
+    "/%s leads back to it from the logo in the top bar",
+    (route) => {
+      expect(page(route)).toMatch(/<a[^>]*class="brand" href="\/"/);
     },
   );
 });
