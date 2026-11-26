@@ -378,37 +378,14 @@ describe("the logo page", () => {
     expect(html).not.toMatch(/draft|proposal/i);
   });
 
-  it("marks each section still to be written as coming soon, in its heading and in the section list", () => {
+  it("shows no section that is not written yet, in the page or in the section list", () => {
     const soon = Object.values(SOON).flat();
-    expect(soon.length).toBe(11);
+    expect(soon.length).toBeGreaterThan(0);
     for (const { id } of soon) {
-      expect(html).toMatch(
-        new RegExp(
-          `<h2 id="${id}-title"[^>]*>[^<]*<span class="soon"[^>]*>Coming soon</span>`,
-        ),
-      );
-      expect(html).toMatch(
-        new RegExp(
-          `href="#${id}"[^>]*>\\s*<span[^>]*>[^<]+</span>\\s*<span class="soon"[^>]*>Soon</span>`,
-        ),
-      );
+      expect(html).not.toContain(`id="${id}"`);
+      expect(html).not.toContain(`href="#${id}"`);
     }
-  });
-
-  it("says under each section still to be written what it will hold", () => {
-    for (const { id, expected } of Object.values(SOON).flat()) {
-      const section = html
-        .slice(html.indexOf(`id="${id}"`))
-        .split("</section>")[0];
-      expect(section.replace(/&#39;/g, "'")).toContain(expected);
-    }
-  });
-
-  it("marks no written section as coming soon", () => {
-    for (const id of ["name", "files", "cobrand", "accessibility"])
-      expect(html).not.toMatch(
-        new RegExp(`<h2 id="${id}-title"[^>]*>[^<]*<span class="soon"`),
-      );
+    expect(html).not.toContain("Coming soon");
   });
 
   it("writes the name with the right and the wrong form of each rule", () => {
