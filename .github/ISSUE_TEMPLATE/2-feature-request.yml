@@ -1,0 +1,81 @@
+name: Feature request
+description: A new capability in the package, the checks, the exports or the docs site that is not a single token.
+title: '[Feature]: '
+labels: [':sparkles: feature']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For something the design system cannot do today: a new check or rule, an export format, a dial, a site page, a CLI option.
+        A new or changed token is a Token request. Repository or CI work is a Task. Two fields are required: the problem and the proposal.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What you are trying to do, what stops you today, and who it affects. Link the page, repository or PR where it shows up.
+      placeholder: |
+        The Blog runs `npx ig-design-system check src` in CI.
+        A hand-typed `box-shadow` passes the check, so the Blog's shadows drift from the system's.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What the design system does after the change, as rules from the user's side. Say what stays the same.
+      placeholder: |
+        `npx ig-design-system check` reports a `box-shadow` that does not read a `--igd-shadow-*` token.
+        The rules it reports today do not change.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Optional.
+      multiple: true
+      options:
+        - Colour and themes
+        - Spacing, size and radius
+        - Typography
+        - Shadows and elevation
+        - Brand seed (a build input) or data-ig-scope
+        - Theming dials (--ig-size, --ig-spacing, --ig-radius-factor, --ig-elevation-factor)
+        - Exports (tokens.json, DTCG, llms.txt)
+        - Checks and the CLI
+        - Reference components
+        - Docs site
+        - Build / generator
+
+  - type: dropdown
+    id: consumers
+    attributes:
+      label: Which sites need it?
+      description: Optional.
+      multiple: true
+      options:
+        - All
+        - Marketing site (Astro pages)
+        - Marketing site (Umbraco)
+        - Marketing site (WordPress)
+        - Astro components
+        - Blog
+        - Docs
+        - API docs
+        - Design tool (Figma or another DTCG consumer)
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional. Workarounds you use today and why they are not enough.
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a PR for this.

@@ -1,0 +1,73 @@
+# Adds area labels to a new issue from the answers in its issue form.
+name: Issue labels
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    name: Issue labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add labels from the form answers
+        uses: actions/github-script@v9
+        with:
+          script: |
+            // Maps a form option, matched as a substring since a multi-select answer joins options with ", ", to a label.
+            const RULES = {
+              Area: [
+                ['Token value (colour)', 'area: color & themes'],
+                ['Colour and themes', 'area: color & themes'],
+                ['Dark theme', 'area: color & themes'],
+                ['Spacing, size and radius', 'area: spacing & size'],
+                ['Typography', 'area: typography'],
+                ['Shadows and elevation', 'area: shadows & elevation'],
+                ['Brand seed', 'area: seeds & dials'],
+                ['Theming dials', 'area: seeds & dials'],
+                ['DTCG export', 'area: exports'],
+                ['tokens.json', 'area: exports'],
+                ['Exports', 'area: exports'],
+                ['Check reports a false failure', 'area: checks & CLI'],
+                ['Check misses a real problem', 'area: checks & CLI'],
+                ['Checks', 'area: checks & CLI'],
+                ['Docs', 'area: docs'],
+                ['Build / generator', 'area: build & CI'],
+                ['CI / workflows', 'area: build & CI'],
+                ['Tooling', 'area: build & CI'],
+                ['Dependencies', 'area: build & CI'],
+                ['Packaging / release', 'area: build & CI'],
+              ],
+              Category: [
+                ['Colour', 'area: color & themes'],
+                ['Spacing', 'area: spacing & size'],
+                ['Size', 'area: spacing & size'],
+                ['Radius', 'area: spacing & size'],
+                ['Shadow / elevation', 'area: shadows & elevation'],
+                ['Typography', 'area: typography'],
+              ],
+              'Kind of change': [['(breaking)', 'breaking change']],
+            };
+
+            // Splits the body into "### Heading" sections.
+            const sections = {};
+            let current = null;
+            for (const line of (context.payload.issue.body || '').split(/\r?\n/)) {
+              const m = /^###\s+(.+?)\s*$/.exec(line);
+              if (m) { current = m[1]; sections[current] = ''; continue; }
+              if (current) sections[current] += line + '\n';
+            }
+
+            const labels = new Set();
+            for (const [heading, rules] of Object.entries(RULES)) {
+              const answer = (sections[heading] || '').trim();
+              if (!answer || answer === '_No response_') continue;
+              for (const [option, label] of rules) if (answer.includes(option)) labels.add(label);
+            }
+
+            if (labels.size === 0) return core.info('No form answer maps to a label.');
+            await github.rest.issues.addLabels({ ...context.repo, issue_number: context.issue.number, labels: [...labels] });
+            core.info(`Added: ${[...labels].join(', ')}`);
