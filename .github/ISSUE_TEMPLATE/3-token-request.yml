@@ -1,7 +1,7 @@
 name: Token request
 description: Add a token, change a value, or rename or remove a token.
 title: '[Token]: '
-labels: [':screwdriver: enhancement']
+labels: ['token']
 body:
   - type: markdown
     attributes:

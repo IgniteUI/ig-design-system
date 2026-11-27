@@ -1,7 +1,7 @@
 name: Adoption
 description: Move a site or a part of a site onto the design system, or report what blocks it.
 title: '[Adoption]: '
-labels: [':screwdriver: enhancement']
+labels: ['adoption']
 body:
   - type: markdown
     attributes:

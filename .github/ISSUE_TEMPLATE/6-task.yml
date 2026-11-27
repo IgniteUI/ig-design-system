@@ -1,7 +1,7 @@
 name: Task
 description: Build, tooling, CI, dependency or repository work that changes no token.
 title: '[Task]: '
-labels: [':screwdriver: enhancement']
+labels: ['task']
 body:
   - type: markdown
     attributes:
