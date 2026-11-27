@@ -49,10 +49,12 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
         run: npm version --no-git-tag-version --allow-same-version "${RELEASE_TAG#v}"
 
+      # Trusted Publishing needs npm 11.5.1 or newer.
+      - run: npm install -g npm@11
+
       - name: Publish
         env:
           RELEASE_TAG: ${{ github.ref_name }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           dist_tag=latest
           case "$RELEASE_TAG" in *-*) dist_tag=next ;; esac

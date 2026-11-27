@@ -1,6 +1,6 @@
 {
   "name": "ig-design-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Infragistics design system: design tokens generated with igniteui-theming, plus the checks that keep sites consistent.",
   "license": "MIT",
   "author": "Infragistics, Inc.",
