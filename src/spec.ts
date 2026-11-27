@@ -34,6 +34,10 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-primary-700",
     "A link on hover, on a light surface. The colour changes; no underline appears.",
   ],
+  "color-foreground-link-active": [
+    "ig-primary-800",
+    "A link while pressed, on a light surface.",
+  ],
   "color-background-action-hover": [
     "ig-primary-700",
     "The main button's fill on hover; nothing else about the button changes. A step `color-foreground-on-action` reads on: darker under a white label, primary step 400 under a black one.",
@@ -207,6 +211,18 @@ export const ALIAS: Record<string, AliasEntry> = {
     "ig-success-600",
     "New status badge label on `badge-new-background`.",
   ],
+  "badge-updated-foreground": [
+    "ig-primary-700",
+    "The label of the Updated badge, on `badge-updated-background`.",
+  ],
+  "badge-preview-foreground": [
+    "ig-warn-500",
+    "The label of the Preview badge, on `badge-preview-background`.",
+  ],
+  "badge-premium-foreground": [
+    "ig-secondary-700",
+    "The label of the Premium badge, on `badge-premium-background`.",
+  ],
   "rating-star": ["ig-warn-200", "Filled star of a rating. Decorative."],
   "badge-oss-foreground": [
     "ig-success-600",
@@ -298,6 +314,9 @@ export const DARK_STEP: Record<string, string> = {
   "color-foreground-info": "ig-primary-200",
   "badge-bundle-foreground": "ig-secondary-200",
   "badge-new-foreground": "ig-success-50",
+  "badge-updated-foreground": "ig-primary-200",
+  "badge-preview-foreground": "ig-warn-100",
+  "badge-premium-foreground": "ig-secondary-200",
   "badge-oss-foreground": "ig-success-50",
   "table-mark-partial-foreground": "ig-warn-50",
 };
@@ -324,6 +343,36 @@ export const ALPHA: Record<string, AlphaEntry> = {
     "badge-oss-foreground",
     "opacity-soft",
     "OSS tag fill.",
+  ],
+  "badge-updated-background": [
+    "badge-updated-foreground",
+    "opacity-soft",
+    "The fill of the Updated badge.",
+  ],
+  "badge-updated-border": [
+    "badge-updated-foreground",
+    "opacity-strong",
+    "The border of the Updated badge.",
+  ],
+  "badge-preview-background": [
+    "badge-preview-foreground",
+    "opacity-soft",
+    "The fill of the Preview badge.",
+  ],
+  "badge-preview-border": [
+    "badge-preview-foreground",
+    "opacity-strong",
+    "The border of the Preview badge.",
+  ],
+  "badge-premium-background": [
+    "badge-premium-foreground",
+    "opacity-soft",
+    "The fill of the Premium badge.",
+  ],
+  "badge-premium-border": [
+    "badge-premium-foreground",
+    "opacity-strong",
+    "The border of the Premium badge.",
   ],
   "badge-new-background": [
     "badge-new-foreground",
@@ -953,6 +1002,10 @@ export const CONTRAST_PAIRS: ContrastPair[] = [
   ["color-foreground-faint", "color-background-subtle"],
   ["color-foreground-action", "color-background-page"],
   ["color-foreground-link", "color-background-page"],
+  ["color-foreground-link-active", "color-background-page"],
+  ["badge-updated-foreground", "color-background-page"],
+  ["badge-preview-foreground", "color-background-page"],
+  ["badge-premium-foreground", "color-background-page"],
   ["color-foreground-action", "color-background-tint"],
   ["color-foreground-action", "color-background-card"],
   ["color-foreground-action", "color-background-subtle"],

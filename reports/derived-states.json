@@ -11,6 +11,12 @@
     "kc": 0.9384,
     "dh": 0.06
   },
+  "color-foreground-link-active": {
+    "base": "color-foreground-action",
+    "dl": -0.1237,
+    "kc": 0.7768,
+    "dh": -0.16
+  },
   "color-background-tint": {
     "base": "color-background-action",
     "l": 0.9717,

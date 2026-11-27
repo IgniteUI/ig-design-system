@@ -1067,12 +1067,12 @@ describe("the filter of the Tokens page, beyond names", () => {
     });
     await page.fill("[data-filter]", "action");
     expect(
-      await page
-        .locator('[data-token="color-background-action"]')
-        .evaluate((el) => {
-          const box = el.getBoundingClientRect();
-          return box.top >= 0 && box.top < innerHeight;
-        }),
+      await page.evaluate(() => {
+        const first = document.querySelector("[data-token]:not([hidden])");
+        if (!first) return false;
+        const box = first.getBoundingClientRect();
+        return box.top >= 0 && box.top < innerHeight;
+      }),
     ).toBe(true);
     await page.close();
   });
