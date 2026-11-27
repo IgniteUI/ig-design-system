@@ -4,6 +4,10 @@ Every release of `ig-design-system`. A version is a GitHub Release with the tag 
 
 A token value that changes, a token that is renamed or removed, and a file that leaves `dist/` are breaking and take a major version.
 
+## 1.0.1
+
+- Published from GitHub Actions through npm Trusted Publishing, with no npm token. The package contents are the same as 1.0.0.
+
 ## 1.0.0
 
 The first version.
